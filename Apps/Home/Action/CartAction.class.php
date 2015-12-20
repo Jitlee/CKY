@@ -60,7 +60,7 @@ class CartAction extends BaseAction {
 	 * 获取购物车商品数量
 	 */
 	public function getCartGoodCnt(){
-		$shopcart = session("WST_CART")?session("WST_CART"):array();
+		$shopcart = session("RTC_CART")?session("RTC_CART"):array();
 		echo json_encode(array("goodscnt"=>count($shopcart)));
 	}
     

@@ -57,7 +57,7 @@ class UserAddressAction extends BaseAction{
 	 */
 	public function queryByPage(){
 		$this->isLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/UserAddress');
     	$list = $m->queryByList($USER['userId']);
     	$this->assign('List',$list);

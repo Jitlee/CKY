@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -18,46 +18,46 @@
 		var pageCount='{$receiveOrders["totalPage"]}';
 		var current='{$receiveOrders["currPage"]}';
 		</script>
-		{:WSTLoginTarget(1)}
+		{:RTCLoginTarget(1)}
     </head>
     <body>
-        <div class="wst-wrap">
-          <div class='wst-header'>
+        <div class="rtc-wrap">
+          <div class='rtc-header'>
 			<include file="./Apps/Home/View/default/header_nav.html" />
 				<!--
-			<div class='wst-user-top'>
-			<div class="wst-user-top-main">
-					<div class='wst-user-top-logo'>
-						<a href="{:WSTDomain()}"  title='商城首页'>
-						<img src="{:WSTDomain()}/{$CONF['mallLogo']}" height="132" width='240'/>	
+			<div class='rtc-user-top'>
+			<div class="rtc-user-top-main">
+					<div class='rtc-user-top-logo'>
+						<a href="{:RTCDomain()}"  title='商城首页'>
+						<img src="{:RTCDomain()}/{$CONF['mallLogo']}" height="132" width='240'/>	
 						</a>
 					</div>
-					<div class='wst-user-top-search'>
+					<div class='rtc-user-top-search'>
 						<div class="search-box">
-							<input id="wst-search-type" type="hidden" value="1"/>
-							<input id="keyword" class="wst-search-ipt" me="q" tabindex="9" placeholder="搜索 商品" autocomplete="off" >
-							<div id="btnsch" class="wst-search-btn">搜&nbsp;索</div>
+							<input id="rtc-search-type" type="hidden" value="1"/>
+							<input id="keyword" class="rtc-search-ipt" me="q" tabindex="9" placeholder="搜索 商品" autocomplete="off" >
+							<div id="btnsch" class="rtc-search-btn">搜&nbsp;索</div>
 						</div>
 					</div>
 					
 				</div>
 			</div>
 			-->
-			<div class="wst-shop-nav">
-				<div class="wst-nav-box">
+			<div class="rtc-shop-nav">
+				<div class="rtc-nav-box">
 					<li class="liselect"><a href="{:U('Home/Shops/index')}" style='color:#FFFFFF;'>我是商家</a></li>
-					<div class="wst-clear"></div>
+					<div class="rtc-clear"></div>
 				</div>
 			</div>
-			<div class="wst-clear;"></div>
+			<div class="rtc-clear;"></div>
 		</div>
-          <div class='wst-nav'></div>
-          <div class='wst-main'>
-            <div class='wst-menu'>
-            	<span class='wst-menu-title'><span></span>交易管理</span>
+          <div class='rtc-nav'></div>
+          <div class='rtc-main'>
+            <div class='rtc-menu'>
+            	<span class='rtc-menu-title'><span></span>交易管理</span>
             
-              	<a href='{:U("Home/Orders/toShopOrdersList")}'><li id='li_toShopOrdersList' <if condition='$umark eq "toShopOrdersList"'> class='liselect'</if>>订单管理<span style="display:none;" class="wst-msg-tips-box"></span></li></a>
-            	<span class='wst-menu-title' style='border-top:0px;'><span></span>商品管理</span>
+              	<a href='{:U("Home/Orders/toShopOrdersList")}'><li id='li_toShopOrdersList' <if condition='$umark eq "toShopOrdersList"'> class='liselect'</if>>订单管理<span style="display:none;" class="rtc-msg-tips-box"></span></li></a>
+            	<span class='rtc-menu-title' style='border-top:0px;'><span></span>商品管理</span>
             
                	<a href="{:U('Home/ShopsCats/index/')}"><li <if condition='$umark eq "index"'> class='liselect'</if>>商品分类</li></a>
               	<a href="{:U('Home/Goods/queryOnSaleByPage/')}"><li <if condition='$umark eq "queryOnSaleByPage"'> class='liselect'</if>>出售中的商品</li></a>
@@ -69,27 +69,27 @@
                	<a href="{:U('Home/AttributeCats/index')}"><li <if condition='$umark eq "AttributeCats"'> class='liselect'</if>>商品类型</li></a>
                	<!--<a href="{:U('Home/Imports/index')}"><li <if condition='$umark eq "Imports"'> class='liselect'</if>>数据导入</li></a>-->
 			
-              	<span class='wst-menu-title'><span></span>商家设置</span>
+              	<span class='rtc-menu-title'><span></span>商家设置</span>
             	<a href="{:U('Home/Shops/toEdit/')}"><li <if condition='$umark eq "toEdit"'> class='liselect'</if>>商家资料</li></a>
               	<a href="{:U('Home/Shops/toShopCfg/')}"><li <if condition='$umark eq "setShop"'> class='liselect'</if>>商家设置</li></a>
-              	<a href="{:U('Home/Messages/queryByPage/')}"><li id='li_queryMessageByPage' <if condition='$umark eq "queryMessageByPage"'> class='liselect'</if>>商城消息<span style="display:none;" class="wst-msg-tips-box"></span></li></a>
+              	<a href="{:U('Home/Messages/queryByPage/')}"><li id='li_queryMessageByPage' <if condition='$umark eq "queryMessageByPage"'> class='liselect'</if>>商城消息<span style="display:none;" class="rtc-msg-tips-box"></span></li></a>
               	<a href="{:U('Home/Shops/toEditPass')}"><li <if condition='$umark eq "toEditPass"'> class='liselect'</if>>修改密码</li></a>
             </div>
-            <div class='wst-content'>
+            <div class='rtc-content'>
             <block name="content"><div class="result">卖家中心</div></block>
             </div>
           </div>
           <div style='clear:both;'></div>
           <br/>
-          <!--<div class='wst-footer'>
+          <div class='rtc-footer'>
           	<include file="./Apps/Home/View/default/footer.html" />
-          </div>-->
+          </div>
         </div>
     </body>
       	<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
      	<script src="__PUBLIC__/js/common.js"></script>
       	<script src="__ROOT__/Apps/Home/View/default/js/shopcom.js"></script>
       	<script src="__ROOT__/Apps/Home/View/default/js/head.js"></script>
-      	<script src="__ROOT__/Apps/Home/View/default/js/common.js"></script>
+      	<script src="__ROOT__/Apps/Home/View/default/js/common.js"></script><!---->
       	<script src="__PUBLIC__/plugins/layer/layer.min.js"></script>
 </html>

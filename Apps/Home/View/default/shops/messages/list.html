@@ -11,13 +11,13 @@ $(document).ready(function(){
     </notempty>
 });
 </script>
-    <div class="wst-body"> 
-       <div class='wst-page-header'>卖家中心 > 商城消息</div>
-       <div class='wst-page-content'>        
-        <div class='wst-tbar-group'>
+    <div class="rtc-body"> 
+       <div class='rtc-page-header'>卖家中心 > 商城消息</div>
+       <div class='rtc-page-content'>        
+        <div class='rtc-tbar-group'>
            <a href='javascript:batchMessageDel()' class='del btn'>删除</a>           
         </div>
-        <table class='wst-list'>
+        <table class='rtc-list'>
            <thead>
              <tr>
                <th width='20'><input type='checkbox' onclick='javascript:checkAll(this)'/></th>
@@ -47,14 +47,14 @@ $(document).ready(function(){
              <tfoot>
              <tr>
                 <td colspan='12' align='center'>
-                <div class="wst-page" style="float:right;padding-bottom:10px;">
-						<div id="wst-page-items"></div>
+                <div class="rtc-page" style="float:right;padding-bottom:10px;">
+						<div id="rtc-page-items"></div>
 				</div>
                 <script>
 			    <if condition="$Page['totalPage'] gt 1">
 			    $(document).ready(function(){
 					laypage({
-					    cont: 'wst-page-items',
+					    cont: 'rtc-page-items',
 					    pages: {$Page['totalPage']}, //总页数
 					    skip: true, //是否开启跳页
 					    skin: '#e23e3d',
@@ -65,7 +65,7 @@ $(document).ready(function(){
 					    }(), 
 					    jump: function(e, first){ //触发分页后的回调
 					        if(!first){ //一定要加此判断，否则初始时会无限刷新
-					        	var nuewurl = WST.splitURL("p");
+					        	var nuewurl = RTC.splitURL("p");
 					        	var ulist = nuewurl.split("?");
 					        	if(ulist.length>1){
 					        		location.href = nuewurl+'&p='+e.curr;
@@ -84,7 +84,7 @@ $(document).ready(function(){
              </tfoot>
            </tbody>
         </table>
-        <div class='wst-tbar-group'>
+        <div class='rtc-tbar-group'>
            <a href='javascript:batchMessageDel()' class='del btn'>删除</a>
         </div>
         </div>

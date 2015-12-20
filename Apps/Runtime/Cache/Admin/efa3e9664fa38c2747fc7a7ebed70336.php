@@ -22,7 +22,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/GoodsAppraises/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						location.reload();
@@ -45,7 +45,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -60,9 +60,9 @@
 	   <?php if(!empty($areaId1)): ?>getAreaList("areaId2",'<?php echo ($areaId1); ?>',0,'<?php echo ($areaId2); ?>');<?php endif; ?>
    })
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
      <form method='post' action="<?php echo U('Admin/GoodsAppraises/index');?>">
-       <div class='wst-tbar' style='height:25px;'>
+       <div class='rtc-tbar' style='height:25px;'>
    地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value=''>请选择</option>
                <?php if(is_array($areaList)): $i = 0; $__LIST__ = $areaList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value='<?php echo ($vo['areaId']); ?>' <?php if($areaId1 == $vo['areaId'] ): ?>selected<?php endif; ?>><?php echo ($vo['areaName']); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
@@ -75,8 +75,8 @@
       <button type='submit' class='btn btn-primary glyphicon glyphicon-search'>查询</button>
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='40'>序号</th>
@@ -103,24 +103,24 @@
                </td>
                <td>
                <div>
-               	<?php $__FOR_START_30762__=0;$__FOR_END_30762__=$vo['goodsScore'];for($i=$__FOR_START_30762__;$i < $__FOR_END_30762__;$i+=1){ ?><img src="/Apps/Home/View/default/images/icon_score_yes.png"/><?php } ?>&nbsp;<?php echo ($vo['goodsScore']); ?> 分
+               	<?php $__FOR_START_14231__=0;$__FOR_END_14231__=$vo['goodsScore'];for($i=$__FOR_START_14231__;$i < $__FOR_END_14231__;$i+=1){ ?><img src="/Apps/Home/View/default/images/icon_score_yes.png"/><?php } ?>&nbsp;<?php echo ($vo['goodsScore']); ?> 分
 				</div>
 				</td>
 				<td>
 				<div>
-               	<?php $__FOR_START_9755__=0;$__FOR_END_9755__=$vo['timeScore'];for($i=$__FOR_START_9755__;$i < $__FOR_END_9755__;$i+=1){ ?><img src="/Apps/Home/View/default/images/icon_score_yes.png"/><?php } ?>&nbsp;<?php echo ($vo['timeScore']); ?> 分
+               	<?php $__FOR_START_23940__=0;$__FOR_END_23940__=$vo['timeScore'];for($i=$__FOR_START_23940__;$i < $__FOR_END_23940__;$i+=1){ ?><img src="/Apps/Home/View/default/images/icon_score_yes.png"/><?php } ?>&nbsp;<?php echo ($vo['timeScore']); ?> 分
 				</div>
                 </td>
                 <td>
               	<div>
-               	<?php $__FOR_START_9144__=0;$__FOR_END_9144__=$vo['serviceScore'];for($i=$__FOR_START_9144__;$i < $__FOR_END_9144__;$i+=1){ ?><img src="/Apps/Home/View/default/images/icon_score_yes.png"/><?php } ?>&nbsp;<?php echo ($vo['serviceScore']); ?> 分
+               	<?php $__FOR_START_14701__=0;$__FOR_END_14701__=$vo['serviceScore'];for($i=$__FOR_START_14701__;$i < $__FOR_END_14701__;$i+=1){ ?><img src="/Apps/Home/View/default/images/icon_score_yes.png"/><?php } ?>&nbsp;<?php echo ($vo['serviceScore']); ?> 分
 				</div>
                </td>
                <td rowspan='2'>
-               <?php if(in_array('sppl_04',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('sppl_04',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/GoodsAppraises/toEdit',array('id'=>$vo['id']));?>"">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('sppl_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('sppl_03',$RTC_STAFF['grant'])){ ?>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['id']); ?>)"">刪除</button>
                <?php } ?>
                </td>

@@ -8,7 +8,7 @@ function getCommunitys(obj){
 	var html = [];
 	$.post(Think.U('Home/Communitys/queryByList'),params,function(data,textStatus){
 	    html.push('<li class="searched">全部</li>');
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1' && json.list.length>0){
 			var opts = null;
 			for(var i=0;i<json.list.length;i++){
@@ -64,23 +64,23 @@ function queryGoods(obj,mark){
 		var areaId3 = $(obj).attr("data");
 		params.areaId3 = areaId3;
 	}else if(mark==2){
-		var areaId3 = $("#wst-areas").find(".searched").attr("data");
+		var areaId3 = $("#rtc-areas").find(".searched").attr("data");
 		var communityId = $(obj).attr("data");
 		communityId = communityId?communityId:'';
 		params.areaId3 = areaId3;
 		params.communityId = communityId;
 	}else if(mark==3){
-		var areaId3 = $("#wst-areas").find(".searched").attr("data");
-		var communityId = $("#wst-communitys").find(".searched").attr("data");
+		var areaId3 = $("#rtc-areas").find(".searched").attr("data");
+		var communityId = $("#rtc-communitys").find(".searched").attr("data");
 		var brandId = $(obj).attr("data");
 		communityId = communityId?communityId:'';
 		params.areaId3 = areaId3;
 		params.communityId = communityId;
 		params.brandId = brandId;
 	}else if(mark==4){
-		var areaId3 = $("#wst-areas").find(".searched").attr("data");
-		var communityId = $("#wst-communitys").find(".searched").attr("data");
-		var brandId = $("#wst-brand").find(".searched").attr("data");
+		var areaId3 = $("#rtc-areas").find(".searched").attr("data");
+		var communityId = $("#rtc-communitys").find(".searched").attr("data");
+		var brandId = $("#rtc-brand").find(".searched").attr("data");
 		var prices = $(obj).attr("data");
 		
 		params.areaId3 = areaId3;
@@ -89,10 +89,10 @@ function queryGoods(obj,mark){
 		params.prices = prices;
 		
 	}else if(mark==5){
-		var areaId3 = $("#wst-areas").find(".searched").attr("data");
-		var communityId = $("#wst-communitys").find(".searched").attr("data");
-		var brandId = $("#wst-brand").find(".searched").attr("data");
-		var prices = $("#wst-price").find(".searched").attr("data");
+		var areaId3 = $("#rtc-areas").find(".searched").attr("data");
+		var communityId = $("#rtc-communitys").find(".searched").attr("data");
+		var brandId = $("#rtc-brand").find(".searched").attr("data");
+		var prices = $("#rtc-price").find(".searched").attr("data");
 		var shopId = $(obj).attr("data");
 		communityId = communityId?communityId:'';
 
@@ -102,16 +102,16 @@ function queryGoods(obj,mark){
 		params.prices = prices;
 		
 	}else{
-		var areaId3 = $("#wst-areas").find(".searched").attr("data");
-		var communityId = $("#wst-communitys").find(".searched").attr("data");
-		var brandId = $("#wst-brand").find(".searched").attr("data");
+		var areaId3 = $("#rtc-areas").find(".searched").attr("data");
+		var communityId = $("#rtc-communitys").find(".searched").attr("data");
+		var brandId = $("#rtc-brand").find(".searched").attr("data");
 		if(mark==12){
 			var prices = $("#sprice").val()+"_"+$("#eprice").val();
 		}else{
-			var prices = $("#wst-price").find(".searched").attr("data");
+			var prices = $("#rtc-price").find(".searched").attr("data");
 		}
 		
-		var shopId = $("#wst-shop").attr("data");
+		var shopId = $("#rtc-shop").attr("data");
 		communityId = communityId?communityId:'';
 		
 		params.mark = mark;
@@ -131,7 +131,7 @@ function queryGoods(obj,mark){
 	params.wstAction = "getGoodsList";
 
 	jQuery.post(Think.U('Home/Base/getURL') ,params,function(data) {
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		window.location = json.url;
 	});
 	
@@ -173,7 +173,7 @@ function changebuynum(flag){
 function getPriceAttrInfo(id){
 	var goodsId = $("#goodsId").val();
 	jQuery.post( Think.U('Home/Goods/getPriceAttrInfo') ,{goodsId:goodsId,id:id},function(data) {
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.id){
 			$('#shopGoodsPrice_'+goodsId).html("￥"+json.attrPrice);
 			var buyNum = parseInt($("#buy-num").val());
@@ -187,7 +187,7 @@ function getPriceAttrInfo(id){
 	});
 }
 function checkStock(obj){
-	$(obj).addClass('wst-goods-attrs-on').siblings().removeClass('wst-goods-attrs-on');
+	$(obj).addClass('rtc-goods-attrs-on').siblings().removeClass('rtc-goods-attrs-on');
 	getPriceAttrInfo($(obj).attr('dataId'));
 }
 
@@ -197,7 +197,7 @@ function getGoodsappraises(goodsId,p){
 	params.p = p;
 	//加载商品评价
 	jQuery.post(Think.U("Home/GoodsAppraises/getGoodsappraises") ,params,function(data) {
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.root && json.root.length){
 			var html = new Array();		    	
 			for(var j=0;j<json.root.length;j++){
@@ -228,7 +228,7 @@ function getGoodsappraises(goodsId,p){
 			$("#appraiseTab").html(html.join(""));
 			if(json.totalPage>1){
 				laypage({
-				    cont: 'wst-page-items',
+				    cont: 'rtc-page-items',
 				    pages: json.totalPage,
 				    curr: json.currPage,
 				    skip: true,
@@ -250,14 +250,14 @@ function getGoodsappraises(goodsId,p){
 function favoriteGoods(id){
 	if($('#f0_txt').attr('f')=='0'){
 		jQuery.post(Think.U("Home/Favorites/favoriteGoods") ,{id:id},function(data) {
-			var json = WST.toJson(data,1);
+			var json = RTC.toJson(data,1);
 			if(json.status==1){
 				$('#f0_txt').html('已关注');
 				$('#f0_txt').attr('f',json.id);
 			}else if(json.status==-999){
-				WST.msg('关注失败，请先登录!',{offset: '200px'});
+				RTC.msg('关注失败，请先登录!',{offset: '200px'});
 			}else{
-				WST.msg('关注失败!',{offset: '200px'});
+				RTC.msg('关注失败!',{offset: '200px'});
 			}
 		});
 	}else{
@@ -268,14 +268,14 @@ function favoriteGoods(id){
 function favoriteShops(id){
 	if($('#f1_txt').attr('f')=='0'){
 		jQuery.post(Think.U("Home/Favorites/favoriteShops") ,{id:id},function(data) {
-			var json = WST.toJson(data,1);
+			var json = RTC.toJson(data,1);
 			if(json.status==1){
 				$('#f1_txt').html('已关注');
 				$('#f1_txt').attr('f',json.id);
 			}else if(json.status==-999){
-				WST.msg('关注失败，请先登录!',{offset: '200px'});
+				RTC.msg('关注失败，请先登录!',{offset: '200px'});
 			}else{
-				WST.msg('关注失败!',{offset: '200px'});
+				RTC.msg('关注失败!',{offset: '200px'});
 			}
 		});
 	}else{
@@ -285,12 +285,12 @@ function favoriteShops(id){
 }
 function cancelFavorites(id,type){
 	jQuery.post(Think.U("Home/Favorites/cancelFavorite") ,{id:id,type:type},function(data) {
-		var json = WST.toJson(data,1);
+		var json = RTC.toJson(data,1);
 		if(json.status==1){
 			$('#f'+type+'_txt').html('关注'+((type==1)?'店铺':'商品'));
 			$('#f'+type+'_txt').attr('f',0);
 		}else{
-			WST.msg('取消关注失败!',{offset: '100px'});
+			RTC.msg('取消关注失败!',{offset: '100px'});
 		}
 	});
 }

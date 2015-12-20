@@ -134,7 +134,7 @@
 	        async : true,
 	        url : "<?php echo U('Home/Users/checkPhoneVerify'); ?>",
 	        success : function(data){
-	        	var json = WST.toJson(data);
+	        	var json = RTC.toJson(data);
 	            if( json.status == "1" ) {
 	            	resetPassUrl = json.url;
 	                return true;

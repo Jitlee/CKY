@@ -44,7 +44,7 @@ class IndexModel extends BaseModel {
 				}
 			}
 			$rd['status'] = 1;
-			WSTDataFile("mall_config",'',null);
+			RTCDataFile("mall_config",'',null);
 		}
 		return $rd;
 	}
@@ -57,7 +57,7 @@ class IndexModel extends BaseModel {
 	    $result = $m-> where('fieldCode="mallLicense"')->setField('fieldValue',I('license'));
 		if(false !== $result){
 			$rd['status']= 1;
-			WSTDataFile("mall_config",'',null);
+			RTCDataFile("mall_config",'',null);
 		}
 		return $rd;
 	}

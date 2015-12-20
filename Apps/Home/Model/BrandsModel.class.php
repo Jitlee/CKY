@@ -36,11 +36,11 @@ class BrandsModel extends BaseModel {
 	  */
 	  public function queryBrandsByCat($catId){
 	  	 $rs = array('status'=>1);
-	  	 $list = S("WST_BRANDS_002_".$catId);
+	  	 $list = S("RTC_BRANDS_002_".$catId);
 	  	 if(!$list){
 		     $sql = "select b.brandId,b.brandName from __PREFIX__goods_cat_brands cb,__PREFIX__brands b where cb.brandId=b.brandId and catId=".$catId;
 		     $rs['list'] = $this->query($sql);
-		     S("WST_BRANDS_002_".$catId,$list,2592000);
+		     S("RTC_BRANDS_002_".$catId,$list,2592000);
 	  	 }
 		 return $rs;
 	  }

@@ -22,7 +22,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/Brands/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						    location.reload();
@@ -35,9 +35,9 @@
 		}});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
    		<div style="padding: 6px;">
-       <div class='wst-tbar' style='height:25px;'>
+       <div class='rtc-tbar' style='height:25px;'>
        <form method='post' action='<?php echo U("Admin/Brands/index");?>' autocomplete="off">
        	 <div style="float:left;width:550px;">
        	 所属分类：<select id="catId" name="catId" autocomplete="off">
@@ -49,14 +49,14 @@
 		  </form>
        	</div>
 		   <div style="float:right;width:120px;">
-	       <?php if(in_array('ppgl_01',$WST_STAFF['grant'])){ ?>
+	       <?php if(in_array('ppgl_01',$RTC_STAFF['grant'])){ ?>
 	       <a class="btn btn-success glyphicon glyphicon-plus" href="<?php echo U('Admin/Brands/toEdit');?>" style='float:right'>新增</a>
 	       <?php } ?>
 	       </div>
 	       <div style="clear:both;"></div>
        </div>
-       <div class='wst-body'>  
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class='rtc-body'>  
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='30'>序号</th>
@@ -73,10 +73,10 @@
                <td style="height:100px; overflow:hidden;"><?php echo (substr(strip_tags($vo['brandDesc']),0,360)); ?></td>
                <td><img src='/<?php echo ($vo['brandIco']); ?>' height='50'/></td>
                <td>
-               <?php if(in_array('ppgl_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('ppgl_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/Brands/toEdit',array('id'=>$vo['brandId']));?>">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('ppgl_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('ppgl_03',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['brandId']); ?>)"">刪除</a>
                <?php } ?>
                </td>

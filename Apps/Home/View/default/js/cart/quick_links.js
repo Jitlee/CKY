@@ -56,7 +56,7 @@ jQuery(function($){
 				fn.content = "<div class='ibar_plugin_content' style='height:100%;padding-top:100%;padding-left:80px;'><img src='"+domainURL +"/Apps/Home/View/default/images/loading.gif' width='20'/>数据加载中...</div>";
 				quickPop.html(ds.tmpl(popTmpl, fn));
 				jQuery.post(Think.U('Home/Cart/getCartInfo') ,{"axm":1},function(data) {
-					var cart = WST.toJson(data);	
+					var cart = RTC.toJson(data);	
 					var html = new Array();
 					var totalmoney = 0, goodsnum = 0;
 					html.push('<div class="ibar_plugin_content"><div class="ibar_cart_group ibar_cart_product"><ul style="height:80%;overflow:auto;">');
@@ -87,7 +87,7 @@ jQuery(function($){
 											"<span style='font-size:14px;padding-left:6px;padding-right:6px;'>x "+goods.cnt+"</span>" +
 											"<span class='cart-plus'>+</span></div>	" +
 										"</div>" +
-										"<div class='wst-clear'></div>	" +
+										"<div class='rtc-clear'></div>	" +
 									"</li>"
 								);
 						}
@@ -204,7 +204,7 @@ jQuery(function($){
 function removeCartGoods(obj,goodsId,goodsAttrId){
 	jQuery.post(Think.U('Home/Cart/delCartGoods') ,{goodsId:goodsId,goodsAttrId:goodsAttrId},function(data) {
 		
-		var vd = WST.toJson(data);
+		var vd = RTC.toJson(data);
 		$(obj).parent().parent().parent().remove();
 		
 	});	

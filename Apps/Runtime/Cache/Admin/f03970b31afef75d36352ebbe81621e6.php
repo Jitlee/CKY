@@ -37,7 +37,7 @@
 	   params.areaSort = $('#areaSort').val();
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("<?php echo U('Admin/Areas/edit');?>",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='<?php echo U("Admin/Areas/index",array("parentId"=>$object["parentId"]));?>';
@@ -49,15 +49,15 @@
 		});
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='<?php echo ($object["areaId"]); ?>'/>
         <input type='hidden' id='parentId' value='<?php echo ($object["parentId"]); ?>'/>
-        <div class="wst-body">
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <div class="rtc-body">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>地区名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='areaName' class="form-control wst-ipt" value='<?php echo ($object["areaName"]); ?>' maxLength='25'/></td>
+             <td><input type='text' id='areaName' class="form-control rtc-ipt" value='<?php echo ($object["areaName"]); ?>' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>是否显示<font color='red'>*</font>：</th>
@@ -73,7 +73,7 @@
            <tr>
              <th align='right'>排序号<font color='red'>*</font>：</th>
              <td>
-             <input type='text' id='areaSort' class="form-control wst-ipt" value='<?php echo ($object["areaSort"]); ?>' style='width:80px' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+             <input type='text' id='areaSort' class="form-control rtc-ipt" value='<?php echo ($object["areaSort"]); ?>' style='width:80px' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/>
              </td>
            </tr>
            <tr>

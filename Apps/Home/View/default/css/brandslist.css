@@ -1,4 +1,4 @@
-.wst-brands-box {
+.rtc-brands-box {
 	min-height: 300px;
 	padding-left:6px;
 	padding-top:6px;
@@ -8,28 +8,28 @@
 	
 }
 
-.wst-brands-box li {
+.rtc-brands-box li {
 	cursor: pointer;
 	border:2px solid #ffffff;
 	/*opacity: 0.5;
 	filter: alpha(opacity = 50);*/
 }
 
-.wst-brands-box li:hover {
+.rtc-brands-box li:hover {
 	border:2px solid #e23c3d;
 	color: #000000;
 	/*opacity: 1;
 	filter: alpha(opacity = 100);*/
 }
 
-.wst-brands-box .liselected {
+.rtc-brands-box .liselected {
 	background-color: #c7e6f5;
 	color: #000000;
 }
-.wst-brands-search{border:2px solid #e23c3d;position:relative;width:240px;margin-top:8px;}
-.wst-brands-search .brands-ipt{border:0;width:150px;background: 0 0;padding-left:6px;line-height: 22px;padding-top: 2px; padding-bottom: 2px;font-size:14px;}
-.wst-brands-search .search{position:absolute;top:0px;right:0px;width:50px;height:28px;color:#ffffff;font-weight:bolder;background-color:#e23c3d;line-height:28px;text-align:center;font-size:13px;cursor:pointer;}
-.wst-shop-box {
+.rtc-brands-search{border:2px solid #e23c3d;position:relative;width:240px;margin-top:8px;}
+.rtc-brands-search .brands-ipt{border:0;width:150px;background: 0 0;padding-left:6px;line-height: 22px;padding-top: 2px; padding-bottom: 2px;font-size:14px;}
+.rtc-brands-search .search{position:absolute;top:0px;right:0px;width:50px;height:28px;color:#ffffff;font-weight:bolder;background-color:#e23c3d;line-height:28px;text-align:center;font-size:13px;cursor:pointer;}
+.rtc-shop-box {
 	padding: 8px;
 	border-radius: 12px;
 	border: 1px solid green;
@@ -37,7 +37,7 @@
 	margin-bottom: 10px;
 }
 
-.wst-shadow {
+.rtc-shadow {
 	-moz-box-shadow: 3px 3px 4px #eeeeee;
 	-webkit-box-shadow: 3px 3px 4px #eeeeee;
 	box-shadow: 3px 3px 4px #eeeeee;
@@ -49,14 +49,14 @@
 		Direction = 135, Color = '#000000' );
 }
 
-.wst-shop-list {
+.rtc-shop-list {
 	width: 670px;
 	margin: 0 auto;
 	height: 480px;
 	padding-top: 10px;
 }
 
-.wst-brands {
+.rtc-brands {
 	border:2px solid #ffffff;
 	width:188px;
 	height:188px;
@@ -66,20 +66,20 @@
 	margin: 4px;
 }
 
-.wst-brands .wst-shopname {
+.rtc-brands .rtc-shopname {
 	line-height: 25px;
 	border-bottom: 1px dotted #cccccc;
 	margin: 4px;
 }
 
-.wst-shop-container {
+.rtc-shop-container {
 	min-height: 500px;
 	width: 710px;
 	float: right;
 	background-color: #e9b589;
 }
-.wst-brands-ads{
+.rtc-brands-ads{
 	width:1210;margin:0 auto;padding-top:4px;
 }
-.wst-brands-area{width:1210;margin:0 auto;height:50px;line-height:50px;}
-.wst-brands-items{padding:4px;line-height:180px;vertical-align:middle;display: inline-block;}
+.rtc-brands-area{width:1210;margin:0 auto;height:50px;line-height:50px;}
+.rtc-brands-items{padding:4px;line-height:180px;vertical-align:middle;display: inline-block;}

@@ -91,15 +91,15 @@ function uploadAblumInit() {
                     window['expressinstallcallback'] = function( state ) {
                         switch(state) {
                             case 'Download.Cancelled':
-                            	WST.msg('您取消了更新！')
+                            	RTC.msg('您取消了更新！')
                                 break;
 
                             case 'Download.Failed':
-                            	WST.msg('安装失败', {icon: 5})
+                            	RTC.msg('安装失败', {icon: 5})
                                 break;
 
                             default:
-                            	WST.msg('安装已成功，请刷新！');
+                            	RTC.msg('安装已成功，请刷新！');
                                 break;
                         }
                         delete window['expressinstallcallback'];
@@ -131,7 +131,7 @@ function uploadAblumInit() {
 
             return;
         } else if (!WebUploader.Uploader.support()) {
-        	WST.msg( 'Web Uploader 不支持您的浏览器！', {icon: 5});
+        	RTC.msg( 'Web Uploader 不支持您的浏览器！', {icon: 5});
             return;
         }
 
@@ -478,7 +478,7 @@ function uploadAblumInit() {
                 case 'finish':
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
-                    	WST.msg( '上传成功' , {icon: 1});
+                    	RTC.msg( '上传成功' , {icon: 1});
                     } else {
                         // 没有成功的图片，重设
                         state = 'done';
@@ -554,7 +554,7 @@ function uploadAblumInit() {
         });
 
         uploader.onError = function( code ) {
-        	WST.msg( '图片已在列表，请勿重复上传！', {icon: 5});
+        	RTC.msg( '图片已在列表，请勿重复上传！', {icon: 5});
         };
 
         $upload.on('click', function() {

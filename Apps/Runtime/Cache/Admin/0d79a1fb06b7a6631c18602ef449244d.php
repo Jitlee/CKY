@@ -19,13 +19,13 @@
       <script src="/Public/plugins/kindeditor/lang/zh_CN.js"></script>
    </head>
    <style>
-    .wst-tab-box{width:100%; height:auto; margin:0px auto;}
-	.wst-tab-nav{margin:0; padding:0; height:25px; line-height:24px;position: relative;top:2px;left:3px;}
-	.wst-tab-nav li{cursor:pointer;float:left; margin:0 0px; list-style:none; border:1px solid #ddd; border-bottom:none; height:24px; width:100px; text-align:center; background:#eeeeee;color:#000000;}
-	.wst-tab-nav .on{background:#ffffff;color:#000000;border-bottom:0 none;}
-	.wst-tab-content{padding:5px;width:99%; height:auto; border:1px solid #ddd;background:#FFF;}
-    .wst-gallery-imgs{width:770px;height:auto;}
-    .wst-gallery-img{width:140px;height:100px;float:left;overflow:hidden;margin:10px 5px 5px 5px;}
+    .rtc-tab-box{width:100%; height:auto; margin:0px auto;}
+	.rtc-tab-nav{margin:0; padding:0; height:25px; line-height:24px;position: relative;top:2px;left:3px;}
+	.rtc-tab-nav li{cursor:pointer;float:left; margin:0 0px; list-style:none; border:1px solid #ddd; border-bottom:none; height:24px; width:100px; text-align:center; background:#eeeeee;color:#000000;}
+	.rtc-tab-nav .on{background:#ffffff;color:#000000;border-bottom:0 none;}
+	.rtc-tab-content{padding:5px;width:99%; height:auto; border:1px solid #ddd;background:#FFF;}
+    .rtc-gallery-imgs{width:770px;height:auto;}
+    .rtc-gallery-img{width:140px;height:100px;float:left;overflow:hidden;margin:10px 5px 5px 5px;}
    </style>
    <script>
    $(function () {
@@ -53,7 +53,7 @@
    function changeStatus(id,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Goods/changeGoodsStatus');?>",{id:id,status:v},function(data,textStatus){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 				if(json.status=='1'){
 					Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 						location.href="<?php echo U('Admin/Goods/index');?>";
@@ -66,20 +66,20 @@
 	   });
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
        <form name="myform" method="post" id="myform">
-       <div id='tab' class="wst-tab-box">
-		<ul class="wst-tab-nav">
+       <div id='tab' class="rtc-tab-box">
+		<ul class="rtc-tab-nav">
 	    	<li>商品信息</li>
 	    	<li>商品属性</li>
 	        <li>商品相册</li>
 	    </ul>
-    	<div class="wst-tab-content" style='width:98%;'>
-    	<div class='wst-tab-item'>
+    	<div class="rtc-tab-content" style='width:98%;'>
+    	<div class='rtc-tab-item'>
 	        <form name="myform" method="post" id="myform">
 	        <input type='hidden' id='id' value='<?php echo ($object["goodsId"]); ?>'/>
 	        <input type='hidden' id='shopId' value='<?php echo ($object["shopId"]); ?>'/>
-	        <table class="table table-hover table-striped table-bordered wst-form">
+	        <table class="table table-hover table-striped table-bordered rtc-form">
 	           <tr>
 	             <th width='120'>商品编号：</th>
 	             <td width='300'>
@@ -145,8 +145,8 @@
 	        </table>
 	       </form>
 	      </div>
-	      <div class='wst-tab-item'>
-	        <table class="table table-hover table-striped table-bordered wst-form">
+	      <div class='rtc-tab-item'>
+	        <table class="table table-hover table-striped table-bordered rtc-form">
 	           <tr>
 	             <th width='120'>商品分类：</th>
 	             <td><?php echo ($object["attrCatName"]); ?>&nbsp;</td>
@@ -154,7 +154,7 @@
 	           <tr>
 	             <th width='120'>价格属性：</th>
 	             <td style='margin:0px;'>
-	             <?php if( count($object.priceAttrs) > 0): ?><table class="table wst-list" style='margin:0px;border-top:1px solid #ddd;'>
+	             <?php if( count($object.priceAttrs) > 0): ?><table class="table rtc-list" style='margin:0px;border-top:1px solid #ddd;'>
 					<thead>
 					<tr>
 					  <th style='background:#f5f5f5'>属性</th>
@@ -177,7 +177,7 @@
 	           <tr>
 	             <th width='120' valign='top'>展示属性：</th>
 	             <td style='margin:0px;'>
-	             <?php if( count($object.attrs) > 0): ?><table class="table  wst-form" style='margin:0px;'>
+	             <?php if( count($object.attrs) > 0): ?><table class="table  rtc-form" style='margin:0px;'>
 					<?php if(is_array($object["attrs"])): $i = 0; $__LIST__ = $object["attrs"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i; if($vo['attrContent'] !='' ): ?><tr style='margin:0px;border:0px;'>
 						<th nowrap width='100px'><?php echo ($vo['attrName']); ?>：</th>
 						<td><?php echo ($vo['attrContent']); ?></td>
@@ -187,9 +187,9 @@
 	           </tr>
 	        </table>
 	      </div>
-	      <div class='wst-tab-item'>
-	       <div id='galleryImgs' class='wst-gallery-imgs'>
-	           <?php if(is_array($object['gallery'])): $i = 0; $__LIST__ = $object['gallery'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="wst-gallery-img">
+	      <div class='rtc-tab-item'>
+	       <div id='galleryImgs' class='rtc-gallery-imgs'>
+	           <?php if(is_array($object['gallery'])): $i = 0; $__LIST__ = $object['gallery'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="rtc-gallery-img">
 			       <img class="gallery-img" width='140' height='100' iv="<?php echo ($vo["goodsThumbs"]); ?>" v="<?php echo ($vo["goodsImg"]); ?>" src="/<?php echo ($vo["goodsThumbs"]); ?>"/>
 		       </div><?php endforeach; endif; else: echo "" ;endif; ?>
 	       </div>

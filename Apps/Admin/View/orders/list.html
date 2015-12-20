@@ -28,7 +28,7 @@
 	   var html = [];
 	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -49,9 +49,9 @@
 	   $('#orderStatus').val({$orderStatus});
    });
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
       <form method="post" action='{:U("Admin/Orders/index")}'>
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
                              地区：<select name='areaId1' id='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
              <option value=''>请选择</option>
              <volist name="areaList" id="vo">
@@ -65,7 +65,7 @@
              <option value=''>请选择</option>
           </select>
        </div>
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
        店铺：<input type='text' name='shopName' id='shopName' value='{$shopName}'/>  
        订单：<input type='text' name='orderNo' id='orderNo' value='{$orderNo}'/>
   订单状态：  <select name='orderStatus' id='orderStatus'>
@@ -84,8 +84,8 @@
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <volist name="Page['root']" id="vo" key='key'>
            <thead>
              <tr>

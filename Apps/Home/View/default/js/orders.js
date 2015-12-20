@@ -42,7 +42,7 @@ function loadCommunitys(obj){
 	}
 	
 	jQuery.post(Think.U('Home/Communitys/getByDistrict') ,{areaId3:districtId},function(rsp){
-		var json = WST.toJson(rsp);
+		var json = RTC.toJson(rsp);
 		var html = new Array();
 		$("#consignee_add_CommunityId").empty();
 		html.push("<option value='0'>请选择</option>");
@@ -58,7 +58,7 @@ function loadCommunitys(obj){
 function loadAddress(addressId){
 	$("#address_form").show();	
 	jQuery.post(Think.U('Home/UserAddress/getUserAddress') ,{addressId:addressId},function(rsp) {
-		var rs = WST.toJson(rsp);
+		var rs = RTC.toJson(rsp);
 		if(rs.status>0){
 			var addressInfo = rs.address;
 			$("#consignee_add_cityName").val(addressInfo.areaName);
@@ -122,48 +122,48 @@ function saveAddress(){
 	params.userTel = jQuery.trim(userTel);
 	params.isDefault = isDefault;
 	if(addressId<1 && $("#seladdress_0").attr("checked")==false){
-		WST.msg("请选择收货地址", {icon: 5});
+		RTC.msg("请选择收货地址", {icon: 5});
 		return ;
 	}
 	if(params.userName==""){
-		WST.msg("请输入收货人", {icon: 5});
+		RTC.msg("请输入收货人", {icon: 5});
 		return ;		
 	}
-	if(!WST.checkMinLength(params.userName,2)){
-		WST.msg("收货人姓名长度必须大于1个汉字", {icon: 5});
+	if(!RTC.checkMinLength(params.userName,2)){
+		RTC.msg("收货人姓名长度必须大于1个汉字", {icon: 5});
 		return ;	
 	}
 	if(params.areaId2<1){
-		WST.msg("请选择市", {icon: 5});
+		RTC.msg("请选择市", {icon: 5});
 		return ;		
 	}
 	if(params.areaId3<1){
-		WST.msg("请选择区县", {icon: 5});
+		RTC.msg("请选择区县", {icon: 5});
 		return ;		
 	}
 	if(params.communityId<1){
-		WST.msg("请选择社区", {icon: 5});
+		RTC.msg("请选择社区", {icon: 5});
 		return ;		
 	}
 	if(params.address==""){
-		WST.msg("请输入详细地址", {icon: 5});
+		RTC.msg("请输入详细地址", {icon: 5});
 		return ;		
 	}
 	if(userPhone=="" && userTel==""){
-		WST.msg("请输入手机号码或固定电话", {icon: 5});
+		RTC.msg("请输入手机号码或固定电话", {icon: 5});
 		return ;		
 	}
-	if(userPhone!="" && !WST.isPhone(params.userPhone)){
-		WST.msg("手机号码格式错误", {icon: 5});
+	if(userPhone!="" && !RTC.isPhone(params.userPhone)){
+		RTC.msg("手机号码格式错误", {icon: 5});
 		return ;		
 	}
-	if(userTel!="" && !WST.isTel(params.userTel)){
-		WST.msg("固定电话格式错误", {icon: 5});
+	if(userTel!="" && !RTC.isTel(params.userTel)){
+		RTC.msg("固定电话格式错误", {icon: 5});
 		return ;		
 	}	
 
 	jQuery.post(Think.U('Home/UserAddress/edit') ,params,function(data,textStatus){	
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		
 		if(json.status>0){
 			$("#consignee1").show();
@@ -221,7 +221,7 @@ function saveAddress(){
 			}
 
 		}else{
-			WST.msg("收货人信息添加失败", {icon: 5});
+			RTC.msg("收货人信息添加失败", {icon: 5});
 		}
 	});	
 }
@@ -249,7 +249,7 @@ function delAddress(addressId){
 				$("#consigneeId").val(0);
 				$("#seladdress_0").click();
 			}else{
-				WST.msg("删除失败", {icon: 5});
+				RTC.msg("删除失败", {icon: 5});
 			}    
 		});
 	});
@@ -263,12 +263,12 @@ function submitOrder(){
 		}
 	});
 	if(!flag){
-		WST.msg("抱歉，您的订单金额未达到该店铺的配送订单起步价，不能提交订单。", {icon: 5});
+		RTC.msg("抱歉，您的订单金额未达到该店铺的配送订单起步价，不能提交订单。", {icon: 5});
 		return;
 	}
 	var ll = layer.msg('正在保存数据，请稍候...', {icon: 16,shade: [0.5, '#B3B3B3']});
 	jQuery.post(Think.U('Home/Goods/checkGoodsStock') ,{},function(data) {
-		var goodsInfo = WST.toJson(data);	
+		var goodsInfo = RTC.toJson(data);	
 		layer.close(ll);
 		var flag = true;
 		for(var i=0;i<goodsInfo.length;i++){
@@ -280,7 +280,7 @@ function submitOrder(){
 		if(flag){
 			var consigneeId = $("#consigneeId").val();	
 			if(!$("#consignee2").is(":hidden")){
-				WST.msg("请先保存收货人信息",{icon: 5});
+				RTC.msg("请先保存收货人信息",{icon: 5});
 				return;
 			}	
 			var invoiceClient = $.trim($("#invoiceClient").val());	
@@ -299,19 +299,19 @@ function submitOrder(){
 			var date2 = new Date(d2);
 			
 			if(consigneeId<1){
-				WST.msg("请填写收货人地址", {icon: 5});
+				RTC.msg("请填写收货人地址", {icon: 5});
 				return ;
 			}
 			if(needreceipt==1 && invoiceClient==""){
-				WST.msg("请输入抬头", {icon: 5});
+				RTC.msg("请输入抬头", {icon: 5});
 				return ;		
 			}
 			if(date1<date2){
-				WST.msg("亲，期望送达时间必须设定为下单时间1小时后哦！", {icon: 5});
+				RTC.msg("亲，期望送达时间必须设定为下单时间1小时后哦！", {icon: 5});
 				return ;
 			}
 			if(!subCheckArea()){
-				WST.msg("您选的商品不在配送区域内！", {icon: 5});
+				RTC.msg("您选的商品不在配送区域内！", {icon: 5});
 				return ;
 			}
 			
@@ -320,9 +320,9 @@ function submitOrder(){
 			location.href= Think.U('Home/Orders/submitOrder','consigneeId='+consigneeId+"&payway="+payway+"&isself="+isself+"&invoiceClient="+invoiceClient+"&needreceipt="+needreceipt+"&remarks="+remarks+"&requireTime="+requireTime+"&orderunique="+orderunique);
 		}else{
 			if(goods.isSale<1){
-				WST.msg('商品'+goods.goodsName+'已下架，请返回重新选购!', {icon: 5});
+				RTC.msg('商品'+goods.goodsName+'已下架，请返回重新选购!', {icon: 5});
 			}else if(goods.goodsStock<=0){
-				WST.msg('商品'+goods.goodsName+'库存不足，请返回重新选购!', {icon: 5});
+				RTC.msg('商品'+goods.goodsName+'库存不足，请返回重新选购!', {icon: 5});
 			}
 		}
 		
@@ -343,11 +343,11 @@ function getPayUrl(){
 	params.payCode = $.trim($("#payCode").val());
 	params.needPay = $.trim($("#needPay").val());
 	if(params.payCode==""){
-		WST.msg('请先选择支付方式', {icon: 5});
+		RTC.msg('请先选择支付方式', {icon: 5});
 		return;
 	}
 	jQuery.post(Think.U('Home/Payments/get'+params.payCode+"URL") ,params,function(data) {
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status==1){
 			if(params.payCode=="Weixin"){
 				location.href = json.url;
@@ -361,10 +361,10 @@ function getPayUrl(){
 				garr.push(rlist[i].goodsName+rlist[i].goodsAttrName);
 				rlist[i].goodsAttrName
 			}
-			WST.msg('订单中商品【'+garr.join("，")+'】库存不足，不能进行支付。', {icon: 5});
+			RTC.msg('订单中商品【'+garr.join("，")+'】库存不足，不能进行支付。', {icon: 5});
 			
 		}else{
-			WST.msg('您的订单已支付!', {icon: 5});
+			RTC.msg('您的订单已支付!', {icon: 5});
 			setTimeout(function(){				
 				window.location = Think.U('Home/orders/queryDeliveryByPage');
 			},1500);
@@ -381,14 +381,14 @@ $(function() {
 		}		
 	});
 	
-	$("#wst-order-details").click(function(){
-		$("#wst-orders-box"). toggle(100);
+	$("#rtc-order-details").click(function(){
+		$("#rtc-orders-box"). toggle(100);
 	});
 	
 	
-	$(".wst-payCode").click(function(){
-		$(".wst-payCode-curr").removeClass().addClass("wst-payCode");
-		$(this).removeClass().addClass("wst-payCode-curr");
+	$(".rtc-payCode").click(function(){
+		$(".rtc-payCode-curr").removeClass().addClass("rtc-payCode");
+		$(this).removeClass().addClass("rtc-payCode-curr");
 		$("#payCode").val($(this).attr("data"));
 	});
 	

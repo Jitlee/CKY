@@ -22,7 +22,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/Shops/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						    location.reload();
@@ -45,7 +45,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -60,9 +60,9 @@
 	    <?php if(!empty($areaId1)): ?>getAreaList("areaId2",'<?php echo ($areaId1); ?>',0,'<?php echo ($areaId2); ?>');<?php endif; ?>
   });
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
       <form method='post' action="<?php echo U('Admin/Shops/queryPeddingByPage');?>">
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
     地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value=''>请选择</option>
                <?php if(is_array($areaList)): $i = 0; $__LIST__ = $areaList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value='<?php echo ($vo['areaId']); ?>' <?php if($areaId1 == $vo['areaId'] ): ?>selected<?php endif; ?>><?php echo ($vo['areaName']); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
@@ -70,8 +70,8 @@
              <select id='areaId2' name='areaId2'>
                <option value=''>请选择</option>
              </select>     
-       店铺名称：<input type='text' id='shopName' name='shopName' class='form-control wst-ipt-10' value='<?php echo ($shopName); ?>'/> 
-       店铺编号：<input type='text' id='shopSn' name='shopSn' class='form-control wst-ipt-10' value='<?php echo ($shopSn); ?>'/> 
+       店铺名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='<?php echo ($shopName); ?>'/> 
+       店铺编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='<?php echo ($shopSn); ?>'/> 
       店铺状态 ：<select id='shopStatus' name='shopStatus'>
              <option value='-999'>全部</option>
              <option value='0' <?php if($shopStatus ==0 ): ?>selected<?php endif; ?>>待审核</option>
@@ -82,8 +82,8 @@
        <a class="btn btn-success glyphicon glyphicon-plus" href="<?php echo U('Admin/Shops/toEdit');?>" style='float:right'>新增</a>
        </div>
        </form>
-       <div class='wst-page'>
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class='rtc-page'>
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='30'>序号</th>
@@ -108,16 +108,16 @@
                <?php if($object['shopAtive'] ==0 ): ?><span class='label label-warning'>休息中</span><?php endif; ?>&nbsp;
                </td>
                <td>
-               <?php if($vo['shopStatus'] == -2): ?><span class='label label-danger wst-label'>已停止</span><?php endif; ?>
-               <?php if($vo['shopStatus'] == -1): ?><span class='label label-danger wst-label'>拒绝</span><?php endif; ?>
-               <?php if($vo['shopStatus'] == 0): ?><span class='label label-primary wst-label'>未审核</span><?php endif; ?>
-               <?php if($vo['shopStatus'] == 1): ?><span class='label label-success wst-label'>已审核</span><?php endif; ?>
+               <?php if($vo['shopStatus'] == -2): ?><span class='label label-danger rtc-label'>已停止</span><?php endif; ?>
+               <?php if($vo['shopStatus'] == -1): ?><span class='label label-danger rtc-label'>拒绝</span><?php endif; ?>
+               <?php if($vo['shopStatus'] == 0): ?><span class='label label-primary rtc-label'>未审核</span><?php endif; ?>
+               <?php if($vo['shopStatus'] == 1): ?><span class='label label-success rtc-label'>已审核</span><?php endif; ?>
                </td>
                <td>
-               <?php if(in_array('dplb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('dplb_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/Shops/toEdit',array('id'=>$vo['shopId'],'src'=>'queryPeddingByPage'));?>">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('dplb_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('dplb_03',$RTC_STAFF['grant'])){ ?>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['shopId']); ?>)">刪除</buttona>
                <?php } ?>
                </td>

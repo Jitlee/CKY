@@ -20,7 +20,7 @@
    function toggleIsShow(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Articles/editiIsShow');?>",{id:v,isShow:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				    location.reload();
@@ -36,7 +36,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/Articles/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						location.reload();
@@ -49,18 +49,18 @@
 	   }});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
        <form method='post' action='<?php echo U("Admin/Articles/index");?>'>
-       <div class='wst-tbar' style='height:25px;'>
-                    文章标题：<input type='text' id='articleTitle' name='articleTitle' class='form-control wst-ipt-15' value='<?php echo ($articleTitle); ?>'/> 
+       <div class='rtc-tbar' style='height:25px;'>
+                    文章标题：<input type='text' id='articleTitle' name='articleTitle' class='form-control rtc-ipt-15' value='<?php echo ($articleTitle); ?>'/> 
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>             
-       <?php if(in_array('wzlb_01',$WST_STAFF['grant'])){ ?>
+       <?php if(in_array('wzlb_01',$RTC_STAFF['grant'])){ ?>
        <a class="btn btn-success glyphicon glyphicon-plus" href="<?php echo U('Admin/Articles/toEdit');?>" style='float:right'>新增</a>
        <?php } ?>
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='40'>序号</th>
@@ -79,16 +79,16 @@
                <td><?php echo ($vo['catName']); ?></td>
                <td>
                <div class="dropdown">
-               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					     隐藏
 					  <span class="caret"></span>
 				   </button>
                <?php else: ?>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     显示
 					  <span class="caret"></span>
 				   </button><?php endif; ?>
-               <?php if(in_array('wzlb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('wzlb_02',$RTC_STAFF['grant'])){ ?>
                    <ul class="dropdown-menu" role="menu">
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,<?php echo ($vo['articleId']); ?>)">显示</a></li>
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,<?php echo ($vo['articleId']); ?>)">隐藏</a></li>
@@ -99,10 +99,10 @@
                <td><?php echo ($vo['staffName']); ?></td>
                <td><?php echo ($vo['createTime']); ?></td>
                <td>
-               <?php if(in_array('wzlb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('wzlb_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/Articles/toEdit',array('id'=>$vo['articleId']));?>">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('wzlb_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('wzlb_03',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del(<?php echo ($vo['articleId']); ?>)"">刪除</a>
                <?php } ?>
                </td>

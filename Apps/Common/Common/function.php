@@ -3,7 +3,7 @@
 /**
  * 判断是否手机访问
  */
-function WSTIsMobile() {
+function RTCIsMobile() {
     $_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ? $_SERVER['ALL_HTTP'] : '';  
     $mobile_browser = '0';  
     if(preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', strtolower($_SERVER['HTTP_USER_AGENT'])))  
@@ -44,7 +44,7 @@ function WSTIsMobile() {
  * @param string content 邮件内容
  * @return array
  */
-function WSTSendMail($to, $subject, $content) {
+function RTCSendMail($to, $subject, $content) {
 	require_cache(VENDOR_PATH."PHPMailer/class.smtp.php");
     require_cache(VENDOR_PATH."PHPMailer/class.phpmailer.php");
     $mail = new PHPMailer();
@@ -81,7 +81,7 @@ function WSTSendMail($to, $subject, $content) {
  * @param string $phoneNumer  手机号码
  * @param string $content     短信内容
  */
-function WSTSendSMS($phoneNumer,$content){
+function RTCSendSMS($phoneNumer,$content){
 	$url = 'http://223.4.21.214:8180/service.asmx/SendMessage?Id='.$GLOBALS['CONFIG']['smsOrg']."&Name=".$GLOBALS['CONFIG']['smsKey']."&Psw=".$GLOBALS['CONFIG']['smsPass']."&Timestamp=0&Message=".$content."&Phone=".$phoneNumer;
 	$ch=curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//设置否输出到页面
@@ -98,7 +98,7 @@ function WSTSendSMS($phoneNumer,$content){
  * @param int $start      要替换的起始位置,从0开始
  * @param string $splilt  遇到这个指定的字符串就停止替换
  */
-function WSTStrReplace($str,$repStr,$start,$splilt = ''){
+function RTCStrReplace($str,$repStr,$start,$splilt = ''){
 	$newStr = substr($str,0,$start);
 	$breakNum = -1;
 	for ($i=$start;$i<strlen($str);$i++){
@@ -121,7 +121,7 @@ function WSTStrReplace($str,$repStr,$start,$splilt = ''){
  * 循环删除指定目录下的文件及文件夹
  * @param string $dirpath 文件夹路径
  */
-function WSTDelDir($dirpath){
+function RTCDelDir($dirpath){
 	$dh=opendir($dirpath);
 	while (($file=readdir($dh))!==false) {
 		if($file!="." && $file!="..") {
@@ -129,7 +129,7 @@ function WSTDelDir($dirpath){
 		    if(!is_dir($fullpath)) {
 		        unlink($fullpath);
 		    } else {
-		        WSTDelDir($fullpath);
+		        RTCDelDir($fullpath);
 		        rmdir($fullpath);
 		    }
 	    }
@@ -148,7 +148,7 @@ function WSTDelDir($dirpath){
 /**
  * 获取网站域名
  */
-function WSTDomain(){
+function RTCDomain(){
 	$server = $_SERVER['HTTP_HOST'];
 	$http = is_ssl()?'https://':'http://';
 	return $http.$server.__ROOT__;
@@ -156,13 +156,13 @@ function WSTDomain(){
 /**
  * 获取系统根目录
  */
-function WSTRootPath(){
+function RTCRootPath(){
 	return dirname(dirname(dirname(dirname(__File__))));
 }
 /**
  * 获取网站根域名
  */
-function WSTRootDomain(){
+function RTCRootDomain(){
 	$server = $_SERVER['HTTP_HOST'];
 	$http = is_ssl()?'https://':'http://';
 	return $http.$server;
@@ -171,22 +171,19 @@ function WSTRootDomain(){
  * 设置当前页面对象
  * @param int 0-用户  1-商家
  */
-function WSTLoginTarget($target = 0){
-	$WST_USER = session('WST_USER');
-	$WST_USER['loginTarget'] = $target;
-	session('WST_USER',$WST_USER);
+function RTCLoginTarget($target = 0){
+	$RTC_USER = session('RTC_USER');
+	$RTC_USER['loginTarget'] = $target;
+	session('RTC_USER',$RTC_USER);
 }
 
 /**
  * 生成缓存文件
  */
-function WSTDataFile($name, $path = '',$data=array()){
+function RTCDataFile($name, $path = '',$data=array()){
 	$key = C('DATA_CACHE_KEY');
 	$name = md5($key.$name);
-	if(is_array($data) && !empty($data)){
-		if($data['mallLicense']==''){
-			if(stripos($data['mallTitle'],'Powered By WSTMall')===false)$data['mallTitle'] = $data['mallTitle']." - Powered By WSTMall";
-		}
+	if(is_array($data) && !empty($data)){		
 	    $data   =   serialize($data);
         if( C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
             //数据压缩
@@ -235,7 +232,7 @@ function WSTDataFile($name, $path = '',$data=array()){
  * @param string $aimUrl
  * @return viod
  */
-function WSTCreateDir($aimUrl) {
+function RTCCreateDir($aimUrl) {
 	$aimUrl = str_replace('', '/', $aimUrl);
 	$aimDir = '';
 	$arr = explode('/', $aimUrl);
@@ -255,14 +252,14 @@ function WSTCreateDir($aimUrl) {
  * @param boolean $overWrite 该参数控制是否覆盖原文件
  * @return boolean
  */
-function WSTCreateFile($aimUrl, $overWrite = false) {
+function RTCCreateFile($aimUrl, $overWrite = false) {
 	if (file_exists_case($aimUrl) && $overWrite == false) {
 		return false;
 	} elseif (file_exists_case($aimUrl) && $overWrite == true) {
-		WSTUnlinkFile($aimUrl);
+		RTCUnlinkFile($aimUrl);
 	}
 	$aimDir = dirname($aimUrl);
-	WSTCreateDir($aimDir);
+	RTCCreateDir($aimDir);
 	touch($aimUrl);
 	return true;
 }
@@ -272,7 +269,7 @@ function WSTCreateFile($aimUrl, $overWrite = false) {
  * @param string $aimUrl
  * @return boolean
  */
-function WSTUnlinkFile($aimUrl) {
+function RTCUnlinkFile($aimUrl) {
 	if (file_exists_case($aimUrl)) {
 		unlink($aimUrl);
 		return true;
@@ -281,9 +278,9 @@ function WSTUnlinkFile($aimUrl) {
 	}
 }
 
-function  WSTLogResult($filepath,$word){
+function  RTCLogResult($filepath,$word){
 	if(!file_exists_case($filepath)){
-		WSTCreateFile($filepath);
+		RTCCreateFile($filepath);
 	}
 	$fp = fopen($filepath,"a");
 	flock($fp, LOCK_EX) ;
@@ -292,9 +289,9 @@ function  WSTLogResult($filepath,$word){
 	fclose($fp);
 }
 
-function WSTReadExcel($file){
+function RTCReadExcel($file){
 	Vendor("PHPExcel.PHPExcel");
 	Vendor("PHPExcel.PHPExcel.IOFactory");
-	return PHPExcel_IOFactory::load(WSTRootPath()."/Upload/".$file);
+	return PHPExcel_IOFactory::load(RTCRootPath()."/Upload/".$file);
 }
 

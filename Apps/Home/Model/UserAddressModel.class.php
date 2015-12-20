@@ -16,7 +16,7 @@ class UserAddressModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 	 	$id = (int)I("id",0);
 		$data = array();
-		$data["userId"] = (int)session('WST_USER.userId');
+		$data["userId"] = (int)session('RTC_USER.userId');
 		$data["userName"] = I("userName");
 		$data["areaId2"] = (int)I("areaId2");
 		if(I("areaId1")){
@@ -49,7 +49,7 @@ class UserAddressModel extends BaseModel {
 				if((int)I("isDefault")==1){
 					//修改所有的地址为非默认
 					$m->isDefault = 0;
-					$m->where('userId='.(int)session('WST_USER.userId')." and addressId!=".$rs)->save();
+					$m->where('userId='.(int)session('RTC_USER.userId')." and addressId!=".$rs)->save();
 				}
 			}
 		}
@@ -79,13 +79,13 @@ class UserAddressModel extends BaseModel {
 			$data["userPhone"] = I("userPhone");
 			$data["userTel"] = I("userTel");
 			$data["isDefault"] = (int)I("isDefault");
-			$rs = $m->where("userId=".(int)session('WST_USER.userId')." and addressId=".$id)->save($data);
+			$rs = $m->where("userId=".(int)session('RTC_USER.userId')." and addressId=".$id)->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
 				if(I("isDefault")==1){
 					//修改所有的地址为非默认
 					$m->isDefault = 0;
-					$m->where('userId='.(int)session('WST_USER.userId')." and addressId!=".$id)->save();
+					$m->where('userId='.(int)session('RTC_USER.userId')." and addressId!=".$id)->save();
 				}
 			}
 		}
@@ -96,7 +96,7 @@ class UserAddressModel extends BaseModel {
 	  */
      public function get(){
 	 	$m = M('user_address');
-		return $m->where("addressId=".(int)I('id')." and userId=".(int)session('WST_USER.userId'))->find();
+		return $m->where("addressId=".(int)I('id')." and userId=".(int)session('RTC_USER.userId'))->find();
 	 }
 	 /**
 	  * 获取列表
@@ -134,7 +134,7 @@ class UserAddressModel extends BaseModel {
 	 public function del(){
 	 	$rd = array('status'=>-1);
 	    $m = M('user_address');
-	    $rs = $m->where("userId=".(int)session('WST_USER.userId')." and addressId=".(int)I('id'))->delete();
+	    $rs = $m->where("userId=".(int)session('RTC_USER.userId')." and addressId=".(int)I('id'))->delete();
 		if(false !== $rs){
 		   $rd['status']= 1;
 		}
@@ -148,7 +148,7 @@ class UserAddressModel extends BaseModel {
 		$addressId = (int)I("addressId");
 		$sql ="SELECT ad.*, a.areaName FROM __PREFIX__user_address ad
 			  left join __PREFIX__areas a ON ad.areaId2 = a.areaId
-		      WHERE ad.addressId=$addressId AND ad.addressFlag=1 and ad.userId=".(int)session('WST_USER.userId');
+		      WHERE ad.addressId=$addressId AND ad.addressFlag=1 and ad.userId=".(int)session('RTC_USER.userId');
 	
 		$rs = $this->queryRow($sql);
 		if(empty($rs))return array();
@@ -268,7 +268,7 @@ class UserAddressModel extends BaseModel {
 	public function getAddressDetails($addressId){
 		$m = M('user_address');
 		$addressId = $addressId?$addressId:I("addressId");
-		$sql ="SELECT * FROM __PREFIX__user_address WHERE addressId=$addressId AND addressFlag=1 and userId=".(int)session('WST_USER.userId');
+		$sql ="SELECT * FROM __PREFIX__user_address WHERE addressId=$addressId AND addressFlag=1 and userId=".(int)session('RTC_USER.userId');
 		$address = $this->queryRow($sql);
 		if(empty($address))return array();
 		

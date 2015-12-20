@@ -20,7 +20,7 @@
    function editName(obj){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/GoodsCats/editName');?>",{id:$(obj).attr('dataId'),catName:obj.value},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000});
 			}else{
@@ -32,7 +32,7 @@
    function toggleIsShow(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/GoodsCats/editiIsShow');?>",{id:v,isShow:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				    location.reload();
@@ -48,7 +48,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/GoodsCats/del');?>",{id:id},function(data,textStatus){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 				if(json.status=='1'){
 					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 					    location.reload();
@@ -75,14 +75,14 @@
 		}
 	}
    </script>
-   <body class='wst-page'>
-       <div class='wst-tbar' style='text-align:right;height:25px;'>
-       <?php if(in_array('spfl_01',$WST_STAFF['grant'])){ ?>
+   <body class='rtc-page'>
+       <div class='rtc-tbar' style='text-align:right;height:25px;'>
+       <?php if(in_array('spfl_01',$RTC_STAFF['grant'])){ ?>
        <a class="btn btn-success glyphicon glyphicon-plus" href="<?php echo U('Admin/GoodsCats/toEdit');?>" style='float:right'>新增</a>
        <?php } ?>
        </div>
-       <div class='wst-body'> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class='rtc-body'> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th>分类名称</th>
@@ -95,17 +95,17 @@
             <?php if(is_array($List)): $i = 0; $__LIST__ = $List;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr id='tr_0_<?php echo ($i); ?>' class="tr_0" isLoad='1'>
                <td>
                <span class='glyphicon glyphicon-minus' onclick='javascript:loadChildTree(this,<?php echo ($vo["catId"]); ?>,"tr_0_<?php echo ($i); ?>")' style='margin-right:3px;cursor:pointer'></span>
-               <input type='text' value='<?php echo ($vo['catName']); ?>' onchange='javascript:editName(this)' dataId="<?php echo ($vo["catId"]); ?>" class='form-control wst-ipt'/>
+               <input type='text' value='<?php echo ($vo['catName']); ?>' onchange='javascript:editName(this)' dataId="<?php echo ($vo["catId"]); ?>" class='form-control rtc-ipt'/>
                </td>
                <td><?php echo ($vo['catSort']); ?></td>
                <td>
                <div class="dropdown">
-               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					     隐藏
 					  <span class="caret"></span>
 				   </button>
                <?php else: ?>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     显示
 					  <span class="caret"></span>
 				   </button><?php endif; ?>
@@ -116,13 +116,13 @@
                </div>
                </td>
                <td>
-               <?php if(in_array('spfl_01',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('spfl_01',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-plus" href="<?php echo U('Admin/GoodsCats/toEdit',array('parentId'=>$vo['catId']));?>"">新增子分类</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('spfl_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('spfl_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/GoodsCats/toEdit',array('id'=>$vo['catId']));?>">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('spfl_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('spfl_03',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['catId']); ?>,0)"">刪除</a>
                <?php } ?>
                </td>
@@ -130,17 +130,17 @@
              <?php if($vo['childNum'] > 0): if(is_array($vo['child'])): $i2 = 0; $__LIST__ = $vo['child'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo2): $mod = ($i2 % 2 );++$i2;?><tr id='tr_0_<?php echo ($i); ?>_<?php echo ($i2); ?>' class="tr_0_<?php echo ($i); ?>" isLoad='1'>
 	               <td>
 	               <span class='glyphicon glyphicon-minus' onclick='javascript:loadChildTree(this,<?php echo ($vo2["catId"]); ?>,"tr_0_<?php echo ($i); ?>_<?php echo ($i2); ?>")' style='margin-right:3px;margin-left:20px;cursor:pointer'></span>
-	               <input type='text' value='<?php echo ($vo2['catName']); ?>' onchange='javascript:editName(this)' dataId="<?php echo ($vo2["catId"]); ?>" class='form-control wst-ipt'/>
+	               <input type='text' value='<?php echo ($vo2['catName']); ?>' onchange='javascript:editName(this)' dataId="<?php echo ($vo2["catId"]); ?>" class='form-control rtc-ipt'/>
 	               </td>
 	               <td><?php echo ($vo2['catSort']); ?></td>
 	               <td>
 	               <div class="dropdown">
-	               <?php if($vo2['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+	               <?php if($vo2['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 						     隐藏
 						  <span class="caret"></span>
 					   </button>
 	               <?php else: ?>
-	                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+	                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 						     显示
 						  <span class="caret"></span>
 					   </button><?php endif; ?>
@@ -151,13 +151,13 @@
 	               </div>
 	               </td>
 	               <td>
-	               <?php if(in_array('spfl_01',$WST_STAFF['grant'])){ ?>
+	               <?php if(in_array('spfl_01',$RTC_STAFF['grant'])){ ?>
 	               <a class="btn btn-default glyphicon glyphicon-plus" href="<?php echo U('Admin/GoodsCats/toEdit',array('parentId'=>$vo2['catId']));?>">新增子分类</a>&nbsp;
 	               <?php } ?>
-	               <?php if(in_array('spfl_02',$WST_STAFF['grant'])){ ?>
+	               <?php if(in_array('spfl_02',$RTC_STAFF['grant'])){ ?>
 	               <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/GoodsCats/toEdit',array('id'=>$vo2['catId']));?>">修改</a>&nbsp;
 	               <?php } ?>
-	               <?php if(in_array('spfl_03',$WST_STAFF['grant'])){ ?>
+	               <?php if(in_array('spfl_03',$RTC_STAFF['grant'])){ ?>
 	               <a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo2['catId']); ?>,0)"">刪除</a>
 	               <?php } ?>
 	               </td>
@@ -165,17 +165,17 @@
                  <?php if($vo2['childNum'] > 0): if(is_array($vo2['child'])): $i3 = 0; $__LIST__ = $vo2['child'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo3): $mod = ($i3 % 2 );++$i3;?><tr id='tr_0_<?php echo ($i); ?>_<?php echo ($i2); ?>_<?php echo ($i3); ?>' class="tr_0_<?php echo ($i); ?>_<?php echo ($i2); ?>" isLoad='1'>
 		               <td>
 		               <span class='glyphicon glyphicon-minus'  style='margin-right:3px;margin-left:40px;cursor:pointer'></span>
-		               <input type='text' value='<?php echo ($vo3['catName']); ?>' onchange='javascript:editName(this)' dataId="<?php echo ($vo3["catId"]); ?>" class='form-control wst-ipt'/>
+		               <input type='text' value='<?php echo ($vo3['catName']); ?>' onchange='javascript:editName(this)' dataId="<?php echo ($vo3["catId"]); ?>" class='form-control rtc-ipt'/>
 		               </td>
 		               <td><?php echo ($vo3['catSort']); ?></td>
 		               <td>
 		               <div class="dropdown">
-		               <?php if($vo3['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+		               <?php if($vo3['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 							     隐藏
 							  <span class="caret"></span>
 						   </button>
 		               <?php else: ?>
-		                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+		                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 							     显示
 							  <span class="caret"></span>
 						   </button><?php endif; ?>
@@ -186,10 +186,10 @@
 		               </div>
 		               </td>
 		               <td>
-		               <?php if(in_array('spfl_02',$WST_STAFF['grant'])){ ?>
+		               <?php if(in_array('spfl_02',$RTC_STAFF['grant'])){ ?>
 		               <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/GoodsCats/toEdit',array('id'=>$vo3['catId']));?>"">修改</a>&nbsp;
 		               <?php } ?>
-		               <?php if(in_array('spfl_03',$WST_STAFF['grant'])){ ?>
+		               <?php if(in_array('spfl_03',$RTC_STAFF['grant'])){ ?>
 		               <a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del(<?php echo ($vo3['catId']); ?>,0)"">刪除</a>
 		               <?php } ?>
 		               </td>

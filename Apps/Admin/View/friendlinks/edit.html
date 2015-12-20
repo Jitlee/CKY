@@ -50,7 +50,7 @@
 	   }
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 		$.post("{:U('Admin/Friendlinks/edit')}",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='{:U("Admin/Friendlinks/index")}';
@@ -62,11 +62,11 @@
 		});
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
    	   <iframe name="upload" style="display:none"></iframe>
 			<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:48px;left:120px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
-				<input id="friendlinkIco" name="friendlinkIco" class="form-control wst-ipt" type="text" value="{$object.friendlinkIco}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
+				<input id="friendlinkIco" name="friendlinkIco" class="form-control rtc-ipt" type="text" value="{$object.friendlinkIco}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 				<div class="div1">
 					<div class="div2">浏览</div>
 					<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
@@ -85,10 +85,10 @@
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.friendlinkId}'/>
         <input type='hidden' id='friendlinkIco' value='{$object.friendlinkIco}'/>
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>网站名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='friendlinkName' class="form-control wst-ipt" value='{$object.friendlinkName}' maxLength='25'/></td>
+             <td><input type='text' id='friendlinkName' class="form-control rtc-ipt" value='{$object.friendlinkName}' maxLength='25'/></td>
            </tr>
            <tr style="height:70px;">
              <th align='right'>网站图标<font color='red'>*</font>：</th>
@@ -107,14 +107,14 @@
            <tr>
              <th align='right'>网站地址<font color='red'>*</font>：</th>
              <td>
-             <input type='text' id='friendlinkUrl' class="form-control wst-ipt" value='{$object.friendlinkUrl}'/>
+             <input type='text' id='friendlinkUrl' class="form-control rtc-ipt" value='{$object.friendlinkUrl}'/>
              
              </td>
            </tr>
            <tr>
              <th align='right'>网站排序号：</th>
              <td>
-             <input type='text' id='friendlinkSort' class="form-control"  value='{$object.friendlinkSort}' style='width:80px' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+             <input type='text' id='friendlinkSort' class="form-control"  value='{$object.friendlinkSort}' style='width:80px' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/>
              </td>
            </tr>
            <tr>

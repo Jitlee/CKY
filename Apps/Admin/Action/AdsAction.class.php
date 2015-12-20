@@ -66,7 +66,7 @@ class AdsAction extends BaseAction{
 	public function index(){
 		$this->isLogin();
 		$this->checkAjaxPrivelege('gggl_00');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		//获取商品分类
 		$m = D('Admin/GoodsCats');
 		$this->assign('goodsCatList',$m->queryByList(0));

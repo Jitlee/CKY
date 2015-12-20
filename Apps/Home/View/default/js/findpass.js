@@ -5,12 +5,12 @@ $("#getPhoneVerify").click(function(){
 	params.time = Math.random();
 	params.userPhone = $("#userPhone").val();
 	if ($("#userPhone").val() == '') {
-	    WST.msg('你没有预留手机号码，不能通过手机号码找回，请尝试用邮箱找回！',{icon:5});
+	    RTC.msg('你没有预留手机号码，不能通过手机号码找回，请尝试用邮箱找回！',{icon:5});
 	}else{
-		if(WST.SMS_VERFY=='1'){
+		if(RTC.SMS_VERFY=='1'){
 			var html = [];
-			html.push('<table class="wst-smsverfy"><tr><td width="80" align="right">');
-			html.push('验证码：</td><td><input type="text" id="smsVerfy" size="12" class="wst-text" maxLength="8">');
+			html.push('<table class="rtc-smsverfy"><tr><td width="80" align="right">');
+			html.push('验证码：</td><td><input type="text" id="smsVerfy" size="12" class="rtc-text" maxLength="8">');
 			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+domainURL+'/Apps/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:getVerify()"/>');
 			html.push('</td></tr></table>');
 			layer.open({
@@ -25,19 +25,19 @@ $("#getPhoneVerify").click(function(){
 			    yes: function(index, layero){
 			    	params.smsVerfy = $.trim($('#smsVerfy').val());
 			    	if(params.smsVerfy==''){
-				    	WST.msg('请输入验证码!', {icon: 5});
+				    	RTC.msg('请输入验证码!', {icon: 5});
 				   		return;
 				    }
 			    	$.post(Think.U('Home/Users/getPhoneVerify'),params,function(data,textStatus){
-			   			var json = WST.toJson(data);
+			   			var json = RTC.toJson(data);
 			   			if(json.status!=1){
-							WST.msg(json.msg, {icon: 5});
+							RTC.msg(json.msg, {icon: 5});
 							time = 0;
 							isSend = false;
 							getVerify();
 						}if(json.status==1){
 							layer.close(index);
-							WST.msg('短信已发送，请注意查收');
+							RTC.msg('短信已发送，请注意查收');
 							findPassTime = data.time;
 		                    $("#getPhoneVerify").val(data.time).click(function(){return false;});
 		                    resetVerify();
@@ -47,13 +47,13 @@ $("#getPhoneVerify").click(function(){
 			});
 		}else{
 			$.post(Think.U('Home/Users/getPhoneVerify'),params,function(data,textStatus){
-	   			var json = WST.toJson(data);
+	   			var json = RTC.toJson(data);
 	   			if(json.status!=1){
-					WST.msg(json.msg, {icon: 5});
+					RTC.msg(json.msg, {icon: 5});
 					time = 0;
 					isSend = false;
 				}if(json.status==1){
-					WST.msg('短信已发送，请注意查收');
+					RTC.msg('短信已发送，请注意查收');
 					findPassTime = data.time;
                     $("#getPhoneVerify").val(data.time).click(function(){return false;});
                     resetVerify();

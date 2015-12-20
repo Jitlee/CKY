@@ -18,13 +18,13 @@
 	   var ll = layer.load('数据处理中，请稍候...');
 	   $.post(domainURL+"/index.php/Home/Users/editPass",params,function(data,textStatus){
 		   layer.close(ll);
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('密码修改成功!', {icon: 1}, function(){
+				RTC.msg('密码修改成功!', {icon: 1}, function(){
 					location.reload();
 				});
 			}else{
-				WST.msg('密码修改失败!', {icon: 5});
+				RTC.msg('密码修改失败!', {icon: 5});
 			}
 	   });
    }

@@ -75,9 +75,9 @@ function ShopMapInit(option){
 }
 var filetypes = ["gif","jpg","png","jpeg"];
 </script>
-   <div class="wst-body"> 
-       <div class='wst-page-header'>卖家中心 > 店铺资料</div>
-       <div class='wst-page-content' style="position:relative;">
+   <div class="rtc-body"> 
+       <div class='rtc-page-header'>卖家中心 > 店铺资料</div>
+       <div class='rtc-page-content' style="position:relative;">
        <iframe name="upload" style="display:none"></iframe>
 		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:108px;left:159px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 			<div style="position:relative;">
@@ -100,18 +100,18 @@ var filetypes = ["gif","jpg","png","jpeg"];
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.shopId}'/>
        
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='150' align='right'>店铺名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='shopName' class="form-control wst-ipt" value='{$object.shopName}' style='width:250px;' maxLength='25'/></td>
+             <td><input type='text' id='shopName' class="form-control rtc-ipt" value='{$object.shopName}' style='width:250px;' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>店主姓名<font color='red'>*</font>：</th>
-             <td><input type='text' id='userName' class="form-control wst-ipt" value='{$object.userName}' style='width:250px;' maxLength='25'/></td>
+             <td><input type='text' id='userName' class="form-control rtc-ipt" value='{$object.userName}' style='width:250px;' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>公司名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='shopCompany' class="form-control wst-ipt" value='{$object.shopCompany}' style='width:250px;' maxLength='25'/></td>
+             <td><input type='text' id='shopCompany' class="form-control rtc-ipt" value='{$object.shopCompany}' style='width:250px;' maxLength='25'/></td>
            </tr>
            <tr style="height:80px;">
              <th align='right'>店铺图标<font color='red'>*</font>：</th>
@@ -127,15 +127,15 @@ var filetypes = ["gif","jpg","png","jpeg"];
            
            <tr>
              <th align='right'>店铺电话<font color='red'>*</font>：</th>
-             <td><input type='text' id='shopTel' class="form-control wst-ipt" value='{$object.shopTel}' maxLength='25'/></td>
+             <td><input type='text' id='shopTel' class="form-control rtc-ipt" value='{$object.shopTel}' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>QQ：</th>
-             <td><input type='text' id='qqNo' class="form-control wst-ipt" value='{$object.qqNo}' maxLength='25'/></td>
+             <td><input type='text' id='qqNo' class="form-control rtc-ipt" value='{$object.qqNo}' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>店铺地址<font color='red'>*</font>：</th>
-             <td><input type='text' id='shopAddress' class="form-control wst-ipt" value='{$object.shopAddress}' style='width:350px;' maxLength='100'/></td>
+             <td><input type='text' id='shopAddress' class="form-control rtc-ipt" value='{$object.shopAddress}' style='width:350px;' maxLength='100'/></td>
            </tr>
            <tr id='shopMap'>
              <td>&nbsp;</td>
@@ -162,30 +162,30 @@ var filetypes = ["gif","jpg","png","jpeg"];
            </tr>
            <tr>
              <th align='right'>配送区域<font color='red'>*</font>：</th>
-             <td id="wst_shop_area">
-             <div class="text-gray Hide">展开全部：<input type="checkbox" id="expendAll" checked <if condition="$WST_USER['isSelf'] == 1">disabled</if> ></div>
+             <td id="RTC_shop_area">
+             <div class="text-gray Hide">展开全部：<input type="checkbox" id="expendAll" checked <if condition="$RTC_USER['isSelf'] == 1">disabled</if> ></div>
              <div id='areaTree'></div>
              </td>
            </tr>
            <tr>
              <th align='right'>订单配送起步价(元)<font color='red'>*</font>：</th>
-             <td><input type='text' id='deliveryStartMoney' class="form-control wst-ipt" value='{$object.deliveryStartMoney}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='6'/></td>
+             <td><input type='text' id='deliveryStartMoney' class="form-control rtc-ipt" value='{$object.deliveryStartMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6'/></td>
            </tr>
            <tr>
              <th align='right'>包邮起步价(元)<font color='red'>*</font>：</th>
-             <td><input type='text' id='deliveryFreeMoney' class="form-control wst-ipt" value='{$object.deliveryFreeMoney}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='6'/></td>
+             <td><input type='text' id='deliveryFreeMoney' class="form-control rtc-ipt" value='{$object.deliveryFreeMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6'/></td>
            </tr>
            <tr>
              <th align='right'>邮费(元)<font color='red'>*</font>：</th>
-             <td><input type='text' id='deliveryMoney' class="form-control wst-ipt" value='{$object.deliveryMoney}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'/></td>
+             <td><input type='text' id='deliveryMoney' class="form-control rtc-ipt" value='{$object.deliveryMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>平均配送时间(分钟)<font color='red'>*</font>：</th>
-             <td><input type='text' id='deliveryCostTime' class="form-control wst-ipt" value='{$object.deliveryCostTime}' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='6'/></td>
+             <td><input type='text' id='deliveryCostTime' class="form-control rtc-ipt" value='{$object.deliveryCostTime}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6'/></td>
            </tr>
            <tr>
              <th align='right'>平均消费金额(元)<font color='red'>*</font>：</th>
-             <td><input type='text' id='avgeCostMoney' class="form-control wst-ipt" value='{$object.avgeCostMoney}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'/></td>
+             <td><input type='text' id='avgeCostMoney' class="form-control rtc-ipt" value='{$object.avgeCostMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>能否开发票<font color='red'>*</font>：</th>
@@ -200,7 +200,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
            </tr>
            <tr id='invoiceRemarkstr' <if condition="$object['isInvoice'] ==0 ">style='display:none'</if>>
              <th align='right'>发票说明：</th>
-             <td><input type='text' id='invoiceRemarks' class="form-control wst-ipt" value='{$object.invoiceRemarks}' style='width:350px;' maxLength='100'/></td>
+             <td><input type='text' id='invoiceRemarks' class="form-control rtc-ipt" value='{$object.invoiceRemarks}' style='width:350px;' maxLength='100'/></td>
            </tr>
            <tr>
              <th width='120' align='right'>转账银行<font color='red'>*</font>：</th>
@@ -231,8 +231,8 @@ var filetypes = ["gif","jpg","png","jpeg"];
            </tr>
            <tr>
              <td colspan='2' style='text-align:center;padding:20px;'>
-                 <button type="submit" class='wst-btn-query'>保&nbsp;存</button>&nbsp;&nbsp;
-                 <button type="button" class='wst-btn-query' onclick='javascript:location.reload();'>重&nbsp;置</button>
+                 <button type="submit" class='rtc-btn-query'>保&nbsp;存</button>&nbsp;&nbsp;
+                 <button type="button" class='rtc-btn-query' onclick='javascript:location.reload();'>重&nbsp;置</button>
              	
              </td>
            </tr>
@@ -241,6 +241,6 @@ var filetypes = ["gif","jpg","png","jpeg"];
        </div>
    </div>
    <script type="text/javascript">
-   var isSelf = "{$WST_USER['isSelf']}"; 
+   var isSelf = "{$RTC_USER['isSelf']}"; 
 	</script>
 </block>  

@@ -1,9 +1,9 @@
 <extend name="./Apps/Home/View/default/shops/layout.html" />
 <block name="content">
-    <div class="wst-body"> 
-       <div class='wst-page-header'>卖家中心 > {$cat['catName']} > 商品属性</div>
-       <div class='wst-page-content'>
-        <div class='wst-tbar-group'>
+    <div class="rtc-body"> 
+       <div class='rtc-page-header'>卖家中心 > {$cat['catName']} > 商品属性</div>
+       <div class='rtc-page-content'>
+        <div class='rtc-tbar-group'>
            <div style='float:left;margin-top:8px;margin-left:5px;'>
                                  商品类型：
            <select id="catId" onchange='javascript:getAttrsForAttr(this.value)' dataNo="{$List|count}" autocomplete="off">
@@ -14,7 +14,7 @@
            </div>
            <a style='float:right;margin-right:5px;' href='javascript:toAddAttr()'><span class='add btn'></span>新增</a>&nbsp;
         </div>
-        <table class='wst-list'>
+        <table class='rtc-list'>
            <thead>
              <tr>
                <th width='20'>&nbsp;</th>
@@ -51,9 +51,9 @@
              </tfoot>
            </tbody>
         </table>
-        <div class='wst-tbar-group'>
-           <button class='wst-btn-query' style='<if condition=" count($List) eq 0">display:none;</if>margin-top:5px;margin-left:400px;' type="button" onclick='javascript:editAttrs()'>保&nbsp;存</button>
-           <button class='wst-btn-query' style='<if condition=" count($List) eq 0">display:none;</if>margin-top:5px;margin-left:5px;' type="button" onclick='javascript:getAttrsForAttr()'>取&nbsp;消</button>
+        <div class='rtc-tbar-group'>
+           <button class='rtc-btn-query' style='<if condition=" count($List) eq 0">display:none;</if>margin-top:5px;margin-left:400px;' type="button" onclick='javascript:editAttrs()'>保&nbsp;存</button>
+           <button class='rtc-btn-query' style='<if condition=" count($List) eq 0">display:none;</if>margin-top:5px;margin-left:5px;' type="button" onclick='javascript:getAttrsForAttr()'>取&nbsp;消</button>
            <a style='float:right;margin-right:5px;' href='javascript:toAddAttr()'><span class='add btn'></span>新增</a>&nbsp;
         </div>
         </div>

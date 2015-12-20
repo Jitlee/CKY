@@ -69,7 +69,7 @@ class IndexAction extends BaseAction {
     	$m = D('Admin/Staffs');
     	$rs = $m->login();
     	if($rs['status']==1){
-    		session('WST_STAFF',$rs['staff']);
+    		session('RTC_STAFF',$rs['staff']);
     		unset($rs['staff']);
     	}
     	$this->ajaxReturn($rs);
@@ -78,7 +78,7 @@ class IndexAction extends BaseAction {
      * 离开系统
      */
     public function logout(){
-    	session('WST_STAFF',null);
+    	session('RTC_STAFF',null);
     	$this->redirect("Index/toLogin");
     }
     /**
@@ -101,12 +101,12 @@ class IndexAction extends BaseAction {
     /**
      * 获取当前版本
      */
-    public function getWSTMallVersion(){
+    public function getRTCVersion(){
     	$this->isAjaxLogin();
-    	$version = C('WST_VERSION');
-    	$key = C('WST_MD5');
+    	$version = C('RTC_VERSION');
+    	$key = C('RTC_MD5');
     	$license = $GLOBALS['CONFIG']['mallLicense'];
-    	$content = file_get_contents(C('WST_WEB').'/index.php?m=Api&c=Download&a=getLastVersion&version='.$version.'&version_md5='.$key."&license=".$license."&host=".WSTDomain());
+    	$content = 'v1.0.01';//file_get_contents(C('RTC_WEB').'/index.php?m=Api&c=Download&a=getLastVersion&version='.$version.'&version_md5='.$key."&license=".$license."&host=".RTCDomain());
     	$json = json_decode($content,true);
         if($json['version'] ==  $version){
     		$json['version'] = "same";
@@ -117,32 +117,32 @@ class IndexAction extends BaseAction {
     /**
      * 输入授权码
      */
-    public function enterLicense(){
-    	$this->isLogin();
-    	$this->display("/enter_license");
-    }
+//  public function enterLicense(){
+//  	$this->isLogin();
+//  	$this->display("/enter_license");
+//  }
     /**
      * 验证授权码
      */
-    public function verifyLicense(){
-    	$this->isAjaxLogin();
-    	$license = I('license');
-    	$content = file_get_contents(C('WST_WEB').'/index.php?m=Api&c=License&a=verifyLicense&host='.WSTRootDomain().'&license='.$license);
-    	$json = json_decode($content,true);
-    	$rs = array('status'=>1);
-    	if($json['status']==1){
-    		$rs = D('Admin/Index')->saveLicense();
-    	}
-    	$rs['license'] = $json;
-		$this->ajaxReturn($rs);
-    }
+//  public function verifyLicense(){
+//  	$this->isAjaxLogin();
+//  	$license = I('license');
+//  	$content = file_get_contents(C('RTC_WEB').'/index.php?m=Api&c=License&a=verifyLicense&host='.RTCRootDomain().'&license='.$license);
+//  	$json = json_decode($content,true);
+//  	$rs = array('status'=>1);
+//  	if($json['status']==1){
+//  		$rs = D('Admin/Index')->saveLicense();
+//  	}
+//  	$rs['license'] = $json;
+//		$this->ajaxReturn($rs);
+//  }
     /**
      * 清除缓存
      */
     public function cleanAllCache(){
     	$this->isAjaxLogin();
         $rv = array('status'=>-1);
-		$rv['status'] = WSTDelDir(C('WST_RUNTIME_PATH'));
+		$rv['status'] = RTCDelDir(C('RTC_RUNTIME_PATH'));
     	$this->ajaxReturn($rv);
     }
 }

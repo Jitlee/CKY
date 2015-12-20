@@ -17,7 +17,7 @@ class PaymentsAction extends BaseAction{
     	$this->isUserLogin();
     	
     	$morders = D('Home/Orders');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$obj["userId"] = (int)$USER['userId'];
 		$obj["orderIds"] = I("orderIds");
 		$data = $morders->checkOrderPay($obj);
@@ -37,7 +37,7 @@ class PaymentsAction extends BaseAction{
 		$this->isUserLogin();
 			
 		$morders = D('Home/Orders');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$obj["userId"] = (int)$USER['userId'];
 		$obj["orderIds"] = I("orderIds");
 		$data = $morders->checkOrderPay($obj);
@@ -57,7 +57,7 @@ class PaymentsAction extends BaseAction{
 	 */
 	public function toPay(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
 		//支付方式
 		$pm = D('Home/Payments');

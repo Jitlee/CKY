@@ -28,7 +28,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -49,9 +49,9 @@
 	   $('#orderStatus').val(<?php echo ($orderStatus); ?>);
    });
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
       <form method="post" action='<?php echo U("Admin/Orders/index");?>'>
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
                              地区：<select name='areaId1' id='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
              <option value=''>请选择</option>
              <?php if(is_array($areaList)): $i = 0; $__LIST__ = $areaList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value='<?php echo ($vo['areaId']); ?>' <?php if($areaId1 == $vo['areaId'] ): ?>selected<?php endif; ?>><?php echo ($vo['areaName']); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
@@ -63,7 +63,7 @@
              <option value=''>请选择</option>
           </select>
        </div>
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
        店铺：<input type='text' name='shopName' id='shopName' value='<?php echo ($shopName); ?>'/>  
        订单：<input type='text' name='orderNo' id='orderNo' value='<?php echo ($orderNo); ?>'/>
   订单状态：  <select name='orderStatus' id='orderStatus'>
@@ -82,8 +82,8 @@
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <?php if(is_array($Page['root'])): $key = 0; $__LIST__ = $Page['root'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($key % 2 );++$key;?><thead>
              <tr>
                <th colspan='6'><?php echo ($key); ?>.订单：<?php echo ($vo['orderNo']); ?><span style='margin-left:100px;'><a href="<?php echo U('Admin/Orders/index',array('shopName'=>$vo['shopName']));?>"><?php echo ($vo['shopName']); ?></a></span></th>

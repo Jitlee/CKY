@@ -78,7 +78,7 @@
 	   }
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("{:U('Admin/Brands/edit')}",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='{:U("Admin/Brands/index")}';
@@ -93,11 +93,11 @@
 		});
    }
    </script>
-   <body class="wst-page" style="position:relative;">
+   <body class="rtc-page" style="position:relative;">
    		<iframe name="upload" style="display:none"></iframe>
 		<form id="uploadform_Filedata" autocomplete="off" style="top:96px;position:absolute;left:122px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 			<div style="position:relative;">
-			<input id="brandIco" name="brandIco" class="form-control wst-ipt" type="text" value="{$object.brandIco}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
+			<input id="brandIco" name="brandIco" class="form-control rtc-ipt" type="text" value="{$object.brandIco}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 			<div class="div1">
 				<div class="div2">浏览</div>
 				<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
@@ -116,10 +116,10 @@
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.brandId}'/>
         
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>品牌名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='brandName' class="form-control wst-ipt" value='{$object.brandName}' maxLength='25'/></td>
+             <td><input type='text' id='brandName' class="form-control rtc-ipt" value='{$object.brandName}' maxLength='25'/></td>
            </tr>
            <tr>
              <th width='120' align='right'>所属分类<font color='red'>*</font>：</th>
@@ -147,7 +147,7 @@
            <tr>
              <th align='right'>品牌介绍<font color='red'>*</font>：</th>
              <td>
-             <textarea id='brandDesc' name='brandDesc' class="form-control wst-ipt" style='width:80%;height:400px'>{$object.brandDesc}</textarea>
+             <textarea id='brandDesc' name='brandDesc' class="form-control rtc-ipt" style='width:80%;height:400px'>{$object.brandDesc}</textarea>
              </td>
            </tr>
            <tr>

@@ -14,7 +14,7 @@ class SystemModel extends BaseModel {
      * 获取商城配置文件
      */
 	public function loadConfigs(){
-		$configs = WSTDataFile('mall_config');
+		$configs = RTCDataFile('mall_config');
 		if(!$configs){
 			$sql = "select fieldCode,fieldValue from __PREFIX__sys_configs order by parentId asc,fieldSort asc";
 			$rs = $this->query($sql);
@@ -31,7 +31,7 @@ class SystemModel extends BaseModel {
 				}
 			}
 			unset($rs);
-			WSTDataFile('mall_config','',$configs);
+			RTCDataFile('mall_config','',$configs);
 		}
 		return $configs;
 	}

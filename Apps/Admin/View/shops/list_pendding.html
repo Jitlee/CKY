@@ -22,7 +22,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("{:U('Admin/Shops/del')}",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						    location.reload();
@@ -45,7 +45,7 @@
 	   var html = [];
 	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -62,9 +62,9 @@
 		</notempty>
   });
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
       <form method='post' action="{:U('Admin/Shops/queryPeddingByPage')}">
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
     地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value=''>请选择</option>
                <volist name="areaList" id="vo">
@@ -74,8 +74,8 @@
              <select id='areaId2' name='areaId2'>
                <option value=''>请选择</option>
              </select>     
-       店铺名称：<input type='text' id='shopName' name='shopName' class='form-control wst-ipt-10' value='{$shopName}'/> 
-       店铺编号：<input type='text' id='shopSn' name='shopSn' class='form-control wst-ipt-10' value='{$shopSn}'/> 
+       店铺名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='{$shopName}'/> 
+       店铺编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='{$shopSn}'/> 
       店铺状态 ：<select id='shopStatus' name='shopStatus'>
              <option value='-999'>全部</option>
              <option value='0' <if condition="$shopStatus ==0 ">selected</if>>待审核</option>
@@ -86,8 +86,8 @@
        <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Shops/toEdit')}" style='float:right'>新增</a>
        </div>
        </form>
-       <div class='wst-page'>
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class='rtc-page'>
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='30'>序号</th>
@@ -113,16 +113,16 @@
                <if condition="$object['shopAtive'] ==0 "><span class='label label-warning'>休息中</span></if>&nbsp;
                </td>
                <td>
-               <if condition="$vo['shopStatus'] eq -2"><span class='label label-danger wst-label'>已停止</span> </if>
-               <if condition="$vo['shopStatus'] eq -1"><span class='label label-danger wst-label'>拒绝</span>  </if>
-               <if condition="$vo['shopStatus'] eq 0"><span class='label label-primary wst-label'>未审核</span> </if>
-               <if condition="$vo['shopStatus'] eq 1"><span class='label label-success wst-label'>已审核</span>  </if>
+               <if condition="$vo['shopStatus'] eq -2"><span class='label label-danger rtc-label'>已停止</span> </if>
+               <if condition="$vo['shopStatus'] eq -1"><span class='label label-danger rtc-label'>拒绝</span>  </if>
+               <if condition="$vo['shopStatus'] eq 0"><span class='label label-primary rtc-label'>未审核</span> </if>
+               <if condition="$vo['shopStatus'] eq 1"><span class='label label-success rtc-label'>已审核</span>  </if>
                </td>
                <td>
-               <php>if(in_array('dplb_02',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Shops/toEdit',array('id'=>$vo['shopId'],'src'=>'queryPeddingByPage'))}">修改</a>&nbsp;
                <php>}</php>
-               <php>if(in_array('dplb_03',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('dplb_03',$RTC_STAFF['grant'])){</php>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['shopId']})">刪除</buttona>
                <php>}</php>
                </td>

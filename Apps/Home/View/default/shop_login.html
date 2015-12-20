@@ -12,11 +12,11 @@
      	<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/login.css">
    	</head>
    	<body>
-   		<include file="./Apps/Home/View/default/header_common.html" />
-   		<div class='wst-login'>
+   		<include file="./Apps/Home/View/default/header_nav.html" />
+   		<div class='rtc-login'>
 		    <div class=" w1" id="entry">       
 		        <div class="mc " id="bgDiv" style="position:relative">
-		        	<div style="font-size:65px;color:red;position:absolute;top:160px;left:60px;">卖家登录</div>
+		        	<div style="font-size:65px;color:red;position:absolute;top:160px;left:60px;">商家登录</div>
 		            <div class="form">
 		                <div class="item fore1" style="position:relative;">
 		                    <span>用户名/手机号/邮箱</span><span id="errmsg" style="color:red;position:absolute;top:0px;left:100px;"></span>
@@ -50,7 +50,7 @@
 		                        <input class="checkbox" id="rememberPwd" name="rememberPwd" checked="checked" type="checkbox"/>
 		                        <label class="mar">记住密码</label>                                          
 		                        <label class="mar"><a href="{:U('Users/forgetPass')}">忘记密码?</a></label>
-		                        <label><a href="javascript:regist();" >免费开店</a></label>
+		                        
 		                        <div class="clr"></div>
 		                    </div>
 		            	</div>

@@ -14,7 +14,7 @@ class GoodsAppraisesAction extends BaseAction{
 	 */
 	public function index(){
 		$this->isShopLogin();
-		$USER = session("WST_USER");
+		$USER = session("RTC_USER");
 		//获取商家商品分类
 		$m = D('Home/ShopsCats');
 		$this->assign('shopCatsList',$m->queryByList($USER['shopId'],0));
@@ -50,7 +50,7 @@ class GoodsAppraisesAction extends BaseAction{
 	 */
     public function toAppraise(){
     	$this->isUserLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Goods_appraises');
     	$obj["userId"] = $USER['userId'];
     	$obj["orderId"] = (int)I("orderId");
@@ -63,7 +63,7 @@ class GoodsAppraisesAction extends BaseAction{
 	 */
     public function addGoodsAppraises(){
     	$this->isUserAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Goods_appraises');
     	$obj["userId"] = $USER['userId'];
     	$obj["orderId"] = (int)I("orderId");
@@ -77,7 +77,7 @@ class GoodsAppraisesAction extends BaseAction{
 	 */
     public function getAppraisesList(){
     	$this->isUserLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Goods_appraises');
     	$obj["userId"] = $USER['userId'];
     	$this->assign("umark","getAppraisesList");

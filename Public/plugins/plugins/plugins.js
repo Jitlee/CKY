@@ -12,19 +12,19 @@ Plugins.notify = function(opts){
 	    }; 
 	    this._opts = $.extend(defaults, opts);
 	    this.uuid    = "ID"+(new Date().getTime())+"RAND"+(Math.ceil(Math.random() * 100000));
-	    this.element = $(['<div class="alert wst-notify-message" role="alert">',
+	    this.element = $(['<div class="alert rtc-notify-message" role="alert">',
 	                      this._opts.msg,
 	                '</div>'].join('')).data("notifyMessage", this);
-	    if($('.wst-notify-'+this._opts.pos).length==0)$('<div class="wst-notify wst-notify-'+this._opts.pos+'"></div>').appendTo('body');
+	    if($('.rtc-notify-'+this._opts.pos).length==0)$('<div class="rtc-notify rtc-notify-'+this._opts.pos+'"></div>').appendTo('body');
 	    if (this._opts.status) {
 	        this.element.addClass('alert-'+this._opts.status);
 	    }
-	    $(this.element).appendTo('.wst-notify-'+this._opts.pos);
+	    $(this.element).appendTo('.rtc-notify-'+this._opts.pos);
 	}
 	$.extend(Message.prototype, {
 		show: function() {
 			var $this = this;
-			$(this.element).appendTo('.wst-notify-'+this._opts.pos);
+			$(this.element).appendTo('.rtc-notify-'+this._opts.pos);
 		    var marginbottom = parseInt(this.element.css("margin-bottom"), 10);
 		    var closefn = function(){$this.close();};
 		    this.element.css({"opacity":0, "margin-top": -1*this.element.outerHeight(), "margin-bottom":0}).animate({"opacity":1, "margin-top": 1, "margin-bottom":marginbottom}, function(){
@@ -35,8 +35,8 @@ Plugins.notify = function(opts){
 	    	var $this = this;
 	    	this.element.animate({"opacity":0, "margin-top": -1* this.element.outerHeight(), "margin-bottom":0}, function(){
 	    		$this.element.remove();
-	    		if(!$('.wst-notify'+$this._opts.pos).children().length){
-	    			$('.wst-notify'+$this._opts.pos).hide();
+	    		if(!$('.rtc-notify'+$this._opts.pos).children().length){
+	    			$('.rtc-notify'+$this._opts.pos).hide();
 	    		}
 	        });
 	    }
@@ -106,7 +106,7 @@ Plugins.window = function(opts){
     }
     if(this._opts.width)this.element.find('.modal-dialog').width(this._opts.width);
     if(this._opts.height)this.element.find('.modal-dialog').height(this._opts.height);
-    this.element.find('.modal-dialog').css('margin-left',(WST.pageWidth()-this._opts.width)/2);
+    this.element.find('.modal-dialog').css('margin-left',(RTC.pageWidth()-this._opts.width)/2);
     this.element.find('.modal-dialog').css('margin-top',(window.screen.availHeight-this._opts.height)/8);
     $('#'+this._opts.id).delegate('[data-dismiss="modal"]', 'click.dismiss.modal', function(){
 		Plugins.closeWindow();
@@ -322,8 +322,8 @@ Plugins.Modal = function(opts){
     }
     if(this._opts.width)this.element.find('.modal-dialog').width(this._opts.width);
     if(this._opts.height)this.element.find('.modal-dialog').height(this._opts.height);
-    this.element.find('.modal-dialog').css('margin-left',(WST.pageWidth()-this._opts.width)/2);
-    this.element.find('.modal-dialog').css('margin-top',(WST.pageHeight()-this._opts.height)/4);
+    this.element.find('.modal-dialog').css('margin-left',(RTC.pageWidth()-this._opts.width)/2);
+    this.element.find('.modal-dialog').css('margin-top',(RTC.pageHeight()-this._opts.height)/4);
     $('#'+this._opts.id).delegate('[data-dismiss="modal"]', 'click.dismiss.modal', function(){
 		Plugins.closeWindow();
 	});
@@ -341,11 +341,11 @@ $.fn.TabPanel = function(options){
 	}; 
 	var opts = $.extend(defaults, options);
 	var t = this;
-	$(t).find('.wst-tab-nav li').click(function(){
+	$(t).find('.rtc-tab-nav li').click(function(){
 		$(this).addClass("on").siblings().removeClass();
 		var index = $(this).index();
-		$(t).find('.wst-tab-content .wst-tab-item').eq(index).show().siblings().hide();
+		$(t).find('.rtc-tab-content .rtc-tab-item').eq(index).show().siblings().hide();
 		if(opts.callback)opts.callback(index);
 	});
-	$(t).find('.wst-tab-nav li').eq(opts.tab).click();
+	$(t).find('.rtc-tab-nav li').eq(opts.tab).click();
 }

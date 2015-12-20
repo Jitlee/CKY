@@ -914,7 +914,7 @@ class OrdersModel extends BaseModel {
 	 * 商家批量受理订单-只能受理【未受理】的订单
 	 */
 	public function batchShopOrderAccept(){		
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$userId = (int)$USER["userId"];
 		$orderIds = I("orderIds");
 		$shopId = (int)$USER["shopId"];
@@ -978,7 +978,7 @@ class OrdersModel extends BaseModel {
 	 * 商家批量打包订单-只能处理[受理]的订单
 	 */
 	public function batchShopOrderProduce (){		
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$userId = (int)$USER["userId"];
 		$orderIds = I("orderIds");
 		$shopId = (int)$USER["shopId"];
@@ -1043,7 +1043,7 @@ class OrdersModel extends BaseModel {
 	 * 商家发货配送订单
 	 */
 	public function batchShopOrderDelivery ($obj){		
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$userId = (int)$USER["userId"];
 		$orderIds = I("orderIds");
 		$shopId = (int)$USER["shopId"];

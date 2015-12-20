@@ -19,22 +19,21 @@
     	  location.href="<?php echo U('Admin/Index/enterLicense');?>";
       }
       $(function () {
-	      WST.getWSTMAllVersion("<?php echo U('Admin/Index/getWSTMallVersion');?>");
+	      RTC.getRTCMAllVersion("<?php echo U('Admin/Index/getRTCVersion');?>");
       });
       </script>
    </head>
    <body>
-      <div class='panel wst-panel-full'>
+      <div class='panel rtc-panel-full'>
          <div class="col-xs-12 wstmall-login-tips">
-             <p style='font-size:16px;'>您好，<?php echo session('WST_STAFF.staffName');?>，欢迎使用 WSTMall。 您上次登录的时间是 <?php echo session('WST_STAFF.lastTime');?> ，IP 是 <?php echo session('WST_STAFF.lastIP');?></p>
+             <p style='font-size:16px;'>您好，<?php echo session('RTC_STAFF.staffName');?>，欢迎使用粗卡云。 您上次登录的时间是 <?php echo session('RTC_STAFF.lastTime');?> ，IP 是 <?php echo session('RTC_STAFF.lastIP');?></p>
          </div>
-         <div class='col-xs-12 wstmall-version-tips'>您有新的版本(<span id='wstmall_version'>0.0.0</span>)可以下载啦~，<a id='wstmall_down' href='' target='_blank'>点击</a>下载</div>
-         <div class='col-xs-12 wstmall-version-tips'>系统检测到您未获取授权，点此<a target='_blank' href='http://www.wstmall.com/index.php?m=Home&c=License&a=getLicense'>获取系统授权码</a></div>          
+         
          <div class='row' style='padding-left:10px;margin-right:10px;'>
 	         <div class="col-md-9">
 	           <div class="box-header">
 	             <h4 class="text-blue">一周动态</h4>
-	             <table class="table table-hover table-striped table-bordered wst-form">
+	             <table class="table table-hover table-striped table-bordered rtc-form">
 	                <tr>
 	                   <td width="20%" align='right'>新增会员数：</td>
 	                   <td width="30%"><?php echo ($weekInfo["userNew"]); ?></td>
@@ -51,7 +50,7 @@
 	           </div>
 	           <div class="box-header">
 	             <h4 class="text-blue">统计信息</h4>
-	             <table class="table table-hover table-striped table-bordered wst-form">
+	             <table class="table table-hover table-striped table-bordered rtc-form">
 	                <tr>
 	                   <td width="20%" align='right'>会员总数：</td>
 	                   <td width="30%"><?php echo ($sumInfo["userSum"]); ?></td>
@@ -72,19 +71,11 @@
 	           </div>
 	           <div class="box-header">
 	             <h4 class="text-blue">系统信息</h4>
-	             <table class="table table-hover table-striped table-bordered wst-form">
+	             <table class="table table-hover table-striped table-bordered rtc-form">
 	                <tr>
 	                   <td width="20%" align='right'>软件版本号：</td>
-	                   <td><?php echo C('WST_VERSION');?></td>
-	                   <td align='right'>授权类型：</td>
-	                   <td><div id='licenseStatus'></div></td>
-	                </tr>
-	                <tr>
-	                   <td align='right'>问题反馈：</td>
-	                   <td id='webUrl'><a href="<?php echo C('WST_FEEDBACK');?>"" target='_blank'>点击反馈</a></td>
-	                   <td align='right'>授权码：</td>
-	                   <td><?php echo ($CONF['mallLicense']); ?></td>
-	                </tr>
+	                   <td colspan="3"><?php echo C('RTC_VERSION');?></td>
+	                </tr>	               
 	                <tr>
 	                   <td align='right'>服务器操作系统：</td>
 	                   <td><?php echo (PHP_OS); ?></td>
@@ -100,25 +91,7 @@
 	             </table>
 	           </div>
 	        </div>
-	        <div class="col-md-3">
-	           <div class="box-header" style='margin-bottom:30px;'>
-	             <h4 class='wstmall-intro'>走进我们</h4>
-	             <div><a style='color:#000000' href="<?php echo C('WST_WEB');?>" target='_blank'><?php echo C('WST_WEB');?></a></div>
-	           </div>
-	           <div class="box-header" style='margin-bottom:30px;'>
-	             <h4 class='wstmall-intro'>WSTMall开发团队</h4>
-	             <div>WasonTeam</div>
-	           </div>
-	           <div class="box-header" style='margin-bottom:30px;'>
-	             <h4 class='wstmall-intro'>我们的理念</h4>
-	             <div>我们愿与更多中小企业一起努力，一起成功! <br/>We Success together!</div>
-	           </div>
-	           <div class="box-header">
-	             <h4 class='wstmall-intro'>商城定制</h4>
-	             <div>电话：020-29806661</div>
-	             <div style='padding-left:5px;'>QQ：707563272</div>
-	           </div>
-	        </div>
+	        
 	      </div>  
       </div>
    </body>

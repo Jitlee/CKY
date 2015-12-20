@@ -14,7 +14,7 @@ class ShopsCatsModel extends BaseModel {
 	 */
 	public function batchSaveShopCats(){
 		$rd = array('status'=>-1);
-		$shopId = (int)session('WST_USER.shopId');
+		$shopId = (int)session('RTC_USER.shopId');
 		$m = M('shops_cats');
 		//先保存了已经有父级的分类
 		$otherNo = (int)I('otherNo');
@@ -70,13 +70,13 @@ class ShopsCatsModel extends BaseModel {
 	 	$id = I("id",0);
 		$data = array();
 		$data["catName"] = I("catName");
-		$shopId = (int)session('WST_USER.shopId');
+		$shopId = (int)session('RTC_USER.shopId');
 		if($this->checkEmpty($data,true)){	
 			$m = M('shops_cats');
 			$rs = $m->where("catId=".I('id')." and shopId=".$shopId)->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
-				S("WST_CACHE_SHOP_CAT_".session('WST_USER.shopId'),null);
+				S("RTC_CACHE_SHOP_CAT_".session('RTC_USER.shopId'),null);
 			}
 		}
 		return $rd;
@@ -89,12 +89,12 @@ class ShopsCatsModel extends BaseModel {
 	 	$id = I("id",0);
 		$data = array();
 		$data["catSort"] = (int)I("catSort");
-		$shopId = (int)session('WST_USER.shopId');
+		$shopId = (int)session('RTC_USER.shopId');
 		$m = M('shops_cats');
 		$rs = $m->where("catId=".I('id')." and shopId=".$shopId)->save($data);
 		if(false !== $rs){
 			$rd['status']= 1;
-			S("WST_CACHE_SHOP_CAT_".session('WST_USER.shopId'),null);
+			S("RTC_CACHE_SHOP_CAT_".session('RTC_USER.shopId'),null);
 		}
 		return $rd;
 	 } 
@@ -155,7 +155,7 @@ class ShopsCatsModel extends BaseModel {
 	 	$m = M('shops_cats');
 	 	$id = (int)I('id');
 	 	if($id==0)return $rd;
-		$shopId = (int)session('WST_USER.shopId');
+		$shopId = (int)session('RTC_USER.shopId');
 		//把相关的商品下架了
 		$sql = "update __PREFIX__goods set isSale=0 where shopId=".$shopId." and shopCatId1 = ".$id;
 		$m->execute($sql);
@@ -167,7 +167,7 @@ class ShopsCatsModel extends BaseModel {
 	 	$rs = $m->where("(catId=".I('id')." or parentId=".I('id').") and shopId=".$shopId)->save($data);
 	    if(false !== $rs){
 			$rd['status']= 1;
-			S("WST_CACHE_SHOP_CAT_".session('WST_USER.shopId'),null);
+			S("RTC_CACHE_SHOP_CAT_".session('RTC_USER.shopId'),null);
 		}
 		return $rd;
 	 }
@@ -178,7 +178,7 @@ class ShopsCatsModel extends BaseModel {
 	*/
     public function getShopCateList($shopId = 0){
 		$shopId = ($shopId>0)?$shopId:(int)I("shopId");
-		$data = S("WST_CACHE_SHOP_CAT_".$shopId);
+		$data = S("RTC_CACHE_SHOP_CAT_".$shopId);
 		if(!$data){
 			$m = M('shops_cats');
 			$sql = "select catId,parentId,catName,shopId from __PREFIX__shops_cats where shopId=".$shopId." and parentId =0 and isShow=1 and catFlag=1 order by catSort asc";
@@ -198,7 +198,7 @@ class ShopsCatsModel extends BaseModel {
 					if($ids[$v['catId']])$data[$key]['children'] = $ids[$v['catId']];
 				}
 			}
-			S("WST_CACHE_SHOP_CAT_".$shopId,$data,86400);
+			S("RTC_CACHE_SHOP_CAT_".$shopId,$data,86400);
 	    }
 		return $data;
 	}
@@ -213,7 +213,7 @@ class ShopsCatsModel extends BaseModel {
 		$parentId = (int)I("pid",0);
 		$data = array();
 		$data["isShow"] = (int)I("isShow");
-		$shopId = (int)session('WST_USER.shopId');
+		$shopId = (int)session('RTC_USER.shopId');
 		if($this->checkEmpty($data,true)){
 			$m = M('shops_cats');
 			$m->where("catId=".I('id')." and shopId=".$shopId)->save($data);
@@ -221,7 +221,7 @@ class ShopsCatsModel extends BaseModel {
 			if($parentId>0 && $isShow==1){
 				$m->where("catId=".$parentId." and shopId=".$shopId)->save($data);
 			}
-			S("WST_CACHE_SHOP_CAT_".session('WST_USER.shopId'),null);
+			S("RTC_CACHE_SHOP_CAT_".session('RTC_USER.shopId'),null);
 		}
 		return $rd;
 	}

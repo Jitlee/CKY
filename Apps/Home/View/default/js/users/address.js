@@ -13,55 +13,55 @@
 	   params.isDefault = $("input[name='isDefault']:checked").val();
 	   
 	   
-	   if(!WST.checkMinLength(params.userName,2)){
-		   WST.msg("收货人姓名长度必须大于1个汉字", {icon: 5});
+	   if(!RTC.checkMinLength(params.userName,2)){
+		   RTC.msg("收货人姓名长度必须大于1个汉字", {icon: 5});
 			return ;	
 		}
 	   	if(params.areaId1<1){
-	   		WST.msg("请选择省", {icon: 5});
+	   		RTC.msg("请选择省", {icon: 5});
 			return ;		
 		}
 		if(params.areaId2<1){
-			WST.msg("请选择市", {icon: 5});
+			RTC.msg("请选择市", {icon: 5});
 			return ;		
 		}
 		if(params.areaId3<1){
-			WST.msg("请选择区县", {icon: 5,shade: [0.3, '#000'],time: 2000});
+			RTC.msg("请选择区县", {icon: 5,shade: [0.3, '#000'],time: 2000});
 			return ;		
 		}
 		if(params.communityId<1){
-			WST.msg("请选择社区", {icon: 5});
+			RTC.msg("请选择社区", {icon: 5});
 			return ;		
 		}
 		if(params.address==""){
-			WST.msg("请输入详细地址", {icon: 5});
+			RTC.msg("请输入详细地址", {icon: 5});
 			return ;		
 		}
 		if(params.userPhone=="" && params.userTel==""){
-			WST.msg("请输入手机号码或固定电话", {icon: 5});
+			RTC.msg("请输入手机号码或固定电话", {icon: 5});
 			return ;		
 		}
-		if(params.userPhone!="" && !WST.isPhone(params.userPhone)){
-			WST.msg("手机号码格式错误", {icon: 5});
+		if(params.userPhone!="" && !RTC.isPhone(params.userPhone)){
+			RTC.msg("手机号码格式错误", {icon: 5});
 			return ;		
 		}
-		if(params.userTel!="" && !WST.isTel(params.userTel)){
-			WST.msg("固定电话格式错误", {icon: 5});
+		if(params.userTel!="" && !RTC.isTel(params.userTel)){
+			RTC.msg("固定电话格式错误", {icon: 5});
 			return ;		
 		}	
 		if(params.postCode!="" && params.postCode.length!=6){
-			WST.msg("邮编格式不正确", {icon: 5});
+			RTC.msg("邮编格式不正确", {icon: 5});
 			return;
 		}
 	   
 	   $.post(domainURL +"/index.php/Home/UserAddress/edit",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status>0){
-				WST.msg('操作成功!', {icon: 1}, function(){
+				RTC.msg('操作成功!', {icon: 1}, function(){
 					location.href=domainURL +'/index.php/Home/UserAddress/queryByPage';
 				});
 			}else{
-				WST.msg(' 操作失败!',{icon: 5});
+				RTC.msg(' 操作失败!',{icon: 5});
 			}
 	   });
    }
@@ -77,7 +77,7 @@
 	   var html = [];
 	   $.post(domainURL +"/index.php/Home/Areas/queryByList",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -95,7 +95,7 @@
 	   var html = [];
 	   $.post(domainURL +"/index.php/Home/Communitys/getByDistrict",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -119,13 +119,13 @@
 			$.post(domainURL +'/index.php/Home/UserAddress/del/',{id:id},function(data,textStatus){
 				layer.close(ll);
 		    	layer.close(tips);
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 				if(json.status=='1'){
-					WST.msg('操作成功!', {icon: 1}, function(){
+					RTC.msg('操作成功!', {icon: 1}, function(){
 					   location.reload();
 					});
 				}else{
-					WST.msg('操作失败!', {icon: 5});
+					RTC.msg('操作失败!', {icon: 5});
 				}
 			});
 		});

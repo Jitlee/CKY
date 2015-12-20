@@ -42,7 +42,7 @@
 			async : true,
 			url : "{:U('Admin/Staffs/checkLoginKey',array('id'=>$object['staffId']))}",
 			success : function(data){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 	            if( json.status == "1" ) {
 	                return true;
 				} else {
@@ -79,7 +79,7 @@
 	   params.id = $('#id').val();
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 		$.post("{:U('Admin/Staffs/edit')}",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='{:U("Admin/Staffs/index")}';
@@ -91,11 +91,11 @@
 		});
    }
    </script>
-   <body class="wst-page" style="position:relative;">
+   <body class="rtc-page" style="position:relative;">
    		<iframe name="upload" style="display:none"></iframe>
 		<form id="uploadform_Filedata" autocomplete="off" style="<if condition='$object[staffId] gt 0'>top:139px;<else/>top:169px;</if>position:absolute;left:121px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 			<div style="position:relative;">
-			<input id="staffPhoto" name="staffPhoto" class="form-control wst-ipt" type="text" value="{$object.staffPhoto}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
+			<input id="staffPhoto" name="staffPhoto" class="form-control rtc-ipt" type="text" value="{$object.staffPhoto}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 			<div class="div1">
 				<div class="div2">浏览</div>
 				<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
@@ -114,10 +114,10 @@
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.staffId}'/>
         <input type='hidden' id='staffPhoto' value='{$object.staffPhoto}'/>
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>账号<font color='red'>*</font>：</th>
-             <td><input type='text' id='loginName' name='loginName' class="form-control wst-ipt" value='{$object.loginName}'></td>
+             <td><input type='text' id='loginName' name='loginName' class="form-control rtc-ipt" value='{$object.loginName}'></td>
              <td rowspan='6'>
              	<div id="preview_Filedata">
                  <img id='staffPhotoPreview' src='<if condition="$object['staffPhoto'] =='' ">__ROOT__/Apps/Admin/View/img/staff.png<else/>__ROOT__/{$object['staffPhoto']}</if>'  height='152'/><br/>
@@ -128,14 +128,14 @@
            <tr>
              <th width='120' align='right'>密码<font color='red'>*</font>：</th>
              <td>
-             <input type='password' id='loginPwd' class="form-control wst-ipt" maxLength='20'/>
+             <input type='password' id='loginPwd' class="form-control rtc-ipt" maxLength='20'/>
              <if condition="$object['staffId'] !=0 ">(为空则说明不修改密码)</if></td>
            </tr>
            </if>
            <tr>
              <th align='right'>姓名<font color='red'>*</font>：</th>
              <td>
-             <input type='text' id='staffName' class="form-control wst-ipt" value='{$object.staffName}' maxLength='20'/>
+             <input type='text' id='staffName' class="form-control rtc-ipt" value='{$object.staffName}' maxLength='20'/>
              </td>
            </tr>
            <tr>
@@ -152,7 +152,7 @@
            <tr>
              <th align='right'>职员编号：</th>
              <td>
-             <input type='text' id='staffNo' class="form-control wst-ipt" value='{$object.staffNo}' maxLength='20'/>
+             <input type='text' id='staffNo' class="form-control rtc-ipt" value='{$object.staffNo}' maxLength='20'/>
              </td>
            </tr>
            <tr style="height:60px;">

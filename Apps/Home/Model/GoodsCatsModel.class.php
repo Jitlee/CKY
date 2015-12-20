@@ -21,7 +21,7 @@ class GoodsCatsModel extends BaseModel {
      * 获取商品分类及商品
      */
 	public function getGoodsCatsAndGoodsForIndex($areaId2){
-		$cats = S("WST_CACHE_GOODS_CAT_GOODS_WEB_".$areaId2);
+		$cats = S("RTC_CACHE_GOODS_CAT_GOODS_WEB_".$areaId2);
 		if(!$cats){
 			$sql = "select catId,catName from __PREFIX__goods_cats WHERE parentId = 0 AND isShow =1 AND catFlag = 1 order by catSort asc limit 6";
 			$rs1 = $this->query($sql);
@@ -68,11 +68,11 @@ class GoodsCatsModel extends BaseModel {
 				$rs1[$i]["catChildren"] = $cats2;
 				$cats[] = $rs1[$i];
 			}
-			S("WST_CACHE_GOODS_CAT_GOODS_WEB_".$areaId2,$cats,31536000);
+			S("RTC_CACHE_GOODS_CAT_GOODS_WEB_".$areaId2,$cats,31536000);
 		}
 		//获取每个分类推荐的店铺
 		if($cats){
-			$recommendShops = S("WST_CACHE_RECOMM_SHOP_".$areaId2);
+			$recommendShops = S("RTC_CACHE_RECOMM_SHOP_".$areaId2);
 		    if(!$recommendShops){
 		    	$recommendShops = array();
 				//获取楼层推荐商店
@@ -82,7 +82,7 @@ class GoodsCatsModel extends BaseModel {
 					$rs = self::getRecommendShops($obj);
 					$recommendShops[$obj["goodsCatId1"]] =$rs;
 				}
-				S("WST_CACHE_RECOMM_SHOP_".$areaId2,$recommendShops,86400);
+				S("RTC_CACHE_RECOMM_SHOP_".$areaId2,$recommendShops,86400);
 		    }
 		    foreach ($cats as $key =>$v){
 		    	$cats[$key]['recommendShops'] = $recommendShops[$v['catId']];

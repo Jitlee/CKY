@@ -20,7 +20,7 @@
    function toggleIsShow(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Navs/editiIsShow');?>",{id:v,isShow:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				    location.reload();
@@ -34,7 +34,7 @@
    function toggleIsOpen(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Navs/editiIsOpen');?>",{id:v,isOpen:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				    location.reload();
@@ -50,7 +50,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/Navs/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						   location.reload();
@@ -69,7 +69,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -84,9 +84,9 @@
 	    <?php if(!empty($areaId1)): ?>getAreaList("areaId2",'<?php echo ($areaId1); ?>',0,'<?php echo ($areaId2); ?>');<?php endif; ?>
    });
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
      <form action='<?php echo U('Admin/Navs/index');?>' method='post'>
-       <div class='wst-tbar' style='text-align:right;height:25px;'>
+       <div class='rtc-tbar' style='text-align:right;height:25px;'>
        <div style='float:left;'>
                      地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value=''>请选择</option>
@@ -97,13 +97,13 @@
              </select>
          <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>       
          </div>
-         <?php if(in_array('dhgl_01',$WST_STAFF['grant'])){ ?>
+         <?php if(in_array('dhgl_01',$RTC_STAFF['grant'])){ ?>
          <a class="btn btn-success glyphicon glyphicon-plus" href='<?php echo U('Admin/Navs/toEdit');?>' style='float:right'>新增</a>
          <?php } ?>
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='40'>&nbsp;</th>
@@ -124,12 +124,12 @@
                <td><?php echo ($vo['navUrl']); ?></td>
                <td>
                <div class="dropdown">
-               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					     隐藏
 					  <span class="caret"></span>
 				   </button>
                <?php else: ?>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     显示
 					  <span class="caret"></span>
 				   </button><?php endif; ?>
@@ -141,12 +141,12 @@
                </td>
                <td>
                <div class="dropdown">
-               <?php if($vo['isOpen']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+               <?php if($vo['isOpen']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					     页面跳转
 					  <span class="caret"></span>
 				   </button>
                <?php else: ?>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     新窗口打开
 					  <span class="caret"></span>
 				   </button><?php endif; ?>

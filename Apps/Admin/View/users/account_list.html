@@ -21,7 +21,7 @@
    function toggleStatus(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("{:U('Admin/Users/editUserStatus')}",{id:v,userStatus:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				   location.reload();
@@ -37,16 +37,16 @@
 	   Plugins.Modal({url:url,title:'编辑账号信息',width:500});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
      <form method='post' action='{:U("Admin/Users/queryAccountByPage")}'>
-       <div class='wst-tbar'>
-       会员账号：<input type='text' id='loginName' name='loginName' class='form-control wst-ipt-10' value='{$loginName}'/>
-       会员类型：<select id='userType' name='userType' class="form-control wst-ipt-10">
+       <div class='rtc-tbar'>
+       会员账号：<input type='text' id='loginName' name='loginName' class='form-control rtc-ipt-10' value='{$loginName}'/>
+       会员类型：<select id='userType' name='userType' class="form-control rtc-ipt-10">
            <option value='-1' <if condition=" $userType eq -1 ">selected</if>>全部</option>
            <option value='0' <if condition=" $userType eq 0 ">selected</if>>普通会员</option>
            <option value='1' <if condition=" $userType eq 1 ">selected</if>>商家会员</option>
        </select>  
-         账号状态：<select id='userStatus' name='userStatus' class="form-control wst-ipt-10">
+         账号状态：<select id='userStatus' name='userStatus' class="form-control rtc-ipt-10">
            <option value='-1' <if condition=" $userStatus eq -1 ">selected</if>>全部</option>
            <option value='1' <if condition=" $userStatus eq 1 ">selected</if>>启用</option>
            <option value='0' <if condition=" $userStatus eq 0 ">selected</if>>停用</option>
@@ -54,8 +54,8 @@
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
        </div>
        </form>
-       <div class="wst-body">
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body">
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='10'>&nbsp;</th>
@@ -82,17 +82,17 @@
                <td>
                <div class="dropdown">
                <if condition="$vo['userStatus']==0 ">
-                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+                   <button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					     停用
 					  <span class="caret"></span>
 				   </button>
                <else/>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     启用
 					  <span class="caret"></span>
 				   </button>
                </if>
-               <php>if(in_array('hyzh_04',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('hyzh_04',$RTC_STAFF['grant'])){</php>
                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleStatus(1,{$vo['userId']})">启用</a></li>
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleStatus(0,{$vo['userId']})">停用</a></li>
@@ -101,7 +101,7 @@
                </div>
                </td>
                <td>
-               <php>if(in_array('hyzh_04',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('hyzh_04',$RTC_STAFF['grant'])){</php>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="javascript:toEdit({$vo['userId']})">修改</a>&nbsp;
                <php>}</php>
                </td>

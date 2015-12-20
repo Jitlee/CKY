@@ -66,7 +66,7 @@ class BrandsAction extends BaseAction{
 		$m = D('Admin/GoodsCats');
 		$cats = $m->queryByList(0);
 		$this->assign('cats',$cats);
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$m = D('Admin/Brands');
     	$page = $m->queryByPage();
     	foreach ($page['root'] as &$value) {

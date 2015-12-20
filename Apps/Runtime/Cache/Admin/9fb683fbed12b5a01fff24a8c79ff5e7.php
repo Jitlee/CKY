@@ -23,7 +23,7 @@
    function changeStatus(id,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Goods/changeGoodsStatus');?>",{id:id,status:v},function(data,textStatus){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 				if(json.status=='1'){
 					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 					    location.reload();
@@ -42,7 +42,7 @@
 	   })
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Goods/changeBestStatus');?>",{id:ids.join(','),status:v},function(data,textStatus){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 				if(json.status=='1'){
 					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 					    location.reload();
@@ -61,7 +61,7 @@
 	   })
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Goods/changeRecomStatus');?>",{id:ids.join(','),status:v},function(data,textStatus){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 				if(json.status=='1'){
 					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 					    location.reload();
@@ -107,7 +107,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -133,7 +133,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Home/GoodsCats/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="0">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -151,9 +151,9 @@
 		<?php if($goodsCatId2 != 0 ): ?>getCatList("goodsCatId3",<?php echo ($goodsCatId2); ?>,1,<?php echo ($goodsCatId3); ?>);<?php endif; ?>
    });
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
     <form method='post' action='<?php echo U("Admin/Goods/index");?>' autocomplete="off">
-       <div class='wst-tbar'> 
+       <div class='rtc-tbar'> 
       地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value='0'>请选择</option>
                <?php if(is_array($areaList)): $i = 0; $__LIST__ = $areaList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value='<?php echo ($vo['areaId']); ?>' <?php if($areaId1 == $vo['areaId'] ): ?>selected<?php endif; ?>><?php echo ($vo['areaName']); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
@@ -172,7 +172,7 @@
 	                <option value='0'>请选择</option>
 	             </select>
    </div>
-   <div class='wst-tbar'>            
+   <div class='rtc-tbar'>            
        所属店铺：<input type='text' id='shopName' name='shopName' value='<?php echo ($shopName); ?>'/>            
        商品：<input type='text' id='goodsName' name='goodsName' value='<?php echo ($goodsName); ?>'/> 
      商品类型：<select id='isAdminBest' name='isAdminBest'>
@@ -188,16 +188,16 @@
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
        </div>
        </form>
-       <div class='wst-body'>
-        <div class='wst-tbar'> 
-        <?php if(in_array('splb_04',$WST_STAFF['grant'])){ ?>
+       <div class='rtc-body'>
+        <div class='rtc-tbar'> 
+        <?php if(in_array('splb_04',$RTC_STAFF['grant'])){ ?>
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchBest(1)'>设置精品</button>
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchBest(0)'>取消精品</button>
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchRecom(1)'>设置推荐</button>
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchRecom(0)'>取消推荐</button>
         <?php } ?>  
         </div>
-        <table class="table table-hover table-striped table-bordered wst-list">
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='2'><input type='checkbox' name='chk' onclick='javascript:checkAll(this.checked)'/></th>
@@ -232,7 +232,7 @@
                <td><?php echo ($vo['saleCount']); ?></td>
                <td>
                <a class="btn btn-primary glyphicon" href='<?php echo U("Admin/Goods/toView",array("id"=>$vo["goodsId"]));?>'>查看</a> 
-               <?php if(in_array('splb_04',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('splb_04',$RTC_STAFF['grant'])){ ?>
                <button type="button" class="btn btn-danger glyphicon glyphicon-pencil" onclick="javascript:changeStatus(<?php echo ($vo['goodsId']); ?>,0)">禁售</button>&nbsp;
                <?php } ?>
                </td>

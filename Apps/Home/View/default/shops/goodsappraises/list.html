@@ -7,10 +7,10 @@ $(document).ready(function(){
     </notempty>
 });
 </script>
-<div class="wst-body"> 
-<div class='wst-page-header'>卖家中心 > 评价管理</div>
-<div class='wst-page-content'>
-   <div class='wst-tbar-query'>
+<div class="rtc-body"> 
+<div class='rtc-page-header'>卖家中心 > 评价管理</div>
+<div class='rtc-page-content'>
+   <div class='rtc-tbar-query'>
     店铺分类：<select id='shopCatId1' autocomplete="off" onchange='javascript:getShopCatListForAppraises(this.value,"{$object['shopCatId2']}")'>
 	         <option value='0'>请选择</option>
 	         <volist name="shopCatsList" id="vo">
@@ -23,7 +23,7 @@ $(document).ready(function(){
         商品：<input type='text' id='goodsName' value='{$goodsName}'/>
       <button style="border:1px solid #ffffff;height:30px;width:60px;background-color:#e23e3d;color:#ffffff;cursor: pointer;" onclick='javascript:queryAppraises()'>查询</button>
    </div>
-   <table class='wst-list' style="margin:0 auto;">
+   <table class='rtc-list' style="margin:0 auto;">
            <thead>
              <tr>
                <th width='40'>序号</th>
@@ -77,14 +77,14 @@ $(document).ready(function(){
            <tfoot>
              <tr>
                 <td colspan='8' align='center'>
-                <div class="wst-page" style="float:right;padding-bottom:10px;">
-						<div id="wst-page-items"></div>
+                <div class="rtc-page" style="float:right;padding-bottom:10px;">
+						<div id="rtc-page-items"></div>
 				</div>
                 <script>
 			    <if condition="$Page['totalPage'] gt 1">
 			    $(document).ready(function(){
 					laypage({
-					    cont: 'wst-page-items',
+					    cont: 'rtc-page-items',
 					    pages: {$Page['totalPage']}, //总页数
 					    skip: true, //是否开启跳页
 					    skin: '#e23e3d',
@@ -95,7 +95,7 @@ $(document).ready(function(){
 					    }(), 
 					    jump: function(e, first){ //触发分页后的回调
 					        if(!first){ //一定要加此判断，否则初始时会无限刷新
-					        	var nuewurl = WST.splitURL("p");
+					        	var nuewurl = RTC.splitURL("p");
 					        	var ulist = nuewurl.split("?");
 					        	if(ulist.length>1){
 					        		location.href = nuewurl+'&p='+e.curr;

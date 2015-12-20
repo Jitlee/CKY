@@ -80,10 +80,10 @@ function imglidel(obj){
 }
 
 function imgmouseover(obj){
-	$(obj).find('.wst-gallery-goods-del').show();
+	$(obj).find('.rtc-gallery-goods-del').show();
 }
 function imgmouseout(obj){
-	$(obj).find('.wst-gallery-goods-del').hide();
+	$(obj).find('.rtc-gallery-goods-del').hide();
 }
 function delImg(obj){
 	   $(obj).parent().remove();
@@ -91,20 +91,20 @@ function delImg(obj){
 
 var filetypes = ["gif","jpg","png","jpeg"];
 </script>
-       <div class="wst-body"> 
-       <div class='wst-page-header'>卖家中心 > <if condition="$object['goodsId'] ==0 ">新增<else/>编辑</if>商品资料</div>
-       <div class='wst-page-content'>
-       <div id='tab' class="wst-tab-box">
-		<ul class="wst-tab-nav">
+       <div class="rtc-body"> 
+       <div class='rtc-page-header'>卖家中心 > <if condition="$object['goodsId'] ==0 ">新增<else/>编辑</if>商品资料</div>
+       <div class='rtc-page-content'>
+       <div id='tab' class="rtc-tab-box">
+		<ul class="rtc-tab-nav">
 	    	<li>商品信息</li>
 	    	<li>属性</li>
 	        <li>商品相册</li>
 	    </ul>
-    	<div class="wst-tab-content" style='width:99%;margin-bottom: 10px;'>
+    	<div class="rtc-tab-content" style='width:99%;margin-bottom: 10px;'>
     	 
     	
     	<!-- 商品基础信息 -->
-    	<div class='wst-tab-item' style="position: relative;style='display:none'">
+    	<div class='rtc-tab-item' style="position: relative;style='display:none'">
     		<iframe name="upload" style="display:none"></iframe>
 			<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:155px;left:417px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
@@ -128,11 +128,11 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	        <input type='hidden' id='id' value='{$object.goodsId}'/>
 	      
 	        <input type='hidden' id='goodsThumbs' value='{$object.goodsThums}'/>
-	        <table class="wst-form" >
+	        <table class="rtc-form" >
 	           <tr>
 	             <th width='120'>商品编号<font color='red'>*</font>：</th>
 	             <td width='300'>
-	             <input type='text' id='goodsSn' name='goodsSn' class="form-control wst-ipt" value='{$object.goodsSn}' maxLength='25'/>
+	             <input type='text' id='goodsSn' name='goodsSn' class="form-control rtc-ipt" value='{$object.goodsSn}' maxLength='25'/>
 	             </td>
 	             <td rowspan='7' valign='top'>
 	               <div id="preview_Filedata">
@@ -142,32 +142,32 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	           </tr>
 	           <tr>
 	             <th width='120'>商品名称<font color='red'>*</font>：</th>
-	             <td><input type='text' id='goodsName' name='goodsName' class="form-control wst-ipt" value='{$object.goodsName}' maxLength='100'/></td>
+	             <td><input type='text' id='goodsName' name='goodsName' class="form-control rtc-ipt" value='{$object.goodsName}' maxLength='100'/></td>
 	           </tr>
 	            <tr>
 	             <th width='120'>市场价格<font color='red'>*</font>：</th>
 	             <td>
-	             	<input type='text' id='marketPrice' name='marketPrice' class="form-control wst-ipt" value='{$object.marketPrice}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='10'/>
+	             	<input type='text' id='marketPrice' name='marketPrice' class="form-control rtc-ipt" value='{$object.marketPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
 	             </td>
 	           </tr>
 	            <tr>
 	             <th width='120'>店铺价格<font color='red'>*</font>：</th>
 	             <td>
 	             	<if condition="$object.recommPrice gt 0">
-	             		<input type='text' id='shopPrice' name='shopPrice' disabled="disabled" class="form-control wst-ipt" value='{$object.recommPrice}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='10'/>
+	             		<input type='text' id='shopPrice' name='shopPrice' disabled="disabled" class="form-control rtc-ipt" value='{$object.recommPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
 	             	<else/>
-	             		<input type='text' id='shopPrice' name='shopPrice' class="form-control wst-ipt" value='{$object.shopPrice}' onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='10'/>
+	             		<input type='text' id='shopPrice' name='shopPrice' class="form-control rtc-ipt" value='{$object.shopPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
 	             	</if>
 	             	
 	             </td>
 	           </tr>
 	            <tr>
 	             <th width='120'>商品库存<font color='red'>*</font>：</th>
-	             <td><input type='text' id='goodsStock' name='goodsStock' class="form-control wst-ipt" value='{$object.goodsStock}' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='25' <if condition="count($object['priceAttrs']) gt 0 ">disabled</if> /></td>
+	             <td><input type='text' id='goodsStock' name='goodsStock' class="form-control rtc-ipt" value='{$object.goodsStock}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25' <if condition="count($object['priceAttrs']) gt 0 ">disabled</if> /></td>
 	           </tr>
 	           <tr>
 	             <th width='120'>单位<font color='red'>*</font>：</th>
-	             <td><input type='text' id='goodsUnit' name='goodsUnit' class="form-control wst-ipt" value='{$object.goodsUnit}'  maxLength='25'/></td>
+	             <td><input type='text' id='goodsUnit' name='goodsUnit' class="form-control rtc-ipt" value='{$object.goodsUnit}'  maxLength='25'/></td>
 	           </tr>
 	           <tr>
 	             <th width='120'>商品SEO关键字：</th>
@@ -256,9 +256,9 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	           </tr>
 	           <tr>
 	             <td colspan='3' style='padding-left:320px;'>
-	                 <button class='wst-btn-query' type="submit">保&nbsp;存</button>
+	                 <button class='rtc-btn-query' type="submit">保&nbsp;存</button>
 	                 <if condition="$umark !='toEdit' ">
-	                 <button class='wst-btn-query' type="button" onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
+	                 <button class='rtc-btn-query' type="button" onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
 	                 </if>
 	             </td>
 	           </tr>
@@ -266,7 +266,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	        </form>
 	      </div>
 	     
-	      <div class='wst-tab-item'>
+	      <div class='rtc-tab-item'>
 	      商品类型：<select id='attrCatId' onchange='javascript:getAttrList(this.value)'>
 	         <option value='0'>请选择</option>
 	         <volist name="attributeCatsCatsList" id="vo">
@@ -274,19 +274,19 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	         </volist>
 	      </select>
 	      <div>
-	        <fieldset id='priceContainer' class='wst-goods-fieldset' <if condition="count($object['priceAttrs']) gt 0">style='display:block'</if>>
+	        <fieldset id='priceContainer' class='rtc-goods-fieldset' <if condition="count($object['priceAttrs']) gt 0">style='display:block'</if>>
 			    <legend>价格类型</legend>
 			    <input type='hidden' class="hiddenPriceAttr" dataId='{$object["priceAttrId"]}' dataNo="{$object['priceAttrs']|count}" value='{$object["priceAttrName"]}'/>
-			    <table class="wst-form wst-goods-price-table">
+			    <table class="rtc-form rtc-goods-price-table">
 	             <thead><tr><th>属性</th><th>规格</th><th>价格</th><th>推荐</th><th>库存</th><th>操作</th></tr></thead>
 	             <tbody id="priceConent">
 	             <volist name="object['priceAttrs']" id="vo" key='i'>
 	               <tr>
 		              <td style="text-align:right">{$vo['attrName']}：</td>
 		              <td><input type="text" id="price_name_{$vo['attrId']}_{$i}" value="{$vo['attrVal']}"/></td>
-		              <td><input type="text" id="price_price_{$vo['attrId']}_{$i}" value="{$vo['attrPrice']}" onblur="checkAttPrice({$vo['attrId']},{$i});" onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength="10"/></td>
+		              <td><input type="text" id="price_price_{$vo['attrId']}_{$i}" value="{$vo['attrPrice']}" onblur="checkAttPrice({$vo['attrId']},{$i});" onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength="10"/></td>
 		              <td><input type="radio" id="price_isRecomm_{$vo['attrId']}_{$i}" name="price_isRecomm" onclick="checkAttPrice({$vo['attrId']},{$i});" <if condition="$vo['isRecomm'] eq 1">checked</if>/></td>
-		              <td><input type="text" id="price_stock_{$vo['attrId']}_{$i}" onblur="getTstock();" value="{$vo['attrStock']}" onblur="javascript:statGoodsStaock()" onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength="10"/></td>
+		              <td><input type="text" id="price_stock_{$vo['attrId']}_{$i}" onblur="getTstock();" value="{$vo['attrStock']}" onblur="javascript:statGoodsStaock()" onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength="10"/></td>
 		              <td>
 		              <if condition="$i == 1">
 		              <a title="新增" class="add btn" href="javascript:addPriceAttr()"></a>
@@ -299,9 +299,9 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	             </tbody>
 	            </table>
 			</fieldset>
-			<fieldset id='attrContainer' class='wst-goods-fieldset' <if condition="count($object['attrs']) gt 0">style='display:block'</if>>
+			<fieldset id='attrContainer' class='rtc-goods-fieldset' <if condition="count($object['attrs']) gt 0">style='display:block'</if>>
 			    <legend>属性类型</legend>
-			    <table class="wst-form" style='width:100%'>
+			    <table class="rtc-form" style='width:100%'>
 	              <tbody id='attrConent'>
 	              <volist name="object['attrs']" id="vo" key='i'>
 		             <tr>
@@ -329,20 +329,20 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	            </table>
 			</fieldset>
 			<div style='width:100%;text-align:center;'>
-			<button class='wst-btn-query' type="button" onclick='javascript:$("#myform").submit()'>保&nbsp;存</button>
+			<button class='rtc-btn-query' type="button" onclick='javascript:$("#myform").submit()'>保&nbsp;存</button>
 	        <if condition="$umark !='toEdit' ">
-	             <button class='wst-btn-query' type="button" onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
+	             <button class='rtc-btn-query' type="button" onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
 	        </if>
 			</div>
 	      </div>
 	      </div>
 	      
 	      <!-- 相册 -->
-	      <div class='wst-tab-item' style='display:none'>
+	      <div class='rtc-tab-item' style='display:none'>
 	      <!-- 
 	       <div><input type='text' id='galleryImgUpload'/></div>
 	        -->
-	       <div id='galleryImgs' class='wst-gallery-imgs'>
+	       <div id='galleryImgs' class='rtc-gallery-imgs'>
                   <div id="tt"></div>
                   <if condition="count($object['gallery']) eq 0" >
                        <div id="wrapper">

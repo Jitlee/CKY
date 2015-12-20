@@ -502,7 +502,7 @@ class PHPExcel_DocumentProperties
                 return (float) $propertyValue;
                 break;
             case 'lpstr'    :    //    LPSTR
-            case 'lpwstr'    :    //    LPWSTR
+            case 'lpwstr'    :    //    LPRTCR
             case 'bstr'        :    //    Basic String
                 return $propertyValue;
                 break;
@@ -554,7 +554,7 @@ class PHPExcel_DocumentProperties
             case 'empty'    :    //    Empty
             case 'null'        :    //    Null
             case 'lpstr'    :    //    LPSTR
-            case 'lpwstr'    :    //    LPWSTR
+            case 'lpwstr'    :    //    LPRTCR
             case 'bstr'        :    //    Basic String
                 return self::PROPERTY_TYPE_STRING;
                 break;

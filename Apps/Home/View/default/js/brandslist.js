@@ -19,18 +19,18 @@ function getBrands(){
 	var areaId3 = $("#areaId").val();
 	var brandName = $.trim($("#brandName").val());
 	$.post( Think.U('Home/Brands/getBrands') ,{"pcurr":currPage,"areaId3":areaId3,"brandName":brandName},function(data) {		
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.root && json.root.length){
 			var gettpl = document.getElementById('tblist2').innerHTML;
 	       	laytpl(gettpl).render(json.root, function(html){
 	       		hasPage = (currPage<json.totalPage);
 	            if(hasPage)currPage++;
-	    		html=html+'<div class="wst-clear"></div>';
-	       	    $('.wst-brands-box').append(html);
+	    		html=html+'<div class="rtc-clear"></div>';
+	       	    $('.rtc-brands-box').append(html);
 	       	    $(".lazyBrandImg").lazyload({effect: "fadeIn",failurelimit : 1000,threshold: 200,placeholder:currDefaultImg});
 	       	});
 		}else{
-			$('.wst-brands-box').append('<div style="line-height:300px;text-align:center;font-size:18px;">没有查找到相关品牌</div>');
+			$('.rtc-brands-box').append('<div style="line-height:300px;text-align:center;font-size:18px;">没有查找到相关品牌</div>');
 		}
 		loading = false;
 	});
@@ -39,15 +39,15 @@ function getBrands(){
 function changeAreaBrands(){
 	hasPage = true;
 	currPage = 1;
-	$(".wst-brands-box").empty();
+	$(".rtc-brands-box").empty();
 	getBrands();
 }
 
 function brandsover(obj){
-	$(".wst-brands").css({"opacity":"0.5"});
+	$(".rtc-brands").css({"opacity":"0.5"});
 	$(obj).css({"opacity":"1"});
 }
 
 function brandout(obj){
-	$(".wst-brands").css({"opacity":"1"});
+	$(".rtc-brands").css({"opacity":"1"});
 }

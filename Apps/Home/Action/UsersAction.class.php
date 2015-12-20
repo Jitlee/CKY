@@ -15,7 +15,7 @@ class UsersAction extends BaseAction {
      */
 	public function login(){
 		//如果已经登录了则直接跳去后台
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		if(!empty($USER)){
 			$this->redirect("Users/index");
 		}
@@ -36,8 +36,8 @@ class UsersAction extends BaseAction {
 	 * 用户退出
 	 */
 	public function logout(){
-		session('WST_USER',null);
-		session("WST_CART",null);
+		session('RTC_USER',null);
+		session("RTC_CART",null);
 		echo "1";
 	}
 	
@@ -68,7 +68,7 @@ class UsersAction extends BaseAction {
 			$res = $m->checkLogin();
 			if (!empty($res)){
 				if($res['userFlag'] == 1){
-					session('WST_USER',$res);
+					session('RTC_USER',$res);
 					unset($_SESSION['toref']);
 					if(strripos($_SESSION['refer'],"regist")>0 || strripos($_SESSION['refer'],"logout")>0 || strripos($_SESSION['refer'],"login")>0){
 						$rs["refer"]= __ROOT__;
@@ -100,7 +100,7 @@ class UsersAction extends BaseAction {
 			if($res['userId']>0){//注册成功			
 				//加载用户信息				
 				$user = $m->get($res['userId']);
-				if(!empty($user))session('WST_USER',$user);
+				if(!empty($user))session('RTC_USER',$user);
 				
 			}
 		}
@@ -128,7 +128,7 @@ class UsersAction extends BaseAction {
 			exit();
 		}
 		$m = D('Home/Users');
-		$rs = $m->checkUserPhone($userPhone,(int)session('WST_USER.userId'));
+		$rs = $m->checkUserPhone($userPhone,(int)session('RTC_USER.userId'));
 		if($rs["status"]!=1){
 			$rs["msg"] = '手机号已存在!';
 			echo json_encode($rs);
@@ -166,7 +166,7 @@ class UsersAction extends BaseAction {
 	 */
 	public function editPass(){
 		$this->isAjaxLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/Users');
    		$rs = $m->editPass($USER['userId']);
     	$this->ajaxReturn($rs);
@@ -177,7 +177,7 @@ class UsersAction extends BaseAction {
 	public function toEdit(){
 		$this->isLogin();
 		$m = D('Home/Users');
-		$obj["userId"] = session('WST_USER.userId');
+		$obj["userId"] = session('RTC_USER.userId');
 		$user = $m->getUserById($obj);
 	
 		$this->assign("user",$user);
@@ -191,7 +191,7 @@ class UsersAction extends BaseAction {
 	public function editUser(){
 		$this->isLogin();
 		$m = D('Home/Users');
-		$obj["userId"] = session('WST_USER.userId');
+		$obj["userId"] = session('RTC_USER.userId');
 		$data = $m->editUser($obj);
 		
 		$this->ajaxReturn($data);
@@ -203,7 +203,7 @@ class UsersAction extends BaseAction {
 	public function checkLoginKey(){
 		$m = D('Home/Users');
 		$key = I('clientid');
-		$userId = (int)session('WST_USER.userId');
+		$userId = (int)session('RTC_USER.userId');
 		$rs = $m->checkLoginKey(I($key),$userId);
 		$this->ajaxReturn($rs);
 	}
@@ -233,8 +233,8 @@ class UsersAction extends BaseAction {
     			$info = $m->checkAndGetLoginInfo($loginName);
     			if ($info != false) {
     				session('findPass',array('userId'=>$info['userId'],'loginName'=>$loginName,'userPhone'=>$info['userPhone'],'userEmail'=>$info['userEmail'],'loginSecret'=>$info['loginSecret']) );
-    				if($info['userPhone']!='')$info['userPhone'] = WSTStrReplace($info['userPhone'],'*',3);
-    				if($info['userEmail']!='')$info['userEmail'] = WSTStrReplace($info['userEmail'],'*',2,'@');
+    				if($info['userPhone']!='')$info['userPhone'] = RTCStrReplace($info['userPhone'],'*',3);
+    				if($info['userEmail']!='')$info['userEmail'] = RTCStrReplace($info['userEmail'],'*',2,'@');
     				$this->assign('forgetInfo',$info);
     				$this->display('default/forget_pass2');
     			}else $this->error('该用户不存在！');
@@ -323,7 +323,7 @@ class UsersAction extends BaseAction {
 		<br>如果您的邮箱不支持链接点击，请将以上链接地址拷贝到你的浏览器地址栏中。<br>
 		该验证邮件有效期为30分钟，超时请重新发送邮件。<br>
 		<br><br>*此邮件为系统自动发出的，请勿直接回复。";
-		$sendRs = WSTSendMail(session('findPass.userEmail'),'密码重置',$html);
+		$sendRs = RTCSendMail(session('findPass.userEmail'),'密码重置',$html);
 		if($sendRs['status']==1){
 			$rs['status'] = 1;
 		}else{

@@ -17,7 +17,7 @@ class AttributeCatsModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 		$data = array();
 		$data['catName'] = I('catName');
-		$data["shopId"] = (int)session('WST_USER.shopId');
+		$data["shopId"] = (int)session('RTC_USER.shopId');
 		if($this->checkEmpty($data)){
 			$data['catFlag'] = 1;
 			$data['createTime'] = date('Y-m-d H:i:s');
@@ -34,7 +34,7 @@ class AttributeCatsModel extends BaseModel {
 	 public function edit(){
 	 	$m = M('attribute_cats');
 	 	$rd = array('status'=>-1);
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 	 	$data = array();
 	 	$data['catName'] = I('catName');
 		if($this->checkEmpty($data)){
@@ -52,7 +52,7 @@ class AttributeCatsModel extends BaseModel {
      public function get($catId = 0){
      	$id = $catId>0?$catId:(int)I('id');
      	$m = M('attribute_cats');
-     	$shopId = (int)session('WST_USER.shopId');
+     	$shopId = (int)session('RTC_USER.shopId');
 		return $m->where("shopId=".$shopId." and catId=".$id)->find();
 	 }
 	 /**
@@ -60,7 +60,7 @@ class AttributeCatsModel extends BaseModel {
 	  */
      public function queryByPage(){
      	 $m = M('attribute_cats');
-     	 $shopId = (int)session('WST_USER.shopId');
+     	 $shopId = (int)session('RTC_USER.shopId');
 		 return $m->where('shopId='.$shopId.' and catFlag=1')->field('catId,catName')->order('catId asc')->select();
 	 }
 	 
@@ -69,7 +69,7 @@ class AttributeCatsModel extends BaseModel {
 	  */
      public function queryByList(){
      	 $m = M('attribute_cats');
-     	 $shopId = (int)session('WST_USER.shopId');
+     	 $shopId = (int)session('RTC_USER.shopId');
 		 return $m->where('shopId='.$shopId.' and catFlag=1')->field('catId,catName')->order('catId asc')->select();
 	 }
 	  
@@ -81,7 +81,7 @@ class AttributeCatsModel extends BaseModel {
 	    $id = (int)I('id');
 	    if($id==0)return $rd;
 	    $m = M('attributes');
-	    $shopId = (int)session('WST_USER.shopId');
+	    $shopId = (int)session('RTC_USER.shopId');
 	    //找出其下的属性
 	    $sql = "select attrId from __PREFIX__attributes where shopId=".$shopId." and catId=".$id;
 	    $attrRs = $m->query($sql);

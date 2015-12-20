@@ -56,7 +56,7 @@ class ShopsCatsAction extends BaseAction{
 	 */
 	public function index(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/ShopsCats');
       	$List = $m->getCatAndChild($USER['shopId'],I('parentId',0));
     	$this->assign('List',$List);
@@ -68,7 +68,7 @@ class ShopsCatsAction extends BaseAction{
 	 */
     public function queryByList(){
 		$m = D('Home/ShopsCats');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$list = $m->queryByList($USER['shopId'],I('id',0));
 		$rs = array();
 		$rs['status'] = 1;

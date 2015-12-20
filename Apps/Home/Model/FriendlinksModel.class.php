@@ -12,6 +12,6 @@ class FriendlinksModel extends BaseModel {
      * 获取友情链接
      */
 	public function getFriendlinks(){
-		return $this->cache('WST_CACHE_FRIENDLINK_000',31536000)->order('friendlinkSort asc')->select();
+		return $this->cache('RTC_CACHE_FRIENDLINK_000',31536000)->order('friendlinkSort asc')->select();
 	}
 }

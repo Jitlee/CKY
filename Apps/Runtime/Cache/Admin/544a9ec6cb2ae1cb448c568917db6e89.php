@@ -31,7 +31,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -71,7 +71,7 @@
     		}
     		Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
     		$.post("<?php echo U('Admin/index/saveMallConfig');?>",params,function(data,textStatus){
-    			var json = WST.toJson(data);
+    			var json = RTC.toJson(data);
     			if(json.status=='1'){
     				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){}});
     			}else{
@@ -83,22 +83,22 @@
       </script>
    </head>
    <body>
-      <ul id="myTab" class="nav nav-tabs wst-tab" role="tablist">
+      <ul id="myTab" class="nav nav-tabs rtc-tab" role="tablist">
 	      <li class="active"><a href="#tabc0" role="tab" data-toggle="tab">商城设置</a></li>
 	      <li><a href="#tabc1" role="tab" data-toggle="tab">邮件设置</a></li>
 	      <li><a href="#tabc2" role="tab" data-toggle="tab">短信设置</a></li>
 	  </ul>
-      <div class='tab-content wst-tab-content'>
+      <div class='tab-content rtc-tab-content'>
       	  <iframe name="upload" style="display:none"></iframe>
-          <?php if(is_array($configs)): foreach($configs as $k=>$vo): ?><div class='tab-pane <?php if($k == 0): ?>active in<?php endif; ?> fade wst-tab-pane' id='tabc<?php echo ($k); ?>'>
+          <?php if(is_array($configs)): foreach($configs as $k=>$vo): ?><div class='tab-pane <?php if($k == 0): ?>active in<?php endif; ?> fade rtc-tab-pane' id='tabc<?php echo ($k); ?>'>
           <?php if($k==0): endif; ?>
             
-               <table class='table table-hover table-striped table-bordered wst-form'>
+               <table class='table table-hover table-striped table-bordered rtc-form'>
                <?php if(is_array($vo)): foreach($vo as $key=>$v): ?><tr>
                   <th width='150'><?php echo ($v['fieldName']); ?>：</th>
                   <td>
                      <?php if($v['fieldType']=='text'){ ?>
-                     <input type='text' autocomplete="off" class="form-control wst-ipt" id='<?php echo ($v["fieldCode"]); ?>' name='<?php echo ($v["code"]); ?>' value="<?php echo ($v['fieldValue']); ?>" /><?php echo ($v['fieldTips']); ?>
+                     <input type='text' autocomplete="off" class="form-control rtc-ipt" id='<?php echo ($v["fieldCode"]); ?>' name='<?php echo ($v["code"]); ?>' value="<?php echo ($v['fieldValue']); ?>" /><?php echo ($v['fieldTips']); ?>
                      <?php }else if($v['fieldType']=='radio'){ foreach($v['txt'] as $kt => $vt){ ?>
                        <label>
 			           <input type='radio' id='<?php echo ($v["val"][$kt]); ?>_<?php echo ($kt); ?>' autocomplete="off" name='<?php echo ($v["fieldCode"]); ?>' value='<?php echo ($v["val"][$kt]); ?>' size='30' <?php if($v["fieldValue"]==$v["val"][$kt]){ echo "checked";} ?> /><?php echo ($vt); ?>&nbsp;&nbsp;
@@ -120,7 +120,7 @@
                      <?php }else if($v['fieldType']=='upload'){ ?>
                        	<form id="uploadform_<?php echo ($v['fieldCode']); ?>p" autocomplete="off" enctype="multipart/form-data" method="POST" target="upload" action="<?php echo U('Home/Shops/uploadPic');?>" >
 							<div style="position:relative;">
-							<input id="<?php echo ($v['fieldCode']); ?>"  name="<?php echo ($v['fieldCode']); ?>" class="form-control wst-ipt" type="text" value="<?php echo ($v['fieldValue']); ?>" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
+							<input id="<?php echo ($v['fieldCode']); ?>"  name="<?php echo ($v['fieldCode']); ?>" class="form-control rtc-ipt" type="text" value="<?php echo ($v['fieldValue']); ?>" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 							<div class="div1">
 								<div class="div2">浏览</div>
 								<input type="file" class="inputstyle" id="<?php echo ($v['fieldCode']); ?>p" name="<?php echo ($v['fieldCode']); ?>p" onchange="updfile('<?php echo ($v[fieldCode]); ?>p');" >
@@ -137,7 +137,7 @@
 							</div>
 						</form>
                      <!-- 
-                     <input type='text'  id='<?php echo ($v["fieldCode"]); ?>Upload' class="form-control wst-ipt" autocomplete="off"/><?php echo ($v['fieldTips']); ?>
+                     <input type='text'  id='<?php echo ($v["fieldCode"]); ?>Upload' class="form-control rtc-ipt" autocomplete="off"/><?php echo ($v['fieldTips']); ?>
                      <input type='hidden' id='<?php echo ($v["fieldCode"]); ?>' value='<?php echo ($v['fieldValue']); ?>' autocomplete="off"/> -->
                      <div id="preview_<?php echo ($v['fieldCode']); ?>">
                      	<img id='<?php echo ($v["fieldCode"]); ?>Preview' src='/<?php echo ($v['fieldValue']); ?>' width="152" height="152"/>

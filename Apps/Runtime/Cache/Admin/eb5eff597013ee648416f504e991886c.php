@@ -23,7 +23,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/Users/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						   location.reload();
@@ -36,25 +36,25 @@
 	   }});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
     <form method='post' action='<?php echo U("Admin/Users/index");?>'>
-       <div class='wst-tbar'>
-       会员账号：<input type='text' id='loginName' name='loginName' class='form-control wst-ipt-10' value='<?php echo ($loginName); ?>'/>
-       手机号码：<input type='text' id='userPhone' name='userPhone' class='form-control wst-ipt-10' value='<?php echo ($userPhone); ?>'/>  
-       电子邮箱：<input type='text' id='userEmail' name='userEmail' class='form-control wst-ipt-10' value='<?php echo ($userEmail); ?>'/>  
-       会员类型：<select id='userType' name='userType' class="form-control wst-ipt-10">
+       <div class='rtc-tbar'>
+       会员账号：<input type='text' id='loginName' name='loginName' class='form-control rtc-ipt-10' value='<?php echo ($loginName); ?>'/>
+       手机号码：<input type='text' id='userPhone' name='userPhone' class='form-control rtc-ipt-10' value='<?php echo ($userPhone); ?>'/>  
+       电子邮箱：<input type='text' id='userEmail' name='userEmail' class='form-control rtc-ipt-10' value='<?php echo ($userEmail); ?>'/>  
+       会员类型：<select id='userType' name='userType' class="form-control rtc-ipt-10">
            <option value='-1' <?php if( $userType == -1 ): ?>selected<?php endif; ?>>全部</option>
            <option value='0' <?php if( $userType == 0 ): ?>selected<?php endif; ?>>普通会员</option>
            <option value='1' <?php if( $userType == 1 ): ?>selected<?php endif; ?>>店铺会员</option>
        </select>  
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
-  <?php if(in_array('hylb_01',$WST_STAFF['grant'])){ ?>
+  <?php if(in_array('hylb_01',$RTC_STAFF['grant'])){ ?>
        <a class="btn btn-success glyphicon glyphicon-plus" href='<?php echo U("Admin/Users/toEdit");?>' style='float:right'>新增</a>
   <?php } ?>     
        </div>
        </form>
-       <div class="wst-body">
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body">
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='30'>&nbsp;</th>
@@ -84,19 +84,19 @@
                &nbsp;</td>
                <td><?php echo ($vo['createTime']); ?>&nbsp;</td>
                <td>
-               <?php if($vo['userStatus']==0 ): ?><span class='label label-danger wst-label'>
+               <?php if($vo['userStatus']==0 ): ?><span class='label label-danger rtc-label'>
 			               停用
 			     </span>          
 			     <?php else: ?>
-			     <span class='label label-success wst-label'>
+			     <span class='label label-success rtc-label'>
 			               启用
 			     </span><?php endif; ?>
                </td>
                <td>
-               <?php if(in_array('hylb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('hylb_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/Users/toEdit',array('id'=>$vo['userId']));?>">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('hylb_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('hylb_03',$RTC_STAFF['grant'])){ ?>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['userId']); ?>,<?php echo ($vo['userType']); ?>)">刪除</buttona>
                <?php } ?>
                </td>

@@ -14,7 +14,7 @@ class CommunitysModel extends BaseModel {
 	  */
 	  public function getByDistrict($areaId3 = 0){
 	  	 $w = " communityFlag=1 AND isShow = 1 AND areaId3=$areaId3 ";
-		 $rs=  $this->cache('WST_CACHE_CITY_004_'.$areaId3,31536000)->where($w)->field('communityId,communityName')->order('communitySort asc')->select();
+		 $rs=  $this->cache('RTC_CACHE_CITY_004_'.$areaId3,31536000)->where($w)->field('communityId,communityName')->order('communitySort asc')->select();
 		 return $rs;
 	  }
 	  

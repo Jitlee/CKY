@@ -16,8 +16,8 @@
 		<include file="./Apps/Home/View/default/header.html" />
 
 		<!----加载商品楼层start----->
-		<div class="wst-container">
-			<div class="wst-shadow">
+		<div class="rtc-container">
+			<div class="rtc-shadow">
 				<div class="other-main">
             <div class="hot-cities">
                 <h2>进入<a href="javascript:;" onclick="changeCity({$area['areaId']});">{$area["areaName"]}</a></h2>
@@ -62,7 +62,7 @@
 			</div>
 		</div>
 		<include file="./Apps/Home/View/default/footer.html" />
-		<include file="./Apps/Home/View/default/right_cart.html" />
+		<!--<include file="./Apps/Home/View/default/right_cart.html" />-->
    	</body>
    	
    	<script src="__ROOT__/Apps/Home/View/default/js/shopstreet.js"></script>
@@ -81,7 +81,7 @@
 	    function getCitys(){
 	    	var provinceId = $("#provinceId").val();
 	    	jQuery.post(rooturl+"/index.php/Home/Areas/getCityListByProvince/",{provinceId:provinceId},function(rsp) {
-	    		var json = WST.toJson(rsp);
+	    		var json = RTC.toJson(rsp);
 	    		var citys = new Array();
 	    		
 	    		for(var i=0;i<json.length;i++){

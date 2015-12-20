@@ -42,7 +42,7 @@
 	   params.communitySort = $('#communitySort').val();
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("<?php echo U('Admin/Communitys/edit');?>",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='<?php echo U("Admin/Communitys/index");?>';
@@ -64,7 +64,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -76,13 +76,13 @@
 	   });
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='<?php echo ($object["communityId"]); ?>'/>
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>社区名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='communityName' class="form-control wst-ipt" value='<?php echo ($object["communityName"]); ?>' maxLength='25'/></td>
+             <td><input type='text' id='communityName' class="form-control rtc-ipt" value='<?php echo ($object["communityName"]); ?>' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>所属地区<font color='red'>*</font>：</th>
@@ -124,7 +124,7 @@
            <tr>
              <th align='right'>排序号<font color='red'>*</font>：</th>
              <td>
-             <input type='text' id='communitySort' class="form-control wst-ipt" value='<?php echo ($object["communitySort"]); ?>' style='width:80px' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+             <input type='text' id='communitySort' class="form-control rtc-ipt" value='<?php echo ($object["communitySort"]); ?>' style='width:80px' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/>
              </td>
            </tr>
            <tr>

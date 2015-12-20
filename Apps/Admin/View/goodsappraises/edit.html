@@ -77,7 +77,7 @@
 	   }
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("{:U('Admin/GoodsAppraises/edit')}",params,function(data,textStatus){
-		    var json = WST.toJson(data);
+		    var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='{:U("Admin/GoodsAppraises/index")}';
@@ -89,10 +89,10 @@
 	  });
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.id}'/>
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
           <tbody>
            <tr>
              <th width='120' align='right'>商品：</th>

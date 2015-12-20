@@ -39,7 +39,7 @@
 				async : true,
 				url : "<?php echo U('Admin/Users/checkLoginKey');?>",
 				success : function(data){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 		            if( json.status == "1" ) {
 		                return true;
 					} else {
@@ -63,7 +63,7 @@
 			async : true,
 			url : "<?php echo U('Admin/Users/checkLoginKey');?>",
 			success : function(data){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 	            if( json.status == "1" ) {
 	                return true;
 				} else {
@@ -82,7 +82,7 @@
 				async : true,
 				url : "<?php echo U('Admin/Users/checkLoginKey');?>",
 				success : function(data){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 		            if( json.status == "1" ) {
 		                return true;
 					} else {
@@ -155,7 +155,7 @@
 	   params.id = $('#id').val();
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 		$.post("<?php echo U('Admin/Users/edit');?>",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='<?php echo U("Admin/Users/index");?>';
@@ -170,11 +170,11 @@
    }
    var filetypes = ["gif","jpg","png","jpeg"];
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
    			<iframe name="upload" style="display:none"></iframe>
 			<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:305px;left:120px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="<?php echo U('Home/Shops/uploadPic');?>" >
 				<div style="position:relative;">
-				<input id="userPhoto" name="userPhoto" class="form-control wst-ipt" type="text" value="<?php echo ($object["userPhoto"]); ?>" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
+				<input id="userPhoto" name="userPhoto" class="form-control rtc-ipt" type="text" value="<?php echo ($object["userPhoto"]); ?>" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 				<div class="div1">
 					<div class="div2">浏览</div>
 					<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
@@ -193,10 +193,10 @@
        <form name="myform" method="post" id="myform" autocomplete="off">   
         <input type='hidden' id='id' value='<?php echo ($object["userId"]); ?>'/>
        
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>账号<font color='red'>*</font>：</th>
-             <td><input type='text' id='loginName' name='loginName' class="form-control wst-ipt" value='<?php echo ($object["loginName"]); ?>' maxLength='20'/></td>
+             <td><input type='text' id='loginName' name='loginName' class="form-control rtc-ipt" value='<?php echo ($object["loginName"]); ?>' maxLength='20'/></td>
              <td rowspan='6'>
              	<div id="preview_Filedata">
                  <img id='userPhotoPreview' src='<?php if($object['userPhoto'] =='' ): ?>/Apps/Admin/View/img/staff.png<?php else: ?>/<?php echo ($object['userPhoto']); endif; ?>' height='152'/><br/>
@@ -206,13 +206,13 @@
            <tr>
              <th width='120' align='right'>密码<font color='red'>*</font>：</th>
              <td>
-             <input type='password' id='loginPwd' class="form-control wst-ipt" value='<?php echo ($object["loginPwd"]); ?>' maxLength='20'/>
+             <input type='password' id='loginPwd' class="form-control rtc-ipt" value='<?php echo ($object["loginPwd"]); ?>' maxLength='20'/>
              <?php if($object['userId'] !=0 ): ?>(为空则说明不修改密码)<?php endif; ?></td>
            </tr>
            <tr>
              <th align='right'>用户名：</th>
              <td>
-             <input type='text' id='userName' class="form-control wst-ipt" value='<?php echo ($object["userName"]); ?>' maxLength='20'/>
+             <input type='text' id='userName' class="form-control rtc-ipt" value='<?php echo ($object["userName"]); ?>' maxLength='20'/>
              </td>
            </tr>
            <tr>
@@ -232,31 +232,31 @@
            <tr>
              <th align='right'>手机号码：</th>
              <td>
-             <input type='text' id='userPhone' name='userPhone' class="form-control wst-ipt" value='<?php echo ($object["userPhone"]); ?>' maxLength='11'/>
+             <input type='text' id='userPhone' name='userPhone' class="form-control rtc-ipt" value='<?php echo ($object["userPhone"]); ?>' maxLength='11'/>
              </td>
            </tr>
            <tr>
              <th align='right'>电子邮箱：</th>
              <td>
-             <input type='text' id='userEmail' name='userEmail' class="form-control wst-ipt"  value='<?php echo ($object["userEmail"]); ?>' maxLength='25'/>
+             <input type='text' id='userEmail' name='userEmail' class="form-control rtc-ipt"  value='<?php echo ($object["userEmail"]); ?>' maxLength='25'/>
              </td>
            </tr>
            <tr>
              <th align='right'>会员积分<font color='red'>*</font>：</th>
              <td>
-             <input type='text' id='userScore' class="form-control wst-ipt-10"  value='<?php echo ($object["userScore"]); ?>' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+             <input type='text' id='userScore' class="form-control rtc-ipt-10"  value='<?php echo ($object["userScore"]); ?>' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/>
              </td>
            </tr>
            <tr>
              <th align='right'>会员历史积分<font color='red'>*</font>：</th>
              <td colspan='2'>
-             <input type='text' id='userTotalScore' class="form-control wst-ipt-10"  value='<?php echo ($object["userTotalScore"]); ?>' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+             <input type='text' id='userTotalScore' class="form-control rtc-ipt-10"  value='<?php echo ($object["userTotalScore"]); ?>' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/>
              </td>
            </tr>
            <tr>
              <th align='right'>QQ：</th>
              <td colspan='2'>
-             <input type='text' id='userQQ' class="form-control wst-ipt"  value='<?php echo ($object["userQQ"]); ?>' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='15'/>
+             <input type='text' id='userQQ' class="form-control rtc-ipt"  value='<?php echo ($object["userQQ"]); ?>' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='15'/>
              </td>
            </tr>
             <tr style="height:80px;">

@@ -15,7 +15,7 @@ function visitorShopInit(){
   			async : true,
   			url : Think.U('Home/Users/checkLoginKey'),
   			success : function(data){
-  				var json = WST.toJson(data);
+  				var json = RTC.toJson(data);
   	            if( json.status == "1" ) {
   	                return true;
   				} else {
@@ -40,7 +40,7 @@ function visitorShopInit(){
   			async : true,
   			url : Think.U('Home/Users/checkLoginKey'),
   			success : function(data){
-  				var json = WST.toJson(data);
+  				var json = RTC.toJson(data);
   	            if( json.status == "1" ) {
   	                return true;
   				} else {
@@ -83,7 +83,7 @@ function getAreas(obj,id,val,fval,callback){
 		}
 	}
 	$.post(Think.U('Home/Areas/queryByList'),params,function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status==1 && json.list){
 			var opts,html=[];
 			html.push("<option value=''>请选择</option>");
@@ -159,17 +159,17 @@ var isSend = false;
 var isUse = false;
 function getVerifyCode(){
   		if($.trim($("#userPhone").val())==''){
-  			WST.msg('请输入手机号码!', {icon: 5});
+  			RTC.msg('请输入手机号码!', {icon: 5});
   			return;
   		}
   		if(isSend )return;
   		isSend = true;
   		var params = {};
   		params.userPhone = $.trim($("#userPhone").val());
-  		if(WST.SMS_VERFY=='1'){
+  		if(RTC.SMS_VERFY=='1'){
   			var html = [];
-  			html.push('<table class="wst-smsverfy"><tr><td width="80" align="right">');
-  			html.push('验证码：</td><td><input type="text" id="smsVerfy" size="12" class="wst-text" maxLength="8">');
+  			html.push('<table class="rtc-smsverfy"><tr><td width="80" align="right">');
+  			html.push('验证码：</td><td><input type="text" id="smsVerfy" size="12" class="rtc-text" maxLength="8">');
   			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+domainURL+'/Apps/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:getVerify()"/>');
   			html.push('</td></tr></table>');
   			layer.open({
@@ -185,14 +185,14 @@ function getVerifyCode(){
   			    	isSend = true;
   			    	params.smsVerfy = $.trim($('#smsVerfy').val());
   			    	$.post(Think.U('Home/Users/getPhoneVerifyCode'),params,function(data,textStatus){
-  			   			var json = WST.toJson(data);
+  			   			var json = RTC.toJson(data);
   			   			if(json.status!=1){
-  							WST.msg(json.msg, {icon: 5});
+  							RTC.msg(json.msg, {icon: 5});
   							time = 0;
   							isSend = false;
   							getVerify();
   						}if(json.status==1){
-  							WST.msg('短信已发送，请注册查收');
+  							RTC.msg('短信已发送，请注册查收');
   							layer.close(index);
   			   				time = 130;
   			   				$('#timeTips').css('width','100px');
@@ -217,13 +217,13 @@ function getVerifyCode(){
   		}else{
   			isSend = true;
   			$.post(Think.U('Home/Users/getPhoneVerifyCode'),params,function(data,textStatus){
-		   			var json = WST.toJson(data);
+		   			var json = RTC.toJson(data);
 		   			if(json.status!=1){
-						WST.msg(json.msg, {icon: 5});
+						RTC.msg(json.msg, {icon: 5});
 						time = 0;
 						isSend = false;
 					}if(json.status==1){
-						WST.msg('短信已发送，请注册查收');
+						RTC.msg('短信已发送，请注册查收');
 		   				time = 130;
 		   				$('#timeTips').css('width','100px');
 		   				$('#timeTips').html('获取验证码(130)');
@@ -244,22 +244,22 @@ function getVerifyCode(){
 
 function visitorOpenShop(){	
    	if($.trim($("#mobileCode").val())==""){		
-   		WST.msg('请输入验证码!', {icon: 5});
+   		RTC.msg('请输入验证码!', {icon: 5});
    		$("#mobileCode").focus();
    		return;
    	}
 
    	if(!document.getElementById("protocol").checked){		
-   		WST.msg('必须同意使用协议才允许注册!', {icon: 5});
+   		RTC.msg('必须同意使用协议才允许注册!', {icon: 5});
    		return;
    	}
-   	var params = WST.fillForm('.wstipt');
+   	var params = RTC.fillForm('.wstipt');
 	if(params.shopImg==''){
-	    WST.msg('请上传店铺图片!', {icon: 5});
+	    RTC.msg('请上传店铺图片!', {icon: 5});
 	    return;
 	}
 	if(params.latitude=='' || params.longitude==''){
-		WST.msg('请标注店铺地址!', {icon: 5});
+		RTC.msg('请标注店铺地址!', {icon: 5});
 		return;
 	}
 	var relateArea = [0];
@@ -276,27 +276,27 @@ function visitorOpenShop(){
 	params.relateAreaId=relateArea.join(',');
 	params.relateCommunityId=relateCommunity.join(',');
 	if(params.relateAreaId=='0' && params.relateCommunityId=='0'){
-	    WST.msg('请选择配送区域!', {icon: 5});
+	    RTC.msg('请选择配送区域!', {icon: 5});
 	    return;
 	}
 	if(params.isInvoice==1 && params.invoiceRemarks==''){
-		WST.msg('请输入发票说明!', {icon: 5});
+		RTC.msg('请输入发票说明!', {icon: 5});
 		return;
 	}
 	if(parseInt(params.serviceStartTime,10)>parseInt(params.serviceEndTime,10)){
-		WST.msg('开始营业时间不能大于结束营业时间!', {icon: 5});
+		RTC.msg('开始营业时间不能大于结束营业时间!', {icon: 5});
 		return;
 	} 	
 	params.protocol = document.getElementById("protocol").checked?1:0;	
 	$.post(Think.U('Home/Shops/openShop'),params,function(data,textStatus){
-	   	var json = WST.toJson(data);
+	   	var json = RTC.toJson(data);
 	   	if(json.status>0){
-	   		WST.msg('您的开店申请已提交，请等候商城管理员审核!', {icon: 1}, function(){
-	   			location.href=WST.DOMAIN +'/index.php';
+	   		RTC.msg('您的开店申请已提交，请等候商城管理员审核!', {icon: 1}, function(){
+	   			location.href=RTC.DOMAIN +'/index.php';
 	   		});
 	   	}else{
 	   		getVerify();
-	   		WST.msg(json.msg, {icon: 5});
+	   		RTC.msg(json.msg, {icon: 5});
 	   	}
 	   		
 	});
@@ -368,13 +368,13 @@ function userShopInit(){
 	ShopMapInit({});
 }
 function userOpenShop(){
-	var params = WST.fillForm('.wstipt');
+	var params = RTC.fillForm('.wstipt');
 	if(params.latitude=='' || params.longitude==''){
-		 WST.msg('请标注店铺地址!', {icon: 5});
+		 RTC.msg('请标注店铺地址!', {icon: 5});
 		 return;
 	}
 	if(params.shopImg==''){
-		 WST.msg('请上传店铺图片!', {icon: 5});
+		 RTC.msg('请上传店铺图片!', {icon: 5});
 		 return;
 	}
 	var relateArea = [0];
@@ -391,34 +391,34 @@ function userOpenShop(){
 	params.relateAreaId=relateArea.join(',');
 	params.relateCommunityId=relateCommunity.join(',');
 	if(params.relateAreaId=='0' && params.relateCommunityId=='0'){
-		WST.msg('请选择配送区域!', {icon: 5});
+		RTC.msg('请选择配送区域!', {icon: 5});
 		return;
 	}
 	if(params.isInvoice==1 && params.invoiceRemarks==''){
-		WST.msg('请输入发票说明!', {icon: 5});
+		RTC.msg('请输入发票说明!', {icon: 5});
 		return;
 	}
 	if(parseInt(params.serviceStartTime,10)>parseInt(params.serviceEndTime,10)){
-	    WST.msg('开始营业时间不能大于结束营业时间!', {icon: 5});
+	    RTC.msg('开始营业时间不能大于结束营业时间!', {icon: 5});
 		return;
 	}
 	if(!document.getElementById('protocol').checked){
-		WST.msg('必须同意使用协议才允许注册!',{icon: 5});
+		RTC.msg('必须同意使用协议才允许注册!',{icon: 5});
 		return;
 	}
 	if(params.mobileCode==''){
-		WST.msg('请输入验证码!',{icon: 5});
+		RTC.msg('请输入验证码!',{icon: 5});
 		return;
 	}
 	var ll = layer.load('正在处理，请稍后...', 3);
 	$.post(Think.U('Home/Shops/openShopByUser'),params,function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1'){
-			WST.msg('您的开店申请已提交，请等候商城管理员审核!', {icon: 1}, function(){
+			RTC.msg('您的开店申请已提交，请等候商城管理员审核!', {icon: 1}, function(){
 				location.href=Think.U('Home/Orders/queryByPage');
 			});
 		}else{
-			WST.msg(json.msg, {icon: 5});
+			RTC.msg(json.msg, {icon: 5});
 			getVerify();
 		}
 		layer.close(ll);

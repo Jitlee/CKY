@@ -146,7 +146,7 @@ class GoodsModel extends BaseModel {
 			}
 			$yj_data = array(
 				'msgType' => 0,
-				'sendUserId' => session('WST_STAFF.staffId'),
+				'sendUserId' => session('RTC_STAFF.staffId'),
 				'receiveUserId' => $goods[0]['userId'],
 				'msgContent' => $msg,
 				'createTime' => date('Y-m-d H:i:s'),

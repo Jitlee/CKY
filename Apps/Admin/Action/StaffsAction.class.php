@@ -117,7 +117,7 @@ class StaffsAction extends BaseAction{
 	public function editPass(){
 		$this->isAjaxLogin();
 		$m = D('Admin/Staffs');
-   		$rs = $m->editPass(session('WST_STAFF.staffId'));
+   		$rs = $m->editPass(session('RTC_STAFF.staffId'));
     	$this->ajaxReturn($rs);
 	}
 

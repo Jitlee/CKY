@@ -13,7 +13,7 @@ $(function () {
 			async : true,
 			url : domainURL+"/index.php/Home/Users/checkLoginKey/",
 			success : function(data){
-				var json = WST.toJson(data);
+				var json = RTC.toJson(data);
 	            if( json.status == "1" ) {
 	                return true;
 				} else {
@@ -32,7 +32,7 @@ $(function () {
 				async : true,
 				url : domainURL+"/index.php/Home/Users/checkLoginKey/",
 				success : function(data){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 		            if( json.status == "1" ) {
 		                return true;
 					} else {
@@ -66,7 +66,7 @@ $(function () {
 	        swf           : publicurl+'/plugins/uploadify/uploadify.swf',
 	        uploader      : domainURL+'/index.php/Home/Users/uploadPic',
 	        onUploadSuccess : function(file, data, response) {
-	        	var json = WST.toJson(data);
+	        	var json = RTC.toJson(data);
 	        	$('#preview').attr('src',domainURL +'/'+json.Filedata.savepath+json.Filedata.savethumbname).show();
 	        	$('#userPhoto').val(json.Filedata.savepath+json.Filedata.savename);
           }
@@ -83,16 +83,16 @@ $(function () {
 	   var ll = layer.load('数据处理中，请稍候...');
 	   $.post(domainURL+"/index.php/Home/Users/editUser",params,function(data,textStatus){
 		   layer.close(ll);
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('修改用户资料成功!', {icon: 1});
+				RTC.msg('修改用户资料成功!', {icon: 1});
 				location.reload();
 			}else if(json.status=='-2'){
-				WST.msg('用户手机已存在!', {icon: 5});
+				RTC.msg('用户手机已存在!', {icon: 5});
 			}else if(json.status=='-3'){
-				WST.msg('用户邮箱已存在!', {icon: 5});
+				RTC.msg('用户邮箱已存在!', {icon: 5});
 			}else{
-				WST.msg('修改用户资料失败!', {icon: 5});
+				RTC.msg('修改用户资料失败!', {icon: 5});
 			}
 	   });
    }

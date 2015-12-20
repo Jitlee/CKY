@@ -20,7 +20,7 @@
    function toggleIsShow(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("<?php echo U('Admin/Areas/editiIsShow');?>",{id:v,isShow:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				    location.reload();
@@ -36,7 +36,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/Areas/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						   location.reload();
@@ -49,17 +49,17 @@
 	   }});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
        <input type='hidden' id='parentId' value='<?php echo ($pArea[areaId]); ?>'/>
-       <div class='wst-tbar' style='height:25px;'>
+       <div class='rtc-tbar' style='height:25px;'>
        <?php if($pArea['areaId'] !=0 ): ?>上级地区：<?php echo ($pArea['areaName']); endif; ?>
        <?php if($pArea['areaId'] !=0 ): ?><a class="btn glyphicon btn-success" href="<?php echo U('Admin/Areas/index',array('parentId'=>$pArea['parentId']));?>" style='float:right;margin-left:5px;'>返回</a><?php endif; ?>
-       <?php if(in_array('dqlb_01',$WST_STAFF['grant'])){ ?>
+       <?php if(in_array('dqlb_01',$RTC_STAFF['grant'])){ ?>
        <a class="btn btn-success glyphicon glyphicon-plus" href="<?php echo U('Admin/Areas/toEdit',array('parentId'=>$pArea['areaId']));?>" style='float:right'>新增</a>
        <?php } ?>
        </div>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='40'>序号</th>
@@ -75,16 +75,16 @@
                <td><?php echo ($vo['areaName']); ?></td>
                <td>
                <div class="dropdown">
-               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+               <?php if($vo['isShow']==0 ): ?><button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					     隐藏
 					  <span class="caret"></span>
 				   </button>
                <?php else: ?>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     显示
 					  <span class="caret"></span>
 				   </button><?php endif; ?>
-               <?php if(in_array('dqlb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('dqlb_02',$RTC_STAFF['grant'])){ ?>
                    <ul class="dropdown-menu" role="menu">
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,<?php echo ($vo['areaId']); ?>)">显示</a></li>
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,<?php echo ($vo['areaId']); ?>)">隐藏</a></li>
@@ -95,10 +95,10 @@
                <td><?php echo ($vo['areaSort']); ?></td>
                <td>
                <?php if($pArea['areaType'] < 1 ): ?><a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/Areas/index',array('parentId'=>$vo['areaId']));?>">查看</a>&nbsp;<?php endif; ?>
-               <?php if(in_array('dqlb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('dqlb_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="<?php echo U('Admin/Areas/toEdit',array('id'=>$vo['areaId'],'parentId'=>$vo['parentId']));?>"">修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('dqlb_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('dqlb_02',$RTC_STAFF['grant'])){ ?>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['areaId']); ?>)"">刪除</button>
                <?php } ?>
                </td>

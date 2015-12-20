@@ -14,9 +14,9 @@
 		<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/magnifier.css" />
    	</head>
    	<body>
-		<include file="./Apps/Home/View/default/header_common.html" />
+		<include file="./Apps/Home/View/default/header_nav.html" />
 	    <div>
-			<div class="wst-street-ad-box">
+			<div class="rtc-street-ad-box">
 				<volist name="ads" id="vo" key='i'>
 					<if condition="$i eq 1">
 				   <a href="{:U('Home/Index/access/',array('url'=>$vo['adURL']))}" target="_blank">
@@ -26,16 +26,16 @@
 				</volist>
 			</div>
 		</div>
-		<div class="wst-shadow">
-			<div class="wst-street-schbox">
-				&nbsp;&nbsp;&nbsp;&nbsp;您附近有<span id="spcnt" class="wst-street-spcnt"><?php echo count($dsplist[0]['ctlist']) ?></span>个相关地址：您的位置
+		<div class="rtc-shadow">
+			<div class="rtc-street-schbox">
+				&nbsp;&nbsp;&nbsp;&nbsp;您附近有<span id="spcnt" class="rtc-street-spcnt"><?php echo count($dsplist[0]['ctlist']) ?></span>个相关地址：您的位置
 				<select id="cityId" onchange="getDistrictsShops();">
 				<volist name="areaList" id="vo" key='i' >
 				<option <if condition="$areaId3 eq $vo['areaId']">selected="selected"</if> value="{$vo['areaId']}">{$vo['areaName']}</option>
 				</volist>
 				</select>
 				<div style="float:right;">
-					<div class="wst-street-sch-bx1">
+					<div class="rtc-street-sch-bx1">
 						&nbsp;&nbsp;&nbsp;&nbsp;筛选店铺&nbsp;&nbsp;&nbsp;&nbsp;
 						<select id="deliveryStartMoney" onchange="getDistrictsShops();">
 							<option value="-1">起送金额(全部)</option>
@@ -62,60 +62,60 @@
 						</select>
 						
 					</div>
-					<div class="wst-street-sch-bx2">
-						<div class="wst-street-scp-dp">
-							<input id="shopName" class="wst-street-scp-sn" placeholder="搜索 店铺" autocomplete="off" value='{$keyWords}'>
-							<div class="wst-street-scp-sk" onclick="getDistrictsShops();">搜&nbsp;索</div>
+					<div class="rtc-street-sch-bx2">
+						<div class="rtc-street-scp-dp">
+							<input id="shopName" class="rtc-street-scp-sn" placeholder="搜索 店铺" autocomplete="off" value='{$keyWords}'>
+							<div class="rtc-street-scp-sk" onclick="getDistrictsShops();">搜&nbsp;索</div>
 						</div>				
 					</div>
-					<div style="wst-clear"></div>
+					<div style="rtc-clear"></div>
 				</div>
-				<div style="wst-clear"></div>
+				<div style="rtc-clear"></div>
 			</div>
 		</div>
 		
 		<!----加载店铺街start----->
-		<div class="wst-container">
+		<div class="rtc-container">
 			
-			<div class="wst-shadow">
+			<div class="rtc-shadow">
 			    <script id="tblist2" type="text/html">
                 {{# for(var i = 0; i < d.length; i++){ }}
-                <li onclick="getShopByCommunitys(this);" data="{{d[i].communityId}}" class="wst-shop-address liselected">
+                <li onclick="getShopByCommunitys(this);" data="{{d[i].communityId}}" class="rtc-shop-address liselected">
 				      <div style="padding:4px;">{{d[i].communityName}}</div>
 				      <div style="padding:4px;">附近共有 <span style="font-weight:bold;color:red;">{{d[i].spcnt}}</span> 家店铺入驻并提供服务</div>
 				</li>
                 {{# } }}
                 </script>
-				<div class="wst-shop-address-box wst-shadow" ></div>
-				<div class="wst-shop-container">
+				<div class="rtc-shop-address-box rtc-shadow" ></div>
+				<div class="rtc-shop-container">
 				    <script id="tblist" type="text/html">
                        {{# for(var i = 0; i < d.length; i++){ }}
-                        <div class="wst-shop-box">
+                        <div class="rtc-shop-box">
                            <div style="width:80px;height:80px; float:left;">
                                <a href="{{ Think.U('Home/Shops/toShopHome','shopId='+d[i].shopId)}}">
                                  <img width="80" class='lazyImg' height="80" title="{{d[i].shopName}}" data-original="__ROOT__/{{d[i].shopImg}}" src="__ROOT__/{$CONF['goodsImg']}" style="display: inline;">
                                </a>
                            </div>
-                           <div class="wst-shop-streets-items">
+                           <div class="rtc-shop-streets-items">
                                <div style="font-weight:bolder;">
                                  <a href="{{ Think.U('Home/Shops/toShopHome','shopId='+d[i].shopId)}}">{{d[i].shopName}}</a>
                                </div>
                                <div style="">店铺地址：{{d[i].shopAddress}}</div><div style="">{{d[i].deliveryStartMoney}}元起送，配送费{{d[i].deliveryMoney}}元，{{d[i].deliveryFreeMoney}}元起免配送费</div>
-                               <div class="wst-shop-streets-items-status">
+                               <div class="rtc-shop-streets-items-status">
                                   <img style="vertical-align:middle" src="__ROOT__/Apps/Home/View/default/images/icon_menu_01.png">&nbsp;&nbsp;
                                                                                                       {{#if(d[i].shopAtive==1){}}营业中{{#}else{}}休息中{{#}}}
                                </div>
                            </div>
-                          <div class="wst-clear"></div>
+                          <div class="rtc-clear"></div>
                        </div>
                        {{# } }}
                        </script>
-					<div class="wst-shop-list"></div>
-					<div class="wst-page" style="text-align:center;margin-bottom: 10px;padding-right: 15px;">
-						<div id="wst-page-items"></div>
+					<div class="rtc-shop-list"></div>
+					<div class="rtc-page" style="text-align:center;margin-bottom: 10px;padding-right: 15px;">
+						<div id="rtc-page-items"></div>
 					</div>
 				</div>
-				<div class="wst-clear"></div>
+				<div class="rtc-clear"></div>
 			</div>
 			
 		</div>

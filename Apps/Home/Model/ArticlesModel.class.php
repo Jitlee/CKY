@@ -15,7 +15,7 @@ class ArticlesModel extends BaseModel {
      * 获取文章列表
      */
  	public function getArticleList(){
- 		$articleList = S("WST_CACHE_ARTICLE_LIST");
+ 		$articleList = S("RTC_CACHE_ARTICLE_LIST");
  		if(!$articleList){
 			$sql ="SELECT artcat.catName, art.articleId,art.catId,art.articleTitle,art.articleImg FROM __PREFIX__article_cats artcat,__PREFIX__articles art 
 					WHERE artcat.catId = art.catId AND artcat.catType=1 AND artcat.catFlag = 1 AND artcat.isShow=1 AND art.isShow=1 ORDER BY artcat.catSort ,art.articleId";
@@ -25,7 +25,7 @@ class ArticlesModel extends BaseModel {
 				$articleList[$rs[$i]["catId"]]["articlecats"][] = $rs[$i];
 				$articleList[$rs[$i]["catId"]]["catName"] = $rs[$i]["catName"];
 			}
-			S("WST_CACHE_ARTICLE_LIST",$articleList,2592000);
+			S("RTC_CACHE_ARTICLE_LIST",$articleList,2592000);
  		}
 		return $articleList;
 	}
@@ -44,7 +44,7 @@ class ArticlesModel extends BaseModel {
 	 * 查询网站帮助
 	 */
     public function getHelps(){
-    	$articles = S("WST_CACHE_ARTICLE_INDEX");
+    	$articles = S("RTC_CACHE_ARTICLE_INDEX");
     	if(!$articles){
 			$sql ="SELECT artcat.catName, art.articleId,art.catId,art.articleTitle,art.articleImg FROM __PREFIX__article_cats artcat,__PREFIX__articles art 
 					WHERE artcat.catId = art.catId AND artcat.catType=1 AND artcat.catFlag = 1 AND artcat.isShow=1 AND art.isShow=1 ORDER BY artcat.catSort ,art.articleId";
@@ -55,7 +55,7 @@ class ArticlesModel extends BaseModel {
 				$articles[$rs[$i]["catId"]]["articlecats"][] = $rs[$i];
 				$articles[$rs[$i]["catId"]]["catName"] = $rs[$i]["catName"];
 			}
-			S("WST_CACHE_ARTICLE_INDEX",$articles,2592000);
+			S("RTC_CACHE_ARTICLE_INDEX",$articles,2592000);
     	}
 		return $articles;
 	}

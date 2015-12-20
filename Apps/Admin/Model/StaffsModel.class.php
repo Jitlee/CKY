@@ -55,15 +55,15 @@ class StaffsModel extends BaseModel {
 			$rs = $m->where("staffId=".I('id'))->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
-				$staffId = (int)session('WST_STAFF.staffId');
+				$staffId = (int)session('RTC_STAFF.staffId');
 		        if($staffId==$id){
-		        	 session('WST_STAFF.loginName',$data["loginName"]);
-		        	 session('WST_STAFF.staffName',$data["staffName"]);
-		        	 session('WST_STAFF.staffRoleId',$data["staffRoleId"]);
-		        	 session('WST_STAFF.workStatus',$data["workStatus"]);
-		        	 session('WST_STAFF.staffStatus',$data["staffStatus"]);
-		        	 session('WST_STAFF.staffNo',$data["staffNo"]);
-		        	 session('WST_STAFF.staffPhoto',$data["staffPhoto"]);
+		        	 session('RTC_STAFF.loginName',$data["loginName"]);
+		        	 session('RTC_STAFF.staffName',$data["staffName"]);
+		        	 session('RTC_STAFF.staffRoleId',$data["staffRoleId"]);
+		        	 session('RTC_STAFF.workStatus',$data["workStatus"]);
+		        	 session('RTC_STAFF.staffStatus',$data["staffStatus"]);
+		        	 session('RTC_STAFF.staffNo',$data["staffNo"]);
+		        	 session('RTC_STAFF.staffPhoto',$data["staffPhoto"]);
 		        }
 				
 			}
@@ -102,7 +102,7 @@ class StaffsModel extends BaseModel {
 	  */
 	 public function del(){
 	 	$rd = array('status'=>-1);
-	 	if(I('id')==session('WST_STAFF.staffId'))return $rd;
+	 	if(I('id')==session('RTC_STAFF.staffId'))return $rd;
 	 	$m = M('staffs');
 	 	$data = array();
 		$data["staffFlag"] = -1;

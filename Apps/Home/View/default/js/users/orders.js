@@ -19,13 +19,13 @@ function orderCancel(id){
 	    $.post(domainURL +"/index.php/Home/Orders/orderCancel/",{orderId:id},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
 				window.location.reload();
 			}else if(json.status==-1){
-				WST.msg('操作失，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				WST.msg('操作失，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -51,25 +51,25 @@ function addGoodsAppraises(goodsId,orderId){
 	
 	var goodsScore = $('.'+goodsId+'_goodsScore > input[name="score"]').val();
 	if(goodsScore==0){
-		WST.msg('请选择商品评分 !', {icon: 5});
+		RTC.msg('请选择商品评分 !', {icon: 5});
 		return;
 	}
 	
 	var timeScore = $('.'+goodsId+'_timeScore > input[name="score"]').val();
 	if(timeScore==0){
-		WST.msg('请选择时效得分 !', {icon: 5});
+		RTC.msg('请选择时效得分 !', {icon: 5});
 		return;
 	}
 	
 	var serviceScore = $('.'+goodsId+'_serviceScore > input[name="score"]').val();
 	if(serviceScore==0){
-		WST.msg('请选择服务得分 !', {icon: 5});
+		RTC.msg('请选择服务得分 !', {icon: 5});
 		return;
 	}
 	
 	var content = $.trim($('#'+goodsId+'_content').val());
 	if(content.length<3 || content.length>50){
-		WST.msg('评价内容为3-50个字 !', {icon: 5});
+		RTC.msg('评价内容为3-50个字 !', {icon: 5});
 		return;
 	}
 	
@@ -78,15 +78,15 @@ function addGoodsAppraises(goodsId,orderId){
 		$.post(domainURL +"/index.php/Home/GoodsAppraises/addGoodsAppraises",{shopId:shopId, goodsId:goodsId, orderId:orderId, goodsScore:goodsScore, timeScore:timeScore, serviceScore:serviceScore, content:content },function(data,textStatus){
 			layer.close(tips);
 			layer.close(ll);
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status==1){
-				WST.msg('评价成功!', {icon: 1}, function(){
+				RTC.msg('评价成功!', {icon: 1}, function(){
 					$('#'+goodsId+'_appraise').slideUp();
 					$('#'+goodsId+'_appraise').empty();
 					$('#'+goodsId+'_status').html('已评价');
 				});
 			}else{
-				WST.msg('评价失败，请刷新后再重试 !', {icon: 5});
+				RTC.msg('评价失败，请刷新后再重试 !', {icon: 5});
 			}
 		});
 	});
@@ -99,13 +99,13 @@ function orderConfirm(id,type){
 	    $.post(domainURL +"/index.php/Home/Orders/orderConfirm/",{orderId:id,type:type},function(data){
 	    	layer.close(tips);
 	    	layer.close(ll);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
 				location.reload();
 			}else if(json.status==-1){
-				WST.msg('操作失，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				WST.msg('操作失，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});

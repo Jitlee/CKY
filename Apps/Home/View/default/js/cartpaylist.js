@@ -31,7 +31,7 @@ function changeCatGoodsnum(flag,shopId,goodsId,priceAttrId,isBook){
 
 function checkCartPay(shopId,goodsId,num,ischk,isBook,goodsAttrId){
 	jQuery.post( Think.U('Home/Goods/getGoodsStock') ,{goodsId:goodsId,isBook:isBook,goodsAttrId:goodsAttrId},function(data) {		
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.goodsStock==0){
 			$("#stock_"+json.goodsId).html("<span style='color:red;'>无货</span>");
 		}
@@ -76,7 +76,7 @@ function checkCartPay(shopId,goodsId,num,ischk,isBook,goodsAttrId){
 					}
 				});			
 				
-				$("#wst_cart_totalmoney").html(totalMoney.toFixed(1));
+				$("#RTC_cart_totalmoney").html(totalMoney.toFixed(1));
 			}
 		});
 	});
@@ -106,14 +106,14 @@ function goToPay(){
 		}
 	});
 	if(payGoodsNum==0){
-		WST.msg('请选择要结算的商品!',{icon:5,offset: '200px'});
+		RTC.msg('请选择要结算的商品!',{icon:5,offset: '200px'});
 		return;
 	}
 	if(!cflag){
 		return false;
 	}
 	jQuery.post( Think.U('Home/Cart/checkCartGoodsStock') ,{},function(data) {
-		var goodsInfo = WST.toJson(data);		
+		var goodsInfo = RTC.toJson(data);		
 		for(var i=0;i<goodsInfo.length;i++){
 			var goods = goodsInfo[i];
 			if(goods.cnt<1 && $('#chk_goods_'+goods.goodsId+"_"+goods.goodsAttrId).prop('checked')){
@@ -151,25 +151,25 @@ function delCatGoods(shopId,goodsId,priceAttrId){
 	layer.confirm('您确定要从购物车中删除该商品吗？',{icon: 3, title:'系统提示',offset: '150px'}, function(tips){
 		var ll = layer.load('数据处理中，请稍候...');
 		var num = parseInt($("#buy-num_"+goodsId+"_"+priceAttrId).val(),10);	
-		var totalMoney = parseFloat($("#wst_cart_totalmoney").html(),10);
+		var totalMoney = parseFloat($("#RTC_cart_totalmoney").html(),10);
 		var shop_totalMoney = parseFloat($("#shop_totalMoney_"+shopId).html(),10);
 		var price = parseFloat($("#price_"+goodsId+"_"+priceAttrId).val(),10);
 		var ischk = $("#chk_goods_"+goodsId+"_"+priceAttrId).prop('checked');
 		jQuery.post(Think.U('Home/Cart/delCartGoods') ,{goodsId:goodsId,goodsAttrId:priceAttrId},function(data) {
 			layer.close(ll);
 	    	layer.close(tips);
-			var vd = WST.toJson(data);
+			var vd = RTC.toJson(data);
 			$("#selgoods_"+goodsId+"_"+priceAttrId).remove();
 			if($("input[name='chk_goods_"+shopId+"']").length==0){
-				$("#wst_cart_shop_"+shopId).remove();
+				$("#RTC_cart_shop_"+shopId).remove();
 			}
 			if(ischk){
 			    $("#shop_totalMoney_"+shopId).html(parseFloat((shop_totalMoney-price*num),10).toFixed(2));
-			    $("#wst_cart_totalmoney").html(parseFloat((totalMoney-price*num),10).toFixed(2));
+			    $("#RTC_cart_totalmoney").html(parseFloat((totalMoney-price*num),10).toFixed(2));
 			}
-			if($("div[id^='wst_cart_shop_']").length==0){
-				$("#wst_cartlist_pbox").html("<div style='height:80px;line-height:80px;font-size:20px;text-align:center;'>您的购物车空空如也，赶快开始购物吧！</div><br/>");
-				$('.wst-btn-checkout').hide();
+			if($("div[id^='RTC_cart_shop_']").length==0){
+				$("#RTC_cartlist_pbox").html("<div style='height:80px;line-height:80px;font-size:20px;text-align:center;'>您的购物车空空如也，赶快开始购物吧！</div><br/>");
+				$('.rtc-btn-checkout').hide();
 			}
 		});	
 	});

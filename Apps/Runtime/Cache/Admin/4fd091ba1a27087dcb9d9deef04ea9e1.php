@@ -29,9 +29,9 @@
 	   $('#logDate').daterangepicker({format:'YYYY-MM-DD',separator:' -> '});
    })
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
      <form method='post' action='<?php echo U("Admin/LogLogins/index");?>'>
-       <div class='wst-tbar' style='height:25px;'>
+       <div class='rtc-tbar' style='height:25px;'>
        <input type='hidden' id='startDate' name='startDate' value='<?php echo ($startDate); ?>'/>
        <input type='hidden' id='endDate' name='endDate' value='<?php echo ($endDate); ?>'/>
        登录日期：<input type='text' id='logDate' class="form-control" readonly='true' style='width:200px' value='<?php echo ($startDate); ?> -> <?php echo ($endDate); ?>'/>
@@ -39,8 +39,8 @@
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search" onclick='javascript:query()'>查询</button> 
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='40'>序号</th>

@@ -29,7 +29,7 @@
 	   var html = [];
 	   $.post("<?php echo U('Admin/Areas/queryByList');?>",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -48,9 +48,9 @@
 	   Plugins.Modal({url:url,title:'订单退款',width:600});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
      <form method='post' action="<?php echo U('Admin/Orders/queryRefundByPage');?>">
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
           地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
              <option value=''>请选择</option>
              <?php if(is_array($areaList)): $i = 0; $__LIST__ = $areaList;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value='<?php echo ($vo['areaId']); ?>' <?php if($areaId1 == $vo['areaId'] ): ?>selected<?php endif; ?>><?php echo ($vo['areaName']); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
@@ -62,7 +62,7 @@
              <option value=''>请选择</option>
           </select>
        </div>
-       <div class='wst-tbar'>
+       <div class='rtc-tbar'>
        店铺：<input type='text' id='shopName' name='shopName' value='<?php echo ($shopName); ?>'/>  
        订单：<input type='text' id='orderNo' name='orderNo' value='<?php echo ($orderNo); ?>'/>
        退款状态 ：<select id='isRefund' name='isRefund'>
@@ -73,8 +73,8 @@
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
        </div>
        </form>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <?php if(is_array($Page['root'])): $key = 0; $__LIST__ = $Page['root'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($key % 2 );++$key;?><thead>
              <tr>
                <th colspan='6'><?php echo ($key); ?>.订单：<?php echo ($vo['orderNo']); ?><span style='margin-left:100px;'><a href="<?php echo U('Admin/Orders/queryRefundByPage',array('shopName'=>$vo['shopName']));?>"><?php echo ($vo['shopName']); ?></a></span></th>
@@ -96,7 +96,7 @@
                <td><?php if($vo['isRefund'] ==1 ): ?>已退款<?php else: ?>未退款<?php endif; ?></td>
                <td width='150'>
                <a class="btn btn-primary glyphicon" href="<?php echo U('Admin/Orders/toRefundView',array('id'=>$vo['orderId']));?>">查看</a>&nbsp;
-               <?php if($vo['isRefund'] ==0 ): if(in_array('tk_04',$WST_STAFF['grant'])){ ?>
+               <?php if($vo['isRefund'] ==0 ): if(in_array('tk_04',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-primary glyphicon" href='javascript:refund("<?php echo U('Admin/Orders/toRefund',array('id'=>$vo['orderId']));?>")'>退款</a>&nbsp;
                <?php } endif; ?>
                </td>

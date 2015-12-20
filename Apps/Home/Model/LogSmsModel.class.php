@@ -13,7 +13,7 @@ class LogSmsModel extends BaseModel {
 	 * 插入并发送短讯记录
 	 */
 	public function sendSMS($smsSrc,$phoneNumber,$content,$smsFunc,$verfyCode){
-	$USER = session('WST_USER');
+	$USER = session('RTC_USER');
 		$userId = empty($USER)?0:$USER['userId'];
 		$m = M('log_sms');
 		$ip = get_client_ip();
@@ -48,7 +48,7 @@ class LogSmsModel extends BaseModel {
 			return array('status'=>-20004,'msg'=>'请勿频繁发送短信验证!');
 		}
 		
-		$code = WSTSendSMS($phoneNumber,$content);
+		$code = RTCSendSMS($phoneNumber,$content);
 	    $data = array();
 		$data['smsSrc'] = $smsSrc;
 		$data['smsUserId'] = $userId;

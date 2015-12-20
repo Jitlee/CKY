@@ -1,8 +1,8 @@
  /** ***********************广告显示 start************************ */
 $(function() {
-	var slide = $('#wst-slide'), li = slide.find("li");
+	var slide = $('#rtc-slide'), li = slide.find("li");
 
-	var slidecontrols = $('.wst-slide-controls').eq(0), span = slidecontrols
+	var slidecontrols = $('.rtc-slide-controls').eq(0), span = slidecontrols
 			.find("span");
 	var index = 1, _self = null;
 	span.bind("mouseover", function() {
@@ -42,7 +42,7 @@ $(function() {
 			li.eq(index).css("z-index", 1);
 			li.eq(index).removeClass("hide");
 			index++;
-			//$(".wst-slide-items img").lazyload({effect: "fadeIn",failurelimit : 1000,threshold: 200,placeholder:domainURL +'/Apps/Home/View/default/images/store_default_signlist.png'});
+			//$(".rtc-slide-items img").lazyload({effect: "fadeIn",failurelimit : 1000,threshold: 200,placeholder:domainURL +'/Apps/Home/View/default/images/store_default_signlist.png'});
 			if (index >= span.length)
 				index = 0;
 		}, 4000);

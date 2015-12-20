@@ -42,7 +42,7 @@ class NavsModel extends BaseModel {
 		$rs = $m->add($data);
 		if(false !== $rs){
 			$rd['status']= 1;
-			WSTDelDir(C('WST_RUNTIME_PATH')."/Data/navigation");
+			RTCDelDir(C('RTC_RUNTIME_PATH')."/Data/navigation");
 		}else{
 			echo $m->getDbError();
 		}
@@ -62,7 +62,7 @@ class NavsModel extends BaseModel {
 		$rs = $m->where("id=".(int)I('id',0))->save($data);
 		if(false !== $rs){
 			$rd['status']= 1;
-			WSTDelDir(C('WST_RUNTIME_PATH')."/Data/navigation");
+			RTCDelDir(C('RTC_RUNTIME_PATH')."/Data/navigation");
 		}
 		return $rd;
 	 } 
@@ -97,7 +97,7 @@ class NavsModel extends BaseModel {
 	    $rs = $m->delete((int)I('id'));
 		if(false !== $rs){
 		   $rd['status']= 1;
-		   WSTDelDir(C('WST_RUNTIME_PATH')."/Data/navigation");
+		   RTCDelDir(C('RTC_RUNTIME_PATH')."/Data/navigation");
 		}
 		return $rd;
 	 }
@@ -113,7 +113,7 @@ class NavsModel extends BaseModel {
 	 	$rs = $m->where("id = ".(int)I('id',0))->save();
 	    if(false !== $rs){
 			$rd['status']= 1;
-			WSTDelDir(C('WST_RUNTIME_PATH')."/Data/navigation");
+			RTCDelDir(C('RTC_RUNTIME_PATH')."/Data/navigation");
 		}
 	 	return $rd;
 	 }
@@ -129,7 +129,7 @@ class NavsModel extends BaseModel {
 	 	$rs = $m->where("id = ".(int)I('id',0))->save();
 	    if(false !== $rs){
 			$rd['status']= 1;
-			WSTDelDir(C('WST_RUNTIME_PATH')."/Data/navigation");
+			RTCDelDir(C('RTC_RUNTIME_PATH')."/Data/navigation");
 		}
 	 	return $rd;
 	 }

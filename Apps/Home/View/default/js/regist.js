@@ -138,7 +138,7 @@ function changeName(){
 			
 			if(params.loginName!="" && params.loginName!="邮箱/用户名/手机号"){
 				jQuery.post(Think.U('Home/Users/checkLoginName') ,params,function(rsp) {
-					var json = WST.toJson(rsp);
+					var json = RTC.toJson(rsp);
 					if( json.status == "1" ) {
 						jQuery("#loginNameTip").removeClass();
 						jQuery("#loginNameTip").addClass("onCorrect");
@@ -198,7 +198,7 @@ var isUse = false;
 function getVerifyCode(){
 		
 		if($.trim($("#userPhone").val())==''){
-			WST.msg('请输入手机号码!', {icon: 5});
+			RTC.msg('请输入手机号码!', {icon: 5});
 			return;
 		}
 		if(isSend )return;
@@ -206,11 +206,11 @@ function getVerifyCode(){
 		
 		var params = {};
 		params.userPhone = $.trim($("#userPhone").val());
-		if(WST.SMS_VERFY=='1'){
+		if(RTC.SMS_VERFY=='1'){
 			var html = [];
-			html.push('<table class="wst-smsverfy"><tr><td width="80" align="right">');
-			html.push('验证码：</td><td><input type="text" id="smsVerfy" size="12" class="wst-text" maxLength="8">');
-			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+WST.DOMAIN+'/Apps/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:getVerify()"/>');
+			html.push('<table class="rtc-smsverfy"><tr><td width="80" align="right">');
+			html.push('验证码：</td><td><input type="text" id="smsVerfy" size="12" class="rtc-text" maxLength="8">');
+			html.push('<img style="vertical-align:middle;cursor:pointer;height:39px;" class="verifyImg" src="'+RTC.DOMAIN+'/Apps/Home/View/default/images/clickForVerify.png" title="刷新验证码" onclick="javascript:getVerify()"/>');
 			html.push('</td></tr></table>');
 			layer.open({
 				title:'请输入验证码',
@@ -225,18 +225,18 @@ function getVerifyCode(){
 			    	isSend = true;
 			    	params.smsVerfy = $.trim($('#smsVerfy').val());
 			    	if(params.smsVerfy==''){
-   			    		WST.msg('请输入验证码!', {icon: 5});
+   			    		RTC.msg('请输入验证码!', {icon: 5});
    			   			return;
    			    	}
 			    	$.post(Think.U('Home/Users/getPhoneVerifyCode'),params,function(data,textStatus){
-			   			var json = WST.toJson(data);
+			   			var json = RTC.toJson(data);
 			   			if(json.status!=1){
-							WST.msg(json.msg, {icon: 5});
+							RTC.msg(json.msg, {icon: 5});
 							time = 0;
 							isSend = false;
 							getVerify();
 						}if(json.status==1){
-							WST.msg('短信已发送，请注册查收');
+							RTC.msg('短信已发送，请注册查收');
 							layer.close(index);
 			   				time = 130;
 			   				$('#timeTips').css('width','100px');
@@ -261,13 +261,13 @@ function getVerifyCode(){
 		}else{
 			isSend = true;
 			$.post(Think.U('Home/Users/getPhoneVerifyCode'),params,function(data,textStatus){
-	   			var json = WST.toJson(data);
+	   			var json = RTC.toJson(data);
 	   			if(json.status!=1){
-					WST.msg(json.msg, {icon: 5});
+					RTC.msg(json.msg, {icon: 5});
 					time = 0;
 					isSend = false;
 				}if(json.status==1){
-					WST.msg('短信已发送，请注册查收');
+					RTC.msg('短信已发送，请注册查收');
 	   				time = 130;
 	   				$('#timeTips').css('width','100px');
 	   				$('#timeTips').html('获取验证码(130)');
@@ -290,21 +290,21 @@ function regist(){
 	
 	if($("#nameType").val()==3){
 		if($.trim($("#mobileCode").val())==""){		
-			WST.msg('请输入验证码!', {icon: 5});
+			RTC.msg('请输入验证码!', {icon: 5});
 			$("#mobileCode").focus();
 			return;
 		}
 	}else{
 	
 		if($.trim($("#authcode").val())==""){		
-			WST.msg('请输入验证码!', {icon: 5});
+			RTC.msg('请输入验证码!', {icon: 5});
 			$("#mobileCode").focus();
 			return;
 		}
 	}
 
 	if(!document.getElementById("protocol").checked){		
-		WST.msg('必须同意使用协议才允许注册!', {icon: 5});
+		RTC.msg('必须同意使用协议才允许注册!', {icon: 5});
 		return;
 	}
   	var params = {};
@@ -323,25 +323,25 @@ function regist(){
 	params.protocol = document.getElementById("protocol").checked?1:0;	
 	
 	$.post(Think.U('Home/Users/toRegist'),params,function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status>0){
-			WST.msg('注册成功，正在跳转登录!', {icon: 6}, function(){
-				location.href=WST.DOMAIN;
+			RTC.msg('注册成功，正在跳转登录!', {icon: 6}, function(){
+				location.href=RTC.DOMAIN;
    			});
 		}else if(json.status==-2){
-			WST.msg('用户名已存在!', {icon: 5});
+			RTC.msg('用户名已存在!', {icon: 5});
 		}else if(json.status==-3){
-			WST.msg('两次输入密码不一致!', {icon: 5});
+			RTC.msg('两次输入密码不一致!', {icon: 5});
 		}else if(json.status==-4){
-			WST.msg('验证码错误!', {icon: 5});
+			RTC.msg('验证码错误!', {icon: 5});
 		}else if(json.status==-6){
-			WST.msg('必须同意使用协议才允许注册!', {icon: 5});
+			RTC.msg('必须同意使用协议才允许注册!', {icon: 5});
 		}else if(json.status==-5){
-			WST.msg('验证码已超过有效期!', {icon: 5});
+			RTC.msg('验证码已超过有效期!', {icon: 5});
 		}else if(json.status==-7){
-			WST.msg('注册信息不完整!', {icon: 5});
+			RTC.msg('注册信息不完整!', {icon: 5});
 		}else{
-			WST.msg('注册失败!', {icon: 5});
+			RTC.msg('注册失败!', {icon: 5});
 		}
 		getVerify();
 	});

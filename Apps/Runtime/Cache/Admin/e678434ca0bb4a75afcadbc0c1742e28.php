@@ -22,7 +22,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("<?php echo U('Admin/UserRanks/del');?>",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						   location.reload();
@@ -35,14 +35,14 @@
 	   }});
    }
    </script>
-   <body class='wst-page'>
-       <div class='wst-tbar' style='text-align:right;height:25px;'>
-       <?php if(in_array('hydj_01',$WST_STAFF['grant'])){ ?>
+   <body class='rtc-page'>
+       <div class='rtc-tbar' style='text-align:right;height:25px;'>
+       <?php if(in_array('hydj_01',$RTC_STAFF['grant'])){ ?>
        <a class="btn btn-success glyphicon glyphicon-plus" href='<?php echo U("Admin/UserRanks/toEdit");?>' style='float:right'>新增</a>
        <?php } ?>
        </div>
-       <div class="wst-body"> 
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body"> 
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='40'>&nbsp;</th>
@@ -61,10 +61,10 @@
                <td><?php echo ($vo['endScore']); ?></td>
                <td><?php echo ($vo['rebate']); ?></td>
                <td>
-               <?php if(in_array('hydj_02',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('hydj_02',$RTC_STAFF['grant'])){ ?>
                <a class="btn btn-default glyphicon glyphicon-pencil" href='<?php echo U("Admin/UserRanks/toEdit",array("id"=>$vo["rankId"]));?>''>修改</a>&nbsp;
                <?php } ?>
-               <?php if(in_array('hydj_03',$WST_STAFF['grant'])){ ?>
+               <?php if(in_array('hydj_03',$RTC_STAFF['grant'])){ ?>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del(<?php echo ($vo['rankId']); ?>)"">刪除</button>
                <?php } ?>
                </td>

@@ -798,7 +798,7 @@ CREATE TABLE `wst_friendlinks` (
 -- ----------------------------
 -- Records of wst_friendlinks
 -- ----------------------------
-INSERT INTO `wst_friendlinks` VALUES ('1', 'Apps/Home/View/default/images/logo.png', 'WSTMall', 'http://www.wstmall.com', '0');
+INSERT INTO `wst_friendlinks` VALUES ('1', 'Apps/Home/View/default/images/logo.png', '', '', '0');
 
 -- ----------------------------
 -- Table structure for `wst_feedbacks`

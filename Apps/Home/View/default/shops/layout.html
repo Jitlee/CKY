@@ -24,6 +24,7 @@
         <div class="wst-wrap">
           <div class='wst-header'>
 			<include file="./Apps/Home/View/default/header_nav.html" />
+				<!--
 			<div class='wst-user-top'>
 			<div class="wst-user-top-main">
 					<div class='wst-user-top-logo'>
@@ -41,9 +42,10 @@
 					
 				</div>
 			</div>
+			-->
 			<div class="wst-shop-nav">
 				<div class="wst-nav-box">
-					<li class="liselect"><a href="{:U('Home/Shops/index')}" style='color:#FFFFFF;'>我是卖家</a></li>
+					<li class="liselect"><a href="{:U('Home/Shops/index')}" style='color:#FFFFFF;'>我是商家</a></li>
 					<div class="wst-clear"></div>
 				</div>
 			</div>
@@ -65,11 +67,11 @@
                	<a href="{:U('Home/GoodsAppraises/index/')}"><li <if condition='$umark eq "GoodsAppraises"'> class='liselect'</if>>评价管理</li></a>
 
                	<a href="{:U('Home/AttributeCats/index')}"><li <if condition='$umark eq "AttributeCats"'> class='liselect'</if>>商品类型</li></a>
-               	<a href="{:U('Home/Imports/index')}"><li <if condition='$umark eq "Imports"'> class='liselect'</if>>数据导入</li></a>
+               	<!--<a href="{:U('Home/Imports/index')}"><li <if condition='$umark eq "Imports"'> class='liselect'</if>>数据导入</li></a>-->
 			
-              	<span class='wst-menu-title'><span></span>网店设置</span>
-            	<a href="{:U('Home/Shops/toEdit/')}"><li <if condition='$umark eq "toEdit"'> class='liselect'</if>>店铺资料</li></a>
-              	<a href="{:U('Home/Shops/toShopCfg/')}"><li <if condition='$umark eq "setShop"'> class='liselect'</if>>店铺设置</li></a>
+              	<span class='wst-menu-title'><span></span>商家设置</span>
+            	<a href="{:U('Home/Shops/toEdit/')}"><li <if condition='$umark eq "toEdit"'> class='liselect'</if>>商家资料</li></a>
+              	<a href="{:U('Home/Shops/toShopCfg/')}"><li <if condition='$umark eq "setShop"'> class='liselect'</if>>商家设置</li></a>
               	<a href="{:U('Home/Messages/queryByPage/')}"><li id='li_queryMessageByPage' <if condition='$umark eq "queryMessageByPage"'> class='liselect'</if>>商城消息<span style="display:none;" class="wst-msg-tips-box"></span></li></a>
               	<a href="{:U('Home/Shops/toEditPass')}"><li <if condition='$umark eq "toEditPass"'> class='liselect'</if>>修改密码</li></a>
             </div>
@@ -79,9 +81,9 @@
           </div>
           <div style='clear:both;'></div>
           <br/>
-          <div class='wst-footer'>
+          <!--<div class='wst-footer'>
           	<include file="./Apps/Home/View/default/footer.html" />
-          </div>
+          </div>-->
         </div>
     </body>
       	<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>

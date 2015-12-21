@@ -2,9 +2,9 @@
  namespace Admin\Action;;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 广告控制器
  */
@@ -66,7 +66,7 @@ class AdsAction extends BaseAction{
 	public function index(){
 		$this->isLogin();
 		$this->checkAjaxPrivelege('gggl_00');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		//获取商品分类
 		$m = D('Admin/GoodsCats');
 		$this->assign('goodsCatList',$m->queryByList(0));

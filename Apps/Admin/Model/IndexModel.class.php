@@ -2,9 +2,9 @@
 namespace Admin\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 首页服务类
  */
@@ -44,7 +44,7 @@ class IndexModel extends BaseModel {
 				}
 			}
 			$rd['status'] = 1;
-			WSTDataFile("mall_config",'',null);
+			RTCDataFile("mall_config",'',null);
 		}
 		return $rd;
 	}
@@ -57,7 +57,7 @@ class IndexModel extends BaseModel {
 	    $result = $m-> where('fieldCode="mallLicense"')->setField('fieldValue',I('license'));
 		if(false !== $result){
 			$rd['status']= 1;
-			WSTDataFile("mall_config",'',null);
+			RTCDataFile("mall_config",'',null);
 		}
 		return $rd;
 	}

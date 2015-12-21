@@ -2,9 +2,9 @@
  namespace Home\Action;;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 品牌控制器
  */
@@ -17,7 +17,7 @@ class PaymentAction extends BaseAction{
     	$this->isUserLogin();
     	
     	$morders = D('Home/Orders');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$obj["userId"] = (int)$USER['userId'];
 		$obj["orderIds"] = I("orderIds");
 		$data = $morders->checkOrderPay($obj);
@@ -37,7 +37,7 @@ class PaymentAction extends BaseAction{
 	 */
 	public function toPay(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
 		//支付方式
 		$pm = D('Home/Payment');

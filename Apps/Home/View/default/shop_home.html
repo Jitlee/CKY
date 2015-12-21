@@ -29,8 +29,8 @@
 				<img class='lazyImg' data-original="__ROOT__/{$shops['shopBanner']}" width="100%" height="120"/>
 			</if>
 		</div>
-		<div class="wst-shophome-nav">
-			<div class="wst-shophome-nav-box">
+		<div class="rtc-shophome-nav">
+			<div class="rtc-shophome-nav-box">
 				<a href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopId,'ct1'=>-1))}"><li <if condition="$ct1 eq -1">class="liselected"</if>>本店所有商品</li></a>
 				<a href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopId,'ct1'=>0))}"><li <if condition="$ct1 eq 0">class="liselected"</if>>店铺首页</li></a>
 				<volist name="shopscates" key="k" id="vo">
@@ -69,8 +69,8 @@
 		</div>
 		</if>
 		<!----加载商品楼层start----->
-		<div class="wst-container">
-			<div class="wst-shop-container">
+		<div class="rtc-container">
+			<div class="rtc-shop-container">
 				<div class="shop-left">
 					<div class="shop-left-box">
 						<table class="details-tab">
@@ -110,18 +110,18 @@
 									<td></td>
 								</tr>
 								<tr>
-									<td colspan="2" class="wst-shop-eval">
+									<td colspan="2" class="rtc-shop-eval">
 										<div class="shop-eval-box" style="width:214px;margin:0 auto;">
 											<li>商品<br/>{$shopScores["goodsScore"]}</li>
 											<li class="li-center">时效<br/>{$shopScores["timeScore"]}</li>
 											<li>服务<br/>{$shopScores["serviceScore"]}</li>
-											<div class="wst-clear"></div>
+											<div class="rtc-clear"></div>
 										</div>
 									</td>
 								</tr>
 								<tr>
 									<td colspan='2' align='center' style='padding-top:20px;'>
-									<a class='wst-shop-btn' href="javascript:favoriteShops({$shops['shopId']})">
+									<a class='rtc-shop-btn' href="javascript:favoriteShops({$shops['shopId']})">
 										<span id='f1_txt' f='{$favoriteShopId}'><if condition="$favoriteShopId gt 0">已关注<else/>关注店铺</if></span>
 									</a>
 									</td>
@@ -129,7 +129,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="wst-goods-cate-box">
+					<div class="rtc-goods-cate-box">
 						<div class="cate-title">商品分类</div>
 						<div class="hotsale-goods-box" >
 							<volist name="shopscates" key="k" id="vo">
@@ -146,13 +146,13 @@
 				</div>
 				
 				<div class="shop-right">
-					<div class="wst-goods-search">
-						<input id="goodsName" value="{$goodsName}" type="text" class='wst-goods-ipt' placeholder="商品名称"/>
+					<div class="rtc-goods-search">
+						<input id="goodsName" value="{$goodsName}" type="text" class='rtc-goods-ipt' placeholder="商品名称"/>
 						<button class="searchwst" onclick="searchwst();">&nbsp;</button>
 						<button class="searchshop"  onclick="searchShopsGoods(1);">&nbsp;</button>
 					</div>
-					<div class="wst-goods-list">
-						<div class="wst-goods-header">
+					<div class="rtc-goods-list">
+						<div class="rtc-goods-header">
 							<li <if condition="$msort eq 1">class="licurr"</if> onclick="searchShopsGoods(1);">综合排序<s <if condition="$msort eq 1">class="bscurr"</if>></s></li>
 							<li <if condition="$msort eq 2">class="licurr"</if> onclick="searchShopsGoods(2);">人气<s <if condition="$msort eq 2">class="bscurr"</if>></s></li>
 							<li <if condition="$msort eq 3">class="licurr"</if> onclick="searchShopsGoods(3);">销量<s <if condition="$msort eq 3">class="bscurr"</if>></s></li>
@@ -163,16 +163,16 @@
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<s class="rmb1"></s>
 								<s class="rmb2"></s>
-								<input type="text" class='wst-price-ipt' id="sprice" value="{$sprice}"/>-
-								<input type="text" class='wst-price-ipt' id="eprice" value="{$eprice}"/>
+								<input type="text" class='rtc-price-ipt' id="sprice" value="{$sprice}"/>-
+								<input type="text" class='rtc-price-ipt' id="eprice" value="{$eprice}"/>
 								<button style="width:50px;height:25px;" onclick="searchShopsGoods(6);">确定</button>
 							</div>
-							<div class="wst-clear"></div>
+							<div class="rtc-clear"></div>
 						</div>
-						<div class="wst-goods-page">
+						<div class="rtc-goods-page">
 							<volist name="shopsgoods['root']" key="k" id="vo">
 							
-							<li class="wst-goods-item">
+							<li class="rtc-goods-item">
 								<div class="goods-img">
 									<a href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$vo['goodsId']))}">
 										<img class='lazyImg' data-original="__ROOT__/{$vo['goodsThums']}" width="180" />
@@ -194,21 +194,21 @@
 										   &nbsp;&nbsp;&nbsp;&nbsp;<font color='red'>(暂无商品)</font>
 										   </if>
 										</div>
-										<div class="wst-clear"></div>
+										<div class="rtc-clear"></div>
 									</div>
 								</div>
 							</li>
 							</volist>
-							<div class="wst-clear"></div>
+							<div class="rtc-clear"></div>
 						</div>
-						<div class="wst-page" style="text-align:center;;padding-bottom:10px;">
-						<div id="wst-page-items">
+						<div class="rtc-page" style="text-align:center;;padding-bottom:10px;">
+						<div id="rtc-page-items">
 						</div>
 					</div>
 					</div>
 				
 				</div>
-				<div class="wst-clear"></div>
+				<div class="rtc-clear"></div>
 			</div>
 		</div>
 		<include file="./Apps/Home/View/default/footer.html" />
@@ -235,7 +235,7 @@
 		});
 		<if condition="$shopsgoods['totalPage'] gt 1">
 		laypage({
-			cont: 'wst-page-items',
+			cont: 'rtc-page-items',
 			pages: {$shopsgoods['totalPage']}, //总页数
 			skip: true, //是否开启跳页
 			skin: '#e23e3d',
@@ -243,7 +243,7 @@
 			curr: {$shopsgoods['currPage']}, 
 			jump: function(e, first){ //触发分页后的回调
 			    if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        var nuewurl = WST.splitURL("p");
+			        var nuewurl = RTC.splitURL("p");
 			        var ulist = nuewurl.split("?");
 			        if(ulist.length>1){
 			        	location.href = nuewurl+'&p='+e.curr;

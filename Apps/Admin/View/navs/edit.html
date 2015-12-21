@@ -41,7 +41,7 @@
 	   var html = [];
 	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list.length>0){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -65,7 +65,7 @@
 	   params.navSort = $.trim($('#navSort').val());
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("{:U('Admin/Navs/edit')}",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href="{:U('Admin/Navs/index')}";
@@ -94,10 +94,10 @@
 	   $("#navUrl").val(url);
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object["id"]}'/>
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th align='right'>导航城市：</th>
              <td>
@@ -124,7 +124,7 @@
            </tr>
            <tr>
              <th width='150' align='right'>导航名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='navTitle' class="form-control wst-ipt" value='{$object.navTitle}' maxLength='50'/></td>
+             <td><input type='text' id='navTitle' class="form-control rtc-ipt" value='{$object.navTitle}' maxLength='50'/></td>
            </tr>
            <tr>
              <th width='150' align='right'>链接来自：<font color='red'>*</font></th>
@@ -140,10 +140,10 @@
              <td>
             	<select id="articles" style="display:none;" onchange="changeArticles(this)">
              		<volist name="articles" id="vo" key="kv"> 
-             			<option value="{:WSTRootDomain()}{:U('Home/Articles/index/',array('articleId'=>$vo['articleId']))}">{$vo["articleTitle"]}</option>
+             			<option value="{:RTCRootDomain()}{:U('Home/Articles/index/',array('articleId'=>$vo['articleId']))}">{$vo["articleTitle"]}</option>
              		</volist>
              	</select>
-             	<input type='text' id='navUrl' class="form-control wst-ipt" value='{$object.navUrl}' maxLength='100'/>
+             	<input type='text' id='navUrl' class="form-control rtc-ipt" value='{$object.navUrl}' maxLength='100'/>
              </td>
            </tr>
            <tr>
@@ -163,7 +163,7 @@
            <tr>
              <th align='right'>导航排序号：</th>
              <td>
-             <input type='text' id='navSort' class="form-control"  value='{$object.navSort}' style='width:80px' onkeypress="return WST.isNumberKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength='8'/>
+             <input type='text' id='navSort' class="form-control"  value='{$object.navSort}' style='width:80px' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/>
              </td>
            </tr>
            <tr>

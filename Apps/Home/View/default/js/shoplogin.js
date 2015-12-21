@@ -34,7 +34,7 @@ function login(){
 			return false;
 	   }
 	   $.post(Think.U('Home/Shops/checkLogin'),params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				location.href= Think.U('Home/Shops/index');
 			}else if(json.status==-2){

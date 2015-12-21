@@ -20,7 +20,7 @@
    function toggleStatus(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("{:U('Admin/Staffs/editStatus')}",{id:v,staffStatus:t},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 				    location.reload();
@@ -36,7 +36,7 @@
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("{:U('Admin/Staffs/del')}",{id:id},function(data,textStatus){
-					var json = WST.toJson(data);
+					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
 						   location.reload();
@@ -49,19 +49,19 @@
 	   }});
    }
    </script>
-   <body class='wst-page'>
+   <body class='rtc-page'>
      <form method='post' action="{:U('Admin/Staffs/index')}">
-       <div class='wst-tbar'> 
-       账号：<input type='text' id='loginName' name='loginName' class='form-control wst-ipt-10' value='{$loginName}'/> 
-       姓名：<input type='text' id='staffName' name='staffName' class='form-control wst-ipt-10' value='{$staffName}'/>   
+       <div class='rtc-tbar'> 
+       账号：<input type='text' id='loginName' name='loginName' class='form-control rtc-ipt-10' value='{$loginName}'/> 
+       姓名：<input type='text' id='staffName' name='staffName' class='form-control rtc-ipt-10' value='{$staffName}'/>   
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
-       <php>if(in_array('zylb_01',$WST_STAFF['grant'])){</php>
+       <php>if(in_array('zylb_01',$RTC_STAFF['grant'])){</php>
        <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Staffs/toEdit')}" style='float:right'>新增</a>
        <php>}</php>
        </div>
        </form>
-       <div class="wst-body">
-        <table class="table table-hover table-striped table-bordered wst-list">
+       <div class="rtc-body">
+        <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
                <th width='30'>序号</th>
@@ -93,17 +93,17 @@
                <td>
                <div class="dropdown">
                <if condition="$vo['staffStatus']==0 ">
-                   <button class="btn btn-danger dropdown-toggle wst-btn-dropdown"  type="button" data-toggle="dropdown">
+                   <button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
 					    停用
 					  <span class="caret"></span>
 				   </button>
                <else/>
-                   <button class="btn btn-success dropdown-toggle wst-btn-dropdown" type="button" data-toggle="dropdown">
+                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
 					     启用
 					  <span class="caret"></span>
 				   </button>
                </if>
-               <php>if(in_array('zylb_02',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('zylb_02',$RTC_STAFF['grant'])){</php>
                    <ul class="dropdown-menu" role="menu">
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleStatus(1,{$vo['staffId']})">显示</a></li>
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleStatus(0,{$vo['staffId']})">隐藏</a></li>
@@ -112,10 +112,10 @@
                </div>
                </td>
                <td>
-               <php>if(in_array('zylb_02',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('zylb_02',$RTC_STAFF['grant'])){</php>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Staffs/toEdit',array('id'=>$vo['staffId']))}">修改</a>&nbsp;
                <php>}</php>
-               <php>if(in_array('zylb_03',$WST_STAFF['grant'])){</php>
+               <php>if(in_array('zylb_03',$RTC_STAFF['grant'])){</php>
                <if condition="$vo['staffId'] != $Think.session.STAFF.staffId ">
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['staffId']})">刪除</buttona>
                </if>

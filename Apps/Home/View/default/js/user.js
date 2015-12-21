@@ -28,7 +28,7 @@ function getVerify() {
 }
 function checkLogin(){
 	jQuery.post(domainURL +"/index.php/Home/Shops/checkLoginStatus/",{},function(rsp) {
-		var json = WST.toJson(rsp);
+		var json = RTC.toJson(rsp);
 		if(json.status && json.status==-999)location.reload();
 	});
 }

@@ -1,7 +1,7 @@
 <extend name="./Apps/Home/View/default/shops/layout.html" />
 <block name="content">
 <div>
-	<div class='wst-page-header'>
+	<div class='rtc-page-header'>
 		卖家中心&nbsp;>&nbsp;帐户概览
 	</div>
 	<div style="height:158px;">
@@ -9,7 +9,7 @@
 			<tbody>
 				<tr>
 					<td width="140">
-						<div class='wst-shophome-img'>
+						<div class='rtc-shophome-img'>
 							<a target="_blank" href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopInfo['shop']['shopId']))}">
 								<img src="__ROOT__/{$shopInfo['shop']['shopImg']}" height="120" width="120" />
 							</a>
@@ -63,8 +63,8 @@
 		</table>
 	</div>
 	
-	<div class='wst-shophome-area'>
-		<div class='wst-shophome-nav'>
+	<div class='rtc-shophome-area'>
+		<div class='rtc-shophome-nav'>
 			<div class='header'>
 				店铺提示
 			</div>
@@ -106,7 +106,7 @@
 						<span>支付帐号</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>提现</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>出入明细</span>&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 				</div>
-				<div class="wst-clear"></div>
+				<div class="rtc-clear"></div>
 			</div>
 			
 		</div>
@@ -121,7 +121,7 @@
 				<div>服务时间：{$shopInfo['shop']['serviceStartTime']}-{$shopInfo['shop']['serviceEndTime']}</div>
 			</div>
 		</div>
-		<div class="wst-clear"></div>
+		<div class="rtc-clear"></div>
 	</div>
 </div>
 </block>   

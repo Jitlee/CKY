@@ -66,11 +66,11 @@ function getAreaList(result,level){
 				}
 			}else{
 				if(result[i].name.length > 12){
-					longerhtml.push("<li class='longer-area' areatype='3' onclick='chooseTown(this)'><a href='#none' class='wst-town_"+result[i].id+"' data-value='"+result[i].id+"'>"+result[i].name+"</a></li>");
+					longerhtml.push("<li class='longer-area' areatype='3' onclick='chooseTown(this)'><a href='#none' class='rtc-town_"+result[i].id+"' data-value='"+result[i].id+"'>"+result[i].name+"</a></li>");
 				}else if(result[i].name.length > 5){
-					longhtml.push("<li class='long-area' areatype='3' onclick='chooseTown(this)'><a href='#none' class='wst-town_"+result[i].id+"' data-value='"+result[i].id+"'>"+result[i].name+"</a></li>");
+					longhtml.push("<li class='long-area' areatype='3' onclick='chooseTown(this)'><a href='#none' class='rtc-town_"+result[i].id+"' data-value='"+result[i].id+"'>"+result[i].name+"</a></li>");
 				}else{
-					html.push("<li areatype='3' onclick='chooseTown(this)'><a href='#none' class='wst-town_"+result[i].id+"'data-value='"+result[i].id+"'>"+result[i].name+"</a></li>");
+					html.push("<li areatype='3' onclick='chooseTown(this)'><a href='#none' class='rtc-town_"+result[i].id+"'data-value='"+result[i].id+"'>"+result[i].name+"</a></li>");
 				}
 			}
 		}
@@ -124,7 +124,7 @@ function getAreaListcallback(r,level){
 			if(page_load){
 				page_load = false;
 			}
-			$("#wst-test").html(areaContainer.attr("id"));
+			$("#rtc-test").html(areaContainer.attr("id"));
 			currentAreaInfo.currentLevel=3;
 			
 			getStockOpt($(this).attr("data-value"),$(this).html());
@@ -144,7 +144,7 @@ function getAreaListcallback(r,level){
 			if(page_load){
 				page_load = false;
 			}
-			$("#wst-test").html(townaContainer.attr("id"));
+			$("#rtc-test").html(townaContainer.attr("id"));
 			
 			currentAreaInfo.currentLevel=4;
 		
@@ -179,7 +179,7 @@ function chooseCity(cityId,cityName){
 	areaContainer.show().html("<div class='iloading'>正在加载中，请稍候...</div>");
 	townaContainer.hide();
 	$.post(Think.U('Home/UserAddress/getShopDistricts'),{areaId2:cityId,shopId:shopId},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		getAreaListcallback(json,2);
 	});
 	
@@ -207,7 +207,7 @@ function chooseArea(areaId,areaName){
 	areaContainer.hide();
 	townaContainer.show().html("<div class='iloading'>正在加载中，请稍候...</div>");
 	$.post(Think.U('Home/UserAddress/getShopCommunitys'),{districtId:areaId,shopId:shopId},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		getAreaListcallback(json,3);
 	});
 }

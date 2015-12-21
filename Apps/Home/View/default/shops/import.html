@@ -11,23 +11,23 @@
     	  formData: {dir:'temp'},
     	  callback:function(f){
     		  layer.close(uploading);
-    		  var json = WST.toJson(f);
+    		  var json = RTC.toJson(f);
     		  if(json.status==1){
-    		      WST.msg('导入数据成功!已导入数据'+json.importNum+"条", {icon: 1});
+    		      RTC.msg('导入数据成功!已导入数据'+json.importNum+"条", {icon: 1});
     		  }else{
-    			  WST.msg('导入数据失败,出错原因：'+json.msg, {icon: 5});
+    			  RTC.msg('导入数据失败,出错原因：'+json.msg, {icon: 5});
     		  }
 	      },
 	      progress:function(rate){
-	    	  uploading = WST.msg('正在导入数据，请稍后...');
+	    	  uploading = RTC.msg('正在导入数据，请稍后...');
 	      }
       });
    });
 </script>
-   <div class="wst-body"> 
-       <div class='wst-page-header'>卖家中心 > 数据导入</div>
-       <div class='wst-page-content'>
-        <table class="table table-hover table-striped table-bordered wst-form">
+   <div class="rtc-body"> 
+       <div class='rtc-page-header'>卖家中心 > 数据导入</div>
+       <div class='rtc-page-content'>
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <td colspan='2' style='color:#707070;padding-left:25px;padding-top:5px;'>
              • 请勿重复上传, 否则将造成重复商品数据<br/>

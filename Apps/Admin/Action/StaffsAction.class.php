@@ -2,9 +2,9 @@
  namespace Admin\Action;;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 职员控制器
  */
@@ -117,7 +117,7 @@ class StaffsAction extends BaseAction{
 	public function editPass(){
 		$this->isAjaxLogin();
 		$m = D('Admin/Staffs');
-   		$rs = $m->editPass(session('WST_STAFF.staffId'));
+   		$rs = $m->editPass(session('RTC_STAFF.staffId'));
     	$this->ajaxReturn($rs);
 	}
 

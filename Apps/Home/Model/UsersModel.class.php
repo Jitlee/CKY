@@ -2,9 +2,9 @@
 namespace Home\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 会员服务类
  */
@@ -302,14 +302,14 @@ class UsersModel extends BaseModel {
 		$rs = $m->where(" userId=".$userId)->data($data)->save();
 	    if(false !== $rs){
 			$rd['status']= 1;
-			$WST_USER = session('WST_USER');
-			$WST_USER['userName'] = $data["userName"];
-			$WST_USER['userQQ'] = $data["userQQ"];
-			$WST_USER['userSex'] = $data["userSex"];
-			$WST_USER['userPhone'] = $data["userPhone"];
-			$WST_USER['userEmail'] = $data["userEmail"];
-			$WST_USER['userPhoto'] = $data["userPhoto"];
-			session('WST_USER',$WST_USER);
+			$RTC_USER = session('RTC_USER');
+			$RTC_USER['userName'] = $data["userName"];
+			$RTC_USER['userQQ'] = $data["userQQ"];
+			$RTC_USER['userSex'] = $data["userSex"];
+			$RTC_USER['userPhone'] = $data["userPhone"];
+			$RTC_USER['userEmail'] = $data["userEmail"];
+			$RTC_USER['userPhoto'] = $data["userPhoto"];
+			session('RTC_USER',$RTC_USER);
 		}
 		return $rd;
 	}

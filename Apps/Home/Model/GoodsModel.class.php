@@ -2,9 +2,9 @@
 namespace Home\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 商品服务类
  */
@@ -286,7 +286,7 @@ class GoodsModel extends BaseModel {
 	 * 获取上架中的商品
 	 */
 	public function queryOnSaleByPage(){
-		$shopId=(int)session('WST_USER.shopId');
+		$shopId=(int)session('RTC_USER.shopId');
 		$shopCatId1 = (int)I('shopCatId1',0);
 		$shopCatId2 = (int)I('shopCatId2',0);
 		$goodsName = I('goodsName');
@@ -305,7 +305,7 @@ class GoodsModel extends BaseModel {
 	 * 获取下架的商品
 	 */
 	public function queryUnSaleByPage(){
-		$shopId=(int)session('WST_USER.shopId');
+		$shopId=(int)session('RTC_USER.shopId');
 		$shopCatId1 = (int)I('shopCatId1',0);
 		$shopCatId2 = (int)I('shopCatId2',0);
 		$goodsName = I('goodsName');
@@ -323,7 +323,7 @@ class GoodsModel extends BaseModel {
 	 * 获取审核中的商品
 	 */
 	public function queryPenddingByPage(){
-		$shopId=(int)session('WST_USER.shopId');
+		$shopId=(int)session('RTC_USER.shopId');
 		$shopCatId1 = (int)I('shopCatId1',0);
 		$shopCatId2 = (int)I('shopCatId2',0);
 		$goodsName = I('goodsName');
@@ -343,7 +343,7 @@ class GoodsModel extends BaseModel {
 	public function insert(){
 	 	$rd = array('status'=>-1);
 	 	//查询商家状态
-		$sql = "select shopStatus from __PREFIX__shops where shopFlag = 1 and shopId=".(int)session('WST_USER.shopId');
+		$sql = "select shopStatus from __PREFIX__shops where shopFlag = 1 and shopId=".(int)session('RTC_USER.shopId');
 		$shopStatus = $this->query($sql);
 		if(empty($shopStatus)){
 			$rd['status'] = -2;
@@ -355,7 +355,7 @@ class GoodsModel extends BaseModel {
 		$data["goodsName"] = I("goodsName");
 		$data["goodsImg"] = I("goodsImg");
 		$data["goodsThums"] = I("goodsThumbs");
-		$data["shopId"] = session('WST_USER.shopId');
+		$data["shopId"] = session('RTC_USER.shopId');
 		$data["marketPrice"] = (float)I("marketPrice");
 		$data["shopPrice"] = (float)I("shopPrice");
 		$data["goodsStock"] = (int)I("goodsStock");
@@ -404,7 +404,7 @@ class GoodsModel extends BaseModel {
 					$m = M('goods_attributes');
 					//获取商品类型属性
 					$sql = "select attrId,attrName,isPriceAttr from __PREFIX__attributes where attrFlag=1 
-					       and catId=".$data["attrCatId"]." and shopId=".session('WST_USER.shopId');
+					       and catId=".$data["attrCatId"]." and shopId=".session('RTC_USER.shopId');
 					$attrRs = $m->query($sql);
 					if(!empty($attrRs)){
 						$priceAttrId = 0;
@@ -414,7 +414,7 @@ class GoodsModel extends BaseModel {
 								continue;
 							}else{
 								$attr = array();
-								$attr['shopId'] = session('WST_USER.shopId');
+								$attr['shopId'] = session('RTC_USER.shopId');
 								$attr['goodsId'] = $goodsId;
 								$attr['attrId'] = $v['attrId'];
 								$attr['attrVal'] = I('attr_name_'.$v['attrId']);
@@ -429,7 +429,7 @@ class GoodsModel extends BaseModel {
 								$name = trim(I('price_name_'.$priceAttrId."_".$i));
 								if($name=='')continue;
 								$attr = array();
-								$attr['shopId'] = session('WST_USER.shopId');
+								$attr['shopId'] = session('RTC_USER.shopId');
 								$attr['goodsId'] = $goodsId;
 								$attr['attrId'] = $priceAttrId;
 								$attr['attrVal'] = $name;
@@ -453,7 +453,7 @@ class GoodsModel extends BaseModel {
 						if($v=='')continue;
 						$str1 = explode('@',$v);
 						$data = array();
-						$data['shopId'] = session('WST_USER.shopId');
+						$data['shopId'] = session('RTC_USER.shopId');
 						$data['goodsId'] = $goodsId;
 						$data['goodsImg'] = $str1[0];
 						$data['goodsThumbs'] = $str1[1];
@@ -472,7 +472,7 @@ class GoodsModel extends BaseModel {
 	public function edit(){
 		$rd = array('status'=>-1);
 	 	$goodsId = (int)I("id",0);
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 	    //查询商家状态
 		$sql = "select shopStatus from __PREFIX__shops where shopFlag = 1 and shopId=".$shopId;
 		$shopStatus = $this->query($sql);
@@ -536,7 +536,7 @@ class GoodsModel extends BaseModel {
 					$m->query("delete from __PREFIX__goods_attributes where goodsId=".$goodsId);
 					//获取商品类型属性列表
 					$sql = "select attrId,attrName,isPriceAttr from __PREFIX__attributes where attrFlag=1 
-					       and catId=".$data["attrCatId"]." and shopId=".session('WST_USER.shopId');
+					       and catId=".$data["attrCatId"]." and shopId=".session('RTC_USER.shopId');
 					$attrRs = $m->query($sql);
 					if(!empty($attrRs)){
 						$priceAttrId = 0;
@@ -551,7 +551,7 @@ class GoodsModel extends BaseModel {
 								$attr['attrVal'] =  trim(I('attr_name_'.$v['attrId']));
 								$attr['attrPrice'] = 0;
 								$attr['attrStock'] = 0;
-								$attr['shopId'] = session('WST_USER.shopId');
+								$attr['shopId'] = session('RTC_USER.shopId');
 								$attr['goodsId'] = $goodsId;
 								$attr['attrId'] = $v['attrId'];
 								$m->add($attr);
@@ -566,7 +566,7 @@ class GoodsModel extends BaseModel {
 								$name = trim(I('price_name_'.$priceAttrId."_".$i));
 								if($name=='')continue;
 								$attr = array();
-								$attr['shopId'] = session('WST_USER.shopId');
+								$attr['shopId'] = session('RTC_USER.shopId');
 								$attr['goodsId'] = $goodsId;
 								$attr['attrId'] = $priceAttrId;
 								$attr['attrVal'] = $name;
@@ -619,7 +619,7 @@ class GoodsModel extends BaseModel {
 	 public function get(){
 	 	$m = M('goods');
 	 	$id = (int)I('id',0);
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 		$goods = $m->where("goodsId=".$id." and shopId=".$shopId)->find();
 		if(empty($goods))return array();
 		$m = M('goods_gallerys');
@@ -667,7 +667,7 @@ class GoodsModel extends BaseModel {
 	 public function del(){
 	 	$rd = array('status'=>-1);
 	 	$m = M('goods');
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 	 	$data = array();
 		$data["goodsFlag"] = -1;
 	 	$rs = $m->where("shopId=".$shopId." and goodsId=".I('id'))->save($data);
@@ -683,7 +683,7 @@ class GoodsModel extends BaseModel {
 	 public function batchDel(){
 	 	$rd = array('status'=>-1);
 	 	$m = M('goods');
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 	 	$data = array();
 		$data["goodsFlag"] = -1;
 	 	$rs = $m->where("shopId=".$shopId." and goodsId in(".I('ids').")")->save($data);
@@ -701,7 +701,7 @@ class GoodsModel extends BaseModel {
 	 	$codeArr = array('isBest','isNew','isHot','isRecomm');
 	 	if(in_array($code,$codeArr)){
 		 	$m = M('goods');
-		 	$shopId = (int)session('WST_USER.shopId');
+		 	$shopId = (int)session('RTC_USER.shopId');
 		 	$data = array();
 			$data[$code] = 1;
 		 	$rs = $m->where("shopId=".$shopId." and goodsId in(".I('ids').")")->save($data);
@@ -718,7 +718,7 @@ class GoodsModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 	 	$m = M('goods');
 	 	$isSale = (int)I('isSale');
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 	 	$ids = I('ids');
 	 	if($isSale==1){
 	 		//核对店铺状态
@@ -831,7 +831,7 @@ class GoodsModel extends BaseModel {
 	 * 获取店铺商品列表
 	 */
 	public function getHotGoods($shopId){
-		$hotgoods = S("WST_CACHE_HOT_GOODS_".$shopId);
+		$hotgoods = S("RTC_CACHE_HOT_GOODS_".$shopId);
 		if(!$hotgoods){
 			//热销排名
 			$sql = "SELECT sp.shopName, g.saleCount totalnum, sp.shopId , g.goodsId , g.goodsName,g.goodsImg, g.goodsThums,g.shopPrice,g.marketPrice, g.goodsSn 
@@ -839,7 +839,7 @@ class GoodsModel extends BaseModel {
 							WHERE g.shopId = sp.shopId AND g.goodsFlag = 1 AND sp.shopFlag=1 AND sp.shopStatus=1 AND g.isSale = 1 AND g.goodsStatus = 1 AND sp.shopId = $shopId
 							ORDER BY g.saleCount desc limit 5";	
 			$hotgoods = $this->query($sql);
-			S("WST_CACHE_HOT_GOODS_".$shopId,$hotgoods,86400);
+			S("RTC_CACHE_HOT_GOODS_".$shopId,$hotgoods,86400);
 		}
 		return  $hotgoods;
 	}
@@ -922,7 +922,7 @@ class GoodsModel extends BaseModel {
 		}else{
 			$rs = $obj;
 		}
-		$gclist = M('goods_cats')->cache('WST_CACHE_GOODS_CAT_URL',31536000)->where('isShow = 1')->field('catId,catName')->order('catId')->select();
+		$gclist = M('goods_cats')->cache('RTC_CACHE_GOODS_CAT_URL',31536000)->where('isShow = 1')->field('catId,catName')->order('catId')->select();
 		$catslist = array();
 		foreach ($gclist as $key => $gcat) {
 			$catslist[$gcat["catId"]] = $gcat;
@@ -1048,7 +1048,7 @@ class GoodsModel extends BaseModel {
 	 * 上传商品数据
 	 */
 	public function importGoods($data){
-		$objReader = WSTReadExcel($data['file']['savepath'].$data['file']['savename']);
+		$objReader = RTCReadExcel($data['file']['savepath'].$data['file']['savename']);
         $objReader->setActiveSheetIndex(0); 
         $sheet = $objReader->getActiveSheet();
         $rows = $sheet->getHighestRow();
@@ -1058,7 +1058,7 @@ class GoodsModel extends BaseModel {
         $goodsCatMap = array();
         $shopGoodsCatMap = array();
         $brandMap = array();
-        $shopId = (int)session('WST_USER.shopId');
+        $shopId = (int)session('RTC_USER.shopId');
         $goodsModel = M('goods');
         $importNum = 0;
         //循环读取每个单元格的数据

@@ -2,9 +2,9 @@
 namespace Home\Action;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 店铺控制器
  */
@@ -120,7 +120,7 @@ class ShopsAction extends BaseAction {
      * 跳到商家登录页面
      */
 	public function login(){
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		if(!empty($USER) && $USER['userType']>=1){
 			$this->redirect("Shops/index");
 		}else{
@@ -140,7 +140,7 @@ class ShopsAction extends BaseAction {
 			$m = D('Home/Shops');
 	   		$rs = $m->login();
 	   		if($rs['status']==1){
-	    		session('WST_USER',$rs['shop']);
+	    		session('RTC_USER',$rs['shop']);
 	    		unset($rs['shop']);
 	    	}
 		}
@@ -150,8 +150,8 @@ class ShopsAction extends BaseAction {
 	 * 退出
 	 */
 	public function logout(){
-		session('WST_USER',null);
-		session("WST_CART",null);
+		session('RTC_USER',null);
+		session("RTC_CART",null);
 		echo "1";
 	}
 	/**
@@ -160,7 +160,7 @@ class ShopsAction extends BaseAction {
 	public function index(){
 		$this->isShopLogin();
 		$spm = D('Home/Shops');
-		$data['shop'] = $spm->loadShopInfo(session('WST_USER.userId'));
+		$data['shop'] = $spm->loadShopInfo(session('RTC_USER.userId'));
 		$obj["shopId"] = $data['shop']['shopId'];
 		$details = $spm->getShopDetails($obj);
 		$data['details'] = $details;
@@ -174,7 +174,7 @@ class ShopsAction extends BaseAction {
 	 */
 	public function toEdit(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		//获取银行列表
 		$m = D('Admin/Banks');
 		$this->assign('bankList',$m->queryByList(0));
@@ -190,7 +190,7 @@ class ShopsAction extends BaseAction {
 	 */
 	public function toShopCfg(){
 		$this->isShopLogin();
-        $USER = session('WST_USER');
+        $USER = session('RTC_USER');
 		//获取商品信息
 		$m = D('Home/Shops');
 		$this->assign('object',$m->getShopCfg((int)$USER['shopId']));
@@ -203,7 +203,7 @@ class ShopsAction extends BaseAction {
 	 */
 	public function editShopCfg(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/Shops');
     	$rs = array('status'=>-1);
     	if($USER['shopId']>0){
@@ -217,7 +217,7 @@ class ShopsAction extends BaseAction {
 	*/
 	public function edit(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/Shops');
     	$rs = array('status'=>-1);
     	if($USER['shopId']>0){
@@ -240,7 +240,7 @@ class ShopsAction extends BaseAction {
 	 */
 	public function toOpenShopByUser(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		if(!empty($USER) && $USER['userType']==0){
 			//获取用户申请状态
 			$m = D('Home/Shops');
@@ -266,7 +266,7 @@ class ShopsAction extends BaseAction {
 				if($shopStatus[0]==1){
 					$shops = $m->loadShopInfo((int)$USER['userId']);
 					$USER = array_merge($USER,$shops);
-					session('WST_USER',$USER);
+					session('RTC_USER',$USER);
 					$this->assign('msg','您的申请已通过，请刷新页面后点击右上角的"卖家中心"进入店铺界面.');
 					$this->display("default/users/user_msg");
 				}else{
@@ -284,7 +284,7 @@ class ShopsAction extends BaseAction {
 	 */
 	public function openShopByUser(){
 		$this->isUserAjaxLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/Shops');
     	$userId = (int)$USER['userId'];
     	$rs = array('status'=>-1);
@@ -329,7 +329,7 @@ class ShopsAction extends BaseAction {
 	 	$rs = $m->addByVisitor();
 	 	$m = D('Home/Users');
 	 	$user = $m->get($rs['userId']);
-	 	if(!empty($user))session('WST_USER',$user);
+	 	if(!empty($user))session('RTC_USER',$user);
     	$this->ajaxReturn($rs);
 	}
 

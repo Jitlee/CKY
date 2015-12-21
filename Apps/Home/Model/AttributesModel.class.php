@@ -2,9 +2,9 @@
  namespace Home\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 商品属性类
  */
@@ -18,7 +18,7 @@ class AttributesModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 	 	$no = (int)I('no');
 	 	$catId = (int)I('catId');
-	 	$shopId = (int)session('WST_USER.shopId');
+	 	$shopId = (int)session('RTC_USER.shopId');
 	 	//获取该类型下的价格属性
 	 	$sql = "select attrId from __PREFIX__attributes where catId=".$catId." and isPriceAttr = 1 and attrFlag=1 and shopId=".$shopId;
 	 	$priceRs = $m->query($sql);
@@ -66,7 +66,7 @@ class AttributesModel extends BaseModel {
 	  * 获取指定对象
 	  */
      public function get(){
-     	$shopId = (int)session('WST_USER.shopId');
+     	$shopId = (int)session('RTC_USER.shopId');
      	$m = M('attributes');
 		return $m->where("shopId=".$shopId." and attrId=".I('id'))->find();
 	 }
@@ -76,7 +76,7 @@ class AttributesModel extends BaseModel {
      public function queryByPage(){
      	 $catId = (int)I('catId');
      	 $m = M('attributes');
-     	 $shopId = (int)session('WST_USER.shopId');
+     	 $shopId = (int)session('RTC_USER.shopId');
 		 return $m->where('shopId='.$shopId.' and attrFlag=1 and catId='.$catId)->order('attrSort asc,attrId asc')->select();
 	 }
 	 
@@ -86,7 +86,7 @@ class AttributesModel extends BaseModel {
      public function queryByList(){
      	 $catId = (int)I('catId');
      	 $m = M('attributes');
-     	 $shopId = (int)session('WST_USER.shopId');
+     	 $shopId = (int)session('RTC_USER.shopId');
 		 return $m->where('shopId='.$shopId.' and attrFlag=1 and catId='.$catId)->order('attrSort asc,attrId asc')->select();
 	 }
 	 
@@ -96,7 +96,7 @@ class AttributesModel extends BaseModel {
      public function queryByListForGoods(){
      	 $catId = (int)I('catId');
      	 $m = M('attributes');
-     	 $shopId = (int)session('WST_USER.shopId');
+     	 $shopId = (int)session('RTC_USER.shopId');
 		 $rs = $m->where('shopId='.$shopId.' and attrFlag=1 and catId='.$catId)->order('attrSort asc,attrId asc')->select();
          foreach ($rs as $key => $v){
 		     //分解下拉和多选的选项
@@ -115,7 +115,7 @@ class AttributesModel extends BaseModel {
 	    $rd = array('status'=>-1);
 	    $id = (int)I('id');
 	    if($id==0)return $rd;
-	    $shopId = (int)session('WST_USER.shopId');
+	    $shopId = (int)session('RTC_USER.shopId');
 	    $m = M('goods_attributes');
 		//删除相关商品的属性
 		$m->where("shopId=".$shopId." and attrId in(".implode(',',$ids).")")->delete();

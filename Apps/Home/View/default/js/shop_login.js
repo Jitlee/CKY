@@ -29,7 +29,7 @@ function login(){
 			return false;
 	   }
 	   $.post(domainURL +"/index.php/Home/Shops/checkLogin",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				location.href=domainURL +'/index.php/Home/Shops/index';
 			}else if(json.status==-2){

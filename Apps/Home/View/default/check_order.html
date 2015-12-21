@@ -25,29 +25,29 @@
             <div>
                 <div id="succeed">
                     <div class="success2" style="">
-                        <div class="wst-chkod-blank"></div>
-                        <div class="wst-chkod-step">
+                        <div class="rtc-chkod-blank"></div>
+                        <div class="rtc-chkod-step">
                             <img src="__ROOT__/Apps/Home/View/default/images/step2.png" alt="" /><br />
-                            <span class="wst-chkod-step1">1.我的购物车</span>
-                            <span class="wst-chkod-step2">2.填写核对订单信息</span>
-                            <span class="wst-chkod-step3">3.成功提交订单</span>
+                            <span class="rtc-chkod-step1">1.我的购物车</span>
+                            <span class="rtc-chkod-step2">2.填写核对订单信息</span>
+                            <span class="rtc-chkod-step3">3.成功提交订单</span>
                         </div>
-                        <div class="wst-clear"></div>
+                        <div class="rtc-clear"></div>
                     </div>
 
                 </div>
             </div>
             <div id="checkorderInfo">
-                <div class="wst-chkod-subox">
-                    <div class="wst-chkod-title">
+                <div class="rtc-chkod-subox">
+                    <div class="rtc-chkod-title">
                         	填写并核对订单信息
                     </div>
                     <div>                        
 						<div id="consignee1" <if condition="count($addressList) eq 0">style='display:none'</if>>
 							<div>
-								<span class="wst-chkod-s1-title">收货人信息 </span>
+								<span class="rtc-chkod-s1-title">收货人信息 </span>
 								<input type="hidden" id="paddressId" value="{$addressList[0]['addressId']}"/>
-								<span class="wst-chkod-s1-upd"><a href="javascript:toEditAddress({$addressList[0]['addressId']});">[修改]</a></span>
+								<span class="rtc-chkod-s1-upd"><a href="javascript:toEditAddress({$addressList[0]['addressId']});">[修改]</a></span>
 							</div>
 							<volist name="addressList" key="k" id="address">
 							
@@ -76,7 +76,7 @@
 						
                         <div id="consignee2" style="<if condition="count($addressList) gt 0">display:none;</if>">
                             <div>
-                                <span class="wst-chkod-cg-title">收货人信息 </span>
+                                <span class="rtc-chkod-cg-title">收货人信息 </span>
                             </div>
                             <div>
                             	<div id="userAddressDiv">
@@ -95,8 +95,8 @@
 										</if>
 										</span>
 									</label>
-									<span class="optionspan wst-opt-upd">[<a onclick="javascript:editAddress({$address['addressId']});">修改</a>]</span>
-									<span class="optionspan wst-opt-del">[<a onclick="javascript:delAddress({$address['addressId']});">删除</a>]</span>									
+									<span class="optionspan rtc-opt-upd">[<a onclick="javascript:editAddress({$address['addressId']});">修改</a>]</span>
+									<span class="optionspan rtc-opt-del">[<a onclick="javascript:delAddress({$address['addressId']});">删除</a>]</span>									
 								</div>
 								</volist>
 								</div>
@@ -109,16 +109,16 @@
                             <div id="address_form" style="">
                                 <input type='hidden' id='consignee_add_cityId' name='consignee_add_cityId' value='{$areaId2}'/>
                                 <input type='hidden' id='consignee_add_cityName' name='consignee_add_cityName'/>
-                                <div class="wst-chkod-line35">
-                                    <div class="wst-chkod-cg-pp"><span style="color: red;">*</span>收货人：</div>
+                                <div class="rtc-chkod-line35">
+                                    <div class="rtc-chkod-cg-pp"><span style="color: red;">*</span>收货人：</div>
                                     <div style="float: left; width: 700px;">
                                         <input type="text" class="input adsipt" style="width: 200px;" maxlength="50" name="consignee_add_userName" id="consignee_add_userName" />&nbsp;
                                     </div>
                                     <div style="clear: both;"></div>
                                 </div>
-                                <div class="wst-chkod-line35">
-                                    <div class="wst-chkod-cg-ads"><span style="color: red;">*</span>收货地址：</div>
-                                    <div class="wst-chkod-area-box">
+                                <div class="rtc-chkod-line35">
+                                    <div class="rtc-chkod-cg-ads"><span style="color: red;">*</span>收货地址：</div>
+                                    <div class="rtc-chkod-area-box">
                                         <select name="consignee_add_countyId" id="consignee_add_countyId" class="adsipt" onchange="loadCommunitys(this);">
                                             <option value="0" selected="selected">请选择</option>
                                             <volist name="areaList2" key="key" id="area">
@@ -132,18 +132,18 @@
                                     </div>
                                     <div style="clear: both;"></div>
                                 </div>
-                                <div class="wst-chkod-line35">
-                                    <div class="wst-chkod-cg-pno"><span style="color: red;">*</span>手机号码：</div>
-                                    <div class="wst-chkod-cg-pno-box">
-                                        <input type="text" class="input adsipt" style="width: 150px;" maxlength="11" name="consignee_add_userPhone" id="consignee_add_userPhone" onkeyup="javascript:WST.isChinese(this,1)" onkeypress="return WST.isNumberdoteKey(event)" />
+                                <div class="rtc-chkod-line35">
+                                    <div class="rtc-chkod-cg-pno"><span style="color: red;">*</span>手机号码：</div>
+                                    <div class="rtc-chkod-cg-pno-box">
+                                        <input type="text" class="input adsipt" style="width: 150px;" maxlength="11" name="consignee_add_userPhone" id="consignee_add_userPhone" onkeyup="javascript:RTC.isChinese(this,1)" onkeypress="return RTC.isNumberdoteKey(event)" />
                                         &nbsp;或&nbsp;&nbsp;&nbsp;&nbsp;
 										 固定电话:<input type="text" class="input adsipt" style="width: 150px;" maxlength="15" name="consignee_add_userTel" id="consignee_add_userTel" />(例：020-88888888)&nbsp;
                                     </div>
                                     <div style="clear: both;"></div>
                                 </div>
-                                <div class="wst-chkod-line35">
-                                    <div class="wst-chkod-cg-pno"><span style="color: red;">*</span>是否默认地址：</div>
-                                    <div class="wst-chkod-cg-pno-box">
+                                <div class="rtc-chkod-line35">
+                                    <div class="rtc-chkod-cg-pno"><span style="color: red;">*</span>是否默认地址：</div>
+                                    <div class="rtc-chkod-cg-pno-box">
                                         <label>
                                           <input type='radio' name='consignee_add_isDefault' id='consignee_add_isDefault_1' vallue='1'>是
                                         </label>
@@ -155,7 +155,7 @@
                                 </div>
                             </div>
                             
-							<div class="wst-checkout wst-chkod-sbx" id="checkout">
+							<div class="rtc-checkout rtc-chkod-sbx" id="checkout">
 								<li  onclick="saveAddress()">
 									<span id="saveConsigneeTitleDiv"></span>
 								</li>
@@ -163,9 +163,9 @@
 							</div>
                         </div>
                     </div>
-                    <div class="wst-chkod-pay">
+                    <div class="rtc-chkod-pay">
                         <div>
-                            <span class="wst-chkod-pay-tt">支付方式 </span>
+                            <span class="rtc-chkod-pay-tt">支付方式 </span>
                         </div>
                         <div id="newaddress">
                         	<if condition="count($payments['unlines']) gt 0">
@@ -176,7 +176,7 @@
                                     </label>
                                 </div>
                                 <div style="width:800px;float:left;">
-                                	<span class="wst-chkod-sh-tips">送货上门后再收款，支持现金</span>
+                                	<span class="rtc-chkod-sh-tips">送货上门后再收款，支持现金</span>
                                 </div>
                                 <div style="clear:both;"></div>
                             </div>
@@ -190,7 +190,7 @@
                                 </div>
                                 <div style="width:800px;float:left;">
                                 	
-                                	<div><span class="wst-chkod-sh-tips">可在提交订单后选择，支持：</span></div>
+                                	<div><span class="rtc-chkod-sh-tips">可在提交订单后选择，支持：</span></div>
                                 	<volist name="payments['onlines']" key="key" id="payment">
                                 		<if condition="$payment['isOnline'] eq 1">
                                 		<div style="float:left;width:165px;"><img src="__ROOT__/{$payment['payIcon']}" width="120" height="45"/></div>
@@ -203,9 +203,9 @@
                             </if>
                         </div>
                     </div>
-                    <div class="wst-chkod-dp-box">
+                    <div class="rtc-chkod-dp-box">
                         <div>
-                            <span class="wst-chkod-dp-hds">发票信息 </span>
+                            <span class="rtc-chkod-dp-hds">发票信息 </span>
                         </div>
                         <div style="padding-left: 40px;">
                             <label>
@@ -221,9 +221,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="wst-chkod-dp-box">
+                    <div class="rtc-chkod-dp-box">
                         <div>
-                            <span class="wst-chkod-dp-hds">送货方式</span>
+                            <span class="rtc-chkod-dp-hds">送货方式</span>
                         </div>
                         <div style="padding-left: 40px;">
                             <label>
@@ -236,9 +236,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="wst-chkod-dp-box">
+                    <div class="rtc-chkod-dp-box">
                         <div>
-                            <span class="wst-chkod-dp-hds">送达时间</span>
+                            <span class="rtc-chkod-dp-hds">送达时间</span>
                         </div>
                         <div style="padding-left: 40px;">
                             <label>
@@ -251,9 +251,9 @@
                             </select> 
                         </div>
                     </div>
-                    <div class="wst-chkod-dp-box">
+                    <div class="rtc-chkod-dp-box">
                         <div>
-                            <span class="wst-chkod-dp-hds">订单备注<span style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                            <span class="rtc-chkod-dp-hds">订单备注<span style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                         </div>
                         <div style="padding-left: 40px;">
                             <label>
@@ -261,57 +261,57 @@
                             </label>                           
                         </div>
                     </div>
-                    <div class="wst-chkod-dp-box">
+                    <div class="rtc-chkod-dp-box">
                         
                         <volist name="catgoods" key="key" id="shopgoods">						
 							<div>
-                                <div class="wst-chkod-dp-pb1">
-                                    <span class="wst-chkod-dp-hds">商品清单</span><span class="wst-chkod-shop-span">【<span id="sp_{$shopgoods['shopgoods'][0]['shopId']}">{$shopgoods["shopgoods"][0]["shopName"]}</span><if condition='$shopgoods["shopgoods"][0]["isInvoice"] eq 1'>：本店可开具发票<else/>：不可开发票</if>】</span>
+                                <div class="rtc-chkod-dp-pb1">
+                                    <span class="rtc-chkod-dp-hds">商品清单</span><span class="rtc-chkod-shop-span">【<span id="sp_{$shopgoods['shopgoods'][0]['shopId']}">{$shopgoods["shopgoods"][0]["shopName"]}</span><if condition='$shopgoods["shopgoods"][0]["isInvoice"] eq 1'>：本店可开具发票<else/>：不可开发票</if>】</span>
                                 	<if condition="$shopgoods['shopgoods'][0]['qqNo'] neq ''">
 										<a href="tencent://message/?uin={$shopgoods['shopgoods'][0]['qqNo']}&Site=QQ交谈&Menu=yes">
 											<img border="0" src="http://wpa.qq.com/pa?p=1:{$shopgoods['shopgoods'][0]['qqNo']}:7" alt="QQ交谈" width="71" height="24" />
 										</a>
 									</if>
                                 </div>
-                                <div class="wst-goods-tips">
+                                <div class="rtc-goods-tips">
                                    	 包邮起步价：¥{$shopgoods["shopgoods"][0]["deliveryFreeMoney"]}元
                                 </div>
                                 <div style="clear: both;"></div>
                             </div>
                             <if condition='$shopgoods["shopgoods"][0]["deliveryStartMoney"] gt $shopgoods["totalMoney"]'>
-                            	<div id="showwarnmsg_{$key}" class="wst-chkod-dp-pb2">
+                            	<div id="showwarnmsg_{$key}" class="rtc-chkod-dp-pb2">
 			                		抱歉，您的订单金额未达到该店铺的配送订单起步价¥{$shopgoods["shopgoods"][0]["deliveryStartMoney"]}元，不能提交订单。
 			                	</div>
 			                	<input type="hidden" id="tst_{$key}"  class="tst" value="-1"/>
                             </if>                            
                         <div>
-                            <div class="wst-chkod-glist-tb">
-                                <div class="wst-chkod-glist-tt1">&nbsp;&nbsp;商品</div>
-                                <div class="wst-chkod-glist-tt2">商品单价</div>
-                                <div class="wst-chkod-glist-tt3">数量</div>
-                                <div class="wst-chkod-glist-tt4">总价</div>
-                                <div class="wst-chkod-glist-tt5">库存状态</div>
-                                <div class="wst-clear"></div>
+                            <div class="rtc-chkod-glist-tb">
+                                <div class="rtc-chkod-glist-tt1">&nbsp;&nbsp;商品</div>
+                                <div class="rtc-chkod-glist-tt2">商品单价</div>
+                                <div class="rtc-chkod-glist-tt3">数量</div>
+                                <div class="rtc-chkod-glist-tt4">总价</div>
+                                <div class="rtc-chkod-glist-tt5">库存状态</div>
+                                <div class="rtc-clear"></div>
                             </div>
                             <volist name="shopgoods['shopgoods']" key="key2" id="goods">
-								<div class="selgoods" class="wst-chkod-dp-pb3">
-                                    <div class="wst-chkod-dp-pb4">
+								<div class="selgoods" class="rtc-chkod-dp-pb3">
+                                    <div class="rtc-chkod-dp-pb4">
                                         <div>
-                                            <div class="wst-cart-goods-img">
+                                            <div class="rtc-cart-goods-img">
                                                 <a href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}" target="_blank">
                                                     <img src="__ROOT__/{$goods['goodsThums']}" width="60" height="60" /></a>
                                             </div>
-                                            <div class="wst-cart-goods-name">
+                                            <div class="rtc-cart-goods-name">
                                                 <a target="_blank" href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}" target="_blank">
                                                 {$goods["goodsName"]}<if condition="$goods['attrVal'] neq ''">【{$goods['attrName']}:{$goods['attrVal']}】</if>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="wst-chkod-od-crt1">¥{$goods["shopPrice"]}元</div>
-                                    <div class="wst-chkod-od-crt2">{$goods['cnt']}</div>
-                                    <div class="wst-chkod-od-crt3">¥{$goods["shopPrice"]*$goods['cnt']}元</div>
-                                    <div class="wst-chkod-od-crt4">
+                                    <div class="rtc-chkod-od-crt1">¥{$goods["shopPrice"]}元</div>
+                                    <div class="rtc-chkod-od-crt2">{$goods['cnt']}</div>
+                                    <div class="rtc-chkod-od-crt3">¥{$goods["shopPrice"]*$goods['cnt']}元</div>
+                                    <div class="rtc-chkod-od-crt4">
 	                                    <if condition="$goods['goodsStock'] egt $goods['cnt']">
 	                                    	有货
 	                                    <elseif condition="$goods['goodsStock'] eq 0"/>
@@ -320,36 +320,36 @@
 	                                    	<span style="color:red;">库存不足,仅剩{$goods["goodsStock"]}份</span>
 	                                    </if>
                                     </div>
-                                    <div class="wst-clear"></div>
+                                    <div class="rtc-clear"></div>
                                 </div>
                             </volist>													
                         </div>
-                        <div class="wst-chkod-dp-pb5">
+                        <div class="rtc-chkod-dp-pb5">
                             <div style="width: 310px; float: right;">
                                 <div>
-                                    <div class="wst-chkod-my1"><span style="color: red;">{$shopgoods["totalCnt"]}</span> 件商品，总商品金额：</div>
-                                    <div class="wst-chkod-my2">¥{$shopgoods["totalMoney"]}&nbsp;&nbsp;</div>
-                                    <div class="wst-clear"></div>
+                                    <div class="rtc-chkod-my1"><span style="color: red;">{$shopgoods["totalCnt"]}</span> 件商品，总商品金额：</div>
+                                    <div class="rtc-chkod-my2">¥{$shopgoods["totalMoney"]}&nbsp;&nbsp;</div>
+                                    <div class="rtc-clear"></div>
                                 </div>
                                 <div>
-                                    <div class="wst-chkod-yy1">运费：</div>
-                                    <div class="wst-chkod-yy2">
+                                    <div class="rtc-chkod-yy1">运费：</div>
+                                    <div class="rtc-chkod-yy2">
                                     	<input type="hidden" id="deliveryMoney_{$key}" value='<if condition='$shopgoods["totalMoney"] lt $shopgoods["shopgoods"][0]["deliveryFreeMoney"]'>¥{$shopgoods["shopgoods"][0]["deliveryMoney"]}<else/>免运费</if>'/>
 
                                     	<span id="deliveryMoney_span_{$key}">
                                     	<if condition='$shopgoods["totalMoney"] lt $shopgoods["shopgoods"][0]["deliveryFreeMoney"]'>¥{$shopgoods["shopgoods"][0]["deliveryMoney"]}<else/>免运费</if>
                                    	 	</span>
                                    	&nbsp;&nbsp;</div>
-                                    <div class="wst-clear"></div>
+                                    <div class="rtc-clear"></div>
                                 </div>
                             </div>
-                            <div class="wst-clear"></div>
+                            <div class="rtc-clear"></div>
                         </div>
                         </volist>	
                     </div>
                     <div class="checkout-buttons group" id="checkout-floatbar">
                         <div class="sticky-placeholder hide" style="display: none;"></div>
-                        <div class="wst-chkod-yf1">
+                        <div class="rtc-chkod-yf1">
                         	<span class="total">应付总额：<span style="color: red;">
 	                                <strong id="payPriceId">￥
 	                                	<input type="hidden" id="gtotalMoney" value="{$gtotalMoney}"/>
@@ -359,12 +359,12 @@
                                 </span>
                         </div>
                         <div class="sticky-wrap">
-                            <div class="wst-inner" style="padding:15px;">
-                            <button onclick="javascript:backCart();" class="wst-prev-btn">
+                            <div class="rtc-inner" style="padding:15px;">
+                            <button onclick="javascript:backCart();" class="rtc-prev-btn">
                                     	返回上一步                                   
                                     <b></b>
                                 </button>
-                                <button class="wst-next-btn" onclick="javascript:submitOrder();" id="order-submit" class="checkout-submit" type="submit" >
+                                <button class="rtc-next-btn" onclick="javascript:submitOrder();" id="order-submit" class="checkout-submit" type="submit" >
                                     	提交订单                                       
                                     <b></b>
                                 </button>
@@ -389,7 +389,7 @@
 			
 			if(idx==-1){
 				$("#areaOk").val("0");	
-				WST.msg("店铺“"+$("#sp_{$key-1}").html()+"”中的商品不在配送区域内！");
+				RTC.msg("店铺“"+$("#sp_{$key-1}").html()+"”中的商品不在配送区域内！");
 				return false;
 			}else{
 				$("#areaOk").val("1");
@@ -404,7 +404,7 @@
 			var idx = shopCollege.indexOf(","+communityId+",");
 			if(idx==-1){
 				$("#areaOk").val("0");
-				WST.msg("店铺“"+$("#sp_{$key-1}").html()+"”中的商品不在配送区域内！");
+				RTC.msg("店铺“"+$("#sp_{$key-1}").html()+"”中的商品不在配送区域内！");
 				return false;
 			}else{
 				$("#areaOk").val("1");

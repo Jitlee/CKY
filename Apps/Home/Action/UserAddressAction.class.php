@@ -2,9 +2,9 @@
  namespace Home\Action;;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 会员地址控制器
  */
@@ -57,7 +57,7 @@ class UserAddressAction extends BaseAction{
 	 */
 	public function queryByPage(){
 		$this->isLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/UserAddress');
     	$list = $m->queryByList($USER['userId']);
     	$this->assign('List',$list);

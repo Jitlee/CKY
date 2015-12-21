@@ -2,9 +2,9 @@
 namespace Home\Action;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 购物车控制器
  */
@@ -60,7 +60,7 @@ class CartAction extends BaseAction {
 	 * 获取购物车商品数量
 	 */
 	public function getCartGoodCnt(){
-		$shopcart = session("WST_CART")?session("WST_CART"):array();
+		$shopcart = session("RTC_CART")?session("RTC_CART"):array();
 		echo json_encode(array("goodscnt"=>count($shopcart)));
 	}
     

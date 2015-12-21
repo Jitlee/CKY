@@ -2,9 +2,9 @@
 namespace Home\Action;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 基础控制器
  */
@@ -15,7 +15,7 @@ class BaseAction extends Controller {
 		//初始化系统信息
 		$m = D('Home/System');
 		$GLOBALS['CONFIG'] = $m->loadConfigs();
-		$this->assign("WST_USER",session('WST_USER'));
+		$this->assign("RTC_USER",session('RTC_USER'));
 		$areas= D('Home/Areas');
    		$areaList = $areas->getCityListByProvince();
 		$areaId2 = $this->getDefaultCity();
@@ -63,7 +63,7 @@ class BaseAction extends Controller {
      * 只要不是会员都跳到登录页面让他登录
      */
 	public function isUserLogin($ref="") {
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		if (empty($USER) || ($USER['userId']=='')){
 			$this->redirect("Users/login");
 		}
@@ -72,13 +72,13 @@ class BaseAction extends Controller {
      * ajax程序验证,只要不是会员都返回-999
      */
     public function isUserAjaxLogin() {
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
 		if (empty($USER) || ($USER['userId']=='')){
 			if(!empty($_COOKIE['loginName']) && !empty($_COOKIE['loginPwd'])){ //自动登录(已保存loginName，loginPwd)
 				$m = D('Home/Users');
 				$user = $m->getUserInfo($_COOKIE['loginName'],$_COOKIE['loginPwd']);
 				if(empty($user)){
-					session('WST_USER',$user);
+					session('RTC_USER',$user);
 				}else{
 					die("{status:-999}");
 				}
@@ -89,14 +89,14 @@ class BaseAction extends Controller {
 	 * 商家登录验证
 	 */
 	public function isShopLogin(){
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 	    if (empty($USER) || $USER['userType']<1)$this->redirect("Shops/login");
 	}
 	/**
 	 * 商家ajax登录验证
 	 */
 	public function isShopAjaxLogin(){
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		if (empty($USER) || $USER['userType']<1){
 			die("{status:-999,url:'Shops/login'}");
 		}
@@ -105,7 +105,7 @@ class BaseAction extends Controller {
 	 * 用户登录验证-主要用来判断会员和商家共同功能的部分
 	 */
 	public function isLogin($userType = 'User'){
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		if (empty($USER)){
 		    if($userType=='Shop'){
 		    	$this->redirect("Shops/login");
@@ -118,7 +118,7 @@ class BaseAction extends Controller {
 	* 用户ajax登录验证
 	*/
    public function isAjaxLogin($userType = 'User'){
-   	   $USER = session('WST_USER');
+   	   $USER = session('RTC_USER');
 	   if (empty($USER)){
 			if($userType=='Shop'){
 				die("{status:-999,url:'Shops/login'}");
@@ -131,7 +131,7 @@ class BaseAction extends Controller {
     * 检查登录状态
     */
    public function checkLoginStatus(){
-   	   $USER = session('WST_USER');
+   	   $USER = session('RTC_USER');
 	   if (empty($USER)){
 	   	    die("{status:-999}");
 	   }else{
@@ -187,8 +187,8 @@ class BaseAction extends Controller {
 			$images->open('./Upload/'.$rs[$Filedata]['savepath'].$rs[$Filedata]['savename']);
 			$newsavename = str_replace('.','_thumb.',$rs[$Filedata]['savename']);
 			$vv = $images->thumb(I('width',300), I('height',300))->save('./Upload/'.$rs[$Filedata]['savepath'].$newsavename);
-		    if(C('WST_M_IMG_SUFFIX')!=''){
-		        $msuffix = C('WST_M_IMG_SUFFIX');
+		    if(C('RTC_M_IMG_SUFFIX')!=''){
+		        $msuffix = C('RTC_M_IMG_SUFFIX');
 		        $mnewsavename = str_replace('.',$msuffix.'.',$rs[$Filedata]['savename']);
 		        $mnewsavename_thmb = str_replace('.',"_thumb".$msuffix.'.',$rs[$Filedata]['savename']);
 			    $images->open('./Upload/'.$rs[$Filedata]['savepath'].$rs[$Filedata]['savename']);
@@ -249,7 +249,7 @@ class BaseAction extends Controller {
 	/**
 	 * 返回所有参数
 	 */
-	function WSTAssigns(){
+	function RTCAssigns(){
 		$params = I();
 		$this->assign("params",$params);
 	}

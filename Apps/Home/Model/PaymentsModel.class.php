@@ -2,9 +2,9 @@
  namespace Home\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 支付类
  */
@@ -73,7 +73,7 @@ class PaymentsModel extends BaseModel {
         $orderIds = I("orderIds");
         $orderAmount = I("needPay");
         
-        $USER = session('WST_USER');
+        $USER = session('RTC_USER');
         $userId = (int)$USER['userId'];
         $obj["userId"] = $userId;
         $obj["orderIds"] = $orderIds;
@@ -82,8 +82,8 @@ class PaymentsModel extends BaseModel {
         foreach ($orders as $key => $order) {
         	$orderNoList[] = $order["orderNo"];
         }
-        $return_url = WSTRootDomain().U('Payments/response');
-        $notify_url = WSTRootDomain().U('Payments/notify');
+        $return_url = RTCRootDomain().U('Payments/response');
+        $notify_url = RTCRootDomain().U('Payments/notify');
         $orderNos = implode(",",$orderNoList);
         $parameter = array(
         	'extra_common_param'=> $userId,

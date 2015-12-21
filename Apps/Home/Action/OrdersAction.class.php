@@ -2,9 +2,9 @@
 namespace Home\Action;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 订单控制器
  */
@@ -14,11 +14,11 @@ class OrdersAction extends BaseAction {
 	 */
 	public function queryByPage(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
-		session('WST_USER.loginTarget','User');
+		$USER = session('RTC_USER');
+		session('RTC_USER.loginTarget','User');
 		//判断会员等级
 		$morders = D('Home/UserRanks');
-		session('WST_USER.userRank',$morders->checkUserRank($USER['userScore']));
+		session('RTC_USER.userRank',$morders->checkUserRank($USER['userScore']));
 		//获取订单列表
 		$morders = D('Home/Orders');
 		$obj["userId"] = (int)$USER['userId'];
@@ -34,9 +34,9 @@ class OrdersAction extends BaseAction {
 	 */
 	public function queryPayByPage(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$obj["userId"] = (int)$USER['userId'];
 		$payOrders = $morders->queryPayByPage($obj);
 		$this->assign("umark","queryPayByPage");
@@ -48,9 +48,9 @@ class OrdersAction extends BaseAction {
 	 */
 	public function queryDeliveryByPage(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$obj["userId"] = (int)$USER['userId'];
 		$deliveryOrders = $morders->queryDeliveryByPage($obj);
 		$this->assign("umark","queryDeliveryByPage");
@@ -62,9 +62,9 @@ class OrdersAction extends BaseAction {
 	 */
 	public function queryRefundByPage(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$obj["userId"] = (int)$USER['userId'];
 		$refundOrders = $morders->queryRefundByPage($obj);
 		$this->assign("umark","queryRefundByPage");
@@ -76,9 +76,9 @@ class OrdersAction extends BaseAction {
 	 */
 	public function queryReceiveByPage(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$obj["userId"] = (int)$USER['userId'];
 		$receiveOrders = $morders->queryReceiveByPage($obj);
 		$this->assign("umark","queryReceiveByPage");
@@ -91,9 +91,9 @@ class OrdersAction extends BaseAction {
 	 */
 	public function queryCancelOrders(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$obj["userId"] = (int)$USER['userId'];
 		$receiveOrders = $morders->queryCancelOrders($obj);
 		$this->assign("umark","queryCancelOrders");
@@ -106,9 +106,9 @@ class OrdersAction extends BaseAction {
 	 */
     public function queryAppraiseByPage(){
     	$this->isUserLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
-    	self::WSTAssigns();
+    	self::RTCAssigns();
     	$obj["userId"] = (int)$USER['userId'];
 		$appraiseOrders = $morders->queryAppraiseByPage($obj);
 		$this->assign("umark","queryAppraiseByPage");
@@ -122,7 +122,7 @@ class OrdersAction extends BaseAction {
 	 */
 	public function getOrderInfo(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
 		$obj["userId"] = (int)$USER['userId'];
 		$obj["orderId"] = I("orderId");
@@ -137,7 +137,7 @@ class OrdersAction extends BaseAction {
 	 */
     public function orderCancel(){
     	$this->isUserAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["orderId"] = I("orderId");
@@ -150,7 +150,7 @@ class OrdersAction extends BaseAction {
 	 */
     public function orderConfirm(){
     	$this->isUserAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["orderId"] = I("orderId");
@@ -171,7 +171,7 @@ class OrdersAction extends BaseAction {
 		$gtotalMoney = 0;//商品总价（去除配送费）
 		$totalMoney = 0;//商品总价（含配送费）
 		$totalCnt = 0;
-		$shopcat = session("WST_CART")?session("WST_CART"):array();	
+		$shopcat = session("RTC_CART")?session("RTC_CART"):array();	
 		$catgoods = array();
 	
 		$shopColleges = array();
@@ -222,8 +222,8 @@ class OrdersAction extends BaseAction {
 				$totalMoney = $totalMoney + $cshop["deliveryMoney"];
 			}
 		}
-		session('WST_PAY_GOODS',$paygoods);
-		$USER = session('WST_USER');
+		session('RTC_PAY_GOODS',$paygoods);
+		$USER = session('RTC_USER');
 		//获取地址列表
         $areaId2 = $this->getDefaultCity();
 		$addressList = $maddress->queryByUserAndCity($USER['userId'],$areaId2);
@@ -269,7 +269,7 @@ class OrdersAction extends BaseAction {
 	public function submitOrder(){	
 		
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$goodsmodel = D('Home/Goods');
 		$morders = D('Home/Orders');
 		$totalMoney = 0;
@@ -281,7 +281,7 @@ class OrdersAction extends BaseAction {
 		$isself = (int)I("isself");
 		$needreceipt = (int)I("needreceipt");
 		$orderunique = I("orderunique");
-		$shopcat = session("WST_CART")?session("WST_CART"):array();	
+		$shopcat = session("RTC_CART")?session("RTC_CART"):array();	
 		
 		$catgoods = array();	
 		$order = array();
@@ -290,7 +290,7 @@ class OrdersAction extends BaseAction {
 				$this->display('default/order_success');
 			}else{
 				//整理及核对购物车数据
-				$paygoods = session('WST_PAY_GOODS');
+				$paygoods = session('RTC_PAY_GOODS');
 				foreach($shopcat as $key=>$cgoods){
 					if($cgoods['ischk']==0)continue;//跳过未选中的商品
 					$temp = explode('_',$key);
@@ -340,7 +340,7 @@ class OrdersAction extends BaseAction {
 					}
 				}
 				
-				session("WST_CART",empty($newcart)?null:$newcart);
+				session("RTC_CART",empty($newcart)?null:$newcart);
 				$orderNos = $ordersInfo["orderNos"];
 				$this->assign("torderIds",implode(",",$ordersInfo["orderIds"]));
 				$this->assign("orderInfos",$ordersInfo["orderInfos"]);
@@ -365,7 +365,7 @@ class OrdersAction extends BaseAction {
 	 */
 	public function checkOrderPay(){
 		$morders = D('Home/Orders');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$obj["userId"] = (int)$USER['userId'];
 		$obj["orderIds"] = I("orderIds");
 		$rs = $morders->checkOrderPay($obj);
@@ -378,7 +378,7 @@ class OrdersAction extends BaseAction {
 	 */
 	public function getOrderDetails(){
 		$this->isUserLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
 		$obj["userId"] = (int)$USER['userId'];
 		$obj["shopId"] = (int)$USER['shopId'];
@@ -406,7 +406,7 @@ class OrdersAction extends BaseAction {
 	*/
 	public function queryShopOrders(){
 		$this->isShopAjaxLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$morders = D('Home/Orders');
 		$obj["shopId"] = (int)$USER["shopId"];
 		$obj["userId"] = (int)$USER['userId'];
@@ -419,7 +419,7 @@ class OrdersAction extends BaseAction {
 	 */
     public function shopOrderAccept(){
     	$this->isShopAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["shopId"] = (int)$USER['shopId'];
@@ -441,7 +441,7 @@ class OrdersAction extends BaseAction {
 	 */
     public function shopOrderProduce(){
     	$this->isShopAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["shopId"] = (int)$USER['shopId'];
@@ -460,7 +460,7 @@ class OrdersAction extends BaseAction {
 	 */
     public function shopOrderDelivery(){
     	$this->isShopAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["shopId"] = (int)$USER['shopId'];
@@ -484,7 +484,7 @@ class OrdersAction extends BaseAction {
 	 */
     public function shopOrderReceipt(){
     	$this->isShopAjaxLogin();
-    	$USER = session('WST_USER');
+    	$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["shopId"] = (int)$USER['shopId'];
@@ -498,7 +498,7 @@ class OrdersAction extends BaseAction {
 	 */
 	public function shopOrderRefund(){
 		$this->isShopAjaxLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
     	$morders = D('Home/Orders');
     	$obj["userId"] = (int)$USER['userId'];
     	$obj["shopId"] = (int)$USER['shopId'];
@@ -513,7 +513,7 @@ class OrdersAction extends BaseAction {
 	public function getUserMsgTips(){
 		$this->isUserAjaxLogin();
 		$morders = D('Home/Orders');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$obj["userId"] = (int)$USER['userId'];
 		$statusList = $morders->getUserOrderStatusCount($obj);
 		$this->ajaxReturn($statusList);
@@ -525,7 +525,7 @@ class OrdersAction extends BaseAction {
 	public function getShopMsgTips(){
 		$this->isShopAjaxLogin();
 		$morders = D('Home/Orders');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$obj["shopId"] = (int)$USER['shopId'];
 		$obj["userId"] = (int)$USER['userId'];
 		$statusList = $morders->getShopOrderStatusCount($obj);

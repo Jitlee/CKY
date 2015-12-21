@@ -3,9 +3,9 @@ $.browser.mozilla = /firefox/.test(navigator.userAgent.toLowerCase());
 $.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase()); 
 $.browser.opera = /opera/.test(navigator.userAgent.toLowerCase()); 
 $.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
-var WST = WST?WST:{};
-WST.v = '1.4.1';
-WST.pageHeight = function(){
+var RTC = RTC?RTC:{};
+RTC.v = '1.4.1';
+RTC.pageHeight = function(){
 	if($.browser.msie){ 
 		return document.compatMode == "CSS1Compat"? document.documentElement.clientHeight : 
 		document.body.clientHeight; 
@@ -14,7 +14,7 @@ WST.pageHeight = function(){
 	} 
 };
 //返回当前页面宽度 
-WST.pageWidth = function(){ 
+RTC.pageWidth = function(){ 
 	if($.browser.msie){ 
 		return document.compatMode == "CSS1Compat"? document.documentElement.clientWidth : 
 		document.body.clientWidth; 
@@ -22,13 +22,13 @@ WST.pageWidth = function(){
 		return self.innerWidth; 
 	} 
 };
-WST.TreeSelector = function(item,data,rootId,defaultValue){ 
+RTC.TreeSelector = function(item,data,rootId,defaultValue){ 
     this._data = data; 
     this._item = item; 
     this._rootId = rootId; 
     if(defaultValue)this.defaultValue = defaultValue;
 } 
-WST.TreeSelector.prototype.createTree = function(){ 
+RTC.TreeSelector.prototype.createTree = function(){ 
     var len =this._data.length; 
     for( var i= 0;i<len;i++){ 
          if ( this._data[i].pid == this._rootId){ 
@@ -41,7 +41,7 @@ WST.TreeSelector.prototype.createTree = function(){
     if(this.defaultValue)this._item.value = this.defaultValue;
 } 
 
-WST.TreeSelector.prototype.createSubOption = function(len,current,next){ 
+RTC.TreeSelector.prototype.createSubOption = function(len,current,next){ 
     var blank = ".."; 
     if ( next.pid == current.id){ 
          intLevel =0; 
@@ -55,7 +55,7 @@ WST.TreeSelector.prototype.createSubOption = function(len,current,next){
               } 
          } 
     } 
-    WST.TreeSelector.prototype.getLevel = function(datasources,topId,currentitem){ 
+    RTC.TreeSelector.prototype.getLevel = function(datasources,topId,currentitem){ 
 
     var pid =currentitem.pid; 
     if( pid !=topId) 
@@ -73,7 +73,7 @@ WST.TreeSelector.prototype.createSubOption = function(len,current,next){
 }
 
 // 只能輸入數字，且第一數字不能為0
-WST.digitalOnly = function(obj) {
+RTC.digitalOnly = function(obj) {
  	// 先把非数字的都替换掉
  	obj.value=obj.value.replace(/\D/g, "");
  	// 必须保证第一个为数字
@@ -82,7 +82,7 @@ WST.digitalOnly = function(obj) {
 /**
  * 获取版本
  */
-WST.getWSTMAllVersion = function(url){
+RTC.getRTCMAllVersion = function(url){
 	$.post(url,{},function(data,textStatus){
 		var json = {};
 		try{
@@ -105,7 +105,7 @@ WST.getWSTMAllVersion = function(url){
  /******************** 
  * 取窗口滚动条高度  
  ******************/  
- WST.getScrollTop = function()  
+ RTC.getScrollTop = function()  
  {  
      var scrollTop=0;  
      if(document.documentElement&&document.documentElement.scrollTop)  
@@ -122,13 +122,13 @@ WST.getWSTMAllVersion = function(url){
  /******************** 
  * 取文档内容实际高度  
  *******************/  
- WST.getScrollHeight = function()  
+ RTC.getScrollHeight = function()  
  {  
      return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);  
  }
 
  //只能輸入數字
- WST.isNumberKey = function(evt){
+ RTC.isNumberKey = function(evt){
  	var charCode = (evt.which) ? evt.which : event.keyCode;
  	if (charCode > 31 && (charCode < 48 || charCode > 57)){
  		return false;
@@ -138,7 +138,7 @@ WST.getWSTMAllVersion = function(url){
  }  
 
  //只能輸入數字和小數點
- WST.isNumberdoteKey = function(evt){
+ RTC.isNumberdoteKey = function(evt){
  	var e = evt || window.event; 
  	var srcElement = e.srcElement || e.target;
  	
@@ -157,7 +157,7 @@ WST.getWSTMAllVersion = function(url){
  }
 
  //只能輸入數字和字母
- WST.isNumberCharKey = function(evt){
+ RTC.isNumberCharKey = function(evt){
  	var e = evt || window.event; 
  	var srcElement = e.srcElement || e.target;	
  	var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -169,7 +169,7 @@ WST.getWSTMAllVersion = function(url){
  	}
  }
 
-WST.isChinese = function(obj,isReplace){
+RTC.isChinese = function(obj,isReplace){
  	var pattern = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/i
  	if(pattern.test(obj.value)){
  		if(isReplace)obj.value=obj.value.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/ig,"");
@@ -183,7 +183,7 @@ WST.isChinese = function(obj,isReplace){
  }
  
 //用户名判断 （可输入"_",".","@", 数字，字母）
- WST.isUserName = function(evt){
+ RTC.isUserName = function(evt){
  	var e = evt || window.event; 
  	var srcElement = e.srcElement || e.target;	
  	var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -194,28 +194,28 @@ WST.isChinese = function(obj,isReplace){
  	}
  }
  
-WST.isEmail =function(v){
+RTC.isEmail =function(v){
 		var tel = new RegExp("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$");
 		return(tel.test(v));
 }   
 //判断是否电话
-WST.isTel = function(v){
+RTC.isTel = function(v){
 	 var tel = new RegExp("^[[0-9]{3}-|\[0-9]{4}-]?(\[0-9]{8}|[0-9]{7})?$");
 	 return(tel.test(v));
 }
-WST.isPhone = function(v){
+RTC.isPhone = function(v){
 	 var tel = new RegExp("^[1][0-9]{10}$");
 	 return(tel.test(v));
 }
 //判断url
-WST.isUrl = function(str){
+RTC.isUrl = function(str){
     if(str==null||str=="") return false;
     var result=str.match(/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"])*$/);
     if(result==null)return false;
     return true;
 }
 //比较时间差
-WST.getTimeDiff = function(startTime,endTime,diffType){
+RTC.getTimeDiff = function(startTime,endTime,diffType){
     //将xxxx-xx-xx的时间格式，转换为 xxxx/xx/xx的格式
     startTime = startTime.replace(/-/g, "/");
     endTime = endTime.replace(/-/g, "/");
@@ -249,7 +249,7 @@ WST.getTimeDiff = function(startTime,endTime,diffType){
  * @param str
  * @returns
  */
-WST.getBytes = function(str) {
+RTC.getBytes = function(str) {
 	var cArr = str.match(/[^\x00-\xff]/ig);
 	return str.length + (cArr == null ? 0 : cArr.length);
 };
@@ -260,8 +260,8 @@ WST.getBytes = function(str) {
  * @param minLength
  * @returns
  */
-WST.checkMinLength = function(o,minLength){
-	if(WST.getBytes(o)<=minLength){
+RTC.checkMinLength = function(o,minLength){
+	if(RTC.getBytes(o)<=minLength){
 		return false;
 	}
 	return true;
@@ -272,13 +272,13 @@ WST.checkMinLength = function(o,minLength){
  * @param maxLength
  * @returns
  */
-WST.checkMaxLength = function(o,maxLength){
-	if(WST.getBytes(o)>maxLength){
+RTC.checkMaxLength = function(o,maxLength){
+	if(RTC.getBytes(o)>maxLength){
 		return false;
 	}
 	return true;
 }
-WST.msg = function(msg, options, func){
+RTC.msg = function(msg, options, func){
 	var opts = {};
 	//有抖動的效果,第二位是函數
 	if(typeof(options)!='function'){
@@ -288,7 +288,7 @@ WST.msg = function(msg, options, func){
 		return layer.msg(msg, options);
 	}
 }
-WST.toJson = function(str,notLimit){
+RTC.toJson = function(str,notLimit){
 	var json = {};
 	try{
 		if(typeof(str )=="object"){
@@ -320,9 +320,9 @@ WST.toJson = function(str,notLimit){
 	}
 	return json;
 }
-//把wst-panel-full样式的表单设置布满屏幕高度
+//把rtc-panel-full样式的表单设置布满屏幕高度
 $(function () {
-	if($('.wst-panel-full').height()<WST.pageHeight())$('.wst-panel-full').height(WST.pageHeight()-3);
+	if($('.rtc-panel-full').height()<RTC.pageHeight())$('.rtc-panel-full').height(RTC.pageHeight()-3);
 });
 
 
@@ -401,7 +401,7 @@ function loadSearchList(loginName,namelist){
 /**
  * 去除url中指定的参数(用于分页)
  */
-WST.splitURL = function(spchar){
+RTC.splitURL = function(spchar){
 	var url = location.href;
 	var urlist = url.split("?");
 	var furl = new Array();
@@ -432,7 +432,7 @@ WST.splitURL = function(spchar){
 /**
  * 替换url
  */
-WST.replaceURL = function(url,ar){
+RTC.replaceURL = function(url,ar){
 	if(ar instanceof Array){
 		for(var i=0;i<ar.length;i++){
 			url = url.replace('__'+i,ar[i]);
@@ -445,7 +445,7 @@ WST.replaceURL = function(url,ar){
 /**
  * 截取字符串
  */
-WST.cutStr = function (str,len)
+RTC.cutStr = function (str,len)
 {
 	if(!str || str=='')return '';
 	var strlen = 0;
@@ -463,19 +463,19 @@ WST.cutStr = function (str,len)
 	}
 	return s;
 }
-WST.checkChks = function(obj,cobj){
+RTC.checkChks = function(obj,cobj){
 	$(cobj).each(function(){
 		$(this)[0].checked = obj.checked;
 	})
 }
-WST.getChks = function(obj){
+RTC.getChks = function(obj){
 	var ids = [];
 	$(obj).each(function(){
 		if($(this)[0].checked)ids.push($(this).val());
 	});
 	return ids;
 }
-WST.showHide = function(t,str){
+RTC.showHide = function(t,str){
 	var s = str.split(',');
 	if(t){
 		for(var i=0;i<s.length;i++){
@@ -488,7 +488,7 @@ WST.showHide = function(t,str){
 	}
 	s = null;
 }
-WST.blank = function(str,defaultVal){
+RTC.blank = function(str,defaultVal){
 	if(str=='0000-00-00')str = '';
 	if(str=='0000-00-00 00:00:00')str = '';
 	if(!str)str = '';
@@ -497,17 +497,17 @@ WST.blank = function(str,defaultVal){
 	if(str=='' && defaultVal)str = defaultVal;
 	return str;
 }
-WST.tips = function(content, selector, options){
+RTC.tips = function(content, selector, options){
 	var opts = {};
 	opts = $.extend(opts, {tips:1, time:2000, maxWidth: 260}, options);
 	return layer.tips(content, selector, opts);
 }
-WST.open = function(options){
+RTC.open = function(options){
 	var opts = {};
 	opts = $.extend(opts, {}, options);
 	return layer.open(opts);
 }
-WST.limitDecimal = function(obj,len){
+RTC.limitDecimal = function(obj,len){
 	var s = obj.value;
  	if(s.indexOf(".")>-1){
 	 	if((s.length - s.indexOf(".")-1)>len){
@@ -516,7 +516,7 @@ WST.limitDecimal = function(obj,len){
 	}
  	s = null;
 }
-WST.fillForm = function(obj){
+RTC.fillForm = function(obj){
 	var params = {};
 	var chk = {},s;
 	$(obj).each(function(){

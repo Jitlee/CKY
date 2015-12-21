@@ -2,9 +2,9 @@
  namespace Admin\Action;;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 品牌控制器
  */
@@ -66,7 +66,7 @@ class BrandsAction extends BaseAction{
 		$m = D('Admin/GoodsCats');
 		$cats = $m->queryByList(0);
 		$this->assign('cats',$cats);
-		self::WSTAssigns();
+		self::RTCAssigns();
 		$m = D('Admin/Brands');
     	$page = $m->queryByPage();
     	foreach ($page['root'] as &$value) {

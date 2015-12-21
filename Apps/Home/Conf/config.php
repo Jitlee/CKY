@@ -1,7 +1,7 @@
 <?php
 return array(
 	//'配置项'=>'配置值'
-	define('WEB_HOST', WSTDomain()),
+	define('WEB_HOST', RTCDomain()),
 	/*微信支付配置*/
 	'WxPayConf_pub'=>array(
 		'JS_API_CALL_URL' => WEB_HOST.'/index.php/Home/WxJsAPI/jsApiCall',

@@ -2,9 +2,9 @@
  namespace Admin\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 商品服务类
  */
@@ -146,7 +146,7 @@ class GoodsModel extends BaseModel {
 			}
 			$yj_data = array(
 				'msgType' => 0,
-				'sendUserId' => session('WST_STAFF.staffId'),
+				'sendUserId' => session('RTC_STAFF.staffId'),
 				'receiveUserId' => $goods[0]['userId'],
 				'msgContent' => $msg,
 				'createTime' => date('Y-m-d H:i:s'),

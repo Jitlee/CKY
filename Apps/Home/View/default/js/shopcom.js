@@ -36,7 +36,7 @@ function toEditGoods(id,menuId){
 }
 function toViewGoods(id){
 	$.post(Think.U('Home/Goods/getGoodsVerify'),{id:id},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1'){
 			var verifyCode = json.verifyCode;
 			window.open(Think.U('Home/Goods/getGoodsDetails','goodsId='+id+"&kcode="+verifyCode));
@@ -48,13 +48,13 @@ function delGoods(id){
 	layer.confirm("您确定要删除该商品？",{icon: 3, title:'系统提示'},function(tips){
 		$.post(Think.U('Home/Goods/del'),{id:id},function(data,textStatus){
 			layer.close(tips);
-    		var json = WST.toJson(data);
+    		var json = RTC.toJson(data);
     		if(json.status=='1'){
-    			WST.msg('操作成功！', {icon: 1},function(){
+    			RTC.msg('操作成功！', {icon: 1},function(){
     				location.reload();
     			});
     		}else{
-    			WST.msg('操作失败', {icon: 5});
+    			RTC.msg('操作失败', {icon: 5});
     		}
 		});
 	});
@@ -66,14 +66,14 @@ function batchDel(){
 	      var params = {};
 	      params.ids = ids;
 	      $.post(Think.U('Home/Goods/batchDel'),params,function(data,textStatus){
-	    		var json = WST.toJson(data);
+	    		var json = RTC.toJson(data);
 	    		if(json.status=='1'){
-	    			WST.msg('操作成功！', {icon: 1},function(){
+	    			RTC.msg('操作成功！', {icon: 1},function(){
 	    				location.reload();
 	    			});
 	    		}else{
 	    			layer.close(loading);
-	    			WST.msg('操作失败', {icon: 5});
+	    			RTC.msg('操作失败', {icon: 5});
 	    		}
 	     });
 	});
@@ -81,7 +81,7 @@ function batchDel(){
 function sale(v){
 	var ids = getChks();
 	if(ids==''){
-		WST.msg('请先选择商品!', {icon: 5});
+		RTC.msg('请先选择商品!', {icon: 5});
 		return;
 	}
 	layer.confirm((v==1)?"您确定要上架这些商品？":"您确定要下架这些商品？",{icon: 3, title:'系统提示'},function(tips){
@@ -92,21 +92,21 @@ function sale(v){
 	    params.isSale= v;
 	    $.post(Think.U('Home/Goods/sale'),params,function(data,textStatus){
 	    	layer.close(loading);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 	    	if(json.status=='1'){
-	    		WST.msg('操作成功！', {icon: 1},function(){
+	    		RTC.msg('操作成功！', {icon: 1},function(){
 	    			location.reload();
 	    		});
 	    	}else if(json.status=='-2'){
-	    		WST.msg('上架失败，请核对商品信息是否完整!', {icon: 5});
+	    		RTC.msg('上架失败，请核对商品信息是否完整!', {icon: 5});
 	    	}else if(json.status=='2'){
-	    		WST.msg('已成功上架商品'+json.num+" 件，请核对未能上架的商品信息是否完整。", {icon: 5},function(){
+	    		RTC.msg('已成功上架商品'+json.num+" 件，请核对未能上架的商品信息是否完整。", {icon: 5},function(){
 	    			location.reload();
 	    		});
 	    	}else if(json.status=='-3'){
-	    		WST.msg('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。', {icon: 5,time:3000});
+	    		RTC.msg('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。', {icon: 5,time:3000});
 	    	}else{
-	    		WST.msg('操作失败!', {icon: 5});
+	    		RTC.msg('操作失败!', {icon: 5});
 	    	}
 	    });
 	});
@@ -114,7 +114,7 @@ function sale(v){
 function goodsSet(type,umark){
 	var ids = getChks();
 	if(ids==''){
-		WST.msg('请先选择商品!', {icon: 5});
+		RTC.msg('请先选择商品!', {icon: 5});
 		return;
 	}
 
@@ -123,13 +123,13 @@ function goodsSet(type,umark){
 	params.ids = ids;
 	params.code= type;
 	$.post(Think.U('Home/Goods/goodsSet'),params,function(data,textStatus){
-	    var json = WST.toJson(data);
+	    var json = RTC.toJson(data);
 	    if(json.status=='1'){
-	    	WST.msg('操作成功！', {icon: 1},function(){
+	    	RTC.msg('操作成功！', {icon: 1},function(){
 	    		location.reload();
 	    	});
 	    }else{
-	    	WST.msg('操作失败!', {icon: 5});
+	    	RTC.msg('操作失败!', {icon: 5});
 	    }
 	});
 }
@@ -141,7 +141,7 @@ function getShopCatListForGoods(v,id){
 	   var html = [];
 	   $.post(Think.U('Home/ShopsCats/queryByList'),params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -181,7 +181,7 @@ function getShopCatListForEdit(v,id){
 	   var html = [];
 	   $.post(Think.U('Home/ShopsCats/queryByList'),params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -200,7 +200,7 @@ function getBrands(catId){
 	var html = [];
 	$('#brandId').append('<option value="0">请选择</option>');
 	$.post(Think.U('Home/Brands/queryBrandsByCat'),params,function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1' && json.list){
 			for(var i=0;i<json.list.length;i++){
 				opts = json.list[i];
@@ -221,7 +221,7 @@ function getCatListForEdit(objId,parentId,t,id){
 	   var html = [];
 	   $.post(Think.U('Home/GoodsCats/queryByList'),params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -272,19 +272,19 @@ function editGoods(menuId){
 					   if(params['price_isRecomm_'+params.priceAttrId+'_'+i]==1)isPriceRecomm = true;
 					   params['price_stock_'+params.priceAttrId+'_'+i] = $.trim($('#price_stock_'+params.priceAttrId+'_'+i).val());
 					   if(params['price_name_'+params.priceAttrId+'_'+i]==''){
-						   WST.msg('请输入商品规格！',{icon: 5});
+						   RTC.msg('请输入商品规格！',{icon: 5});
 						   $('#price_name_'+params.priceAttrId+'_'+i).focus();
 						   return;
 					   }
 					   if(params['price_stock_'+params.priceAttrId+'_'+i]==''){
-						   WST.msg('请输入商品库存！',{icon: 5});
+						   RTC.msg('请输入商品库存！',{icon: 5});
 						   $('#price_stock_'+params.priceAttrId+'_'+i).focus();
 						   return;
 					   }
 				   }
 			   }
 			   if(!isPriceRecomm){
-				   WST.msg('请选择一个推荐的价格，以便在商城展示！',{icon: 5,time:3000});
+				   RTC.msg('请选择一个推荐的价格，以便在商城展示！',{icon: 5,time:3000});
 				   return;
 			   }
 		   }
@@ -308,20 +308,20 @@ function editGoods(menuId){
 		   gallery.push($(this).attr('v')+'@'+$(this).attr('iv'));
 	   });
 	   if(params.goodsDesc==''){
-		   WST.msg('请输入商品描述!', {icon: 5});
+		   RTC.msg('请输入商品描述!', {icon: 5});
 		   return;
 	   }
 	   if(params.goodsImg==''){
-		   WST.msg('请上传商品图片!', {icon: 5});
+		   RTC.msg('请上传商品图片!', {icon: 5});
 		   return;
 	   }
 	   params.gallery = gallery.join(',');
 	   var loading = layer.load('正在提交商品信息，请稍后...', 3);
 	   $.post(Think.U('Home/Goods/edit'),params,function(data,textStatus){
 		   layer.close(loading);
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('操作成功!', {icon: 1}, function(){
+				RTC.msg('操作成功!', {icon: 1}, function(){
 					if((menuId=='toEditGoods')){
 						location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 					}else{
@@ -330,7 +330,7 @@ function editGoods(menuId){
 				});
 			}else if(json.status=='-2'){
 				if(params.isSale==1){
-				    WST.msg('您的店铺已被封，如有疑问请与商城管理员联系!', {icon: 5,time:4000},function(){
+				    RTC.msg('您的店铺已被封，如有疑问请与商城管理员联系!', {icon: 5,time:4000},function(){
 				    	if((menuId=='toEditGoods')){
 							location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 						}else{
@@ -338,7 +338,7 @@ function editGoods(menuId){
 						}
 				    });
 				}else{
-					WST.msg('操作成功!', {icon: 1}, function(){
+					RTC.msg('操作成功!', {icon: 1}, function(){
 						if((menuId=='toEditGoods')){
 							location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 						}else{
@@ -348,7 +348,7 @@ function editGoods(menuId){
 				}
 			}else if(json.status=='-3'){
 				if(params.isSale==1){
-					WST.msg('您的店铺权限不能上架商品，所编辑商品已被存放在仓库中，如有疑问请与商城管理员联系!', {icon: 5,time:4000},function(){
+					RTC.msg('您的店铺权限不能上架商品，所编辑商品已被存放在仓库中，如有疑问请与商城管理员联系!', {icon: 5,time:4000},function(){
 						if((menuId=='toEditGoods')){
 							location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 						}else{
@@ -356,7 +356,7 @@ function editGoods(menuId){
 						}
 					});
 				}else{
-					WST.msg('操作成功!', {icon: 1}, function(){
+					RTC.msg('操作成功!', {icon: 1}, function(){
 						if((menuId=='toEditGoods')){
 							location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 						}else{
@@ -365,7 +365,7 @@ function editGoods(menuId){
 					});
 				}
 			}else{
-				WST.msg('操作失败!', {icon: 5});
+				RTC.msg('操作失败!', {icon: 5});
 			}
 	   });
 }
@@ -381,7 +381,7 @@ function getAttrList(catId){
 		$('#goodsStock').attr('disabled',false);
 	}
 	$.post(Think.U('Home/Attributes/getAttributes'),{catId:catId},function(data,textStatus){
-		 var json = WST.toJson(data);
+		 var json = RTC.toJson(data);
 		 var priceAttr = null;
 		 if(json.status=='1' && json.list){
 			var opts = null;
@@ -412,9 +412,9 @@ function addPriceAttr(){
 	var html = [];
 	html.push('<tr id="attr_'+goodsPriceNo+'"><td style="text-align:right">'+obj.attrName+'：</td>');
 	html.push('<td><input type="text" id="price_name_'+obj.attrId+'_'+goodsPriceNo+'" /></td>');
-	html.push('<td><input type="text" id="price_price_'+obj.attrId+'_'+goodsPriceNo+'" value="0" onblur="checkAttPrice('+obj.attrId+','+goodsPriceNo+');" onkeypress="return WST.isNumberdoteKey(event)" onkeyup="javascript:WST.isChinese(this,1)" maxLength="10"/></td>');
+	html.push('<td><input type="text" id="price_price_'+obj.attrId+'_'+goodsPriceNo+'" value="0" onblur="checkAttPrice('+obj.attrId+','+goodsPriceNo+');" onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength="10"/></td>');
 	html.push('<td><input type="radio" onclick="checkAttPrice('+obj.attrId+','+goodsPriceNo+');" id="price_isRecomm_'+obj.attrId+'_'+goodsPriceNo+'" name="price_isRecomm"/></td>');
-	html.push('<td><input type="text" id="price_stock_'+obj.attrId+'_'+goodsPriceNo+'" onblur="getTstock();" value="100" onkeypress="return WST.isNumberKey(event)" onblur="javascript:statGoodsStaock()" onkeyup="javascript:WST.isChinese(this,1)" maxLength="25"/></td>');
+	html.push('<td><input type="text" id="price_stock_'+obj.attrId+'_'+goodsPriceNo+'" onblur="getTstock();" value="100" onkeypress="return RTC.isNumberKey(event)" onblur="javascript:statGoodsStaock()" onkeyup="javascript:RTC.isChinese(this,1)" maxLength="25"/></td>');
 	if(goodsPriceNo==1){
 		html.push('<td><a title="新增" class="add btn" href="javascript:addPriceAttr()"></a></td>');
 	}else{
@@ -495,9 +495,9 @@ function editGoodsCat(){
 	   var loading = layer.load('正在提交商品分类信息，请稍后...', 3);
 	   $.post(Think.U('Home/ShopsCats/edit'),params,function(data,textStatus){
 		   layer.close(loading);
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('操作成功!', {icon: 1}, function(){
+				RTC.msg('操作成功!', {icon: 1}, function(){
 				   location.href= Think.U('Home/ShopsCats/index');
 				});
 			}else{
@@ -510,13 +510,13 @@ function delGoodsCat(id){
 		layer.load('正在处理，请稍后...', 3);
 		layer.close(tips);
 		$.post(Think.U('Home/ShopsCats/del'),{id:id},function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('操作成功!', {icon: 1}, function(){
+				RTC.msg('操作成功!', {icon: 1}, function(){
 					location.reload();
 				});
 			}else{
-				WST.msg('操作失败!', {icon: 5});
+				RTC.msg('操作失败!', {icon: 5});
 			}
 		});
 	})
@@ -524,35 +524,35 @@ function delGoodsCat(id){
 function editGoodsCatName(obj){
 	var name = $('#');
 	$.post(Think.U('Home/ShopsCats/editName'),{id:$(obj).attr('dataId'),catName:obj.value},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1'){
-			WST.msg('操作成功!',{icon: 1,time:500});
+			RTC.msg('操作成功!',{icon: 1,time:500});
 		}else{
-			WST.msg('操作失败!', {icon: 5});
+			RTC.msg('操作失败!', {icon: 5});
 		}
 	});
 }
 function editGoodsCatSort(obj){
 	var name = $('#');
 	$.post(Think.U('Home/ShopsCats/editSort'),{id:$(obj).attr('dataId'),catSort:obj.value},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1'){
-			WST.msg('操作成功!',{icon: 1,time:500});
+			RTC.msg('操作成功!',{icon: 1,time:500});
 		}else{
-			WST.msg('操作失败!', {icon: 5});
+			RTC.msg('操作失败!', {icon: 5});
 		}
 	});
 }
 function loadGoodsCatChildTree(obj,pid,objId){
-	    var showhtml = "<span class='wst-state_yes'></span>";
-	    var hidehtml = "<span class='wst-state_no'></span>";
+	    var showhtml = "<span class='rtc-state_yes'></span>";
+	    var hidehtml = "<span class='rtc-state_no'></span>";
 		var str = objId.split("_");
 		level = (str.length-2);
-		if($(obj).hasClass('wst-tree-open')){
-			$(obj).removeClass('wst-tree-open').addClass('wst-tree-close');
+		if($(obj).hasClass('rtc-tree-open')){
+			$(obj).removeClass('rtc-tree-open').addClass('rtc-tree-close');
 			$('tr[class^="'+objId+'"]').hide();
 		}else{
-			$(obj).removeClass('wst-tree-close').addClass('wst-tree-open');
+			$(obj).removeClass('rtc-tree-close').addClass('rtc-tree-open');
 			$('tr[class^="'+objId+'"]').show();
 		}
 }
@@ -570,7 +570,7 @@ function getShopCatListForAppraises(v,id){
 	   var html = [];
 	   $.post(Think.U('Home/ShopsCats/queryByList'),params,function(data,textStatus){
 		    html.push('<option value="">请选择</option>');
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1' && json.list){
 				var opts = null;
 				for(var i=0;i<json.list.length;i++){
@@ -600,23 +600,23 @@ function shopOrderAccept(id){
 	    $.post(Think.U('Home/Orders/shopOrderAccept'),{orderId:id},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
 }
 //批量受理
 function batchShopOrderAccept(){
-	var ids = WST.getChks('.chk_0');
+	var ids = RTC.getChks('.chk_0');
 	ids = ids.join(',');
 	if(ids==''){
-		WST.msg('请选择要受理的订单 !', {icon: 5});
+		RTC.msg('请选择要受理的订单 !', {icon: 5});
 		return;
 	}
 	layer.confirm('您确定受理这些订单吗？', {icon: 3, title:'系统提示'}, function(tips){
@@ -624,17 +624,17 @@ function batchShopOrderAccept(){
 	    $.post(Think.U('Home/Orders/batchShopOrderAccept'),{orderIds:ids},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else if(json.status==-2){
-				WST.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
-					$(".wst-tab-nav").find("li").eq(statusMark).click();
+				RTC.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
+					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -646,23 +646,23 @@ function shopOrderProduce(id){
 	    $.post(Think.U('Home/Orders/shopOrderProduce'),{orderId:id},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
 }
 //批量打包
 function batchShopOrderProduce(){
-	var ids = WST.getChks('.chk_1');
+	var ids = RTC.getChks('.chk_1');
 	ids = ids.join(',');
 	if(ids==''){
-		WST.msg('请选择要打包的订单 !', {icon: 5});
+		RTC.msg('请选择要打包的订单 !', {icon: 5});
 		return;
 	}
 	layer.confirm('您确定打包这些商品吗？',{icon: 3, title:'系统提示'}, function(tips){
@@ -670,17 +670,17 @@ function batchShopOrderProduce(){
 	    $.post(Think.U('Home/Orders/batchShopOrderProduce'),{orderIds:ids},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 	    	if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else if(json.status==-2){
-				WST.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
-					$(".wst-tab-nav").find("li").eq(statusMark).click();
+				RTC.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
+					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -692,23 +692,23 @@ function shopOrderDelivery(id){
 	    $.post(Think.U('Home/Orders/shopOrderDelivery'),{orderId:id},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
 }
 //批量发货配送
 function batchShopOrderDelivery(id){
-	var ids = WST.getChks('.chk_2');
+	var ids = RTC.getChks('.chk_2');
 	ids = ids.join(',');
 	if(ids==''){
-		WST.msg('请选择要发货的订单 !', {icon: 5});
+		RTC.msg('请选择要发货的订单 !', {icon: 5});
 		return;
 	}
 	layer.confirm('您确定这些订单正在发货吗？',{icon: 3, title:'系统提示'}, function(tips){
@@ -716,17 +716,17 @@ function batchShopOrderDelivery(id){
 	    $.post(Think.U('Home/Orders/batchShopOrderDelivery'),{orderIds:ids},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 	    	if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else if(json.status==-2){
-				WST.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
-					$(".wst-tab-nav").find("li").eq(statusMark).click();
+				RTC.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
+					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -738,13 +738,13 @@ function shopOrderReceipt(id){
 	    $.post(Think.U('Home/Orders/shopOrderReceipt'),{orderId:id},function(data){
 	    	layer.close(ll);
 	    	layer.close(tips);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".wst-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark).click();
 			}else if(json.status==-1){
-				WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -758,13 +758,13 @@ function shopOrderRefund(id,type){
 		    $.post(Think.U('Home/Orders/shopOrderRefund'),{orderId:id,type:type},function(data){
 		    	layer.close(ll);
 		    	layer.close(tips);
-		    	var json = WST.toJson(data);
+		    	var json = RTC.toJson(data);
 				if(json.status>0){
-					$(".wst-tab-nav").find("li").eq(statusMark).click();
+					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				}else if(json.status==-1){
-					WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+					RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 				}else{
-					WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+					RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 				}
 		   });
 		});
@@ -780,20 +780,20 @@ function shopOrderRefund(id,type){
 	        yes: function(index, layero){
 	        	var rejectionRemarks = $.trim($('#rejectionRemarks').val());
 	        	if(rejectionRemarks==''){
-	        		WST.msg('请输入拒收原因 !', {icon: 5});
+	        		RTC.msg('请输入拒收原因 !', {icon: 5});
 	        		return;
 	        	}
 	        	var ll = layer.load('数据处理中，请稍候...');
 			    $.post(Think.U('Home/Orders/shopOrderRefund'),{orderId:id,type:type,rejectionRemarks:rejectionRemarks},function(data){
 			    	layer.close(w);
 			    	layer.close(ll);
-			    	var json = WST.toJson(data);
+			    	var json = RTC.toJson(data);
 					if(json.status>0){
-						$(".wst-tab-nav").find("li").eq(statusMark).click();
+						$(".rtc-tab-nav").find("li").eq(statusMark).click();
 					}else if(json.status==-1){
-						WST.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
+						RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 					}else{
-						WST.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+						RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
 					}
 			   });
 	        }
@@ -809,7 +809,7 @@ function queryOrderPager(statusMark,pcurr){
 	param.pcurr = pcurr;
 	var ll = layer.load('数据加载中，请稍候...');
 	$.post(Think.U('Home/Orders/queryShopOrders'),param,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			var html = new Array();
 			$("#otbody"+statusMark).empty();
 			var tmpMsg = '';
@@ -823,7 +823,7 @@ function queryOrderPager(statusMark,pcurr){
 					html.push("<td width='100'><a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+";font-weight:bold;' onclick=showOrder('"+order.orderId+"')>"+order.orderNo+"</a></td>");
 					html.push("<td width='100'>"+order.userName+"</td>");
 					if(order.orderStatus<=-3 && order.orderStatus>=-7){
-						html.push("<td width='*' title='"+order.rejectionRemarks+"'>"+WST.cutStr(order.rejectionRemarks,40)+"</td>");
+						html.push("<td width='*' title='"+order.rejectionRemarks+"'>"+RTC.cutStr(order.rejectionRemarks,40)+"</td>");
 					}else{
 						html.push("<td width='*'>"+order.userAddress+"</td>");
 					}
@@ -849,7 +849,7 @@ function queryOrderPager(statusMark,pcurr){
 			layer.close(ll);
 			if(json.totalPage>1){
 	           laypage({
-		        	 cont: "wst-page-"+statusMark, 
+		        	 cont: "rtc-page-"+statusMark, 
 		        	 pages: json.totalPage, 
 		        	 curr: json.currPage,
 		        	 skin: '#e23e3d',
@@ -861,7 +861,7 @@ function queryOrderPager(statusMark,pcurr){
 		        	 } 
 		        });
 	       }else{
-	    	   $('#wst-page-'+statusMark).remove();
+	    	   $('#rtc-page-'+statusMark).remove();
 	       }
 		   
 		});
@@ -873,13 +873,13 @@ function editPass(){
 	   params.newPass = $('#newPass').val();
 	   params.reNewPass = $('#reNewPass').val();
 	   $.post(Think.U('Home/Users/editPass'),params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('密码修改成功!', {icon: 1}, function(){
+				RTC.msg('密码修改成功!', {icon: 1}, function(){
 					location.reload();
 				});
 			}else{
-				WST.msg('密码修改失败!', {icon: 5});
+				RTC.msg('密码修改失败!', {icon: 5});
 			}
 	   });
 }
@@ -1000,14 +1000,14 @@ function editShop(){
 	   params.relateCommunityId=relateCommunity.join(',');
 	   var layerIdx = layer.load('正在处理，请稍后...', 3);
 	   $.post(Think.U('Home/Shops/edit'),params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			layer.close(layerIdx);
 			if(json.status=='1'){
-				WST.msg('操作成功!', {icon: 1}, function(){
+				RTC.msg('操作成功!', {icon: 1}, function(){
 					//location.href = location.href;
 				});
 			}else{
-				WST.msg('操作失败!', {icon: 5});
+				RTC.msg('操作失败!', {icon: 5});
 			}
 		});
 }
@@ -1031,13 +1031,13 @@ function setShop(){
 	   layer.load('正在处理，请稍后...', 3);
 	   
 	   $.post(Think.U('Home/Shops/editShopCfg'),params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				WST.msg('操作成功!', {icon: 1}, function(){
+				RTC.msg('操作成功!', {icon: 1}, function(){
 					location.href=location.href;
 				});
 			}else{
-				WST.msg('操作失败!', {icon: 5});
+				RTC.msg('操作失败!', {icon: 5});
 			}
 		});
 }
@@ -1048,7 +1048,7 @@ function logout(){
 }
 function checkLogin(){
 	jQuery.post(Think.U('Home/Shops/checkLoginStatus'),{},function(rsp) {
-		var json = WST.toJson(rsp);
+		var json = RTC.toJson(rsp);
 		if(json.status && json.status==-999)location.reload();
 	});
 }
@@ -1056,15 +1056,15 @@ function checkLogin(){
 function editAttrCats(type,src){
 	var catName = $.trim($('#catName').val());
 	if(catName==''){
-		WST.msg('请输入商品类型名称!', {icon: 5});
+		RTC.msg('请输入商品类型名称!', {icon: 5});
 		return;
 	}
 	var loading = layer.load('正在处理，请稍后...', 3);
 	$.post(Think.U('Home/AttributeCats/edit'),{umark:src,catName:catName,id:$('#id').val()},function(data,textStatus){
 		layer.close(loading);
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1'){
-			WST.msg('操作成功!', {icon: 1}, function(){
+			RTC.msg('操作成功!', {icon: 1}, function(){
 				if(type==1){
 					$('#myform')[0].reset();
 				}else{
@@ -1072,7 +1072,7 @@ function editAttrCats(type,src){
 				}
 			});
 		}else{
-			WST.msg('操作失败!', {icon: 5});
+			RTC.msg('操作失败!', {icon: 5});
 		}
 	});
 }
@@ -1083,13 +1083,13 @@ function delAttrCat(id){
 	    var params = {};
 	    $.post(Think.U('Home/AttributeCats/del'),{id:id},function(data,textStatus){
 	    	layer.close(loading);
-	    	var json = WST.toJson(data);
+	    	var json = RTC.toJson(data);
 	    	if(json.status=='1'){
-	    		WST.msg('操作成功！', {icon: 1},function(){
+	    		RTC.msg('操作成功！', {icon: 1},function(){
 	    			location.reload();
 	    		});
 	    	}else{
-	    		WST.msg('操作失败!', {icon: 5});
+	    		RTC.msg('操作失败!', {icon: 5});
 	    	}
 	    });
 	});
@@ -1115,7 +1115,7 @@ function toAddAttr(){
     html.push("</tr>");
     $('#tbody').append(html.join(''));
     $('#catId').attr('dataNo',attrNoForAttr);
-    $('.wst-btn-query').show();
+    $('.rtc-btn-query').show();
 }
 function changeAttrTypeForAttr(v){
 	if($('#attrType_'+v).val()==0){
@@ -1151,14 +1151,14 @@ function editAttrs(){
 		params['isPriceAttr_'+i] = isPriceAttr;
 		params['attrName_'+i] = $.trim($('#attrName_'+i).val());
 		if(params['attrName_'+i]==''){
-			WST.msg('请输入属性名称!', {icon: 5});
+			RTC.msg('请输入属性名称!', {icon: 5});
 			$('#attrName_'+i).focus();
 			return;
 		}
 		params['attrType_'+i] = $('#attrType_'+i).val();
 		params['attrContent_'+i] = $.trim($('#attrContent_'+i).val());
 		if((params['attrType_'+i]==1 || params['attrType_'+i]==2) && isPriceAttr==0  && params['attrContent_'+i]==''){
-			WST.msg('请输入属性选项值!', {icon: 5});
+			RTC.msg('请输入属性选项值!', {icon: 5});
 			$('#attrContent_'+i).focus();
 			return;
 		}
@@ -1167,13 +1167,13 @@ function editAttrs(){
 	var loading = layer.load('正在处理，请稍后...', 3);
 	$.post(Think.U('Home/attributes/edit'),params,function(data,textStatus){
 		layer.close(loading);
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status=='1'){
-			WST.msg('操作成功!', {icon: 1}, function(){
+			RTC.msg('操作成功!', {icon: 1}, function(){
 				location.href=Think.U('Home/Attributes/index','catId='+$('#catId').val());
 			});
 		}else{
-			WST.msg('操作失败!', {icon: 5});
+			RTC.msg('操作失败!', {icon: 5});
 		}
 	});
 }
@@ -1185,13 +1185,13 @@ function delAttrs(no,id){
 		    var params = {};
 		    $.post(Think.U('Home/Attributes/del'),{id:id},function(data,textStatus){
 		    	layer.close(loading);
-		    	var json = WST.toJson(data);
+		    	var json = RTC.toJson(data);
 		    	if(json.status=='1'){
-		    		WST.msg('操作成功！', {icon: 1},function(){
+		    		RTC.msg('操作成功！', {icon: 1},function(){
 		    			location.reload();
 		    		});
 		    	}else{
-		    		WST.msg('操作失败!', {icon: 5});
+		    		RTC.msg('操作失败!', {icon: 5});
 		    	}
 		    });
 		});
@@ -1206,13 +1206,13 @@ function batchMessageDel(){
 	        var params = {};
 	        params.ids = ids;
 	        $.post(Think.U('Home/Messages/batchDel'),params,function(data,textStatus){
-	          var json = WST.toJson(data);
+	          var json = RTC.toJson(data);
 	          if(json.status=='1'){
-	        	  WST.msg('操作成功！', {icon: 1},function(){
+	        	  RTC.msg('操作成功！', {icon: 1},function(){
 	              location.reload();
 	            });
 	          }else{
-	        	  WST.msg('操作失败', {icon: 5});
+	        	  RTC.msg('操作失败', {icon: 5});
 	          }
 	       });
 	  });
@@ -1221,7 +1221,7 @@ function batchMessageDel(){
 
 function toEditGoodsBase(fv,goodsId,flag){	
 	if((fv==2 || fv==3) && flag==1){
-		WST.msg('该商品存在商品属性，不能直接修改，请进入编辑页修改', {icon: 5});
+		RTC.msg('该商品存在商品属性，不能直接修改，请进入编辑页修改', {icon: 5});
 		return;
 	}else{
 		$("#ipt_"+fv+"_"+goodsId).show();
@@ -1242,22 +1242,22 @@ function editGoodsBase(fv,goodsId){
 	var vtext = $('#ipt_'+fv+'_'+goodsId).val();
 	if($.trim(vtext)==''){
 		if(fv==1){
-			WST.msg('商品编号不能为空', {icon: 5});
+			RTC.msg('商品编号不能为空', {icon: 5});
 		}else if(fv==2){
-			WST.msg('价格不能为空', {icon: 5});
+			RTC.msg('价格不能为空', {icon: 5});
 		}else if(fv==3){
-			WST.msg('库存不能为空', {icon: 5});
+			RTC.msg('库存不能为空', {icon: 5});
 		}		
         return;
 	}
 	jQuery.post(Think.U('Home/Goods/editGoodsBase'),{vfield:fv,goodsId:goodsId,vtext:vtext},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status>0){
 			$('#img_'+fv+'_'+goodsId).fadeTo("fast",100);
 			endEditGoodsBase(fv,goodsId);
 			$('#img_'+fv+'_'+goodsId).fadeTo("slow",0);
 		}else{
-			WST.msg('修改失败!', {icon: 5}); 
+			RTC.msg('修改失败!', {icon: 5}); 
 		}
 	});
 }
@@ -1290,20 +1290,20 @@ function changSaleStatus(goodsId,flag){
 	}
 	var tamk = $("#"+tak+"_"+goodsId).val();
 	jQuery.post(Think.U('Home/Goods/changSaleStatus'),{goodsId:goodsId,tamk:tamk,flag:flag},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status>0){
 			if(tamk == 0){
 				tamk = 1;
-				$("#"+tak+"_div_"+goodsId).html("<span class='wst-state_yes'></span>");
+				$("#"+tak+"_div_"+goodsId).html("<span class='rtc-state_yes'></span>");
 			}else{
 				tamk = 0;
-				$("#"+tak+"_div_"+goodsId).html("<span class='wst-state_no'></span>");
+				$("#"+tak+"_div_"+goodsId).html("<span class='rtc-state_no'></span>");
 			}
 			$("#"+tak+"_"+goodsId).val(tamk);
 			
 			
 		}else{
-			WST.msg('修改失败!', {icon: 5}); 
+			RTC.msg('修改失败!', {icon: 5}); 
 		}
 	});
 }
@@ -1313,10 +1313,10 @@ function addGoodsCat(obj,p,catNo){
 		html.push("<tbody class='tbody_new'>");
 		html.push("<tr class='tr_new' isLoad='1'>");
 		html.push("<td>");
-		html.push("<span class='wst-tree-open'>&nbsp;</span>");
+		html.push("<span class='rtc-tree-open'>&nbsp;</span>");
 		html.push("<input class='catname' type='text' style='width:400px;height:22px;margin-left:6px;' dataId=''/>");
 		html.push("</td>"); 
-		html.push("<td><input class='catsort' type='text' style='width:35px;' value='0' onkeyup='javascript:WST.isChinese(this,1)' onkeypress='return WST.isNumberKey(event)'/></td>");
+		html.push("<td><input class='catsort' type='text' style='width:35px;' value='0' onkeyup='javascript:RTC.isChinese(this,1)' onkeypress='return RTC.isNumberKey(event)'/></td>");
 		html.push("<td style='cursor:pointer;'><input class='catshow' type='checkbox'/></td>");    
 		html.push("<td>");
 		html.push("<span onclick='addGoodsCat(this,0,0);' class='add btn' title='新增'></span>"); 
@@ -1329,10 +1329,10 @@ function addGoodsCat(obj,p,catNo){
 		var className = (p==0)?"tr_c_new":"tr_"+catNo+" tr_0";
 		html.push("<tr class='"+className+"' isLoad='1' catId='"+p+"'>");
 		html.push("<td>");
-		html.push("<span class='wst-tree-second'>&nbsp;</span>&nbsp;");  
+		html.push("<span class='rtc-tree-second'>&nbsp;</span>&nbsp;");  
 		html.push("<input class='catname' type='text' style='width:400px;height:22px;' dataId=''/>");
 		html.push("</td>"); 
-		html.push("<td><input class='catsort' type='text' style='width:35px;' value='0' onkeyup='javascript:WST.isChinese(this,1)' onkeypress='return WST.isNumberKey(event)'/></td>");
+		html.push("<td><input class='catsort' type='text' style='width:35px;' value='0' onkeyup='javascript:RTC.isChinese(this,1)' onkeypress='return RTC.isNumberKey(event)'/></td>");
 		html.push("<td style='cursor:pointer;' ><input class='catshow' type='checkbox' /></td>");    
 		html.push("<td>");
 		html.push("<span class='del btn' title='删除' onclick='delGoodsCatObj(this,2)'></span>&nbsp;");
@@ -1340,7 +1340,7 @@ function addGoodsCat(obj,p,catNo){
 		html.push("</tr>");
 		$(obj).parent().parent().parent().append(html.join(""))
 	}
-	$('.wst-btn-query').show();
+	$('.rtc-btn-query').show();
 }
 
 function batchSaveShopCats(){
@@ -1352,7 +1352,7 @@ function batchSaveShopCats(){
 		var pobj = $(this).find(".tr_new");
 		params['catName_'+fristNo] = $.trim(pobj.find(".catname").val());
 		if(params['catName_'+fristNo]==''){
-			WST.msg('请输入商品分类名称!', {icon: 5});
+			RTC.msg('请输入商品分类名称!', {icon: 5});
 			return;
 		}
 		params['catSort_'+fristNo] = pobj.find(".catsort").val();
@@ -1361,7 +1361,7 @@ function batchSaveShopCats(){
 			params['catId_'+fristNo+'_'+secondNo] = fristNo;
 			params['catName_'+fristNo+'_'+secondNo] = $.trim($(this).find(".catname").val());
 			if(params['catName_'+fristNo+'_'+secondNo]==''){
-				WST.msg('请输入商品分类名称!', {icon: 5});
+				RTC.msg('请输入商品分类名称!', {icon: 5});
 				return;
 			}
 			params['catSort_'+fristNo+'_'+secondNo] = $(this).find(".catsort").val();
@@ -1375,7 +1375,7 @@ function batchSaveShopCats(){
 		params['catId_o_'+otherNo] = $(this).attr('catId');
 		params['catName_o_'+otherNo] = $.trim($(this).find(".catname").val());
 		if(params['catName_o_'+otherNo]==''){
-			WST.msg('请输入商品分类名称!', {icon: 5});
+			RTC.msg('请输入商品分类名称!', {icon: 5});
 			return;
 		}
 		params['catSort_o_'+otherNo] = $(this).find(".catsort").val();
@@ -1383,13 +1383,13 @@ function batchSaveShopCats(){
 		params['otherNo'] = ++otherNo;
 	});
 	$.post(Think.U('Home/ShopsCats/batchSaveShopCats'),params,function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		if(json.status==1){
-			WST.msg('新增成功!', {icon: 1,time:500},function(){
+			RTC.msg('新增成功!', {icon: 1,time:500},function(){
 				location.reload();
 			}); 
 		}else{
-			WST.msg('新增失败!', {icon: 5}); 
+			RTC.msg('新增失败!', {icon: 5}); 
 		}
 	});
 }
@@ -1400,27 +1400,27 @@ function delGoodsCatObj(obj,vk){
 	}else{
 		$(obj).parent().parent().remove();
 	}
-	if($(".tr_0").size()==0 && $(".tbody_new").size()==0)$('.wst-btn-query').hide();
+	if($(".tr_0").size()==0 && $(".tbody_new").size()==0)$('.rtc-btn-query').hide();
 }
 
 function getShopMsgTips(){
 	$.post(Think.U('Home/Orders/getShopMsgTips'),{},function(data,textStatus){
-		var json = WST.toJson(data);
+		var json = RTC.toJson(data);
 		for(var i in json){
 			if(json[i]>0){
 				if(json['100']>0){
-					$("#li_toShopOrdersList .wst-msg-tips-box").html(json['100']);
-					$("#li_toShopOrdersList .wst-msg-tips-box").show();
+					$("#li_toShopOrdersList .rtc-msg-tips-box").html(json['100']);
+					$("#li_toShopOrdersList .rtc-msg-tips-box").show();
 				}
 				if(json['100000']>0){
-					$("#li_queryMessageByPage .wst-msg-tips-box").html(json['100000']);
-					$("#li_queryMessageByPage .wst-msg-tips-box").show();
+					$("#li_queryMessageByPage .rtc-msg-tips-box").html(json['100000']);
+					$("#li_queryMessageByPage .rtc-msg-tips-box").show();
 				}
-				$("#wst-msg-li-"+i+" .wst-order-tips-box").show();
+				$("#rtc-msg-li-"+i+" .rtc-order-tips-box").show();
 			}else{
-				$("#wst-msg-li-"+i+" .wst-order-tips-box").hide();
+				$("#rtc-msg-li-"+i+" .rtc-order-tips-box").hide();
 			}
-			$("#wst-msg-li-"+i+" .wst-order-tips-box").html(json[i]);
+			$("#rtc-msg-li-"+i+" .rtc-order-tips-box").html(json[i]);
 		}
 	});
 }

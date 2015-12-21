@@ -3,7 +3,7 @@
  * 获取指定位置的导航菜单
  * @param int $type 导航位置
  */
-function WSTNavigation($type=0){
+function RTCNavigation($type=0){
 	$URL_HTML_SUFFIX = C('URL_HTML_SUFFIX');
 	$cururl =  U(MODULE_NAME."/".CONTROLLER_NAME."/".ACTION_NAME);
 	$cururl = str_ireplace(".".$URL_HTML_SUFFIX,'',$cururl);
@@ -24,7 +24,7 @@ function WSTNavigation($type=0){
 	foreach ($rs as $key =>$v){
 		$rs[$key]['url'] = $cururl;
 		if(stripos($v['navUrl'],'https://')===false &&  stripos($v['navUrl'],'http://')===false){
-			$rs[$key]['navUrl'] = WSTDomain()."/".$rs[$key]['navUrl'];
+			$rs[$key]['navUrl'] = RTCDomain()."/".$rs[$key]['navUrl'];
 		}
 		$rs[$key]['active'] = (stripos($rs[$key]['navUrl'],$cururl)!==false)?1:0;
 		$rs[$key]['end'] = ($key==count($rs)-1)?1:0;
@@ -41,7 +41,7 @@ function WSTNavigation($type=0){
  * 货币枨式化
  * @param unknown $number
  */
-function WSTMoney($number,$lc="en_US"){
+function RTCMoney($number,$lc="en_US"){
 	setlocale(LC_MONETARY, $lc);
 	return money_format("%=*(#10.2n", $number);
 }
@@ -49,8 +49,8 @@ function WSTMoney($number,$lc="en_US"){
 /**
  * 获取首页商品分类列表
  */
-function WSTGoodsCats(){
-    $cats = S("WST_CACHE_GOODS_CAT_WEB");
+function RTCGoodsCats(){
+    $cats = S("RTC_CACHE_GOODS_CAT_WEB");
 	if(!$cats){
 		$m = M();
 		$sql = "select catId,catName from __PREFIX__goods_cats WHERE parentId = 0 AND isShow =1 AND catFlag = 1 order by catSort asc";
@@ -75,7 +75,7 @@ function WSTGoodsCats(){
 			$rs1[$i]["catChildren"] = $cats2;
 			$cats[] = $rs1[$i];
 		}
-		S("WST_CACHE_GOODS_CAT_WEB",$cats,31536000);
+		S("RTC_CACHE_GOODS_CAT_WEB",$cats,31536000);
 	}
 	return $cats;
 }
@@ -83,8 +83,8 @@ function WSTGoodsCats(){
 /**
  * 获取购物车数量
  */
-function WSTCartNum(){
-	$shopcart = session("WST_CART")?session("WST_CART"):array();
+function RTCCartNum(){
+	$shopcart = session("RTC_CART")?session("RTC_CART"):array();
 	return count($shopcart);
 }
 

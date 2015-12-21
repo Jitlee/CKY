@@ -40,7 +40,7 @@
 
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 		$.post("{:U('Admin/Payment/edit')}",params,function(data,textStatus){
-			var json = WST.toJson(data);
+			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href="{:U('Admin/Payment/index')}";
@@ -52,14 +52,14 @@
 		});
    }
    </script>
-   <body class="wst-page">
+   <body class="rtc-page">
        <form name="myform" method="post" id="myform">
         <input type='hidden' id='id' value='{$object.id}'/>
         <input type='hidden' id='payCode' value='{$object.payCode}'/>
-        <table class="table table-hover table-striped table-bordered wst-form">
+        <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='200' align='right'>支付名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='payName' class="form-control wst-ipt" value='{$object.payName}' maxLength='50'/></td>
+             <td><input type='text' id='payName' class="form-control rtc-ipt" value='{$object.payName}' maxLength='50'/></td>
            </tr>
            <tr>
              <th width='200' align='right'>支付方式描述<font color='red'>*</font>：</th>
@@ -67,7 +67,7 @@
            </tr>
            <tr>
              <th width='200' align='right'>排序号<font color='red'>*</font>：</th>
-             <td><input type='text' id='payOrder' class="form-control wst-ipt" value='{$object.payOrder}' maxLength='50'/></td>
+             <td><input type='text' id='payOrder' class="form-control rtc-ipt" value='{$object.payOrder}' maxLength='50'/></td>
            </tr>
            <tr>
              <th width='200' align='right'>是否在线支付<font color='red'>*</font>：</th>

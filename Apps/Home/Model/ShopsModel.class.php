@@ -2,9 +2,9 @@
 namespace Home\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 店铺服务类
  */
@@ -368,11 +368,11 @@ class ShopsModel extends BaseModel {
 			$data["invoiceRemarks"] = I("invoiceRemarks");
 			$rs = $m->where("shopId=".$shopId)->save($data);
 		    if(false !== $rs){
-		    	S('WST_CACHE_RECOMM_SHOP_'.$shops['areaId2'],null);
-		    	$USER = session('WST_USER');
+		    	S('RTC_CACHE_RECOMM_SHOP_'.$shops['areaId2'],null);
+		    	$USER = session('RTC_USER');
 		    	$data["serviceEndTime"] = str_replace('.5',':30',$data["serviceEndTime"]);
 		        $data["serviceStartTime"] = str_replace('.5',':30',$data["serviceStartTime"]);
-		    	session('WST_USER',array_merge($USER,$data));
+		    	session('RTC_USER',array_merge($USER,$data));
 				$rd['status']= 1;
 				//修改用户资料
 				$m = M('users');
@@ -443,7 +443,7 @@ class ShopsModel extends BaseModel {
 	 	}else{
 	 		$mc->add($scdata);
 	 	}
-	 	S('WST_CACHE_RECOMM_SHOP_'.$shopcg['areaId2'],null);
+	 	S('RTC_CACHE_RECOMM_SHOP_'.$shopcg['areaId2'],null);
 	 	$rd['status']= 1;
 	 	return $rd;
 	 }

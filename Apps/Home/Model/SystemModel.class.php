@@ -2,9 +2,9 @@
 namespace Home\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 系统服务类
  */
@@ -14,7 +14,7 @@ class SystemModel extends BaseModel {
      * 获取商城配置文件
      */
 	public function loadConfigs(){
-		$configs = WSTDataFile('mall_config');
+		$configs = RTCDataFile('mall_config');
 		if(!$configs){
 			$sql = "select fieldCode,fieldValue from __PREFIX__sys_configs order by parentId asc,fieldSort asc";
 			$rs = $this->query($sql);
@@ -31,7 +31,7 @@ class SystemModel extends BaseModel {
 				}
 			}
 			unset($rs);
-			WSTDataFile('mall_config','',$configs);
+			RTCDataFile('mall_config','',$configs);
 		}
 		return $configs;
 	}

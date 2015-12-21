@@ -2,9 +2,9 @@
  namespace Admin\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 角色服务类
  */
@@ -43,10 +43,10 @@ class RolesModel extends BaseModel {
 			if(false !== $rs){
 				$rd['status']= 1;
 				//实时更新当前用户权限
-				if(session('WST_STAFF.staffRoleId')==$id){
-					$WST_STAFF = session('WST_STAFF');
-					$WST_STAFF['grant'] = explode(',',I("grant"));
-					session('WST_STAFF',$WST_STAFF);
+				if(session('RTC_STAFF.staffRoleId')==$id){
+					$RTC_STAFF = session('RTC_STAFF');
+					$RTC_STAFF['grant'] = explode(',',I("grant"));
+					session('RTC_STAFF',$RTC_STAFF);
 				}
 			}
 		}

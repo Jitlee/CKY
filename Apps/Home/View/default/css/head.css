@@ -950,7 +950,7 @@ body {
 }
 
 
-.wst-nvgbk{
+.rtc-nvgbk{
 	background: url("../../../View/default/images/nvgbg.png") no-repeat scroll 0 -4px rgba(0, 0, 0, 0);
     display: none;
     height: 68px;
@@ -960,7 +960,7 @@ body {
     width: 12px;
 }
 
-.wst-header-car {
+.rtc-header-car {
 	float: left;
 	height: 36px;
 	width: 164px;

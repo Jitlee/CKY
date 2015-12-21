@@ -2,9 +2,9 @@
 namespace Home\Action;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 商品控制器
  */
@@ -196,7 +196,7 @@ class GoodsAction extends BaseAction {
 	*/
 	public function queryOnSaleByPage(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		//获取商家商品分类
 		$m = D('Home/ShopsCats');
 		$this->assign('shopCatsList',$m->queryByList($USER['shopId'],0));
@@ -216,7 +216,7 @@ class GoodsAction extends BaseAction {
 	*/
 	public function queryUnSaleByPage(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		//获取商家商品分类
 		$m = D('Home/ShopsCats');
 		$this->assign('shopCatsList',$m->queryByList($USER['shopId'],0));
@@ -236,7 +236,7 @@ class GoodsAction extends BaseAction {
 	*/
 	public function queryPenddingByPage(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		//获取商家商品分类
 		$m = D('Home/ShopsCats');
 		$this->assign('shopCatsList',$m->queryByList($USER['shopId'],0));
@@ -256,7 +256,7 @@ class GoodsAction extends BaseAction {
 	 */
     public function toEdit(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		//获取商品分类信息
 		$m = D('Home/GoodsCats');
 		$this->assign('goodsCatsList',$m->queryByList());
@@ -334,7 +334,7 @@ class GoodsAction extends BaseAction {
 		
 		$m = D('Home/Goods');
 		$totalMoney = 0;
-		$shopcart = session("WST_CART")?session("WST_CART"):array();	
+		$shopcart = session("RTC_CART")?session("RTC_CART"):array();	
 		
 		$catgoods = array();		
 		foreach($shopcart as $key=>$cgoods){

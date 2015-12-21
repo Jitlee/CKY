@@ -2,9 +2,9 @@
  namespace Home\Action;;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 店铺分类控制器
  */
@@ -56,7 +56,7 @@ class ShopsCatsAction extends BaseAction{
 	 */
 	public function index(){
 		$this->isShopLogin();
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$m = D('Home/ShopsCats');
       	$List = $m->getCatAndChild($USER['shopId'],I('parentId',0));
     	$this->assign('List',$List);
@@ -68,7 +68,7 @@ class ShopsCatsAction extends BaseAction{
 	 */
     public function queryByList(){
 		$m = D('Home/ShopsCats');
-		$USER = session('WST_USER');
+		$USER = session('RTC_USER');
 		$list = $m->queryByList($USER['shopId'],I('id',0));
 		$rs = array();
 		$rs['status'] = 1;

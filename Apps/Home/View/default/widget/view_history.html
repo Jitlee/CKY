@@ -1,4 +1,4 @@
-<div class="wst-goods-hotsale-box" style="margin-top: 10px;">		
+<div class="rtc-goods-hotsale-box" style="margin-top: 10px;">		
 	<div class="hotsale-title">最近浏览商品</div>
 	<volist name="goodslist" key="k" id="vo">
 		<div class="hotsale-goods-box">
@@ -9,7 +9,7 @@
 				<a href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$vo['goodsId']))}">{$vo['goodsName']}</a>
 				<div><span class="span1">￥{$vo['shopPrice']}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="span2">￥{$vo['marketPrice']}</span></div>
 			</div>
-			<div class="wst-clear"></div>
+			<div class="rtc-clear"></div>
 		</div>
 	</volist>
 </div>

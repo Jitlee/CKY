@@ -14,7 +14,7 @@ var brandArea = function () {
 $(function () {
     //搜索
     $("#btnsch").click(function () {
-    	var searchType = $("#wst-search-type").val();
+    	var searchType = $("#rtc-search-type").val();
     	if(searchType==2){
     		window.location = Think.U('Home/Shops/toShopStreet','searchType='+searchType+"&keyWords="+$.trim($("#keyword").val()));
     	}else{
@@ -44,13 +44,13 @@ $(function () {
                     obj.show();
                     $(".cateMenu1 li").find(".list-item").stop().animate({ "top": ty });
                     obj.stop().animate({ "top": ty });
-                    $(".wst-nvgbk").css("top",index*60);
-                    $(".wst-nvgbk").show();
+                    $(".rtc-nvgbk").css("top",index*60);
+                    $(".rtc-nvgbk").show();
                 })
                 $(this).mouseleave(function () {
                     $(this).removeClass("on");
                     $(this).find(".list-item").hide();
-                    $(".wst-nvgbk").hide();
+                    $(".rtc-nvgbk").hide();
                 })
             }
         });

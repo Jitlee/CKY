@@ -2,9 +2,9 @@
  namespace Admin\Model;
 /**
  * ============================================================================
- * WSTMall开源商城
- * 官网地址:http://www.wstmall.com 
- * 联系QQ:707563272
+ * 粗卡云:
+  
+ * 联系方式:
  * ============================================================================
  * 文章服务类
  */
@@ -21,7 +21,7 @@ class ArticlesModel extends BaseModel {
 		$data["isShow"] = (int)I("isShow",0);
 		$data["articleContent"] = I("articleContent");
 		$data["articleKey"] = I("articleKey");
-		$data["staffId"] = (int)session('WST_STAFF.staffId');
+		$data["staffId"] = (int)session('RTC_STAFF.staffId');
 		$data["createTime"] = date('Y-m-d H:i:s');
 	    if($this->checkEmpty($data,true)){
 			$m = M('articles');
@@ -44,7 +44,7 @@ class ArticlesModel extends BaseModel {
 		$data["isShow"] = (int)I("isShow",0);
 		$data["articleContent"] = I("articleContent");
 		$data["articleKey"] = I("articleKey");
-		$data["staffId"] = (int)session('WST_STAFF.staffId');
+		$data["staffId"] = (int)session('RTC_STAFF.staffId');
 	    if($this->checkEmpty($data,true)){	
 			$m = M('articles');
 		    $rs = $m->where("articleId=".(int)I('id',0))->save($data);

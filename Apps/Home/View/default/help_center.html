@@ -14,9 +14,9 @@
    	</head>
    	<body>
    
-	<include file="./Apps/Home/View/default/header_common.html" />
-	<div class="wst-container">
-		<div class='wst-article-menu'>
+	<include file="./Apps/Home/View/default/header_nav.html" />
+	<div class="rtc-container">
+		<div class='rtc-article-menu'>
 			<dl class="fore1">
 			<volist name="articleList" key="key" id="articles">
 			<dt class='item'>
@@ -36,7 +36,7 @@
 			</volist>
 		</dl>
 		</div>
-		<div class='wst-article-main'>			
+		<div class='rtc-article-main'>			
 			<div>
 				<div class='title'>{$carticle["articleTitle"]}</div>
 		        <div class='content'>{$carticle["articleContent"]}</div>

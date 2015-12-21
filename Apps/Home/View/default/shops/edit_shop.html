@@ -32,13 +32,13 @@ $(function () {
 			   return false;
 			},onError:function(msg){
 		}});
-	    $("#shopName").formValidator({onShow:"",onFocus:"店铺名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店铺名称不符合要求,请确认"});
-		$("#shopName").formValidator({onShow:"",onFocus:"店铺名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店铺名称不符合要求,请确认"});
+	    $("#shopName").formValidator({onShow:"",onFocus:"商家名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"商家名称不符合要求,请确认"});
+		$("#shopName").formValidator({onShow:"",onFocus:"商家名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"商家名称不符合要求,请确认"});
 		$("#userName").formValidator({onShow:"",onFocus:"请输入店主姓名",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店主姓名不能为空,请确认"});
 		$("#shopCompany").formValidator({onShow:"",onFocus:"请输入公司名称",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"公司名称不能为空,请确认"});
-		$("#shopTel").formValidator({onShow:"",onFocus:"请输入店铺电话",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"店铺电话不能为空,请确认"});
+		$("#shopTel").formValidator({onShow:"",onFocus:"请输入商家电话",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"商家电话不能为空,请确认"});
 		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入公司地址",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"公司地址不能为空,请确认"});
-		$("#bankNo").formValidator({onShow:"",onFocus:"请输入银行卡号",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"银行卡号不能为空,请确认"});
+		//$("#bankNo").formValidator({onShow:"",onFocus:"请输入银行卡号",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"银行卡号不能为空,请确认"});
 		$("#deliveryStartMoney").formValidator({onShow:"",onFocus:"请输入订单配送起步价",onCorrect:"输入正确"});
 		$("#deliveryFreeMoney").formValidator({onShow:"",onFocus:"请输入包邮起步价",onCorrect:"输入正确"});
 		$("#deliveryMoney").formValidator({onShow:"",onFocus:"请输入邮费",onCorrect:"输入正确"});
@@ -49,6 +49,25 @@ $(function () {
 		initTime('serviceStartTime','{$object['serviceStartTime']}');
 		initTime('serviceEndTime','{$object['serviceEndTime']}');
 		ShopMapInit();
+		
+		KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="shopDesc"]', {
+				height:'250px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','multiimage','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
 });
 function ShopMapInit(option){
 	   var opts = {zoom:$('#mapLevel').val(),longitude:$('#longitude').val(),latitude:$('#latitude').val()};
@@ -76,7 +95,7 @@ function ShopMapInit(option){
 var filetypes = ["gif","jpg","png","jpeg"];
 </script>
    <div class="rtc-body"> 
-       <div class='rtc-page-header'>卖家中心 > 店铺资料</div>
+       <div class='rtc-page-header'>商家中心 > 商家资料</div>
        <div class='rtc-page-content' style="position:relative;">
        <iframe name="upload" style="display:none"></iframe>
 		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:108px;left:159px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
@@ -102,7 +121,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
        
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
-             <th width='150' align='right'>店铺名称<font color='red'>*</font>：</th>
+             <th width='150' align='right'>商家名称<font color='red'>*</font>：</th>
              <td><input type='text' id='shopName' class="form-control rtc-ipt" value='{$object.shopName}' style='width:250px;' maxLength='25'/></td>
            </tr>
            <tr>
@@ -114,7 +133,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <td><input type='text' id='shopCompany' class="form-control rtc-ipt" value='{$object.shopCompany}' style='width:250px;' maxLength='25'/></td>
            </tr>
            <tr style="height:80px;">
-             <th align='right'>店铺图标<font color='red'>*</font>：</th>
+             <th align='right'>商家图标<font color='red'>*</font>：</th>
              <td>
 	          
 	             <div id="preview_Filedata" style="margin-top: 70px;">
@@ -124,9 +143,14 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	             </div>
              </td>
            </tr>
-           
            <tr>
-             <th align='right'>店铺电话<font color='red'>*</font>：</th>
+	             <th width='120'>商家简介<font color='red'>*</font>：</th>
+	             <td colspan='3'>
+	             <textarea rows="2" cols="60" id='shopDesc' name='shopDesc'>{$object.shopDesc}</textarea>
+	             </td>
+	       </tr>
+           <tr>
+             <th align='right'>商家电话<font color='red'>*</font>：</th>
              <td><input type='text' id='shopTel' class="form-control rtc-ipt" value='{$object.shopTel}' maxLength='25'/></td>
            </tr>
            <tr>
@@ -134,9 +158,11 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <td><input type='text' id='qqNo' class="form-control rtc-ipt" value='{$object.qqNo}' maxLength='25'/></td>
            </tr>
            <tr>
-             <th align='right'>店铺地址<font color='red'>*</font>：</th>
+             <th align='right'>商家地址<font color='red'>*</font>：</th>
              <td><input type='text' id='shopAddress' class="form-control rtc-ipt" value='{$object.shopAddress}' style='width:350px;' maxLength='100'/></td>
            </tr>
+           
+	           
            <tr id='shopMap'>
              <td>&nbsp;</td>
              <td>
@@ -172,11 +198,11 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <td><input type='text' id='deliveryStartMoney' class="form-control rtc-ipt" value='{$object.deliveryStartMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6'/></td>
            </tr>
            <tr>
-             <th align='right'>包邮起步价(元)<font color='red'>*</font>：</th>
+             <th align='right'>免配送费起步价(元)<font color='red'>*</font>：</th>
              <td><input type='text' id='deliveryFreeMoney' class="form-control rtc-ipt" value='{$object.deliveryFreeMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6'/></td>
            </tr>
            <tr>
-             <th align='right'>邮费(元)<font color='red'>*</font>：</th>
+             <th align='right'>配送费(元)<font color='red'>*</font>：</th>
              <td><input type='text' id='deliveryMoney' class="form-control rtc-ipt" value='{$object.deliveryMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
            </tr>
            <tr>
@@ -237,6 +263,12 @@ var filetypes = ["gif","jpg","png","jpeg"];
              </td>
            </tr>
         </table>
+        <!--<div style="display: none;">
+        	<select id='bankId'>
+                <option value='0'>请选择</option>
+             </select>
+             <input type='text' id='bankNo' value='0' maxLength='25' size='50'/>
+        </div>-->
        </form>
        </div>
    </div>

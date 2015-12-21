@@ -970,6 +970,7 @@ function editShop(){
 	   params.latitude = $('#latitude').val();
 	   params.longitude = $('#longitude').val();
 	   params.mapLevel = $('#mapLevel').val();
+	   params.shopDesc = $('#shopDesc').val();
 	   
 	   params.bankId = $('#bankId').val();
 	   params.bankNo = $('#bankNo').val();

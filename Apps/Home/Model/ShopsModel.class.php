@@ -363,6 +363,9 @@ class ShopsModel extends BaseModel {
 		$data["bankId"] = (int)I("bankId");
 		$data["bankNo"] = I("bankNo");
 		
+		$data["shopDesc"] =I("shopDesc");
+		
+		
 		if($this->checkEmpty($data,true)){
 			$data["qqNo"] = I("qqNo");
 			$data["invoiceRemarks"] = I("invoiceRemarks");

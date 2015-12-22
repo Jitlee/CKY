@@ -8,10 +8,10 @@
 	background-color: #ED7D31;
 }
 
-.mui-bar-tab .mui-tab-item {
+.mui-title, a, .mui-bar-tab .mui-tab-item, .mui-bar .mui-btn-link{
 	color: #fff;
 }
 
-a {
-	color: #fff;
+.mui-bar-tab .mui-tab-item.mui-active {
+	color: #33CCCC;
 }

@@ -12,6 +12,7 @@ use Think\Controller;
 class IndexAction extends Controller {
 	public function index() {
 		layout('default/layout');
+		$this->assign('title', "生活");
 		$this->display('default/index');
 	}
 }

@@ -8,7 +8,7 @@
 		<meta http-equiv="Pragma" content="no-cache">
 		<meta http-equiv="Cache-control" content="no-cache">
 		<meta http-equiv="Cache" content="no-cache">
-        <title>{$CONF['mallTitle']}后台管理中心</title>
+        <title>{$CONF['mallTitle']}</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="__ROOT__/Apps/Admin/View/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -202,15 +202,15 @@
                         <php>if(in_array('dpgl_00',$RTC_STAFF['grant'])){</php>
                         <li class="treeview">
                             <a href="#">
-                                <span>店铺管理</span>
+                                <span>商家管理</span>
                                 <small id='shopsTips' style='display:none' class="badge pull-right bg-green">3</small>
                             </a>
                             <ul class="treeview-menu">
                                 <php>if(in_array('dplb_01',$RTC_STAFF['grant'])){</php>
-                                <li><a href="{:U('Admin/Shops/toEdit')}" target='pageContent' >添加店铺</a></li>
+                                <li><a href="{:U('Admin/Shops/toEdit')}" target='pageContent' >添加商家</a></li>
                                 <php>}</php>
                                 <php>if(in_array('dplb_00',$RTC_STAFF['grant'])){</php>
-					            <li><a href="{:U('Admin/Shops/index')}" target='pageContent' >店铺列表</a></li>
+					            <li><a href="{:U('Admin/Shops/index')}" target='pageContent' >商家列表</a></li>
 					            <php>}</php>
                                 <php>if(in_array('dpsh_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Shops/queryPeddingByPage')}" target='pageContent' >店铺审核</a></li>
@@ -228,15 +228,15 @@
                                <li><a href="{:U('Admin/Areas/index')}" target='pageContent' >地区管理</a></li>
                                <php>}</php>
                                <php>if(in_array('sqlb_00',$RTC_STAFF['grant'])){</php>
-					           <li><a href="{:U('Admin/Communitys/index')}" target='pageContent' >社区列表</a></li>
+					           <li><a href="{:U('Admin/Communitys/index')}" target='pageContent' >配送区域</a></li>
 					           <php>}</php>
                                <php>if(in_array('sqlb_01',$RTC_STAFF['grant'])){</php>
-					           <li><a href="{:U('Admin/Communitys/toEdit')}" target='pageContent' >添加社区</a></li>
+					           <li><a href="{:U('Admin/Communitys/toEdit')}" target='pageContent' >添加配送区域</a></li>
 					           <php>}</php>
                             </ul>
                         </li>
                         <php>}</php>
-                        <php>if(in_array('wzgl_00',$RTC_STAFF['grant'])){</php>
+                        <!--<php>if(in_array('wzgl_00',$RTC_STAFF['grant'])){</php>
                         <li class="treeview">
                             <a href="pages/mailbox.html">
                                 <span> 文章管理</span>
@@ -253,7 +253,7 @@
 					           <php>}</php>
                             </ul>
                         </li>
-                        <php>}</php>
+                        <php>}</php>-->
                         <php>if(in_array('hygl_00',$RTC_STAFF['grant'])){</php>
                         <li class="treeview">
                             <a href="#">
@@ -296,11 +296,11 @@
                         <php>if(in_array('scsz_00',$RTC_STAFF['grant'])){</php>
                         <li class="treeview">
                             <a href="#">
-                                <span>商城设置</span>
+                                <span>平台设置</span>
                             </a>
                             <ul class="treeview-menu">
                                 <php>if(in_array('scxx_00',$RTC_STAFF['grant'])){</php>
-                                <li><a href="{:U('Admin/Index/toMallConfig')}" target='pageContent' >商城信息</a></li>
+                                <li><a href="{:U('Admin/Index/toMallConfig')}" target='pageContent' >系统信息</a></li>
                                 <php>}</php>
                                 <php>if(in_array('dhgl_00',$RTC_STAFF['grant'])){</php>
                                 <li><a href="{:U('Admin/Navs/index')}" target='pageContent' >导航管理</a></li>
@@ -311,9 +311,9 @@
                                 <php>if(in_array('gggl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Ads/index')}" target='pageContent'>广告管理</a></li>
 					            <php>}</php>
-                                <php>if(in_array('yhgl_00',$RTC_STAFF['grant'])){</php>
+                                <!--<php>if(in_array('yhgl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Banks/index')}" target='pageContent'>银行管理</a></li>
-					            <php>}</php>
+					            <php>}</php>-->
 					            <php>if(in_array('zfgl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Payments/index')}" target='pageContent'>支付管理</a></li>
 					            <php>}</php>

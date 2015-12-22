@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+ 
+		<script src="__JQ__"></script>
+		<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/me.css">
+		<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/mui.min.css">
+		
+   		<script type="text/javascript">
+	   		$(function() {
+	   			
+	   			$("#recharge").click(function() {
+					window.location.href="{:U('Person/recharge', '', '')}";
+				});
+				//秒杀记录
+				$("#miaoshaRecord").click(function() {
+					window.location.href="{:U('Person/miaoshaRecord', '', '')}";
+				});
+				//中奖记录
+				$("#miaoshazj").click(function() {	
+					window.location.href="{:U('Person/miaoshazj', '', '')}";
+				});
+				//已晒单
+				$("#miaoshasdfinish").click(function() {
+					window.location.href="{:U('Person/miaoshasdfinish', '', '')}";
+				});
+				//未晒单
+				$("#miaoshasdno").click(function() {
+					window.location.href="{:U('Person/miaoshasdno', '', '')}";
+				});
+				//用户信息
+				$("#userinfotop").click(function() {
+					window.location.href="{:U('Person/userinfoitem', '', '')}";
+				});
+				//充傎记录
+				$("#rechargerecord").click(function() {
+					window.location.href="{:U('Person/wallet', '', '')}";
+					//window.location.href="{:U('Person/rechargerecord', '', '')}";
+				});
+				$("#userscore").click(function() {
+					window.location.href="{:U('Person/userscore', '', '')}";
+				});
+				$("#yaoqing").click(function() {
+					window.location.href="{:U('Person/yaoqing', '', '')}";
+				});
+				
+			});
+		</script>
+	</head>
+	
+	<body>
+		
+		<div class="mui-content">
+			<ul class="mui-table-view"> 
+				<li class="mui-table-view-cell cell-top"  id="userinfotop">
+					<a class="mui-navigate-right">
+						<span class="user-cell4">
+								<img class="user-img" alt="" src="" />
+						</span>
+						<span class="user-cell_right">							 
+							<p data-bind="text: nickName">{$data.username}</p>
+							<p data-bind="text: nickName">{$data.mobile}</p>
+							会员卡信息
+						</span>
+					</a>
+				</li>
+				
+				 
+				<li class="mui-table-view-cell " data-bind="visible: isLogin">
+						<a class="mui-navigate-right">
+								<div class="img-tip">
+									<img alt="我的钱包" src="__IMG__/person/yyg_icon_wdqb.png"/>
+								</div>
+								<div class="menu-content">
+									<p>我的会员卡</p>
+								</div>
+							 
+							<span class="cell-right" id="recharge">
+								<span class="mui-badge mui-badge-danger">我要充值</span>							 
+							</span>
+						</a>
+				</li>
+				<li class="userline land-cell" data-bind="visible: isLogin" id="loginUser">
+					<span class="cell-left" id="userscore">
+						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_jf.png">
+						<p data-bind="text: nickName">积分：{$data.score}</p>
+					</span>
+					<a></a>
+					<span class="cell-right" data-bind="style: { 'display': hasOtherhalf() ? 'none' : 'inline-block'}" id="rechargerecord">
+						<img class="circle-img" alt="" src="__IMG__/person/iconfont-jiaofei.png">
+						<p>储值余额:{$data.money}</p>
+					</span>					
+				</li>
+				
+				<li class="mui-table-view-cell " data-bind="visible: isLogin">					 
+						<div class="img-tip">
+							<img alt="" src="__IMG__/person/yyg_icon_wdms.png"/>
+						</div>
+						<div class="menu-content">
+							<p>我的</p>
+						</div> 
+					 
+				</li>
+				<li class="userline land-cell">
+					<span class="land-cell4"  id="miaoshaRecord">
+						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_msjl.png">
+						<p data-bind="text: nickName">
+								订单查询 
+						</p>
+					</span>
+					 
+					<span class="land-cell4"  id="miaoshazj">
+						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_zjjl.png">
+						<p data-bind="text: nickName">
+							 消费记录
+						</p>
+					</span>
+					 
+					<span class="land-cell4"  id="miaoshasdfinish">
+						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_ysd.png">
+						<p data-bind="text: nickName">
+							充次记录 
+						</p>
+					</span>
+					 
+					<span class="land-cell4" id="miaoshasdno">
+						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_wsd.png">
+						<p data-bind="text: nickName">
+							优惠券下载
+						</p>
+					</span>
+				</li>
+				
+				 
+				<li class="mui-table-view-cell" id="yaoqing">
+					<a class="mui-navigate-right">
+						<div class="img-tip">
+							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+						</div>
+						<div class="menu-content">
+							<p>修改密码</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="yaoqing">
+					<a class="mui-navigate-right">
+						<div class="img-tip">
+							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+						</div>
+						<div class="menu-content">
+							<p>绑定手机</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="yaoqing">
+					<a class="mui-navigate-right">
+						<div class="img-tip">
+							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+						</div>
+						<div class="menu-content">
+							<p>我的收藏</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="yaoqing">
+					<a class="mui-navigate-right">
+						<div class="img-tip">
+							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+						</div>
+						<div class="menu-content">
+							<p>会员卡特权</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="yaoqing">
+					<a class="mui-navigate-right">
+						<div class="img-tip">
+							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+						</div>
+						<div class="menu-content">
+							<p>我的优惠券</p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="about">
+					<a class="mui-navigate-right" href="{:U('Person/loginexit', '', '')}">
+						<div class="img-tip">
+							<img alt="注销" src="__IMG__/person/exit.png"/>
+						</div>
+						<div class="menu-content">
+							<p>注销</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+
+	</body>
+
+</html>

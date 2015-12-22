@@ -29,22 +29,24 @@ var RTC = ThinkPHP = window.Think = {
 	<div class="w">
 		<ul class="fl lh">
 			<li class="fore1 ld"><b></b><a href="javascript:addToFavorite()"
-				rel="nofollow">收藏{$CONF['mallName']}</a></li><s></s>
+				rel="nofollow">收藏{$CONF['mallName']}</a>
+			</li>
+				<s></s>
 			<!--<li class="fore3 ld menu" id="app-jd" data-widget="dropdown">
 				<span class="outline"></span> <span class="blank"></span> 
 				<a href="#" target="_blank"><img src="__ROOT__/Apps/Home/View/default/images/icon_top_02.png"/>&nbsp;{$CONF['mallName']} 手机版</a>
 			</li>-->
-			<li class="fore4" id="biz-service" data-widget="dropdown" style='padding:0;'>&nbsp;<s></s>&nbsp;&nbsp;&nbsp;
+			<!--<li class="fore4" id="biz-service" data-widget="dropdown" style='padding:0;'>&nbsp;<s></s>&nbsp;&nbsp;&nbsp;
 				所在城市
 				【<span class='rtc-city'>&nbsp;{$currArea["areaName"]}&nbsp;</span>】
 	
 				
-			</li>
+			</li>-->
 		</ul>
 	
 		<ul class="fr lh" style='float:right;'>
 			<li class="fore1" id="loginbar"><a href="{:U('Home/Orders/queryByPage')}">
-				<span style='color:blue'>{$RTC_USER['loginName']}</span></a> 欢迎您来到 <a href='{:RTCDomain()}'>{$CONF['mallName']}</a>！<s></s>&nbsp;
+				<span style='color:blue'>{$RTC_USER['loginName']}</span></a>&nbsp; 欢迎您来到 {$CONF['mallName']}！<s></s>&nbsp;
 			<span>
 				<if condition="!$RTC_USER['userId']">
 				<a href="{:U('Home/Shops/login')}">[登录]</a>

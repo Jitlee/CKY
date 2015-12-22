@@ -94,12 +94,12 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 			onError : "该手机号码已存在。",
 			onWait : "请稍候..."
 		}).defaultPassed().unFormValidator(true);
-		$("#shopSn").formValidator({onShow:"",onFocus:"店铺编号不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店铺编号不符合要求,请确认"});
-		$("#shopName").formValidator({onShow:"",onFocus:"店铺名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店铺名称不符合要求,请确认"});
+		$("#shopSn").formValidator({onShow:"",onFocus:"商家编号不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"商家编号不符合要求,请确认"});
+		$("#shopName").formValidator({onShow:"",onFocus:"商家名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"商家名称不符合要求,请确认"});
 		$("#userName").formValidator({onShow:"",onFocus:"请输入店主姓名",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店主姓名不能为空,请确认"});
 		$("#shopCompany").formValidator({onShow:"",onFocus:"请输入公司名称",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"公司名称不能为空,请确认"});
-		$("#shopTel").formValidator({onShow:"",onFocus:"请输入店铺电话",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"店铺电话不能为空,请确认"});
-		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入店铺地址",onCorrect:"输入正确"}).inputValidator({min:1,max:120,onError:"店铺地址不能为空,请确认"});
+		$("#shopTel").formValidator({onShow:"",onFocus:"请输入商家电话",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"商家电话不能为空,请确认"});
+		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入商家地址",onCorrect:"输入正确"}).inputValidator({min:1,max:120,onError:"商家地址不能为空,请确认"});
 		$("#areaId3").formValidator({onFocus:"请选择所属地区"}).inputValidator({min:1,onError: "请选择所属地区"});
 		$("#goodsCatId1").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
 		$("#bankId").formValidator({onFocus:"请选择所属银行"}).inputValidator({min:1,onError: "请选择所属银行"});
@@ -139,6 +139,25 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 				reformValidator();
 			}
 		});	
+		
+		KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="shopDesc"]', {
+				height:'250px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','multiimage','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});// end KindEditor.ready
    });
 	//取消校验
 	function yj_unformValidator(){
@@ -317,9 +336,10 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.latitude = $('#latitude').val();
 	   params.longitude = $('#longitude').val();
 	   params.mapLevel = $('#mapLevel').val();
+	   params.shopDesc = $('#shopDesc').val();
 	   //拒绝的时候不用上传
 	   if(params.shopImg=='' && params.shopStatus!=-1 ){
-		   Plugins.Tips({title:'信息提示',icon:'error',content:'请上传店铺图片!',timeout:1000});
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请上传商家图片!',timeout:1000});
 		   return;
 	   }
 	   params.shopTel = $('#shopTel').val();
@@ -344,7 +364,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   
 	   if(params.shopStatus==1){
 		   if(params.latitude=='' || params.longitude==''){
-			   Plugins.Tips({title:'信息提示',icon:'error',content:'请在地图上标注店铺所在位置!',timeout:1000});
+			   Plugins.Tips({title:'信息提示',icon:'error',content:'请在地图上标注商家所在位置!',timeout:1000});
 			   return;
 		   }
 	   }
@@ -438,11 +458,11 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            </tr>
            </if>
            <tr>
-             <th align='right'>店铺编号<font color='red'>*</font>：</th>
+             <th align='right'>商家编号<font color='red'>*</font>：</th>
              <td><input type='text' id='shopSn' class="form-control rtc-ipt" value='{$object.shopSn}' maxLength='25'/></td>
            </tr>
            <tr>
-             <th align='right'>店铺名称<font color='red'>*</font>：</th>
+             <th align='right'>商家名称<font color='red'>*</font>：</th>
              <td><input type='text' id='shopName' class="form-control rtc-ipt" value='{$object.shopName}' maxLength='25'/></td>
            </tr>
            <tr>
@@ -469,7 +489,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              </td>
            </tr>
            <tr style="height:80px;">
-             <th align='right'>店铺图标<font color='red'>*</font>：</th>
+             <th align='right'>商家图标<font color='red'>*</font>：</th>
              <td>
 	             <div id="preview_Filedata" style="margin-top: 70px;">
 	             	<img id='preview' src='__ROOT__/{$object.shopImg}' ref='__ROOT__/{$object.shopImg}' height="152" <if condition="$object['shopImg'] =='' ">style='display:none'</if>/>
@@ -477,7 +497,13 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              </td>
            </tr>
            <tr>
-             <th align='right'>店铺电话<font color='red'>*</font>：</th>
+	             <th width='120'>商家简介<font color='red'>*</font>：</th>
+	             <td colspan='3'>
+	             <textarea rows="2" cols="60" id='shopDesc' name='shopDesc'>{$object.shopDesc}</textarea>
+	             </td>
+	       </tr>
+           <tr>
+             <th align='right'>商家电话<font color='red'>*</font>：</th>
              <td><input type='text' id='shopTel' class="form-control rtc-ipt" value='{$object.shopTel}' maxLength='25'/></td>
            </tr>
            <tr>
@@ -502,9 +528,10 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              </td>
            </tr>
            <tr>
-             <th align='right'>店铺地址<font color='red'>*</font>：</th>
+             <th align='right'>商家地址<font color='red'>*</font>：</th>
              <td><input type='text' id='shopAddress' class="form-control rtc-ipt" value='{$object.shopAddress}' maxLength='120'/></td>
            </tr>
+           
            <tr id='shopMap' style='display:none'>
              <td>&nbsp;</td>
              <td>
@@ -609,7 +636,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              </td>
            </tr>
             <tr>
-             <th align='right'>店铺状态<font color='red'>*</font>：</th>
+             <th align='right'>商家状态<font color='red'>*</font>：</th>
              <td>
              <label>
              <input type='radio' id='shopStatus1' name='shopStatus' value='-2' <if condition="$object['shopStatus'] ==-2 ">checked</if> />已停止&nbsp;&nbsp;

@@ -14,6 +14,6 @@
         'DATA_PATH_LEVEL'=>2, 
 	    'SESSION_PREFIX' => 'RTCMALL',
         'COOKIE_PREFIX'  => 'RTCMALL',
-		'LOAD_EXT_CONFIG' => 'RTC_config'
+		'LOAD_EXT_CONFIG' => 'wst_config'
 	);
 ?>

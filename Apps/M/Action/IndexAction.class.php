@@ -11,6 +11,7 @@ namespace M\Action;
 use Think\Controller;
 class IndexAction extends Controller {
 	public function index() {
+		layout('default/layout');
 		$this->display('default/index');
 	}
 }

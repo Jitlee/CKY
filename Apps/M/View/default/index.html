@@ -11,7 +11,13 @@
 	.mui-content-bottom {
 		padding-bottom: 50px;
 	}
+	
+	.cky-media p, .cky-table-view-cell, .cky-table-view-cell span, .cky-table-view-cell, .cky-grid-cell {
+		color: #333;
+	}
+	
 	.swiper-img {
+		display: block;
 		margin-bottom: 30px;
 		border: solid 3px darkgreen;
 		border-radius: 10px;
@@ -21,7 +27,7 @@
 		background-position: center;
 	}
 	
-	.cky-grid:after {
+	.cky-grid:after,.cky-table-view:after {
 		content: " ";
 		height:1px;
 		display: block;
@@ -32,7 +38,6 @@
 		float: left;
 		text-align: center;
 		font-size:17px;
-		color:#333;
 		display: block;
 	}
 	
@@ -112,6 +117,117 @@
 		transform: scale(1.2);
 		-webkit-transform: scale(1.2);
 	}
+	
+	.cky-center {
+		display:-webkit-box; 
+		-webkit-box-orient:horizontal; 
+		-webkit-box-pack:center; 
+		/*-webkit-box-align:center;  */
+		display:-moz-box; 
+		-moz-box-orient:horizontal; 
+		-moz-box-pack:center; 
+		/*-moz-box-align:center; */
+		display:-o-box; 
+		-o-box-orient:horizontal; 
+		-o-box-pack:center; 
+		/*-o-box-align:center;  */
+		display:-ms-box; 
+		-ms-box-orient:horizontal; 
+		-ms-box-pack:center; 
+		/*-ms-box-align:center;  */
+		display:box; 
+		box-orient:horizontal; 
+		box-pack:center; 
+		/*box-align:center; */
+	}
+	.cky-media-content {
+		margin-top:3px;
+		margin-bottom: 3px;
+		font-size: 17px;
+		height:45px;
+		vertical-align: middle;
+		overflow: hidden;
+		text-align:left;
+		font-size:16px;
+	}
+	.cky-ellipsis2{
+		overflow : hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	.cky-left {
+		float: left;
+	}
+
+	.cky-right {
+		float: right;
+	}
+
+	.cky-table-view .cky-media {
+		padding-left: 94px;
+	}
+	
+	.cky-table-view-cell {
+		display: block;
+		position: relative;
+		border-top:1px solid #C0C0C0;
+		padding-top:10px;
+		padding-bottom: 10px;
+		padding-left:8px;
+		padding-right:8px;
+		margin-left:-8px;
+		margin-right:-8px;
+	}
+
+	.cky-money {
+		color: #33CCCC !important;
+		font-size: 20px;
+	}
+
+	.cky-money-old,h5,.cky-media-content {
+		color: #999;
+	}
+
+	.cky-money-old {
+		text-decoration:line-through;
+		font-size:14px;
+	}
+	
+	.cky-table-cell-thumb{
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		height:90px;
+		width: 90px;
+		position: absolute;
+		left:8px;
+		top:50%;
+		transform: translateY(-50%);
+		-webkit-transform: translateY(-50%);
+		-o-transform: translateY(-50%);
+		-moz-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		overflow: hidden;
+	}
+	
+	.cky-free-reserve:before {
+		content: "免预约";
+		position: absolute;
+		left:0px;
+		top:0px;
+		display: block;
+		font-size: 15px;
+		line-height: 1.5;
+		color:#fff;
+		width:85px;
+		text-align: center;
+		background-color: #33CCCC;
+		transform: matrix(0.707107,-0.707107,0.707107,0.707107, -20, 12);
+		-webkit-transform: matrix(0.707107,-0.707107,0.707107,0.707107, -20, 12);
+	}
 </style>
 <div class="mui-content mui-content-bottom mui-content-padded">
 	<!-- Slider main container -->
@@ -119,10 +235,9 @@
 	    <!-- Additional required wrapper -->
 	    <div class="swiper-wrapper">
 	        <!-- Slides -->
-	        <div class="swiper-slide"><div class="swiper-img" style="background-image: url(__ROOT__/Apps/M/View/default/images/0JJ2G77427KR.jpg);"></div></div>
-	        <div class="swiper-slide"><div class="swiper-img" style="background-image: url(__ROOT__/Apps/M/View/default/images/74F58PICre2.jpg);"></div></div>
-	        <div class="swiper-slide"><div class="swiper-img" style="background-image: url(__ROOT__/Apps/M/View/default/images/d33fas2dfsafasdfa3.jpg);"></div></div>
-	        <div class="swiper-slide"><div class="swiper-img" style="background-image: url(__ROOT__/Apps/M/View/default/images/lisD2ULUjfWuM.jpg);"></div></div>
+	        <foreach name="ads" item="item">
+        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('{$item.adFile}');"></a></div>
+	        </foreach>
 	    </div>
 	    <!-- If we need pagination -->
 	    <div class="swiper-pagination"></div>
@@ -131,7 +246,7 @@
 	<div class="cky-grid cky-grid4">
 		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/seller.png"/>商家</a>
 		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/restaurant.png"/>推荐餐厅</a>
-		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/restaurant.png"/>活动</a>
+		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/activities.png"/>活动</a>
 		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/takeaway.png"/>外卖</a>
 		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/monkey.png"/>小猴快跑</a>
 		<a class="cky-grid-cell cky-animate-scale"><img src="__ROOT__/Apps/M/View/default/images/life.png"/>生活服务</a>
@@ -165,7 +280,52 @@
 			</div>
 		</a>
 	</div>
-	<h5>猜你喜欢</h5>
+	<br />
+	<span>猜你喜欢</span>
+	<div class="cky-table-view">
+		<a class="cky-table-view-cell">
+				<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__ROOT__/Apps/M/View/default/images/dabbf221.jpg);">
+					
+				</div>
+				<div class="cky-media">
+					<span>华莱士</span>
+					<h5 class="cky-right">推荐</h5>
+					<div class="cky-center cky-media-content cky-ellipsis2">
+						测试费阿凡达测试费阿凡达多上测试两行会省略的打发打发的事发生发送
+					</div>
+					<span class="cky-money">￥19</span><span class="cky-money-old">￥90</span>
+					<h5 class="cky-right">快去吧</h5>
+			    </div>
+		</a>
+		<a class="cky-table-view-cell">
+				<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__ROOT__/Apps/M/View/default/images/fasdfa.jpg);">
+					
+				</div>
+				<div class="cky-media">
+					<span>华莱士</span>
+					<h5 class="cky-right">推荐</h5>
+					<div class="cky-center cky-media-content cky-ellipsis2">
+						测试费阿凡达测试费阿凡
+					</div>
+					<span class="cky-money">￥19</span><span class="cky-money-old">￥90</span>
+					<h5 class="cky-right">快去吧</h5>
+			    </div>
+		</a>
+		<a class="cky-table-view-cell">
+				<div class="cky-table-cell-thumb" style="background-image: url(__ROOT__/Apps/M/View/default/images/fafasdfsd.jpg);">
+					
+				</div>
+				<div class="cky-media">
+					<span>华莱士</span>
+					<h5 class="cky-right">推荐</h5>
+					<div class="cky-center cky-media-content cky-ellipsis2">
+						测试费阿凡达测试
+					</div>
+					<span class="cky-money">￥19</span><span class="cky-money-old">￥90</span>
+					<h5 class="cky-right">快去吧</h5>
+			    </div>
+		</a>
+	</div>
 </div>
 
 <include file="default:tab"/>

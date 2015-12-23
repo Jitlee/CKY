@@ -13,6 +13,10 @@ class IndexAction extends Controller {
 	public function index() {
 		layout('default/layout');
 		$this->assign('title', "生活");
+		$addb = D('ads');
+		$ads = $addb->queryByType(0);
+		$this->assign('ads', $ads);
+		
 		$this->display('default/index');
 	}
 }

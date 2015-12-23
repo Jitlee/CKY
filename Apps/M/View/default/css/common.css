@@ -68,23 +68,23 @@
 	}
 	
 	.cky-hotpot-ticket {
-		background-image: url(__ROOT__/Apps/M/View/default/images/hotpot-ticket.png);	
+		background-image: url(../images/hotpot-ticket.png);	
 		border-right-color:#C0C0C0!important;
 		border-bottom-color:#C0C0C0!important;
 	}
 	
 	.cky-points-edemption {
-		background-image: url(__ROOT__/Apps/M/View/default/images/points-edemption.png);		
+		background-image: url(../images/points-edemption.png);		
 		border-bottom-color:#C0C0C0!important;
 	}
 	
 	.cky-scratch-off {
-		background-image: url(__ROOT__/Apps/M/View/default/images/scratch-off.png);	
+		background-image: url(../images/scratch-off.png);	
 		border-right-color:#C0C0C0!important;
 	}
 	
 	.cky-delivery-free {
-		background-image: url(__ROOT__/Apps/M/View/default/images/delivery-free.png);
+		background-image: url(../images/delivery-free.png);
 	}
 	
 	.cky-grid2 .cky-media p{

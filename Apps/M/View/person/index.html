@@ -13,7 +13,13 @@
 		
    		<script type="text/javascript">
 	   		$(function() {
-	   			
+	   			$("#userscore").click(function() {
+					window.location.href="{:U('Person/userscore', '', '')}";
+				});
+				$("#userscore").click(function() {
+					window.location.href="{:U('Person/userscore', '', '')}";
+				});
+				
 	   			$("#recharge").click(function() {
 					window.location.href="{:U('Person/recharge', '', '')}";
 				});
@@ -42,12 +48,8 @@
 					window.location.href="{:U('Person/wallet', '', '')}";
 					//window.location.href="{:U('Person/rechargerecord', '', '')}";
 				});
-				$("#userscore").click(function() {
-					window.location.href="{:U('Person/userscore', '', '')}";
-				});
-				$("#yaoqing").click(function() {
-					window.location.href="{:U('Person/yaoqing', '', '')}";
-				});
+				
+				
 				
 			});
 		</script>
@@ -87,19 +89,19 @@
 				</li>
 				<li class="userline land-cell" data-bind="visible: isLogin" id="loginUser">
 					<span class="cell-left" id="userscore">
-						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_jf.png">
+						<img class="circle-img" alt="" src="__IMG__/person/jf.png">
 						<p data-bind="text: nickName">积分：{$data.score}</p>
 					</span>
 					<a></a>
 					<span class="cell-right" data-bind="style: { 'display': hasOtherhalf() ? 'none' : 'inline-block'}" id="rechargerecord">
-						<img class="circle-img" alt="" src="__IMG__/person/iconfont-jiaofei.png">
+						<img class="circle-img" alt="" src="__IMG__/person/jiaofei.png">
 						<p>储值余额:{$data.money}</p>
 					</span>					
 				</li>
 				
 				<li class="mui-table-view-cell " data-bind="visible: isLogin">					 
 						<div class="img-tip">
-							<img alt="" src="__IMG__/person/yyg_icon_wdms.png"/>
+							<img alt="" src="__IMG__/person/tx.png"/>
 						</div>
 						<div class="menu-content">
 							<p>我的</p>
@@ -108,14 +110,14 @@
 				</li>
 				<li class="userline land-cell">
 					<span class="land-cell4"  id="miaoshaRecord">
-						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_msjl.png">
+						<img class="circle-img" alt="" src="__IMG__/person/orderjl.png">
 						<p data-bind="text: nickName">
 								订单查询 
 						</p>
 					</span>
 					 
 					<span class="land-cell4"  id="miaoshazj">
-						<img class="circle-img" alt="" src="__IMG__/person/yyg_icon_zjjl.png">
+						<img class="circle-img" alt="" src="__IMG__/person/xfjl.png">
 						<p data-bind="text: nickName">
 							 消费记录
 						</p>
@@ -137,10 +139,10 @@
 				</li>
 				
 				 
-				<li class="mui-table-view-cell" id="yaoqing">
+				<li class="mui-table-view-cell" id="userscore">
 					<a class="mui-navigate-right">
 						<div class="img-tip">
-							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+							<img alt="" src="__IMG__/person/pwd.png"/>
 						</div>
 						<div class="menu-content">
 							<p>修改密码</p>
@@ -160,7 +162,7 @@
 				<li class="mui-table-view-cell" id="yaoqing">
 					<a class="mui-navigate-right">
 						<div class="img-tip">
-							<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+							<img alt="" src="__IMG__/person/wdsc.png"/>
 						</div>
 						<div class="menu-content">
 							<p>我的收藏</p>

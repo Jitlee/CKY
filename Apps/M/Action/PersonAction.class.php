@@ -11,8 +11,33 @@ namespace M\Action;
 use Think\Controller;
 class PersonAction extends Controller {
 	public function index() {
-		$this->display('default/person/index');
+		$this->display();
 	}
+
+	
+	public function userpwd()
+	{
+		layout(TRUE);
+		$this->display();
+	}
+	public function userscore()
+	{
+		layout(TRUE);
+		$this->display();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public function gettoken() {
 		$appid="wx9c7c9bb54952b54d";
 		$secret="d4624c36b6795d1d99dcf0547af5443d";
@@ -27,6 +52,7 @@ class PersonAction extends Controller {
 		
 		echo $result;
 	}
+	
 	
 	public function WeChat() {
 		session("getresult",$_POST);

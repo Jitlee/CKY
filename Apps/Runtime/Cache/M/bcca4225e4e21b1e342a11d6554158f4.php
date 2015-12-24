@@ -27,7 +27,7 @@
 	    <!-- Additional required wrapper -->
 	    <div class="swiper-wrapper">
 	        <!-- Slides -->
-	        <?php if(is_array($ads)): foreach($ads as $key=>$item): ?><div class="swiper-slide"><a href="<?php echo ($item["adURL"]); ?>" class="swiper-img" style="background-image: url('<?php echo ($item["adFile"]); ?>');"></a></div><?php endforeach; endif; ?>
+	        <?php if(is_array($ads)): foreach($ads as $key=>$item): ?><div class="swiper-slide"><a href="<?php echo ($item["adURL"]); ?>" class="swiper-img" style="background-image: url('/<?php echo ($item["adFile"]); ?>');"></a></div><?php endforeach; endif; ?>
 	    </div>
 	    <!-- If we need pagination -->
 	    <div class="swiper-pagination"></div>

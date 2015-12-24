@@ -14,7 +14,7 @@ class IndexAction extends Controller {
 		layout('default/layout');
 		$this->assign('title', "生活");
 		$addb = D('ads');
-		$ads = $addb->queryByType(0);
+		$ads = $addb->queryByType(-1);
 		$this->assign('ads', $ads);
 		
 		$this->display('default/index');

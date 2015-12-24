@@ -11,12 +11,11 @@ namespace M\Action;
 use Think\Controller;
 class IndexAction extends Controller {
 	public function index() {
-		layout('default/layout');
 		$this->assign('title', "生活");
 		$addb = D('ads');
 		$ads = $addb->queryByType(-1);
 		$this->assign('ads', $ads);
 		
-		$this->display('default/index');
+		$this->display();
 	}
 }

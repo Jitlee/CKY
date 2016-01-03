@@ -54,9 +54,9 @@
        <div class='rtc-tbar' style='height:25px;'>
                     文章标题：<input type='text' id='articleTitle' name='articleTitle' class='form-control rtc-ipt-15' value='{$articleTitle}'/> 
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>             
-       <php>if(in_array('wzlb_01',$RTC_STAFF['grant'])){</php>
+       
        <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Articles/toEdit')}" style='float:right'>新增</a>
-       <php>}</php>
+       
        </div>
        </form>
        <div class="rtc-body"> 
@@ -91,23 +91,19 @@
 					  <span class="caret"></span>
 				   </button>
                </if>
-               <php>if(in_array('wzlb_02',$RTC_STAFF['grant'])){</php>
+               
                    <ul class="dropdown-menu" role="menu">
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['articleId']})">显示</a></li>
 					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['articleId']})">隐藏</a></li>
 				   </ul>
-			   <php>}</php>
+			   
                </div>
                </td>
                <td>{$vo['staffName']}</td>
                <td>{$vo['createTime']}</td>
                <td>
-               <php>if(in_array('wzlb_02',$RTC_STAFF['grant'])){</php>
-               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Articles/toEdit',array('id'=>$vo['articleId']))}">修改</a>&nbsp;
-               <php>}</php>
-               <php>if(in_array('wzlb_03',$RTC_STAFF['grant'])){</php>
-               <a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['articleId']})"">刪除</a>
-               <php>}</php>
+               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Articles/toEdit',array('id'=>$vo['articleId']))}">修改</a>&nbsp;               
+               		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['articleId']})"">刪除</a>
                </td>
              </tr>
              </volist>

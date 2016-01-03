@@ -7,19 +7,19 @@
 				<div class="mui-input-group">
 					<div class="mui-input-row">
 						<label>原密码</label>
-						<input type="password" id='txtoldpwd'  name="txtoldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
+						<input type="password" id='txtoldpwd'  name="oldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
 					</div>
 					<div class="mui-input-row">
 						<label>新密码</label>
-						<input type="password" id='txtnewpwd'   name="txtnewpwd"  class="mui-input-clear mui-input" required placeholder="请输入新密码">
+						<input type="password" id='txtnewpwd'   name="newpwd"  class="mui-input-clear mui-input" required placeholder="请输入新密码">
 					</div>
 					<div class="mui-input-row">
 						<label>确认密码</label>
-						<input type="password" id='txtconfimpwd'   name="txtconfimpwd" class="mui-input-clear mui-input" required placeholder="请再次输入新密码">
+						<input type="password" id='txtconfimpwd'   name="confimpwd" class="mui-input-clear mui-input" required placeholder="请再次输入新密码">
 					</div> 
 				</div>
 				<div class="mui-content-padded">
-					<button id='reg' type="submit" class="mui-btn mui-btn-block mui-btn-primary">修改</button>
+					<button id='btnalertpwd' type="button" class="mui-btn mui-btn-block mui-btn-primary">修改</button>
 				</div>
 			</form>
 			
@@ -32,23 +32,27 @@
 	}).ajaxStop(function() {
 		$("button:submit").attr("disabled", false);
 	});
+	function changeSuccess(data) {
+		alert(data);
+		if (data.status==0) {
+			layer.alert("密码修改成功。");
+			window.location.href = "{:U('Public/index','','')}";
+		} else {
+			layer.alert(data.message);
+		}
+	}
+	
 	$(function() {		
-		$("form").submit(function() {
+		$("#btnalertpwd").click(function() {
 			if($("#txtnewpwd").val() != $("#txtconfimpwd").val())
 			{
 				layer.alert("输入两次密码不一致。");
 				return false;
 			}
-			var self = $(this);
-			$.post("{:U('Person/userpwd','','')}", self.serialize(), success, "json");
+			var self = $("form");
+			//alert(self.serialize());
+			$.post("{:U('Person/changepwd','','')}", self.serialize(), changeSuccess, "json");
 			return false;
-			function success(data) {
-				if (data.status) {
-					window.location.href = "{:U('Public/login','','')}";
-				} else {
-					layer.alert(data.msg);
-				}
-			}
 		});
 	});
 	</script>

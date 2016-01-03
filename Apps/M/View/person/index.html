@@ -14,15 +14,22 @@
    		<script type="text/javascript">
 	   		$(function() {
 	   			$("#userscore").click(function() {
-					window.location.href="{:U('Person/userscore', '', '')}";
+					window.location.href="{:U('Person/scorelist', '', '')}";
 				});
-				$("#userscore").click(function() {
-					window.location.href="{:U('Person/userscore', '', '')}";
+				//充傎记录
+				$("#rechargerecord").click(function() {
+					window.location.href="{:U('Person/rechargelist', '', '')}";
 				});
-				
+				//修改密码
+				$("#changepwd").click(function() {
+					window.location.href="{:U('Person/changepwd', '', '')}";
+				});
+				//充值
 	   			$("#recharge").click(function() {
 					window.location.href="{:U('Person/recharge', '', '')}";
 				});
+				
+				
 				//秒杀记录
 				$("#miaoshaRecord").click(function() {
 					window.location.href="{:U('Person/miaoshaRecord', '', '')}";
@@ -43,13 +50,7 @@
 				$("#userinfotop").click(function() {
 					window.location.href="{:U('Person/userinfoitem', '', '')}";
 				});
-				//充傎记录
-				$("#rechargerecord").click(function() {
-					window.location.href="{:U('Person/wallet', '', '')}";
-					//window.location.href="{:U('Person/rechargerecord', '', '')}";
-				});
-				
-				
+				 
 				
 			});
 		</script>
@@ -65,9 +66,8 @@
 								<img class="user-img" alt="" src="" />
 						</span>
 						<span class="user-cell_right">							 
-							<p data-bind="text: nickName">{$data.username}</p>
-							<p data-bind="text: nickName">{$data.mobile}</p>
-							会员卡信息
+							<p data-bind="text: nickName">{$data.CardId}</p>
+							<p data-bind="text: nickName">{$data.MemberGroupName}</p>
 						</span>
 					</a>
 				</li>
@@ -90,12 +90,12 @@
 				<li class="userline land-cell" data-bind="visible: isLogin" id="loginUser">
 					<span class="cell-left" id="userscore">
 						<img class="circle-img" alt="" src="__IMG__/person/jf.png">
-						<p data-bind="text: nickName">积分：{$data.score}</p>
+						<p data-bind="text: nickName">积分：{$data.EnablePoint}</p>
 					</span>
 					<a></a>
 					<span class="cell-right" data-bind="style: { 'display': hasOtherhalf() ? 'none' : 'inline-block'}" id="rechargerecord">
 						<img class="circle-img" alt="" src="__IMG__/person/jiaofei.png">
-						<p>储值余额:{$data.money}</p>
+						<p>储值余额:{$data.EnableValue}</p>
 					</span>					
 				</li>
 				
@@ -139,7 +139,7 @@
 				</li>
 				
 				 
-				<li class="mui-table-view-cell" id="userscore">
+				<li class="mui-table-view-cell" id="changepwd">
 					<a class="mui-navigate-right">
 						<div class="img-tip">
 							<img alt="" src="__IMG__/person/pwd.png"/>
@@ -189,7 +189,7 @@
 						</div>
 					</a>
 				</li>
-				<li class="mui-table-view-cell" id="about">
+				<!--<li class="mui-table-view-cell" id="about">
 					<a class="mui-navigate-right" href="{:U('Person/loginexit', '', '')}">
 						<div class="img-tip">
 							<img alt="注销" src="__IMG__/person/exit.png"/>
@@ -198,7 +198,7 @@
 							<p>注销</p>
 						</div>
 					</a>
-				</li>
+				</li>-->
 			</ul>
 		</div>
 		

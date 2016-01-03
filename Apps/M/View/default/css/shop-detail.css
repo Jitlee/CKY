@@ -1,0 +1,123 @@
+.cky-head-img {
+	height: 35vh;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-size:cover;
+	background-position: center;
+	color: #fff;
+	position: relative;
+}
+
+.cky-head-img h4 {
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+}
+
+.cky-head-img h5 {
+	color: #fff;
+	opacity: 0.9;
+	position: absolute;
+	bottom: 8px;
+	right: 15px;
+	font-size: 14px;
+}
+
+.cky-head-img h5 .iconfont {
+	font-size: 20px;
+	margin-right: 6px;
+}
+
+.shop-detail-sub {
+	margin-top: 8px;
+	font-size: 16px;
+	padding-right: 80px;
+	position: relative;
+	line-height: 1.1;
+}
+
+.shop-detail-button {
+	position: absolute;
+	right:0px;
+	top:-3px;
+}
+
+.shop-detail-button .iconfont {
+	font-size: 24px;
+	margin-left: 12px;
+	color: inherit;
+}
+
+.shop-detail-button .iconfont.cky-active, .shop-detail-button .iconfont:active {
+	color: #33CCCC;
+}
+
+.cky-detail-table {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.cky-detail-col2 {
+	display: table-cell;
+	text-align: left;
+}
+
+@media only screen and (max-width: 320px) {
+	.cky-detail-col2{
+		font-size: 14px;
+	}
+	
+	.cky-detail-col2 .iconfont {
+		font-size: 13px;
+	}
+}
+
+.cky-detail-col2:last-child{
+	text-align: right;
+}
+
+#slider {
+	margin-top: 8px;
+	background-color: #fff;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+	color: #f60;
+	border-color: #f60;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+	background-color: #f60;
+}
+
+/** 产品购买按钮 **/
+.cky-detail-buy-button {
+	display: block;
+    background-color: #F60;
+    color: #fff;
+    font-size: 13px;
+    height: 22px;
+    line-height: 22px;
+    width: 50px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.cky-media-content {
+	height: 35px;
+}
+
+.cky-detail-buy-button:active {
+	color: #fff;
+	opacity: 0.8;
+}
+
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+    border-top: 1px solid #c8c7cc;
+    border-bottom: none;
+}
+
+.cky-table-view-cell:first-child {
+    border-top: none;
+}

@@ -6,17 +6,20 @@ namespace M\Action;
   
  * 联系方式:
  * ============================================================================
- * 首页（默认）控制器
+ * 商家 控制器
  */
 use Think\Controller;
-class IndexAction extends Controller {
+class ShopAction extends Controller {
 	public function index() {
-		$this->assign('title', "生活");
-		$this->assign('tabid', 'home');
-		$addb = D('ads');
-		$ads = $addb->queryByType(-1);
-		$this->assign('ads', $ads); 
+		$this->assign('title', "商家");
+		$this->assign('tabid', 'shop');
 		
+		$this->display();
+	}
+	
+	public function detail($id = 0) {
+		$this->assign('id', $id);
+		$this->assign('title', "简约Coffee");
 		$this->display();
 	}
 }

@@ -10,6 +10,7 @@
 		<script src="__JQ__"></script>
 		<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/me.css">
 		<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/mui.min.css">
+		<link rel="stylesheet" href="//at.alicdn.com/t/font_1451830870_8774567.css">
 		
    		<script type="text/javascript">
 	   		$(function() {
@@ -50,9 +51,17 @@
 				$("#userinfotop").click(function() {
 					window.location.href="{:U('Person/userinfoitem', '', '')}";
 				});
-				 
 				
+				//同步数据库
+				Sync();
 			});
+			function Sync()
+			{
+				$.post("{:U('Person/Sync','','')}", null, changeSuccess, "json");
+			}
+			function changeSuccess(data) {					
+				layer.alert(data.message);
+			}
 		</script>
 	</head>
 	
@@ -101,7 +110,8 @@
 				
 				<li class="mui-table-view-cell " data-bind="visible: isLogin">					 
 						<div class="img-tip">
-							<img alt="" src="__IMG__/person/tx.png"/>
+							<!--<img alt="" src="__IMG__/person/tx.png"/>-->
+							<i class="iconfont icon-wode font24"></i>
 						</div>
 						<div class="menu-content">
 							<p>我的</p>

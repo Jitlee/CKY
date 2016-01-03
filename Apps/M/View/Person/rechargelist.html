@@ -8,12 +8,12 @@
 
 <div class="mui-content">
 	
-	<h5 style="position: relative;" class="yyg-cell-left">积分<span class="yyg-cell-right yyg-right-margin">时间&nbsp;&nbsp;</span></h5>
+	<h5 style="position: relative;" class="yyg-cell-left">金额<span class="yyg-cell-right yyg-right-margin">时间&nbsp;&nbsp;</span></h5>
 	<ul id="recrodList" class="mui-table-view">
 		<foreach name="data" item="item">
 			<li class="mui-table-view-cell">			
-				<span class="yyg-cell-right yyg-right-margin time">{$item.BillNumber}</span>
-				<span class="money">{$item.Point}</span>
+				<span class="yyg-cell-right yyg-right-margin time">{$item.OperateTime}</span>
+				<span class="money">{$item.Value}</span>
 			</li>
 		</foreach>
 	</ul>
@@ -43,13 +43,13 @@
 		var template = $("li:first-child", recrodList);		
 		function page() 
 		{
-				$.get("{:U('pagescore', '', '')}/20/" + (++pageNum), null, function(list) {
+				$.get("{:U('rechargelistPage', '', '')}/20/" + (++pageNum), null, function(list) {
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {
 				       			var item = template.clone();
-				       			$(".money", item).text(this.money);
-				       			$(".time", item).text(this.time);
+				       			$(".money", item).text(this.Value);
+				       			$(".time", item).text(this.OperateTime);
 				       			recrodList.append(item);
 				       		});
 		       	} else {

@@ -11,7 +11,7 @@
 class MemberModel extends BaseModel {
 	 
 	public function Insert($dataInfo)
-	{
+	{ 
 		$rd = array('status'=>-1);
 		
 		if($this->checkEmpty($data,true)){
@@ -30,6 +30,20 @@ class MemberModel extends BaseModel {
 		$filter["CardId"]=$key;
 		return $db->where($filter)->find();
 	}
-	 
+	
+	/***积分记录***/
+	public function GetScoreList($uid,$pageSize = 10, $pageNum = 1)
+	{ 
+		$db = M('member_score');
+		$filter["uid"]=$uid;
+		return $db->order('OperateTime desc')->where($filter)->page($pageNum, $pageSize)->select();
+	}
+	/******储值记录****/
+	public function GetRechargeList($uid,$pageSize = 10, $pageNum = 1)
+	{ 
+		$db = M('member_score');
+		$filter["uid"]=$uid;
+		return $db->order('OperateTime desc')->where($filter)->page($pageNum, $pageSize)->select();
+	}
 
 }

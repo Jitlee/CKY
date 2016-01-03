@@ -37,17 +37,25 @@ class PersonAction extends Controller {
 		$key="18620554231";
 		$mMember = D('M/Member');
 		$result=$mMember->Get($key);
-
+		//echo dump($result);
+		
+		session("uid",$result["uid"]);
+		//echo session("uid");
+		//$this->Sync();
 		//echo dump($data);
 		$this->assign('title', "粗卡云");
 		$this->assign('data', $result);		
+		layout(TRUE);
 		$this->display();
 	}
 
 	/*****一卡易与用户数据同步***/
 	public function Sync()
 	{
-		$this->display();
+		$key="18620554231";
+		$mMember = D('M/MemberOneCardSync');
+		$result=$mMember->DataSync($key);
+		$this->ajaxReturn($result, "JSON");
 	}
 	
 	public function changepwd()
@@ -68,83 +76,67 @@ class PersonAction extends Controller {
 	
 	public function userscore()
 	{
-		$m = D('M/OneCard');
-		$cardid="18620554231";
-		$res=$m->GetScoreList($cardid,0,20);
- 
- 		//用户信息
-		$status= $res["status"];
-		echo dump($res);
-		if($status == 0)
-		{
-			$data=$res["data"];
-			//session("cardid",$data["CardId"]);
-			//$mMember = D('M/Member');
-			//$result=$mMember->Insert($data);
-//			if($result["status"]==-1)
-//			{
-//				echo "添加到数库失败。";
-//			}
-			$a=	json_decode($data,true);
-			$this->assign('data', $a);		
-			echo dump($data);
-		}
-		else
-		{
-			//出错处理
-		}
+//		$m = D('M/OneCard');
+//		$cardid="18620554231";
+//		$res=$m->GetScoreList($cardid,0,20);
+// 
+// 		//用户信息
+//		$status= $res["status"];
+//		echo dump($res);
+//		if($status == 0)
+//		{
+//			$data=$res["data"];
+//			$a=	json_decode($data,true);
+//			$this->assign('data', $a);		
+//			echo dump($data);
+//		}
+//		else
+//		{
+//			//出错处理
+//		}
 
 		layout(TRUE);
 		$this->display();
 	}
 	/*积分列表*/
 	public function scorelist()
-	{
-		$m = D('M/OneCard');
-		$cardid="18620554231";
-		$res=$m->GetScoreList($cardid,0,20);
- 
- 		//用户信息
-		$status= $res["status"];
-		//echo dump($res);
-		if($status == 0)
-		{
-			$data=$res["data"];
-			$a=	json_decode($data,true);
-			$this->assign('data', $a);		
-			//echo dump($data);
-		}
-		else
-		{
-			//出错处理
-		}
+	{ 
+		$mMember = D('M/Member');
+		$result=$this->scorelistPage(10,1,0);		
+		$this->assign('data', $result);
+		$this->assign('title', "积分记录");
 		layout(TRUE);
 		$this->display();
 	}
-	
+	public function scorelistPage($pageSize = 10, $pageNum = 1,$type=1)
+	{
+		$mMember = D('M/Member');
+		$result=$mMember->GetScoreList(session("uid"),$pageSize,$pageNum);
+		if($type==0)
+		{
+			return $result;
+		}		
+		$this->ajaxReturn($result, "JSON");
+	}
 	/*充值记录*/
 	public function rechargelist()
 	{
-		$m = D('M/OneCard');
-		$cardid="18620554231";
-		$res=$m->GetRechargeList($cardid,0,20);
- 
- 		//用户信息
-		$status= $res["status"];
-		//echo dump($res);
-		if($status == 0)
-		{
-			$data=$res["data"];
-			$a=	json_decode($data,true);
-			$this->assign('data', $a);		
-			//echo dump($data);
-		}
-		else
-		{
-			//出错处理
-		}
+		$mMember = D('M/Member');
+		$result=$this->rechargelistPage(10,1,0);		
+		$this->assign('data', $result);
+		$this->assign('title', "储值记录");
 		layout(TRUE);
 		$this->display();
+	}
+	public function rechargelistPage($pageSize = 10, $pageNum = 1,$type=1)
+	{
+		$mMember = D('M/Member');
+		$result=$mMember->GetRechargeList(session("uid"),$pageSize,$pageNum);
+		if($type==0)
+		{
+			return $result;
+		}		
+		$this->ajaxReturn($result, "JSON");
 	}
 	
 	public function recharge()

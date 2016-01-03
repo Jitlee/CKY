@@ -32,17 +32,8 @@
 	}).ajaxStop(function() {
 		$("button:submit").attr("disabled", false);
 	});
-	function changeSuccess(data) {
-		alert(data);
-		if (data.status==0) {
-			layer.alert("密码修改成功。");
-			window.location.href = "{:U('Public/index','','')}";
-		} else {
-			layer.alert(data.message);
-		}
-	}
 	
-	$(function() {		
+	$(function() {
 		$("#btnalertpwd").click(function() {
 			if($("#txtnewpwd").val() != $("#txtconfimpwd").val())
 			{
@@ -50,9 +41,16 @@
 				return false;
 			}
 			var self = $("form");
-			//alert(self.serialize());
 			$.post("{:U('Person/changepwd','','')}", self.serialize(), changeSuccess, "json");
 			return false;
+			function changeSuccess(data) {
+				if (data.status==0) {
+					layer.alert("密码修改成功。");
+					window.location.href = "{:U('Person/index','','')}";
+				} else {
+					layer.alert(data.message);
+				}
+			}
 		});
 	});
 	</script>

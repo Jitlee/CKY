@@ -18,6 +18,20 @@ class OneCardModel extends BaseModel {
 		$url='OpenApi/Get_MemberInfo';		
 		return $this->GetData($url, $data);
 	}
+	
+	public function GetUserInfoObj($cardId)
+	{
+		//用户信息
+		$res=$this->GetUserInfo($cardId);
+		$status= $res["status"];
+		if($status == 0)
+		{
+			$data=$res["data"][0];
+			return $data; 
+		}
+		return null;
+	}
+	
 	/*获取用户积分列表*/
 	public function GetScoreList($cardId,$pageIndex=1,$pageSize=10)
 	{

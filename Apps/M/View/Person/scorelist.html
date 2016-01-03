@@ -12,7 +12,7 @@
 	<ul id="recrodList" class="mui-table-view">
 		<foreach name="data" item="item">
 			<li class="mui-table-view-cell">			
-				<span class="yyg-cell-right yyg-right-margin time">{$item.BillNumber}</span>
+				<span class="yyg-cell-right yyg-right-margin time">{$item.OperateTime}</span>
 				<span class="money">{$item.Point}</span>
 			</li>
 		</foreach>
@@ -41,13 +41,13 @@
 		var template = $("li:first-child", recrodList);		
 		function page() 
 		{
-				$.get("{:U('pagescore', '', '')}/20/" + (++pageNum), null, function(list) {
+				$.get("{:U('scorelistPage', '', '')}/20/" + (++pageNum), null, function(list) {
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {
 				       			var item = template.clone();
-				       			$(".money", item).text(this.money);
-				       			$(".time", item).text(this.time);
+				       			$(".money", item).text(this.Point);
+				       			$(".time", item).text(this.OperateTime);
 				       			recrodList.append(item);
 				       		});
 		       	} else {

@@ -1,18 +1,18 @@
 
 <nav class="mui-bar mui-bar-tab">
-	<a id="home" class="mui-tab-item mui-active" href="{:U('Index/index', '', '')}">
+	<a id="home" class="mui-tab-item <if condition="$tabid eq 'home'">mui-active</if>" href="{:U('Index/index', '', '')}">
 		<span class="mui-icon iconfont icon-home"></span>
 		<span class="mui-tab-label">首页</span>
 	</a>
-	<a id="seller" class="mui-tab-item" href="{:U('Index/index', '', '')}">
+	<a id="seller" class="mui-tab-item <if condition="$tabid eq 'shop'">mui-active</if>" href="{:U('shop/index', '', '')}">
 		<span class="mui-icon iconfont icon-seller"></span>
 		<span class="mui-tab-label">商家</span>
 	</a>
-	<a id="member" class="mui-tab-item" href="{:U('Index/index', '', '')}">
+	<a id="member" class="mui-tab-item <if condition="$tabid eq 'member'">mui-active</if>" href="{:U('Index/index', '', '')}">
 		<span class="mui-icon iconfont icon-member"></span>
 		<span class="mui-tab-label">会员中心</span>
 	</a>
-	<a id="more" class="mui-tab-item" href="{:U('Index/index', '', '')}">
+	<a id="more" class="mui-tab-item <if condition="$tabid eq 'more'">mui-active</if>" href="{:U('Index/index', '', '')}">
 		<span class="mui-icon iconfont icon-more"></span>
 		<span class="mui-tab-label">更多</span>
 	</a>

@@ -29,12 +29,12 @@
 	   			$("#recharge").click(function() {
 					window.location.href="{:U('Person/recharge', '', '')}";
 				});
-				
-				
-				//秒杀记录
-				$("#miaoshaRecord").click(function() {
-					window.location.href="{:U('Person/miaoshaRecord', '', '')}";
+				//消费记录
+				$("#xfjl").click(function() {
+					window.location.href="{:U('Person/consumelist', '', '')}";
 				});
+				
+				
 				//中奖记录
 				$("#miaoshazj").click(function() {	
 					window.location.href="{:U('Person/miaoshazj', '', '')}";
@@ -60,7 +60,7 @@
 				$.post("{:U('Person/Sync','','')}", null, changeSuccess, "json");
 			}
 			function changeSuccess(data) {					
-				layer.alert(data.message);
+				//layer.alert(data.message);
 			}
 		</script>
 	</head>
@@ -126,7 +126,7 @@
 						</p>
 					</span>
 					 
-					<span class="land-cell4"  id="miaoshazj">
+					<span class="land-cell4"  id="xfjl">
 						<img class="circle-img" alt="" src="__IMG__/person/xfjl.png">
 						<p data-bind="text: nickName">
 							 消费记录

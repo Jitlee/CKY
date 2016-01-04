@@ -45,5 +45,11 @@ class MemberModel extends BaseModel {
 		$filter["uid"]=$uid;
 		return $db->order('OperateTime desc')->where($filter)->page($pageNum, $pageSize)->select();
 	}
-
+	/******消费记录****/
+	public function GetConsumeList($uid,$pageSize = 10, $pageNum = 1)
+	{ 
+		$db = M('member_consume');
+		$filter["uid"]=$uid;
+		return $db->order('OperateTime desc')->where($filter)->page($pageNum, $pageSize)->select();
+	}
 }

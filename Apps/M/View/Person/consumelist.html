@@ -44,7 +44,7 @@
 		var template = $("li:first-child", recrodList);		
 		function page() 
 		{
-				$.get("{:U('rechargelistPage', '', '')}/20/" + (++pageNum), null, function(list) {
+				$.get("{:U('consumelistPage', '', '')}/20/" + (++pageNum), null, function(list) {
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {

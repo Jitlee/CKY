@@ -14,13 +14,14 @@ class MemberOneCardSyncModel extends BaseModel {
 	{	
 	 	$mMember = D('M/Member');
 		$MemberItem=$mMember->Get($userid);
-		 
+		$result["status"]=-1;
 		if($MemberItem)
 		{
 			$moc = D('M/OneCard');
 			$onecard=$moc->GetUserInfoObj($userid);			 
 			if($onecard)
-			{					
+			{
+				$ischange=FALSE;						
 				//积分
 				//$result["message"]=$MemberItem["EnablePoint"].$onecard["EnablePoint"];
 				if($MemberItem["EnablePoint"] != $onecard["EnablePoint"])
@@ -31,6 +32,7 @@ class MemberOneCardSyncModel extends BaseModel {
 					$dbMember = M('Member');
 					$MemberItem["EnablePoint"]=$onecard["EnablePoint"];
 					$dbMember->save($MemberItem);
+					$ischange=TRUE;
 				}
 				//储值金额
 				if($MemberItem["EnableValue"] != $onecard["EnableValue"])
@@ -41,6 +43,13 @@ class MemberOneCardSyncModel extends BaseModel {
 					$dbMember = M('Member');
 					$MemberItem["EnableValue"]=$onecard["EnableValue"];
 					$dbMember->save($MemberItem);
+					$ischange=TRUE;
+				}
+				if($ischange)
+				{
+					$this->ConsumeCheck($MemberItem["uid"],$userid);
+					//忆经修改，修改session
+					$result["status"]=1;
 				}
 			}
 			else
@@ -134,6 +143,60 @@ class MemberOneCardSyncModel extends BaseModel {
 					$item["OperateTime"]=$ctemp["OperateTime"];
 					$item["IsUndo"]= 	$ctemp["IsUndo"];
 					$Model->add($item);
+				}
+			}
+		}		
+	}
+
+	/***	消费记录 	***/
+	public function ConsumeCheck($uid,$cardid)
+	{
+		$m = D('M/OneCard');
+		$res=$m->GetConsumeList($cardid,0,30);//可能有多条。		 
+ 		//用户信息
+		$status= $res["status"];
+		if($status == 0)
+		{
+			$data=$res["data"];
+			$list=json_decode($data,true);			
+			
+			//查询最后一条记录
+			$Model=M("member_consume");
+			$filter["uid"]=$uid;
+			$topm=$Model->order('OperateTime desc')->where($filter)->find();
+			if($topm)
+			{
+				$OperateTime=strtotime($topm["OperateTime"]);	
+			}
+			//将一卡易数据写入到本地表
+			for($i=0;$i<count($list);$i++){
+				//echo dump($OperateTime);
+				if(!$OperateTime || ($OperateTime && strtotime($list[$i]["OperateTime"]) > $OperateTime))
+				{
+					$ctemp=	$list[$i];					
+					$item["uid"]=$uid;
+					$item["BillNumber"]=$ctemp["BillNumber"];
+					
+					$item["MemberGuid"]= 	$ctemp["MemberGuid"];
+					$item["CardId"]= 	$ctemp["CardId"];
+					$item["TrueName"]= $ctemp["TrueName"];
+					$item["Guid"]= 	$ctemp["Guid"];
+					
+					$item["TotalPaid"]	=$ctemp["TotalPaid"];
+					$item["TotalMoney"]		= 	$ctemp["TotalMoney"];
+					$item["PaidMoney"]	= 	$ctemp["PaidMoney"];
+					$item["PaidValue"]		= 		$ctemp["PaidValue"];
+					$item["PaidPoint"]	=$ctemp["PaidPoint"];
+					$item["ChainStoreGuid"]		= 	$ctemp["ChainStoreGuid"];
+					$item["Point"]	=	$ctemp["Point"];
+					
+					
+					$item["Meno"]= 	$ctemp["Meno"];					
+					$item["UserAccount"]= 	$ctemp["UserAccount"];
+					$item["StoreName"]= 	$ctemp["StoreName"];					
+					$item["OperateTime"]=$ctemp["OperateTime"];
+					$item["IsUndo"]= 	$ctemp["IsUndo"];
+					$Model->add($item);			 
 				}
 			}
 		}		

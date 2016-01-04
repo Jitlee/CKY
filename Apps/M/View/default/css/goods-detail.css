@@ -1,0 +1,47 @@
+.mui-content {
+	background-color: #fff;
+}
+
+.swiper-img {
+	margin-bottom: 0;
+	border-radius: 0;
+	border: none;
+	height: 70vw;
+	max-height: 400px;
+}
+
+.swiper-container-horizontal>.swiper-pagination {
+	bottom: 0px;
+}
+
+.swiper-pagination-bullet {
+	width: 16px;
+	border-radius: 0;
+}
+
+.cky-goods-bar {
+	height: 45px;
+	line-height: 45px;
+	font-size: 17px;
+	padding: 0 8px;
+	border-bottom: 1px dashed #E0E0E0;
+}
+
+.cky-goods-bar .mui-btn {
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+#slider {
+	margin-top: 8px;
+	background-color: #fff;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+	color: #f60;
+	border-color: #f60;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+	background-color: #f60;
+}

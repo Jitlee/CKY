@@ -77,20 +77,6 @@
 	text-align: right;
 }
 
-#slider {
-	margin-top: 8px;
-	background-color: #fff;
-}
-
-.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
-	color: #f60;
-	border-color: #f60;
-}
-
-.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
-	background-color: #f60;
-}
-
 /** 产品购买按钮 **/
 .cky-detail-buy-button {
 	display: block;

@@ -1,15 +1,21 @@
 $(function() {
+	/**
+	 * 米每经纬度 
+	 */
+	var METERS_PER_DEGREE = 111319.55;
 	var geolocation = {
-		getCurrentPosition: getCurrentPosition
+		getCurrentPosition: getCurrentPosition,
+		distanceBetween:  distanceBetween,
+		distanceToReadability: distanceToReadability
 	};
 	
 	function getCurrentPosition(callback) {
 		// 从缓存中取
 		var geo = $.localStorage.getItem("geo");
-		
-		if(geo && geo.addressComponent) {
+		if(geo) {
+			geo = JSON.parse(geo);
 			var now = new Date().getTime();
-			if(now - geo.__time < 5 * 60 * 1000) { // 有效期5分钟
+			if(geo && now - geo.__time < 5 * 60 * 1000) { // 有效期5分钟
 				console.info("使用缓存定位数据");
 				callback(geo);
 				return;
@@ -30,7 +36,7 @@ $(function() {
 				geocoder(lat, lng, function(evt) {
 					evt.__time = new Date().getTime();
 					// 缓存结果
-					$.localStorage.setItem("geo", evt);
+					$.localStorage.setItem("geo", JSON.stringify(evt));
 					callback(evt);
 				});
 			}, function() {
@@ -59,6 +65,25 @@ $(function() {
 				});
 			}
 		}, "jsonp");
+	}
+	
+	/**
+	 * 求两点之间的距离 
+	 */
+	function distanceBetween(p1, p2) {
+		return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.x - p2.x, 2)) * METERS_PER_DEGREE;
+	}
+	
+	function distanceToReadability(meters) {
+		meters = Math.round(meters);
+		if(meters > 1000 && meters < 10000) {
+			return (meters / 1000).toFixed(1) + "公里";
+		} else if(meters >= 10000 && meters < 1000 * 1000) {
+			return Math.round(meters / 1000) + "公里";
+		} else {
+			return "";
+		}
+		return meters + "米";
 	}
 	
 	window.geolocation = geolocation;

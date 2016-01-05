@@ -1,6 +1,6 @@
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="mui-btn mui-btn-link mui-pull-left">
-		海通 <i class="iconfont icon-xiala font17 font-gray"></i>
+		<span id="cityLabel">深圳</span> <i class="iconfont icon-xiala font17 font-gray"></i>
 	</button>
 	<h1 id="title" class="mui-title">
 		<div class="cky-segmented">
@@ -21,21 +21,22 @@
 	<ul id="shopsList" class="cky-table-view">
 		<!-- ko foreach: $data -->
 		<li class="cky-table-view-cell">
-			<a href="{:U('detail', '', '')}/{$item.shopId}">
-				<div class="cky-table-cell-thumb cky-table-cell-thumb80" style="background-image: url(/{$item.shopImg});">
+			<a data-bind="attr:{ href: '{:U('detail', '', '')}/' + shopId }">
+				<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
 					
 				</div>
 				<div class="cky-media">
-					<span class="cky-media-title font20">{$item.shopName}</span>
+					<span class="cky-media-title font20" data-bind="text: shopName"></span>
 					<h5 class="cky-right font-red">9.5折</h5>
 					<div class="cky-clearfix"></div>
 					<div class="cky-media-sub font15 font-gray2">
-						<span>{$item.shopKeywords}</span>
-						<span class="cky-right font15 font-gray2">1.2KM</span>
+						<span data-bind="text: shopKeywords"></span>
+						<span class="cky-right font15 font-gray2" data-bind="text: distance"></span>
 					</div>
 					<div class="cky-clearfix"></div>
-					<span class=" font15 font-gray">电话: {$item.shopTel}</span>
+					<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
 					<h5 class="cky-right"><i class="iconfont icon-phone font20 font-blue"></i></h5>
+					<div class="cky-clearfix"></div>
 			    </div>
 			</a>
 		</li>
@@ -45,24 +46,55 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?5"></script>
+<script type="text/javascript" src="__JS__/geo.location.js?11"></script>
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
 	$(function() {
+		var location = null;
 		geolocation.getCurrentPosition(function(evt) {
 			if(evt) {
 				if(evt.addressComponent) {
-					alert("城市: " + evt.addressComponent.city);
+					$("#cityLabel").text(evt.addressComponent.city);
 				}
-				
-				queryByPage();
+				location = evt.location;
 			}
+			queryByPage();
 		});
 		
+		var isEOF = false;
+		var pageNo = 1;
+		var shops = [];
+		var vm = ko.observableArray(shops);
+		ko.applyBindings(vm, document.getElementById("shopsList"));
 		function queryByPage() {
-			var api = "{:U('shops/')}"
-			$.getJSON()
+			if(!isEOF) {
+				var api = "{:U('shops/page', '', '')}";
+				$.getJSON(api, { pageNo: pageNo }, function(list) {
+					pageNo++;
+					if(list && list.length > 0) {
+						if(location) {
+							var p1 = { x: location.lng, y: location.lat };
+							var p2 = { x: 0, y: 0 };
+						}
+						$.each(list, function() {
+							this.distance = "";
+							if(location) {
+								p2.x = this.longitude;
+								p2.y = this.latitude;
+								var meters = geolocation.distanceBetween(p1, p2);
+								this.distance = geolocation.distanceToReadability(meters);
+							}
+							shops.push(this);
+						});
+						vm(shops);
+					}
+					
+					if(list && list.length < 10) {
+						isEOF = true;
+					}
+				});
+			}
 		}
 	});
 </script>

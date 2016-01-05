@@ -14,11 +14,17 @@ class ShopsAction extends Controller {
 		$this->assign('title', "商家");
 		$this->assign('tabid', 'shops');
 		
-		$m = D('M/Shops');
-		$list = $m->queryByPage();
-		$this->assign('list', $list);
+//		$m = D('M/Shops');
+//		$list = $m->queryByPage();
+//		$this->assign('list', $list);
 		
 		$this->display();
+	}
+	
+	public function page() {
+		$m = D('M/Shops');
+		$list = $m->shops();
+		$this->ajaxReturn($list, 'JSON');
 	}
 	
 	// 商家详情

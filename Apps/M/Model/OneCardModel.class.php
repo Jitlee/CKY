@@ -68,6 +68,23 @@ class OneCardModel extends BaseModel {
 		return $this->GetData($url, $data);
 	}
 	
+	
+	/*获取用户消费记录列表*/
+	public function GetConsumeList($cardId,$pageIndex=1,$pageSize=10)
+	{
+		//data={"userAccount":"10003","where":" 1=1 and cardId='13632651195' ", "pageIndex":0,"pageSize":10,"orderBy":" cardId desc"} 
+		$data = array(
+			"userAccount"=>"10000"
+			,"where"=>" 1=1 and cardId='".$cardId."' "
+			, "pageIndex"=>$pageIndex
+			,"pageSize"=>$pageSize
+			,"orderBy"=>" OperateTime desc "
+		);
+		$url='OpenApi/Get_ConsumeNotePaged';		
+		return $this->GetData($url, $data);
+	}
+	
+	/********修改密码*******/
 	public function UpdatePassword($cardId,$oldpwd,$newpwd)
 	{
 		$data = array(

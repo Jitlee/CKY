@@ -74,8 +74,8 @@ class PersonAction extends Controller {
 		}
 	}
 	
-	public function userscore()
-	{
+//	public function userscore()
+//	{
 //		$m = D('M/OneCard');
 //		$cardid="18620554231";
 //		$res=$m->GetScoreList($cardid,0,20);
@@ -94,10 +94,10 @@ class PersonAction extends Controller {
 //		{
 //			//出错处理
 //		}
-
-		layout(TRUE);
-		$this->display();
-	}
+//
+//		layout(TRUE);
+//		$this->display();
+//	}
 	/*积分列表*/
 	public function scorelist()
 	{ 
@@ -139,6 +139,27 @@ class PersonAction extends Controller {
 		$this->ajaxReturn($result, "JSON");
 	}
 	
+	public function consumelist()
+	{
+		$mMember = D('M/Member');
+		$result=$this->consumelistPage(10,1,0);		
+		$this->assign('data', $result);
+		$this->assign('title', "储值记录");
+		layout(TRUE);
+		$this->display();
+	}
+	public function consumelistPage($pageSize = 10, $pageNum = 1,$type=1)
+	{
+		$mMember = D('M/Member');
+		$result=$mMember->GetConsumeList(session("uid"),$pageSize,$pageNum);
+		if($type==0)
+		{
+			return $result;
+		}		
+		$this->ajaxReturn($result, "JSON");
+	}
+	
+	
 	public function recharge()
 	{
 		layout(TRUE);
@@ -150,7 +171,13 @@ class PersonAction extends Controller {
 		$this->display();
 	}
 	
-	
+	public function ftest()
+	{
+		$m = D('M/OneCard');
+		$cardid="18620554231";
+		$res=$m->GetConsumeList($cardid,0,30);//可能有多条。	
+		echo dump($res);
+	}
 //	public function gettoken() {
 //		$appid="wx9c7c9bb54952b54d";
 //		$secret="d4624c36b6795d1d99dcf0547af5443d";

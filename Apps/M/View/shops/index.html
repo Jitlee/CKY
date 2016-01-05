@@ -18,8 +18,8 @@
 		<a class="cky-bar-item">全程 <i class="iconfont icon-xiala font17 font-gray"></i></a>
 		<a class="cky-bar-item">离我最近 <i class="iconfont icon-xiala font17 font-gray"></i></a>
 	</nav>
-	<ul class="cky-table-view">
-		<foreach name="list" item="item">
+	<ul id="shopsList" class="cky-table-view">
+		<!-- ko foreach: $data -->
 		<li class="cky-table-view-cell">
 			<a href="{:U('detail', '', '')}/{$item.shopId}">
 				<div class="cky-table-cell-thumb cky-table-cell-thumb80" style="background-image: url(/{$item.shopImg});">
@@ -39,9 +39,30 @@
 			    </div>
 			</a>
 		</li>
-		</foreach>
+		<!-- /ko -->
+		
 	</ul>
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js"></script>
+<script type="text/javascript" src="__JS__/geo.location.js?5"></script>
+<script type="text/javascript" src="__KO__"></script>
+
+<script type="text/javascript">
+	$(function() {
+		geolocation.getCurrentPosition(function(evt) {
+			if(evt) {
+				if(evt.addressComponent) {
+					alert("城市: " + evt.addressComponent.city);
+				}
+				
+				queryByPage();
+			}
+		});
+		
+		function queryByPage() {
+			var api = "{:U('shops/')}"
+			$.getJSON()
+		}
+	});
+</script>

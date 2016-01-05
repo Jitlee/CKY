@@ -6,6 +6,7 @@
 	
 		'TMPL_PARSE_STRING' 		=> array( // 模板相关的配置
 			'__JQ__'				=> '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js',
+			'__KO__'				=> '/Apps/M/View/default/js/knockout-3.4.0.js',
 			'__FONT__'				=> '//at.alicdn.com/t/font_1451835444_1602993.css',
 			'__IMG__'				=> '/Apps/M/View/default/images',
 			'__JS__'				=> '/Apps/M/View/default/js',

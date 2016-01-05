@@ -1,9 +1,9 @@
 <?php
 include_once "WXBizMsgCrypt.php";
 // 第三方发送消息给公众平台 
-$encodingAesKey = "rpJmhCphnndiCLIcNKcUmhTn2GQBNjISPU9GfsfOlxx"; 
-$token = "xxxxxxx"; 
-$corpId ="wxa9a0031f24631f9x"; //这里已正确填写自己的corpid 
+$encodingAesKey = "d4624c36b6795d1d99dcf0547af5443d"; 
+$token = "aaabbb"; 
+$corpId ="wx9c7c9bb54952b54d"; //这里已正确填写自己的corpid 
 //公众号服务器数据
 $sReqMsgSig = $sVerifyMsgSig = $_GET['msg_signature'];
 $sReqTimeStamp = $sVerifyTimeStamp = $_GET['timestamp'];

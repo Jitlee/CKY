@@ -9,7 +9,7 @@ namespace M\Action;
  * 首页（默认）控制器
  */
 use Think\Controller;
-class PersonAction extends Controller {
+class PersonAction extends CommonAction {
 	public function index() {
 		
 //		$m = D('M/OneCard');
@@ -45,6 +45,11 @@ class PersonAction extends Controller {
 		//echo dump($data);
 		$this->assign('title', "粗卡云");
 		$this->assign('data', $result);		
+		
+		$userlogin=session('userloginobj');
+//		echo "sessin=";
+//		echo dump($userlogin);
+		
 		layout(TRUE);
 		$this->display();
 	}

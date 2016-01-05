@@ -72,11 +72,13 @@
 				<li class="mui-table-view-cell cell-top"  id="userinfotop">
 					<a class="mui-navigate-right">
 						<span class="user-cell4">
-								<img class="user-img" alt="" src="" />
+								<img class="user-img" alt="" src="{$headimgurl}" />
 						</span>
 						<span class="user-cell_right">							 
-							<p data-bind="text: nickName">{$data.CardId}</p>
+							<p data-bind="text: nickName">{$data.CardId} : {$nickname}</p>
 							<p data-bind="text: nickName">{$data.MemberGroupName}</p>
+							<p data-bind="text: nickName">openid:{$openid}</p>
+							
 						</span>
 					</a>
 				</li>

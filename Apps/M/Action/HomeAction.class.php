@@ -9,30 +9,35 @@ class HomeAction extends Controller {
 			
 		$userlogin=session('userloginobj');
 		$openid=$userlogin["openid"];
+		
+		if(empty($openid))			 
+		{
+			echo dump($userlogin);
+			$this->display("getwxerror");
+			exit;
+		}
 		$this->assign('openid', $openid);
+		//echo dump($userlogin);
+
+//		echo "</br>wxposition=";
+//		$wxposition=session("wxposition");
+//		echo $wxposition;
+//		echo session("wxposition");
+//		$this->assign('wxposition', $wxposition);
+//		 echo "</br>openid2=";
+//		
+//		$openid2=session("openid2");
+//		$this->assign('$openid2', $openid2);
+		session('userloginobj',null);
 		
-		echo dump($userlogin);
-		echo "</br>";
-		echo "wxaccess_token=</br>";
-		
-		$wxaccess_token=session("wxaccess_token");
-		echo dump($wxaccess_token);
-		echo "</br>";
-		echo "</br>";
-		//session("wxposition","aa");
-		echo "</br>wxposition=";
-		$wxposition=session("wxposition");
-		echo $wxposition;
-		echo session("wxposition");
-		$this->assign('wxposition', $wxposition);
-		 echo "</br>openid2=";
-		
-		$openid2=session("openid2");
-		$this->assign('$openid2', $openid2);
 		$this->display();
 	}
 	
 	public function getwxerror() {
+		 echo "</br>openid2=";		
+		$openid2=session("openid2");
+		$this->assign('$openid2', $openid2);
+		echo $openid2;
 		$this->display();
 	}
 

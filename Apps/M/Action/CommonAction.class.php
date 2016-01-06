@@ -9,9 +9,10 @@ class CommonAction extends Controller {
 			$userlogin=session('userloginobj');
 			$openid=$userlogin["openid"];
 			if(!empty($openid))
+			//if(isset($userlogin))
 			{
 				//session('userloginobj',null);
-				$openid=$userlogin["openid"];
+				//$openid=$userlogin["openid"];
 				$this->assign('openid', $openid);
 				$this->assign('nickname', $userlogin["nickname"]);
 				$this->assign('headimgurl', $userlogin["headimgurl"]);

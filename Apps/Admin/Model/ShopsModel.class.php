@@ -80,6 +80,7 @@ class ShopsModel extends BaseModel {
 				$sdata["deliveryFreeMoney"] = I("deliveryFreeMoney",0);
 		        $sdata["deliveryMoney"] = I("deliveryMoney",0);
 				$sdata["avgeCostMoney"] = I("avgeCostMoney",0);
+				$sdata["deliveryOff"] = I("deliveryOff",1);
 				$sdata["longitude"] = (float)I("longitude");
 				$sdata["latitude"] = (float)I("latitude");
 				$sdata["mapLevel"] = (int)I("mapLevel",13);
@@ -138,7 +139,7 @@ class ShopsModel extends BaseModel {
 			}
 			
 		}
-		
+		echo M()->getLastSql();
 		return $rd;
 	 } 
      /**
@@ -179,6 +180,7 @@ class ShopsModel extends BaseModel {
 		$data["deliveryCostTime"] = I("deliveryCostTime",0);
 		$data["deliveryFreeMoney"] = I("deliveryFreeMoney",0);
 		$data["deliveryMoney"] = I("deliveryMoney",0);
+		$data["deliveryOff"] = I("deliveryOff",0);
 		$data["avgeCostMoney"] = I("avgeCostMoney",0);
 		$data["bankId"] = I("bankId");
 		$data["bankNo"] = I("bankNo");

@@ -146,6 +146,7 @@ class ShopsModel extends BaseModel {
 		    $s->deliveryMoney = (float)I("deliveryMoney",0);
 		    $s->avgeCostMoney = (float)I("avgeCostMoney",0);
 		    $s->deliveryCostTime = (int)I("deliveryCostTime",0);
+		    $s->deliveryOff = (int)I("deliveryOff",1);
 		    $s->invoiceRemarks = I("invoiceRemarks");
 		    $s->qqNo = I("qqNo");
 			$s->shopStatus = 0;
@@ -284,6 +285,7 @@ class ShopsModel extends BaseModel {
 		    $s->deliveryMoney = (float)I("deliveryMoney",0);
 			$s->avgeCostMoney = (float)I("avgeCostMoney",0);
 			$s->deliveryCostTime = (int)I("deliveryCostTime",0);
+			$s->deliveryOff = (int)I("deliveryOff",0);
 			$s->shopStatus = 0;
 			$s->shopAtive = (int)I("shopAtive",1)?1:0;
 			$s->shopFlag = 1;
@@ -354,6 +356,7 @@ class ShopsModel extends BaseModel {
 		$data["deliveryCostTime"] = I("deliveryCostTime",0);
 		$data["deliveryFreeMoney"] = I("deliveryFreeMoney",0);
 		$data["deliveryMoney"] = I("deliveryMoney",0);
+		$data["deliveryOff"] = I("deliveryOff",1);
 		$data["avgeCostMoney"] = I("avgeCostMoney",0);
 		$data["isInvoice"] = (int)I("isInvoice",1);
 		$data["serviceStartTime"] = I("serviceStartTime");
@@ -675,7 +678,7 @@ class ShopsModel extends BaseModel {
 		
 		$shopAtive = $obj["shopAtive"];
 		$dsplist = array();
-		$sql = "SELECT sp.shopId,sp.shopName,sp.shopAddress,sp.deliveryStartMoney,sp.shopAtive,sp.deliveryMoney,sp.shopImg,sp.deliveryCostTime,sp.deliveryFreeMoney
+		$sql = "SELECT sp.shopId,sp.shopName,sp.shopAddress,sp.deliveryStartMoney,sp.shopAtive,sp.deliveryMoney, sp.deliveryOff,sp.shopImg,sp.deliveryCostTime,sp.deliveryFreeMoney
 		   ,sp.avgeCostMoney from __PREFIX__shops_communitys sc,__PREFIX__shops sp WHERE sp.shopStatus = 1 AND sp.shopFlag = 1 AND sc.shopId = sp.shopId AND sc.communityId=".$communityId;
 		
 		/*if($keyWords!="" && $shopName!=""){

@@ -350,6 +350,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.avgeCostMoney = $('#avgeCostMoney').val();
 	   params.deliveryCostTime = $('#deliveryCostTime').val();
 	   params.deliveryStartMoney = $('#deliveryStartMoney').val();
+	   params.deliveryOff = $('#deliveryOff').val();
 	   params.bankId = $('#bankId').val();
 	   params.bankNo = $('#bankNo').val();
 	   params.isInvoice = $("input[name='isInvoice']:checked").val();
@@ -592,6 +593,10 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            <tr>
              <th align='right'>平均消费金额<font color='red'>*</font>：</th>
              <td><input type='text' id='avgeCostMoney' class="form-control rtc-ipt" value='{$object.avgeCostMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
+           </tr>
+           <tr>
+             <th align='right'>最低折扣<font color='red'>*</font>：</th>
+             <td><input type='text' id='deliveryOff' class="form-control rtc-ipt" value='{$object.deliveryOff}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='4'/></td>
            </tr>
            <tr>
              <th align='right'>所属银行<font color='red'>*</font>：</th>

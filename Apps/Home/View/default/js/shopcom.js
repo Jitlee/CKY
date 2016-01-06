@@ -960,6 +960,7 @@ function editShop(){
 	   params.deliveryCostTime = $('#deliveryCostTime').val();
 	   params.deliveryStartMoney = $('#deliveryStartMoney').val();
 	   params.deliveryMoney = $('#deliveryMoney').val();
+	   params.deliveryOff = $('#deliveryOff').val();
 	   params.deliveryFreeMoney = $('#deliveryFreeMoney').val();
 	   params.avgeCostMoney = $('#avgeCostMoney').val();
 	   params.isInvoice = $("input[name='isInvoice']:checked").val();

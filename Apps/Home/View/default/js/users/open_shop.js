@@ -123,6 +123,7 @@
 	   params.goodsCatId1 = $('#goodsCatId1').val();
 	   params.shopAddress = $('#shopAddress').val();
 	   params.deliveryMoney = $('#deliveryMoney').val();
+	   params.deliveryOff = $('#deliveryOff').val();
 	   params.deliveryFreeMoney = $('#deliveryFreeMoney').val();
 	   params.avgeCostMoney = $('#avgeCostMoney').val();
 	   params.bankId = $('#bankId').val();

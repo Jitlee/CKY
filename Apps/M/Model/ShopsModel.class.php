@@ -11,7 +11,7 @@
 class ShopsModel extends BaseModel {
 	
 	 /**
-	  * 分页列表
+	  * 商铺分页列表
 	  */
      public function shops(){
      	$pageSize = 10;
@@ -21,6 +21,13 @@ class ShopsModel extends BaseModel {
 	 		left join __PREFIX__shop_configs c on s.shopId = c.shopId
 	 	    where shopStatus=1 and shopFlag=1 order by shopId desc limit %d, %d', ($pageNo - 1) * $pageSize, $pageSize);
 		return $this->query($sql);
+	 }
+	 
+	 /**
+	  * 获取商铺
+	  */
+	 function get() {
+	 	
 	 }
 };
 ?>

@@ -42,6 +42,7 @@ $(function () {
 		$("#deliveryStartMoney").formValidator({onShow:"",onFocus:"请输入订单配送起步价",onCorrect:"输入正确"});
 		$("#deliveryFreeMoney").formValidator({onShow:"",onFocus:"请输入包邮起步价",onCorrect:"输入正确"});
 		$("#deliveryMoney").formValidator({onShow:"",onFocus:"请输入邮费",onCorrect:"输入正确"});
+		$("#deliveryOff").formValidator({onShow:"",onFocus:"请输入最低折扣",onCorrect:"输入正确"});
 		$("#deliveryCostTime").formValidator({onShow:"",onFocus:"请输入平均配送时间",onCorrect:"输入正确"});
 		$("#avgeCostMoney").formValidator({onShow:"",onFocus:"请输入平均消费金额",onCorrect:"输入正确"});
 		
@@ -212,6 +213,10 @@ var filetypes = ["gif","jpg","png","jpeg"];
            <tr>
              <th align='right'>平均消费金额(元)<font color='red'>*</font>：</th>
              <td><input type='text' id='avgeCostMoney' class="form-control rtc-ipt" value='{$object.avgeCostMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
+           </tr>
+           <tr>
+             <th align='right'>最低折扣(0~1之间)<font color='red'>*</font>：</th>
+             <td><input type='text' id='deliveryOff' class="form-control rtc-ipt" value='{$object.deliveryOff}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='4'/></td>
            </tr>
            <tr>
              <th align='right'>能否开发票<font color='red'>*</font>：</th>

@@ -13,11 +13,13 @@ class WxAction extends Controller {
 		
 	public function callback() {
 
+		session("wxposition","1");
 		$json_obj =$this->accessToken();
+		session("wxaccess_token",$json_obj);
 		//根据openid和access_token查询用户信息
 		$access_token = $json_obj['access_token'];
-		$openid = $json_obj['openid'];
-		 	
+		$openid2 = $access_token['openid'];
+		session("openid2",$openid2);
 		$get_user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
 		$user_obj = $this->getJson($get_user_info_url);
 		//$_SESSION['user'] = $user_obj;
@@ -28,6 +30,14 @@ class WxAction extends Controller {
 
 	function loginRedrect()
 	{
+		$userlogin=session('userloginobj');
+		$openid=$userlogin["openid"];
+		if(empty($openid))
+		{
+			$this->redirect('Home/getwxerror');
+			exit;
+		}
+		
 		$this->redirect('Person/index');
 		exit;
 //		$backurl=session("loginbackurl");
@@ -46,8 +56,10 @@ class WxAction extends Controller {
 	function accessToken(){
 		$tokenFile = "./access_tokenkey.txt";//缓存文件名 
 		$data = json_decode(file_get_contents($tokenFile)); 
+		session("wxposition","2");
 		session("token",$data);
-		if ($data or $data->expire_time < time() or !$data->expire_time) { 
+		if ($data or $data->expire_time < time() or !$data->expire_time) {
+			session("wxposition","3"); 
 			$appid = "wx9c7c9bb54952b54d";
 			$secret = "d4624c36b6795d1d99dcf0547af5443d";
 			$code = $_GET["code"];
@@ -57,7 +69,8 @@ class WxAction extends Controller {
 			$access_token=$res;
 			//$access_token = $res['access_token']; 
 			if($access_token) 
-			{ 
+			{
+				session("wxposition","4");  
 		        $data2['expire_time'] = time() + 7000; 
 		        $data2['access_token'] = $res['access_token']; 
 		        $fp = fopen($tokenFile, "w");
@@ -66,7 +79,8 @@ class WxAction extends Controller {
 	      	}
 	    }
 	    else
-	    { 
+	    {
+	      session("wxposition","5");  
 	      $access_token = $data->access_token; 
 	    }
 	    return $access_token;
@@ -86,12 +100,15 @@ class WxAction extends Controller {
 	
 	public function getcodeurl() {
 		$userlogin=session('userloginobj');
-		if(isset($userlogin))
+		session("wxposition","6");  
+		$openid=$userlogin["openid"];
+		if(!empty($openid))
 		{
+			session("wxposition","7");  
 			$this->loginRedrect();
 			exit;
 		}
-		
+		session("wxposition","8");  
 		$APPID='wx9c7c9bb54952b54d';
 		$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('callback', '', '');
 		

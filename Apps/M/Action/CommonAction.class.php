@@ -5,28 +5,25 @@ use Think\Controller;
 
 class CommonAction extends Controller {
 
-//session("loginbackurl")
 	protected function _initialize() {
-//		$openid=session("loginopenid");
-//		if(isset($openid))
-//		{
-//			//session('loginbackurl',"Home/selectreg");
-//			
-//		}
-//		else
-//		{
-//			//session("loginopenid","wxid");
-//			session('loginbackurl',"Home/selectreg");
-//			$this->redirect('Wx/getcodeurl');
-//		}
-			
 			$userlogin=session('userloginobj');
-			if(isset($userlogin))
+			$openid=$userlogin["openid"];
+			if(!empty($openid))
 			{
 				//session('userloginobj',null);
-				$this->assign('openid', $userlogin["openid"]);
+				$openid=$userlogin["openid"];
+				$this->assign('openid', $openid);
 				$this->assign('nickname', $userlogin["nickname"]);
 				$this->assign('headimgurl', $userlogin["headimgurl"]);
+				//验证是否已经关联
+				$mMember = D('M/Member');
+				$result=$mMember->GetByOpenid($openid);
+				if(!$result)
+				{					
+					$this->redirect('Home/selectreg');
+					$cardid=$result["CardId"];
+					session("cardid",$cardid);
+				}
 			}
 			else
 			{

@@ -31,6 +31,13 @@ class MemberModel extends BaseModel {
 		return $db->where($filter)->find();
 	}
 	
+	public function GetByOpenid($openid)
+	{
+		$db = M('member');
+		$filter["OpenID"]=$openid;
+		return $db->where($filter)->find();
+	}
+	
 	/***积分记录***/
 	public function GetScoreList($uid,$pageSize = 10, $pageNum = 1)
 	{ 

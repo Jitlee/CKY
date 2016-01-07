@@ -32,5 +32,19 @@ util = {
 				$(document).unbind("scroll", onscrollend);
 			}
 		};
+	},
+	
+	/**
+	 * 获取url参数
+	 * @param {String} 参数名字
+	 * @param {String} defaultValue 默认值
+	 */
+	i: function(name, defaultValue) {
+		var url = window.location.href;
+		var match = new RegExp("[\?&]" + name + "\=([^&]+)").exec(url);
+		if(match && match.length > 1) {
+			return decodeURIComponent(match[1]);
+		}
+		return defaultValue;
 	}
 }

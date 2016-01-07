@@ -52,25 +52,19 @@
 	color: #33CCCC;
 }
 
-.cky-detail-table {
-	display: table;
-	table-layout: fixed;
-	width: 100%;
+.cky-detail-table:after {
+	height:0;
+	display: block;
+	content:"";
+	clear: both;
+}
+
+.cky-detail-col1 {
+	float: left;
 }
 
 .cky-detail-col2 {
-	display: table-cell;
-	text-align: left;
-}
-
-@media only screen and (max-width: 320px) {
-	.cky-detail-col2{
-		font-size: 14px;
-	}
-	
-	.cky-detail-col2 .iconfont {
-		font-size: 13px;
-	}
+	float: right;
 }
 
 .cky-detail-col2:last-child{
@@ -88,6 +82,7 @@
     width: 50px;
     text-align: center;
     border-radius: 3px;
+    padding: 0;
 }
 
 .cky-media-content {

@@ -9,7 +9,7 @@ $(function() {
 		distanceToReadability: distanceToReadability
 	};
 	
-	function getCurrentPosition(callback) {
+	function getCurrentPosition(ak, callback) {
 		// 从缓存中取
 		var geo = $.localStorage.getItem("geo");
 		if(geo) {
@@ -33,7 +33,7 @@ $(function() {
 				console.log("浏览器定位成功");
 				var lng =evt.coords.longitude;//经度
 				var lat = evt.coords.latitude; //纬度
-				geocoder(lat, lng, function(evt) {
+				geocoder(ak, lat, lng, function(evt) {
 					evt.__time = new Date().getTime();
 					// 缓存结果
 					$.localStorage.setItem("geo", JSON.stringify(evt));
@@ -48,8 +48,7 @@ $(function() {
 		}
 	}
 	
-	function geocoder(lat, lng, callback) {
-		var ak = "87AHNGUkZCHGFPsr9Aq213vx";
+	function geocoder(ak, lat, lng, callback) {
 		var api = "http://api.map.baidu.com/geocoder/v2/?ak={1}&location={2},{3}&output=json&pois=0";
 		api = util.format(api, ak, lat, lng);
 		$.post(api, null, function(evt) {

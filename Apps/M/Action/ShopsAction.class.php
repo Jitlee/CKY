@@ -9,7 +9,7 @@ namespace M\Action;
  * 商家 控制器
  */
 use Think\Controller;
-class ShopsAction extends Controller {
+class ShopsAction extends BaseAction {
 	public function index() {
 		$this->assign('title', "商家");
 		$this->assign('tabid', 'shops');
@@ -28,9 +28,12 @@ class ShopsAction extends Controller {
 	}
 	
 	// 商家详情
-	public function detail($id = 0) {
-		$this->assign('id', $id);
-		$this->assign('title', "简约Coffee");
+	public function detail() {		
+		$m = D('M/Shops');
+		$data = $m->get();
+		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
+		$this->assign('data', $data);
+		$this->assign('title', $data['shopName']);
 		$this->display();
 	}
 	
@@ -38,6 +41,11 @@ class ShopsAction extends Controller {
 	public function goods($id = 0) {
 		$this->assign('id', $id);
 		$this->assign('title', "商品详情");
+		$this->display();
+	}
+	
+	public function map() {
+		$this->assign('title', I('shopName'));
 		$this->display();
 	}
 }

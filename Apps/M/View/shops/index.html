@@ -21,7 +21,7 @@
 	<ul id="shopsList" class="cky-table-view">
 		<!-- ko foreach: $data -->
 		<li class="cky-table-view-cell">
-			<a data-bind="attr:{ href: '{:U('detail', '', '')}/' + shopId }">
+			<a data-bind="attr:{ href: '{:U('shops/detail')}?id=' + shopId }">
 				<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
 					
 				</div>
@@ -47,13 +47,13 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?11"></script>
+<script type="text/javascript" src="__JS__/geo.location.js?12"></script>
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
 	$(function() {
 		var location = null;
-		geolocation.getCurrentPosition(function(evt) {
+		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(evt) {
 			if(evt) {
 				if(evt.addressComponent) {
 					$("#cityLabel").text(evt.addressComponent.city);

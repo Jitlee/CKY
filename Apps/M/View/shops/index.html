@@ -18,7 +18,12 @@
 		<a class="cky-bar-item">全程 <i class="iconfont icon-xiala font17 font-gray"></i></a>
 		<a class="cky-bar-item">离我最近 <i class="iconfont icon-xiala font17 font-gray"></i></a>
 	</nav>
-	<ul id="shopsList" class="cky-table-view">
+	
+	<div id="shopsLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<ul id="shopsList" class="cky-table-view mui-hidden">
 		<!-- ko foreach: $data -->
 		<li class="cky-table-view-cell">
 			<a data-bind="attr:{ href: '{:U('shops/detail')}?id=' + shopId }">
@@ -33,7 +38,7 @@
 					<div class="cky-clearfix"></div>
 					<div class="cky-media-sub font15 font-gray2">
 						<span class="cky-media-address" data-bind="text: shopAddress + ' ' + catName "></span>
-						<span class="cky-right font15 font-gray2" data-bind="text: distance"></span>
+						<span class="cky-right font15 font-gray2" data-bind="attr: { id: 'distance_' + shopId }"></span>
 					</div>
 					<div class="cky-clearfix"></div>
 					<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
@@ -47,20 +52,15 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?12"></script>
+<script type="text/javascript" src="__JS__/geo.location.js?13"></script>
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
 	$(function() {
-		var location = null;
-		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(evt) {
-			if(evt) {
-				if(evt.addressComponent) {
-					$("#cityLabel").text(evt.addressComponent.city);
-				}
-				location = evt.location;
+		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(evt, lng, lat, city) {
+			if(city) {
+				$(".cityLabel").text(city);
 			}
-			queryByPage();
 		});
 		
 		var isEOF = false;
@@ -72,20 +72,13 @@
 			if(!isEOF) {
 				var api = "{:U('shops/page', '', '')}";
 				$.getJSON(api, { pageNo: pageNo }, function(list) {
+					if(pageNo == 1) {
+						$("#shopsLoading").hide();
+						$("#shopsList").removeClass("mui-hidden");
+					}
 					pageNo++;
 					if(list && list.length > 0) {
-						if(location) {
-							var p1 = { x: location.lng, y: location.lat };
-							var p2 = { x: 0, y: 0 };
-						}
 						$.each(list, function() {
-							this.distance = "";
-							if(location) {
-								p2.x = this.longitude;
-								p2.y = this.latitude;
-								var meters = geolocation.distanceBetween(p1, p2);
-								this.distance = geolocation.distanceToReadability(meters);
-							}
 							shops.push(this);
 						});
 						vm(shops);
@@ -97,5 +90,6 @@
 				});
 			}
 		}
+		queryByPage();
 	});
 </script>

@@ -15,29 +15,25 @@
 </header>
 <div class="mui-content">
 	<!-- Slider main container -->
-	<div class="swiper-container">
+	<div id="swiperList" class="swiper-container">
 	    <!-- Additional required wrapper -->
 	    <div class="swiper-wrapper">
-	        <!-- Slides -->
-	        <!--<1foreach name="ads" item="item">-->
-        			<div class="swiper-slide">
-        				<a class="swiper-img" style="background-image: url('__IMG__/dabbf221.jpg');"></a>
-        			</div>
-        			<div class="swiper-slide">
-        				<a class="swiper-img" style="background-image: url('__IMG__/d33fas2dfsafasdfa3.jpg');"></a>
-        			</div>
-	        <!--</1foreach>-->
+	    		<!-- ko foreach: $data -->
+    			<div class="swiper-slide">
+    				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/'+ goodsImg +')' }"></a>
+    			</div>
+    			<!-- /ko -->
 	    </div>
 	    <!-- If we need pagination -->
 	    <div class="swiper-pagination"></div>
 	</div>
 	
 	<div class="cky-goods-bar">
-		<span class="font-red">¥ 14.00</span>
+		<span class="font-red">¥ {$data.shopPrice}</span>
 		<button class="cky-right mui-btn mui-btn-negative">立即购买</button>
 		<butto class="cky-right mui-btn mui-btn-positive">加入购物车</button>
 	</div>
-	<p class="font15 font-gray mui-content-padded">0人已抢购</p>
+	<p class="font15 font-gray mui-content-padded">{$data.saleCount}人已抢购</p>
 	
 	<div id="slider" class="mui-slider">
 		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
@@ -54,10 +50,10 @@
 		<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
 		<div class="mui-slider-group">
 			<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-				<p class="mui-content-padded">该景点美欧可以预售的门票</p>
+				<p class="mui-content-padded">{$data.goodsDesc}</p>
 			</div>
 			<div id="item2mobile" class="mui-slider-item mui-control-content">
-				暂无活动
+				<p class="mui-content-padded">此商品暂无评价</p>
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
 				<!-- 相关产品 -->
@@ -84,15 +80,27 @@
 		</div>
 	</div>
 </div>
-
-<script>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	
+	var swiperList = document.getElementById("swiperList");
+	var gallerys = [{
+		goodsImg: "{$data.goodsImg}",
+	}];
+	var gallerysVM = ko.observableArray(gallerys);
+	ko.applyBindings(gallerysVM, swiperList);
 	$(function() {
-		var mySwiper = new Swiper ('.swiper-container', {
-	      // Optional parameters
-	      direction: 'horizontal',
-	      pagination: '.swiper-pagination',
-//	      autoplay: null,
-	      loop: true
-	   });
+		$.getJSON("{:U('goods/gallerys')}", { id: "{:I('id')}" }, function(list) {
+			var swiperList = document.getElementById("swiperList");
+			$.each(list, function() {
+				gallerys.push(this);
+			});
+			gallerysVM(gallerys);
+			var mySwiper = new Swiper ('.swiper-container', {
+		      direction: 'horizontal',
+		      pagination: '.swiper-pagination',
+		      loop: true
+		   });
+		});
 	});
 </script>

@@ -32,13 +32,23 @@ class HomeAction extends Controller {
 		
 		$this->display();
 	}
-	
+	/*错误提示*/
 	public function getwxerror() {
-		 echo "</br>openid2=";		
-		$openid2=session("openid2");
-		$this->assign('$openid2', $openid2);
-		echo $openid2;
 		$this->display();
 	}
+	/*申请新卡车*/
+	public function reg() {
+		$this->display();
+	}
+	/*关联根据手机号码*/
+	public function conncardmobile() {
+		$this->display();
+	}
+	/*关联会员卡根据卡号，密码*/
+	public function conncardbycardid() {
+		$this->display();
+	}
+	
+	
 
 }

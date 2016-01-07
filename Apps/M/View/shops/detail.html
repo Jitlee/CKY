@@ -1,18 +1,18 @@
-<link rel="stylesheet" href="__CSS__/shop-detail.css" />
+<link rel="stylesheet" href="__CSS__/shop-detail.css?2" />
 <script type="text/javascript" src="__JS__/mui.min.js"></script>
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
 	<h1 id="title" class="mui-title">
-		小世界
+		{$title}
 	</h1>
 	<button class="mui-btn mui-btn-link mui-pull-right">
 		<i class="iconfont icon-sousuo font24"></i>
 	</button>
 </header>
 <div class="mui-content">
-	<div class="cky-head-img" style="background-image: url(__IMG__/0JJ2G77427KR.jpg);">
+	<div class="cky-head-img" style="background-image: url(/{$data.shopImg});">
 		<h4>秀山历史文化公园(4A)</h4>
 		<h5><i class="iconfont icon-tupian"></i>5</h5>
 	</div>
@@ -37,22 +37,22 @@
 			</p>
 		</li>
 		<li class="mui-table-view-cell">
-			<div class="cky-detail-table">
-				<div class="cky-detail-col2">
+			<div class="cky-detail-table font15">
+				<div class="cky-detail-col1">
 					<i class="iconfont icon-rili font-gray"></i>
-					每天07:00~18:30
+					每天{:timeToString($data['serviceStartTime'])}~{:timeToString($data['serviceEndTime'])}
 				</div>
 				<div class="cky-detail-col2">
-					电话：12345678888
+					电话：{$data.shopTel}
 					<i class="iconfont icon-phone font-blue"></i>
 				</div>
 			</div>
 		</li>
 		
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right">
+			<a class="mui-navigate-right" href="{:U('map','')}?shopId={$data.shopId}&shopName={$data.shopName}&mapLevel={$data.mapLevel}&longitude={$data.longitude}&latitude={$data.latitude}">
 				<i class="iconfont icon-weizhi font-gray"></i>
-				云南省玉溪市通海县秀山镇文献里49号
+				{$data.shopAddress}
 			</a>
 		</li>
 	</ul>
@@ -72,7 +72,7 @@
 		<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
 		<div class="mui-slider-group">
 			<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-				<p class="mui-content-padded">该景点美欧可以预售的门票</p>
+				<p class="mui-content-padded">{$data.shopDesc}</p>
 			</div>
 			<div id="item2mobile" class="mui-slider-item mui-control-content">
 				暂无活动
@@ -81,8 +81,9 @@
 				<!-- 相关产品 -->
 				<div class="mui-content-padded">
 					<ul class="cky-table-view">
+						<!-- ko foreach: $data -->
 						<li class="cky-table-view-cell">
-							<a href="{:U('Shop/goods', '', '')}">
+							<a href="{:U('Shops/goods')}">
 								<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__ROOT__/Apps/M/View/default/images/dabbf221.jpg);">
 								</div>
 								<div class="cky-media">
@@ -95,6 +96,7 @@
 							    </div>
 						    </a>
 						</li>
+						<!-- /ko -->
 					</ul>
 				</div>
 				<!-- 相关产品end -->

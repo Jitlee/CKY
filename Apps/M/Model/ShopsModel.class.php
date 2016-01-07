@@ -26,7 +26,9 @@ class ShopsModel extends BaseModel {
 	  * 获取商铺
 	  */
 	 function get() {
-	 	
+	 	$shopId = I('id');
+		return $this->field('shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, latitude,longitude, mapLevel, shopDesc')
+			->find($shopId);
 	 }
 };
 ?>

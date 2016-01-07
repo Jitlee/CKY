@@ -30,17 +30,10 @@ class ShopsAction extends BaseAction {
 	// 商家详情
 	public function detail() {		
 		$m = D('M/Shops');
-		$data = $m->get();
+		$data = $m->detail();
 		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
-		$this->display();
-	}
-	
-	// 商品详情
-	public function goods($id = 0) {
-		$this->assign('id', $id);
-		$this->assign('title', "商品详情");
 		$this->display();
 	}
 	

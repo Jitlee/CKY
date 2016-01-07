@@ -3,6 +3,9 @@ $(function() {
 	 * 米每经纬度 
 	 */
 	var METERS_PER_DEGREE = 111319.55;
+	var tasks = []; // 缓存任务列表
+	var _geo = null;
+	var isBuzying = false;
 	var geolocation = {
 		getCurrentPosition: getCurrentPosition,
 		distanceBetween:  distanceBetween,
@@ -10,6 +13,17 @@ $(function() {
 	};
 	
 	function getCurrentPosition(ak, callback) {
+		if(_geo) {
+			callback(_geo);
+			return;
+		}
+		tasks.push(callback);
+		if(isBuzying) {
+			return;
+		}
+		
+		isBuzying = true;
+		
 		// 从缓存中取
 		var geo = $.localStorage.getItem("geo");
 		if(geo) {
@@ -17,7 +31,9 @@ $(function() {
 			var now = new Date().getTime();
 			if(geo && now - geo.__time < 5 * 60 * 1000) { // 有效期5分钟
 				console.info("使用缓存定位数据");
-				callback(geo);
+				_geo = geo;
+				isBuzying = false;
+				run();
 				return;
 			}
 		}
@@ -37,14 +53,16 @@ $(function() {
 					evt.__time = new Date().getTime();
 					// 缓存结果
 					$.localStorage.setItem("geo", JSON.stringify(evt));
-					callback(evt);
+					_geo = evt;
+					isBuzying = false;
+					run();
 				});
 			}, function() {
-				callback();
+				
 			},options);
 		} else{
 			//浏览器不支持geolocation
-			callback();
+			
 		}
 	}
 	
@@ -56,12 +74,7 @@ $(function() {
 				callback(evt.result);
 			} else {
 				console.error("百度定位API失败");
-				callback({
-					location: {
-						lat: lat,
-						lng: lng
-					}
-				});
+				callback({ location: { lat: lat, lng: lng } });
 			}
 		}, "jsonp");
 	}
@@ -83,6 +96,14 @@ $(function() {
 			return "";
 		}
 		return meters + "米";
+	}
+	
+	function run() {
+		var task = tasks.unshift();
+		if(typeof task == "function") {
+			task.call(_geo, _geo.location.lng, _geo.location.lat, _geo.addressComponent.city);
+		}
+		run();
 	}
 	
 	window.geolocation = geolocation;

@@ -80,27 +80,65 @@
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
 				<!-- 相关产品 -->
 				<div class="mui-content-padded">
-					<ul class="cky-table-view">
+					<ul id="goodsList" class="cky-table-view mui-hidden">
 						<!-- ko foreach: $data -->
 						<li class="cky-table-view-cell">
-							<a href="{:U('Shops/goods')}">
-								<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__ROOT__/Apps/M/View/default/images/dabbf221.jpg);">
+							<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+								<div class="cky-table-cell-thumb" data-bind="style: { backgroundImage: 'url(/'+ goodsThums +')' }">
 								</div>
 								<div class="cky-media">
-									<span class="font20">香肠饭</span>
+									<span class="font20" data-bind="text: goodsName"></span>
 									<div class="cky-center cky-media-content cky-ellipsis2 font16">
 										
 									</div>
-									<span class="font15 font-orange">现价￥19</span>
+									<span class="font15 font-orange">现价￥<span data-bind="text: shopPrice"></span></span>
 									<h5 class="cky-right"><button class="cky-detail-buy-button">购买</button></h5>
 							    </div>
 						    </a>
 						</li>
 						<!-- /ko -->
 					</ul>
+					<div id="goodsLoading" class="mui-loading">
+						<div class="mui-spinner">
+						</div>
+					</div>
 				</div>
 				<!-- 相关产品end -->
 			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	$(function() {
+		var isEOF = false;
+		var pageNo = 1;
+		var goods = [];
+		var vm = ko.observableArray(goods);
+		ko.applyBindings(vm, document.getElementById("goodsList"));
+		function queryByPage() {
+			if(!isEOF) {
+				var api = "{:U('goods/page', '', '')}";
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: pageNo }, function(list) {
+					if(pageNo == 1) {
+						$("#goodsLoading").hide();
+						$("#goodsList").removeClass("mui-hidden");
+					}
+					pageNo++;
+					if(list && list.length > 0) {
+						$.each(list, function() {
+							goods.push(this);
+						});
+						vm(goods);
+					}
+					
+					if(list && list.length < 10) {
+						isEOF = true;
+					}
+				});
+			}
+		}
+		
+		queryByPage();
+	});
+</script>

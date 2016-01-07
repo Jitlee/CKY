@@ -251,6 +251,16 @@
 	font-size:14px;
 }
 
+.cky-media-address {
+	display:inline-block;
+	width: calc(100% - 60px);
+	width: -webkit-calc(100% -60px);
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+	text-overflow: ellipsis;
+}
+
 .cky-table-cell-thumb{
 	background-repeat: no-repeat;
 	background-position: center;

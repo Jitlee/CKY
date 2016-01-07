@@ -27,10 +27,12 @@
 				</div>
 				<div class="cky-media">
 					<span class="cky-media-title font20" data-bind="text: shopName"></span>
-					<h5 class="cky-right font-red">9.5折</h5>
+					<!-- ko if:deliveryOff > 0 && deliveryOff < 1 -->
+					<h5 class="cky-right font-red" data-bind="text: (deliveryOff * 10).toFixed(1) + '折'"></h5>
+					<!-- /ko -->
 					<div class="cky-clearfix"></div>
 					<div class="cky-media-sub font15 font-gray2">
-						<span data-bind="text: shopKeywords"></span>
+						<span class="cky-media-address" data-bind="text: shopAddress + ' ' + catName "></span>
 						<span class="cky-right font15 font-gray2" data-bind="text: distance"></span>
 					</div>
 					<div class="cky-clearfix"></div>
@@ -41,7 +43,6 @@
 			</a>
 		</li>
 		<!-- /ko -->
-		
 	</ul>
 </div>
 

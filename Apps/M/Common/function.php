@@ -23,3 +23,13 @@ function timeToString($time) {
 	return str_pad((string)$hour, 2, STR_PAD_LEFT).':'.
 		str_pad((string)$muite, 2, STR_PAD_LEFT);
 }
+
+
+function getopenid()
+{
+	//	$userlogin=session('userloginobj');
+	//	$openid=$userlogin["openid"];
+	//	return $openid;
+	 	
+	return "openid11111";
+}

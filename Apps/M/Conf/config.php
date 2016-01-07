@@ -11,6 +11,7 @@
 			'__IMG__'				=> '/Apps/M/View/default/images',
 			'__JS__'				=> '/Apps/M/View/default/js',
 			'__CSS__'				=> '/Apps/M/View/default/css',
+			'__ROOTCSS__'			=> __ROOT__.'/Public/css',
 		),
 	);
 ?>

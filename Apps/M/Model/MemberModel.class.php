@@ -31,6 +31,13 @@ class MemberModel extends BaseModel {
 		return $db->where($filter)->find();
 	}
 	
+	public function GetByMobile($key)
+	{
+		$db = M('member');
+		$filter["Mobile"]=$key;
+		return $db->where($filter)->find();
+	}
+	
 	public function GetByOpenid($openid)
 	{
 		$db = M('member');

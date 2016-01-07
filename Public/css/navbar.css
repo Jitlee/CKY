@@ -1,0 +1,48 @@
+
+.mui-bar-nav a{
+	color:#fff!important;
+}
+
+.mui-bar .mui-title {
+	color: #fff;
+}
+ 
+/** Tab页样式 **/
+.bar-tab {
+	background-color: #fff;
+	list-style: none;
+	display: table;
+	margin:0;
+	padding: 0;
+	width:100%;
+	box-sizing: border-box;
+	-wekbkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+
+.bar-tab-item {
+	line-height: 40px;
+	display: table-cell;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	-wekbkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	border-bottom: 2px solid #d5d5d5;
+	cursor: pointer;
+	padding-bottom: 2px;
+}
+
+.bar-tab-item a{
+	font-size: 16px;
+	color:#333;
+}
+
+.bar-tab-item.bar-active {
+	border-bottom-color:#FF5053;
+	color:#FF5053;
+}

@@ -97,6 +97,31 @@ class OneCardModel extends BaseModel {
 		return $this->GetData($url, $data);
 	}
 	
+	/********用户注册*******/
+	public function UserReg($data)
+	{
+		$url='OpenApi/Add_Member';		
+		return $this->GetData($url, $data);
+	}
+	 
+	/********获取会员级别列表*******/
+	public function GetMemberGroup()
+	{
+		$data = array(
+			"userAccount"=>"10000"
+			,"where"=>" 1=1 "
+			, "pageIndex"=>0
+			,"pageSize"=>20
+			,"orderBy"=>"  Guid desc "
+		);
+		$url='OpenApi/Get_MemberGroupPaged';		
+		return $this->GetData($url, $data);
+	}
+	
+	 
+	
+	
+	
 	function GetData($url,$data)
 	{
 		$OpenId  ="5BC3C691C69C43D1BA1C6420C51F60C5";//32位OpenId，大写

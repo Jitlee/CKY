@@ -12,44 +12,18 @@ use Think\Controller;
 class PersonAction extends CommonAction {
 	public function index() {
 		
-//		$m = D('M/OneCard');
-//		$res=$m->GetUserInfo();
-
-		//用户信息
-//		$status= $res["status"];
-//		if($status == 0)
-//		{
-//			$data=$res["data"][0];
-//			session("cardid",$data["CardId"]);
-//			$mMember = D('M/Member');
-//			$result=$mMember->Insert($data);
-//			if($result["status"]==-1)
-//			{
-//				echo "添加到数库失败。";
-//			}
-//			
-//		}
-//		else
-//		{
-//			//出错处理
-//		}
-
 		$key="18620554231";
 		$mMember = D('M/Member');
-		$result=$mMember->Get($key);
-		//echo dump($result);
+		$result=$mMember->GetByCardID($key);
+		
 		
 		session("uid",$result["uid"]);
-		//echo session("uid");
-		//$this->Sync();
-		//echo dump($data);
+	
 		$this->assign('title', "粗卡云");
 		$this->assign('data', $result);		
 		
 		$userlogin=session('userloginobj');
-//		echo "sessin=";
-//		echo dump($userlogin);
-		
+	
 		layout(TRUE);
 		$this->display();
 	}
@@ -107,7 +81,7 @@ class PersonAction extends CommonAction {
 	public function scorelist()
 	{ 
 		$mMember = D('M/Member');
-		$result=$this->scorelistPage(10,1,0);		
+		$result=$this->scorelistPage(10,1,0);
 		$this->assign('data', $result);
 		$this->assign('title', "积分记录");
 		layout(TRUE);
@@ -153,6 +127,7 @@ class PersonAction extends CommonAction {
 		layout(TRUE);
 		$this->display();
 	}
+	
 	public function consumelistPage($pageSize = 10, $pageNum = 1,$type=1)
 	{
 		$mMember = D('M/Member');

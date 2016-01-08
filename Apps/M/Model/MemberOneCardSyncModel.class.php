@@ -13,7 +13,7 @@ class MemberOneCardSyncModel extends BaseModel {
 	public function DataSync($userid)
 	{	
 	 	$mMember = D('M/Member');
-		$MemberItem=$mMember->Get($userid);
+		$MemberItem=$mMember->GetByCardID($userid);
 		$result["status"]=-1;
 		if($MemberItem)
 		{

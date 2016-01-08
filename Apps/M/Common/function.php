@@ -25,11 +25,4 @@ function timeToString($time) {
 }
 
 
-function getopenid()
-{
-	//	$userlogin=session('userloginobj');
-	//	$openid=$userlogin["openid"];
-	//	return $openid;
-	 	
-	return "openid11111";
-}
+

@@ -24,7 +24,7 @@ class MemberModel extends BaseModel {
 		return $rd;
 	}
 	
-	public function Get($key)
+	public function GetByCardID($key)
 	{
 		$db = M('member');
 		$filter["CardId"]=$key;

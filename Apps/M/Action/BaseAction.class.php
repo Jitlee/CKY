@@ -18,5 +18,13 @@ class BaseAction extends Controller {
 		$this->assign('CONF',$GLOBALS['CONFIG']);
 		$s = session('RTC_STAFF');
 		$this->assign('RTC_STAFF',$s);
-	}	
+	}
+	
+	function GetOpenid()
+	{
+		$userlogin=session('userloginobj');
+		$openid=$userlogin["openid"];
+		return $openid;
+	}
+	
 }

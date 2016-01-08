@@ -93,13 +93,14 @@
 			//alert(self.serialize());
 			$.post('{:U('Home/reg','','')}?'+Math.round()*100, self.serialize(), success, "json");
 			return false;
-			function success(data) {
-				 
-//				if (data && data.status==1000) {
-//					window.location.href = "{:U('Person/index','','')}";
-//				}
-//				else 
-				if (data.status) {
+			function success(data) {				 
+				if (data && data.status==1000) {
+					layer.alert(data.msg);
+					setTimeout(function() {
+						window.location.href = "{:U('Person/index','','')}";
+					}, 2000);
+				}
+				else if (data.status==1) {
 					window.location.href = "{:U('Person/index','','')}";
 				} else {
 					layer.alert(data.msg);

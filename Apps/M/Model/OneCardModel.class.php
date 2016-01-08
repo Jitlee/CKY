@@ -10,6 +10,14 @@
  */
 class OneCardModel extends BaseModel {
 	 
+	/*用户登录*/
+	public function MemberLogin($cardId,$password)
+	{
+		$data = array("cardId"=>$cardId,"password"=>$password);
+		$url='OpenApi/MemberLogin';		
+		return $this->GetData($url, $data);
+	}
+	
 	/*获取用户信息*/
 	public function GetUserInfo($cardId)
 	{

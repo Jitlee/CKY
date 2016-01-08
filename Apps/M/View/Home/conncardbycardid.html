@@ -20,11 +20,10 @@
 	</ul>
 
 		<form>
-				<input type="hidden"  name="yaoqing" />
 				<div class="mui-input-group">
 						<div class="mui-input-row">
 							<label>卡号</label>
-							<input id='account' type="text" name="mobile" class="mui-input-clear mui-input" maxlength="11" required placeholder="请输入您预留的手机号码">
+							<input id='cardid' type="text" name="cardid" class="mui-input-clear mui-input" maxlength="11" required placeholder="请输入您的会员卡号">
 						</div>
 						<div class="mui-input-row">
 							<label>密码</label>
@@ -32,7 +31,7 @@
 						</div>
 				</div>
 				<div class="mui-content-padded">
-					<button id='btnsubmit' type="submit" class="mui-btn mui-btn-block mui-btn-primary">提交</button>
+					<button id='btnsubmit' type="button" class="mui-btn mui-btn-block mui-btn-primary">提交</button>
 				</div>
 		</form>
  
@@ -55,7 +54,36 @@
  
 <script>
 	$(function() {
-		
-		
+ 		$("#btnsubmit").click(function() {
+	 			if($("#cardid").val().length <11)
+	 			{
+	 				layer.alert("请输入正确的手机号码。");
+	 				$("#cardid").focus();
+	 				return false;
+	 			}
+	 			if($("#password").val().length <2)
+	 			{
+	 				$("#password").focus();
+	 				layer.alert("请输入正确的密码。");
+	 				return false;
+	 			}
+				var self = $("form");
+				$.post('{:U('Home/conncardbycardid','','')}?'+Math.round()*100, self.serialize(), success, "json");
+				return false;
+				function success(data) {				 
+						if (data && data.status==1000) {
+							layer.alert(data.msg);
+							setTimeout(function() {
+								window.location.href = "{:U('Person/index','','')}";
+							}, 2000);
+						}
+						else if (data.status) {
+							window.location.href = "{:U('Person/index','','')}";
+						} else {
+							layer.alert(data.msg);
+						}
+				}
+		});
+		//end 
 	});
 </script>

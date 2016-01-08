@@ -3,33 +3,17 @@ namespace M\Action;
 use Think\Controller;
 use P\Model;
 
-class HomeAction extends Controller {
+class HomeAction extends BaseAction {
 		
 	public function selectreg() {
-			
-		$userlogin=session('userloginobj');
-		$openid=$userlogin["openid"];
-		
+		$openid=$this->GetOpenid();
 		if(empty($openid))			 
 		{
 			echo dump($userlogin);
 			$this->display("getwxerror");
 			exit;
 		}
-		$this->assign('openid', $openid);
-		//echo dump($userlogin);
-
-//		echo "</br>wxposition=";
-//		$wxposition=session("wxposition");
-//		echo $wxposition;
-//		echo session("wxposition");
-//		$this->assign('wxposition', $wxposition);
-//		 echo "</br>openid2=";
-//		
-//		$openid2=session("openid2");
-//		$this->assign('$openid2', $openid2);
-		session('userloginobj',null);
-		
+		$this->assign('openid', $openid); 
 		$this->display();
 	}
 	/*错误提示*/
@@ -40,24 +24,32 @@ class HomeAction extends Controller {
 	public function reg() {
 		if(IS_POST) {
 			$result["status"]=0;
-			$result["msg"]="注册成功。";
+			$result["msg"]="注册成功。";			
+			$openid=$this->GetOpenid();
 			
-			$openid=getopenid();
-			
-			//$password= md5($_POST['password']);				  
+			$userlogin=session('userloginobj');
+			$openid=$userlogin["openid"];	
+			if(empty($openid))
+			{
+				$result["msg"]="获取参数失败。".$openid;	
+				$this->ajaxReturn($result, "JSON");
+				exit;
+			}
+					  
 			$password= $_POST['password'];
-			//$db = M('member');
 			$Mobile = $_POST['mobile'];
-			
+						
 			$mMember = D('M/Member');
 			$user=$mMember->GetByMobile($Mobile);	//根据手机查询	
-			$userOpenkey=$mMember->Get($openid);	//根据手机查询
-			if($user) {
+			$userOpenkey=$mMember->GetByOpenid($openid);	//根据手机查询
+			
+			if($userOpenkey && $userOpenkey["OpenID"]==$openid) {
 				$result["status"]=1000;
-				$result["msg"]="当前用户已经注册。";
+				$result["msg"]='您已是会员不能重复注册。';
 			}
-			else if($userOpenkey) {
-				$result["msg"]='手机号码已经注册。';
+			else if($user && $user["Mobile"]==$Mobile) 
+			{
+				$result["msg"]="手机号：".$Mobile." 已经绑定。";
 			}
 			else
 			{
@@ -88,7 +80,11 @@ class HomeAction extends Controller {
 						$result=$mMember->Insert($data);
 						if($result["status"]==-1)
 						{
-							$result["msg"]=  "注册失败-add database。";
+							$result["msg"]=  "绑定失败-add database。";
+						}
+						else
+						{
+							$result["status"]=1;
 						}
 					}
 					else
@@ -112,16 +108,140 @@ class HomeAction extends Controller {
 	}
 	/*关联根据手机号码*/
 	public function conncardmobile() {
-		$this->display();
+		if(IS_POST) {
+			$result["status"]=0;
+			$result["msg"]="绑定成功。";			
+			
+			$openid=$this->GetOpenid();
+			if(empty($openid))
+			{
+				$result["msg"]="获取参数失败。";	
+				$this->ajaxReturn($result, "JSON");
+				exit;
+			}				  
+			//$verycode= $_POST['verycode'];
+			$Mobile = $_POST['mobile'];
+						
+			$mMember = D('M/Member');
+			$user=$mMember->GetByMobile($Mobile);	//根据手机查询	
+			$userOpenkey=$mMember->GetByOpenid($openid);	//根据手机查询
+			
+			if($userOpenkey && $userOpenkey["OpenID"]==$openid) {
+				$result["status"]=1000;
+				$result["msg"]='您已是会员不需要重复绑定。';
+			}
+			else if($user && $user["Mobile"]==$Mobile) 
+			{
+				$result["msg"]="手机号：".$Mobile." 已经绑定。";
+			}
+			else
+			{
+				$mOnecard = D('M/OneCard');
+				$res=$mOnecard->GetUserInfo($Mobile);//查询					
+				$status= $res["status"];
+				if($status == 0)
+				{
+					$data=$res["data"][0];
+					session("cardid",$data["CardId"]);
+					$mMember = D('M/Member');
+					$data["OpenID"]=$openid;
+					$result=$mMember->Insert($data);
+					if($result["status"]==-1)
+					{
+						$result["msg"]=  "绑定失败-add database。";
+					}
+					else
+					{
+						$result["status"]=1;
+					}
+				}
+				else
+				{
+					$result["msg"]= $res["message"]."code:003";						
+				}
+			}
+			$this->ajaxReturn($result, "JSON");
+		}
+		else
+		{
+			$this->assign('title', '绑定会员卡');
+			$this->display();
+		}
 	}
 	/*关联会员卡根据卡号，密码*/
 	public function conncardbycardid() {
-		$this->display();
+		if(IS_POST) {
+			$result["status"]=0;
+			$result["msg"]="注册成功。";			
+			$openid=$this->GetOpenid();
+			if(empty($openid))
+			{
+				$result["msg"]="获取参数失败。";	
+				$this->ajaxReturn($result, "JSON");
+				exit;
+			}
+			
+			$password= $_POST['password'];
+			$CardId = $_POST['cardid'];
+						
+			$mMember = D('M/Member');
+			$user=$mMember->GetByCardID($CardId);	//根据手机查询	
+			$userOpenkey=$mMember->GetByOpenid($openid);	//根据手机查询
+			
+			if($userOpenkey && $userOpenkey["OpenID"]==$openid) {
+				$result["status"]=1000;
+				$result["msg"]='您已绑定不需要重复。';
+			}
+			else if($user && $user["CardId"]==$CardId) 
+			{
+				$result["msg"]="会员卡：".$CardId." 已经绑定。";
+			}
+			else
+			{
+				$mOnecard = D('M/OneCard');
+				$res=$mOnecard->MemberLogin($CardId,$password);
+				$status= $res["status"];
+				if($status == 0)//查询结果并写入到数据库
+				{
+					$res=$mOnecard->GetUserInfo($CardId);					
+					$status= $res["status"];
+					if($status == 0)
+					{
+						$data=$res["data"][0];
+						session("cardid",$data["CardId"]);
+						$mMember = D('M/Member');
+						$data["OpenID"]=$openid;
+						$result=$mMember->Insert($data);
+						if($result["status"]==-1)
+						{
+							$result["msg"]="绑定失败-add database。";
+						}
+						else
+						{
+							$result["status"]=1;
+						}
+					}
+					else
+					{
+						$result["msg"]= $res["message"]." E:003";						
+					}
+				}
+				else
+				{
+					$result["msg"]= $res["message"].$Mobile;
+				}
+			}
+			$this->ajaxReturn($result, "JSON");
+		}
+		else
+		{
+			$openid=$this->GetOpenid();
+			
+			$this->assign('openid', $openid); 
+			$this->assign('title', '绑定会员卡');
+			$this->display();
+		}
 	}
-	
-	
-	
-	
 	
 	
 	public function ftest()

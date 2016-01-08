@@ -91,7 +91,7 @@
  			}
 			var self = $("form");
 			//alert(self.serialize());
-			$.post('{:U('Home/reg','','')}/'+Math.random(100), self.serialize(), success, "json");
+			$.post('{:U('Home/reg','','')}?'+Math.round()*100, self.serialize(), success, "json");
 			return false;
 			function success(data) {
 				 

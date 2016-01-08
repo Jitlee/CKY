@@ -50,26 +50,25 @@ class HomeAction extends Controller {
 			$Mobile = $_POST['mobile'];
 			
 			$mMember = D('M/Member');
-			$user=$mMember->Get($openid);	//根据手机查询
+			$user=$mMember->GetByMobile($Mobile);	//根据手机查询	
+			$userOpenkey=$mMember->Get($openid);	//根据手机查询
 			if($user) {
 				$result["status"]=1000;
-				//$this->redirect('Person/index');//已经关联直接跳转到 个人中心
-				exit;
+				$result["msg"]="当前用户已经注册。";
 			}
-			
-			$user=$mMember->GetByMobile($Mobile);	//根据手机查询	
-			//$user = $db->where($data)->find();
-			if($user) {
+			else if($userOpenkey) {
 				$result["msg"]='手机号码已经注册。';
 			}
-			else{
+			else
+			{
 				$data = array(
 					"cardId"	=>$Mobile
 					,"password"	=>$password 
 					,"mobile" 	=>$_POST['mobile']
-					,"memberGroupName"=>"416f147d-0a89-e511-ab53-001018640e2a"	//默认级别
+					,"memberGroupName"=>"默认级别"//"416f147d-0a89-e511-ab53-001018640e2a"	//默认级别
 					,"trueName"	=>$_POST['trueName']
 					,"sex"		=>$_POST['sex']
+					,"userAccount"=>"10000"
 				);
 				
 				$mOnecard = D('M/OneCard');
@@ -78,7 +77,6 @@ class HomeAction extends Controller {
 				if($status == 0)//查询结果并写入到数据库
 				{
 					 //查询
-					 //		$m = D('M/OneCard');
 					$res=$mOnecard->GetUserInfo($Mobile);					
 					$status= $res["status"];
 					if($status == 0)
@@ -91,16 +89,16 @@ class HomeAction extends Controller {
 						if($result["status"]==-1)
 						{
 							$result["msg"]=  "注册失败-add database。";
-						}						
+						}
 					}
 					else
 					{
-						$result["msg"]= $res["message"]."code:002";						
+						$result["msg"]= $res["message"]."code:003";						
 					}
 				}
 				else
 				{
-					$result["msg"]= $res["message"]."code:002";
+					$result["msg"]= $res["message"].$Mobile;
 				}
 			}
 			$this->ajaxReturn($result, "JSON");

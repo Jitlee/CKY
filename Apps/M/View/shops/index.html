@@ -1,6 +1,6 @@
 <header class="mui-bar mui-bar-nav cky-bar-gray">
-	<button class="mui-btn mui-btn-link mui-pull-left">
-		<span id="cityLabel">深圳</span> <i class="iconfont icon-xiala font17 font-gray"></i>
+	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
+		<span id="cityLabel">深圳</span>
 	</button>
 	<h1 id="title" class="mui-title">
 		<div class="cky-segmented">
@@ -14,9 +14,9 @@
 </header>
 <div class="mui-content mui-content-padded mui-content-bottom mui-content-top">
 	<nav class="mui-bar	cky-bar cky-top-bar">
-		<a class="cky-bar-item">行业 <i class="iconfont icon-xiala font17 font-gray"></i></a>
-		<a class="cky-bar-item">全程 <i class="iconfont icon-xiala font17 font-gray"></i></a>
-		<a class="cky-bar-item">离我最近 <i class="iconfont icon-xiala font17 font-gray"></i></a>
+		<a id="catsButton" class="cky-bar-item cky-drop-btn">行业</a>
+		<a id="areasButton" class="cky-bar-item cky-drop-btn">全城</a>
+		<a id="positionButton" class="cky-bar-item cky-drop-btn">离我最近</a>
 	</nav>
 	
 	<div id="shopsLoading" class="mui-loading">
@@ -37,8 +37,8 @@
 					<!-- /ko -->
 					<div class="cky-clearfix"></div>
 					<div class="cky-media-sub font15 font-gray2">
-						<span class="cky-media-address" data-bind="text: shopAddress + ' ' + catName "></span>
-						<span class="cky-right font15 font-gray2" data-bind="attr: { id: 'distance_' + shopId }"></span>
+						<p class="cky-media-address" data-bind="text: shopAddress + ' ' + catName "></p>
+						<span class="cky-right font15 font-gray2" data-bind="text: geolocation.distanceToReadability(distance * geolocation.METERS_PER_DEGREE)"></span>
 					</div>
 					<div class="cky-clearfix"></div>
 					<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
@@ -52,37 +52,75 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?13"></script>
+<script type="text/javascript" src="__JS__/geo.location.js?21"></script>
+<script type="text/javascript" src="__JS__/drop-menus.js?11"></script>
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
+//window.onerror = function(a,b,c,d,e) {
+//	alert(a);
+//	alert(b);
+//	alert(c);
+//	alert(d);
+//	alert(e);
+//}
 	$(function() {
-		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(evt, lng, lat, city) {
-			if(city) {
-				$(".cityLabel").text(city);
-			}
-		});
+		var currentCity = $("#cityLabel").text();
+		var currentLongitude = 0;
+		var currentLatitude = 0;
 		
 		var isEOF = false;
+		var force = true;
 		var pageNo = 1;
 		var shops = [];
+		var catId = 0;
+		var areaId = 0;
+		var distance = 0;
 		var vm = ko.observableArray(shops);
 		ko.applyBindings(vm, document.getElementById("shopsList"));
+		
+		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+			currentLongitude = lng;
+			currentLatitude = lat;
+			if(city) {
+				$("#cityLabel").text(city);
+				currentCity = city;
+			}
+			force = true;
+			queryByPage();
+		});
 		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				shops.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+				$("#shopsLoading").show();
+				$("#shopsList").addClass("mui-hidden");
+			}
+			var _pageNo = pageNo;
 			if(!isEOF) {
-				var api = "{:U('shops/page', '', '')}";
-				$.getJSON(api, { pageNo: pageNo }, function(list) {
-					if(pageNo == 1) {
+				$.getJSON("{:U('shops/page')}", {
+					pageNo: pageNo,
+					catId: catId,
+					areaId: areaId,
+					distance: distance,
+					lng: currentLongitude,
+					lat: currentLatitude
+				}, function(list) {
+					if(_pageNo == 1) {
+						shops.length = 0;
 						$("#shopsLoading").hide();
 						$("#shopsList").removeClass("mui-hidden");
 					}
-					pageNo++;
+					pageNo = _pageNo++;
 					if(list && list.length > 0) {
 						$.each(list, function() {
 							shops.push(this);
 						});
-						vm(shops);
 					}
+					vm(shops);
 					
 					if(list && list.length < 10) {
 						isEOF = true;
@@ -91,5 +129,56 @@
 			}
 		}
 		queryByPage();
+		
+		// 加载行业
+		$("#catsButton").dropMenu({
+			api: "{:U('GoodsCats/query')}",
+			idProperty: "catId",
+			nameProperty: "catName",
+			parentIdproperty: "parentId",
+			parentId: 0,
+			callback: function(evt) {
+				catId = evt.catId;
+				force = true;
+				queryByPage();
+			}
+		});
+		
+		// 加载区域
+		$("#areasButton").dropMenu({
+			api: "{:U('Areas/query')}",
+			auto: false,
+			idProperty: "areaId",
+			nameProperty: "areaName",
+			parentIdProperty: "areaName",
+			parentId: function() { return currentCity + "市"; },
+			callback: function(evt) {
+				areaId = evt.areaId;
+				force = true;
+				queryByPage();
+			}
+		});
+		
+		// 加载距离
+		$("#positionButton").dropMenu({
+			menus: [
+				{ id: 1, name: "500米", value: 500 },
+				{ id: 2, name: "1公里", value: 1000 },
+				{ id: 3, name: "2公里", value: 2000 },
+				{ id: 4, name: "3公里", value: 3000 },
+//				{ id: 4, name: "5公里", value: 5000 },
+			],
+			callback: function(evt) {
+				if(!(currentLatitude > 0 && currentLongitude > 0)) {
+					layer.msg("定位失败，无法测算距离");
+					return;
+				}
+				
+				distance = evt.value / geolocation.METERS_PER_DEGREE;
+				force = true;
+				queryByPage();
+			}
+		});
+		
 	});
 </script>

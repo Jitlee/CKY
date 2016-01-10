@@ -1,0 +1,133 @@
+.cky-table-cell-thumb60 {
+	width: 60px;
+	height: 60px;
+}
+
+.cky-table-view .cky-media {
+    padding-left: 70px;
+}
+
+.cky-waimai {
+	border-radius: 2px;
+	background-color: #FF4040;
+	line-height: 20px;
+	height: 20px;
+	color: #fff;
+	font-size: 12px;
+	padding: 0px 2px;
+	margin-top: 5px;
+}
+
+.cky-waimai .iconfont {
+	font-size: 13px;
+	background-color: #fff;
+	color: #FF4040;
+}
+
+.cky-score .iconfont {
+	margin: 0px 1px;
+	font-size: 13px;
+}
+
+.cky-score .icon-full-star, .cky-score .icon-half-star {
+	color: #FF4040;
+}
+
+.cky-icon {
+	display: inline-block;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 13px;
+	color: #fff;
+	text-align: center;
+	height: 20px;
+	width: 20px;
+	line-height: 20px;
+	border-radius: 2px;
+	margin-right: 8px;
+}
+
+.cky-icon-shou {
+	background-color: #ff9540;
+}
+
+
+.cky-icon-fan {
+	background-color: #FF4040;
+}
+
+header.cky-header {
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	height: 109px;
+	overflow: hidden;
+}
+
+.cky-header-bg {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	-webkit-filter: blur(8px);
+}
+
+.cky-shop-header {
+	position: relative;
+}
+
+.cky-shop-header-media {
+	padding-left: 76px;
+}
+.cky-shop-header-media, .cky-shop-header-media p {
+	color: #fff;
+}
+
+.cky-shop-header-media p {
+	margin: 3px 0 0 0;
+}
+
+.cky-shop-header-thumb {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	
+	height: 60px;
+	width: 60px;
+	border: solid 2px #8D8D8D;
+	border-radius: 60px;
+	
+	position: absolute;
+	top: 5px;
+	left: 8px;
+}
+
+.cky-fast-header-sub {
+	position: relative;
+}
+
+.cky-fast-header-sub span {
+	display: inline-block;
+	max-width: -webkit-calc(100% - 46px);
+	white-space: nowrap;
+	word-break: keep-all;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	vertical-align: middle;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+
+.cky-fast-header-sub .icon-dayu::before {
+	font-family: "微软雅黑";
+	content: ">";
+}
+
+
+

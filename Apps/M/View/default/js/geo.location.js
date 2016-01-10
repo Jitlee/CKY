@@ -9,7 +9,8 @@ $(function() {
 	var geolocation = {
 		getCurrentPosition: getCurrentPosition,
 		distanceBetween:  distanceBetween,
-		distanceToReadability: distanceToReadability
+		distanceToReadability: distanceToReadability,
+		METERS_PER_DEGREE: METERS_PER_DEGREE
 	};
 	
 	function getCurrentPosition(ak, callback) {
@@ -46,9 +47,11 @@ $(function() {
 		if(navigator.geolocation){
 			//浏览器支持geolocation
 			navigator.geolocation.getCurrentPosition(function(evt) {
-				console.log("浏览器定位成功");
+				console.info("浏览器定位成功");
 				var lng =evt.coords.longitude;//经度
 				var lat = evt.coords.latitude; //纬度
+				lng = 105.392961;
+				lat = 26.782861
 				geocoder(ak, lat, lng, function(evt) {
 					evt.__time = new Date().getTime();
 					// 缓存结果
@@ -71,7 +74,13 @@ $(function() {
 		api = util.format(api, ak, lat, lng);
 		$.post(api, null, function(evt) {
 			if(evt && evt.status == 0) {
-				callback(evt.result);
+				console.info("百度定位成功");
+				$.getJSON('../Areas/getCityCode.html', {
+					areaName: evt.result.addressComponent.city
+				}, function(areaId) {
+					evt.result.areaId = areaId;
+					callback(evt.result);	
+				})
 			} else {
 				console.error("百度定位API失败");
 				callback({ location: { lat: lat, lng: lng } });
@@ -99,11 +108,11 @@ $(function() {
 	}
 	
 	function run() {
-		var task = tasks.unshift();
+		var task = tasks.shift();
 		if(typeof task == "function") {
-			task.call(_geo, _geo.location.lng, _geo.location.lat, _geo.addressComponent.city);
+			task.call(_geo, _geo.location.lng, _geo.location.lat, _geo.addressComponent.city, _geo.areaId);
+			run();
 		}
-		run();
 	}
 	
 	window.geolocation = geolocation;

@@ -6,20 +6,13 @@ namespace M\Action;
   
  * 联系方式:
  * ============================================================================
- * 商家 控制器
+ * 快餐 控制器
  */
 use Think\Controller;
-class ShopsAction extends BaseAction {
-	public function index() {
-		$this->assign('title', "商家");
-		$this->assign('tabid', 'shops');
-		$this->display();
-	}
-	
+class FastAction extends BaseAction {
 	public function page() {
 		$m = D('M/Shops');
-		$list = $m->shops();
-//		echo $m->getLastSql();
+		$list = $m->fast();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
@@ -30,11 +23,6 @@ class ShopsAction extends BaseAction {
 		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
-		$this->display();
-	}
-	
-	public function map() {
-		$this->assign('title', I('shopName'));
 		$this->display();
 	}
 }

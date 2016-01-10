@@ -55,7 +55,7 @@ class MemberModel extends BaseModel {
 	/******储值记录****/
 	public function GetRechargeList($uid,$pageSize = 10, $pageNum = 1)
 	{ 
-		$db = M('member_score');
+		$db = M('member_recharge');
 		$filter["uid"]=$uid;
 		return $db->order('OperateTime desc')->where($filter)->page($pageNum, $pageSize)->select();
 	}

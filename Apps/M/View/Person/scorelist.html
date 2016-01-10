@@ -7,18 +7,19 @@
 </header>
 
 <div class="mui-content">
-	<!--<textarea rows="5" cols="5">{$data}</textarea>-->
-	<h5 style="position: relative;" class="yyg-cell-left">积分<span class="yyg-cell-right yyg-right-margin">时间&nbsp;&nbsp;</span></h5>
-	<ul id="recrodList" class="mui-table-view">
+	<ul  id="recrodList"  class="mui-table-view mui-table-view-chevron">
 		<foreach name="data" item="item">
-			<li class="mui-table-view-cell">			
-				<span class="yyg-cell-right yyg-right-margin time">{$item.OperateTime}</span>
-				<span class="money">{$item.Point}</span>
-				<span class="money">{$item.Meno}</span>
+			<li class="mui-table-view-cell mui-media">
+					<a class="top-navigate">
+						<div class="mui-media-body"><span class="meno b">{$item.Meno}</span><p class='mui-ellipsis ctime'>{$item.OperateTime}</p></div>
+						<span  class="cellinfo-right cvalue add-color b"><if condition="($item.Point lt 0)">-<else/>+</if>{$item.Point}</span>
+					</a>
 			</li>
 		</foreach>
 	</ul>
 </div>
+
+<link rel="stylesheet" href="__CSS__/person-comm.css" />
 <script src="__JS__/jquery.touchSwipe.min.js"></script>
 <script>
 	$(function() {
@@ -27,8 +28,7 @@
 			swipeUp: onscrollend,
 			threshold: 100,
 			allowPageScroll: "vertical"
-		});
-		
+		});		
 		$(window).bind("scroll", onscrollend);
 		
 		function onscrollend() {
@@ -47,8 +47,9 @@
 						{
 				       		$.each(list, function() {
 				       			var item = template.clone();
-				       			$(".money", item).text(this.Point);
-				       			$(".time", item).text(this.OperateTime);
+				       			$(".meno", item).text(this.Meno);
+				       			$(".cvalue", item).text(this.Point);
+				       			$(".ctime", item).text(this.OperateTime);
 				       			recrodList.append(item);
 				       		});
 		       	} else {

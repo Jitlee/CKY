@@ -331,6 +331,10 @@ a.cky-segmented-item {
 
 
 /** 字体大小和颜色(开始)  **/
+.font32 {
+	font-size: 32px;
+}
+
 .font24 {
 	font-size: 24px;
 }

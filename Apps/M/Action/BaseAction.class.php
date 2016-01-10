@@ -26,5 +26,12 @@ class BaseAction extends Controller {
 		$openid=$userlogin["openid"];
 		return $openid;
 	}
-	
+	function GetCardId()
+	{
+		$key=session("cardid");
+		
+//		$userlogin=session('userloginobj');
+//		$openid=$userlogin["openid"];
+		return $key;
+	}
 }

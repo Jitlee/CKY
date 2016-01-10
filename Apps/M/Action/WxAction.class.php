@@ -12,18 +12,6 @@ use Think\Controller;
 class WxAction extends Controller {
 		
 	public function callback() {
-
-		//session("wxposition","1");
-//		$json_obj =$this->accessToken();
-//		//session("wxaccess_token",$json_obj);
-//		//根据openid和access_token查询用户信息
-//		$access_token = $json_obj['access_token'];
-//		$openid = $json_obj['openid'];
-//		//session("openid2",$access_token);
-//		$get_user_info_url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
-//		$user_obj = $this->getJson($get_user_info_url);
-//		//$_SESSION['user'] = $user_obj;
-
 		$appid = "wx9c7c9bb54952b54d";
 		$secret = "d4624c36b6795d1d99dcf0547af5443d";
 		$code = $_GET["code"];
@@ -66,18 +54,6 @@ class WxAction extends Controller {
 		
 		$this->redirect('Person/index');
 		exit;
-//		$backurl=session("loginbackurl");
-//		if($backurl)
-//		{
-//			$this->redirect($backurl);
-//			session("loginbackurl",null);
-//			exit;
-//		}
-//		else
-//		{
-//			$this->redirect('Person/index');
-//			exit;
-//		}
 	}
 	function accessToken(){
 		$tokenFile = "./access_tokenkey.txt";//缓存文件名 
@@ -132,14 +108,12 @@ class WxAction extends Controller {
 	
 	public function getcodeurl() {
 		$userlogin=session('userloginobj');
-		//session("wxposition","6");  
-//		$openid=$userlogin["openid"];
-//		if(!empty($openid))
-//		{
-//			session("wxposition","7");  
-//			$this->loginRedrect();
-//			exit;
-//		}
+		$openid=$userlogin["openid"];
+		if(strlen($openid)>10)
+		{
+			$this->loginRedrect();
+			exit;
+		}
 //		session("wxposition","8");  
 		$APPID='wx9c7c9bb54952b54d';
 		//$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('callback', '', '');

@@ -91,6 +91,31 @@ class OneCardModel extends BaseModel {
 		$url='OpenApi/Get_ConsumeNotePaged';		
 		return $this->GetData($url, $data);
 	}
+	/****我的充次*****/
+	public function GetCountList($cardId,$pageIndex=1,$pageSize=10)
+	{
+		//data={"userAccount":"10003","where":" 1=1 and cardId='13632651195' ", "pageIndex":0,"pageSize":10,"orderBy":" cardId desc"} 
+		$data = array(
+			"userAccount"=>"10000"
+			"cardId"=>$cardId
+			"memberPassword"=>""
+			,"where"=>" 1=1 and cardId='".$cardId."' "
+			, "pageIndex"=>$pageIndex
+			,"pageSize"=>$pageSize
+			,"orderBy"=>" OperateTime desc "
+		);
+//		userAccount 是 工号 
+//cardId 是 会员卡号 
+//memberPassword 是 会员密码 
+//where 是 查询条件 
+//pageIndex 是 页码 
+//pageSize 是 页大小 
+//orderBy 是 排序规则 
+		
+		$url='OpenApi/Get_CountListPaged';		
+		return $this->GetData($url, $data);
+	}
+	
 	
 	/********修改密码*******/
 	public function UpdatePassword($cardId,$oldpwd,$newpwd)

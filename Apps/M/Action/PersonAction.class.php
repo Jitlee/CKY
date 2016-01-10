@@ -9,38 +9,38 @@ namespace M\Action;
  * 首页（默认）控制器
  */
 use Think\Controller;
-class PersonAction extends CommonAction {
+class PersonAction extends BaseUserAction {
 	public function index() {
-		
-		$key="18620554231";
+		$openid=$this->GetOpenid();
 		$mMember = D('M/Member');
-		$result=$mMember->GetByCardID($key);
+		$result=$mMember->GetByOpenid($openid);
+		if(!$result)	
+		{
+			$this->redirect('Home/selectreg');
+			exit;
+		} 
+				
+		session("MemberItem",$result);
 		
-		
-		session("uid",$result["uid"]);
-	
 		$this->assign('title', "粗卡云");
-		$this->assign('data', $result);		
-		
-		$userlogin=session('userloginobj');
-	
-		layout(TRUE);
+		$this->assign('data', $result);
+		//layout(TRUE);
 		$this->display();
 	}
 
 	/*****一卡易与用户数据同步***/
-	public function Sync()
+	public function Sync($v=0)
 	{
-		$key="18620554231";
+		$CardId=$this->GetCardId();
 		$mMember = D('M/MemberOneCardSync');
-		$result=$mMember->DataSync($key);
+		$result=$mMember->DataSync($CardId);
 		$this->ajaxReturn($result, "JSON");
 	}
 	
 	public function changepwd()
 	{
 		if(IS_POST) {
-			$key="18620554231";
+			$key=$this->GetCardId();
 			$mMember = D('M/OneCard');
 			$result=$mMember->UpdatePassword($key,$_POST["oldpwd"],$_POST["newpwd"]);
 			$this->ajaxReturn($result, "JSON");
@@ -51,36 +51,13 @@ class PersonAction extends CommonAction {
 			$this->assign('title', "修改密码");
 			$this->display();	
 		}
-	}
-	
-//	public function userscore()
-//	{
-//		$m = D('M/OneCard');
-//		$cardid="18620554231";
-//		$res=$m->GetScoreList($cardid,0,20);
-// 
-// 		//用户信息
-//		$status= $res["status"];
-//		echo dump($res);
-//		if($status == 0)
-//		{
-//			$data=$res["data"];
-//			$a=	json_decode($data,true);
-//			$this->assign('data', $a);		
-//			echo dump($data);
-//		}
-//		else
-//		{
-//			//出错处理
-//		}
-//
-//		layout(TRUE);
-//		$this->display();
-//	}
+	}	
+
 	/*积分列表*/
 	public function scorelist()
 	{ 
 		$mMember = D('M/Member');
+		
 		$result=$this->scorelistPage(10,1,0);
 		$this->assign('data', $result);
 		$this->assign('title', "积分记录");
@@ -90,7 +67,8 @@ class PersonAction extends CommonAction {
 	public function scorelistPage($pageSize = 10, $pageNum = 1,$type=1)
 	{
 		$mMember = D('M/Member');
-		$result=$mMember->GetScoreList(session("uid"),$pageSize,$pageNum);
+		$uid=session("uid");
+		$result=$mMember->GetScoreList($uid,$pageSize,$pageNum);
 		if($type==0)
 		{
 			return $result;
@@ -101,7 +79,7 @@ class PersonAction extends CommonAction {
 	public function rechargelist()
 	{
 		$mMember = D('M/Member');
-		$result=$this->rechargelistPage(10,1,0);		
+		$result=$this->rechargelistPage(10,1,0);
 		$this->assign('data', $result);
 		$this->assign('title', "储值记录");
 		layout(TRUE);
@@ -110,7 +88,8 @@ class PersonAction extends CommonAction {
 	public function rechargelistPage($pageSize = 10, $pageNum = 1,$type=1)
 	{
 		$mMember = D('M/Member');
-		$result=$mMember->GetRechargeList(session("uid"),$pageSize,$pageNum);
+		$uid=session("uid");
+		$result=$mMember->GetRechargeList($uid,$pageSize,$pageNum);
 		if($type==0)
 		{
 			return $result;
@@ -118,12 +97,13 @@ class PersonAction extends CommonAction {
 		$this->ajaxReturn($result, "JSON");
 	}
 	
+	/*储值*/
 	public function consumelist()
 	{
 		$mMember = D('M/Member');
 		$result=$this->consumelistPage(10,1,0);		
 		$this->assign('data', $result);
-		$this->assign('title', "储值记录");
+		$this->assign('title', "消费记录");
 		layout(TRUE);
 		$this->display();
 	}
@@ -131,7 +111,8 @@ class PersonAction extends CommonAction {
 	public function consumelistPage($pageSize = 10, $pageNum = 1,$type=1)
 	{
 		$mMember = D('M/Member');
-		$result=$mMember->GetConsumeList(session("uid"),$pageSize,$pageNum);
+		$uid=session("uid");
+		$result=$mMember->GetConsumeList($uid,$pageSize,$pageNum);
 		if($type==0)
 		{
 			return $result;
@@ -145,12 +126,87 @@ class PersonAction extends CommonAction {
 		layout(TRUE);
 		$this->display();
 	}
+	 
 	public function userinfoitem()
 	{
 		layout(TRUE);
 		$this->display();
 	}
-	
+	public function userinfo()
+	{
+		$openid=$this->GetOpenid();
+		$mMember = D('M/Member');
+		$result=$mMember->GetByOpenid($openid);
+		if(!$result)	
+		{
+			$this->redirect('Home/selectreg');
+			exit;
+		}
+		
+		$this->assign('data', $result);
+		$this->assign('title', "个人信息");		
+		$this->display();
+	}	
 
- 
+//	public function erwima()
+//	{
+//		$openid=$this->GetOpenid();
+//		$mMember = D('M/Member');
+//		$result=$mMember->GetByOpenid($openid); 
+//		$this->assign('title', "粗卡云");
+//		$this->assign('data', $result);
+//		layout(FALSE);
+//		$this->display();
+//	}
+
+	/*我的充次*/
+ 	public function countlist()
+	{
+		$this->assign('title', "我的充次");		
+		$this->display();
+	}
+	/*绑定手机*/
+ 	public function bindmobile(){
+		$this->assign('title', "绑定手机");		
+		$this->display();
+	}
+	/*我的收藏*/
+ 	public function favor()	{
+		$this->assign('title', "我的收藏");		
+		$this->display();
+	}
+	/*我的优惠券*/
+ 	public function youhuiquan()	{
+		$this->assign('title', "我的优惠券");		
+		$this->display();
+	}
+	/*订单查询*/
+ 	public function orderlist()	{
+		$this->assign('title', "订单查询");		
+		$this->display();
+	}
+	
+	/*生成二维码*/
+ 	public function qrcode($level=3,$size=8)
+ 	{ 	 	
+			$cardid=$this->GetCardId();
+			Vendor('phpqrcode.phpqrcode');
+			$errorCorrectionLevel =intval($level) ;//容错级别 
+			$matrixPointSize = intval($size);//生成图片大小 
+			//生成二维码图片 
+			//echo $_SERVER['REQUEST_URI'];
+			$object = new \QRcode();
+			$object->png($cardid, false, $errorCorrectionLevel, $matrixPointSize, 2);
+	}
+	/**一维码*/
+	public function ywm()
+	{
+		$code ="18620554231";// $_GET['code'];
+		  
+		Vendor('phpqrcode.UPCtools');
+		$obj= new \UPCtools();
+		$obj->UPCAbarcode($code);
+	}
+	
+	
 }

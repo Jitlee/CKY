@@ -152,6 +152,9 @@ class HomeAction extends BaseAction {
 					}
 					else
 					{
+						//同步数据
+						$mMember = D('M/MemberOneCardSync');
+						$result=$mMember->DataSync($data["CardId"]);
 						$result["status"]=1;
 					}
 				}
@@ -218,6 +221,8 @@ class HomeAction extends BaseAction {
 						}
 						else
 						{
+							$mMember = D('M/MemberOneCardSync');
+							$result=$mMember->DataSync($data["CardId"]);
 							$result["status"]=1;
 						}
 					}
@@ -246,10 +251,22 @@ class HomeAction extends BaseAction {
 	
 	public function ftest()
 	{
-		$m = D('M/OneCard');
-		$cardid="18620554231";
-		$res=$m->GetMemberGroup();//可能有多条。	
-		echo dump($res);
+//		$m = D('M/OneCard');
+//		$cardid="18620554231";
+//		$res=$m->GetMemberGroup();//可能有多条。	
+		//echo dump($res);
+		
+//		$CardId="18620554231";//$this->GetCardId();
+//		$mMember = D('M/MemberOneCardSync');
+//		$result=$mMember->DataSync($CardId);
+//		echo dump($result);
+
+			$code ="18620554231";// $_GET['code'];
+			
+
+ 
 	}
 
+	
+	 
 }

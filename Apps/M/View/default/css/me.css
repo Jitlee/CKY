@@ -1,6 +1,11 @@
 			*{
 				font-size: 16px;
 			}
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
 			ul.mui-table-view {
 				background-color: #EFEFF4;
 			}
@@ -16,12 +21,7 @@
 			  	border-radius: 50%;
 			  	1box-shadow: 0 0 1px 1px rgba(130,130,130,0.7);
 			}
-			.user-img{
-				width: 60px;
-			  	height: 60px;
-			  	border-radius: 50%;
-			  	1box-shadow: 0 0 1px 1px rgba(130,130,130,0.7);
-			}
+			 
 			.user-cell4{				 
 				display: inline-block;
 				float:left;
@@ -41,27 +41,8 @@
 				padding: 8px 0px;
 				text-align: center;
 			}
-			.userInfo {
-				float: left;
-				margin-left: 20px;
-			}
-			.userInfo p {
-				font-size: 1em;
-				color: #333333;
-			}
-			
-			.userInfo .phoneno{
-				font-size: 0.8em;
-				color: #666666;
-			}
-			#phoneno{
-				font-size: 1em;
-				color: #666666;
-			}
-			#otherhalfPhoneno{
-				font-size: 1em;
-				color: #666666;
-			}
+			 
+			 
 			.userline {
 				margin-bottom: 12px;
 			}
@@ -161,3 +142,54 @@
 				font-weight: 300;
 			}
 			#recharge{float:right; padding-right: 25px; padding-top: 3px;}
+
+
+			.mui-pages {top: 16px;height: auto;}
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease;
+				transition: transform 300ms ease;
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-ios .mui-page-left {
+				-webkit-transform: translate3d(-20%, 0, 0);
+				transform: translate3d(-20%, 0, 0);
+			} 
+			 
+			.mui-page .mui-table-view:first-child {
+				margin-top: 15px;
+			}
+			.mui-page .mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			.mui-table-view {
+				margin-top: 15px;
+			}
+			
+			.mui-table-view span.mui-pull-right {
+				color: #999;
+			}
+			.mui-table-view-divider {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			.mui-table-view-divider:before,
+			.mui-table-view-divider:after {
+				height: 0;
+			}
+			.head {
+				height: 40px;
+			}
+			 
+			.head-img {width: 40px;height: 40px;}
+			.mui-fullscreen {position: fixed;z-index: 20;background-color: #000;}
+			.mui-ios .mui-navbar .mui-bar .mui-title {position: static;} 
+			
+			#user2wm{right:45px; position:absolute;top:35%;display:inline-block; widows: 32px; height: 32px;}
+			#user2wm i{ font-size: 26px;}

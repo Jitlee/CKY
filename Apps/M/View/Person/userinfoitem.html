@@ -1,23 +1,11 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>我的</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<script src="../sea.js"></script>
- 
-		<script src="__JQ__"></script>
 		<link href="__CSS__/me.css" rel="stylesheet" type="text/css" />
-		
-		<script type="text/javascript">
-	   		seajs.initReady(function(){
-				seajs.use(["util", "ko", "md5"],function(){
-					seajs.use("me");
-				});				
-			});
-   		</script>
+		<link rel="stylesheet" href="__FONTPERSON__">
+		<style>
+			.font16{font-size: 16px;}
+			.font20{font-size: 20px;}
+			.font24{font-size: 24px;}
+			.font32{font-size: 32px;}
+		</style>
    		<script type="text/javascript">
 	   		$(function() {
 	   			//个人资料
@@ -38,9 +26,6 @@
 				});
 			});
 		</script>
-	</head>
-	
-	<body>
 		<header class="mui-bar mui-bar-nav">
 		  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" onclick="history.go(-1)">
 		    <span class="mui-icon mui-icon-left-nav" ></span>
@@ -75,7 +60,7 @@
 				<li class="mui-table-view-cell" id="useraddress">
 					<a class="mui-navigate-right">
 						<div class="img-tip">
-							<img alt="收货地址" src="__IMG__/person/addr.png"/>
+							<i class="iconfont  icon-addressbook font24"></i>
 						</div>
 						<div class="menu-content">
 							<p>收货地址</p>
@@ -94,8 +79,4 @@
 				</li>
 			</ul>
 		</div>
-		
-
-	</body>
-
-</html>
+ 

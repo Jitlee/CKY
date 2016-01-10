@@ -1,30 +1,31 @@
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  onclick="history.go(-1)"></a>
-			<h1 class="mui-title">{$title}</h1>
-		</header>
-		<div class="mui-content">
-			<form>
-				<div class="mui-input-group">
-					<div class="mui-input-row">
-						<label>原密码</label>
-						<input type="password" id='txtoldpwd'  name="oldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
-					</div>
-					<div class="mui-input-row">
-						<label>新密码</label>
-						<input type="password" id='txtnewpwd'   name="newpwd"  class="mui-input-clear mui-input" required placeholder="请输入新密码">
-					</div>
-					<div class="mui-input-row">
-						<label>确认密码</label>
-						<input type="password" id='txtconfimpwd'   name="confimpwd" class="mui-input-clear mui-input" required placeholder="请再次输入新密码">
-					</div> 
-				</div>
-				<div class="mui-content-padded">
-					<button id='btnalertpwd' type="button" class="mui-btn mui-btn-block mui-btn-primary">修改</button>
-				</div>
-			</form>
-			
-				
+<header class="mui-bar mui-bar-nav">
+	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" onclick="history.go(-1)">
+			<span class="mui-icon mui-icon-left-nav" ></span>
+	    	返回
+	  </button>
+	  <h1 class="mui-title">{$title}</h1>
+</header>
+<div class="mui-content">
+	<form>
+		<div class="mui-input-group">
+			<div class="mui-input-row">
+				<label>原密码</label>
+				<input type="password" id='txtoldpwd'  name="oldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
+			</div>
+			<div class="mui-input-row">
+				<label>新密码</label>
+				<input type="password" id='txtnewpwd'   name="newpwd"  class="mui-input-clear mui-input" required placeholder="请输入新密码">
+			</div>
+			<div class="mui-input-row">
+				<label>确认密码</label>
+				<input type="password" id='txtconfimpwd'   name="confimpwd" class="mui-input-clear mui-input" required placeholder="请再次输入新密码">
+			</div> 
 		</div>
+		<div class="mui-content-padded">
+			<button id='btnalertpwd' type="button" class="mui-btn mui-btn-block mui-btn-primary">修改</button>
+		</div>
+	</form>	
+</div>
 <script type="text/javascript">
 	 //表单提交
 	$(document).ajaxStart(function() {
@@ -53,4 +54,4 @@
 			}
 		});
 	});
-	</script>
+</script>

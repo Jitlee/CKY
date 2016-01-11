@@ -51,7 +51,6 @@
 	background-color: #ff9540;
 }
 
-
 .cky-icon-fan {
 	background-color: #FF4040;
 }
@@ -61,8 +60,12 @@ header.cky-header {
 	width: 100%;
 	top: 0px;
 	left: 0px;
-	height: 109px;
+	height: 125px;
 	overflow: hidden;
+}
+
+.cky-margin-header {
+	margin-top: 125px;
 }
 
 .cky-header-bg {
@@ -74,7 +77,7 @@ header.cky-header {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-	-webkit-filter: blur(8px);
+	/*-webkit-filter: blur(8px);*/
 }
 
 .cky-shop-header {
@@ -123,10 +126,40 @@ header.cky-header {
 	padding-right: 2px;
 }
 
-
 .cky-fast-header-sub .icon-dayu::before {
 	font-family: "微软雅黑";
 	content: ">";
+}
+
+.cky-header-nav i,.cky-header-nav .mui-icon::before {
+	font-size: 24px;
+}
+
+.cky-header-nav .mui-icon{
+	color: #fff;
+}
+
+.cky-header-nav .iconfont {
+	color: #FF4040;
+}
+
+.cky-fast-cat {
+	margin: 0;
+	padding: 0;	
+	list-style: none;
+	width: 100px;
+	background-color: #E1E1E1;
+	color: #333;
+}
+
+.cky-fast-cat-cell {
+	padding: 12px 8px;
+	margin: 0;
+}
+
+.cky-fast-cat-cell.cky-active {
+	background-color: #fff;
+	color: #FF4040;
 }
 
 

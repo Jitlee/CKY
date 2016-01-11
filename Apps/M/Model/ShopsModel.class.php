@@ -14,7 +14,7 @@ class ShopsModel extends BaseModel {
 	  * 商铺分页列表
 	  */
      public function shops(){
-     	$pageSize = 10;
+     	$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
 		$catId = intval(I('catId', 0));
 		$areaId = intval(I('areaId', 0));

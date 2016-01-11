@@ -50,8 +50,6 @@ $(function() {
 				console.info("浏览器定位成功");
 				var lng =evt.coords.longitude;//经度
 				var lat = evt.coords.latitude; //纬度
-				lng = 105.392961;
-				lat = 26.782861
 				geocoder(ak, lat, lng, function(evt) {
 					evt.__time = new Date().getTime();
 					// 缓存结果

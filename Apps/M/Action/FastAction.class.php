@@ -25,4 +25,10 @@ class FastAction extends BaseAction {
 		$this->assign('title', $data['shopName']);
 		$this->display();
 	}
+	
+	public function cats() {
+		$m = D('M/ShopsCats');
+		$list = $m->query();
+		$this->ajaxReturn($list, "JSON");
+	}
 }

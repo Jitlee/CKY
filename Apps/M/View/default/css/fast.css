@@ -150,6 +150,9 @@ header.cky-header {
 	width: 100px;
 	background-color: #E1E1E1;
 	color: #333;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 }
 
 .cky-fast-cat-cell {
@@ -162,5 +165,47 @@ header.cky-header {
 	color: #FF4040;
 }
 
+.cky-fast-goods {
+	padding-left: 100px;
+	overflow: hidden;
+}
 
+.cky-fast-goods .cky-table-view-cell {
+	background-color: #fff;
+	margin-left: 0px;
+    margin-right: 0px; 
+}
 
+.cky-fast-goods .cky-table-cell-thumb60 {
+	width: 50px;
+	height: 50px;
+    border-radius: 5px;
+}
+
+.cky-fast-goods .cky-table-view .cky-media {
+    padding-left: 60px;
+}
+
+.cky-fast-goods .cky-media-sub {
+	height: 20px;
+	line-height: 20px;
+}
+
+.cky-fast-goods-cell {
+	border-bottom: #FEEFEF solid 1px;
+	padding-bottom: 3px;
+}
+
+.cky-fast-goods-sub-cell{
+	padding-top: 3px;
+}
+
+.cky-fast-goods-sub-cell p{
+	padding: 0;
+	margin: 0;
+	font-size: 13px;
+}
+
+.mui-control-content {
+	min-height: 500px;
+}

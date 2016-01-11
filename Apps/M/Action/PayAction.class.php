@@ -10,6 +10,8 @@ namespace M\Action;
  */
 use Think\Controller;
 class PayAction extends BaseAction {
+	 
+	
 	public function index() {
 		$this->assign('title', "生活");
 		$this->assign('tabid', 'home');
@@ -19,75 +21,116 @@ class PayAction extends BaseAction {
 		$this->display();
 	}
 	public function notify() {
-		$this->assign('title', "生活");
-		$this->assign('tabid', 'home');
-		$this->display();
+		//使用通用通知接口
+	$notify = new \Notify_pub();
+	
+	//存储微信的回调
+	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+	$notify->saveData($xml);
+	
+	//验证签名，并回应微信。
+	//对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
+	//微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
+	//尽可能提高通知的成功率，但微信不保证通知最终能成功。
+	if($notify->checkSign() == FALSE){
+	    $notify->setReturnParameter("return_code","FAIL");//返回状态码
+	    $notify->setReturnParameter("return_msg","签名失败");//返回信息
+	}else{
+	    $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
 	}
+	$returnXml = $notify->returnXml();
+	echo $returnXml;
 	
-	public function jsapi() {
-		vendor( "WxJsApi.init");
-		
-//		\Pingpp\Pingpp::setApiKey('sk_test_48SSW5e1GqDKv9qnP8vLevLC');
-//      try {
-//			$ch = \Pingpp\Charge::create(array('subject' => 'Your Subject', 'body' => 'Your Body', 'amount' => $amount, 'order_no' => $orderNo, 'currency' => 'cny', 'extra' => $extra, 'channel' => $channel,
-           
-		   
-		//error_reporting(E_ERROR);
-//		require_once "../lib/WxPay.Api.php";
-//		require_once "WxPay.JsApiPay.php";
-//		require_once 'log.php';
-		
-		//初始化日志
-//		$logHandler= new CLogFileHandler("../logs/".date('Y-m-d').'.log');
-//		$log = Log::Init($logHandler, 15);
-
-
-
-	//①、获取用户openid
-	$tools = new \JsApiPay();
-	$openId = $tools->GetOpenid();
+	//==商户根据实际情况设置相应的处理流程，此处仅作举例=======
 	
-	//②、统一下单
-	$input = new WxPayUnifiedOrder();
-	$input->SetBody("test");
-	$input->SetAttach("test");
-	$input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
-	$input->SetTotal_fee("1");
-	$input->SetTime_start(date("YmdHis"));
-	$input->SetTime_expire(date("YmdHis", time() + 600));
-	$input->SetGoods_tag("test");
-	$input->SetNotify_url("http://paysdk.weixin.qq.com/example/notify.php");
-	$input->SetTrade_type("JSAPI");
-	$input->SetOpenid($openId);
-	$order = WxPayApi::unifiedOrder($input);
-	echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
-	$this->printf_info($order);
-	$jsApiParameters = $tools->GetJsApiParameters($order);
+	//以log文件形式记录回调信息
+	//         $log_ = new Log_();
+	$log_name= __ROOT__."/Public/notify_url.log";//log文件路径
 	
-	//获取共享收货地址js函数参数
-	$editAddress = $tools->GetEditAddressParameters();
-	
-	//③、在支持成功回调通知中处理成功之后的事宜，见 notify.php
-	/**
-	 * 注意：
-	 * 1、当你的回调地址不可访问的时候，回调通知会失败，可以通过查询订单来确认支付是否成功
-	 * 2、jsapi支付时需要填入用户openid，WxPay.JsApiPay.php中有获取openid流程 （文档可以参考微信公众平台“网页授权接口”，
-	 * 参考http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html）
-	 */
-		   
-		   
-		$this->display();
-	}
+	log_result($log_name,"【接收到的notify通知】:\n".$xml."\n");
 
-	//打印输出数组信息
-	function printf_info($data)
+	if($notify->checkSign() == TRUE)
 	{
-	    foreach($data as $key=>$value){
-        echo "<font color='#00ff55;'>$key</font> : $value <br/>";
-    }
-		
-		
-		
-}
+	    if ($notify->data["return_code"] == "FAIL") {
+	        //此处应该更新一下订单状态，商户自行增删操作
+	        log_result($log_name,"【通信出错】:\n".$xml."\n");
+	    }
+	    elseif($notify->data["result_code"] == "FAIL"){
+	        //此处应该更新一下订单状态，商户自行增删操作
+	        log_result($log_name,"【业务出错】:\n".$xml."\n");
+	    }
+	    else{
+	        //此处应该更新一下订单状态，商户自行增删操作
+	        log_result($log_name,"【支付成功】:\n".$xml."\n");
+	    }
+	}
+    //商户自行增加处理流程,
+    //例如：更新订单状态
+    //例如：数据库操作
+    //例如：推送支付完成信息
+    
+		$this->display();
+	}
 	
+	public function wxpay() {
+		vendor('WxPayPubHelper.WxPayPubHelper');
+			 
+		
+		
+	 	$jsApi = new \JsApi_pub();
+		if(!isset($_GET['code']))
+		{
+			//new	\WxPayConf_pub(C('WxPayConf_pub'));
+			//触发微信返回code码
+			//$url = $jsApi->createOauthUrlForCode(C('WxPayConf_pub.JS_API_CALL_URL'));
+			$url = $jsApi->createOauthUrlForCode("http://cky.ritacc.net/index.php/M/Pay/wxpay");
+			Header("Location: $url");
+		}
+		else
+		{
+			//获取code码，以获取openid
+			$code = $_GET['code'];
+			$jsApi->setCode($code);
+			$openid = $jsApi->getOpenId();
+		}
+		//=========步骤2：使用统一支付接口，获取prepay_id============
+		//使用统一支付接口
+		$unifiedOrder = new \UnifiedOrder_pub();
+		//设置统一支付接口参数
+		//设置必填参数
+		//appid已填,商户无需重复填写
+		//mch_id已填,商户无需重复填写
+		//noncestr已填,商户无需重复填写
+		//spbill_create_ip已填,商户无需重复填写
+		//sign已填,商户无需重复填写
+		$unifiedOrder->setParameter("openid",$openid);//商品描述
+		$unifiedOrder->setParameter("body","贡献一分钱");//商品描述
+		//自定义订单号，此处仅作举例
+		$timeStamp = time();
+		$out_trade_no = C('WxPayConf_pub.APPID').$timeStamp;
+		$unifiedOrder->setParameter("out_trade_no",$out_trade_no);//商户订单号
+		$unifiedOrder->setParameter("total_fee","1");//总金额
+		$unifiedOrder->setParameter("notify_url",C('WxPayConf_pub.NOTIFY_URL'));//通知地址
+		$unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
+		//非必填参数，商户可根据实际情况选填
+		//$unifiedOrder->setParameter("sub_mch_id","XXXX");//子商户号
+		//$unifiedOrder->setParameter("device_info","XXXX");//设备号
+		//$unifiedOrder->setParameter("attach","XXXX");//附加数据
+		//$unifiedOrder->setParameter("time_start","XXXX");//交易起始时间
+		//$unifiedOrder->setParameter("time_expire","XXXX");//交易结束时间
+		//$unifiedOrder->setParameter("goods_tag","XXXX");//商品标记
+		//$unifiedOrder->setParameter("openid","XXXX");//用户标识
+		//$unifiedOrder->setParameter("product_id","XXXX");//商品ID
+		
+		$prepay_id = $unifiedOrder->getPrepayId();
+		//=========步骤3：使用jsapi调起支付============
+		$jsApi->setPrepayId($prepay_id);
+		$jsApiParameters = $jsApi->getParameters();
+		$this->assign('jsApiParameters',$jsApiParameters);
+		$this->display();
+	}
+
+	 
+
+ 
 }

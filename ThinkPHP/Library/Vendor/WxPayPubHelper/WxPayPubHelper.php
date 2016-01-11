@@ -676,13 +676,14 @@ class JsApi_pub extends Common_util_pub {
 	 * 作用：生成可以获得code的url
 	 */
 	function createOauthUrlForCode($redirectUrl) {
-		$urlObj ["appid"] = WxPayConf_pub::$APPID;
+		//$urlObj ["appid"] = WxPayConf_pub::$APPID;
+		WxPayConf_pub::$APPID= "wx426b3015555a46be";
 		$urlObj ["redirect_uri"] = "$redirectUrl";
 		$urlObj ["response_type"] = "code";
 		$urlObj ["scope"] = "snsapi_base";
 		$urlObj ["state"] = "STATE" . "#wechat_redirect";
 		$bizString = $this->formatBizQueryParaMap ( $urlObj, false );
-		return "https://open.weixin.qq.com/connect/oauth2/authorize?" . $bizString;
+		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx426b3015555a46be" . $bizString;
 	}
 	
 	/**
@@ -814,7 +815,9 @@ class Redpack_pub extends Wxpay_client_pub {
 	 * 作用：生成可以获得code的url
 	 */
 	function createOauthUrlForCode($redirectUrl) {
-		$urlObj ["appid"] = WxPayConf_pub::$APPID;
+		WxPayConf_pub::$APPID= "wx426b3015555a46be";
+		
+		$urlObj ["appid"] = "wx426b3015555a46be";//WxPayConf_pub::$APPID;
 		$urlObj ["redirect_uri"] = "$redirectUrl";
 		$urlObj ["response_type"] = "code";
 		$urlObj ["scope"] = "snsapi_base";
@@ -871,6 +874,7 @@ class Redpack_pub extends Wxpay_client_pub {
  * 
  * @author gaoyl101
  */
+ /*
 class Groupredpack_pub extends Wxpay_client_pub {
 	var $code; // code码，用以获取openid
 	var $openid; // 用户的openid
@@ -884,96 +888,96 @@ class Groupredpack_pub extends Wxpay_client_pub {
 	/**
 	 * 生成接口参数xml
 	 */
-	function createXml() {
-		try {
-			// 检测必填参数
-			if ($this->parameters ["mch_billno"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数mch_billno！" . "<br>" );
-			} elseif ($this->parameters ["send_name"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数send_name！" . "<br>" );
-			} elseif ($this->parameters ["total_amount"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数total_amount！" . "<br>" );
-			} elseif ($this->parameters ["total_num"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数total_num！" . "<br>" );
-			} elseif ($this->parameters ["amt_type"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数amt_type！" . "<br>" );
-			} elseif ($this->parameters ["wishing"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数wishing！" . "<br>" );
-			} elseif ($this->parameters ["act_name"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数act_name！" . "<br>" );
-			} elseif ($this->parameters ["remark"] == null) {
-				throw new SDKRuntimeException ( "缺少发红包接口必填参数remark！" . "<br>" );
-			}
-			$this->parameters ["wxappid"] = WxPayConf_pub::$APPID; // 公众账号ID
-			$this->parameters ["mch_id"] = WxPayConf_pub::$MCHID; // 商户号
-			$this->parameters ["nonce_str"] = $this->createNoncestr (); // 随机字符串
-			$this->parameters ["re_openid"] = $this->openid; // 用户openid
-			$this->parameters ["sign"] = $this->getSign ( $this->parameters ); // 签名
-			return $this->arrayToXml ( $this->parameters );
-		} catch ( SDKRuntimeException $e ) {
-			die ( $e->errorMessage () );
-		}
-	}
-	function sendRedpack() {
-		$this->postXmlSSL ();
-		$this->result = $this->xmlToArray ( $this->response );
-		return $this->result;
-	}
+//	function createXml() {
+//		try {
+//			// 检测必填参数
+//			if ($this->parameters ["mch_billno"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数mch_billno！" . "<br>" );
+//			} elseif ($this->parameters ["send_name"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数send_name！" . "<br>" );
+//			} elseif ($this->parameters ["total_amount"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数total_amount！" . "<br>" );
+//			} elseif ($this->parameters ["total_num"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数total_num！" . "<br>" );
+//			} elseif ($this->parameters ["amt_type"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数amt_type！" . "<br>" );
+//			} elseif ($this->parameters ["wishing"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数wishing！" . "<br>" );
+//			} elseif ($this->parameters ["act_name"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数act_name！" . "<br>" );
+//			} elseif ($this->parameters ["remark"] == null) {
+//				throw new SDKRuntimeException ( "缺少发红包接口必填参数remark！" . "<br>" );
+//			}
+//			$this->parameters ["wxappid"] = WxPayConf_pub::$APPID; // 公众账号ID
+//			$this->parameters ["mch_id"] = WxPayConf_pub::$MCHID; // 商户号
+//			$this->parameters ["nonce_str"] = $this->createNoncestr (); // 随机字符串
+//			$this->parameters ["re_openid"] = $this->openid; // 用户openid
+//			$this->parameters ["sign"] = $this->getSign ( $this->parameters ); // 签名
+//			return $this->arrayToXml ( $this->parameters );
+//		} catch ( SDKRuntimeException $e ) {
+//			die ( $e->errorMessage () );
+//		}
+//	}
+//	function sendRedpack() {
+//		$this->postXmlSSL ();
+//		$this->result = $this->xmlToArray ( $this->response );
+//		return $this->result;
+//	}
 	
 	/**
 	 * 作用：生成可以获得code的url
 	 */
-	function createOauthUrlForCode($redirectUrl) {
-		$urlObj ["appid"] = WxPayConf_pub::$APPID;
-		$urlObj ["redirect_uri"] = "$redirectUrl";
-		$urlObj ["response_type"] = "code";
-		$urlObj ["scope"] = "snsapi_base";
-		$urlObj ["state"] = "STATE" . "#wechat_redirect";
-		$bizString = $this->formatBizQueryParaMap ( $urlObj, false );
-		return "https://open.weixin.qq.com/connect/oauth2/authorize?" . $bizString;
-	}
+//	function createOauthUrlForCode($redirectUrl) {
+//		//$urlObj ["appid"] ="wx426b3015555a46be";// WxPayConf_pub::$APPID;
+//		$urlObj ["redirect_uri"] = "$redirectUrl";
+//		$urlObj ["response_type"] = "code";
+//		$urlObj ["scope"] = "snsapi_base";
+//		$urlObj ["state"] = "STATE" . "#wechat_redirect";
+//		$bizString = $this->formatBizQueryParaMap ( $urlObj, false );
+//		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx426b3015555a46be" . $bizString;
+//	}
 	
 	/**
 	 * 作用：生成可以获得openid的url
 	 */
-	function createOauthUrlForOpenid() {
-		$urlObj ["appid"] = WxPayConf_pub::$APPID;
-		$urlObj ["secret"] = WxPayConf_pub::$APPSECRET;
-		$urlObj ["code"] = $this->code;
-		$urlObj ["grant_type"] = "authorization_code";
-		$bizString = $this->formatBizQueryParaMap ( $urlObj, false );
-		return "https://api.weixin.qq.com/sns/oauth2/access_token?" . $bizString;
-	}
+//	function createOauthUrlForOpenid() {
+//		$urlObj ["appid"] = WxPayConf_pub::$APPID;
+//		$urlObj ["secret"] = WxPayConf_pub::$APPSECRET;
+//		$urlObj ["code"] = $this->code;
+//		$urlObj ["grant_type"] = "authorization_code";
+//		$bizString = $this->formatBizQueryParaMap ( $urlObj, false );
+//		return "https://api.weixin.qq.com/sns/oauth2/access_token?" . $bizString;
+//	}
 	
 	/**
 	 * 作用：通过curl向微信提交code，以获取openid
 	 */
-	function getOpenid() {
-		$url = $this->createOauthUrlForOpenid ();
-		// 初始化curl
-		$ch = curl_init ();
-		// 设置超时
-		curl_setopt ( $ch, CURLOPT_TIMEOUT, $this->curl_timeout );
-		curl_setopt ( $ch, CURLOPT_URL, $url );
-		curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, FALSE );
-		curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, FALSE );
-		curl_setopt ( $ch, CURLOPT_HEADER, FALSE );
-		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, TRUE );
-		// 运行curl，结果以jason形式返回
-		$res = curl_exec ( $ch );
-		curl_close ( $ch );
-		// 取出openid
-		$data = json_decode ( $res, true );
-		$this->openid = $data ['openid'];
-		return $this->openid;
-	}
+//	function getOpenid() {
+//		$url = $this->createOauthUrlForOpenid ();
+//		// 初始化curl
+//		$ch = curl_init ();
+//		// 设置超时
+//		curl_setopt ( $ch, CURLOPT_TIMEOUT, $this->curl_timeout );
+//		curl_setopt ( $ch, CURLOPT_URL, $url );
+//		curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, FALSE );
+//		curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, FALSE );
+//		curl_setopt ( $ch, CURLOPT_HEADER, FALSE );
+//		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+//		// 运行curl，结果以jason形式返回
+//		$res = curl_exec ( $ch );
+//		curl_close ( $ch );
+//		// 取出openid
+//		$data = json_decode ( $res, true );
+//		$this->openid = $data ['openid'];
+//		return $this->openid;
+//	}
 	
 	/**
 	 * 作用：设置code
 	 */
-	function setCode($code_) {
-		$this->code = $code_;
-	}
-}
-
+//	function setCode($code_) {
+//		$this->code = $code_;
+//	}
+//}
+ 
 ?>

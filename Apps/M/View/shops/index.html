@@ -52,7 +52,6 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?21"></script>
 <script type="text/javascript" src="__JS__/drop-menus.js?11"></script>
 <script type="text/javascript" src="__KO__"></script>
 
@@ -83,8 +82,8 @@
 			currentLongitude = lng;
 			currentLatitude = lat;
 			if(city) {
-				$("#cityLabel").text(city);
-				currentCity = city;
+				$("#cityLabel").text(city.replace(/市$/, ""));
+				currentCity = city.replace(/市$/, "");
 			}
 			force = true;
 			queryByPage();
@@ -102,7 +101,7 @@
 			var _pageNo = pageNo;
 			if(!isEOF) {
 				$.getJSON("{:U('shops/page')}", {
-					pageNo: pageNo,
+					pageNo: _pageNo,
 					catId: catId,
 					areaId: areaId,
 					distance: distance,
@@ -114,7 +113,7 @@
 						$("#shopsLoading").hide();
 						$("#shopsList").removeClass("mui-hidden");
 					}
-					pageNo = _pageNo++;
+					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
 						$.each(list, function() {
 							shops.push(this);
@@ -122,13 +121,15 @@
 					}
 					vm(shops);
 					
-					if(list && list.length < 10) {
+					if(list && list.length < 12) {
 						isEOF = true;
 					}
 				});
 			}
 		}
 		queryByPage();
+		
+		util.onScrollEnd(queryByPage);
 		
 		// 加载行业
 		$("#catsButton").dropMenu({
@@ -151,7 +152,7 @@
 			idProperty: "areaId",
 			nameProperty: "areaName",
 			parentIdProperty: "areaName",
-			parentId: function() { return currentCity + "市"; },
+			parentId: function() { return currentCity; },
 			callback: function(evt) {
 				areaId = evt.areaId;
 				force = true;

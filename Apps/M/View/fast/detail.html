@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="__CSS__/fast.css" />
 <header class="cky-header">
-	<div class="cky-header-bg" style="background-image: url(/{$data.shopImg});"></div>
-	<div>
+	<div class="cky-header-bg" style="background-image: url(__IMG__/fast-shop-bg.jpg);"></div>
+	<div class="cky-header-nav">
 		<button class="cky-back mui-btn mui-btn-link mui-pull-left"><i class="mui-icon mui-icon-left-nav"></i></button>
 		<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-love"></i></button>
 		<div class="cky-clearfix"></div>
@@ -20,3 +20,51 @@
 		</div>
 	</div>
 </header>
+<div id="slider" class="mui-slider cky-margin-header">
+	<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+		<a class="mui-control-item mui-active" href="#item1mobile">点菜</a>
+		<a class="mui-control-item" href="#item2mobile">评价</a>
+		<a class="mui-control-item" href="#item3mobile">商家详情</a>
+	</div>
+	<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+	<div class="mui-slider-group">
+		<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+			<ul id="shopsCatsList" class="cky-fast-cat">
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+			</ul>
+			<ul class="cky-fast-goods">
+				<li class="cky-fast-goods-cell">
+					
+				</li>
+			</ul>
+		</div>
+		<div id="item2mobile" class="mui-slider-item mui-control-content">
+			<div class="mui-content-padded"></div>
+		</div>
+		<div id="item3mobile" class="mui-slider-item mui-control-content">
+			<!-- 相关产品 -->
+			<div class="mui-content-padded">
+				
+			</div>
+			<!-- 相关产品end -->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="__JS__/mui.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	$(function() {
+		var cats = [];
+		// 加载分类
+		$.getJSON("{:U('Fast/cats')}", { shopId: util.i("id") }, function(list) {
+			list = list || [];
+			list.unshift({  catName: "畅销排行", catId: 0 });
+			ko.applyBindings(list, document.getElementById("shopsCatsList"));
+			$("#shopsCatsList li:first-child").addClass("cky-active");
+			cats = list;
+		});
+	});
+</script>

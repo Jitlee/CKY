@@ -14,16 +14,17 @@ util = {
 	/**
 	 * body滚动到底部时触发 
 	 * @param {Function} callback 回调函数
-	 * @param {Number} threshold 阀值，默认为50
+	 * @param {Number} threshold 阀值，默认为200
 	 * @return {Object} 句柄
 	 */
 	onScrollEnd: function(callback, threshold) {
-		var threshold = threshold || 100;
+		var threshold = threshold || 200;
 		var timeHandler = null;
-		var onscrollendfunction = function() {
-			window.clearTimeout(timeHandler);
+		var onscrollend = function() {
 			if ($(window).scrollTop() + $(window).height() + threshold > $(document).height()) {
-       			var timeHandler = window.setTimeout(callback, 300);
+				console.info("滚动到了底部");
+				window.clearTimeout(timeHandler);
+       			timeHandler = window.setTimeout(callback, 300);
 			}
 		}
 		$(document).bind("scroll", onscrollend);

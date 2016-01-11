@@ -52,7 +52,7 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?21"></script>
+<script type="text/javascript" src="__JS__/geo.location.js?22"></script>
 <script type="text/javascript" src="__JS__/drop-menus.js?11"></script>
 <script type="text/javascript" src="__KO__"></script>
 
@@ -115,7 +115,7 @@
 						$("#shopsLoading").hide();
 						$("#shopsList").removeClass("mui-hidden");
 					}
-					pageNo = _pageNo++;
+					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
 						$.each(list, function() {
 							shops.push(this);
@@ -130,6 +130,6 @@
 			}
 		}
 		queryByPage();
-		
+		util.onScrollEnd(queryByPage);
 	});
 </script>

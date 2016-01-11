@@ -456,3 +456,34 @@ a.cky-segmented-item {
 	right: 8px;
 	top: 8px;
 }
+
+/** 指数 **/
+.cky-zhishu {
+	display: inline-block;
+	height: 20px;
+	background-repeat: repeat-x;
+	background-size: 20px;
+	background-position: 0 50%;
+	background-image: url(../images/zhishu.png);
+	vertical-align: top;
+}
+
+.cky-zhishu1 {
+	width: 20px;
+}
+
+.cky-zhishu2 {
+	width: 40px;
+}
+
+.cky-zhishu3 {
+	width: 60px;
+}
+
+.cky-zhishu4 {
+	width: 80px;
+}
+
+.cky-zhishu5 {
+	width: 100px;
+}

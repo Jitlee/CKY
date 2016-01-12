@@ -676,14 +676,14 @@ class JsApi_pub extends Common_util_pub {
 	 * 作用：生成可以获得code的url
 	 */
 	function createOauthUrlForCode($redirectUrl) {
-		//$urlObj ["appid"] = WxPayConf_pub::$APPID;
-		WxPayConf_pub::$APPID= "wx426b3015555a46be";
+		$urlObj ["appid"] = WxPayConf_pub::$APPID;
+		//WxPayConf_pub::$APPID= "wx06dcafb051f5e21f";
 		$urlObj ["redirect_uri"] = "$redirectUrl";
 		$urlObj ["response_type"] = "code";
 		$urlObj ["scope"] = "snsapi_base";
 		$urlObj ["state"] = "STATE" . "#wechat_redirect";
 		$bizString = $this->formatBizQueryParaMap ( $urlObj, false );
-		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx426b3015555a46be" . $bizString;
+		return "https://open.weixin.qq.com/connect/oauth2/authorize?" . $bizString;
 	}
 	
 	/**
@@ -815,9 +815,8 @@ class Redpack_pub extends Wxpay_client_pub {
 	 * 作用：生成可以获得code的url
 	 */
 	function createOauthUrlForCode($redirectUrl) {
-		WxPayConf_pub::$APPID= "wx426b3015555a46be";
-		
-		$urlObj ["appid"] = "wx426b3015555a46be";//WxPayConf_pub::$APPID;
+		//WxPayConf_pub::$APPID= "wx426b3015555a46be";		
+		$urlObj ["appid"] = WxPayConf_pub::$APPID;
 		$urlObj ["redirect_uri"] = "$redirectUrl";
 		$urlObj ["response_type"] = "code";
 		$urlObj ["scope"] = "snsapi_base";

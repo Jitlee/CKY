@@ -20,26 +20,27 @@ class WxPayConf_pub {
 	
 	public function __construct($wxpayconfig = array()) {
 		
-//		self::$APPID = $wxpayconfig['APPID'];
-//		self::$APPSECRET = $wxpayconfig['APPSECRET'];
-//		self::$MCHID = $wxpayconfig['MCHID'];
-//		self::$KEY = $wxpayconfig['KEY'];
-//		self::$JS_API_CALL_URL = $wxpayconfig['JS_API_CALL_URL'];
-//		self::$CURL_TIMEOUT = $wxpayconfig['CURL_TIMEOUT'];
-//		self::$SSLCERT_PATH = $wxpayconfig['SSLCERT_PATH'];
-//		self::$SSLKEY_PATH = $wxpayconfig['SSLKEY_PATH'];
-//		self::$NOTIFY_URL = $wxpayconfig['NOTIFY_URL'];
-//		self::$RETURN_URL = $wxpayconfig['returnurl'];
-		self::$APPID = "wx426b3015555a46be";
-		self::$APPSECRET = "01c6d59a3f9024db6336662ac95c8e74";
-		self::$MCHID ="1292995201";
-		self::$KEY = "e10adc3949ba59abbe56e057f20f883e";
-		self::$JS_API_CALL_URL = "http://cky.ritacc.net/index.php/M/Pay/wxpay";
-		self::$CURL_TIMEOUT = 30;
-		self::$SSLCERT_PATH = "/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_cert.pem";
-		self::$SSLKEY_PATH = "/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_key.pem";
-		self::$NOTIFY_URL = "http://cky.ritacc.net/index.php/M/Pay/notify";
-		self::$RETURN_URL = "http://cky.ritacc.net/index.php/M/Pay/wxpay";
+		self::$APPID = $wxpayconfig['APPID'];
+		self::$APPSECRET = $wxpayconfig['APPSECRET'];
+		self::$MCHID = $wxpayconfig['MCHID'];
+		self::$KEY = $wxpayconfig['KEY'];
+		self::$JS_API_CALL_URL = $wxpayconfig['JS_API_CALL_URL'];
+		self::$CURL_TIMEOUT = $wxpayconfig['CURL_TIMEOUT'];
+		self::$SSLCERT_PATH = $wxpayconfig['SSLCERT_PATH'];
+		self::$SSLKEY_PATH = $wxpayconfig['SSLKEY_PATH'];
+		self::$NOTIFY_URL = $wxpayconfig['NOTIFY_URL'];
+		self::$RETURN_URL = $wxpayconfig['returnurl'];
+		
+//		self::$APPID = "wx426b3015555a46be";
+//		self::$APPSECRET = "01c6d59a3f9024db6336662ac95c8e74";
+//		self::$MCHID ="1292995201";
+//		self::$KEY = "e10adc3949ba59abbe56e057f20f883e";
+//		self::$JS_API_CALL_URL = "http://cky.ritacc.net/index.php/M/Pay/wxpay";
+//		self::$CURL_TIMEOUT = 30;
+//		self::$SSLCERT_PATH = "/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_cert.pem";
+//		self::$SSLKEY_PATH = "/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_key.pem";
+//		self::$NOTIFY_URL = "http://cky.ritacc.net/index.php/M/Pay/notify";
+//		self::$RETURN_URL = "http://cky.ritacc.net/index.php/M/Pay/wxpay";
 		
 	}
 	

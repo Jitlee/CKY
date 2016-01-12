@@ -25,7 +25,7 @@ class XMLParse
 			$tousername = $array_a->item(0)->nodeValue;
 			return array(0, $encrypt, $tousername);
 		} catch (Exception $e) {
-			print $e . "\n";
+			//print $e . "\n";
 			return array(ErrorCode::$ParseXmlError, null, null);
 		}
 	}

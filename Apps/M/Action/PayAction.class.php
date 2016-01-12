@@ -11,79 +11,97 @@ namespace M\Action;
 use Think\Controller;
 class PayAction extends BaseAction {
 	 
+	public function __construct(){
+		vendor('WxPayPubHelper.WxPayPubHelper');
+	}
 	
 	public function index() {
 		$this->assign('title', "生活");
 		$this->assign('tabid', 'home');
 		 
-		 
 		
 		$this->display();
 	}
-	public function notify() {
+	public function paynotify() {
 		//使用通用通知接口
-	$notify = new \Notify_pub();
+		$notify = new \Notify_pub();
+		
+		//存储微信的回调
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		$notify->saveData($xml);
+		
+		//验证签名，并回应微信。
+		//对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
+		//微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
+		//尽可能提高通知的成功率，但微信不保证通知最终能成功。
+		if($notify->checkSign() == FALSE){
+		    $notify->setReturnParameter("return_code","FAIL");//返回状态码
+		    $notify->setReturnParameter("return_msg","签名失败");//返回信息
+		}else{
+		    $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
+		}
+		$returnXml = $notify->returnXml();
+		echo $returnXml;
+		
+		//==商户根据实际情况设置相应的处理流程，此处仅作举例=======
+		
+		//以log文件形式记录回调信息
+		//         $log_ = new Log_();
+		$log_name= __ROOT__."/Public/notify_url.log";//log文件路径
+		
+		log_result($log_name,"【接收到的notify通知】:\n".$xml."\n");
 	
-	//存储微信的回调
-	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-	$notify->saveData($xml);
-	
-	//验证签名，并回应微信。
-	//对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
-	//微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
-	//尽可能提高通知的成功率，但微信不保证通知最终能成功。
-	if($notify->checkSign() == FALSE){
-	    $notify->setReturnParameter("return_code","FAIL");//返回状态码
-	    $notify->setReturnParameter("return_msg","签名失败");//返回信息
-	}else{
-	    $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
-	}
-	$returnXml = $notify->returnXml();
-	echo $returnXml;
-	
-	//==商户根据实际情况设置相应的处理流程，此处仅作举例=======
-	
-	//以log文件形式记录回调信息
-	//         $log_ = new Log_();
-	$log_name= __ROOT__."/Public/notify_url.log";//log文件路径
-	
-	log_result($log_name,"【接收到的notify通知】:\n".$xml."\n");
-
-	if($notify->checkSign() == TRUE)
-	{
-	    if ($notify->data["return_code"] == "FAIL") {
-	        //此处应该更新一下订单状态，商户自行增删操作
-	        log_result($log_name,"【通信出错】:\n".$xml."\n");
-	    }
-	    elseif($notify->data["result_code"] == "FAIL"){
-	        //此处应该更新一下订单状态，商户自行增删操作
-	        log_result($log_name,"【业务出错】:\n".$xml."\n");
-	    }
-	    else{
-	        //此处应该更新一下订单状态，商户自行增删操作
-	        log_result($log_name,"【支付成功】:\n".$xml."\n");
-	    }
-	}
-    //商户自行增加处理流程,
-    //例如：更新订单状态
-    //例如：数据库操作
-    //例如：推送支付完成信息
+		if($notify->checkSign() == TRUE)
+		{
+		    if ($notify->data["return_code"] == "FAIL") {
+		        //此处应该更新一下订单状态，商户自行增删操作
+		        log_result($log_name,"【通信出错】:\n".$xml."\n");
+		    }
+		    elseif($notify->data["result_code"] == "FAIL"){
+		        //此处应该更新一下订单状态，商户自行增删操作
+		        log_result($log_name,"【业务出错】:\n".$xml."\n");
+		    }
+		    else{
+		        //此处应该更新一下订单状态，商户自行增删操作
+		        log_result($log_name,"【支付成功】:\n".$xml."\n");
+		    }
+		}
+	    //商户自行增加处理流程,
+	    //例如：更新订单状态
+	    //例如：数据库操作
+	    //例如：推送支付完成信息
     
 		$this->display();
 	}
 	
 	public function wxpay() {
-		vendor('WxPayPubHelper.WxPayPubHelper');
-			 
 		
+//			 $appid = "wx9c7c9bb54952b54d";
+//			$secret = "d4624c36b6795d1d99dcf0547af5443d";
+		
+		$WEB_HOST='cky.ritacc.net';
+		$WxPayConf_pub=array(
+			'APPID' => 'wx06dcafb051f5e21f',
+			'MCHID' => '1292995201',
+			'KEY' => 'e10adc3949ba59abbe56e057f20f883e',
+			'APPSECRET' => '01c6d59a3f9024db6336662ac95c8e74',
+			'JS_API_CALL_URL'	=> WEB_HOST.'/index.php/M/Pay/wxpay',
+			'SSLCERT_PATH'		=> WEB_HOST.'/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_cert.pem',
+			'SSLKEY_PATH'		=> WEB_HOST.'/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_key.pem',
+			'NOTIFY_URL'		=> WEB_HOST.'/index.php/M/Pay/paynotify',
+			'CURL_TIMEOUT'		=> 30
+			);
 		
 	 	$jsApi = new \JsApi_pub();
 		if(!isset($_GET['code']))
 		{
-			//new	\WxPayConf_pub(C('WxPayConf_pub'));
+			new	\WxPayConf_pub($WxPayConf_pub);
+			
 			//触发微信返回code码
-			//$url = $jsApi->createOauthUrlForCode(C('WxPayConf_pub.JS_API_CALL_URL'));
-			$url = $jsApi->createOauthUrlForCode("http://cky.ritacc.net/index.php/M/Pay/wxpay");
+			$url = $jsApi->createOauthUrlForCode(urlencode($WxPayConf_pub["JS_API_CALL_URL"]));
+			//$url = $jsApi->createOauthUrlForCode("http://cky.ritacc.net/index.php/M/Pay/wxpay");
+//			echo $url;
+//			exit;
 			Header("Location: $url");
 		}
 		else

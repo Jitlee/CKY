@@ -43,7 +43,7 @@ class PKCS7Encoder
 	{
 
 		$pad = ord(substr($text, -1));
-		if ($pad < 1 || $pad > PKCS7Encoder::$block_size) {
+		if ($pad < 1 || $pad > 32) {
 			$pad = 0;
 		}
 		return substr($text, 0, (strlen($text) - $pad));
@@ -70,13 +70,13 @@ class Prpcrypt
 	 * @param string $text 需要加密的明文
 	 * @return string 加密后的密文
 	 */
-	public function encrypt($text, $corpid)
+	public function encrypt($text, $appid)
 	{
 
 		try {
 			//获得16位随机字符串，填充到明文之前
 			$random = $this->getRandomStr();
-			$text = $random . pack("N", strlen($text)) . $text . $corpid;
+			$text = $random . pack("N", strlen($text)) . $text . $appid;
 			// 网络字节序
 			$size = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 			$module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
@@ -94,7 +94,7 @@ class Prpcrypt
 			//使用BASE64对加密后的字符串进行编码
 			return array(ErrorCode::$OK, base64_encode($encrypted));
 		} catch (Exception $e) {
-			print $e;
+			//print $e;
 			return array(ErrorCode::$EncryptAESError, null);
 		}
 	}
@@ -104,7 +104,7 @@ class Prpcrypt
 	 * @param string $encrypted 需要解密的密文
 	 * @return string 解密得到的明文
 	 */
-	public function decrypt($encrypted, $corpid)
+	public function decrypt($encrypted, $appid)
 	{
 
 		try {
@@ -134,13 +134,13 @@ class Prpcrypt
 			$len_list = unpack("N", substr($content, 0, 4));
 			$xml_len = $len_list[1];
 			$xml_content = substr($content, 4, $xml_len);
-			$from_corpid = substr($content, $xml_len + 4);
+			$from_appid = substr($content, $xml_len + 4);
 		} catch (Exception $e) {
-			print $e;
+			//print $e;
 			return array(ErrorCode::$IllegalBuffer, null);
 		}
-		if ($from_corpid != $corpid)
-			return array(ErrorCode::$ValidateCorpidError, null);
+		if ($from_appid != $appid)
+			return array(ErrorCode::$ValidateAppidError, null);
 		return array(0, $xml_content);
 
 	}

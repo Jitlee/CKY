@@ -54,3 +54,12 @@ function logger($log_content)
     }
 }
 
+/**
+ * 掩码手机号:138****8888
+ */
+function maskPhone($phone) {
+	$pattern = '/^(\d{3})\d{4}(\d+)$/';
+	$replacement = '$1****$2';
+	return preg_replace($pattern, $replacement, $phone);
+}
+

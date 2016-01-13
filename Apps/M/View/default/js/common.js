@@ -28,6 +28,7 @@ var cky = {
 		setItem: function(key, item, expires) {
 			var data = item;
 			if(expires > 0) {
+				data = {};
 				data.item = item;
 				data.expires = expires;
 				data.time = new Date().getTime();

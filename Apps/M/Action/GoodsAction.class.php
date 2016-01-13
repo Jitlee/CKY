@@ -32,6 +32,7 @@ class GoodsAction extends BaseAction {
 		$data = $m->detail(1);
 		$this->assign('data', $data);
 		$this->assign('title', $data['goodsName']);
+//		echo $m->getLastSql();
 		$this->display();
 	}
 	

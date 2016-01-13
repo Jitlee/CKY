@@ -54,12 +54,12 @@ class ShopsModel extends BaseModel {
 	  */
 	 public function detail() {
 	 	$shopId = I('id');
-		return $this->field('shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, latitude,longitude, mapLevel, shopDesc')
+		return $this->field('shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc')
 			->find($shopId);
 	 }
 
 	public function fast() {
-		$pageSize = 10;
+		$pageSize = 10000; // 不需要翻页
 		$pageNo = intval(I('pageNo', 1));
 		$catId = intval(I('catId', 0));
 		$areaId = intval(I('areaId', 0));
@@ -81,7 +81,7 @@ class ShopsModel extends BaseModel {
 		}
 		
 		$field = array('cky_shops.shopId','shopSn','shopName','shopImg','shopTel',
-			'deliveryStartMoney', 'deliveryCostTime', 'deliveryMoney',
+			'deliveryStartMoney', 'deliveryCostTime', 'deliveryMoney', 'deliveryFreeMoney',
 			'totalScore', 'totalUsers',
 			'latitude','longitude','deliveryOff','shopAddress');
 		if($lng > 0 && $lat > 0) {

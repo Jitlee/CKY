@@ -28,10 +28,10 @@ class WxPayConfig
 //	const KEY = '';   //微信支付KEY，在开通API支付的时候自己设定的。
 //	const APPSECRET = '';  //APPSECRET，公从号开发里面可以获取
 	
-	const APPID = 'wx426b3015555a46be';
+	const APPID = 'wx06dcafb051f5e21f';
 	const MCHID = '1292995201';
-	const KEY = 'e10adc3949ba59abbe56e057f20f883e';
-	const APPSECRET = '01c6d59a3f9024db6336662ac95c8e74';
+	const KEY = 'F39CA8630A1F402E984B99EC96D1ED68';
+	const APPSECRET = '0408887ca15441398695ddd0b70b9ff4';
 	//=======【证书路径设置】=====================================
 	/**
 	 * TODO：设置商户证书路径

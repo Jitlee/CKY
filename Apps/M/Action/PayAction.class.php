@@ -27,7 +27,7 @@ class PayAction extends BaseAction {
         $input = new \WxPayUnifiedOrder();
         $input->SetBody("test");
         $input->SetAttach($setattach);
-        $input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
+        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
         $input->SetTotal_fee($tfee);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
@@ -35,17 +35,15 @@ class PayAction extends BaseAction {
         $input->SetNotify_url("http://cky.ritacc.net/index.php/Weixinpays/notify/");   //支付回调地址，这里改成你自己的回调地址。
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
-        $order = WxPayApi::unifiedOrder($input);
-        $jsApiParameters = $tools->GetJsApiParameters($order);
-        $this->jsApiParameters=$jsApiParameters;
+        $order = \WxPayApi::unifiedOrder($input);
+		echo dump($order);
+//      $jsApiParameters = $tools->GetJsApiParameters($order);
+//      $this->jsApiParameters=$jsApiParameters;
         $this->display();
     }
 
-
-
     //回调
     Public function notify(){
-
         //这里没有去做回调的判断，可以参考手机做一个判断。
         $xmlObj=simplexml_load_string($GLOBALS['HTTP_RAW_POST_DATA']); //解析回调数据
 

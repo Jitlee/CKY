@@ -8,5 +8,5 @@
  * 跳去商家后台
  */ 
 
-header("Location:index.php/Home/Shops/login"); 
+header("Location:/index.php/Home/Shops/login"); 
 ?>

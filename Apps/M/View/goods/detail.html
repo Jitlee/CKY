@@ -10,7 +10,7 @@
 		商品详情
 	</h1>
 	<button class="mui-btn mui-btn-link mui-pull-right">
-		<i class="iconfont icon-empty-star font24"></i>
+		<i class="iconfont icon-favor font24"></i>
 	</button>
 </header>
 <div class="mui-content">
@@ -96,11 +96,13 @@
 				gallerys.push(this);
 			});
 			gallerysVM(gallerys);
-			var mySwiper = new Swiper ('.swiper-container', {
-		      direction: 'horizontal',
-		      pagination: '.swiper-pagination',
-		      loop: true
-		   });
+			if(gallerys.length > 1) {
+				var mySwiper = new Swiper ('.swiper-container', {
+				    direction: 'horizontal',
+				    pagination: '.swiper-pagination',
+				    loop: true
+		   		});
+		  	}
 		});
 	});
 </script>

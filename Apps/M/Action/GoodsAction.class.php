@@ -26,9 +26,18 @@ class GoodsAction extends BaseAction {
 		$this->display();
 	}
 	
-	public function gallerys() {
+	// 快餐商品详情
+	public function fast() {
 		$m = D('M/Goods');
-		$list = $m->gallerys();
+		$data = $m->detail(1);
+		$this->assign('data', $data);
+		$this->assign('title', $data['goodsName']);
+		$this->display();
+	}
+	
+	public function gallerys() {
+		$m = D('M/GoodsGallerys');
+		$list = $m->query();
 		$this->ajaxReturn($list, 'JSON');
 	}
 }

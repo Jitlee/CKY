@@ -9,7 +9,7 @@ namespace M\Action;
  * 首页（默认）控制器
  */
 use Think\Controller;
-class PayAction extends BaseAction {
+class PaytestAction extends BaseAction {
 	 
 	//在类初始化方法中，引入相关类库
     public function _initialize() {
@@ -34,7 +34,7 @@ class PayAction extends BaseAction {
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
         $input->SetGoods_tag("Goods_test");
-        $input->SetNotify_url("http://cky.ritacc.net/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
+        $input->SetNotify_url("http://cky.ritacc.net/index.php/M/Paytest/notify/");   //支付回调地址，这里改成你自己的回调地址。
         $input->SetTrade_type("JSAPI");
         $input->SetOpenid($openId);
         $order = \WxPayApi::unifiedOrder($input);
@@ -71,7 +71,7 @@ class PayAction extends BaseAction {
         //下面开始你可以把回调的数据存入数据库，或者和你的支付前生成的订单进行对应了。
 
         //需要记住一点，就是最后在输出一个success.要不然微信会一直发送回调包的，只有需出了succcess微信才确认已接收到信息不会再发包.
-        logger($GLOBALS['HTTP_RAW_POST_DATA']);
+         logger($GLOBALS['HTTP_RAW_POST_DATA']);
     }
 
 	 

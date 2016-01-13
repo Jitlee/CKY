@@ -22,7 +22,7 @@ class PersonAction extends BaseUserAction {
 				
 		session("MemberItem",$result);
 		
-		$this->assign('title', "粗卡云");
+		$this->assign('title', "个人中心");
 		$this->assign('data', $result);
 		//layout(TRUE);
 		$this->display();

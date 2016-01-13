@@ -34,17 +34,17 @@ class GoodsModel extends BaseModel {
 			->where($map)->order($order)->page($pageNo, $pageSize)->select();
 	}
 	
-	public function detail() {
+	public function detail($queryType = 0) {
 		$goodsId = I('id');
-		return $this->field('goodsId, goodsSn, goodsName, goodsImg, shopPrice, saleCount, goodsDesc')
-			->find($goodsId);
-	}
-	
-	public function gallerys() {
-		$goodsId = I('id');
-		$db = M('goods_gallerys');
-		$map = array('goodsId'	=> $goodsId);
-		return $db->where($map)->select();
+		$field = 'goodsId, goodsSn, goodsName, goodsImg, shopPrice, saleCount';
+		switch($queryType) {
+			case 0:
+				$field .= ',goodsDesc';
+				break;
+			case 1:
+				$filed .= ',goodsSpec';
+		}
+		return $this->field($field)->find($goodsId);
 	}
 };
 ?>

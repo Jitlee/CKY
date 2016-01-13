@@ -47,5 +47,16 @@ util = {
 			return decodeURIComponent(match[1]);
 		}
 		return defaultValue;
+	},
+	
+	/**
+	 * 掩码手机号码 138****8888
+	 * @param {Object} phone
+	 */
+	maskPhone: function(phone) {
+		if(phone && phone.replace) {
+			return phone.replace(/^(\d{3})\d{4}(\d+)$/, "$1****$2");
+		}
+		return phone;
 	}
 }

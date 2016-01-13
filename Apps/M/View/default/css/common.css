@@ -1,3 +1,14 @@
+p {
+	margin: 3px 0 3px 0;
+}
+
+hr {
+	border:none;
+	border-top: 1px solid #E1E1E1;
+	margin: 8px 0;
+	padding: 0;
+}
+
 .cky-bar,.cky-bar-item,
 .cky-grid,.cky-grid-cell,
 .cky-table-view,.cky-table-view-cell,
@@ -7,6 +18,10 @@
 	-o-box-sizing: border-box;
 	-ms-box-sizing: border-box;
 	-moz-box-sizing: border-box;
+}
+
+.cky-relative {
+	position: relative;
 }
 
 .cky-hidden {
@@ -380,6 +395,10 @@ a.cky-segmented-item {
 
 .font-gray2 {
 	color: #BEBEBE;
+}
+
+.font-black {
+	color: #333;
 }
 
 .font-black1 {

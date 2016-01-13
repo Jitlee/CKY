@@ -1,3 +1,7 @@
+body {
+	background-color: #fff;	
+}
+
 .cky-table-cell-thumb60 {
 	width: 60px;
 	height: 60px;
@@ -29,7 +33,7 @@
 	font-size: 13px;
 }
 
-.cky-score .icon-full-star, .cky-score .icon-half-star {
+.cky-score .icon-favorfill, .cky-score .icon-half-star {
 	color: #FF4040;
 }
 
@@ -208,4 +212,109 @@ header.cky-header {
 
 .mui-control-content {
 	min-height: 500px;
+}
+
+.cky-fast-body,.mui-content {
+	background-color: #fff;
+}
+
+.mui-content {
+	background-color: #fff;
+}
+
+.mui-content-padded {
+	margin: 15px;
+}
+
+.swiper-img {
+	margin-bottom: 0;
+	border-radius: 0;
+	border: none;
+	height: 70vw;
+	max-height: 400px;
+}
+
+.swiper-container-horizontal>.swiper-pagination {
+	bottom: 0px;
+}
+
+.swiper-pagination-bullet {
+	width: 16px;
+	border-radius: 0;
+}
+
+header.cky-fast-header .mui-btn {
+	position: absolute;
+	left: 8px;
+	top: 8px;
+	z-index: 99;
+	font-size: 24px;
+	background-color: rgba(0,0,0, 0.5);
+	height:30px;
+	width:30px;
+	line-height:30px;
+	border-radius: 30px;
+	padding: 0;
+	margin: 0;
+	color:#fff;
+}
+
+.cky-fast-add {
+	height: 30px;
+	line-height: 30px;
+	width: 30px;
+	border: solid 1px #E1E1E1;
+	border-radius: 30px;
+	padding: 0;
+	margin: 0;
+}
+
+.cky-fast-add.cky-update {
+	top: -2px;
+}
+
+.cky-fast-cart {
+	padding: 10px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	border-top:solid 1px #D5D5D5;
+	background-color: #FCFCFC;
+	min-height: 50px;
+}
+
+.cky-fast-cart button{
+	border: none;
+}
+
+.cky-fast-cart button:disabled {
+	color:#F0F0F0;
+	background-color: #999; 
+}
+
+.cky-fast-cart-icon {
+	position: absolute;
+	height: 46px;
+	width: 46px;
+	line-height: 46px;
+	font-size: 24px;
+	text-align: center;
+	left: 15px;
+	top: -23px;
+	background-color: #999;
+	color: #fff;
+	border-radius: 23px;
+}
+
+.cky-fast-cart-empty {
+	vertical-align: middle;
+	display: inline-block;
+	padding-top: 7px;
+	padding-left: 50px;
+	color: #999;
+}
+
+.cky-fast-price-row {
+	margin: 20px 0;
 }

@@ -1,6 +1,5 @@
 	<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/mui.min.css">
 	<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/me.css?1">
-	<link rel="stylesheet" href="__FONTPERSON__">
 	<script src="__JS__/jquery.touchSwipe.min.js"></script>
 	<script type="text/javascript">
    		$(function() {   			 
@@ -91,149 +90,145 @@
 	</style>
  
 	
-	<div class="mui-content">
+	<div class="mui-content mui-content-bottom">
 		<div class="diverweima" style="width: 300px; height: 360px; display: none;">
 			<div style="text-align: center;">
 				<img  alt="" src="{:U('Person/qrcode', '', '')}">
 				<img  alt="" src="{:U('Person/ywm', '', '')}">
 			</div>
 		</div>
-		<div class="mui-scroll-wrapper">
-			<div class="mui-scroll">
-					<ul class="mui-table-view mui-table-view-chevron">
-						<li class="mui-table-view-cell mui-media">
-							<a class="mui-navigate-right top-navigate" href="#account">
-								<img class="mui-media-object mui-pull-left head-img" id="head-img" src="{$headimgurl}">
-								<div class="mui-media-body userinfo">
-									{$data.TrueName}
-									<p class='mui-ellipsis'>会员卡：{$data.CardId}</p>
-								</div>
-								<span  id="user2wm">
-									<i class="iconfont  icon-fukuanma font24"></i>						 
-								</span>
-							</a>								
-						</li>
-					</ul>
-					
-					<ul class="mui-table-view">  
-						<li class="mui-table-view-cell" >
-							<a class="mui-navigate-right">
-								<div class="img-tip">
-									<i class="iconfont icon-xinyongqiahuankuan font20"></i>	
-								</div>
-								<div class="menu-content">
-									<p>我的会员卡</p>
-								</div>										 
-								<span class="cell-right" id="recharge">
-									<span class="mui-badge mui-badge-danger">我要充值</span>							 
-								</span>
-							</a>
-						</li>
-						<li class="userline land-cell"  id="loginUser">
-							<span class="cell-left" id="userscore">
-								<img class="circle-img" alt="" src="__IMG__/person/jf.png">
-								<p data-bind="text: nickName">积分：{$data.EnablePoint}</p>
-							</span>
-							<a></a>
-							<span class="cell-right" data-bind="style: { 'display': hasOtherhalf() ? 'none' : 'inline-block'}" id="rechargerecord">
-								<img class="circle-img" alt="" src="__IMG__/person/jiaofei.png">
-								<p>储值余额:{$data.EnableValue}</p>
-							</span>					
-						</li>
-					</ul>
-					
-					<ul class="mui-table-view">  
-						<li class="mui-table-view-cell" >					 
-								<div class="img-tip">
-									<!--<img alt="" src="__IMG__/person/tx.png"/>-->
-									<i class="iconfont icon-liebiao font20"></i>
-								</div>
-								<div class="menu-content">
-									<p>我的消费</p>
-								</div>								 
-						</li>
-						<li class="userline land-cell">
-							<span class="land-cell4"  id="orderlist">
-								<img class="circle-img" alt="" src="__IMG__/person/orderjl.png">
-								<p data-bind="text: nickName">订单查询</p>
-							</span>
-							 
-							<span class="land-cell4"  id="xfjl">
-								<img class="circle-img" alt="" src="__IMG__/person/xfjl.png">
-								<p data-bind="text: nickName">消费记录</p>
-							</span>
-							 
-							<span class="land-cell4"  id="countlist">
-								<!--<i class="circle-img iconfont icon-wode font32"></i>-->
-								<img class="circle-img" alt="" src="__IMG__/person/jcxf.png">
-								<p data-bind="text: nickName">我的充次</p>
-							</span>					 
-							<span class="land-cell4" id="youhuiquan">
-								<!--<i class="circle-img iconfont icon-youhuiquanwenzi font32"></i>-->
-								<img class="circle-img" alt="" src="__IMG__/person/yhq.png">
-								<p data-bind="text: nickName">我的优惠券</p>
-							</span>
-						</li>
-						
-						 
-						<li class="mui-table-view-cell" id="changepwd">
-							<a class="mui-navigate-right">
-								<div class="img-tip">
-									<img alt="" src="__IMG__/person/pwd.png"/>
-								</div>
-								<div class="menu-content">
-									<p>修改密码</p>
-								</div>
-							</a>
-						</li>
-						<li class="mui-table-view-cell" id="bindmobile">
-							<a class="mui-navigate-right">
-								<div class="img-tip"><i class="iconfont icon-shouji font20"></i></div>
-								<div class="menu-content">
-									<p>绑定手机</p>
-								</div>
-							</a>
-						</li>
-						<li class="mui-table-view-cell" id="favor">
-							<a class="mui-navigate-right">
-								<div class="img-tip"><i class="iconfont icon-favor font20"></i></div>
-								<div class="menu-content"><p>我的收藏</p></div>
-							</a>
-						</li>
-						<!--<li class="mui-table-view-cell" id="yaoqing">
-							<a class="mui-navigate-right">
-								<div class="img-tip">
-									<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
-								</div>
-								<div class="menu-content">
-									<p>会员卡特权</p>
-								</div>
-							</a>
-						</li>
-						<li class="mui-table-view-cell" id="yaoqing">
-							<a class="mui-navigate-right">
-								<div class="img-tip">
-									<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
-								</div>
-								<div class="menu-content">
-									<p>我的优惠券</p>
-								</div>
-							</a>
-						</li>-->
-						<!--<li class="mui-table-view-cell" id="about">
-							<a class="mui-navigate-right" href="{:U('Person/loginexit', '', '')}">
-								<div class="img-tip">
-									<img alt="注销" src="__IMG__/person/exit.png"/>
-								</div>
-								<div class="menu-content">
-									<p>注销</p>
-								</div>
-							</a>
-						</li>-->
-					</ul>
+		<ul class="mui-table-view mui-table-view-chevron">
+			<li class="mui-table-view-cell mui-media">
+				<a class="mui-navigate-right top-navigate" href="#account">
+					<img class="mui-media-object mui-pull-left head-img" id="head-img" src="{$headimgurl}">
+					<div class="mui-media-body userinfo">
+						{$data.TrueName}
+						<p class='mui-ellipsis'>会员卡：{$data.CardId}</p>
+					</div>
+					<span  id="user2wm">
+						<i class="iconfont  icon-fukuanma font24"></i>						 
+					</span>
+				</a>								
+			</li>
+		</ul>
 		
-			</div>
-		</div>
+		<ul class="mui-table-view">  
+			<li class="mui-table-view-cell" >
+				<a class="mui-navigate-right">
+					<div class="img-tip">
+						<i class="iconfont icon-xinyongqiahuankuan font20"></i>	
+					</div>
+					<div class="menu-content">
+						<p>我的会员卡</p>
+					</div>										 
+					<span class="cell-right" id="recharge">
+						<span class="mui-badge mui-badge-danger">我要充值</span>							 
+					</span>
+				</a>
+			</li>
+			<li class="userline land-cell"  id="loginUser">
+				<span class="cell-left" id="userscore">
+					<img class="circle-img" alt="" src="__IMG__/person/jf.png">
+					<p data-bind="text: nickName">积分：{$data.EnablePoint}</p>
+				</span>
+				<a></a>
+				<span class="cell-right" data-bind="style: { 'display': hasOtherhalf() ? 'none' : 'inline-block'}" id="rechargerecord">
+					<img class="circle-img" alt="" src="__IMG__/person/jiaofei.png">
+					<p>储值余额:{$data.EnableValue}</p>
+				</span>					
+			</li>
+		</ul>
+		
+		<ul class="mui-table-view">  
+			<li class="mui-table-view-cell" >					 
+					<div class="img-tip">
+						<!--<img alt="" src="__IMG__/person/tx.png"/>-->
+						<i class="iconfont icon-liebiao font20"></i>
+					</div>
+					<div class="menu-content">
+						<p>我的消费</p>
+					</div>								 
+			</li>
+			<li class="userline land-cell">
+				<span class="land-cell4"  id="orderlist">
+					<img class="circle-img" alt="" src="__IMG__/person/orderjl.png">
+					<p data-bind="text: nickName">订单查询</p>
+				</span>
+				 
+				<span class="land-cell4"  id="xfjl">
+					<img class="circle-img" alt="" src="__IMG__/person/xfjl.png">
+					<p data-bind="text: nickName">消费记录</p>
+				</span>
+				 
+				<span class="land-cell4"  id="countlist">
+					<!--<i class="circle-img iconfont icon-wode font32"></i>-->
+					<img class="circle-img" alt="" src="__IMG__/person/jcxf.png">
+					<p data-bind="text: nickName">我的充次</p>
+				</span>					 
+				<span class="land-cell4" id="youhuiquan">
+					<!--<i class="circle-img iconfont icon-youhuiquanwenzi font32"></i>-->
+					<img class="circle-img" alt="" src="__IMG__/person/yhq.png">
+					<p data-bind="text: nickName">我的优惠券</p>
+				</span>
+			</li>
+			
+			 
+			<li class="mui-table-view-cell" id="changepwd">
+				<a class="mui-navigate-right">
+					<div class="img-tip">
+						<img alt="" src="__IMG__/person/pwd.png"/>
+					</div>
+					<div class="menu-content">
+						<p>修改密码</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell" id="bindmobile">
+				<a class="mui-navigate-right">
+					<div class="img-tip"><i class="iconfont icon-shouji font20"></i></div>
+					<div class="menu-content">
+						<p>绑定手机</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell" id="favor">
+				<a class="mui-navigate-right">
+					<div class="img-tip"><i class="iconfont icon-favor font20"></i></div>
+					<div class="menu-content"><p>我的收藏</p></div>
+				</a>
+			</li>
+			<!--<li class="mui-table-view-cell" id="yaoqing">
+				<a class="mui-navigate-right">
+					<div class="img-tip">
+						<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+					</div>
+					<div class="menu-content">
+						<p>会员卡特权</p>
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell" id="yaoqing">
+				<a class="mui-navigate-right">
+					<div class="img-tip">
+						<img alt="" src="__IMG__/person/yyg_icon_wdyq.png"/>
+					</div>
+					<div class="menu-content">
+						<p>我的优惠券</p>
+					</div>
+				</a>
+			</li>-->
+			<!--<li class="mui-table-view-cell" id="about">
+				<a class="mui-navigate-right" href="{:U('Person/loginexit', '', '')}">
+					<div class="img-tip">
+						<img alt="注销" src="__IMG__/person/exit.png"/>
+					</div>
+					<div class="menu-content">
+						<p>注销</p>
+					</div>
+				</a>
+			</li>-->
+		</ul>
+		<br />
 	</div>
 	<include file="Public:tab"/>
 	

@@ -26,17 +26,13 @@ $(function() {
 		isBuzying = true;
 		
 		// 从缓存中取
-		var geo = $.localStorage.getItem("geo");
+		var geo = cky.storage.getItem("geo");
 		if(geo) {
-			geo = JSON.parse(geo);
-			var now = new Date().getTime();
-			if(geo && now - geo.__time < 5 * 60 * 1000) { // 有效期5分钟
-				console.info("使用缓存定位数据");
-				_geo = geo;
-				isBuzying = false;
-				run();
-				return;
-			}
+			console.info("使用缓存定位数据");
+			_geo = geo;
+			isBuzying = false;
+			run();
+			return;
 		}
 		
 		// 浏览器定位
@@ -53,7 +49,7 @@ $(function() {
 				geocoder(ak, lat, lng, function(evt) {
 					evt.__time = new Date().getTime();
 					// 缓存结果
-					$.localStorage.setItem("geo", JSON.stringify(evt));
+					cky.storage.setItem("geo", evt, 300); // 有效期5分钟
 					_geo = evt;
 					isBuzying = false;
 					run();

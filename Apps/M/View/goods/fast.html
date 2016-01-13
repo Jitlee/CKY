@@ -25,7 +25,16 @@
 	<p>已售 {$data.saleCount} <i class="iconfont icon-zan"></i>46</p>
 	<div class="cky-fast-price-row cky-relative">
 		<span class="font-red font24">¥ {$data.shopPrice}</span>
-		<button class="cky-update cky-fast-add"><i class="font-red iconfont icon-jiahao"></i></button>
+		<div class="cky-update cky-fast-add"
+			goodsId="{$data.goodsId}"
+			goodsName="{$data.goodsName}"
+			goodsThums="{$data.goodsThums}"
+			shopCatId="{$data.shopCatId1}"
+			shopPrice="{$data.shopPrice}">
+			<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+			<span class="count cky-hidden">1</span>
+			<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+		</div>
 	</div>
 	<hr />
 	<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
@@ -65,4 +74,7 @@
 			}
 		});
 	});
+	
+	
+	
 </script>

@@ -36,7 +36,7 @@ class GoodsModel extends BaseModel {
 	
 	public function detail($queryType = 0) {
 		$goodsId = I('id');
-		$field = 'goodsId, goodsSn, goodsName, goodsImg, shopPrice, saleCount';
+		$field = 'goodsId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, saleCount';
 		switch($queryType) {
 			case 0:
 				$field .= ',goodsDesc';

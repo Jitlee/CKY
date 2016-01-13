@@ -259,9 +259,8 @@ header.cky-fast-header .mui-btn {
 	color:#fff;
 }
 
-.cky-fast-add {
+.cky-fast-add button {
 	height: 30px;
-	line-height: 30px;
 	width: 30px;
 	border: solid 1px #E1E1E1;
 	border-radius: 30px;
@@ -269,8 +268,17 @@ header.cky-fast-header .mui-btn {
 	margin: 0;
 }
 
+.cky-fast-add span {
+	display: inline-block;
+	text-align: center;
+	min-width: 30px;
+	padding: 0 15px;
+}
+
 .cky-fast-add.cky-update {
 	top: -2px;
+	height: 30px;
+	line-height: 30px;
 }
 
 .cky-fast-cart {

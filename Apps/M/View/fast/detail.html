@@ -9,8 +9,8 @@
 	<div class="cky-shop-header">
 		<div class="cky-shop-header-thumb" style="background-image: url(/{$data.shopImg});"></div>
 		<div class="cky-shop-header-media">
-			<p class="font17">古道传奇</p>
-			<p class="font13">起送费 ¥20 | 配送费 ¥4 | 37分钟</p>
+			<p class="font17">{$data.shopName}</p>
+			<p class="font13">起送费 ¥{$data.deliveryStartMoney} | <if condition="$data.deliveryMoney eq 0">免配送费<else/>配送费 ¥{$data.deliveryMoney}</if> | {$data.deliveryCostTime}分钟</p>
 			<p class="font13 cky-fast-header-sub">
 				<i class="iconfont icon-laba cky-left"></i>
 				<span class="cky-left">创“中国式”小吃——在思考与辛劳中经历收获的喜悦</span>
@@ -42,7 +42,7 @@
 				<ul id="goodsList" class="cky-table-view cky-hidden">
 					<!-- ko foreach: $data -->
 					<li class="cky-table-view-cell cky-fast-goods-cell">
-						<a data-bind="attr:{ href: '{:U('Goods/fast')}?id=' + goodsId }">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
 							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
 								
 							</div>
@@ -51,16 +51,24 @@
 								<div class="cky-media-sub font13 font-gray2">
 									<span data-bind="text: '已售' + saleCount + '单'"></span>
 								</div>
-								<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
-								<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+								<div class="cky-relative">
+									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+									<div class="cky-update cky-fast-add"
+										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice }">
+										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+										<span class="count cky-hidden">1</span>
+										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+									</div>
+								</div>
 						    </div>
 						</a>
 					</li>
-					<li class="cky-table-view-cell cky-fast-goods-sub-cell" data-bind="attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }">
-						<div>
+					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
 							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
 							<p class="font13" data-bind="text: goodsSpec"></p>
-						</div>
+						</a>
 					</li>
 					<!-- /ko -->
 				</ul>
@@ -79,8 +87,11 @@
 	</div>
 </div>
 
+<include file="public:fastcart"/>
+
 <script type="text/javascript" src="__JS__/mui.min.js"></script>
 <script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/fast.js"></script>
 <script type="text/javascript">
 
 	// 点菜
@@ -150,14 +161,28 @@
 					}
 					vm(goods);
 					
-					if(list && list.length < 10) {
+					if(list && list.length < 10) { // 不需要翻页
 						isEOF = true;
 					}
+					
+					done();
 				});
 			}
 		}
 		queryByPage();
-		util.onScrollEnd(queryByPage);
+		// util.onScrollEnd(queryByPage); 不需要翻页
+		
+		// 商品点击事件
+		$("#goodsList").on("click", "a[goodsId]", function() {
+			var $this = $(this);
+			var goodsId = $this.attr("goodsId");
+			window.location.href = "{:U('Goods/fast')}?id=" + goodsId;
+		});
+		
+		function done() {
+			// 购物车
+			new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney}, {$data.deliveryMoney});
+		}
 		
 	});
 </script>

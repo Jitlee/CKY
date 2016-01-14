@@ -21,6 +21,7 @@ class FastAction extends BaseAction {
 		$m = D('M/Shops');
 		$data = $m->detail();
 		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
+//		echo $m->getLastSql();
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
 		$this->display();

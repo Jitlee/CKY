@@ -1,0 +1,343 @@
+2016-01-13 18:23:42
+
+REMOTE_ADDR:180.163.15.151Unknown IP
+2016-01-13 18:23:42QUERY_STRING:signature=75c77f5484d98bd33c2fe33e7774a9aedc5fb071&timestamp=1452680622&nonce=2074965540
+2016-01-13 18:23:42<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452680622</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[introduct]]></EventKey>
+</xml>
+2016-01-13 18:23:45
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 18:23:45QUERY_STRING:signature=babf508665b0e6b617db7389d832320c6e0b15c9&timestamp=1452680625&nonce=1617356879
+2016-01-13 18:23:45<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452680625</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[MGOOD]]></EventKey>
+</xml>
+2016-01-13 18:23:48
+
+REMOTE_ADDR:180.163.15.151Unknown IP
+2016-01-13 18:23:48QUERY_STRING:signature=29cb433d7f393a41bf98d06656f5c8045685fb20&timestamp=1452680628&nonce=2002933770
+2016-01-13 18:23:48<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452680628</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 18:24:11
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 18:24:11QUERY_STRING:signature=5d4ba22622c80a65667bcb5b473a292188f76050&timestamp=1452680651&nonce=606873621
+2016-01-13 18:24:11<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452680651</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 18:24:24
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 18:24:24QUERY_STRING:signature=aee78837e09358966971b69a7d50103c49c0ef59&timestamp=1452680664&nonce=775558029
+2016-01-13 18:24:24<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452680664</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 19:38:20
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 19:38:20QUERY_STRING:signature=68fa26c04b474fcf49a852d0e2f57f44b1260dff&timestamp=1452685100&nonce=229710696
+2016-01-13 19:38:20<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452685100</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 19:38:57
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 19:38:57QUERY_STRING:signature=5d893bdfdb0823307e58f1ce91d0b61315256166&timestamp=1452685137&nonce=1125522101
+2016-01-13 19:38:57<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452685137</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 19:39:54
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 19:39:54QUERY_STRING:signature=1cace92c0a72cae2242cc44c621e567a297dbe1b&timestamp=1452685194&nonce=1745850129
+2016-01-13 19:39:54<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452685194</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[introduct]]></EventKey>
+</xml>
+2016-01-13 19:39:57
+
+REMOTE_ADDR:180.163.15.151Unknown IP
+2016-01-13 19:39:57QUERY_STRING:signature=598b506220099e9a3b49eb5c159b8185856dbe17&timestamp=1452685196&nonce=189163739
+2016-01-13 19:39:57<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452685196</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 21:45:18
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 21:45:18QUERY_STRING:signature=bbb48d67f54c0d1fe66e06e9983466803f5235c3&timestamp=1452692718&nonce=547948393
+2016-01-13 21:45:18<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452692718</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[http://cky.ritacc.net/index.php/M/Pay/index]]></Content>
+<MsgId>6239267715348737673</MsgId>
+</xml>
+2016-01-13 21:46:44
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 21:46:44QUERY_STRING:signature=82fdd72f4d44c1597447134eb2cd1961c4e5cff2&timestamp=1452692804&nonce=732944200
+2016-01-13 21:46:44<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRv3qgqwZVsHkOZXvcEgDkQyI]]></FromUserName>
+<CreateTime>1452692804</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:47:56
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:47:56QUERY_STRING:signature=51c33601516d9881fa9875eeead9ef30aab57897&timestamp=1452700076&nonce=1290588702
+2016-01-13 23:47:56<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700076</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx06dcafb051f5e21f&redirect_uri=http%3A%2F%2Fcky.ritacc.net%2Findex.php%2FM%2FPay%2Findex&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect]]></Content>
+<MsgId>6239299317718103063</MsgId>
+</xml>
+2016-01-13 23:48:44
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:48:44QUERY_STRING:signature=ecc8c03e82edce6f360998312c64bf02c165f12e&timestamp=1452700124&nonce=955896876
+2016-01-13 23:48:44<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700124</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:48:48
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:48:48QUERY_STRING:signature=305a24d063b39cbb6400069222ae0db9f51a9248&timestamp=1452700128&nonce=56391853
+2016-01-13 23:48:48<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700128</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:49:41
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:49:41QUERY_STRING:signature=10356c2e9eebe0876c52c7189d7a45c70ef405d3&timestamp=1452700181&nonce=1027605601
+2016-01-13 23:49:41<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700181</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:51:48
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:51:48QUERY_STRING:signature=a5ad0d504166a323c48634b9fd0b880939dfca07&timestamp=1452700308&nonce=1251088869
+2016-01-13 23:51:48<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700308</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:52:25
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:52:25QUERY_STRING:signature=72d840b0535e277549d9f47ae075070659831dcd&timestamp=1452700345&nonce=309978369
+2016-01-13 23:52:25<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700345</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:52:37
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:52:37QUERY_STRING:signature=b3abd81f525f3943e6132084e9fafad9bd080cee&timestamp=1452700357&nonce=1037356190
+2016-01-13 23:52:37<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700357</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:56:45
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:56:45QUERY_STRING:signature=16efdca93d5c79453db8fcc843c1a3f0f5fc217c&timestamp=1452700605&nonce=844666885
+2016-01-13 23:56:45<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700605</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:57:05
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:57:05QUERY_STRING:signature=a9280477c430ce1c0b16eb591466d8154209d800&timestamp=1452700625&nonce=115010599
+2016-01-13 23:57:05<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700625</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:57:21
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:57:21QUERY_STRING:signature=78de77afab4e5b3f2feb93b857eaaa9b51b74623&timestamp=1452700641&nonce=317486991
+2016-01-13 23:57:21<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700641</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-13 23:58:05
+
+REMOTE_ADDR:180.163.15.153Unknown IP
+2016-01-13 23:58:05QUERY_STRING:signature=d7a4eb97bcb183699e94578ae4a64fd3b10dba07&timestamp=1452700685&nonce=1255978059
+2016-01-13 23:58:05<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700685</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M/Person/index]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-14 00:02:50
+
+REMOTE_ADDR:180.163.15.151Unknown IP
+2016-01-14 00:02:50QUERY_STRING:signature=1367ea79ed890970062f48058659353cf59ecee9&timestamp=1452700970&nonce=792611901
+2016-01-14 00:02:50<xml><ToUserName><![CDATA[gh_0985cab17c60]]></ToUserName>
+<FromUserName><![CDATA[oKxDRvyD0gFYNwby4lh7kGrOUcM8]]></FromUserName>
+<CreateTime>1452700970</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://cky.ritacc.net/index.php/M]]></EventKey>
+<MenuId>401378957</MenuId>
+</xml>
+2016-01-14 00:27:52<xml><appid><![CDATA[wx06dcafb051f5e21f]]></appid>
+<attach><![CDATA[neworderid]]></attach>
+<bank_type><![CDATA[CMB_CREDIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1292995201]]></mch_id>
+<nonce_str><![CDATA[fjsm9k5y61i2j53wv3pkz9jigpcaj4vm]]></nonce_str>
+<openid><![CDATA[o4CBRwu4gN7w8JZsVCw6leu9g2-Y]]></openid>
+<out_trade_no><![CDATA[129299520120160114002540]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[870E93A0DC8404309CEA9D3A57694C7F]]></sign>
+<time_end><![CDATA[20160114002751]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[1008850043201601142685149651]]></transaction_id>
+</xml>
+2016-01-14 00:28:04<xml><appid><![CDATA[wx06dcafb051f5e21f]]></appid>
+<attach><![CDATA[neworderid]]></attach>
+<bank_type><![CDATA[CMB_CREDIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1292995201]]></mch_id>
+<nonce_str><![CDATA[fjsm9k5y61i2j53wv3pkz9jigpcaj4vm]]></nonce_str>
+<openid><![CDATA[o4CBRwu4gN7w8JZsVCw6leu9g2-Y]]></openid>
+<out_trade_no><![CDATA[129299520120160114002540]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[870E93A0DC8404309CEA9D3A57694C7F]]></sign>
+<time_end><![CDATA[20160114002751]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[1008850043201601142685149651]]></transaction_id>
+</xml>
+2016-01-14 00:28:21<xml><appid><![CDATA[wx06dcafb051f5e21f]]></appid>
+<attach><![CDATA[neworderid]]></attach>
+<bank_type><![CDATA[CMB_CREDIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1292995201]]></mch_id>
+<nonce_str><![CDATA[fjsm9k5y61i2j53wv3pkz9jigpcaj4vm]]></nonce_str>
+<openid><![CDATA[o4CBRwu4gN7w8JZsVCw6leu9g2-Y]]></openid>
+<out_trade_no><![CDATA[129299520120160114002540]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[870E93A0DC8404309CEA9D3A57694C7F]]></sign>
+<time_end><![CDATA[20160114002751]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[1008850043201601142685149651]]></transaction_id>
+</xml>
+2016-01-14 00:28:53<xml><appid><![CDATA[wx06dcafb051f5e21f]]></appid>
+<attach><![CDATA[neworderid]]></attach>
+<bank_type><![CDATA[CMB_CREDIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1292995201]]></mch_id>
+<nonce_str><![CDATA[fjsm9k5y61i2j53wv3pkz9jigpcaj4vm]]></nonce_str>
+<openid><![CDATA[o4CBRwu4gN7w8JZsVCw6leu9g2-Y]]></openid>
+<out_trade_no><![CDATA[129299520120160114002540]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[870E93A0DC8404309CEA9D3A57694C7F]]></sign>
+<time_end><![CDATA[20160114002751]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[1008850043201601142685149651]]></transaction_id>
+</xml>

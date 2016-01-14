@@ -12,8 +12,8 @@ use Think\Controller;
 class WxAction extends Controller {
 		
 	public function callback() {
-		$appid = "wx9c7c9bb54952b54d";
-		$secret = "d4624c36b6795d1d99dcf0547af5443d";
+		$appid = "wx06dcafb051f5e21f";
+		$secret = "0408887ca15441398695ddd0b70b9ff4";
 		$code = $_GET["code"];
 		$get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
 		$ch = curl_init();
@@ -60,8 +60,8 @@ class WxAction extends Controller {
 //		$data = json_decode(file_get_contents($tokenFile));
 //		if (!$data or $data->expire_time < time() or !$data->expire_time) {
 			//session("wxposition","3"); 
-			$appid = "wx9c7c9bb54952b54d";
-			$secret = "d4624c36b6795d1d99dcf0547af5443d";
+			$appid = "wx06dcafb051f5e21f";
+			$secret = "F39CA8630A1F402E984B99EC96D1ED68";
 			$code = $_GET["code"];
 			$get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
 				 
@@ -113,7 +113,7 @@ class WxAction extends Controller {
 			exit;
 		}
 //		session("wxposition","8");  
-		$APPID='wx9c7c9bb54952b54d';
+		$APPID='wx06dcafb051f5e21f';
 		//$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('callback', '', '');
 		$REDIRECT_URI="http://cky.ritacc.net/index.php/M/Wx/callback";
 		//$REDIRECT_URI='http://cky.ritacc.net/callback.php';

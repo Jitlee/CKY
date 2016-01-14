@@ -18,6 +18,9 @@ class HomeAction extends BaseAction {
 	}
 	/*错误提示*/
 	public function getwxerror() {
+		$userlogin=session('userloginobj');
+		echo dump($userlogin);
+		$this->assign('data', $userlogin); 
 		$this->display();
 	}
 	/*申请新卡车*/

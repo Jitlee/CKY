@@ -69,12 +69,26 @@ class WxAction extends Controller {
 	}
 	
 	public function getcodeurl() {
+		vendor('Weixinpay.WxPayJsApiPay');
+        //1、获取openid
+       
+		
 		$userlogin=session('userloginobj');
 		$openid=$userlogin["openid"];
+		
 		if(strlen($openid)>10)
 		{
 			$this->loginRedrect();
 			exit;
+		}
+		else
+		{
+			 $tools = new \JsApiPay();
+        	 $openId = $tools->GetOpenid();
+			 $userlogin["openid"]=$openId;
+			 session('userloginobj',$userlogin);
+			 $this->loginRedrect();
+			 exit;
 		}
 //		session("wxposition","8");  
 		$APPID='wx06dcafb051f5e21f';

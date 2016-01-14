@@ -94,11 +94,6 @@
 	opacity: 0.8;
 }
 
-.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
-    border-top: 1px solid #c8c7cc;
-    border-bottom: none;
-}
-
 .cky-table-view-cell:first-child {
     border-top: none;
 }

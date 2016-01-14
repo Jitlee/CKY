@@ -33,7 +33,7 @@ return file_get_contents("https://api.weixin.qq.com/cgi-bin/menu/get?access_toke
 
 //删除菜单
 function deleteMenu(){
-return file_get_contents("https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=".ACCESS_TOKEN);
+	return file_get_contents("https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=".ACCESS_TOKEN);
 }
 
 

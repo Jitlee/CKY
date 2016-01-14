@@ -108,7 +108,7 @@ class WxMsgAction extends Controller{
 			$secret = "F39CA8630A1F402E984B99EC96D1ED68";
 			$code = $_GET["code"];
 			$get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
-				 
+				 //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx9c7c9bb54952b54d&secret=d4624c36b6795d1d99dcf0547af5443d
 			$res = $this->getJson($get_token_url); 
 			return $res;
 //			$access_token = $res['access_token']; 

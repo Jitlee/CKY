@@ -10,10 +10,13 @@ namespace M\Action;
  */
 use Think\Controller;
 class WxAction extends Controller {
+	public function _initialize() {
+       vendor('Weixinpay.WxPayJsApiPay');
+    }
 		
 	public function callback() {
-		$appid = "wx06dcafb051f5e21f";
-		$secret = "0408887ca15441398695ddd0b70b9ff4";
+		$appid = "wx9c7c9bb54952b54d";
+		$secret = "d4624c36b6795d1d99dcf0547af5443d";
 		$code = $_GET["code"];
 		$get_token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
 		$ch = curl_init();
@@ -46,7 +49,7 @@ class WxAction extends Controller {
 	{
 		$userlogin=session('userloginobj');
 		$openid=$userlogin["openid"];
-		if(empty($openid))
+		if(strlen($openid)<15)
 		{
 			$this->redirect('Home/getwxerror');
 			exit;
@@ -55,7 +58,8 @@ class WxAction extends Controller {
 		$this->redirect('Person/index');
 		exit;
 	}
-	 
+ 
+	
 	public function getJson($url)
 	{
 		$ch = curl_init();
@@ -69,32 +73,17 @@ class WxAction extends Controller {
 	}
 	
 	public function getcodeurl() {
-		vendor('Weixinpay.WxPayJsApiPay');
-        //1、获取openid
-       
-		
 		$userlogin=session('userloginobj');
 		$openid=$userlogin["openid"];
-		
 		if(strlen($openid)>10)
 		{
 			$this->loginRedrect();
 			exit;
 		}
-		else
-		{
-			 $tools = new \JsApiPay();
-        	 $openId = $tools->GetOpenid();
-			 $userlogin["openid"]=$openId;
-			 session('userloginobj',$userlogin);
-			 $this->loginRedrect();
-			 exit;
-		}
 //		session("wxposition","8");  
-		$APPID='wx06dcafb051f5e21f';
+		$APPID='wx9c7c9bb54952b54d';
 		//$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('callback', '', '');
 		$REDIRECT_URI="http://cky.ritacc.net/index.php/M/Wx/callback";
-		//$REDIRECT_URI='http://cky.ritacc.net/callback.php';
 		$scope='snsapi_base';
 		//$scope='snsapi_userinfo';//需要授权 
 		$url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$APPID.'&redirect_uri='.urlencode($REDIRECT_URI).'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect'; 

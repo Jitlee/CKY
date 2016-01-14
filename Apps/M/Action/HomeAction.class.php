@@ -19,7 +19,12 @@ class HomeAction extends BaseAction {
 	/*错误提示*/
 	public function getwxerror() {
 		$userlogin=session('userloginobj');
+		$userlogin2=session('userloginobj2');
 		echo dump($userlogin);
+		
+		echo	session("access_token");
+		echo dump($userlogin2);
+		
 		$this->assign('data', $userlogin); 
 		$this->display();
 	}

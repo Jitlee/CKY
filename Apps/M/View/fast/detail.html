@@ -2,6 +2,8 @@
 <header class="cky-header">
 	<div class="cky-header-bg" style="background-image: url(__IMG__/fast-shop-bg.jpg);"></div>
 	<div class="cky-header-nav">
+		<div class="cky-header-nav-bg"></div>
+		<p class="cky-header-nav-title">{$data.shopName}</p>
 		<button class="cky-back mui-btn mui-btn-link mui-pull-left"><i class="mui-icon mui-icon-left-nav"></i></button>
 		<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-love"></i></button>
 		<div class="cky-clearfix"></div>
@@ -33,6 +35,38 @@
 				<!-- ko foreach: $data -->
 				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
 				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
+				
+				<!-- ko foreach: $data -->
+				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<!-- /ko -->
 			</ul>
 			<div class="cky-fast-goods">
 				<div id="goodsLoading" class="mui-loading">
@@ -40,6 +74,166 @@
 					</div>
 				</div>
 				<ul id="goodsList" class="cky-table-view cky-hidden">
+					<!-- ko foreach: $data -->
+					<li class="cky-table-view-cell cky-fast-goods-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+								
+							</div>
+							<div class="cky-media">
+								<span class="cky-media-title font17" data-bind="text: goodsName"></span>
+								<div class="cky-media-sub font13 font-gray2">
+									<span data-bind="text: '已售' + saleCount + '单'"></span>
+								</div>
+								<div class="cky-relative">
+									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+									<div class="cky-update cky-fast-add"
+										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice }">
+										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+										<span class="count cky-hidden">1</span>
+										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+									</div>
+								</div>
+						    </div>
+						</a>
+					</li>
+					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+							<p class="font13" data-bind="text: goodsSpec"></p>
+						</a>
+					</li>
+					<!-- /ko -->
+					
+					<!-- ko foreach: $data -->
+					<li class="cky-table-view-cell cky-fast-goods-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+								
+							</div>
+							<div class="cky-media">
+								<span class="cky-media-title font17" data-bind="text: goodsName"></span>
+								<div class="cky-media-sub font13 font-gray2">
+									<span data-bind="text: '已售' + saleCount + '单'"></span>
+								</div>
+								<div class="cky-relative">
+									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+									<div class="cky-update cky-fast-add"
+										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice }">
+										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+										<span class="count cky-hidden">1</span>
+										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+									</div>
+								</div>
+						    </div>
+						</a>
+					</li>
+					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+							<p class="font13" data-bind="text: goodsSpec"></p>
+						</a>
+					</li>
+					<!-- /ko -->
+					
+					<!-- ko foreach: $data -->
+					<li class="cky-table-view-cell cky-fast-goods-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+								
+							</div>
+							<div class="cky-media">
+								<span class="cky-media-title font17" data-bind="text: goodsName"></span>
+								<div class="cky-media-sub font13 font-gray2">
+									<span data-bind="text: '已售' + saleCount + '单'"></span>
+								</div>
+								<div class="cky-relative">
+									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+									<div class="cky-update cky-fast-add"
+										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice }">
+										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+										<span class="count cky-hidden">1</span>
+										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+									</div>
+								</div>
+						    </div>
+						</a>
+					</li>
+					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+							<p class="font13" data-bind="text: goodsSpec"></p>
+						</a>
+					</li>
+					<!-- /ko -->
+					
+					<!-- ko foreach: $data -->
+					<li class="cky-table-view-cell cky-fast-goods-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+								
+							</div>
+							<div class="cky-media">
+								<span class="cky-media-title font17" data-bind="text: goodsName"></span>
+								<div class="cky-media-sub font13 font-gray2">
+									<span data-bind="text: '已售' + saleCount + '单'"></span>
+								</div>
+								<div class="cky-relative">
+									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+									<div class="cky-update cky-fast-add"
+										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice }">
+										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+										<span class="count cky-hidden">1</span>
+										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+									</div>
+								</div>
+						    </div>
+						</a>
+					</li>
+					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+							<p class="font13" data-bind="text: goodsSpec"></p>
+						</a>
+					</li>
+					<!-- /ko -->
+					
+					<!-- ko foreach: $data -->
+					<li class="cky-table-view-cell cky-fast-goods-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+								
+							</div>
+							<div class="cky-media">
+								<span class="cky-media-title font17" data-bind="text: goodsName"></span>
+								<div class="cky-media-sub font13 font-gray2">
+									<span data-bind="text: '已售' + saleCount + '单'"></span>
+								</div>
+								<div class="cky-relative">
+									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+									<div class="cky-update cky-fast-add"
+										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice }">
+										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+										<span class="count cky-hidden">1</span>
+										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+									</div>
+								</div>
+						    </div>
+						</a>
+					</li>
+					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+							<p class="font13" data-bind="text: goodsSpec"></p>
+						</a>
+					</li>
+					<!-- /ko -->
+					
 					<!-- ko foreach: $data -->
 					<li class="cky-table-view-cell cky-fast-goods-cell">
 						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
@@ -183,6 +377,18 @@
 			// 购物车
 			new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney}, {$data.deliveryMoney});
 		}
+		$(document.body).css("overflow", "hidden");
+		$("#goodsList, #goodsCatsList").height($(window).height() - 132);
+		//$("#slider").css("");
+		
+//		$(window).bind("scroll", function(evt) {
+//			var wTop = $(window).scrollTop();
+//			if(wTop >= 81) {
+//				$(".cky-header-nav").addClass("cky-active");
+////				$(document.body).css("overflow", "hidden");
+//				$("#slider").addClass("cky-fixed");
+//			}
+//		});
 		
 	});
 </script>

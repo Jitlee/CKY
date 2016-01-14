@@ -30,21 +30,23 @@ class GoodsModel extends BaseModel {
 				break;
 		}
 		
-		return $this->field('goodsId, goodsSn, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, goodsSpec')
+		return $this->field('goodsId, goodsSn, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec')
 			->where($map)->order($order)->page($pageNo, $pageSize)->select();
 	}
 	
 	public function detail($queryType = 0) {
 		$goodsId = I('id');
 		$field = 'goodsId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, saleCount';
+		$join = null;
 		switch($queryType) {
 			case 0:
 				$field .= ',goodsDesc';
 				break;
-			case 1:
-				$filed .= ',goodsSpec';
+			case 1: // 快餐商品详情
+				$join = 'cky_shops on cky_shops.shopId = cky_goods.shopId';
+				$field .= ',goodsSpec, cky_shops.shopId, deliveryStartMoney, deliveryFreeMoney, deliveryMoney';
 		}
-		return $this->field($field)->find($goodsId);
+		return $this->field($field)->join($join)->find($goodsId);
 	}
 };
 ?>

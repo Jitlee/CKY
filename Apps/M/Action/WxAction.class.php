@@ -57,9 +57,7 @@ class WxAction extends Controller {
 	}
 	function accessToken(){
 		$tokenFile = "./access_tokenkey.txt";//缓存文件名 
-//		$data = json_decode(file_get_contents($tokenFile)); 
-//		session("wxposition","2");
-//		session("token",$data);
+//		$data = json_decode(file_get_contents($tokenFile));
 //		if (!$data or $data->expire_time < time() or !$data->expire_time) {
 			//session("wxposition","3"); 
 			$appid = "wx9c7c9bb54952b54d";
@@ -88,7 +86,7 @@ class WxAction extends Controller {
 //	    }
 //	    else
 //	    {
-//	      session("wxposition","5");  
+
 //	      $access_token = $data->access_token; 
 //	    }
 //	    return $access_token;

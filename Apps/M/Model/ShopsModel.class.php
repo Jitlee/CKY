@@ -52,8 +52,10 @@ class ShopsModel extends BaseModel {
 	 /**
 	  * 获取商铺
 	  */
-	 public function detail() {
-	 	$shopId = I('id');
+	 public function detail($shopId = 0) {
+	 	if($shopId == 0) {
+	 		$shopId = I('id');
+		}
 		return $this->field('shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc')
 			->find($shopId);
 	 }

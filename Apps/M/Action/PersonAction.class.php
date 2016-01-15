@@ -51,7 +51,7 @@ class PersonAction extends BaseUserAction {
 			$this->assign('title', "修改密码");
 			$this->display();	
 		}
-	}	
+	}
 
 	/*积分列表*/
 	public function scorelist()
@@ -126,7 +126,13 @@ class PersonAction extends BaseUserAction {
 		layout(TRUE);
 		$this->display();
 	}
-	 
+	public function rechargepay($money = 0, $type  = "")
+	{
+		session("money",$money);
+		session("type",$type);
+		
+		$this->redirect('Pay/index');
+	}
 	public function userinfoitem()
 	{
 		layout(TRUE);
@@ -147,17 +153,6 @@ class PersonAction extends BaseUserAction {
 		$this->assign('title', "个人信息");		
 		$this->display();
 	}	
-
-//	public function erwima()
-//	{
-//		$openid=$this->GetOpenid();
-//		$mMember = D('M/Member');
-//		$result=$mMember->GetByOpenid($openid); 
-//		$this->assign('title', "粗卡云");
-//		$this->assign('data', $result);
-//		layout(FALSE);
-//		$this->display();
-//	}
 
 	/*我的充次*/
  	public function countlist()
@@ -189,20 +184,20 @@ class PersonAction extends BaseUserAction {
 	/*生成二维码*/
  	public function qrcode($level=3,$size=8)
  	{ 	 	
-			$cardid=$this->GetCardId();
-			Vendor('phpqrcode.phpqrcode');
-			$errorCorrectionLevel =intval($level) ;//容错级别 
-			$matrixPointSize = intval($size);//生成图片大小 
-			//生成二维码图片 
-			//echo $_SERVER['REQUEST_URI'];
-			$object = new \QRcode();
-			$object->png($cardid, false, $errorCorrectionLevel, $matrixPointSize, 2);
+		$cardid=$this->GetCardId();
+		Vendor('phpqrcode.phpqrcode');
+		$errorCorrectionLevel =intval($level) ;//容错级别 
+		$matrixPointSize = intval($size);//生成图片大小 
+		//生成二维码图片 
+		//echo $_SERVER['REQUEST_URI'];
+		$object = new \QRcode();
+		$object->png($cardid, false, $errorCorrectionLevel, $matrixPointSize, 2);
 	}
 	/**一维码*/
 	public function ywm()
 	{
-		$code ="18620554231";// $_GET['code'];
-		  
+//		$code ="18620554231";// $_GET['code'];
+		$code =$this->GetCardId();
 		Vendor('phpqrcode.UPCtools');
 		$obj= new \UPCtools();
 		$obj->UPCAbarcode($code);

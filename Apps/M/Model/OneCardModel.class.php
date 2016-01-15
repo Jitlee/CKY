@@ -115,7 +115,21 @@ class OneCardModel extends BaseModel {
 		$url='OpenApi/Get_CountListPaged';		
 		return $this->GetData($url, $data);
 	}
-	
+	/*充值*/
+	public function AddValue($cardId,$value)
+	{
+		$data = array(
+			"cardId"=>$cardId
+			,"value"=>$value
+			,"valuePlus"=>$value
+			,"paidMoney"=>$value
+			,"meno"=>"平台充值"
+			,"userAccount"=>"10000"
+		);
+		$url='OpenApi/Add_Value';
+		return $this->GetData($url, $data);		
+	}
+	 
 	
 	/********修改密码*******/
 	public function UpdatePassword($cardId,$oldpwd,$newpwd)

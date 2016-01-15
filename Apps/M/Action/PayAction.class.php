@@ -9,7 +9,7 @@ namespace M\Action;
  * 首页（默认）控制器
  */
 use Think\Controller;
-class PayAction extends BaseAction {
+class PayAction extends BaseUserAction {
 	 
 	//在类初始化方法中，引入相关类库
     public function _initialize() {
@@ -23,33 +23,78 @@ class PayAction extends BaseAction {
         $tools = new \JsApiPay();
         $openId = $tools->GetOpenid();
 
-		$tfee=1;				//整数单位为分
-		$setattach="neworderid"; //附加信息原样返回
-        //2、统一下单
-        $input = new \WxPayUnifiedOrder();
-        $input->SetBody("test");
-        $input->SetAttach($setattach);
-        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
-        $input->SetTotal_fee($tfee);
-        $input->SetTime_start(date("YmdHis"));
-        $input->SetTime_expire(date("YmdHis", time() + 600));
-        $input->SetGoods_tag("Goods_test");
-        $input->SetNotify_url("http://cky.ritacc.net/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
-        $input->SetTrade_type("JSAPI");
-        $input->SetOpenid($openId);
-        $order = \WxPayApi::unifiedOrder($input);
-//		echo dump($input);
-//		echo dump($order);
-        $jsApiParameters = $tools->GetJsApiParameters($order);
-        $this->jsApiParameters=$jsApiParameters;
-        $this->display();
+		
+//		$money=$_GET["money"];
+//		$type=$_GET["type"];
+		$money=session("money");
+		$type=session("type");
+
+		if($type=="recharge")
+		{
+			$Body="会员卡充值";	
+		}
+		else if($type=="order")
+		{
+			$Body="订单支付";
+		}
+		else
+		{
+			$Body="未定义类型";
+		}
+		//保存系统支付订单
+		$dataInfo["uid"]=session("uid");
+		$dataInfo["openId"]=$this->GetOpenid(); 
+		
+		$dataInfo["payNo"]='cky'.date('ymdhis').rand(10000,99999); 
+		$dataInfo["PayType"]=$type;
+		$dataInfo["PayTypeName"]=$Body;		
+		$dataInfo["TotalMoney"]=$money;
+		$dataInfo["CreateTime"]=date('y-m-d-h-i-s');
+		$dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+		$dataInfo["Status"]=0;
+
+		
+		$mPay= D('M/MemberPay');		 
+		$result=$mPay->InitPay($dataInfo);
+		if($result['status']==1)
+		{
+			$this->assign('title', $Body);
+			$this->assign('money', $money);
+			$tfee=1;				//整数单位为分
+			$setattach=$dataInfo["payNo"]; //附加信息原样返回			
+	        //2、统一下单
+	        $input = new \WxPayUnifiedOrder();
+	        $input->SetBody($Body);
+	        $input->SetAttach($setattach);
+	        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
+	        $input->SetTotal_fee($tfee);
+	        $input->SetTime_start(date("YmdHis"));
+	        $input->SetTime_expire(date("YmdHis", time() + 600));
+	        $input->SetGoods_tag("Goods_test");
+	        $input->SetNotify_url("http://cky.ritacc.net/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
+	        $input->SetTrade_type("JSAPI");
+	        $input->SetOpenid($openId);
+	        $order = \WxPayApi::unifiedOrder($input);
+	//		echo dump($input);
+	//		echo dump($order);
+	        $jsApiParameters = $tools->GetJsApiParameters($order);
+	        $this->jsApiParameters=$jsApiParameters;
+	        $this->display();
+		}
+		else
+		{
+			$this->assign('title', "保存订单出错");
+			$this->display();	
+		}
     }
 
     //回调
     Public function notify(){
         //这里没有去做回调的判断，可以参考手机做一个判断。
         $xmlObj=simplexml_load_string($GLOBALS['HTTP_RAW_POST_DATA']); //解析回调数据
-
+		logger($GLOBALS['HTTP_RAW_POST_DATA']);
+		
+		
         $appid=$xmlObj->appid;//微信appid
         $mch_id=$xmlObj->mch_id;  //商户号
         $nonce_str=$xmlObj->nonce_str;//随机字符串
@@ -69,9 +114,33 @@ class PayAction extends BaseAction {
         $return_code=$xmlObj->return_code;
 
         //下面开始你可以把回调的数据存入数据库，或者和你的支付前生成的订单进行对应了。
-
+		//更新到订单表
+		$content="-----------------接收信息-----------------attach=".$attach;
+		logger($content);
+				
+		$mMember = D('M/MemberPay');
+		$dataInfo=$mMember->GetByPayNo($attach);
+		if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0)	
+		{
+			 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+			 $dataInfo["result_code"]=$result_code;
+			 $dataInfo["fee_type"]=$fee_type;
+			 $dataInfo["transaction_id"]=$transaction_id;
+			 $dataInfo["cash_fee"]=$cash_fee;
+			 $dataInfo["cash_fee"]=99;
+			 
+			 $cardid=$this->GetCardId();
+			 $result=$mMember->UpdateRechange($dataInfo,$cardid);
+		} 
+		else
+			{
+				$content="-----------------出错啦-----------------";
+				$content=$content.$dataInfo["PayType"] .$dataInfo["Status"];
+				logger($content);
+			}
+		
         //需要记住一点，就是最后在输出一个success.要不然微信会一直发送回调包的，只有需出了succcess微信才确认已接收到信息不会再发包.
-        logger($GLOBALS['HTTP_RAW_POST_DATA']);
+        
     }
 
 	 

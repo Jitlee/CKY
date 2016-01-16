@@ -1,12 +1,13 @@
 /**
  * 
  * @param {Number} shopId 商铺Id
+ * @param {String} shopId 商铺名称
  * @param {Number} startMoney 起送费
  * @param {Number} freeMoney 免配送费
  * @param {Number} fastMoney 送餐费
  * @param {Number} costTime 平均送餐时间
  */
-function FastCart(shopId, startMoney, freeMoney, fastMoney, costTime, startTime, endTime) {
+function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, startTime, endTime) {
 	// 获取购物车列表
 	var cart = cky.storage.getItem("fast-cart" + shopId) || {
 		count: 0,
@@ -17,6 +18,7 @@ function FastCart(shopId, startMoney, freeMoney, fastMoney, costTime, startTime,
 		goods: {}
 	};
 	
+	cart.shopName = shopName;
 	cart.startMoney = startMoney;
 	cart.freeMoney = freeMoney;
 	cart.fastMoney = fastMoney;

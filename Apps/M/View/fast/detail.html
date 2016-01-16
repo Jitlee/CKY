@@ -183,7 +183,8 @@
 		
 		function done() {
 			// 购物车
-			new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
+			new FastCart({$data.shopId}, "{$data.shopName}",
+				{$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
 				{$data.deliveryMoney}, {$data.deliveryCostTime},
 				{$data.serviceStartTime}, {$data.serviceEndTime});
 		}

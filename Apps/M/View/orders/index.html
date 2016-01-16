@@ -19,7 +19,7 @@
 		</li>
 	</ul>
 	<hr class="cky-address-hr"/>
-	<ul class="mui-table-view">
+	<ul class="mui-table-view cky-mtop-10">
 		<li class="mui-table-view-cell">
 			<a>
 				<span>送达时间</span>
@@ -28,138 +28,126 @@
 				</div>
 			</a>
 		</li>
+		<li class="mui-table-view-cell">
+			<a href="{:U('remarks')}?shopId={:I('shopId')}" class="mui-navigate-right">
+				<span>备注</span>
+				<p id="inputRemarks" class="cky-update cky-update-nav font14 font-gray" data-bind="text: remarks"></p>
+			</a>
+		</li>
 	</ul>
-	<ul id="goodsList" class="mui-table-view">
-		<!-- ko foreach: $data -->
-		<li class="cky-table-view-cell">
-			<span data-bind="text: goodsName"></span>
-			<h5 data-bind="text: '¥ ' + shopPrice + ' × ' + count +  goodsUnit"></h5>
+	<ul id="goodsList" class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a>
+				<span class="cky-bold font17" data-bind="text: shopName"></span>
+				<p class="cky-update">商家配送</p>
+			</a>
 		</li>
-		<!-- /ko -->
-		<li id="isSelf">
-			<label>
-				<input type="radio" name="fastType" value="self"/>
-				<span>上门自取</span>
-			</label>
-		</li>
-		<li id="fastMoney">
-			<label>
-				<input type="radio" name="fastType" value="fast" checked="checked"/>
-				<span>免快递费</span>
-			</label>
-		</li>
-		
-		<li>
-			<label>
-				<input id="needreceipt" type="checkbox" name="needreceipt" checked="checked"/>
-				<span>需要票据</span>
-			</label>
-		</li>
-		
-		<li id="fastMoney">
-			<label>
-				<input id="payway" type="checkbox" name="payway"/>
-				<span>货到付款</span>
-			</label>
+		<li class="mui-table-view-cell">
+			<a>
+				<!-- ko foreach: goods -->
+				<div class="cky-order-item cky-relative">
+					<span data-bind="text: goodsName"></span>
+					<div class="cky-update">
+						<span data-bind="text: 'x ' + count"></span>
+						<span data-bind="text: shopPrice + '元'"></span>
+					</div>
+				</div>
+				<!-- /ko -->
+				
+				
+				<div id="fast" class="cky-order-item cky-relative">
+					<span data-bind="">配送费</span>
+					<div class="cky-update">
+						<span data-bind="text: fastMoney + '元'"></span>
+					</div>
+				</div>
+				
+				<div class="cky-order-money cky-relative">
+					<span>订单金额</span>
+					<span data-bind="text: fastMoney + total + '元'"></span>
+				</div>
+			</a>
 		</li>
 	</ul>
 	<footer class="cky-footer">
-		<p class="font-red font17">共 ¥<span id="totalSpan">0</span></p>
-		<br />
+		<p class="font-red font17">共<span data-bind="text: total + '元'">0</span></p>
 		<button id="submit" class="cky-update mui-btn mui-btn-primary">提交订单</button>
 	</footer>
 </div>
 
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
-	var shopId = util.i("shopId");
-	var cart = cky.storage.getItem("fast-cart" + shopId);
-	if(cart) {
-		var goods = [];
-		for(var goodsId in cart.goods) {
-			goods.push(cart.goods[goodsId]);
-		}
-		ko.applyBindings(goods, document.getElementById("goodsList"));
-		
-		$(function(){
-			var total = cart.total;
-			var fastMoneyElement = $("#fastMoney");
-			if(!(cart.fastMoney == 0 || cart.total >= cart.freeMoney)) {
-				total += cart.fastMoney;
-				$("span", fastMoneyElement).text("配送费" + cart.fastMoney);
-			} else {
-				$("span", fastMoneyElement).text("免配送费");
-				$("#isSelf").hide();
+	
+	window.onpageshow = function(event) { // 页面显示的时候  事件（包含回退）
+	    var shopId = util.i("shopId");
+		var cart = cky.storage.getItem("fast-cart" + shopId);
+		if(cart) {
+			var fastMoney = !(cart.fastMoney == 0 || cart.total >= cart.freeMoney) ? cart.fastMoney : 0;
+			var vm = { 
+				goods: [],
+				total: cart.total,
+				fastMoney: fastMoney,
+				shopName: cart.shopName,
+				remarks: cart.remarks
 			}
-			var totalSpan = $("#totalSpan");
-			totalSpan.text(total);
-			
-			$("input[name='fastType']").change(function() {
-				var $this = $(this);
-				if($this.val() == "self") {
-					total = cart.total;
-				} else {
-					if(!(cart.fastMoney == 0 || cart.total >= cart.freeMoney)) {
-						total = cart.total + cart.fastMoney;
-					} else {
-						total = cart.total;
-					}
-				}
-				totalSpan.text(total);
-			});
-			
-			// 送达时间
-			$("#fastDay").select([{key: 0,text: "今天"}]);
-			var fastTimeSelect = $("#fastTime").select(getServicesTime());
-			
-			function getServicesTime() {
-				var serviceTime = getServiceTime();
-				var list = [];
-				if(serviceTime) {
-					var startTime = serviceTime[0];
-					var endTime = serviceTime[1];
-					
-					for(var time = startTime; time < endTime; time += 15) {
-						list.push({ key: time, text: util.formatMuites(time) });
-					}
-				}
-				return list;
+			for(var goodsId in cart.goods) {
+				vm.goods.push(cart.goods[goodsId]);
 			}
+			ko.applyBindings(vm);
 			
-			function getServiceTime() {
-				// 统一换算成分钟计算
-				var startTime = (cart.startTime || 8.0) * 60; // 小时, 默认8点
-				var endTime = (cart.endTime || 22.5) * 60; // 小时，默认22:30
-				var now = new Date();
-				var costTime = cart.costTime || 30; // 分钟, 默认半个小时
-				var nowTime = now.getHours() * 60 + now.getMinutes();
-				startTime = Math.min(Math.max(startTime, nowTime), endTime); // 取营业时间范围内的;
-				startTime += costTime;
-				startTime = Math.ceil(startTime / 5) * 5; // 按5取整数计算
+			$(function(){
+				// 送达时间
+				$("#fastDay").select([{key: 0,text: "今天"}]);
+				var fastTimeSelect = $("#fastTime").select(getServicesTime());
 				
-				if(startTime <= endTime) {
-					return [startTime,endTime];
+				function getServicesTime() {
+					var serviceTime = getServiceTime();
+					var list = [];
+					if(serviceTime) {
+						var startTime = serviceTime[0];
+						var endTime = serviceTime[1];
+						
+						for(var time = startTime; time < endTime; time += 15) {
+							list.push({ key: time, text: util.formatMuites(time) });
+						}
+					} else {
+						list.push({ key: -1, text: '卖家确认'});
+					}
+					return list;
 				}
-				return null; // 超出服务时间不允许, 不提供服务
-			}
-		
-			
-			$("#submit").click(function() {
-				var fastType = $("input[name='fastType'][checked]").val();
-				var payway = $("#payway").prop("checked") ? 1 : 0;
-				var needreceipt = $("#needreceipt").prop("checked") ? 1 : 0;
-				var goodsJSONString = JSON.stringify(goods.map(function(g) { return { goodsId: g.goodsId, shopId: shopId, count: g.count }  }));
-				$.post("{:U('submitOrder')}", {
-					goods: goodsJSONString,
-					isself: fastType == "self" ? 1 : 0,
-					needreceipt: needreceipt,
-					orderunique: new Date().getTime(),
-					consigneeId: 1,
-					payway: payway
-				}, function() {
+				
+				function getServiceTime() {
+					// 统一换算成分钟计算
+					var startTime = (cart.startTime || 8.0) * 60; // 小时, 默认8点
+					var endTime = (cart.endTime || 22.5) * 60; // 小时，默认22:30
+					var now = new Date();
+					var costTime = cart.costTime || 30; // 分钟, 默认半个小时
+					var nowTime = now.getHours() * 60 + now.getMinutes();
+					startTime = Math.min(Math.max(startTime, nowTime), endTime); // 取营业时间范围内的;
+					startTime += costTime;
+					startTime = Math.ceil(startTime / 5) * 5; // 按5取整数计算
 					
+					if(startTime <= endTime) {
+						return [startTime,endTime];
+					}
+					return null; // 超出服务时间不允许, 不提供服务
+				}
+			
+				
+				$("#submit").click(function() {
+					var goodsJSONString = JSON.stringify(vm.goods.map(function(g) { return { goodsId: g.goodsId, shopId: shopId, count: g.count }  }));
+					$.post("{:U('submitOrder')}", {
+						goods: goodsJSONString,
+						isself: 0,
+						needreceipt: 1,
+						orderunique: new Date().getTime(),
+						consigneeId: 1,
+						payway: 0
+					}, function() {
+						
+					});
 				});
 			});
-		});
-	}
+		}
+	};
 </script>

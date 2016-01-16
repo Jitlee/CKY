@@ -17,6 +17,15 @@ class OrdersAction extends BaseUserAction {
 		$this->display();
 	}
 	
+	/**
+	 * 添加备注
+	 */
+	public function remarks() {
+		$this->assign('title', '添加备注');
+		$this->display();
+	}
+	
+	
 	
 	/**
 	 * 获取待付款的订单列表

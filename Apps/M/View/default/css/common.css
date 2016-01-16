@@ -8,8 +8,8 @@ hr {
 	margin: 8px 0;
 	padding: 0;
 }
-
 .cky-bar,.cky-bar-item,
+
 .cky-grid,.cky-grid-cell,
 .cky-table-view,.cky-table-view-cell,
 .cky-segmented-item {
@@ -24,12 +24,20 @@ hr {
 	position: relative;
 }
 
+.cky-bold {
+	font-weight: bold;
+}
+
 .cky-footer {
 	position: fixed;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
 	display: block;
+}
+
+.cky-mtop-10 {
+	margin-top:  10px;
 }
 
 .cky-hidden {
@@ -486,6 +494,19 @@ a.cky-segmented-item {
 	position: absolute;
 	right: 8px;
 	top: 8px;
+}
+
+.cky-update.cky-update-nav {
+	right: 35px;
+}
+
+p.cky-update {
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: keep-all;
+	text-align: right;
 }
 
 /** 指数 **/

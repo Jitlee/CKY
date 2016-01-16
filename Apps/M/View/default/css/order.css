@@ -1,0 +1,51 @@
+
+.cky-order-item {
+	height: 30px;
+	line-height: 30px;
+}
+.cky-order-item .cky-update {
+	top: 0px;
+	right: 0px;
+}
+.cky-order-item .cky-update span {
+	display: inline-block;
+	text-align: right;
+	width: 50px;
+	color: #999;
+	font-size: 13px;
+}
+
+.cky-order-money {
+	text-align: right;
+	color: #333;
+	height: 30px;
+	line-height: 30px;
+}
+
+.cky-order-money span {
+	display: inline-block;
+	margin-left: 15px;
+}
+
+.cky-footer {
+	background-color: #fff;
+	border-top: solid 1px #D5D5D5;
+	padding-left: 15px;
+	height: 44px;
+	line-height: 44px;
+}
+
+.cky-footer .cky-update {
+	top:0px;
+	right:0px;
+	height: 44px;
+}
+
+.cky-footer .mui-btn {
+	border: none;
+	border-radius: 0;
+	background-color: #f60;
+	width: 100px;
+}
+
+

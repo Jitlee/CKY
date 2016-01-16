@@ -1,6 +1,21 @@
 $(function() {
+	// 退回按钮
 	$(".cky-back").click(function() {
 		window.history.back();		
+	});
+	
+	// 文本输入
+	$("textarea[maxlength]").each(function() {
+		var $this = $(this);
+		var maxlen = $this.attr("maxlength");
+		var len = $this.val().length;
+		this.__tips = $("<p class=\"max-length-tips\">").text(len + " / " + maxlen);
+		$this.after(this.__tips);
+	}).bind("input", function() {
+		var $this = $(this);
+		var len = $this.val().length;
+		var maxlen = Number($this.attr("maxlength"));
+		this.__tips.text(len + " / " + maxlen);
 	});
 });
 
@@ -107,3 +122,5 @@ $.fn.select = function(list) {
 	}
 	return $this;
 }
+
+

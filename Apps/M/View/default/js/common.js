@@ -20,6 +20,7 @@ var cky = {
 					if(now - time < expires * 1000) {
 						return data.item;
 					}
+					return null;
 				}
 				return data;
 			}

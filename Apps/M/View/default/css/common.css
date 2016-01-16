@@ -24,6 +24,14 @@ hr {
 	position: relative;
 }
 
+.cky-footer {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	display: block;
+}
+
 .cky-hidden {
 	display: none;
 }

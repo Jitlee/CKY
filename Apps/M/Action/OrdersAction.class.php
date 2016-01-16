@@ -8,7 +8,16 @@ namespace M\Action;
  * ============================================================================
  * 订单控制器
  */
-class OrdersAction extends BaseAction {
+class OrdersAction extends BaseUserAction {
+	/**
+	 * 提交订单
+	 */
+	public function index() {
+		$this->assign('title', '提交订单');
+		$this->display();
+	}
+	
+	
 	/**
 	 * 获取待付款的订单列表
 	 */
@@ -267,53 +276,55 @@ class OrdersAction extends BaseAction {
 	 * 
 	 */
 	public function submitOrder(){	
-		$USER = session('RTC_USER');
 		$mshop = D('M/Shops');
 		$mgoods = D('M/Goods');
 		$morders = D('M/Orders');
 		$totalMoney = 0;
 		$totalCnt = 0;
-		$userId = (int)$USER['userId'];
+		$userId = 9;
 		
 		$consigneeId = (int)I("consigneeId");
 		$payway = (int)I("payway"); // 支付途径
 		$isself = (int)I("isself"); // 是否自取
+		$cartGoods = (array)json_decode(html_entity_decode(I('goods')));
 		$needreceipt = (int)I("needreceipt"); // 是否需要票据
 		$orderunique = I("orderunique"); 
+		
 		
 		$shopGoods = array();	
 		$order = array();
 		// 整理及核对购物车
-		foreach($cartGoods as $cg) {
-			$goodsId = $cg['goodsId'];
-			$count = intval($cg['count']);
+		foreach($cartGoods as $key => $cg) {
+			$goodsId = $cg->goodsId;
+			$count = $cg->count;
 			$goods = $mgoods->info($goodsId,$goodsAttrId);
 			if(empty($goods)) {
 				$this->assign("fail_msg",'对不起，该商品不存在!');
-				$this->display('fail');
+//				$this->redirect('fail');
 				exit();
 			}
 			if(intval($goods['goodsStock']) <= 0) {
 				$this->assign("fail_msg",'对不起，商品'.$goods['goodsName'].'库存不足!');
-				$this->display('fail');
+//				$this->redirect('fail');
 				exit();
 			}
 			if(intval($goods['isSale']) != 1){
 				$this->assign("fail_msg",'对不起，商品库'.$goods['goodsName'].'已下架!');
-				$this->display('fail');
+//				$this->redirect('fail');
 			}
 			
 			$goods["cnt"] = $count;
 			$totalCnt += $count;
 			$totalMoney += $count* floatval($goods["shopPrice"]);
 			
-			if(empty($shopGoods[$goods['shopId']])) {
-				// 查询商铺信息
-				
-			}
+			$shopGoods[$goods["shopId"]]["shopgoods"][] = $goods;
+			$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//店铺免运费最低金额
+			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//店铺免运费最低金额
+			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
+			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 		}
 
-		foreach($catgoods as $key=> $cshop){
+		foreach($shopGoods as $key=> $cshop){
 			if($cshop["totalMoney"]<$cshop["deliveryFreeMoney"]){
 				if($isself==0){
 					$totalMoney = $totalMoney + $cshop["deliveryMoney"];
@@ -321,78 +332,10 @@ class OrdersAction extends BaseAction {
 			}
 		}
 		
-		$ordersInfo = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself);
+		$ordersInfo = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
 		
-		
-		if(empty($shopcat)){
-			$this->display('default/order_success');
-		}else{
-			//整理及核对购物车数据
-			$paygoods = session('RTC_PAY_GOODS');
-			foreach($shopcat as $key=>$cgoods){
-				if($cgoods['ischk']==0)continue;//跳过未选中的商品
-				$temp = explode('_',$key);
-				$goodsId = (int)$temp[0];
-				$goodsAttrId = (int)$temp[1];
-				if(in_array($goodsId, $paygoods)){
-					$goods = $goodsmodel->getGoodsSimpInfo($goodsId,$goodsAttrId);
-					//核对商品是否符合购买要求
-					if(empty($goods)){
-						$this->assign("fail_msg",'对不起，该商品不存在!');
-						$this->display('default/order_fail');
-						exit();
-					}
-					if($goods['goodsStock']<=0){
-						$this->assign("fail_msg",'对不起，商品'.$goods['goodsName'].'库存不足!');
-						$this->display('default/order_fail');
-						exit();
-					}
-					if($goods['isSale']!=1){
-						$this->assign("fail_msg",'对不起，商品库'.$goods['goodsName'].'已下架!');
-						$this->display('default/order_fail');
-						exit();
-					}
-					$goods["cnt"] = $cgoods["cnt"];
-					$totalCnt += $cgoods["cnt"];
-					$totalMoney += $goods["cnt"]*$goods["shopPrice"];
-					$catgoods[$goods["shopId"]]["shopgoods"][] = $goods;
-					$catgoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//店铺免运费最低金额
-					$catgoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//店铺免运费最低金额
-					$catgoods[$goods["shopId"]]["totalCnt"] = $catgoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
-					$catgoods[$goods["shopId"]]["totalMoney"] = $catgoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
-				}
-			}
-			foreach($catgoods as $key=> $cshop){
-				if($cshop["totalMoney"]<$cshop["deliveryFreeMoney"]){
-					if($isself==0){
-						$totalMoney = $totalMoney + $cshop["deliveryMoney"];
-					}
-				}
-			}
-			
-			$ordersInfo = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself);
-			$newcart = array();
-			foreach($shopcat as $key=>$cgoods){
-				if(!in_array($key, $paygoods)){
-					$newcart[$key] = $cgoods;
-				}
-			}
-			
-			session("RTC_CART",empty($newcart)?null:$newcart);
-			$orderNos = $ordersInfo["orderNos"];
-			$this->assign("torderIds",implode(",",$ordersInfo["orderIds"]));
-			$this->assign("orderInfos",$ordersInfo["orderInfos"]);
-			$this->assign("isMoreOrder",(count($ordersInfo["orderInfos"])>0)?1:0);
-			$this->assign("orderNos",implode(",",$orderNos));
-			$this->assign("totalMoney",$totalMoney);
-			if($payway==0){
-				$this->display('default/order_success');	
-			}else{
-				$orderIds = $ordersInfo["orderIds"];
-				
-				$this->redirect("Payments/toPay",array("orderIds"=>implode(",",$orderIds))); //直接跳转，不带计时后跳转
-			}
-		}	
+		echo dump($ordersInfo);
+//		$this->redirect('success');
 	}
 	
 	/**

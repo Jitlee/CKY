@@ -7,14 +7,27 @@
  */
 function FastCart(shopId, startMoney, freeMoney, fastMoney) {
 	// 获取购物车列表
-	var cart = cky.storage.getItem("fast-cart" + shopId) || { count: 0, total: 0, goods: {} };
+	var cart = cky.storage.getItem("fast-cart" + shopId) || {
+		count: 0,
+		total: 0,
+		startMoney: startMoney,
+		freeMoney: freeMoney,
+		fastMoney: fastMoney,
+		goods: {}
+	};
+	
+	cart.startMoney = startMoney;
+	cart.freeMoney = freeMoney;
+	cart.fastMoney = fastMoney;
+	
 	var vm = {
 		num: ko.observable(cart.count),
 		total: ko.observable(cart.total),
 		fastMoney: ko.observable("免配送费"),
 		startMoney: ko.observable("选好了"),
 		ready: ko.observable(false),
-		activeCss: ko.observable("")
+		activeCss: ko.observable(""),
+		ok: onok
 	}
 	ko.applyBindings(vm, document.getElementById("fastCart"));
 	
@@ -36,6 +49,7 @@ function FastCart(shopId, startMoney, freeMoney, fastMoney) {
 		var goodsName = parent.attr("goodsName");
 		var shopCatId = parent.attr("shopCatId");
 		var goodsThums = parent.attr("goodsThums");
+		var goodsUnit = parent.attr("goodsUnit");
 		var shopPrice = Number(parent.attr("shopPrice"));
 		if(cart.goods[goodsId]) {
 			// 有则数量加一
@@ -47,6 +61,7 @@ function FastCart(shopId, startMoney, freeMoney, fastMoney) {
 				goodsThums: goodsThums,
 				shopCatId: shopCatId,
 				shopPrice: shopPrice,
+				goodsUnit: goodsUnit,
 				count: 1
 			};
 			
@@ -106,4 +121,9 @@ function FastCart(shopId, startMoney, freeMoney, fastMoney) {
 	refreshCart();
 	
 	$("#fastCart").removeClass("cky-hidden");
+	
+	// 提交事件
+	function onok() {
+		window.location.href = "../Orders/index.html?shopId=" + shopId;
+	}
 }

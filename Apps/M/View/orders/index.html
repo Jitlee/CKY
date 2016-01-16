@@ -1,0 +1,107 @@
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+<div class="mui-content mui-content-bottom">
+	<ul id="goodsList" class="mui-table-view">
+		<!-- ko foreach: $data -->
+		<li class="cky-table-view-cell">
+			<span data-bind="text: goodsName"></span>
+			<h5 data-bind="text: '¥ ' + shopPrice + ' × ' + count +  goodsUnit"></h5>
+		</li>
+		<!-- /ko -->
+		<li id="isSelf">
+			<label>
+				<input type="radio" name="fastType" value="self"/>
+				<span>上门自取</span>
+			</label>
+		</li>
+		<li id="fastMoney">
+			<label>
+				<input type="radio" name="fastType" value="fast" checked="checked"/>
+				<span>免快递费</span>
+			</label>
+		</li>
+		
+		<li>
+			<label>
+				<input id="needreceipt" type="checkbox" name="needreceipt" checked="checked"/>
+				<span>需要票据</span>
+			</label>
+		</li>
+		
+		<li id="fastMoney">
+			<label>
+				<input id="payway" type="checkbox" name="payway"/>
+				<span>货到付款</span>
+			</label>
+		</li>
+	</ul>
+	<footer class="cky-footer">
+		<p class="font-red font17">共 ¥<span id="totalSpan">0</span></p>
+		<br />
+		<button id="submit" class="cky-update mui-btn mui-btn-primary">提交订单</button>
+	</footer>
+</div>
+
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	var shopId = util.i("shopId");
+	var cart = cky.storage.getItem("fast-cart" + shopId);
+	if(cart) {
+		var goods = [];
+		for(var goodsId in cart.goods) {
+			goods.push(cart.goods[goodsId]);
+		}
+		ko.applyBindings(goods, document.getElementById("goodsList"));
+		
+		$(function(){
+			var total = cart.total;
+			var fastMoneyElement = $("#fastMoney");
+			if(!(cart.fastMoney == 0 || cart.total >= cart.freeMoney)) {
+				total += cart.fastMoney;
+				$("span", fastMoneyElement).text("配送费" + cart.fastMoney);
+			} else {
+				$("span", fastMoneyElement).text("免配送费");
+				$("#isSelf").hide();
+			}
+			var totalSpan = $("#totalSpan");
+			totalSpan.text(total);
+			
+			$("input[name='fastType']").change(function() {
+				var $this = $(this);
+				if($this.val() == "self") {
+					total = cart.total;
+				} else {
+					if(!(cart.fastMoney == 0 || cart.total >= cart.freeMoney)) {
+						total = cart.total + cart.fastMoney;
+					} else {
+						total = cart.total;
+					}
+				}
+				totalSpan.text(total);
+			});
+			
+			$("#submit").click(function() {
+				var fastType = $("input[name='fastType'][checked]").val();
+				var payway = $("#payway").prop("checked") ? 1 : 0;
+				var needreceipt = $("#needreceipt").prop("checked") ? 1 : 0;
+				var goodsJSONString = JSON.stringify(goods.map(function(g) { return { goodsId: g.goodsId, shopId: shopId, count: g.count }  }));
+				$.post("{:U('submitOrder')}", {
+					goods: goodsJSONString,
+					isself: fastType == "self" ? 1 : 0,
+					needreceipt: needreceipt,
+					orderunique: new Date().getTime(),
+					consigneeId: 1,
+					payway: payway
+				}, function() {
+					
+				});
+			});
+		});
+	}
+</script>

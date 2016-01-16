@@ -25,6 +25,17 @@ function timeToString($time) {
 }
 
 
+function getuid()
+{
+	$uid=session("uid");
+	if(!isset($uid))
+	{
+		$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('Person/index', '', '');
+		header("Location:".$REDIRECT_URI);	
+	}	
+	return $uid;
+}
+
 function  log_result($file,$word)
 {
      $fp = fopen($file,"a");
@@ -33,6 +44,7 @@ function  log_result($file,$word)
      flock($fp, LOCK_UN);
      fclose($fp);
 }
+
 
 
 function traceHttp()

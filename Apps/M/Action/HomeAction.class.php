@@ -271,7 +271,7 @@ class HomeAction extends BaseAction {
 
 			$code ="18620554231";// $_GET['code'];
 			
-
+			echo getuid();
  
 	}
 

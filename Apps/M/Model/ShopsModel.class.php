@@ -83,7 +83,7 @@ class ShopsModel extends BaseModel {
 		}
 		
 		$field = array('cky_shops.shopId','shopSn','shopName','shopImg','shopTel',
-			'deliveryStartMoney', 'deliveryCostTime', 'deliveryMoney', 'deliveryFreeMoney',
+			'deliveryStartMoney', 'deliveryCostTime', 'serviceStartTime', 'serviceEndTime', 'deliveryMoney', 'deliveryFreeMoney',
 			'totalScore', 'totalUsers',
 			'latitude','longitude','deliveryOff','shopAddress');
 		if($lng > 0 && $lat > 0) {

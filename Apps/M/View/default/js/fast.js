@@ -4,8 +4,9 @@
  * @param {Number} startMoney 起送费
  * @param {Number} freeMoney 免配送费
  * @param {Number} fastMoney 送餐费
+ * @param {Number} costTime 平均送餐时间
  */
-function FastCart(shopId, startMoney, freeMoney, fastMoney) {
+function FastCart(shopId, startMoney, freeMoney, fastMoney, costTime, startTime, endTime) {
 	// 获取购物车列表
 	var cart = cky.storage.getItem("fast-cart" + shopId) || {
 		count: 0,
@@ -19,6 +20,9 @@ function FastCart(shopId, startMoney, freeMoney, fastMoney) {
 	cart.startMoney = startMoney;
 	cart.freeMoney = freeMoney;
 	cart.fastMoney = fastMoney;
+	cart.costTime = costTime;
+	cart.startTime = startTime;
+	cart.endTime = endTime;
 	
 	var vm = {
 		num: ko.observable(cart.count),

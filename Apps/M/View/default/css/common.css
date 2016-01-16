@@ -511,10 +511,65 @@ a.cky-segmented-item {
 	width: 60px;
 }
 
+.cky-address-hr {
+	margin: 0;
+	border: none;
+	height: 5px;
+	background: repeating-linear-gradient(315deg,
+              #fb3 25%, #58a 0, #58a 50%,
+              #fb3 0, #fb3 75%, #58a 0);
+	background-size: 30px 30px; 
+}
+
 .cky-zhishu4 {
 	width: 80px;
 }
 
 .cky-zhishu5 {
 	width: 100px;
+}
+
+.cky-select {
+	font-size: 15px;
+	color: #999;
+	border: solid 1px #999;
+	border-radius: 3px;
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	padding-left: 3px;
+	padding-right: 25px;
+	position: relative;
+}
+
+.cky-select::after {
+	font-family:"iconfont" !important;
+  	font-size:8px;
+  	font-style:normal;
+  	-webkit-font-smoothing: antialiased;
+  	-webkit-text-stroke-width: 0.2px;
+  	-moz-osx-font-smoothing: grayscale;
+	content: "\e611";
+	position: absolute;
+	display: block;
+	border-left: solid 1px #999;
+	right: 0px;
+	top: 0px;
+	width: 20px;
+	height: 100%;
+	text-align: center;
+}
+
+.cky-select:active {
+	color: #f60;
+}
+
+.cky-select-list {
+	border-radius: 5px;
+	width: 80vw;
+	max-height: 80vh;
+}
+
+.cky-select-list .mui-table-view-cell {
+	font-size: 24px;
 }

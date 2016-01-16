@@ -4,6 +4,7 @@ $(function() {
 	});
 });
 
+// cky扩展js
 var cky = {
 	/**
 	 * 扩展包装html5storage, 每一项都可以设置失效时间(s)
@@ -38,3 +39,71 @@ var cky = {
 		}
 	}	
 };
+
+// 下拉框设定
+$.fn.select = function(list) {
+	var $this = this;
+	$this.unbind();
+	
+	this.click(function() {
+		var html = [];
+		html.push("<ul class=\"mui-table-view mui-input-group cky-select-list\">");
+		$.each(list, function(i) {
+			html.push("<li id=\"cky-select-")
+			html.push(this.key);
+			html.push("\" class=\"mui-table-view-cell mui-radio\"><a><label>");
+			html.push(this.text);
+			html.push("<input name=\"cky-select\" type=\"radio\" value=\"");
+			html.push(this.key);
+			html.push("\"/></label></a></li>");
+		});
+		html.push("</ul>");
+		
+		layer.open({
+		    type: 1,
+		    title: null,
+		    closeBtn: 0, //不显示关闭按钮
+		    shift: 2,
+		    shadeClose: true, //开启遮罩关闭
+		    content: html.join(""),
+		    success: onopen
+		});
+	});
+	
+	function onopen(elem) {
+		var selectedValue = $this.attr("selectedValue");
+		if(selectedValue) {
+			$("#cky-select-" + selectedValue + " input", elem).prop("checked", true);
+		} else {
+			$("input:first", elem).prop("checked", true);
+		}
+		
+		$(elem).on("click", "li", function() {
+			var key = $("input", this).val();
+			var text = $("label", this).text();
+			$this.attr("selectedValue", key);
+			$this.text(text);
+			
+			layer.closeAll();
+		})
+	}
+	
+	// 设置初始值
+	var selectedValue = $this.attr("selectedValue");
+	if(selectedValue) {
+		var len = list.length;
+		while(len--) {
+			if(list[len].key == selectedValue) {
+				$this.text(list[len].text);
+				break;
+			}
+		}
+	} else if(list.length > 0){
+		$this.text(list[0].text);
+		$this.attr("selectedValue", list[0].key);
+	} else {
+		$this.attr("selecedValue", null);
+		$this.text("请选择");
+	}
+	return $this;
+}

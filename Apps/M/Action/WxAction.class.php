@@ -54,7 +54,6 @@ class WxAction extends Controller {
 			$this->redirect('Home/getwxerror');
 			exit;
 		}
-		
 		$this->redirect('Person/index');
 		exit;
 	}

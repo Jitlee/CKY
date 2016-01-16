@@ -97,8 +97,8 @@ class OneCardModel extends BaseModel {
 		//data={"userAccount":"10003","where":" 1=1 and cardId='13632651195' ", "pageIndex":0,"pageSize":10,"orderBy":" cardId desc"} 
 		$data = array(
 			"userAccount"=>"10000"
-			"cardId"=>$cardId
-			"memberPassword"=>""
+			,"cardId"=>$cardId
+			,"memberPassword"=>""
 			,"where"=>" 1=1 and cardId='".$cardId."' "
 			, "pageIndex"=>$pageIndex
 			,"pageSize"=>$pageSize
@@ -121,9 +121,9 @@ class OneCardModel extends BaseModel {
 		$data = array(
 			"cardId"=>$cardId
 			,"value"=>$value
-			,"valuePlus"=>$value
+			//,"valuePlus"=>$value
 			,"paidMoney"=>$value
-			,"meno"=>"平台充值"
+			,"meno"=>"粗卡云平台充值"
 			,"userAccount"=>"10000"
 		);
 		$url='OpenApi/Add_Value';

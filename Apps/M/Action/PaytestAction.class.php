@@ -22,9 +22,8 @@ class PaytestAction extends BaseAction {
         //1、获取openid
         $tools = new \JsApiPay();
         $openId = $tools->GetOpenid();
-
-		$tfee=1;				//整数单位为分
-		$setattach="neworderid"; //附加信息原样返回
+		$tfee=1;					//整数单位为分
+		$setattach="neworderid"; 	//附加信息原样返回
         //2、统一下单
         $input = new \WxPayUnifiedOrder();
         $input->SetBody("test");

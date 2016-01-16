@@ -18,10 +18,16 @@ class PersonAction extends BaseUserAction {
 		{
 			$this->redirect('Home/selectreg');
 			exit;
-		} 
+		}
+		else
+		{
+			//更新session
+			session("cardid",$result["CardId"]);			
+			session("uid",$result["uid"]);
+			session("MemberItem",$result);	
+		}
 				
-		session("MemberItem",$result);
-		
+		session("MemberItem",$result);		
 		$this->assign('title', "个人中心");
 		$this->assign('data', $result);
 		//layout(TRUE);
@@ -39,6 +45,7 @@ class PersonAction extends BaseUserAction {
 	
 	public function changepwd()
 	{
+		
 		if(IS_POST) {
 			$key=$this->GetCardId();
 			$mMember = D('M/OneCard');
@@ -123,6 +130,8 @@ class PersonAction extends BaseUserAction {
 	
 	public function recharge()
 	{
+		//echo session("cardid");
+		$this->assign('title', "会员卡充值");
 		layout(TRUE);
 		$this->display();
 	}

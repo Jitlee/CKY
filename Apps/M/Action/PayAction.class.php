@@ -14,7 +14,6 @@ class PayAction extends BaseUserAction {
 	//在类初始化方法中，引入相关类库
     public function _initialize() {
         vendor('Weixinpay.WxPayJsApiPay');
-
     }
 
     Public function index(){
@@ -43,7 +42,8 @@ class PayAction extends BaseUserAction {
 		}
 		//保存系统支付订单
 		$dataInfo["uid"]=session("uid");
-		$dataInfo["openId"]=$this->GetOpenid(); 
+		$dataInfo["openId"]=$this->GetOpenid();
+		$dataInfo["cardid"]=$this->GetCardId(); 
 		
 		$dataInfo["payNo"]='cky'.date('ymdhis').rand(10000,99999); 
 		$dataInfo["PayType"]=$type;
@@ -92,7 +92,7 @@ class PayAction extends BaseUserAction {
     Public function notify(){
         //这里没有去做回调的判断，可以参考手机做一个判断。
         $xmlObj=simplexml_load_string($GLOBALS['HTTP_RAW_POST_DATA']); //解析回调数据
-		logger($GLOBALS['HTTP_RAW_POST_DATA']);
+		
 		
 		
         $appid=$xmlObj->appid;//微信appid
@@ -115,30 +115,32 @@ class PayAction extends BaseUserAction {
 
         //下面开始你可以把回调的数据存入数据库，或者和你的支付前生成的订单进行对应了。
 		//更新到订单表
-		$content="-----------------接收信息-----------------attach=".$attach;
-		logger($content);
-				
-		$mMember = D('M/MemberPay');
-		$dataInfo=$mMember->GetByPayNo($attach);
-		if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0)	
+		$attach=$attach.'';
+		$result_code=$result_code.'';
+		//echo $attach;
+		$mMPay = D('M/MemberPay');
+		$dataInfo=$mMPay->GetByPayNo($attach);
+		
+		if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0 && $result_code=='SUCCESS')	
 		{
 			 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
-			 $dataInfo["result_code"]=$result_code;
-			 $dataInfo["fee_type"]=$fee_type;
-			 $dataInfo["transaction_id"]=$transaction_id;
-			 $dataInfo["cash_fee"]=$cash_fee;
-			 $dataInfo["cash_fee"]=99;
+			 $dataInfo["result_code"]=$result_code.'';
+			 $dataInfo["fee_type"]=$fee_type.'';
+			 $dataInfo["transaction_id"]=$transaction_id.'';
+			 $dataInfo["cash_fee"]=$cash_fee.'';
+			 $dataInfo["Status"]=99;
 			 
-			 $cardid=$this->GetCardId();
-			 $result=$mMember->UpdateRechange($dataInfo,$cardid);
+			 $cardid=$dataInfo["cardid"];
+			 $result=$mMPay->UpdateRechange($dataInfo,$cardid);
 		} 
 		else
-			{
-				$content="-----------------出错啦-----------------";
-				$content=$content.$dataInfo["PayType"] .$dataInfo["Status"];
-				logger($content);
-			}
-		
+		{
+			$content="-----------------出错啦-----------------";
+			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
+			logger($content);
+			logger($GLOBALS['HTTP_RAW_POST_DATA']);
+		}
+		echo 'SUCCESS';
         //需要记住一点，就是最后在输出一个success.要不然微信会一直发送回调包的，只有需出了succcess微信才确认已接收到信息不会再发包.
         
     }

@@ -30,7 +30,7 @@ function getuid()
 	$uid=session("uid");
 	if(!isset($uid))
 	{
-		$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('Person/index', '', '');
+		$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('Wx/getcodeurl', '', '');
 		header("Location:".$REDIRECT_URI);	
 	}	
 	return $uid;

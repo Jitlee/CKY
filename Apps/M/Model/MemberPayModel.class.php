@@ -26,8 +26,8 @@ class MemberPayModel extends BaseModel {
 	
 	public function GetByPayNo($key)
 	{
-		$db = M('member');
-		$filter["PayNo"]=$key;
+		$db = M('member_pay');
+		$filter["payNo"]=$key;
 		return $db->where($filter)->find();
 	}
 	
@@ -36,19 +36,22 @@ class MemberPayModel extends BaseModel {
 		$dbMember = M('member_pay');
 		$dbMember->save($dataInfo);
 		
-		$content="-----------------更新到一卡易---支付记录-----------------attach=".$attach;
-		logger($content);
-		
-		//更新到一卡易
+		//向一卡易帐户充值
 		$mOneCard = D('M/OneCard'); //出错处理
 		$res=$mOneCard->AddValue($carid,$dataInfo["TotalMoney"]);
-		$content="-----------------更新到一卡易-----------------attach=".$attach;
-		logger($content);
  		//用户信息
 		if($res["status"] == 0)
 		{
-			//同步用户记录
-			$result=$mOneCard->DataSync($CardId);
+			$mSync = D('M/MemberOneCardSync');
+			$result=$mSync->DataSync($carid);//同步用户记录
+		}
+		else
+		{
+			$content="-----------------充值出错-----------------";
+			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
+			$content=$content.',Carid='.$carid;
+			logger($content);
+			logger($res["message"] );
 		}
 	}
 	

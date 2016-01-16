@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="__CSS__/order.css" />
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
@@ -7,6 +8,27 @@
 	</h1>
 </header>
 <div class="mui-content mui-content-bottom">
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right">
+				<span>
+					万先生 18922864361
+				</span>
+				<h5>大鹏飞广发</h5>
+			</a>
+		</li>
+	</ul>
+	<hr class="cky-address-hr"/>
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">
+			<a>
+				<span>送达时间</span>
+				<div class="cky-update">
+					<a id="fastDay" class="cky-select">今天</a>&nbsp;<a id="fastTime" class="cky-select">18:20</a>
+				</div>
+			</a>
+		</li>
+	</ul>
 	<ul id="goodsList" class="mui-table-view">
 		<!-- ko foreach: $data -->
 		<li class="cky-table-view-cell">
@@ -85,6 +107,42 @@
 				}
 				totalSpan.text(total);
 			});
+			
+			// 送达时间
+			$("#fastDay").select([{key: 0,text: "今天"}]);
+			var fastTimeSelect = $("#fastTime").select(getServicesTime());
+			
+			function getServicesTime() {
+				var serviceTime = getServiceTime();
+				var list = [];
+				if(serviceTime) {
+					var startTime = serviceTime[0];
+					var endTime = serviceTime[1];
+					
+					for(var time = startTime; time < endTime; time += 15) {
+						list.push({ key: time, text: util.formatMuites(time) });
+					}
+				}
+				return list;
+			}
+			
+			function getServiceTime() {
+				// 统一换算成分钟计算
+				var startTime = (cart.startTime || 8.0) * 60; // 小时, 默认8点
+				var endTime = (cart.endTime || 22.5) * 60; // 小时，默认22:30
+				var now = new Date();
+				var costTime = cart.costTime || 30; // 分钟, 默认半个小时
+				var nowTime = now.getHours() * 60 + now.getMinutes();
+				startTime = Math.min(Math.max(startTime, nowTime), endTime); // 取营业时间范围内的;
+				startTime += costTime;
+				startTime = Math.ceil(startTime / 5) * 5; // 按5取整数计算
+				
+				if(startTime <= endTime) {
+					return [startTime,endTime];
+				}
+				return null; // 超出服务时间不允许, 不提供服务
+			}
+		
 			
 			$("#submit").click(function() {
 				var fastType = $("input[name='fastType'][checked]").val();

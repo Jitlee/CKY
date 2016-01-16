@@ -11,6 +11,25 @@ util = {
   		return str;
 	},
 	
+	/*
+	 * 将分钟转换成时间格式
+	 */
+	formatMuites: function(muites) {
+		var _hours = Math.floor(muites / 60);
+		var _muites = Math.round(muites % 60);
+		var result = [];
+		if(_hours < 10) {
+			result.push("0");
+		}
+		result.push(_hours);
+		result.push(":");
+		if(_muites < 10) {
+			result.push("0");
+		}
+		result.push(_muites);
+		return result.join("");
+	},
+	
 	/**
 	 * body滚动到底部时触发 
 	 * @param {Function} callback 回调函数

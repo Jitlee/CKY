@@ -44,7 +44,7 @@ class GoodsModel extends BaseModel {
 				break;
 			case 1: // 快餐商品详情
 				$join = 'cky_shops on cky_shops.shopId = cky_goods.shopId';
-				$field .= ',goodsSpec, cky_shops.shopId, deliveryStartMoney, deliveryFreeMoney, deliveryMoney';
+				$field .= ',goodsSpec, cky_shops.shopId, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime';
 		}
 		return $this->field($field)->join($join)->find($goodsId);
 	}

@@ -183,7 +183,9 @@
 		
 		function done() {
 			// 购物车
-			new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney}, {$data.deliveryMoney});
+			new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
+				{$data.deliveryMoney}, {$data.deliveryCostTime},
+				{$data.serviceStartTime}, {$data.serviceEndTime});
 		}
 		$(document.body).css("overflow", "hidden");
 		$("#goodsList, #goodsCatsList").height($(window).height() - 132);

@@ -13,7 +13,7 @@ class OrdersAction extends BaseUserAction {
 	 * 提交订单
 	 */
 	public function index() {
-		$this->assign('title', '提交订单');
+		$this->assign('title', '订单确认');
 		$this->display();
 	}
 	
@@ -281,7 +281,7 @@ class OrdersAction extends BaseUserAction {
 		$morders = D('M/Orders');
 		$totalMoney = 0;
 		$totalCnt = 0;
-		$userId = 9;
+		$userId = getuid();
 		
 		$consigneeId = (int)I("consigneeId");
 		$payway = (int)I("payway"); // 支付途径

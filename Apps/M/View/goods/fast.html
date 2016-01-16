@@ -74,7 +74,9 @@
 	});
 	
 	$(function() {
-		var fastCart = new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney}, {$data.deliveryMoney});
+		var fastCart = new FastCart({$data.shopId}, {$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
+			{$data.deliveryMoney}, {$data.deliveryCostTime},
+			{$data.serviceStartTime}, {$data.serviceEndTime});
 		
 	});
 	

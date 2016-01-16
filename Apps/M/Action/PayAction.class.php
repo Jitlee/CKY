@@ -16,6 +16,19 @@ class PayAction extends BaseUserAction {
         vendor('Weixinpay.WxPayJsApiPay');
     }
 
+	
+	Public function error()
+	{
+		$this->assign('title', "支付失败");
+		$this->display();	
+	}
+	
+	Public function success()
+	{
+		$this->assign('title', "支付成功");
+		$this->display();	
+	}
+	
     Public function index(){
 
         //1、获取openid

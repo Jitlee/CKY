@@ -1,10 +1,10 @@
-<header class="mui-bar mui-bar-nav">
+<!--<header class="mui-bar mui-bar-nav">
 	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" onclick="history.go(-1)">
 			<span class="mui-icon mui-icon-left-nav" ></span>
 	    	返回
 	  </button>
 	  <h1 class="mui-title">{$title}</h1>
-</header>
+</header>-->
 
 <div class="mui-content">
 	 	<div class="diverweima" style="width: 300px; height: 360px; display: none;">
@@ -33,7 +33,7 @@
 	</ul>
 	<ul class="mui-table-view"> 
 			<li class="mui-table-view-cell">
-					<div class=" mui-navigate-right">
+					<div class=" mui-navigate-right" id="addresslist">
 						<span>收货地址</span>
 						<div  class="cellinfo-right" ></div>
 					</div>
@@ -77,9 +77,13 @@
  
 <script type="text/javascript">
 	$(function() {
+		//地址
+		$("#addresslist").click(function(){
+				window.location.href="{:U('Person/addresslist', '', '')}";
+		});
 			$("#erweima").click(function(){
 					//window.location.href="{:U('Person/erweima', '', '')}";
-									layer.open({
+					layer.open({
 				    type: 1,
 				    shade: false,
 				    title: false, //不显示标题

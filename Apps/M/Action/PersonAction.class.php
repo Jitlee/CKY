@@ -190,6 +190,94 @@ class PersonAction extends BaseUserAction {
 		$this->display();
 	}
 	
+	 
+	
+	
+	
+	
+	/*****地址管理******/
+	public function addresslist()
+	{
+		$mMAdd= D('M/MemberAddress');
+		$uid=session("uid");
+		$result=$mMAdd->GetList($uid);
+			
+		$this->assign('title', '收货地址');
+				
+		$this->assign("data", $result);
+		$this->display();
+						
+	}
+	public function addressedit(){
+		if(IS_POST) {
+			$result["status"]=0;
+			$result["msg"]="成功。";
+			$db=M("user_address");
+			$data['userId'] = session("uid");
+			$add = $db->where($data)->find();
+			if(!$add) {				
+				$_POST['userId']=  session("uid");
+				$db->create();
+				if($db->add() != false) {
+					$result["status"]=1;
+				} 
+				else 
+				{
+					$result["msg"]='数据错误';
+				}
+			}
+			else
+			{
+				//$db->save($_POST);
+				$add["userName"]=$_POST['userName'];
+				$add["userPhone"]=$_POST['userPhone'];
+				$add["areaId1Name"]=$_POST['areaId1Name'];
+				$add["areaId2Name"]=$_POST['areaId2Name'];
+				$add["areaId3Name"]=$_POST['areaId3Name'];
+				$add["areaId1"]=$_POST['areaId1'];
+				$add["areaId2"]=$_POST['areaId2'];
+				$add["areaId3"]=$_POST['areaId3'];
+				$add["address"]=$_POST['address'];
+				
+				$add["postCode"]=$_POST['postCode'];
+				
+				$add["createTime"]=time();
+								 
+				$db->save($add);
+				$result["status"]=1;
+			}
+			$this->ajaxReturn($result, "JSON");
+		}
+		else
+		{
+			$data['areaId'] = session("uid");
+			 
+			$mAddre = D('M/Areas');
+			$addProvi=$mAddre->GetProvince();
+			if($add)
+			{
+				$dbp = M('add');
+				$filter["addparent"] = $add["shengid"];
+				$filter["addtype"] = 1;
+				$cityarr= $dbp->where($filter)->select();	
+					
+				
+				$dbc = M('add');
+				$filter["addparent"] = $add["shiid"];
+				$filter["addtype"] = 2;
+				$xianarr= $dbc->where($filter)->select();
+				
+				$this->assign("cityarr", $cityarr);
+				$this->assign("xianarr", $xianarr);	
+			}
+			$this->assign("dataProvi", $addProvi);
+			$this->display();
+		}
+	}
+	
+	
+	
+	
 	/*生成二维码*/
  	public function qrcode($level=3,$size=8)
  	{ 	 	

@@ -25,7 +25,38 @@ class OrdersAction extends BaseUserAction {
 		$this->display();
 	}
 	
+	public function detail() {
+		$orderId = I('id');
+		$map = array('orderId' => $orderId);
+		
+		// 获取订单信息	
+		$m = D('M/Orders');
+		$data = $m->getOrdersDetails($map);
+		$data = $data[0];
+		$this->assign('data', $data);
+		
+//		echo $m->getLastSql();
+//		echo dump($data);
+		
+		// 获取订单商品里列表
+		$goods = $m->getOrdersGoods($map);
+		$this->assign('goods', $goods);
+		
+		$this->assign('title', $data['shopName']);
+		
+		$this->display();
+	}
 	
+	/* 跳转到支付页面  */
+	public function pay() {
+		$m = D('M/Orders');
+		$data = $m->getOrdersDetails($map);
+		$data = $data[0];
+		
+		session("money", (float)$data['needPay']);
+		session("type", 'order');
+		$this->redirect('pay/index');
+	}
 	
 	/**
 	 * 获取待付款的订单列表
@@ -154,10 +185,8 @@ class OrdersAction extends BaseUserAction {
 	 * 取消订单
 	 */
     public function orderCancel(){
-    	$this->isUserAjaxLogin();
-    	$USER = session('RTC_USER');
-    	$morders = D('Home/Orders');
-    	$obj["userId"] = (int)$USER['userId'];
+    	$morders = D('M/Orders');
+    	$obj["userId"] = getuid();
     	$obj["orderId"] = I("orderId");
 		$rs = $morders->orderCancel($obj);
 		$this->ajaxReturn($rs);
@@ -343,8 +372,9 @@ class OrdersAction extends BaseUserAction {
 		
 		$ordersInfo = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
 		
-		echo dump($ordersInfo);
-//		$this->redirect('success');
+		$this->ajaxReturn($ordersInfo);
+//		echo dump($ordersInfo);
+////		$this->redirect('success');
 	}
 	
 	/**

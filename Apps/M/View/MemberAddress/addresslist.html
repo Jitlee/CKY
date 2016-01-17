@@ -9,8 +9,8 @@
 		</ul>
 		<p>收货地址</p>
 		
-			<foreach name="data" item="item">
 				<ul  class="mui-table-view">
+			<foreach name="data" item="item">
 					<li class="mui-table-view-cell mui-media">						 
 							<div class="mui-media-body">
 								<span class="meno b">{$item.userName}&nbsp;&nbsp;&nbsp;&nbsp;{$item.userPhone}</span>
@@ -36,8 +36,8 @@
 							</span>
 						
 					</li>
-				</ul>
 			</foreach>
+				</ul>
 		
 </div>
 <include file="Public:tab"/>

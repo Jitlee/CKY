@@ -10,11 +10,15 @@
 <div class="mui-content mui-content-bottom">
 	<ul class="mui-table-view">
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right">
-				<span>
-					万先生 18922864361
-				</span>
-				<h5>大鹏飞广发</h5>
+			<a class="mui-navigate-right" href="{:U('MemberAddress/addresslist')}">
+				<!-- ko if:consignee -->
+				<span data-bind="text: consignee.name + '  ' + consignee.phone"></span>
+				<h5 data-bind="text: address"></h5>
+				<!-- /ko -->
+				
+				<!-- ko if:!consignee -->
+				<p class="add-consignee"><i class="iconfont icon-tianjia"></i>  请选择收货地址</p>
+				<!-- /ko -->
 			</a>
 		</li>
 	</ul>
@@ -135,6 +139,8 @@
 			
 				
 				$("#submit").click(function() {
+					var layerId = layer.open({type: 2});
+					console.log(layerId);
 					var goodsJSONString = JSON.stringify(vm.goods.map(function(g) { return { goodsId: g.goodsId, shopId: shopId, count: g.count }  }));
 					$.post("{:U('submitOrder')}", {
 						goods: goodsJSONString,
@@ -143,8 +149,15 @@
 						orderunique: new Date().getTime(),
 						consigneeId: 1,
 						payway: 0
-					}, function() {
-						
+					}, function(result) {
+						if(result && result.orderIds && result.orderIds.length > 0) {
+							cky.storage.removeItem("fast-cart" + shopId);
+//							window.location.href = "{:U('detail')}?id=" + result.orderIds[0];
+							window.location.href = "{:U('pay')}?orderId=" + result.orderIds[0];
+						} else {
+							layer.closeAll();
+						}
+						console.log(ordersinfo);
 					});
 				});
 			});

@@ -36,7 +36,7 @@ class OrdersModel extends BaseModel {
 	 */
 	public function getOrdersDetails($obj){		
 		$orderId = $obj["orderId"];
-		$sql = "SELECT od.*,sp.shopName 
+		$sql = "SELECT od.*,sp.shopName,sp.shopId
 				FROM __PREFIX__orders od, __PREFIX__shops sp 
 				WHERE od.shopId = sp.shopId And orderId = $orderId ";		
 		$rs = $this->query($sql);;	

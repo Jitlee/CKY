@@ -589,6 +589,7 @@ p.cky-update {
 	border-radius: 5px;
 	width: 80vw;
 	max-height: 80vh;
+	overflow: auto;
 }
 
 .cky-select-list .mui-table-view-cell {

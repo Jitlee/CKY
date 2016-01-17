@@ -51,8 +51,29 @@ var cky = {
 				data.time = new Date().getTime();
 			}
 			$.localStorage.setItem(key, JSON.stringify(data));
+		},
+		removeItem: function(key) {
+			$.localStorage.removeItem(key);
 		}
-	}	
+	},
+	
+	/**
+	 * 弹出自动消失的提示框
+	 * @param {Object} msg
+	 */
+	toast: function(msg) {
+		layer.open({
+		    content: msg,
+		    style: 'background-color:rgba(0,0,0,0.2); color:#666; border:none;',
+		    time: 2
+		});
+	},
+	
+	loadding: function() {
+		layer.open({
+		    type: 2
+		});
+	}
 };
 
 // 下拉框设定

@@ -23,24 +23,21 @@ class AreasAction extends BaseAction {
 	}
 	
 	public function getcitys() {
-		$cityid=$_POST["provinces"];
+		$cityid=$_POST["areaId1"];
 		$m = D('M/areas');
-		$area = $m->getCityByProvince($cityid);
-		
-		
-		$content="-----------------出错啦-----------------";
-		$content=$content.',$cityid='.count($area);
-		logger($content);
-		$data="ffffffffff";
-		$this->ajaxReturn($data,'JSON');
-		 
-		//$this->ajaxReturn($area, "JSON");
+		$area = $m->getCityByProvince($cityid); 
+		$this->ajaxReturn($area,'JSON');
 	}
 	
 	public function getcounty() {
-		$cityid=$_POST["city"];
+		$cityid=$_POST["areaId2"];
 		$m = D('M/areas');
-		$area = $m->getCountyByCity($cityid);
-		$this->ajaxReturn($area, "JSON");
+		$area = $m->getCountyByCity($cityid); 
+		$this->ajaxReturn($area,'JSON');
+		
+//		$cityid=$_POST["areaId2"];
+//		$m = D('M/areas');
+//		$area = $m->getCountyByCity($cityid);
+//		$this->ajaxReturn($area, "JSON");
 	}
 }

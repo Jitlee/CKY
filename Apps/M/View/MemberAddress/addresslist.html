@@ -1,0 +1,82 @@
+<div class="mui-content mui-content-bottom">
+		<ul class="mui-table-view"> 
+			<li class="mui-table-view-cell">
+					<div class=" mui-navigate-right" id="address">
+						<span>添加收货地址</span>
+						<div  class="cellinfo-right" ></div>
+					</div>
+			</li>			 
+		</ul>
+		<p>收货地址</p>
+		
+			<foreach name="data" item="item">
+				<ul  class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">						 
+							<div class="mui-media-body">
+								<span class="meno b">{$item.userName}&nbsp;&nbsp;&nbsp;&nbsp;{$item.userPhone}</span>
+								<p class='mui-ellipsis ctime'>{$item.areaId1Name}{$item.areaId2Name}{$item.areaId3Name}{$item.address}</p>
+							</div>
+							<span  class="cellinfo-right cvalue add-color b">
+								<if condition="($item.isDefault eq 1)">
+									<span class="mui-icon mui-icon-checkmarkempty"></span>									
+								</if>
+							</span>
+					</li>
+					<li  class="mui-table-view-cell mui-media">
+						<div class="mui-media-body">
+								<span></span>
+								 <span class="mui-icon mui-icon-compose"  onclick="edit({$item.addressId})"></span>
+								 &nbsp;&nbsp;&nbsp;
+								 <span class="mui-icon mui-icon-trash" onclick="deleteItem({$item.addressId})"></span>
+							</div>
+							<span  class="cellinfo-right font12">
+								<if condition="($item.isDefault eq 0)">
+									<span  onclick="setDefualt({$item.addressId})"><span class="mui-icon mui-icon-checkmarkempty" ></span>设置为默认</span>									
+								</if>
+							</span>
+						
+					</li>
+				</ul>
+			</foreach>
+		
+</div>
+<include file="Public:tab"/>
+<link rel="stylesheet" href="__CSS__/person-comm.css" />
+<script type="text/javascript">
+	function edit(id)
+	{
+		window.location.href="{:U('MemberAddress/addressedit', '', '')}/addressId/"+id;
+	}
+	function deleteItem(id){
+		layer.open({
+		    content: '您确定要删除此地址吗？',
+		    btn: ['确认', '取消'],
+		    shadeClose: false,
+		    yes: function(){
+		        $.post("{:U('MemberAddress/delete','','')}", {addressId: id}, delsuccess, "json");
+		    }
+		    , no: function(){
+		    }
+		});
+		
+		return;
+		function delsuccess(data) {
+			window.location.href="{:U('MemberAddress/addresslist', '', '')}";
+		}
+	}
+	function setDefualt(id){
+		$.post("{:U('MemberAddress/setdefalut','','')}", {addressId: id}, setsuccess, "json");
+		return;
+		function setsuccess(data) {			 
+			window.location.href="{:U('MemberAddress/addresslist', '', '')}";			 
+		}
+	}
+	$(function() {
+		//地址
+		$("#address").click(function(){
+			window.location.href="{:U('MemberAddress/addressedit', '', '')}";
+		});
+	});
+</script>
+
+ 

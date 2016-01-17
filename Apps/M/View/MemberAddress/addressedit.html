@@ -1,6 +1,8 @@
+ 
  <div class="mui-content">
 			<form>
 				<div class="mui-input-group">
+					<input name="addressId" type="hidden"  value="{$Item.addressId}"/>
 					<div class="mui-input-row">
 						<label>所在地区：</label>
 						<div>
@@ -32,19 +34,19 @@
 					</div>
 					<div class="mui-input-row">
 						<label>街道地址</label>
-						<input type="text" id='jiedao'  value="{$data.jiedao}"  name="address"  class="mui-input-clear mui-input" required placeholder="请填街道地址！">
+						<input type="text" id='jiedao'  value="{$Item.address}"  name="address"  class="mui-input-clear mui-input" required placeholder="请填街道地址！">
 					</div>
 					<div class="mui-input-row">
 						<label>邮政编码</label>
-						<input type="text" id='youbian'  value="{$data.youbian}"    name="postCode" class="mui-input-clear mui-input" required placeholder="请填邮政编码">
+						<input type="text" id='youbian'  value="{$Item.postCode}"    name="postCode" class="mui-input-clear mui-input" required placeholder="请填邮政编码">
 					</div> 
 					<div class="mui-input-row">
 						<label>收货人</label>
-						<input type="text" id='shouhuoren'  value="{$data.shouhuoren}"    name="userName" class="mui-input-clear mui-input" required placeholder="请填收货人">
+						<input type="text" id='shouhuoren'  value="{$Item.userName}"    name="userName" class="mui-input-clear mui-input" required placeholder="请填收货人">
 					</div> 
 					<div class="mui-input-row">
 						<label>手机号码</label>
-						<input type="text" id='mobile'   value="{$data.mobile}"   name="userPhone" class="mui-input-clear mui-input" required placeholder="请填手机号码">
+						<input type="text" id='mobile'   value="{$Item.userPhone}"   name="userPhone" class="mui-input-clear mui-input" required placeholder="请填手机号码">
 					</div> 
 				</div>
 				<div class="mui-content-padded">
@@ -52,6 +54,7 @@
 				</div>
 			</form>
 </div>
+<include file="Public:tab"/>
 <style>
 	.cityselect{ width: 15%; float: left;}
 </style>	
@@ -67,52 +70,49 @@
 					var p=$("#provinces").find("option:selected").text();
 					var c=$("#city").find("option:selected").text();
 					var x=$("#County").find("option:selected").text();
+					if(p=="请选择"){util.msg("请选择地址信息."); return false;}
+					if(c=="请选择"){util.msg("请选择地址信息."); return false;}
+					if(x=="请选择")x="";
+					if($("#jiedao").val()==""){util.msg("请输入地址信息."); return false;}
+					if($("#shouhuoren").val()==""){util.msg("请输入收货人."); return false;}
+					if($("#mobile").val()==""){util.msg("请输入手机号码."); return false;}
+					
 					$("#areaId1Name").val(p);
 					$("#areaId2Name").val(c);
 					$("#areaId3Name").val(x);
+					
 					var self = $("form");
-					$.post("{:U('Person/addressedit','','')}", self.serialize(), savesuccess, "json");
+					$.post("{:U('MemberAddress/addressedit','','')}", self.serialize(), savesuccess, "json");
 					return;
 					function savesuccess(data) {
 						if (data.status) {
-							 window.location.href="{:U('Person/me', '', '')}";
+							 window.location.href="{:U('MemberAddress/addresslist', '', '')}";
 						} else {
-							layer.alert(data.msg);
+							 util.msg(data.msg);
 						}
-					}					
+					}
 				});		
 		//初使化省市区
-		var proid='{$data.shengid}';
-		if(proid)
-		{
-			$("#provinces").val(proid);
-		}
-		var shiid='{$data.shiid}';
-		if(shiid)
-		{
-			$("#city").val(shiid);
-		}
-		var xianid='{$data.xianid}';
-		if(xianid)
-		{
-			$("#County").val(xianid);
-		}
+		var proid='{$Item.areaId1}';
+		$("#provinces").val(proid);
+		
+		var shiid='{$Item.areaId2}';
+		$("#city").val(shiid);
+		
+		var xianid='{$Item.areaId3}';
+		$("#County").val(xianid);
+		
 });
 	
-	function successcity(data) {			
-			alert(data);
-			
+	function successcity(data) {
 			var city=$("#city");
 			$("#city option").remove();			
-			city.append("<option value='0'>请选择</option>");		
-			
+			city.append("<option value='0'>请选择</option>");
 			for(var i=0;i< data.length;i++)
 			{
-				  var pro2=data[i];				
-					city.append("<option value='"+pro2.areaId+"'>"+pro2.areaName+"</option>");						 
-				
+				var pro2=data[i];				
+				city.append("<option value='"+pro2.areaId+"'>"+pro2.areaName+"</option>");	
 			}
-			
 	}
 	function successCounty(data) {				
 		var County=$("#County");
@@ -120,16 +120,14 @@
 		County.append("<option value='0'>请选择</option>");
 		for(var i=0;i< data.length;i++)
 		{
-				var pro2=data[i];
-			 
-				County.append("<option value='"+pro2.areaId+"'>"+pro2.areaName+"</option>");
+			var pro2=data[i];
+			County.append("<option value='"+pro2.areaId+"'>"+pro2.areaName+"</option>");
 			 
 		}
 	}
 	
 	$(function() {	
-		 	var self = $("body");
-		 	
+		 	var self = $("body");		 	
 			$("#provinces").change(function(){
 				if($("#provinces").val()=="0")
 				{
@@ -138,8 +136,7 @@
 					$("#city").append("<option value='0'>请选择</option>");					
 					return;
 				}						
-				var self = $("form");						
-				alert(self.serialize());
+				var self = $("form");
 				$.post("{:U('Areas/getcitys','','')}", self.serialize(), successcity, "json");					
 			});
 			

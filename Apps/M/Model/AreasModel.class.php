@@ -30,6 +30,9 @@ class AreasModel extends BaseModel {
 			return 0;
 		}
 	}
+	
+	
+	
 	public function GetProvince() 
 	{
 		$sql = 'select * from __PREFIX__areas  where   isShow=1 and areaType=0 order by areaSort';
@@ -37,16 +40,13 @@ class AreasModel extends BaseModel {
 	}
 	public function getCityByProvince($pid) 
 	{
-		//$pid = intval(I('areaId', 0));
-		$sql = 'select * from __PREFIX__areas  where   isShow=1 and areaType=1 and parentId=\''.$pid.'\' order by areaSort';
-		echo $sql;
+		$sql = 'select * from __PREFIX__areas  where   isShow=1 and areaType=1 and parentId='.$pid.' order by areaSort';		
 		return M()->query($sql);
 	}
 	
 	public function getCountyByCity($pid) 
 	{
-		//$pid = intval(I('areaId', 0));
-		$sql = 'select * from __PREFIX__areas  where   isShow=1 and areaType=2 and parentId=\''.$pid.'\' order by areaSort';
+		$sql = 'select * from __PREFIX__areas  where   isShow=1 and parentId='.$pid.' order by areaSort';
 		return M()->query($sql);
 	}
 	

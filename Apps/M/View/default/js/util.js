@@ -77,5 +77,17 @@ util = {
 			return phone.replace(/^(\d{3})\d{4}(\d+)$/, "$1****$2");
 		}
 		return phone;
+	},
+	/**
+	 * 消息提醒
+	 * @param {Object} 提醒消息
+	 */
+	msg: function(msg)
+	{
+		layer.open({
+		    content: msg,
+		    style: 'background-color:#09C1FF; color:#fff; border:none;',
+		    time: 5
+		});
 	}
 }

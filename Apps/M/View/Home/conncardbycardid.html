@@ -60,14 +60,14 @@
  		$("#btnsubmit").click(function() {
 	 			if($("#cardid").val().length <5)
 	 			{
-	 				layer.alert("请输入正确的会员卡号。");
+	 				util.msg("请输入正确的会员卡号。");
 	 				//$("#cardid").focus();
 	 				return false;
 	 			}
 	 			if($("#password").val().length <2)
 	 			{
 	 				//$("#password").focus();
-	 				layer.alert("请输入正确的密码。");
+	 				util.msg("请输入正确的密码。");
 	 				return false;
 	 			}
 				var self = $("form");
@@ -75,7 +75,7 @@
 				return false;
 				function success(data) {				 
 						if (data && data.status==1000) {
-							layer.alert(data.msg);
+							util.msg(data.msg);
 							setTimeout(function() {
 								window.location.href = "{:U('Person/index','','')}";
 							}, 2000);
@@ -83,7 +83,7 @@
 						else if (data.status) {
 							window.location.href = "{:U('Person/index','','')}";
 						} else {
-							layer.alert(data.msg);
+							util.msg(data.msg);
 						}
 				}
 		});

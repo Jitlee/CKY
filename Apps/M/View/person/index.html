@@ -1,6 +1,7 @@
 	<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/mui.min.css">
 	<link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/me.css?1">
 	<script src="__JS__/jquery.touchSwipe.min.js"></script>
+	<script src="__JS__/layer/layer.js"></script>
 	<script type="text/javascript">
    		$(function() {   			 
 			$(".mui-content").swipe({
@@ -78,8 +79,7 @@
 			$.post("{:U('Person/Sync','','')}/"+Math.round()*100, null, changeSuccess, "json");
 		}
 		function changeSuccess(data) {
-			//layer.alert(data.status);
-			//layer.alert(data.message);
+			 
 		}
 	</script>
 	<style>

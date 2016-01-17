@@ -97,14 +97,14 @@
  		$("#btnsubmit").click(function() {
  			if($("#mobile").val().length !=11)
  			{
- 				layer.alert("请输入正确的手机号码。");
+ 				util.msg("请输入正确的手机号码。");
  				//$("#mobile").focus();
  				return false;
  			}
  			if($("#password").val().length <2)
  			{
  				$("#password").focus();
- 				layer.alert("请输入密码。");
+ 				util.msg("请输入密码。");
  				return false;
  			}
 			var self = $("form");
@@ -113,7 +113,7 @@
 			return false;
 			function success(data) {				 
 				if (data && data.status==1000) {
-					layer.alert(data.msg);
+					util.msg(data.msg);
 					setTimeout(function() {
 						window.location.href = "{:U('Person/index','','')}";
 					}, 2000);
@@ -121,7 +121,7 @@
 				else if (data.status==1) {
 					window.location.href = "{:U('Person/index','','')}";
 				} else {
-					layer.alert(data.msg);
+					util.msg(data.msg);
 				}
 			}
 		});

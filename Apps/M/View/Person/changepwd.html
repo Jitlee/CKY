@@ -40,7 +40,7 @@
 		$("#btnalertpwd").click(function() {
 			if($("#txtnewpwd").val() != $("#txtconfimpwd").val())
 			{
-				layer.alert("输入两次密码不一致。");
+				util.msg("输入两次密码不一致。");
 				return false;
 			}
 			var self = $("form");
@@ -48,10 +48,10 @@
 			return false;
 			function changeSuccess(data) {
 				if (data.status==0) {
-					layer.alert("密码修改成功。");
+					util.msg("密码修改成功。");
 					window.location.href = "{:U('Person/index','','')}";
 				} else {
-					layer.alert(data.message);
+					util.msg(data.message);
 				}
 			}
 		});

@@ -14,24 +14,24 @@ class IndexAction extends BaseAction {
 	 * 
 	 */
     public function index(){
-   		$ads = D('Home/Ads');
-   		$areaId2 = $this->getDefaultCity();
-   		//获取分类
-		$gcm = D('Home/GoodsCats');
-		$catList = $gcm->getGoodsCatsAndGoodsForIndex($areaId2);
-		$this->assign('catList',$catList);
-   		//首页主广告
-   		$indexAds = $ads->getAds($areaId2,-1);
-   		$this->assign('indexAds',$indexAds);
-   		//分类广告
-   		$catAds = $ads->getAdsByCat($areaId2);
-   		$this->assign('catAds',$catAds);
-   		$this->assign('ishome',1);
-   		if(I("changeCity")){
-   			echo $_SERVER['HTTP_REFERER'];
-   		}else{
-   			$this->display("default/index");
-   		}
+// 		$ads = D('Home/Ads');
+// 		$areaId2 = $this->getDefaultCity();
+// 		//获取分类
+//		$gcm = D('Home/GoodsCats');
+//		$catList = $gcm->getGoodsCatsAndGoodsForIndex($areaId2);
+//		$this->assign('catList',$catList);
+// 		//首页主广告
+// 		$indexAds = $ads->getAds($areaId2,-1);
+// 		$this->assign('indexAds',$indexAds);
+// 		//分类广告
+// 		$catAds = $ads->getAdsByCat($areaId2);
+// 		$this->assign('catAds',$catAds);
+// 		$this->assign('ishome',1);
+// 		if(I("changeCity")){
+// 			echo $_SERVER['HTTP_REFERER'];
+// 		}else{
+   			$this->display("default/shop_login");
+// 		}
 		
     }
     /**

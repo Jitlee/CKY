@@ -91,7 +91,7 @@
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="dropdown user user-menu">
-                            <a href="{:RTCDomain()}" target='_blank'>
+                            <a href="/index.php/Home/Shops/login" target='_blank'>
                                 <i class="glyphicon glyphicon-home"></i>
                                 <span>前台&nbsp;</span>
                             </a>
@@ -260,17 +260,17 @@
                                 <span>会员管理</span>
                             </a>
                             <ul class="treeview-menu">
-                                <php>if(in_array('hydj_00',$RTC_STAFF['grant'])){</php>
+                                <!--<php>if(in_array('hydj_00',$RTC_STAFF['grant'])){</php>
                                 <li><a href="{:U('Admin/UserRanks/index')}" target='pageContent' >会员等级</a></li>
-                                <php>}</php>
+                                <php>}</php>-->
                                 <php>if(in_array('hylb_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Users/index')}" target='pageContent' >会员列表</a></li>
 					            <php>}</php>
-                                <php>if(in_array('hylb_01',$RTC_STAFF['grant'])){</php>
+                                <!--<php>if(in_array('hylb_01',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Users/toEdit/')}" target='pageContent'>添加会员</a></li>
-					            <php>}</php>
+					            <php>}</php>-->
                                 <php>if(in_array('hyzh_00',$RTC_STAFF['grant'])){</php>
-					            <li><a href="{:U('Admin/Users/queryAccountByPage')}" target='pageContent' >账号管理</a></li>
+					            <li><a href="{:U('Admin/Users/queryAccountByPage')}" target='pageContent' >商家账号管理</a></li>
 					            <php>}</php>
                             </ul>
                         </li>
@@ -302,21 +302,21 @@
                                 <php>if(in_array('scxx_00',$RTC_STAFF['grant'])){</php>
                                 <li><a href="{:U('Admin/Index/toMallConfig')}" target='pageContent' >系统信息</a></li>
                                 <php>}</php>
-                                <php>if(in_array('dhgl_00',$RTC_STAFF['grant'])){</php>
+                                <!--<php>if(in_array('dhgl_00',$RTC_STAFF['grant'])){</php>
                                 <li><a href="{:U('Admin/Navs/index')}" target='pageContent' >导航管理</a></li>
                                 <php>}</php>
                                 <php>if(in_array('yqlj_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Friendlinks/index')}" target='pageContent'>友情链接</a></li>
-					            <php>}</php>
+					            <php>}</php>-->
                                 <php>if(in_array('gggl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Ads/index')}" target='pageContent'>广告管理</a></li>
 					            <php>}</php>
                                 <!--<php>if(in_array('yhgl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Banks/index')}" target='pageContent'>银行管理</a></li>
 					            <php>}</php>-->
-					            <php>if(in_array('zfgl_00',$RTC_STAFF['grant'])){</php>
+					            <!--<php>if(in_array('zfgl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Payments/index')}" target='pageContent'>支付管理</a></li>
-					            <php>}</php>
+					            <php>}</php>-->
 					            
                             </ul>
                         </li>

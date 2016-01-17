@@ -70,7 +70,7 @@ class IndexModel extends BaseModel {
 		$ret = array();
 		//用户
 		$weekDate = date('Y-m-d 00:00:00',time()-604800);//一周内
-		$ret['userNew'] = M('Users')->where('userFlag=1 and createTime>"'.$weekDate.'"')->count();//新增用户
+		$ret['userNew'] = M('member')->where(' RegisterTime>"'.$weekDate.'"')->count();//新增用户
 		
 		//申请店铺
 		$ret['shopApply'] = M('Shops')->where('shopStatus >= 0 and shopFlag=1 and createTime>"'.$weekDate.'"')->count();
@@ -91,7 +91,7 @@ class IndexModel extends BaseModel {
 	 */
 	public function getSumInfo(){
 		$ret = array();
-		$ret['userSum'] = M('Users')->where('userFlag=1')->count();//新增用户
+		$ret['userSum'] = M('member')->count();//新增用户
 		//申请店铺
 		$ret['shopApplySum'] = M('Shops')->where('shopStatus = 0 and shopFlag=1')->count();
 		//商品

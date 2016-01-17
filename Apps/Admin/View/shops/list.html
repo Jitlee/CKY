@@ -100,7 +100,8 @@
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
-               <td><a href="{:U('Home/Shops/toShopHome',array('shopId'=>$vo['shopId']))}" target='_blank'>{$vo['shopName']}</a></td>
+               <!--<td><a href="{:U('Home/Shops/toShopHome',array('shopId'=>$vo['shopId']))}" target='_blank'>{$vo['shopName']}</a></td>-->
+               <td>{$vo['shopName']}</td>
                <td>{$vo['shopSn']}&nbsp;</td>
                <td>{$vo['userName']}&nbsp;</td>
                <td>{$vo['catName']}&nbsp;</td>

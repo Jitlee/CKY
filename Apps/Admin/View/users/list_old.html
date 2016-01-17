@@ -39,18 +39,18 @@
    <body class='rtc-page'>
     <form method='post' action='{:U("Admin/Users/index")}'>
        <div class='rtc-tbar'>
-       会员卡号：<input type='text' id='loginName' name='loginName' class='form-control rtc-ipt-10' value='{$loginName}'/>
+       会员账号：<input type='text' id='loginName' name='loginName' class='form-control rtc-ipt-10' value='{$loginName}'/>
        手机号码：<input type='text' id='userPhone' name='userPhone' class='form-control rtc-ipt-10' value='{$userPhone}'/>  
        电子邮箱：<input type='text' id='userEmail' name='userEmail' class='form-control rtc-ipt-10' value='{$userEmail}'/>  
-       <!--会员类型：<select id='userType' name='userType' class="form-control rtc-ipt-10">
+       会员类型：<select id='userType' name='userType' class="form-control rtc-ipt-10">
            <option value='-1' <if condition=" $userType eq -1 ">selected</if>>全部</option>
            <option value='0' <if condition=" $userType eq 0 ">selected</if>>普通会员</option>
            <option value='1' <if condition=" $userType eq 1 ">selected</if>>店铺会员</option>
-       </select>  -->
+       </select>  
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
-  <!--<php>if(in_array('hylb_01',$RTC_STAFF['grant'])){</php>
+  <php>if(in_array('hylb_01',$RTC_STAFF['grant'])){</php>
        <a class="btn btn-success glyphicon glyphicon-plus" href='{:U("Admin/Users/toEdit")}' style='float:right'>新增</a>
-  <php>}</php>     -->
+  <php>}</php>     
        </div>
        </form>
        <div class="rtc-body">
@@ -59,36 +59,34 @@
              <tr>
                <th width='30'>&nbsp;</th>
                <th width='80'>账号</th>
-               <th width='80'>姓名</th>
+               <th width='80'>用户名</th>
                <th width='60'>手机号码</th>
                <th width='80'>电子邮箱</th> 
                <th width='40'>积分</th>
-               <th width='40'>余额</th>
-               <th width='60'>备注</th>
+               <th width='60'>等级</th>
                <th width='130'>注册时间</th>
-               <!--<th width='40'>状态</th>-->
-               <!--<th width='130'>操作</th>-->
+               <th width='40'>状态</th>
+               <th width='130'>操作</th>
              </tr>
            </thead>
            <tbody>
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
-               <td>{$vo['CardId']}</td>
-               <td>{$vo['TrueName']}&nbsp;</td>
-               <td>{$vo['Mobile']}&nbsp;</td>
-               <td>{$vo['Email']}&nbsp;</td>
-               <td>{$vo['EnablePoint']}&nbsp;</td>
-               <td>{$vo['EnableValue']}&nbsp;</td>
+               <td>{$vo['loginName']}</td>
+               <td>{$vo['userName']}&nbsp;</td>
+               <td>{$vo['userPhone']}&nbsp;</td>
+               <td>{$vo['userEmail']}&nbsp;</td>
+               <td>{$vo['userScore']}&nbsp;</td>
                <td>
                <if condition="$vo['userType']==0 ">
-               {$vo['Meno']}
+               {$vo['userRank']}
                <else/>
                &nbsp;-&nbsp;
                </if>
                &nbsp;</td>
-               <td>{$vo['RegisterTime']}&nbsp;</td>
-               <!--<td>
+               <td>{$vo['createTime']}&nbsp;</td>
+               <td>
                <if condition="$vo['userStatus']==0 ">
                  <span class='label label-danger rtc-label'>
 			               停用
@@ -98,8 +96,7 @@
 			               启用
 			     </span> 
                </if>
-               </td>-->
-               <!--
+               </td>
                <td>
                <php>if(in_array('hylb_02',$RTC_STAFF['grant'])){</php>
                <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Users/toEdit',array('id'=>$vo['userId']))}">修改</a>&nbsp;
@@ -107,7 +104,7 @@
                <php>if(in_array('hylb_03',$RTC_STAFF['grant'])){</php>
                <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['userId']},{$vo['userType']})">刪除</buttona>
                <php>}</php>
-               </td>-->
+               </td>
              </tr>
              </volist>
              <tr>

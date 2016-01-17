@@ -140,13 +140,13 @@
                    </td>
                 </tr>
                 <tr style='border-top:1px solid #dddddd'>
-                   <td rowspan='3' valign='top' width='100'><label><input type='checkbox' class='chk' value='dpgl' onclick='javascript:checkModel(this)'/>店铺管理</label></td>
+                   <td rowspan='3' valign='top' width='100'><label><input type='checkbox' class='chk' value='dpgl' onclick='javascript:checkModel(this)'/>商家管理</label></td>
                    <td width='90' colspan='2'><label><input type='checkbox' class='chk grant dpgl' id='dpgl_00' value='dpgl_00' onclick='javascript:checkModel(this)'/>查看店铺管理栏目</label></td> 
                 </tr>
                 <tr> 
-                   <td width='90'><label><input type='checkbox' class='chk dpgl' value='dplb' onclick='javascript:checkModel(this)'/>店铺列表</label></td>
+                   <td width='90'><label><input type='checkbox' class='chk dpgl' value='dplb' onclick='javascript:checkModel(this)'/>商家列表</label></td>
                    <td>
-                   <label><input type='checkbox' class='chk grant dpgl dplb' id='dplb_00' value='dplb_00'/>店铺列表</label>
+                   <label><input type='checkbox' class='chk grant dpgl dplb' id='dplb_00' value='dplb_00'/>商家列表</label>
                    <label><input type='checkbox' class='chk grant dpgl dplb' id='dplb_01' value='dplb_01'/>新增店铺</label>
                    <label><input type='checkbox' class='chk grant dpgl dplb' id='dplb_02' value='dplb_02'/>修改店铺</label>
                    <label><input type='checkbox' class='chk grant dpgl dplb' id='dplb_03' value='dplb_03'/>删除店铺</label>
@@ -155,7 +155,7 @@
                 <tr>
                    <td><label><input type='checkbox' class='chk dpgl'  value='dpsh' onclick='javascript:checkModel(this)'/>店铺审核</label></td>
                    <td>
-                   <label><input type='checkbox' class='chk grant dpgl dpsh' id='dpsh_00' value='dpsh_00'/>店铺列表</label>
+                   <label><input type='checkbox' class='chk grant dpgl dpsh' id='dpsh_00' value='dpsh_00'/>商家列表</label>
                    </td>
                 </tr>
                 <tr style='border-top:1px solid #dddddd'>
@@ -180,7 +180,7 @@
                    <label><input type='checkbox' class='chk grant dqgl sqlb' id='sqlb_03' value='sqlb_03'/>删除社区</label>
                    </td>
                 </tr>
-                <tr style='border-top:1px solid #dddddd'>
+                <!--<tr style='border-top:1px solid #dddddd'>
                    <td rowspan='3' valign='top' width='100'><label><input type='checkbox' class='chk wzgl' value='wzgl' onclick='javascript:checkModel(this)'/>文章管理</label></td>
                    <td width='90' colspan='2'><label><input type='checkbox' class='chk grant wzgl' id='wzgl_00' value='wzgl_00' onclick='javascript:checkModel(this)'/>查看文章管理栏目</label></td>
                 </tr>
@@ -201,10 +201,12 @@
                    <label><input type='checkbox' class='chk grant wzgl wzfl' id='wzfl_02' value='wzfl_02'/>修改分类</label>
                    <label><input type='checkbox' class='chk grant wzgl wzfl' id='wzfl_03' value='wzfl_03'/>删除分类</label>
                    </td>
-                </tr>
+                </tr>-->
                 <tr style='border-top:1px solid #dddddd'>
                    <td rowspan='4' valign='top' width='100'><label><input type='checkbox' class='chk hygl' value='hygl' onclick='javascript:checkModel(this)'/>会员管理</label></td>
-                   <td width='90' colspan='2'><label><input type='checkbox' class='chk grant hygl' id='hygl_00' value='hygl_00' onclick='javascript:checkModel(this)'/>查看会员管理栏目</label></td>
+                   <td width='90' colspan='2'>
+                   <!--		<label><input type='checkbox' class='chk grant hygl' id='hygl_00' value='hygl_00' onclick='javascript:checkModel(this)'/>查看会员管理栏目</label>-->
+                   </td>
                 </tr>
                 <tr>
                    <td width='90'><label><input type='checkbox' class='chk hygl' value='hydj' onclick='javascript:checkModel(this)'/>会员等级</label></td>
@@ -260,8 +262,10 @@
                    </td>
                 </tr>
                  <tr style='border-top:1px solid #dddddd'>
-                   <td rowspan='7' valign='top' width='100'><label><input type='checkbox' class='chk scsz' value='scsz' onclick='javascript:checkModel(this)'/>商城设置</label></td>
-                   <td width='90' colspan='2'><label><input type='checkbox' class='chk grant scsz' id='scsz_00' value='scsz_00' onclick='javascript:checkModel(this)'/>查看商城设置栏目</label></td>                   
+                   <td rowspan='7' valign='top' width='100'><label><input type='checkbox' class='chk scsz' value='scsz' onclick='javascript:checkModel(this)'/>平台设置</label></td>
+                   <td width='90' colspan='2'>
+                   	<!--	<label><input type='checkbox' class='chk grant scsz' id='scsz_00' value='scsz_00' onclick='javascript:checkModel(this)'/>查看商城设置栏目</label>-->
+                   </td>                   
                 </tr>
                 <tr>
                    <td width='90'><label><input type='checkbox' class='chk scsz' value='scxx' onclick='javascript:checkModel(this)'/>商城信息</label></td>
@@ -270,7 +274,7 @@
                    <label><input type='checkbox' class='chk grant scsz scxx' id='scxx_02' value='scxx_02'/>商城信息修改</label>
                    </td>
                 </tr>
-                <tr>
+                <!--<tr>
                    <td ><label><input type='checkbox' class='chk scsz' value='dhgl' onclick='javascript:checkModel(this)'/>导航管理</label></td>
                    <td>
                    <label><input type='checkbox' class='chk grant scsz dhgl' id='dhgl_00' value='dhgl_00'/>导航列表</label>
@@ -287,7 +291,7 @@
                    <label><input type='checkbox' class='chk grant scsz yqlj' id='yqlj_02' value='yqlj_02'/>修改链接</label>
                    <label><input type='checkbox' class='chk grant scsz yqlj' id='yqlj_03' value='yqlj_03'/>删除链接</label>
                    </td>
-                </tr>
+                </tr>-->
                 <tr>
                    <td ><label><input type='checkbox' class='chk scsz' value='gggl' onclick='javascript:checkModel(this)'/>广告管理</label></td>
                    <td>
@@ -297,7 +301,7 @@
                    <label><input type='checkbox' class='chk grant scsz gggl' id='gggl_03' value='gggl_03'/>删除广告</label>
                    </td>
                 </tr>
-                <tr>
+                <!--<tr>
                    <td ><label><input type='checkbox' class='chk scsz' value='yhgl' onclick='javascript:checkModel(this)'/>银行管理</label></td>
                    <td>
                    <label><input type='checkbox' class='chk grant scsz yhgl' id='yhgl_00' value='yhgl_00'/>银行列表</label>
@@ -314,7 +318,7 @@
                    <label><input type='checkbox' class='chk grant scsz zfgl' id='zfgl_02' value='zfgl_02'/>编辑支付</label>
                    <label><input type='checkbox' class='chk grant scsz zfgl' id='zfgl_03' value='zfgl_03'/>卸载支付</label>
                    </td>
-                </tr>
+                </tr>-->
              </table>
              </td>
            </tr>

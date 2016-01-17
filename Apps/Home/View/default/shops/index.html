@@ -17,7 +17,8 @@
 					</td>
 					<td style="vertical-align:top;line-height:25px;">
 						<div style="font-weight:bolder;">{$shopInfo['shop']['shopName']}</div>
-						<div style="">店铺名称：<a target="_blank" href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopInfo['shop']['shopId']))}"><span style="color:#55AAFF">{$shopInfo['shop']['shopName']}</a></span></div>
+						<div style="">店铺名称： 
+							<span style="color:#55AAFF">{$shopInfo['shop']['shopName']} </span></div>
 						<div style="">店铺状态：
 						<if condition="$shopInfo['shop']['shopStatus'] eq 1">
 							<if condition="($shopInfo['shop']['shopAtive'] eq 1) and  ($shopInfo['shop']['shopStatus'] eq 1)">
@@ -77,7 +78,7 @@
 					<span>买家评价（<span style="color:red;">{$shopInfo['details']['appraisesCnt']|intval}</span>）</span>
 				</div>
 			</div>
-			<div class='current' >出售中的商品（{$shopInfo['details']['onSaleGoodsCnt']|intval}）&nbsp;&nbsp;&nbsp;&nbsp;<!-- 淘宝数据导入 --></div>
+			<div class='current' >出售中的商品（{$shopInfo['details']['onSaleGoodsCnt']|intval}）&nbsp;&nbsp;&nbsp;&nbsp;<!--  --></div>
 			<div class='header'>
 				交易提示
 			</div>

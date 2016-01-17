@@ -9,11 +9,11 @@ class BaseUserAction extends BaseAction {
 			$userlogin=session('userloginobj');
 			$openid=$userlogin["openid"];
 			
-			if(!$userlogin) {
-				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
-				session('userloginobj',$userlogin);
-				$openid=$userlogin["openid"];
-			}
+//			if(!$userlogin) {
+//				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
+//				session('userloginobj',$userlogin);
+//				$openid=$userlogin["openid"];
+//			}
 			 
 			if(strlen($openid)>10)
 			{

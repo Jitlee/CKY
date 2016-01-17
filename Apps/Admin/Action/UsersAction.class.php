@@ -74,7 +74,7 @@ class UsersAction extends BaseAction{
 	public function index(){
 		$this->isLogin();
 		$this->checkPrivelege('hylb_00');
-		$m = D('Admin/Users');
+		$m = D('Admin/Member');
     	$page = $m->queryByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);
     	$page['pager'] = $pager->show();

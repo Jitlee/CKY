@@ -78,9 +78,10 @@
 				暂无活动
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
+				
 				<!-- 相关产品 -->
 				<div class="mui-content-padded">
-					<ul id="goodsList" class="cky-table-view mui-hidden">
+					<ul id="goodsList" class="cky-table-view" style="display: none;">
 						<!-- ko foreach: $data -->
 						<li class="cky-table-view-cell">
 							<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
@@ -112,19 +113,29 @@
 <script type="text/javascript">
 	$(function() {
 		var isEOF = false;
+		var force = true;
 		var pageNo = 1;
 		var goods = [];
 		var vm = ko.observableArray(goods);
 		ko.applyBindings(vm, document.getElementById("goodsList"));
 		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				goods.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			
 			if(!isEOF) {
 				var api = "{:U('goods/page', '', '')}";
-				$.getJSON(api, { shopId: "{:I('id')}",pageNo: pageNo }, function(list) {
-					if(pageNo == 1) {
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo }, function(list) {
+					if(_pageNo == 1) {
 						$("#goodsLoading").hide();
-						$("#goodsList").removeClass("mui-hidden");
+						$("#goodsList").show();
 					}
-					pageNo++;
+					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
 						$.each(list, function() {
 							goods.push(this);
@@ -139,7 +150,7 @@
 			}
 		}
 		
-		queryByPage();
+//		queryByPage();
 		util.onScrollEnd(queryByPage);
 	});
 </script>

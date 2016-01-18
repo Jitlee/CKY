@@ -326,9 +326,12 @@ header.cky-fast-header .mui-btn {
 	position: absolute;
 	top: 0px;
 	right: 1px;
+	display: none;
+}
+
+.mui-badge{
 	color: #fff;
 	background-color: #FF4040;
-	display: none;
 }
 
 .cky-fast-cart-empty {

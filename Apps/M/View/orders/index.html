@@ -10,10 +10,10 @@
 <div class="mui-content mui-content-bottom">
 	<ul class="mui-table-view">
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" href="{:U('MemberAddress/addresslist')}">
+			<a class="mui-navigate-right" href="{:U('MemberAddress/addresslist')}?shopId={:I('shopId')}">
 				<!-- ko if:consignee -->
 				<span data-bind="text: consignee.name + '  ' + consignee.phone"></span>
-				<h5 data-bind="text: address"></h5>
+				<h5 data-bind="text: consignee.address"></h5>
 				<!-- /ko -->
 				
 				<!-- ko if:!consignee -->
@@ -92,7 +92,8 @@
 				total: cart.total,
 				fastMoney: fastMoney,
 				shopName: cart.shopName,
-				remarks: cart.remarks
+				remarks: cart.remarks,
+				consignee: cart.consignee
 			}
 			for(var goodsId in cart.goods) {
 				vm.goods.push(cart.goods[goodsId]);
@@ -139,6 +140,11 @@
 			
 				
 				$("#submit").click(function() {
+					if(!cart.consignee) {
+						cky.alert("请选择收货地址");
+						return;
+					}
+					
 					var layerId = layer.open({type: 2});
 					console.log(layerId);
 					var goodsJSONString = JSON.stringify(vm.goods.map(function(g) { return { goodsId: g.goodsId, shopId: shopId, count: g.count }  }));
@@ -147,7 +153,7 @@
 						isself: 0,
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
-						consigneeId: 1,
+						consigneeId: cart.consignee.id,
 						payway: 0
 					}, function(result) {
 						if(result && result.orderIds && result.orderIds.length > 0) {

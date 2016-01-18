@@ -9,35 +9,35 @@
 		</ul>
 		<p>收货地址</p>
 		
-				<ul  class="mui-table-view">
+		<ul id="addressList" class="mui-table-view">
 			<foreach name="data" item="item">
-					<li class="mui-table-view-cell mui-media">						 
-							<div class="mui-media-body">
-								<span class="meno b">{$item.userName}&nbsp;&nbsp;&nbsp;&nbsp;{$item.userPhone}</span>
-								<p class='mui-ellipsis ctime'>{$item.areaId1Name}{$item.areaId2Name}{$item.areaId3Name}{$item.address}</p>
-							</div>
-							<span  class="cellinfo-right cvalue add-color b">
-								<if condition="($item.isDefault eq 1)">
-									<span class="mui-icon mui-icon-checkmarkempty"></span>									
-								</if>
-							</span>
-					</li>
-					<li  class="mui-table-view-cell mui-media">
-						<div class="mui-media-body">
-								<span></span>
-								 <span class="mui-icon mui-icon-compose"  onclick="edit({$item.addressId})"></span>
-								 &nbsp;&nbsp;&nbsp;
-								 <span class="mui-icon mui-icon-trash" onclick="deleteItem({$item.addressId})"></span>
-							</div>
-							<span  class="cellinfo-right font12">
-								<if condition="($item.isDefault eq 0)">
-									<span  onclick="setDefualt({$item.addressId})"><span class="mui-icon mui-icon-checkmarkempty" ></span>设置为默认</span>									
-								</if>
-							</span>
-						
-					</li>
-			</foreach>
-				</ul>
+			<li class="mui-table-view-cell mui-media" a-id="{$item.addressId}" a-name="{$item.userName}" a-phone="{$item.userPhone}" a-address="{$item.address}">						 
+					<div class="mui-media-body">
+						<span class="meno b">{$item.userName}&nbsp;&nbsp;&nbsp;&nbsp;{$item.userPhone}</span>
+						<p class='mui-ellipsis ctime'>{$item.areaId1Name}{$item.areaId2Name}{$item.areaId3Name}{$item.address}</p>
+					</div>
+					<span  class="cellinfo-right cvalue add-color b">
+						<if condition="($item.isDefault eq 1)">
+							<span class="mui-icon mui-icon-checkmarkempty"></span>									
+						</if>
+					</span>
+			</li>
+			<li  class="mui-table-view-cell mui-media">
+				<div class="mui-media-body">
+						<span></span>
+						 <span class="mui-icon mui-icon-compose"  onclick="edit({$item.addressId})"></span>
+						 &nbsp;&nbsp;&nbsp;
+						 <span class="mui-icon mui-icon-trash" onclick="deleteItem({$item.addressId})"></span>
+					</div>
+					<span  class="cellinfo-right font12">
+						<if condition="($item.isDefault eq 0)">
+							<span  onclick="setDefualt({$item.addressId})"><span class="mui-icon mui-icon-checkmarkempty" ></span>设置为默认</span>									
+						</if>
+					</span>
+				
+			</li>
+		</foreach>
+	</ul>
 		
 </div>
 <include file="Public:tab"/>
@@ -76,6 +76,27 @@
 		$("#address").click(function(){
 			window.location.href="{:U('MemberAddress/addressedit', '', '')}";
 		});
+		
+		var shopId = util.i("shopId");
+		if(shopId) {
+			var shopCacheKey = "fast-cart" + shopId;
+			// 选择地址
+			$("#addressList").on("click", "li", function(evt) {
+				evt.stopPropagation();
+				evt.preventDefault();
+				
+				var $this = $(this);
+				var cart = cky.storage.getItem(shopCacheKey);
+				cart.consignee = {
+					id: $this.attr("a-id"),
+					name: $this.attr("a-name"),
+					phone: $this.attr("a-phone"),
+					address: $this.attr("a-address")
+				};
+				cky.storage.setItem("fast-cart" + shopId, cart, 24 * 60 * 60);
+				window.history.back();
+			});
+		}
 	});
 </script>
 

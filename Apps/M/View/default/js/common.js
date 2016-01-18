@@ -73,6 +73,20 @@ var cky = {
 		layer.open({
 		    type: 2
 		});
+	},
+	
+	alert: function(msg, callback) {
+		layer.open({
+		    title: '提示',
+		    content: msg,
+		   	btn: ["确定"],
+		    yes: function(index){
+		    	layer.close(index);
+		    	if(typeof callback == "function") {
+			    	callback();
+		    	}
+		    }
+		});
 	}
 };
 

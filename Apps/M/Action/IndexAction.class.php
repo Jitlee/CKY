@@ -19,4 +19,10 @@ class IndexAction extends Controller {
 		
 		$this->display();
 	}
+	
+	public function guess() {
+		$m = D('M/Goods');
+		$list = $m->guess();
+		$this->ajaxReturn($list, 'JSON');
+	}
 }

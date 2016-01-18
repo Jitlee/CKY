@@ -10,6 +10,14 @@ namespace M\Model;
  */
 class OrdersModel extends BaseModel {
 	
+	public function query($obj) {
+		$userId = $obj["userId"];
+		$pageSize = 20;
+		$pageNo = intval(I('pageNo', 1));
+		$map = array('userId'	=> $userId);
+		return $this->where($map)->order('createTime desc')->page($pageNo, $pageSize)->select();
+	}
+	
 	/**
 	 * 获以订单列表
 	 */

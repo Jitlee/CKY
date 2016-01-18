@@ -31,3 +31,16 @@
 	margin-top: 5px;
 	margin-left: 10px;
 }
+
+.cky-detail-buy-button {
+	display: block;
+    background-color: #F60;
+    color: #fff;
+    font-size: 13px;
+    height: 22px;
+    line-height: 22px;
+    width: 50px;
+    text-align: center;
+    border-radius: 3px;
+    padding: 0;
+}

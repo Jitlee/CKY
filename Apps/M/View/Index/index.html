@@ -59,52 +59,28 @@
 	</div>
 	<br />
 	<span>猜你喜欢</span>
-	<div class="cky-table-view">
-		<a class="cky-table-view-cell">
-				<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__IMG__/dabbf221.jpg);">
+	<div id="guessList" class="cky-table-view" style="display: none;">
+		<!-- ko foreach: $data -->
+		<a class="cky-table-view-cell" data-bind="attr: { href: '{:U('goods/detail')}?id=' + goodsId }">
+			<div class="cky-table-cell-thumb cky-free-reserve" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }">
+				
+			</div>
+			<div class="cky-media">
+				<span class="cky-media-name" data-bind="text: goodsName"></span>
+				<h5 class="cky-right">推荐</h5>
+				<div class="cky-center cky-media-content cky-ellipsis2 font16" data-bind="text: goodsSpec">
 					
 				</div>
-				<div class="cky-media">
-					<span>华莱士</span>
-					<h5 class="cky-right">推荐</h5>
-					<div class="cky-center cky-media-content cky-ellipsis2 font16">
-						测试费阿凡达测试费阿凡达多上测试两行会省略的打发打发的事发生发送
-					</div>
-					<span class="cky-money">￥19</span><span class="cky-money-old">￥90</span>
-					<h5 class="cky-right">快去吧</h5>
-			    </div>
+				<span class="cky-money" data-bind="text: '￥' + shopPrice"></span><span class="cky-money-old"  data-bind="text: '￥' + marketPrice"></span>
+				<h5 class="cky-right">快去吧</h5>
+		    </div>
 		</a>
-		<a class="cky-table-view-cell">
-				<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__IMG__/fasdfa.jpg);">
-					
-				</div>
-				<div class="cky-media">
-					<span>华莱士</span>
-					<h5 class="cky-right">推荐</h5>
-					<div class="cky-center cky-media-content cky-ellipsis2 font16">
-						测试费阿凡达测试费阿凡
-					</div>
-					<span class="cky-money">￥19</span><span class="cky-money-old">￥90</span>
-					<h5 class="cky-right">快去吧</h5>
-			    </div>
-		</a>
-		<a class="cky-table-view-cell">
-				<div class="cky-table-cell-thumb" style="background-image: url(__IMG__/fafasdfsd.jpg);">
-				</div>
-				<div class="cky-media">
-					<span>华莱士</span>
-					<h5 class="cky-right">推荐</h5>
-					<div class="cky-center cky-media-content cky-ellipsis2 font16">
-						测试费阿凡达测试
-					</div>
-					<span class="cky-money">￥19</span><span class="cky-money-old">￥90</span>
-					<h5 class="cky-right">快去吧</h5>
-			    </div>
-		</a>
+		<!-- /ko -->
 	</div>
 </div>
 
 <include file="Public:tab"/>
+<script type="text/javascript" src="__KO__"></script>
 
 <script>
 	$(function() {
@@ -114,6 +90,13 @@
 	      pagination: '.swiper-pagination',
 	      autoplay: 3000,
 	      loop: true
+	   });
+	   
+	   // 猜你喜欢的
+	   var guessList = $("#guessList");
+	   $.getJSON("{:U('guess')}", null, function(list) {
+	   		ko.applyBindings(list, guessList[0]);
+	   		guessList.show();
 	   });
 	});
 </script>

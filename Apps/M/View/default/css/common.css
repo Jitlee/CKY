@@ -87,7 +87,7 @@ hr {
 }
 
 .cky-media p, .cky-table-view-cell,.cky-media-title, .cky-table-view-cell,
-.cky-grid-cell,.cky-bar-item {
+.cky-grid-cell,.cky-bar-item,.cky-media-name {
 	color: #333;
 }
 
@@ -226,6 +226,18 @@ hr {
 .cky-media-sub {
 	height:30px;
 	line-height: 30px;
+}
+
+.cky-media-name {
+	white-space: nowrap;
+	word-break: keep-all;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    width: -webkit-calc(100% - 50px);
+    display: inline-block;
 }
 
 .cky-ellipsis2{

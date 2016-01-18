@@ -15,7 +15,8 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		startMoney: startMoney,
 		freeMoney: freeMoney,
 		fastMoney: fastMoney,
-		goods: {}
+		goods: {},
+		cats: {}
 	};
 	
 	cart.shopName = shopName;
@@ -57,6 +58,13 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		var goodsThums = parent.attr("goodsThums");
 		var goodsUnit = parent.attr("goodsUnit");
 		var shopPrice = Number(parent.attr("shopPrice"));
+		
+		if(cart.cats[shopCatId]) {
+			cart.cats[shopCatId]++;
+		} else {
+			cart.cats[shopCatId] = 1;
+		}
+		
 		if(cart.goods[goodsId]) {
 			// 有则数量加一
 			cart.goods[goodsId].count++;
@@ -90,6 +98,12 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		var parent = $this.parent();
 		var goodsId = parent.attr("goodsId");
 		var shopPrice = Number(parent.attr("shopPrice"));
+		var shopCatId = parent.attr("shopCatId");
+		
+		if(cart.cats[shopCatId]) {
+			cart.cats[shopCatId]--;
+		}
+		
 		if(cart.goods[goodsId]) {
 			cart.goods[goodsId].count--;
 			if(cart.goods[goodsId].count == 0) {
@@ -122,7 +136,20 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 			vm.ready(false);
 		}
 		cky.storage.setItem("fast-cart" + shopId, cart, 24 * 60 * 60); // 有效时间1天
+		
+		refreshCats();
 	}
+	
+	function refreshCats() {
+		if(cart.cats) {
+			for(var catId in cart.cats) {
+				var badge = $("#badge_cat_" + catId).text(cart.cats[catId]);
+				cart.cats[catId] > 0 ? badge.show() : badge.hide();
+			}
+		}
+	}
+	
+	this.refreshCats =  refreshCats;
 	
 	refreshCart();
 	

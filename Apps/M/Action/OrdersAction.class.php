@@ -47,6 +47,18 @@ class OrdersAction extends BaseUserAction {
 		$this->display();
 	}
 	
+	public function lst() {
+		$this->assign('title', '订单');
+		$this->display('list');
+	}
+	
+	public function page() {
+		$m = D('M/Orders');
+		$map = array('userId' => getuid());
+		$list = $m->query($map);
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
 	/* 跳转到支付页面  */
 	public function pay() {
 		$m = D('M/Orders');

@@ -70,5 +70,12 @@ class GoodsModel extends BaseModel {
         }
 		return $rs;
 	}
+	
+	public function guess() {
+		$pageNo = 1;
+		$pageSize = 20;
+		return $this->field('goodsId, goodsSn, goodsName, goodsThums, marketPrice, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec')
+			->order('createTime')->page($pageNo, $pageSize)->select();
+	}
 };
 ?>

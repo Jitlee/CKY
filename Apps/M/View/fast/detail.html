@@ -33,7 +33,10 @@
 		<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
 			<ul id="goodsCatsList" class="cky-fast-cat">
 				<!-- ko foreach: $data -->
-				<li class="cky-fast-cat-cell" data-bind="text: catName, attr: { idx: $index }"></li>
+				<li class="cky-fast-cat-cell" data-bind="attr: { idx: $index }">
+					<span data-bind="text: catName"></span>
+					<span class="mui-badge" style="display: none;" data-bind="attr: {id: 'badge_cat_' + catId}">0</span>
+				</li>
 				<!-- /ko -->
 			</ul>
 			<div class="cky-fast-goods">
@@ -95,9 +98,10 @@
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript" src="__JS__/fast.js"></script>
 <script type="text/javascript">
-
+	
 	// 点菜
 	$(function() {
+		var fastCart = null;
 		var cats = [];
 		// 加载分类
 		$.getJSON("{:U('Fast/cats')}", { shopId: util.i("id") }, function(list) {
@@ -106,6 +110,9 @@
 			ko.applyBindings(list, document.getElementById("goodsCatsList"));
 			$("#goodsCatsList li:first-child").addClass("cky-active");
 			cats = list;
+			if(fastCart) {
+				fastCart.refreshCats();
+			}
 			
 			// 加载点击事件
 			$("#goodsCatsList li").click(function() {
@@ -183,7 +190,7 @@
 		
 		function done() {
 			// 购物车
-			new FastCart({$data.shopId}, "{$data.shopName}",
+			fastCart = new FastCart({$data.shopId}, "{$data.shopName}",
 				{$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
 				{$data.deliveryMoney}, {$data.deliveryCostTime},
 				{$data.serviceStartTime}, {$data.serviceEndTime});

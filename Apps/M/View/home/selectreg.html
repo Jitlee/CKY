@@ -6,7 +6,7 @@
 		
 		<div class="mui-content">
 			<div class="mui-content-padded">
-			<div class="mui-card">
+			
 				<ul class="mui-table-view">
 					<li class="userline land-cell cell-center" data-bind="visible: isLogin" id="loginUser">					 
 						<span class="cell-right">
@@ -16,8 +16,8 @@
 						</span>					
 					</li>
 				</ul>
-			</div>
-			<div style=" padding: 5px; ">
+			
+			<div style=" padding: 5px; text-align: center; ">
 				<button id='btnnewcard' type="button" class="mui-btn mui-btn-block mui-btn-primary">申请新卡</button>
 				<button id='btnconcard' type="button" class="mui-btn mui-btn-block mui-btn-outlined">绑定会员卡</button>
 			</div>
@@ -25,7 +25,8 @@
 		</div>
 		<include file="Public:tab"/>
 <style>
-	.cell-right span{  padding: 5px;}
+	.cell-right span{  padding: 1px;}
+	.mui-btn{ width: 97%;}
 	span{ padding: inherit;}
 </style>
 <script type="text/javascript">

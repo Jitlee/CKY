@@ -10,6 +10,10 @@ namespace M\Action;
  */
 use Think\Controller;
 class PersonAction extends BaseUserAction {
+	
+	public function _initialize(){
+		$this->assign('tabid', "member");
+	}
 	public function index() {
 		$openid=$this->GetOpenid();
 		$mMember = D('M/Member');

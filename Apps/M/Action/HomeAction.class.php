@@ -4,7 +4,12 @@ use Think\Controller;
 use P\Model;
 
 class HomeAction extends BaseAction {
-		
+	
+	
+	public function _initialize(){
+		$this->assign('tabid', "member");
+	}
+	
 	public function selectreg() {
 		$openid=$this->GetOpenid();
 		if(empty($openid))			 

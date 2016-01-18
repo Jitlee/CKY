@@ -4,29 +4,39 @@
 				<div class="mui-input-group">
 					<input name="addressId" type="hidden"  value="{$Item.addressId}"/>
 					<div class="mui-input-row">
-						<label>地区：</label>
-						<div>
+						<label>收货人</label>
+						<input type="text" id='shouhuoren'  value="{$Item.userName}"    name="userName" class="mui-input-clear mui-input" required placeholder="请填收货人">
+					</div> 
+					<div class="mui-input-row">
+						<label>手机号</label>
+						<input type="text" id='mobile'   value="{$Item.userPhone}"   name="userPhone" class="mui-input-clear mui-input" required placeholder="请填手机号码">
+					</div> 
+					<div class="mui-input-row">
+						<label>省</label>
 						<select id="provinces" class="cityselect" nullmsg="请选择有效的省市区" name="areaId1" required>
-							<option value="">选择</option>
+							<option value="">=选择=</option>
 							<foreach name="dataProvi" item="item">
 								<option value='{$item.areaId}'>{$item.areaName}</option>							
 							</foreach>
-						</select>					
-						&nbsp;
+						</select>
+					</div> 
+					<div class="mui-input-row">
+						<label>市</label>
 						<select class="cityselect"  id="city" nullmsg="请选择有效的省市区" name="areaId2" required> 
-								<option value="">选择</option>
+								<option value="">=选择=</option>
 								<foreach name="cityarr" item="c">
 									<option value="{$c.areaId}">{$c.areaName}</option>
 								</foreach>
 						</select>
-						&nbsp;
+					</div>
+					<div class="mui-input-row">
+						<label>县/区</label>
 						<select class="cityselect"  id="County" nullmsg="请选择有效的省市区" name="areaId3">
-								<option value="">选择</option>
+								<option value="">=选择=</option>
 								<foreach name="xianarr" item="x">
 									<option value="{$x.areaId}">{$x.areaName}</option>
 								</foreach>
-						</select>
-						</div>
+						</select>						
 					</div>
 					<div style="display: none;">
 						<input type="text" id='areaId1Name'   name="areaId1Name"  class="mui-input-clear mui-input">
@@ -41,14 +51,7 @@
 						<label>邮编</label>
 						<input type="text" id='youbian'  value="{$Item.postCode}"    name="postCode" class="mui-input-clear mui-input" required placeholder="请填邮政编码">
 					</div> 
-					<div class="mui-input-row">
-						<label>收货人</label>
-						<input type="text" id='shouhuoren'  value="{$Item.userName}"    name="userName" class="mui-input-clear mui-input" required placeholder="请填收货人">
-					</div> 
-					<div class="mui-input-row">
-						<label>手机号</label>
-						<input type="text" id='mobile'   value="{$Item.userPhone}"   name="userPhone" class="mui-input-clear mui-input" required placeholder="请填手机号码">
-					</div> 
+					
 				</div>
 				<div class="mui-content-padded">
 					<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
@@ -71,9 +74,9 @@
 					var p=$("#provinces").find("option:selected").text();
 					var c=$("#city").find("option:selected").text();
 					var x=$("#County").find("option:selected").text();
-					if(p=="请选择"){util.msg("请选择地址信息."); return false;}
-					if(c=="请选择"){util.msg("请选择地址信息."); return false;}
-					if(x=="请选择")x="";
+					if(p=="=选择="){util.msg("请选择地址信息."); return false;}
+					if(c=="=选择="){util.msg("请选择地址信息."); return false;}
+					if(x=="=选择=")x="";
 					if($("#jiedao").val()==""){util.msg("请输入地址信息."); return false;}
 					if($("#shouhuoren").val()==""){util.msg("请输入收货人."); return false;}
 					if($("#mobile").val()==""){util.msg("请输入手机号码."); return false;}
@@ -107,8 +110,11 @@
 	
 	function successcity(data) {
 			var city=$("#city");
-			$("#city option").remove();			
-			city.append("<option value='0'>请选择</option>");
+			$("#city option").remove();
+			city.append("<option value='0'>=选择=</option>");
+			
+			$("#County option").remove();
+			$("#County").append("<option value='0'>=选择=</option>");			
 			for(var i=0;i< data.length;i++)
 			{
 				var pro2=data[i];				
@@ -118,7 +124,7 @@
 	function successCounty(data) {				
 		var County=$("#County");
 		$("#County option").remove();	
-		County.append("<option value='0'>请选择</option>");
+		County.append("<option value='0'>=选择=</option>");
 		for(var i=0;i< data.length;i++)
 		{
 			var pro2=data[i];
@@ -134,7 +140,7 @@
 				{
 					$("#city option").remove();
 					$("#County option").remove();
-					$("#city").append("<option value='0'>请选择</option>");					
+					$("#city").append("<option value='0'>=选择=</option>");					
 					return;
 				}						
 				var self = $("form");

@@ -48,7 +48,7 @@ class WxMsgAction extends Controller{
 						switch($EventKey)
 						{
 							case "introduct": //简介
-								$contentStr="关于简介，它只用于微信号测试用。。。。";
+								$contentStr="关于简介，它。。。。";
 								break;
 							case "MGOOD":
 								$contentStr="感谢您的支持，我们一定会做得更好。";

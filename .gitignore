@@ -1,6 +1,3 @@
-
 *.log
-
-
 Apps/Runtime/Temp/*
 Apps/Runtime/Cache/*

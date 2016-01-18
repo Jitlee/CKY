@@ -266,13 +266,12 @@ class UserAddressModel extends BaseModel {
 	 * 获取地址详情
 	 */
 	public function getAddressDetails($addressId){
-		$m = M('user_address');
+//		$m = M('user_address');
 		$addressId = $addressId?$addressId:I("addressId");
-//		$sql ="SELECT * FROM __PREFIX__user_address WHERE addressId=$addressId AND addressFlag=1 and userId=".(int)session('RTC_USER.userId');
-		$sql ="SELECT * FROM __PREFIX__user_address WHERE addressId=$addressId AND addressFlag=1";
-		$address = $this->queryRow($sql);
+		$map['addressId'] = $addressId;
+		$map['addressFlag'] = 1;
+		$address = $this->where($map)->find();
 		if(empty($address))return array();
-		
 		$areaId2 = $address["areaId2"];
 		$areaId3 = $address["areaId3"];
 		$communityId = $address["communityId"];

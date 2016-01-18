@@ -27,22 +27,25 @@ class OrdersAction extends BaseUserAction {
 	
 	public function detail() {
 		$orderId = I('id');
-		$map = array('orderId' => $orderId);
+		$map = array('orderId' => $orderId, 'userId' => getuid());
 		
 		// 获取订单信息	
 		$m = D('M/Orders');
 		$data = $m->getOrdersDetails($map);
-		$data = $data[0];
 		$this->assign('data', $data);
 		
 //		echo $m->getLastSql();
 //		echo dump($data);
 		
 		// 获取订单商品里列表
-		$goods = $m->getOrdersGoods($map);
+		$gdb = D('M/OrderGoods');
+		$goods = $gdb->goods($map);
 		$this->assign('goods', $goods);
 		
 		$this->assign('title', $data['shopName']);
+		
+//		echo $gdb->getLastSql();
+//		echo dump($goods);
 		
 		$this->display();
 	}
@@ -329,8 +332,6 @@ class OrdersAction extends BaseUserAction {
 		$mshop = D('M/Shops');
 		$mgoods = D('M/Goods');
 		$morders = D('M/Orders');
-		$totalMoney = 0;
-		$totalCnt = 0;
 		$userId = getuid();
 		
 		$consigneeId = (int)I("consigneeId");
@@ -340,6 +341,7 @@ class OrdersAction extends BaseUserAction {
 		$needreceipt = (int)I("needreceipt"); // 是否需要票据
 		$orderunique = I("orderunique"); 
 		
+		$result = array('status' => 0);
 		
 		$shopGoods = array();	
 		$order = array();
@@ -349,44 +351,34 @@ class OrdersAction extends BaseUserAction {
 			$count = $cg->count;
 			$goods = $mgoods->info($goodsId,$goodsAttrId);
 			if(empty($goods)) {
-				$this->assign("fail_msg",'对不起，该商品不存在!');
-//				$this->redirect('fail');
-				exit();
+				$result['status']  = -1;
+				$result['data'] = '对不起，商品'.$goods['goodsName'].'不存在!';
+				break;
 			}
 			if(intval($goods['goodsStock']) <= 0) {
-				$this->assign("fail_msg",'对不起，商品'.$goods['goodsName'].'库存不足!');
-//				$this->redirect('fail');
-				exit();
+				$result['status']  = -2;
+				$result['data'] = '对不起，商品'.$goods['goodsName'].'库存不足!';
+				break;
 			}
 			if(intval($goods['isSale']) != 1){
-				$this->assign("fail_msg",'对不起，商品库'.$goods['goodsName'].'已下架!');
-//				$this->redirect('fail');
+				$result['status']  = -3;
+				$result['data'] = '对不起，商品库'.$goods['goodsName'].'已下架!';
+				break;
 			}
 			
 			$goods["cnt"] = $count;
-			$totalCnt += $count;
-			$totalMoney += $count* floatval($goods["shopPrice"]);
-			
 			$shopGoods[$goods["shopId"]]["shopgoods"][] = $goods;
 			$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//店铺免运费最低金额
 			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//店铺免运费最低金额
 			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
 			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 		}
-
-		foreach($shopGoods as $key=> $cshop){
-			if($cshop["totalMoney"]<$cshop["deliveryFreeMoney"]){
-				if($isself==0){
-					$totalMoney = $totalMoney + $cshop["deliveryMoney"];
-				}
-			}
+		
+		if($result['status'] == 0) {
+			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
 		}
 		
-		$ordersInfo = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
-		
-		$this->ajaxReturn($ordersInfo);
-//		echo dump($ordersInfo);
-////		$this->redirect('success');
+		$this->ajaxReturn($result, 'JSON');
 	}
 	
 	/**

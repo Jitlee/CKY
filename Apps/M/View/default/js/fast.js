@@ -38,12 +38,14 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 	}
 	ko.applyBindings(vm, document.getElementById("fastCart"));
 	
-	// 初始化
-	for(var goodsId in cart.goods) {
-		var goods = cart.goods[goodsId];
-		var element = $("#goods_" + goodsId);
-		$(".reduce,.count", element).removeClass("cky-hidden");
-		$(".count", element).text(goods.count);
+	function refreshGoods() {
+		// 初始化
+		for(var goodsId in cart.goods) {
+			var goods = cart.goods[goodsId];
+			var element = $("#goods_" + goodsId);
+			$(".reduce,.count", element).removeClass("cky-hidden");
+			$(".count", element).text(goods.count);
+		}
 	}
 	
 	// 购物车 加号按钮
@@ -150,8 +152,10 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 	}
 	
 	this.refreshCats =  refreshCats;
+	this.refreshGoods =  refreshGoods;
 	
 	refreshCart();
+	refreshGoods();
 	
 	$("#fastCart").removeClass("cky-hidden");
 	

@@ -154,16 +154,23 @@
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
 						consigneeId: cart.consignee.id,
-						payway: 0
+						payway: 1
 					}, function(result) {
-						if(result && result.orderIds && result.orderIds.length > 0) {
-							cky.storage.removeItem("fast-cart" + shopId);
-//							window.location.href = "{:U('detail')}?id=" + result.orderIds[0];
-							window.location.href = "{:U('pay')}?orderId=" + result.orderIds[0];
-						} else {
-							layer.closeAll();
+						layer.closeAll();
+						var status = result.status;
+						if(status == 0) {
+							var data = result.data;
+							if(data && data.orderIds && data.orderIds.length > 0) {
+								cky.storage.removeItem("fast-cart" + shopId);
+								window.location.href = "{:U('pay')}?orderId=" + result.orderIds[0];
+							} else {
+								cky.alert("提交订单失败，请稍后再试");
+							}
+						} else if(status < 0) {
+							var msg = result.data || "提交订单失败，请稍后再试";
+							cky.alert(msg);
 						}
-						console.log(ordersinfo);
+						
 					});
 				});
 			});

@@ -98,6 +98,14 @@
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript" src="__JS__/fast.js"></script>
 <script type="text/javascript">
+	var isEOF = false;
+	var force = true;
+	var pageNo = 1;
+	var goods = [];
+	var shopCatId = 0;
+	var sortType = 1;
+	var vm = ko.observableArray(goods);
+	ko.applyBindings(vm, document.getElementById("goodsList"));
 	
 	// 点菜
 	$(function() {
@@ -132,15 +140,6 @@
 				}
 			});
 		});
-		
-		var isEOF = false;
-		var force = true;
-		var pageNo = 1;
-		var goods = [];
-		var shopCatId = 0;
-		var sortType = 1;
-		var vm = ko.observableArray(goods);
-		ko.applyBindings(vm, document.getElementById("goodsList"));
 		function queryByPage() {
 			if(force) {
 //				vm.removeAll();
@@ -158,6 +157,7 @@
 					sortType: sortType
 				}, function(list) {
 					if(_pageNo == 1) {
+						vm.removeAll();
 						goods.length = 0;
 						$("#goodsLoading").hide();
 						$("#goodsList").removeClass("mui-hidden");
@@ -189,11 +189,16 @@
 		});
 		
 		function done() {
-			// 购物车
-			fastCart = new FastCart({$data.shopId}, "{$data.shopName}",
+			if(fastCart) {
+				fastCart.refreshGoods();
+				return;
+			} else {
+				// 购物车
+				fastCart = new FastCart({$data.shopId}, "{$data.shopName}",
 				{$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
 				{$data.deliveryMoney}, {$data.deliveryCostTime},
 				{$data.serviceStartTime}, {$data.serviceEndTime});
+			}
 		}
 		$(document.body).css("overflow", "hidden");
 		$("#goodsList, #goodsCatsList").height($(window).height() - 132);

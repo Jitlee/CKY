@@ -10,6 +10,9 @@ namespace M\Model;
  */
 class OrdersModel extends BaseModel {
 	
+	/*
+	 *  获取订单列表
+	 */
 	public function query($obj) {
 		$userId = $obj["userId"];
 		$pageSize = 20;
@@ -17,6 +20,10 @@ class OrdersModel extends BaseModel {
 		$map = array('userId'	=> $userId);
 		return $this->where($map)->order('createTime desc')->page($pageNo, $pageSize)->select();
 	}
+	
+	//----------------------------
+	// 以下源代码方法
+	//----------------------------
 	
 	/**
 	 * 获以订单列表
@@ -44,26 +51,11 @@ class OrdersModel extends BaseModel {
 	 */
 	public function getOrdersDetails($obj){		
 		$orderId = $obj["orderId"];
-		$sql = "SELECT od.*,sp.shopName,sp.shopId
-				FROM __PREFIX__orders od, __PREFIX__shops sp 
-				WHERE od.shopId = sp.shopId And orderId = $orderId ";		
-		$rs = $this->query($sql);;	
-		return $rs;
-		
-	}
-	
-	/**
-	 * 获取订单商品信息
-	 */
-	public function getOrdersGoods($obj){	
-			
-		$orderId = $obj["orderId"];
-		$sql = "SELECT g.*,og.goodsNums as ogoodsNums,og.goodsPrice as ogoodsPrice 
-				FROM __PREFIX__order_goods og, __PREFIX__goods g 
-				WHERE og.orderId = $orderId AND og.goodsId = g.goodsId ";		
-		$rs = $this->query($sql);	
-		return $rs;
-		
+		$map = array('orderId' => $orderId);
+		$field = 'cky_orders.*, sp.shopName';
+		return $this->field($field)
+			->join('__SHOPS__ sp on sp.shopId = __ORDERS__.shopId')
+			->where($map)->find();
 	}
 	
 	/**
@@ -110,13 +102,13 @@ class OrdersModel extends BaseModel {
 	 * 提交订单
 	 */
 	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself){	
-		
 		$orderInfos = array();
 		$orderIds = array();
 		$orderNos = array();
 		$remarks = I("remarks");
+		$yadb = D('M/UserAddress');
+		$addressInfo = $yadb->getAddressDetails($consigneeId);
 		
-		$addressInfo = UserAddressModel::getAddressDetails($consigneeId);
         $m = M('orderids');
         $m->startTrans();
 		foreach ($catgoods as $key=> $shopgoods){
@@ -126,10 +118,11 @@ class OrdersModel extends BaseModel {
 			//创建订单信息
 			$data = array();
 			$pshopgoods = $shopgoods["shopgoods"];
-			$shopId = $pshopgoods[0]["shopId"];
+			$shopId = $key;
 			$data["orderNo"] = $orderNo;
 			$data["shopId"] = $shopId;	
-			$deliverType = intval($pshopgoods[0]["deliveryType"]);
+//			$deliverType = $shopgoods['deliverType'];
+			$deliverType = 1; // 送递方式  1 商铺自己送
 			$data["userId"] = $userId;	
 				
 			$data["orderFlag"] = 1;
@@ -163,16 +156,17 @@ class OrdersModel extends BaseModel {
 			$data["createTime"] = date("Y-m-d H:i:s");
 			
 			if($payway==1){
-				$data["orderStatus"] = -2;
+				$data["orderStatus"] = 0; // 待支付
 			}else{
-				$data["orderStatus"] = 0;
+				$data["orderStatus"] = 1; // 未处理
 			}
 			
 			$data["orderunique"] = $orderunique;
 			$data["isPay"] = 0;
 			$morders = M('orders');
 			$orderId = $morders->add($data);	
-			
+//			echo dump($orderId);
+//			echo $morders->getLastSql();
 			
 			$orderNos[] = $data["orderNo"];
 			$orderInfos[] = array("orderId"=>$orderId,"orderNo"=>$data["orderNo"]) ;
@@ -194,7 +188,6 @@ class OrdersModel extends BaseModel {
 					$data["goodsThums"] = $sgoods["goodsThums"];
 					
 					$mog->add($data);
-					
 				}
 			
 				if($payway==0){
@@ -244,8 +237,6 @@ class OrdersModel extends BaseModel {
 					$mlogo->add($data);
 				}
 			}
-			
-			
 		}
 		if(count($orderIds)>0){
 			$m->commit();
@@ -351,8 +342,6 @@ class OrdersModel extends BaseModel {
 		}
 		return $pages;
 	}
-	
-	
 	
 	/**
 	 * 获取待确认收货
@@ -666,12 +655,10 @@ class OrdersModel extends BaseModel {
 		//判断订单状态，只有符合状态的订单才允许改变
 		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId and orderFlag = 1 and userId=".$userId;		
 		$rsv = $this->queryRow($sql);
-		$cancelStatus = array(0,1,2,-2);//未受理,已受理,打包中,待付款订单
-		if(!in_array($rsv["orderStatus"], $cancelStatus))return $rsdata;
-		//如果是未受理和待付款的订单直接改为"用户取消【受理前】"，已受理和打包中的则要改成"用户取消【受理后-商家未知】"，后者要给商家知道有这么一回事，然后再改成"用户取消【受理后-商家已知】"的状态
-		$orderStatus = -6;//取对商家影响最小的状态
-		if($rsv["orderStatus"]==0 || $rsv["orderStatus"]==-2)$orderStatus = -1;
-		if($orderStatus==-6 && I('rejectionRemarks')=='')return $rsdata;//如果是受理后取消需要有原因
+		if((int)$rsv["orderStatus"] != 0) { // 用户只有待付款的状态才能取消
+			return $rsdata;
+		}
+		$orderStatus = -1; // 用户取消订单
 		$sql = "UPDATE __PREFIX__orders set orderStatus = ".$orderStatus." WHERE orderId = $orderId and userId=".$userId;	
 		$rs = $this->execute($sql);		
 		

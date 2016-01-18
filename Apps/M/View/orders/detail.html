@@ -11,7 +11,14 @@
 	<h4 class="order-type cky-mtop-10">
 		<switch name="data.orderStatus">
 			<case value="0">待付款</case>
-			<case value="-1">订单取消</case>
+			<case value="-1">订单已取消</case>
+			<case value="-2">订单已关闭</case>
+			<case value="1">等待商家受理</case>
+			<case value="2">商家已受理</case>
+			<case value="3">订单打包中</case>
+			<case value="4">订单配送中</case>
+			<case value="5">订单已到货</case>
+			<case value="6">订单已结束</case>
 		    <default />订单
 		</switch>
 	</h4>

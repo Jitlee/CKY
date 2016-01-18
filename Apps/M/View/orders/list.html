@@ -17,7 +17,7 @@
 	
 	<div id="orderList" class="mui-hidden">
 		<!-- ko foreach: $data -->
-		<ul  class="mui-table-view cky-mtop-10" data-bind="attr: { oid: orderId }">
+		<a class="mui-table-view cky-mtop-10" data-bind="attr: { oid: orderId, href: '{:U('detail')}?id=' + orderId }">
 			<li class="mui-table-view-cell">
 				<span>订单金额</span>
 				<span data-bind="text: totalMoney"></span>
@@ -26,7 +26,7 @@
 				<span>订单状态</span>
 				<span data-bind="text: orderStatus"></span>
 			</li>
-		</ul>
+		</a>
 		<!-- /ko -->
 	</div>
 </div>

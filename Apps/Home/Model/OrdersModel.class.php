@@ -862,6 +862,7 @@ class OrdersModel extends BaseModel {
 		}
 		$sql.=" order by orderId desc ";
 		$data = $this->pageQuery($sql,$pcurr);
+//		echo $this->getLastSql();
 		//获取取消/拒收原因
 		$orderIds = array();
 		$noReadrderIds = array();

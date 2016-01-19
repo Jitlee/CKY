@@ -3,14 +3,20 @@ $.fn.TabPanel = function(options){
 		tab: 0      
 	}; 
 	var opts = $.extend(defaults, options);
-	var t = this;
-	$(t).find('.rtc-tab-nav li').click(function(){
-		$(this).addClass("on").siblings().removeClass();
-		var index = $(this).index();
-		$(t).find('.rtc-tab-content .rtc-tab-item').eq(index).show().siblings().hide();
-		if(opts.callback)opts.callback(index);
+	var tab = $(this);
+	tab.find('.rtc-tab-nav li').click(function(){
+		var $this = $(this);
+		$(".on", tab).removeClass("on");
+		$this.addClass("on");
+		var index = $this.index();
+		if(opts.callback) {
+			opts.callback.call(this, index);
+		}
+		
+		$(".rtc-tab-item").hide().eq(index).show();
 	});
-	$(t).find('.rtc-tab-nav li').eq(opts.tab).click();
+	tab.find('.rtc-tab-nav li').eq(opts.tab).click();
+	return this;
 }
 
 $(function() {

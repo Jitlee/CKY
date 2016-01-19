@@ -26,15 +26,23 @@ class PersonAction extends BaseUserAction {
 		else
 		{
 			//更新session
-			session("cardid",$result["CardId"]);			
+			session("cardid",$result["CardId"]);
 			session("uid",$result["uid"]);
-			session("MemberItem",$result);	
+			session("MemberItem",$result);
 		}
+		// vendor('Weixinpay.WxPayJsApiPay');
+		$userimg=session("userimg");
+		if(strlen($userimg)<10)
+		{
+			$wxm= new WxUserInfo();
+			$userimg=$wxm->callback($openid);
+			session("userimg",$userimg);
+		}
+		$this->assign('headimgurl', $userimg);
 				
 		session("MemberItem",$result);		
 		$this->assign('title', "个人中心");
 		$this->assign('data', $result);
-		//layout(TRUE);
 		$this->display();
 	}
 

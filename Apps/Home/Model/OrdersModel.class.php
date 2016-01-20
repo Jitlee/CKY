@@ -847,7 +847,7 @@ class OrdersModel extends BaseModel {
 		$rsdata = array();
 		$sql = "SELECT orderNo,orderId,userId,userName,userAddress,totalMoney,orderStatus,createTime FROM __PREFIX__orders WHERE shopId = $shopId ";
 		if($orderStatus==5){
-			$sql.=" AND orderStatus in (-3,-4,-5,-6,-7)";
+			$sql.=" AND orderStatus in (5,6)";
 		}else{
 			$sql.=" AND orderStatus = $orderStatus ";	
 		}
@@ -891,12 +891,12 @@ class OrdersModel extends BaseModel {
 		$rsdata = array();
 		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag=1 and shopId=".$shopId;		
 		$rsv = $this->queryRow($sql);
-		if($rsv["orderStatus"]!=0){
+		if($rsv["orderStatus"]!=1){
 			$rsdata["status"] = -1;
 			return $rsdata;
 		}
 
-		$sql = "UPDATE __PREFIX__orders set orderStatus = 1 WHERE orderId = $orderId and shopId=".$shopId;		
+		$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId and shopId=".$shopId;		
 		$rs = $this->execute($sql);		
 
 		$data = array();
@@ -928,7 +928,7 @@ class OrdersModel extends BaseModel {
 			$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag=1 and shopId=".$shopId;		
 			$rsv = $this->queryRow($sql);
 			if($rsv["orderStatus"]!=0)continue;//订单状态不符合则跳过
-			$sql = "UPDATE __PREFIX__orders set orderStatus = 1 WHERE orderId = $orderId and shopId=".$shopId;		
+			$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId and shopId=".$shopId;		
 			$rs = $this->execute($sql);		
 	
 			$data = array();
@@ -956,12 +956,12 @@ class OrdersModel extends BaseModel {
 		$rsdata = array();
 		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1 and shopId=".$shopId;		
 		$rsv = $this->queryRow($sql);
-		if($rsv["orderStatus"]!=1){
+		if($rsv["orderStatus"]!=2){
 			$rsdata["status"] = -1;
 			return $rsdata;
 		}
 
-		$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId and shopId=".$shopId;		
+		$sql = "UPDATE __PREFIX__orders set orderStatus = 3 WHERE orderId = $orderId and shopId=".$shopId;		
 		$rs = $this->execute($sql);		
 		$data = array();
 		$m = M('log_orders');
@@ -991,9 +991,9 @@ class OrdersModel extends BaseModel {
 			if($orderId=='')continue;//订单号为空则跳过
 			$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1 and shopId=".$shopId;		
 			$rsv = $this->queryRow($sql);
-			if($rsv["orderStatus"]!=1)continue;//订单状态不符合则跳过
+			if($rsv["orderStatus"]!=2)continue;//订单状态不符合则跳过
 	
-			$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId and shopId=".$shopId;		
+			$sql = "UPDATE __PREFIX__orders set orderStatus = 3 WHERE orderId = $orderId and shopId=".$shopId;		
 			$rs = $this->execute($sql);		
 			$data = array();
 			$m = M('log_orders');
@@ -1020,12 +1020,12 @@ class OrdersModel extends BaseModel {
 		$rsdata = array();
 		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1 and shopId=".$shopId;		
 		$rsv = $this->queryRow($sql);
-		if($rsv["orderStatus"]!=2){
+		if($rsv["orderStatus"]!=3){
 			$rsdata["status"] = -1;
 			return $rsdata;
 		}
 
-		$sql = "UPDATE __PREFIX__orders set orderStatus = 3 WHERE orderId = $orderId and shopId=".$shopId;		
+		$sql = "UPDATE __PREFIX__orders set orderStatus = 4 WHERE orderId = $orderId and shopId=".$shopId;		
 		$rs = $this->execute($sql);		
 
 		$data = array();
@@ -1056,9 +1056,9 @@ class OrdersModel extends BaseModel {
 			if($orderId=='')continue;//订单号为空则跳过
 			$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1 and shopId=".$shopId;		
 			$rsv = $this->queryRow($sql);
-			if($rsv["orderStatus"]!=2)continue;//状态不符合则跳过
+			if($rsv["orderStatus"]!=3)continue;//状态不符合则跳过
 	
-			$sql = "UPDATE __PREFIX__orders set orderStatus = 3 WHERE orderId = $orderId and shopId=".$shopId;		
+			$sql = "UPDATE __PREFIX__orders set orderStatus = 4 WHERE orderId = $orderId and shopId=".$shopId;		
 			$rs = $this->execute($sql);		
 	
 			$data = array();

@@ -831,15 +831,14 @@ function queryOrderPager(statusMark,pcurr){
 					html.push("<td width='100'><div style='line-height:20px;'>"+order.createTime+"</div></td>");
 					html.push("<td width='100'>");
 					html.push("<a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=showOrder('"+order.orderId+"')>查看</a>");
-					if(order.orderStatus==0){
+					if(order.orderStatus==1){
 						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderAccept('"+order.orderId+"')>受理</a>");
-					}else if(order.orderStatus==1){
-						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderProduce('"+order.orderId+"')>打包</a>");
 					}else if(order.orderStatus==2){
+						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderProduce('"+order.orderId+"')>打包</a>");
+					}else if(order.orderStatus==3){
 						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderDelivery('"+order.orderId+"')>发货配送</a>");
-					}else if(order.orderStatus==-3){
-						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderRefund('"+order.orderId+"',1)>同意拒收</a>");
-						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderRefund('"+order.orderId+"',-1)>不同意拒收</a>");
+					}else if(order.orderStatus==4){
+						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderReceipt('"+order.orderId+"')>确认收货</a>");
 					}
 					html.push("</td>");
 				    html.push("</tr>");

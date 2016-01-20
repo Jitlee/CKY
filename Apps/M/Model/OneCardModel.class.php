@@ -123,7 +123,7 @@ class OneCardModel extends BaseModel {
 			,"value"=>$value
 			//,"valuePlus"=>$value
 			,"paidMoney"=>$value
-			,"meno"=>"粗卡云平台充值"
+			,"meno"=>"粗卡云管理平台充值"
 			,"userAccount"=>"10000"
 		);
 		$url='OpenApi/Add_Value';

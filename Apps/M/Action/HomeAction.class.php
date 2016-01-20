@@ -23,13 +23,14 @@ class HomeAction extends BaseAction {
 	}
 	/*错误提示*/
 	public function getwxerror() {
-		$userlogin=session('userloginobj');
-		$userlogin2=session('userloginobj2');
-		echo dump($userlogin);
-		
-		echo	session("access_token");
-		echo dump($userlogin2);
-		
+		$openid=session('openid');
+		echo $openid;
+		$openid=''.$openid;		
+		if($openid && strlen($openid)>10)
+		{
+			$this->redirect('Person/index');
+			exit;
+		}
 		$this->assign('data', $userlogin); 
 		$this->display();
 	}
@@ -40,8 +41,7 @@ class HomeAction extends BaseAction {
 			$result["msg"]="注册成功。";			
 			$openid=$this->GetOpenid();
 			
-			$userlogin=session('userloginobj');
-			$openid=$userlogin["openid"];	
+			$openid=session('openid'); 
 			if(empty($openid))
 			{
 				$result["msg"]="获取参数失败。".$openid;	

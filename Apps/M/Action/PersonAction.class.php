@@ -11,11 +11,10 @@ namespace M\Action;
 use Think\Controller;
 class PersonAction extends BaseUserAction {
 	
-	public function _initialize(){
-		$this->assign('tabid', "member");
-	}
+	 
 	public function index() {
 		$openid=$this->GetUserOpenID();
+		$openid=''.$openid;	
 		
 		$mMember = D('M/Member');
 		$result=$mMember->GetByOpenid($openid);
@@ -34,7 +33,7 @@ class PersonAction extends BaseUserAction {
 		}
 		
 		//生新查询头像
-		$userimg=session("userimg");
+		$userimg=''.session("userimg");
 		if(strlen($userimg)<10)
 		{
 			$wxm= new WxUserInfo();

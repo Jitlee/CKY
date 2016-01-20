@@ -6,10 +6,8 @@ use Think\Controller;
 class BaseUserAction extends BaseAction {
 
 	protected function _initialize() {
-			$userlogin=session('userloginobj');
-			$openid=$userlogin["openid"];
-			
 			 
+			$openid=session('openid').''; 
 //			if(!$userlogin) {
 //				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
 //				session('userloginobj',$userlogin);
@@ -47,26 +45,25 @@ class BaseUserAction extends BaseAction {
 			{
 				$this->redirect('Home/getwxerror');
 			}
+			$this->assign('tabid', "member");
 	}
 	
 	function GetUserOpenID()
 	{
-		$userlogin=session('userloginobj');
-		$openid=$userlogin["openid"];
-		if(strlen($openid)>10)
+		$openId=session('openid').'';
+	 
+		if(strlen($openId)>10)
 		{
-			return $openid;
+			return $openId.'';
 		}
 		else
 		{
 			//1、获取openid
 			vendor('Weixinpay.WxPayJsApiPay');
 	        $tools = new \JsApiPay();
-	        $openId = $tools->GetOpenid();
-			
-			$userlogin["openid"]=$openId;
-			session('userloginobj',$userlogin);
-			return $openid;
+	        $openId = $tools->GetOpenid().'';
+			session('openid',$openId);
+			return $openId.'';
 		}
 	}
 	

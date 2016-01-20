@@ -110,7 +110,7 @@ var cky = {
 		return layer.open({
 		    content: msg,
 		    shade: false,
-		    style: 'background-color:rgba(0,0,0,0.2); color:#666; border:none;',
+		    style: 'background-color:rgba(0,0,0,0.5); color:#FFF; border:none;',
 		    time: 2
 		});
 	},

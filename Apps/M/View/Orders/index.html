@@ -10,7 +10,7 @@
 <div class="mui-content mui-content-bottom">
 	<ul class="mui-table-view">
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" href="{:U('MemberAddress/addresslist')}?shopId={:I('shopId')}">
+			<a class="mui-navigate-right" href="{:U('Address/addresslist')}?shopId={:I('shopId')}">
 				<!-- ko if:consignee -->
 				<span data-bind="text: consignee.name + '  ' + consignee.phone"></span>
 				<h5 data-bind="text: consignee.address"></h5>
@@ -75,7 +75,7 @@
 	</ul>
 	<footer class="cky-footer">
 		<p class="font-red font17">共<span data-bind="text: total + '元'">0</span></p>
-		<button id="submit" class="cky-update mui-btn mui-btn-primary">提交订单</button>
+		<button id="submit" class="cky-update mui-btn mui-btn-primary" style="height:100%">提交订单</button>
 	</footer>
 </div>
 

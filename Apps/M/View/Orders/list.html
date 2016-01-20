@@ -17,15 +17,43 @@
 	
 	<div id="orderList" class="mui-hidden">
 		<!-- ko foreach: $data -->
-		<a class="mui-table-view cky-mtop-10" data-bind="attr: { oid: orderId, href: '{:U('detail')}?id=' + orderId }">
-			<li class="mui-table-view-cell">
-				<span>订单金额</span>
-				<span data-bind="text: totalMoney"></span>
-			</li>
-			<li class="mui-table-view-cell">
-				<span>订单状态</span>
-				<span data-bind="text: orderStatus"></span>
-			</li>
+		<a class="cky-table-view cky-mtop-10" data-bind="attr: { oid: orderId, href: '{:U('detail')}?id=' + orderId }">
+			<div class="cky-table-view-cell">
+				<span class="font14" data-bind="text: shopName"></span>
+				<!-- ko if: orderStatus < 0 || orderStatus == 6 -->
+				<button class="cky-update cky-update-center mui-btn mui-btn-link" data-bind="attr: { oid: orderId }" onclick="removeOrder(this);"><i class="mui-icon mui-icon-trash"></i></button>
+				<!-- /ko-->
+			</div>
+			<div class="cky-table-view-cell">
+				<div class="cky-table-cell-thumb cky-table-cell-thumb40" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
+				</div>
+				<div class="cky-media">
+					<span class="cky-media-title font14" data-bind="text: '买了    ' + goods"></span>
+					<h5 class="font12" data-bind="text: createTime"></h5>
+			    </div>
+			</div>
+			<div class="cky-table-view-cell">
+				<div class="cky-col-view">
+					<div class="cky-col-view-cell">
+						<p class="font-red font14" data-bind="text: cky.formatOrderStatus(orderStatus)"></p>
+						<!-- ko if: orderStatus == -2 -->
+						<h5 data-bind="">超时未付款</h5>
+						<!-- /ko -->
+					</div>
+					<div class="cky-col-view-cell cky-text-right">
+						<p class="font14 font-black" data-bind="text: '订单金额 ' + totalMoney + '元'"></p>
+						<!-- ko if: orderStatus == -1 -->
+						<button class="mui-btn mui-btn-primary">取消订单</button>
+						<!-- /ko -->
+						<!-- ko if: orderStatus == 0 -->
+						<button class="mui-btn">去付款</button>
+						<!-- /ko -->
+						<!-- ko if: orderStatus != -1 && orderStatus != 0 -->
+						<button class="mui-btn">还订这家</button>
+						<!-- /ko -->
+					</div>
+				</div>
+			</div>
 		</a>
 		<!-- /ko -->
 	</div>
@@ -38,6 +66,13 @@
 	var orders = [];
 	var vm = ko.observableArray(orders);
 	ko.applyBindings(vm, document.getElementById("orderList"));
+	
+	
+	util.onScrollEnd(queryByPage);
+	
+	window.onpageshow = function(event) {
+		queryByPage();
+	}
 	
 	function queryByPage() {
 		if(force) {
@@ -71,7 +106,10 @@
 			});
 		}
 	}
-	queryByPage();
 	
-	util.onScrollEnd(queryByPage);
+	function removeOrder() {
+		var $this = $(this);
+		var orderId = $this.attr("oid");
+		
+	}
 </script>

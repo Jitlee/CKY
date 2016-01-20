@@ -71,3 +71,7 @@ textarea {
 	color: #666;
 	text-align: right;
 }
+
+.mui-btn .mui-icon {
+	font-size: 24px!important;
+}

@@ -36,10 +36,6 @@ hr {
 	display: block;
 }
 
-.cky-mtop-10 {
-	margin-top:  10px;
-}
-
 .cky-hidden {
 	display: none;
 }
@@ -271,17 +267,18 @@ hr {
 .cky-table-view-cell {
 	display: block;
 	position: relative;
-	border-bottom:1px solid #C0C0C0;
+	border-bottom:1px solid #eee;
 	padding-top:10px;
 	padding-bottom: 10px;
-	padding-left:8px;
-	padding-right:8px;
+	padding-left:18px;
+	padding-right:18px;
 	margin-left:-8px;
 	margin-right:-8px;
+	background-color: #fff;
 }
 
 .cky-table-view-cell:first-child {
-	border-top:1px solid #C0C0C0;
+	border-top:1px solid #eee;
 }
 
 .cky-money {
@@ -311,14 +308,14 @@ hr {
 	overflow: hidden;
 }
 
-.cky-table-cell-thumb{
+.cky-table-cell-thumb {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
 	height:90px;
 	width: 90px;
 	position: absolute;
-	left:8px;
+	left:10px;
 	top:50%;
 	transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
@@ -331,6 +328,26 @@ hr {
 .cky-table-cell-thumb80 {
 	width: 80px;
 	height: 80px;
+}
+
+.cky-table-cell-thumb60 {
+	width: 60px;
+	height: 60px;
+	left: 10px;
+}
+
+.cky-table-cell-thumb60 +.cky-media {
+	padding-left: 70px;
+}
+
+.cky-table-cell-thumb40 {
+	width: 40px;
+	height: 40px;
+	left: 20px;
+}
+
+.cky-table-cell-thumb40 +.cky-media {
+	padding-left: 50px;
 }
 
 .cky-free-reserve:before {
@@ -379,6 +396,17 @@ a.cky-segmented-item {
 	color: #fff;
 }
 
+/** 行两列样式 **/
+.cky-col-view {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+}
+
+.cky-col-view-cell {
+	display: table-cell;
+}
+
 
 /** 字体大小和颜色(开始)  **/
 .font32 {
@@ -414,7 +442,11 @@ a.cky-segmented-item {
 }
 
 .font12 {
-	font-size: 13px;
+	font-size: 12px;
+}
+
+.font10 {
+	font-size: 10px;
 }
 
 .font-gray {
@@ -506,6 +538,11 @@ a.cky-segmented-item {
 	position: absolute;
 	right: 8px;
 	top: 8px;
+}
+
+.cky-update.cky-update-center {
+	top: 50%;
+	-webkit-transform: translateY(-50%);
 }
 
 .cky-update.cky-update-nav {
@@ -606,4 +643,16 @@ p.cky-update {
 
 .cky-select-list .mui-table-view-cell {
 	font-size: 24px;
+}
+
+.cky-mtop-10 {
+	margin-top:  10px;
+}
+
+.cky-text-left {
+	text-align: left;
+}
+
+.cky-text-right {
+	text-align: right;
 }

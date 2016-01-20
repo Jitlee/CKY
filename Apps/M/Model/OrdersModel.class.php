@@ -50,10 +50,10 @@ class OrdersModel extends BaseModel {
 		$map = array(
 			'userId'		=> $userId,
 			'orderId'		=> $orderId,
-			'orderFlag'		=> 1,  // 只有完成的订单才能逻辑删除
+			'orderStatus'	=> array('IN', array(-1, -2, 6)),  // 只有完成的订单才能逻辑删除
 		);
 		
-		$this->orderStatus = -2;
+		$this->orderFlag = -1;
 		return $this->where($map)->save();
 	 }
 	

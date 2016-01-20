@@ -88,6 +88,18 @@ class OrdersAction extends BaseUserAction {
 		$this->ajaxReturn($rdata, 'JSON');
 	}
 	
+	public function remove() {
+		$obj = array(
+			'userId'		=> getuid(),
+			'orderId'		=> I('id'),
+		);
+		$m = D('M/Orders');
+		$ret = $m->remove($obj);
+//		echo $m->getLastSql();
+		$rdata['status'] = $ret ? 0 : -1;
+		$this->ajaxReturn($rdata, 'JSON');
+	}
+	
 	//---------------
 	// 源代码
 	//---------------	

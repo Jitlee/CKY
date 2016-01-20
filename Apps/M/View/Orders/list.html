@@ -21,7 +21,7 @@
 			<div class="cky-table-view-cell">
 				<span class="font14" data-bind="text: shopName"></span>
 				<!-- ko if: orderStatus < 0 || orderStatus == 6 -->
-				<button class="cky-update cky-update-center mui-btn mui-btn-link" data-bind="attr: { oid: orderId }" onclick="removeOrder(this);"><i class="mui-icon mui-icon-trash"></i></button>
+				<button class="remove-btn cky-update cky-update-center mui-btn mui-btn-link"><i class="mui-icon mui-icon-trash"></i></button>
 				<!-- /ko-->
 			</div>
 			<div class="cky-table-view-cell">
@@ -43,13 +43,13 @@
 					<div class="cky-col-view-cell cky-text-right">
 						<p class="font14 font-black" data-bind="text: '订单金额 ' + totalMoney + '元'"></p>
 						<!-- ko if: orderStatus == -1 -->
-						<button class="mui-btn mui-btn-primary">取消订单</button>
+						<button class="mui-btn mui-btn-primary cancel-btn">取消订单</button>
 						<!-- /ko -->
 						<!-- ko if: orderStatus == 0 -->
-						<button class="mui-btn">去付款</button>
+						<button class="mui-btn pay-btn">去付款</button>
 						<!-- /ko -->
 						<!-- ko if: orderStatus != -1 && orderStatus != 0 -->
-						<button class="mui-btn">还订这家</button>
+						<button class="mui-btn btn-continue">还订这家</button>
 						<!-- /ko -->
 					</div>
 				</div>
@@ -107,9 +107,36 @@
 		}
 	}
 	
-	function removeOrder() {
+	// 删除
+	$("#orderList").on("click", "button.remove-btn", function (evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
 		var $this = $(this);
-		var orderId = $this.attr("oid");
-		
+		var parent = $this.closest("a.cky-table-view");
+		var orderId = parent.attr("oid");
+		layer.open({
+		    content: '是否删除该订单？',
+		    btn: ['确定', '不，再等等'],
+		    shadeClose: false,
+		    yes: function(){
+				var ll = cky.loadding();
+				$.post("{:U('remove')}", { id: orderId }, function(ret) {
+					cky.closeAll();
+					if(ret.status == 0) {
+						parent.fadeOut(200, null, function() {
+							parent.remove();
+							cky.toast("订单已删除");
+						});
+					} else {
+						cky.toast("删除订单失败");
+					}
+				});
+		    }, no: function(){
+		        
+		    }
+		});
+	});
+	
+	$("#orderList").on("click", "button.remove-btn", function (evt) {
 	}
 </script>

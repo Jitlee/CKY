@@ -26,8 +26,7 @@
 			<case value="-1">status-block-img-close</case>
 			<case value="-2">status-block-img-close</case>
 		    <default />status-block-img-done
-		</switch>
-			"></div>
+		</switch>"></div>
 	</div>
 	
 	<ul class="mui-table-view cky-mtop-10">
@@ -47,7 +46,7 @@
 				<div id="fast" class="cky-order-item cky-relative">
 					<span data-bind="">配送费</span>
 					<div class="cky-update">
-						<span>{$data.deliveryMoney} 元</span>
+						<span>{$data.deliverMoney} 元</span>
 					</div>
 				</div>
 				
@@ -89,7 +88,7 @@
 				$.post("{:U('close')}", { id: {:I('id')} }, function(ret) {
 					cky.close(ll);
 					if(ret.status == 0) {
-						switchCloseStatus(); // 切换到关闭
+						switchCloseStatus(-2); // 切换到关闭
 					} else {
 						cky.alert("订单超时");
 					}
@@ -108,7 +107,7 @@
 						cky.close(ll);
 						if(result) {
 							cky.toast("订单已取消");
-							window.location.reload();
+							switchCloseStatus(-1);
 						} else {
 							cky.toast("订单取消失败");
 						}
@@ -122,10 +121,10 @@
 		/**
 		 * 刷新订单状态
 		 */
-		function switchCloseStatus() {
+		function switchCloseStatus(status) {
 			$("footer").html("<a id=\"goshop\" href=\"{:U('Fast/detail')}?id={$data.shopId}\">还订这家</a>");
 			statusImg.attr("class", "status-block-img status-block-img-close");
-			$("h4.order-type").text("订单已关闭");
+			$("h4.order-type").text(status == -2 ? "订单已关闭" : "订单已取消");
 			$("h5.order-type").empty();
 			
 			statusImg.empty();

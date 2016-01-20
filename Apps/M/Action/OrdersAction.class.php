@@ -74,6 +74,24 @@ class OrdersAction extends BaseUserAction {
 	}
 	
 	/**
+	 * 系统超时关闭订单
+	 */
+	public function close() {
+		$obj = array(
+			'userId'		=> getuid(),
+			'orderId'		=> I('id'),
+		);
+		$m = D('M/Orders');
+		$ret = $m->close($obj);
+		$rdata['status'] = $ret ? 0 : -1;
+		$this->ajaxReturn($rdata, 'JSON');
+	}
+	
+	//---------------
+	// 源代码
+	//---------------	
+	
+	/**
 	 * 获取待付款的订单列表
 	 */
 	public function queryByPage(){

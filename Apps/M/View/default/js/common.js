@@ -58,11 +58,19 @@ var cky = {
 	},
 	
 	/**
+	 * 关闭所有弹框
+	 * @param {Object} id
+	 */
+	close: function(id) {
+		layer.close(id);
+	},
+	
+	/**
 	 * 弹出自动消失的提示框
 	 * @param {Object} msg
 	 */
 	toast: function(msg) {
-		layer.open({
+		return layer.open({
 		    content: msg,
 		    style: 'background-color:rgba(0,0,0,0.2); color:#666; border:none;',
 		    time: 2
@@ -70,13 +78,13 @@ var cky = {
 	},
 	
 	loadding: function() {
-		layer.open({
+		return layer.open({
 		    type: 2
 		});
 	},
 	
 	alert: function(msg, callback) {
-		layer.open({
+		return layer.open({
 		    title: '提示',
 		    content: msg,
 		   	btn: ["确定"],

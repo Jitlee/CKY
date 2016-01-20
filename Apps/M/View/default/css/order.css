@@ -96,6 +96,10 @@ h5.order-type {
 	background-image: url(../images/iconfont-cancel-order.png);
 }
 
+.status-block-img-done {
+	background-image: url(../images/iconfont-done-order.png);
+}
+
 .cky-footer {
 	padding: 0;
 	display: table;

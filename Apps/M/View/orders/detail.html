@@ -19,7 +19,7 @@
 			<case value="4">订单配送中</case>
 			<case value="5">订单已到货</case>
 			<case value="6">订单已结束</case>
-		    <default />订单
+		    <default />订单最新状态
 		</switch>
 	</h4>
 	<h5 class="order-type">
@@ -32,7 +32,8 @@
 			<switch name="data.orderStatus">
 			<case value="0">status-block-img-time</case>
 			<case value="-1">status-block-img-close</case>
-		    <default />
+			<case value="-2">status-block-img-close</case>
+		    <default />status-block-img-done
 		</switch>
 			"></div>
 	</div>
@@ -80,18 +81,27 @@
 		var statusImg = $(".status-block-img");
 		<if condition="$data.orderStatus eq 0">
 		// 等待付款
-		var time = {:time() - strtotime($data['createTime'])};
+		var time = {:strtotime($data['createTime']) + 5 * 60 - time()}; // 5分钟
 		timeout(time);
 		
 		function timeout(time) {
 			statusImg.text(util.formatMuites(time));
 			time--;
-			if(time > 0) {
+			if(time > -1) {
 				window.setTimeout(function() {
 					timeout(time);
 				}, 1000);
 			} else {
 				// 倒计时结束
+				var ll = cky.loadding();
+				$.post("{:U('close')}", { id: {:I('id')} }, function(ret) {
+					cky.close(ll);
+					if(ret.status == 0) {
+						switchCloseStatus(); // 切换到关闭
+					} else {
+						cky.alert("订单超时");
+					}
+				});
 			}
 		}
 		
@@ -101,9 +111,9 @@
 			    btn: ['确定', '不，再等等'],
 			    shadeClose: false,
 			    yes: function(){
-					cky.loadding();
+					var ll = cky.loadding();
 					$.post("{:U('orderCancel')}", { orderId: {:I('id')}}, function(result) {
-						layer.closeAll();
+						cky.close(ll);
 						if(result) {
 							cky.toast("订单已取消");
 							window.location.reload();
@@ -116,6 +126,18 @@
 			    }
 			});
 		});
+		
+		/**
+		 * 刷新订单状态
+		 */
+		function switchCloseStatus() {
+			$("footer").html("<a id=\"goshop\" href=\"{:U('fast/detail')}?id={$data.shopId}\">还订这家</a>");
+			statusImg.attr("class", "status-block-img status-block-img-close");
+			$("h4.order-type").text("订单已关闭");
+			$("h5.order-type").empty();
+			
+			statusImg.empty();
+		}
 		</if>
 	});
 </script>

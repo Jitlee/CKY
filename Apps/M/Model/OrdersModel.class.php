@@ -21,6 +21,22 @@ class OrdersModel extends BaseModel {
 		return $this->where($map)->order('createTime desc')->page($pageNo, $pageSize)->select();
 	}
 	
+	/**
+	 * 超时关闭订单
+	 */
+	public function close($obj) {
+		$userId = $obj["userId"];
+		$orderId = $obj["orderId"];
+		$map = array(
+			'userId'		=> $userId,
+			'orderId'		=> $orderId,
+			'orderStatus'	=> 0,  // 只有超时的订单才能关闭
+		);
+		
+		$this->orderStatus = -2;
+		return $this->where($map)->save();
+	}
+	
 	//----------------------------
 	// 以下源代码方法
 	//----------------------------

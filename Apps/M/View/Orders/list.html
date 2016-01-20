@@ -17,8 +17,8 @@
 	
 	<div id="orderList" class="mui-hidden">
 		<!-- ko foreach: $data -->
-		<a class="cky-table-view cky-mtop-10" data-bind="attr: { oid: orderId, href: '{:U('detail')}?id=' + orderId }">
-			<div class="cky-table-view-cell">
+		<a class="cky-table-view cky-mtop-10" data-bind="attr: { oid: orderId, id: 'order_' + orderId, href: '{:U('detail')}?id=' + orderId }">
+			<div class="cky-table-view-cell order-title">
 				<span class="font14" data-bind="text: shopName"></span>
 				<!-- ko if: orderStatus < 0 || orderStatus == 6 -->
 				<button class="remove-btn cky-update cky-update-center mui-btn mui-btn-link"><i class="mui-icon mui-icon-trash"></i></button>
@@ -35,20 +35,17 @@
 			<div class="cky-table-view-cell">
 				<div class="cky-col-view">
 					<div class="cky-col-view-cell">
-						<p class="font-red font14" data-bind="text: cky.formatOrderStatus(orderStatus)"></p>
+						<p class="order-status font-red font14" data-bind="text: cky.formatOrderStatus(orderStatus)"></p>
 						<!-- ko if: orderStatus == -2 -->
 						<h5 data-bind="">超时未付款</h5>
 						<!-- /ko -->
 					</div>
 					<div class="cky-col-view-cell cky-text-right">
 						<p class="font14 font-black" data-bind="text: '订单金额 ' + totalMoney + '元'"></p>
-						<!-- ko if: orderStatus == -1 -->
-						<button class="mui-btn mui-btn-primary cancel-btn">取消订单</button>
+						<!-- ko if: (orderStatus == 0 && needPay > 0 && payType == 1) -->
+						<button class="mui-btn btn-pay">去付款</button>
 						<!-- /ko -->
-						<!-- ko if: orderStatus == 0 -->
-						<button class="mui-btn pay-btn">去付款</button>
-						<!-- /ko -->
-						<!-- ko if: orderStatus != -1 && orderStatus != 0 -->
+						<!-- ko ifnot: (orderStatus == 0 && needPay > 0 && payType == 1) -->
 						<button class="mui-btn btn-continue">还订这家</button>
 						<!-- /ko -->
 					</div>
@@ -137,6 +134,24 @@
 		});
 	});
 	
-	$("#orderList").on("click", "button.remove-btn", function (evt) {
-	}
+	// 去付款
+	$("#orderList").on("click", "button.btn-pay", function (evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		var $this = $(this);
+		var parent = $this.closest("a.cky-table-view");
+		var orderId = parent.attr("oid");
+		window.location.href = "{:U('pay')}?orderId=" + orderId;
+		
+	});
+	
+	// 继续订这家
+	$("#orderList").on("click", "button.btn-continue", function (evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		var $this = $(this);
+		var parent = $this.closest("a.cky-table-view");
+		var orderId = parent.attr("oid");
+		window.location.href = "{:U('Fast/detail')}?id=" + orderId;
+	});
 </script>

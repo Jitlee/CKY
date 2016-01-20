@@ -103,9 +103,9 @@
 			    shadeClose: false,
 			    yes: function(){
 					var ll = cky.loadding();
-					$.post("{:U('orderCancel')}", { orderId: {:I('id')}}, function(result) {
+					$.post("{:U('cancel')}", { orderId: {:I('id')}}, function(result) {
 						cky.close(ll);
-						if(result) {
+						if(result.status > 0) {
 							cky.toast("订单已取消");
 							switchCloseStatus(-1);
 						} else {
@@ -129,6 +129,7 @@
 			
 			statusImg.empty();
 		}
+		
 		</if>
 	});
 </script>

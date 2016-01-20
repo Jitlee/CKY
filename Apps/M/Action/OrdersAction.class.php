@@ -230,7 +230,7 @@ class OrdersAction extends BaseUserAction {
 	/**
 	 * 取消订单
 	 */
-    public function orderCancel(){
+    public function cancel(){
     	$morders = D('M/Orders');
     	$obj["userId"] = getuid();
     	$obj["orderId"] = I("orderId");

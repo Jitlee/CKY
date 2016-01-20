@@ -10,9 +10,9 @@ namespace M\Action;
  */
 use Think\Controller;
 class WxAction extends Controller {
-	public function _initialize() {
-       vendor('Weixinpay.WxPayJsApiPay');
-    }
+//	public function _initialize() {
+//     vendor('Weixinpay.WxPayJsApiPay');
+//  }
 		
 	public function callback() {
 		$appid = "wx06dcafb051f5e21f";
@@ -59,6 +59,7 @@ class WxAction extends Controller {
 			exit;
 		}
 		$this->redirect('Person/index');
+		exit;
 	}
  
 	
@@ -85,8 +86,11 @@ class WxAction extends Controller {
 		else
 		{
 			//1、获取openid
+			vendor('Weixinpay.WxPayJsApiPay');
 	        $tools = new \JsApiPay();
 	        $openId = $tools->GetOpenid();
+			
+			echo $openId;
 			
 			$userlogin["openid"]=$openId;
 			session('userloginobj',$userlogin);

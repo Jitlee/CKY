@@ -10,21 +10,23 @@ class BaseUserAction extends BaseAction {
 			$openid=$userlogin["openid"];
 			
 			 
-			if(!$userlogin) {
-				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
-				session('userloginobj',$userlogin);
-				$openid=$userlogin["openid"];
+//			if(!$userlogin) {
+//				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
+//				session('userloginobj',$userlogin);
+//				$openid=$userlogin["openid"];
+//			}
+			
+			//如果openid不存在重新获取
+			if(strlen($openid)>10){}
+			else{
+				$openid=$this->GetUserOpenID();
 			}
-			 
+			//echo $openid;
 			if(strlen($openid)>10)
 			{
-				//$this->assign('openid', $openid);
-				$this->assign('nickname', $userlogin["nickname"]);
-				$this->assign('headimgurl', $userlogin["headimgurl"]);
-				
 				$result=session("MemberItem");
 				$strcardid=$result["CardId"];
-				if(!($result && strlen($strcardid)>3))//session 中不存在。
+				if(!(strlen($strcardid)>3))//session 中不存在。
 				{
 					//验证是否已经关联
 					$mMember = D('M/Member');
@@ -43,7 +45,29 @@ class BaseUserAction extends BaseAction {
 			}
 			else
 			{
-				$this->redirect('Wx/getcodeurl');
+				$this->redirect('Home/getwxerror');
 			}
 	}
+	
+	function GetUserOpenID()
+	{
+		$userlogin=session('userloginobj');
+		$openid=$userlogin["openid"];
+		if(strlen($openid)>10)
+		{
+			return $openid;
+		}
+		else
+		{
+			//1、获取openid
+			vendor('Weixinpay.WxPayJsApiPay');
+	        $tools = new \JsApiPay();
+	        $openId = $tools->GetOpenid();
+			
+			$userlogin["openid"]=$openId;
+			session('userloginobj',$userlogin);
+			return $openid;
+		}
+	}
+	
 }

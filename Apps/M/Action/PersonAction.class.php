@@ -15,9 +15,11 @@ class PersonAction extends BaseUserAction {
 		$this->assign('tabid', "member");
 	}
 	public function index() {
-		$openid=$this->GetOpenid();
+		$openid=$this->GetUserOpenID();
+		
 		$mMember = D('M/Member');
 		$result=$mMember->GetByOpenid($openid);
+		//echo dump($result);
 		if(!$result)	
 		{
 			$this->redirect('Home/selectreg');
@@ -30,7 +32,8 @@ class PersonAction extends BaseUserAction {
 			session("uid",$result["uid"]);
 			session("MemberItem",$result);
 		}
-		// vendor('Weixinpay.WxPayJsApiPay');
+		
+		//生新查询头像
 		$userimg=session("userimg");
 		if(strlen($userimg)<10)
 		{
@@ -39,8 +42,7 @@ class PersonAction extends BaseUserAction {
 			session("userimg",$userimg);
 		}
 		$this->assign('headimgurl', $userimg);
-				
-		session("MemberItem",$result);		
+	
 		$this->assign('title', "个人中心");
 		$this->assign('data', $result);
 		$this->display();

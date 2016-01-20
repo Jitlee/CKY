@@ -86,11 +86,11 @@
 					$("#areaId3Name").val(x);
 					
 					var self = $("form");
-					$.post("{:U('MemberAddress/addressedit','','')}", self.serialize(), savesuccess, "json");
+					$.post("{:U('Address/addressedit','','')}", self.serialize(), savesuccess, "json");
 					return;
 					function savesuccess(data) {
 						if (data.status) {
-							 window.location.href="{:U('MemberAddress/addresslist', '', '')}";
+							 window.location.href="{:U('Address/addresslist', '', '')}";
 						} else {
 							 util.msg(data.msg);
 						}

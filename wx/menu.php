@@ -1,6 +1,6 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
-define("ACCESS_TOKEN", "yzFZUhuGbdl_74x2ak6NI07HDth_CyEvUn1MkQoUCYTKX44IGLIXDgWaq0Ay_w1Vk5HvHCUVrZmH1SpxA04aVmARa8PNSAk-hc9_Jq31YfoCZGhAHAKHO");
+define("ACCESS_TOKEN", "hugc7sc5KNM_GcuVG9wcu4-RubHjkLxN7hZGDjthMQW2Nvk35x26vpx7vBXj6lnLQ0svL2GpcdkzSsbzRl25txspWzKetM5nRzjaOHv3ZH0ANGgAFAGTM");
 
 //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx9c7c9bb54952b54d&secret=d4624c36b6795d1d99dcf0547af5443d
 
@@ -40,48 +40,70 @@ function deleteMenu(){
 
 
 
+//$data = '{
+//   "button":[
+//    {
+//         "name":"粗卡",
+//         "sub_button":[
+//          {
+//          	"type":"view",
+//	           "name":" 首页  ",
+//	           "url":"http://cky.ritacc.net/index.php/M"
+//             
+//          },
+//          {	
+//             "type":"view",
+//             "name":" 商家  ",
+//             "url":"http://cky.ritacc.net/index.php/M/shops/index"
+//          },
+//          {
+//             "type":"view",
+//             "name":"  外卖  ",
+//             "url":"http://cky.ritacc.net/index.php/M/fast/index"
+//          }]
+//    },
+//    {
+//        "type":"view",
+//        "name":"个人中心",
+//        "url":"http://cky.ritacc.net/index.php/M/Person/index"
+//    },
+//    {
+//         "name":"关于我们",
+//         "sub_button":[
+//          {
+//          	"type":"click",
+//	           "name":" 简介 ",
+//	           "key":"introduct"
+//             
+//          },
+//          {	
+//             "type":"click",
+//             "name":"赞一下我们",
+//             "key":"MGOOD"
+//          }]
+//     }]
+//}';
+
 $data = '{
      "button":[
-      {
-           "name":"粗卡云",
-           "sub_button":[
+       
             {
             	"type":"view",
 	           "name":" 首页  ",
 	           "url":"http://cky.ritacc.net/index.php/M"
                
             },
-            {	
-               "type":"view",
-               "name":" 商家  ",
-               "url":"http://cky.ritacc.net/index.php/M/shops/index"
-            },
-            {	
+            {
                "type":"view",
                "name":"  外卖  ",
                "url":"http://cky.ritacc.net/index.php/M/fast/index"
-            }]
-      },
+            }
+            ,
       {
           "type":"view",
           "name":"个人中心",
           "url":"http://cky.ritacc.net/index.php/M/Person/index"
-      },
-      {
-           "name":"关于我们",
-           "sub_button":[
-            {
-            	"type":"click",
-	           "name":" 简介 ",
-	           "key":"introduct"
-               
-            },
-            {	
-               "type":"click",
-               "name":"赞一下我们",
-               "key":"MGOOD"
-            }]
-       }]
+      }]
 }';
 
 

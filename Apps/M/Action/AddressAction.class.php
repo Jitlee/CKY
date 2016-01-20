@@ -9,7 +9,7 @@ namespace M\Action;
  * 首页（默认）控制器
  */
 use Think\Controller;
-class MemberAddressAction extends Controller {
+class AddressAction extends Controller {
 
 /*****地址管理******/
 	public function addresslist()

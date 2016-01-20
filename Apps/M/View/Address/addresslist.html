@@ -45,7 +45,7 @@
 <script type="text/javascript">
 	function edit(id)
 	{
-		window.location.href="{:U('MemberAddress/addressedit', '', '')}/addressId/"+id;
+		window.location.href="{:U('Address/addressedit', '', '')}/addressId/"+id;
 	}
 	function deleteItem(id){
 		layer.open({
@@ -53,7 +53,7 @@
 		    btn: ['确认', '取消'],
 		    shadeClose: false,
 		    yes: function(){
-		        $.post("{:U('MemberAddress/delete','','')}", {addressId: id}, delsuccess, "json");
+		        $.post("{:U('Address/delete','','')}", {addressId: id}, delsuccess, "json");
 		    }
 		    , no: function(){
 		    }
@@ -61,20 +61,20 @@
 		
 		return;
 		function delsuccess(data) {
-			window.location.href="{:U('MemberAddress/addresslist', '', '')}";
+			window.location.href="{:U('Address/addresslist', '', '')}";
 		}
 	}
 	function setDefualt(id){
-		$.post("{:U('MemberAddress/setdefalut','','')}", {addressId: id}, setsuccess, "json");
+		$.post("{:U('Address/setdefalut','','')}", {addressId: id}, setsuccess, "json");
 		return;
 		function setsuccess(data) {			 
-			window.location.href="{:U('MemberAddress/addresslist', '', '')}";			 
+			window.location.href="{:U('Address/addresslist', '', '')}";			 
 		}
 	}
 	$(function() {
 		//地址
 		$("#address").click(function(){
-			window.location.href="{:U('MemberAddress/addressedit', '', '')}";
+			window.location.href="{:U('Address/addressedit', '', '')}";
 		});
 		
 		var shopId = util.i("shopId");

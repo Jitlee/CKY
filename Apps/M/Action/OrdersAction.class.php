@@ -59,6 +59,7 @@ class OrdersAction extends BaseUserAction {
 		$m = D('M/Orders');
 		$map = array('userId' => getuid());
 		$list = $m->query($map);
+//		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	

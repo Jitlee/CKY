@@ -1,7 +1,7 @@
 <?php
 
 //// 发送http请求
-//function ajax($url, $data = null, $method = "GET") {
+//function ajax($url, $data = null, $method = 'GET') {
 //	$postdata = http_build_query($data);
 //	$options = array(
 //	'http' => array(
@@ -27,20 +27,20 @@ function timeToString($time) {
 
 function getuid()
 {
-	$uid=session("uid");
+	$uid=session('uid');
 	if(!isset($uid))
 	{
 		$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('Wx/getcodeurl', '', '');
-		header("Location:".$REDIRECT_URI);	
+		header('Location:'.$REDIRECT_URI);	
 	}	
 	return $uid;
 }
 
 function  log_result($file,$word)
 {
-     $fp = fopen($file,"a");
+     $fp = fopen($file,'a');
      flock($fp, LOCK_EX) ;
-     fwrite($fp,"执行日期：".strftime("%Y-%m-%d-%H：%M：%S",time())."\n".$word."\n\n");
+     fwrite($fp,'执行日期：'.strftime('%Y-%m-%d-%H：%M：%S',time()).'\n'.$word.'\n\n');
      flock($fp, LOCK_UN);
      fclose($fp);
 }
@@ -49,8 +49,8 @@ function  log_result($file,$word)
 
 function traceHttp()
 {
-    logger("\n\nREMOTE_ADDR:".$_SERVER["REMOTE_ADDR"].(strstr($_SERVER["REMOTE_ADDR"],'101.226')? " FROM WeiXin": "Unknown IP"));
-    logger("QUERY_STRING:".$_SERVER["QUERY_STRING"]);
+    logger('\n\nREMOTE_ADDR:'.$_SERVER['REMOTE_ADDR'].(strstr($_SERVER['REMOTE_ADDR'],'101.226')? ' FROM WeiXin': 'Unknown IP'));
+    logger('QUERY_STRING:'.$_SERVER['QUERY_STRING']);
 }
 function logger($log_content)
 {
@@ -60,9 +60,9 @@ function logger($log_content)
         sae_set_display_errors(true);
     }else{ //LOCAL
         $max_size = 500000;
-        $log_filename = "log.xml";
+        $log_filename = 'log.xml';
         if(file_exists($log_filename) and (abs(filesize($log_filename)) > $max_size)){unlink($log_filename);}
-        file_put_contents($log_filename, date('Y-m-d H:i:s').$log_content."\r\n", FILE_APPEND);
+        file_put_contents($log_filename, date('Y-m-d H:i:s').$log_content.'\r\n', FILE_APPEND);
     }
 }
 
@@ -75,3 +75,28 @@ function maskPhone($phone) {
 	return preg_replace($pattern, $replacement, $phone);
 }
 
+function formatOrderStatus($orderStatus) {
+	$orderStatus = (int)$orderStatus;
+	switch($orderStatus) {
+		case -2:
+			return '订单已关闭';
+		case -1:
+			return '订单已取消';
+		case 0:
+			return '待支付';
+		case 1:
+			return '订单已支付';
+		case 2:
+			return '商家已受理';
+		case 3:
+			return '配送中';
+		case 4:
+			return '已送达';
+		case 5:
+			return '已到货';
+		case 6:
+			return '订单已完成';
+		default:
+			return '订单已结束';
+	}
+}

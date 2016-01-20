@@ -17,8 +17,12 @@ class OrdersModel extends BaseModel {
 		$userId = $obj["userId"];
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
-		$map = array('userId'	=> $userId);
-		return $this->where($map)->order('createTime desc')->page($pageNo, $pageSize)->select();
+		$map = array('o.userId'	=> $userId, 'o.orderFlag' => array('neq', -1));
+		$field = 'o.orderId, orderNo, o.createTime, o.shopId, shopName, shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, GROUP_CONCAT(goodsName ORDER BY og.id) goods';
+		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
+		$group = 'o.orderId';
+		return $this->field($field)->join($join)->where($map)
+			->order('createTime desc')->group($group)->page($pageNo, $pageSize)->select();
 	}
 	
 	/**
@@ -36,6 +40,22 @@ class OrdersModel extends BaseModel {
 		$this->orderStatus = -2;
 		return $this->where($map)->save();
 	}
+	
+	/**
+	 * 移除订单（用户逻辑删除）
+	 */
+	 public function remove($obj) {
+	 	$userId = $obj["userId"];
+		$orderId = $obj["orderId"];
+		$map = array(
+			'userId'		=> $userId,
+			'orderId'		=> $orderId,
+			'orderFlag'		=> 1,  // 只有完成的订单才能逻辑删除
+		);
+		
+		$this->orderStatus = -2;
+		return $this->where($map)->save();
+	 }
 	
 	//----------------------------
 	// 以下源代码方法
@@ -68,7 +88,7 @@ class OrdersModel extends BaseModel {
 	public function getOrdersDetails($obj){		
 		$orderId = $obj["orderId"];
 		$map = array('orderId' => $orderId);
-		$field = 'cky_orders.*, sp.shopName';
+		$field = 'cky_orders.*, sp.shopName, sp.shopTel';
 		return $this->field($field)
 			->join('__SHOPS__ sp on sp.shopId = __ORDERS__.shopId')
 			->where($map)->find();
@@ -1216,8 +1236,8 @@ class OrdersModel extends BaseModel {
 		
 		return $data;
 	}
-	
-	
-	
-	
 }
+	
+	
+	
+	

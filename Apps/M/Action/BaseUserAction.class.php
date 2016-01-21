@@ -8,11 +8,11 @@ class BaseUserAction extends BaseAction {
 	protected function _initialize() {
 			 
 			$openid=session('openid').''; 
-//			if(!$userlogin) {
-//				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
-//				session('userloginobj',$userlogin);
-//				$openid=$userlogin["openid"];
-//			}
+			if(!$userlogin) {
+				$userlogin["openid"]="oKxDRv3qgqwZVsHkOZXvcEgDkQyI";
+				session('userloginobj',$userlogin);
+				$openid=$userlogin["openid"];
+			}
 			
 			//如果openid不存在重新获取
 			if(strlen($openid)>10){}

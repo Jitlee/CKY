@@ -28,7 +28,58 @@ class PayAction extends BaseUserAction {
 		$this->assign('title', "支付成功");
 		$this->display();	
 	}
-	
+	// 支付类型 余额支付
+	Public function payvalue(){
+		//1、获取openid
+		$money=session("money");
+		$type=session("type");
+		if($type=="order")
+		{
+			$Body="订单支付";
+			$dataInfo["extendid"]=session("orderid");
+		}
+		else	//这是错误应该需要处理
+		{
+			$Body="未定义类型";
+		}
+		//保存系统支付订单
+		$dataInfo["uid"]=session("uid");
+		$dataInfo["openId"]=$this->GetOpenid();
+		$dataInfo["cardid"]=$this->GetCardId(); 
+		
+		$dataInfo["payNo"]='cky'.date('ymdhis').rand(10000,99999); 
+		$dataInfo["PayType"]=$type;
+		$dataInfo["PayTypeName"]=$Body;		
+		$dataInfo["TotalMoney"]=$money;
+		$dataInfo["CreateTime"]=date('y-m-d-h-i-s');
+		$dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+		$dataInfo["Status"]=0;
+
+		
+		$mPay= D('M/MemberPay');		 
+		$result=$mPay->InitPay($dataInfo);
+		if($result['status']==1)
+		{			
+			$mMPay = D('M/MemberPay');
+			$dataInfo=$mMPay->GetByPayNo($dataInfo["payNo"]);
+			
+			if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0)	
+			{
+				//从一卡易会员卡扣钱
+				 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+				 $dataInfo["Status"]=99;				 
+				 $cardid=$dataInfo["cardid"];
+				 $result=$mMPay->OrderValuePay($dataInfo,$cardid);
+				 //更新订单状态
+				 $orderid=$dataInfo["extendid"];
+				if($res["status"] == 0)
+				{
+					$this->display("success");					 
+				}
+			} 
+		}
+		$this->display("error");	
+	}
     Public function index(){
 
         //1、获取openid
@@ -48,6 +99,7 @@ class PayAction extends BaseUserAction {
 		else if($type=="order")
 		{
 			$Body="订单支付";
+			$dataInfo["extendid"]=session("orderid");
 		}
 		else
 		{

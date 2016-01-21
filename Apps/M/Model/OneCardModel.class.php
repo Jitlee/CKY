@@ -129,7 +129,22 @@ class OneCardModel extends BaseModel {
 		$url='OpenApi/Add_Value';
 		return $this->GetData($url, $data);		
 	}
-	 
+	
+	/*卡内余额支付*/
+	public function PayValue($cardId,$value)
+	{
+		$data = array(
+			"cardId"=>$cardId
+			,"value"=>$value
+			//,"valuePlus"=>$value
+//			,"paidMoney"=>$value
+			,"meno"=>"平台支付"
+			,"userAccount"=>"10000"
+		);
+		//data={"cardId":"cardidTest","password":"123456","userAccount":"10000","value":999,"meno":"我是备注信息"} 
+		$url='OpenApi/ValueConsume';
+		return $this->GetData($url, $data);		
+	}
 	
 	/********修改密码*******/
 	public function UpdatePassword($cardId,$oldpwd,$newpwd)

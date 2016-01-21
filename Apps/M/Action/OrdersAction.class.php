@@ -69,8 +69,14 @@ class OrdersAction extends BaseUserAction {
 		$data = $m->getOrdersDetails($map);
 		$data = $data[0];
 		
+		//获取订单ID
+		$orderId=I("orderId");
 		session("money", (float)$data['needPay']);
 		session("type", 'order');
+		session("orderid", $orderId);
+		//如果余额支付
+		$this->redirect('pay/payvalue');
+		//在线支付 
 		$this->redirect('pay/index');
 	}
 	

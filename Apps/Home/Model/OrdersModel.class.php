@@ -812,7 +812,7 @@ class OrdersModel extends BaseModel {
 		$shopId = (int)$obj["shopId"];
 		$rsdata = array();
 		//待受理订单
-		$sql = "SELECT COUNT(*) cnt FROM __PREFIX__orders WHERE shopId = $shopId AND orderStatus = 0 ";
+		$sql = "SELECT COUNT(*) cnt FROM __PREFIX__orders WHERE shopId = $shopId AND orderStatus = 1 ";
 		$olist = $this->queryRow($sql);
 		$rsdata[0] = $olist['cnt'];
 		

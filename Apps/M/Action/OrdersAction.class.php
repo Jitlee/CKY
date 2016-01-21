@@ -62,8 +62,8 @@ class OrdersAction extends BaseUserAction {
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
-	
 	/* 跳转到支付页面  */
+	
 	public function pay() {
 		$m = D('M/Orders');
 		$data = $m->getOrdersDetails($map);
@@ -374,11 +374,16 @@ class OrdersAction extends BaseUserAction {
 		$consigneeId = (int)I("consigneeId");
 		$payway = (int)I("payway"); // 支付途径
 		$isself = (int)I("isself"); // 是否自取
-		$cartGoods = (array)json_decode(html_entity_decode(I('goods')));
+		$cartGoods = (array)json_decode(html_entity_decode(stripslashes(I('goods'))));
 		$needreceipt = (int)I("needreceipt"); // 是否需要票据
 		$orderunique = I("orderunique"); 
 		
 		$result = array('status' => 0);
+		
+//		echo '-----';
+//		echo html_entity_decode(html_entity_decode(stripslashes(I('goods'))));
+//		echo dump($cartGoods);
+//		exit();
 		
 		$shopGoods = array();	
 		$order = array();

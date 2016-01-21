@@ -145,6 +145,12 @@ class OrdersModel extends BaseModel {
 		$yadb = D('M/UserAddress');
 		$addressInfo = $yadb->getAddressDetails($consigneeId);
 		
+//		echo dump($addressInfo);
+//		exit();
+		
+//		echo dump($catgoods);
+//		exit();
+		
         $m = M('orderids');
         $m->startTrans();
 		foreach ($catgoods as $key=> $shopgoods){

@@ -8,6 +8,11 @@ hr {
 	margin: 8px 0;
 	padding: 0;
 }
+
+r {
+	color: #FF2200;
+}
+
 .cky-bar,.cky-bar-item,
 
 .cky-grid,.cky-grid-cell,
@@ -45,6 +50,31 @@ hr {
 	display: block;
 	visibility: hidden;
 	clear: both;
+}
+
+.cky-btn {
+	display: inline-block;
+	padding: 3px 10px;
+	text-align: center;
+	font-size: 17px;
+	background-color: #F60;
+	color: #fff;
+}
+
+.cky-btn-block {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	width: 100%;
+}
+
+.cky-btn-red {
+	background-color: #F20;
+	color: #FFF;
+}
+
+.cky-btn-red:active {
+	background-color: #D31400;
+	color: #FFF;
 }
 
 .cky-bar {
@@ -656,3 +686,4 @@ p.cky-update {
 .cky-text-right {
 	text-align: right;
 }
+

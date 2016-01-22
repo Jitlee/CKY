@@ -36,7 +36,7 @@ class GoodsModel extends BaseModel {
 	
 	public function detail($queryType = 0) {
 		$goodsId = I('id');
-		$field = 'goodsId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, saleCount';
+		$field = 'goodsId, shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount';
 		$join = null;
 		switch($queryType) {
 			case 0:

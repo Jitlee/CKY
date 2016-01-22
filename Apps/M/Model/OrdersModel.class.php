@@ -1057,7 +1057,7 @@ class OrdersModel extends BaseModel {
 		$rsv = $this->queryRow($sql);
 		if($rsv["isPay"]!=0)continue;//不等于未支付   isPay  0 未支付，  1 已支付    payType 是否在线支付 0 货到付款 1在线支付
 
-		$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId";		
+		$sql = "UPDATE __PREFIX__orders set isPay = 1 WHERE orderId = $orderId";		
 		$rs = $this->execute($sql);		
 		$data = array();
 		$m = M('log_orders');

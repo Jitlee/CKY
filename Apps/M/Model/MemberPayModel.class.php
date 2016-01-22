@@ -48,7 +48,7 @@ class MemberPayModel extends BaseModel {
 		}
 		else
 		{
-			$content="-----------------充值出错-----------------";
+			$content="-----------------OrderValuePay-充值出错-----------------";
 			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
 			$content=$content.',Carid='.$carid;
 			logger($content);
@@ -56,6 +56,7 @@ class MemberPayModel extends BaseModel {
 		}
 		return $res;
 	}
+	/*订单在线支付*/
 	public function UpdateRechange($dataInfo,$carid)
 	{
 		$dbMember = M('member_pay');
@@ -72,14 +73,14 @@ class MemberPayModel extends BaseModel {
 		}
 		else
 		{
-			$content="-----------------充值出错-----------------";
+			$content="-----------------订单在线支付-充值出错-----------------";
 			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
 			$content=$content.',Carid='.$carid;
 			logger($content);
 			logger($res["message"] );
 		}
 	}
-	
+	/*余额支付*/
 	public function UpdatePayOrder($dataInfo)
 	{
 		$orderid=$dataInfo["extendid"].'';

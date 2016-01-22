@@ -74,10 +74,17 @@ class OrdersAction extends BaseUserAction {
 		session("money", (float)$data['needPay']);
 		session("type", 'order');
 		session("orderid", $orderId);
-		//如果余额支付
-		$this->redirect('pay/payvalue');
-		//在线支付 
-		$this->redirect('pay/index');
+		
+		//payType 是否在线支付 0 货到付款 1在线支付
+		$payType=(int)$data['payType'])
+		if($payType==2)//余额支付
+		{
+			$this->redirect('pay/payvalue');
+		}
+		else if($payType==1)//在线支付 
+		{
+			$this->redirect('pay/index');
+		}
 	}
 	
 	/**

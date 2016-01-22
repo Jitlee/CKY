@@ -197,6 +197,18 @@ class PayAction extends BaseUserAction {
 			 
 			 $cardid=$dataInfo["cardid"];
 			 $result=$mMPay->UpdateRechange($dataInfo,$cardid);
+		}
+		if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0 && $result_code=='SUCCESS')	
+		{
+			 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+			 $dataInfo["result_code"]=$result_code.'';
+			 $dataInfo["fee_type"]=$fee_type.'';
+			 $dataInfo["transaction_id"]=$transaction_id.'';
+			 $dataInfo["cash_fee"]=$cash_fee.'';
+			 $dataInfo["Status"]=99;
+			 
+			 //$cardid=$dataInfo["cardid"];
+			 $result=$mMPay->UpdatePayOrder($dataInfo);
 		} 
 		else
 		{

@@ -80,4 +80,38 @@ class MemberPayModel extends BaseModel {
 		}
 	}
 	
+	public function UpdatePayOrder($dataInfo)
+	{
+		$orderid=$dataInfo["extendid"].'';
+		//如果有错误，更改其它状态或备注
+		$res["status"]=-1;
+		if(strlen($orderid)<5)
+		{
+			$dataInfo["extendMeno"]="错误的订单号：".$orderid;
+		}
+		else
+		{
+			//更新订单状态
+			$dbOrders = M('Orders');
+			$res=$dbOrders->OrderPay($orderid)
+		}
+		$dbMember = M('member_pay');
+		$dbMember->save($dataInfo); 
+		 
+ 		//用户信息
+		if($res["status"] == 1)
+		{	
+//			$mSync = D('M/MemberOneCardSync');
+//			$result=$mSync->DataSync($carid);//同步用户记录
+		}
+		else
+		{
+			$content="-----------------UpdatePayOrder-----------------";
+			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
+			$content=$content.',Carid='.$carid;
+			logger($content);
+			logger($res["message"] );
+		}
+	}
+	
 }

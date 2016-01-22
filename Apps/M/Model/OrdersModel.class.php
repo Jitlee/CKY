@@ -1048,6 +1048,30 @@ class OrdersModel extends BaseModel {
 	}
 	
 	/**
+	 * 订单支付状态
+	 */
+	public function OrderPay($orderId){
+				
+		if($orderId=='')continue;//订单号为空则跳过
+		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1";		
+		$rsv = $this->queryRow($sql);
+		if($rsv["isPay"]!=0)continue;//不等于未支付   isPay  0 未支付，  1 已支付    payType 是否在线支付 0 货到付款 1在线支付
+
+		$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId";		
+		$rs = $this->execute($sql);		
+		$data = array();
+		$m = M('log_orders');
+		$data["orderId"] = $orderId;
+		$data["logContent"] = "订单打包中";
+		$data["logUserId"] = session("uid");
+		$data["logType"] = 0;
+		$data["logTime"] = date('Y-m-d H:i:s');
+		$ra = $m->add($data);
+			
+		return array('status'=>1);
+	}
+	
+	/**
 	 * 商家发货配送订单
 	 */
 	public function shopOrderDelivery ($obj){		

@@ -66,24 +66,24 @@ class OrdersAction extends BaseUserAction {
 	
 	public function pay() {
 		$m = D('M/Orders');
-		$data = $m->getOrdersDetails($map);
-		$data = $data[0];
-		
+		$data = $m->getOrdersItem();
+		//$data = $data[0];
 		//获取订单ID
 		$orderId=I("orderId");
 		session("money", (float)$data['needPay']);
 		session("type", 'order');
 		session("orderid", $orderId);
-		
+		echo dump($data);
 		//payType 是否在线支付 0 货到付款 1在线支付
-		$payType=(int)$data['payType'])
+		$payType=$data['payType'].'';
+		echo '$payType='.$payType;
 		if($payType==2)//余额支付
 		{
-			$this->redirect('pay/payvalue');
+			$this->redirect('Pay/payvalue');
 		}
 		else if($payType==1)//在线支付 
 		{
-			$this->redirect('pay/index');
+			$this->redirect('Pay/index');
 		}
 	}
 	

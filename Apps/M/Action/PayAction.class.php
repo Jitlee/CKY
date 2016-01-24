@@ -31,54 +31,33 @@ class PayAction extends BaseUserAction {
 	// 支付类型 余额支付
 	Public function payvalue(){
 		//1、获取openid
-		$money=session("money");
-		$type=session("type");
-		if($type=="order")
-		{
-			$Body="订单支付";
-			$dataInfo["extendid"]=session("orderid");
-		}
-		else	//这是错误应该需要处理
-		{
-			$Body="未定义类型";
-		}
-		//保存系统支付订单
-		$dataInfo["uid"]=session("uid");
-		$dataInfo["openId"]=$this->GetOpenid();
-		$dataInfo["cardid"]=$this->GetCardId(); 
+		$payno=I("orderno");
+		$mMPay = D('M/MemberPay');
+		$dataInfo=$mMPay->GetByPayNo($payno);		
+		$money=$dataInfo["money"];
+		$type=$dataInfo["PayType"];
 		
-		$dataInfo["payNo"]='cky'.date('ymdhis').rand(10000,99999); 
-		$dataInfo["PayType"]=$type;
-		$dataInfo["PayTypeName"]=$Body;		
-		$dataInfo["TotalMoney"]=$money;
-		$dataInfo["CreateTime"]=date('y-m-d-h-i-s');
-		$dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
-		$dataInfo["Status"]=0;
-
-		
-		$mPay= D('M/MemberPay');		 
-		$result=$mPay->InitPay($dataInfo);
-		if($result['status']==1)
-		{			
-			$mMPay = D('M/MemberPay');
-			$dataInfo=$mMPay->GetByPayNo($dataInfo["payNo"]);
-			
-			if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0)	
+		$result["status"]=-1;	
+		if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0)	
+		{
+			//从一卡易会员卡扣钱
+			 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
+			 $dataInfo["Status"]=99;
+			 $cardid=$dataInfo["cardid"];
+			 $res=$mMPay->OrderValuePay($dataInfo,$cardid);
+			 //更新订单状态
+			 $orderid=$dataInfo["extendid"]; 
+			if($res["status"] == 0)
 			{
-				//从一卡易会员卡扣钱
-				 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
-				 $dataInfo["Status"]=99;				 
-				 $cardid=$dataInfo["cardid"];
-				 $result=$mMPay->OrderValuePay($dataInfo,$cardid);
-				 //更新订单状态
-				 $orderid=$dataInfo["extendid"];
-				if($res["status"] == 0)
-				{
-					$this->display("success");					 
-				}
-			} 
-		}
-		$this->display("error");	
+				$result["status"]=1;				 
+			}
+			else
+			{
+				$result["msg"]=$res["message"];	
+			}
+		} 
+		
+		$this->ajaxReturn($result, "JSON");
 	}
     Public function index(){
 
@@ -86,9 +65,6 @@ class PayAction extends BaseUserAction {
         $tools = new \JsApiPay();
         $openId = $tools->GetOpenid();
 
-		
-//		$money=$_GET["money"];
-//		$type=$_GET["type"];
 		$money=session("money");
 		$type=session("type");
 
@@ -114,8 +90,8 @@ class PayAction extends BaseUserAction {
 		$dataInfo["PayType"]=$type;
 		$dataInfo["PayTypeName"]=$Body;		
 		$dataInfo["TotalMoney"]=$money;
-		$dataInfo["CreateTime"]=date('y-m-d-h-i-s');
-		$dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+		$dataInfo["CreateTime"]=date('Y-m-d H:i:s');
+		$dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
 		$dataInfo["Status"]=0;
 
 		
@@ -140,11 +116,22 @@ class PayAction extends BaseUserAction {
 	        $input->SetTrade_type("JSAPI");
 	        $input->SetOpenid($openId);
 	        $order = \WxPayApi::unifiedOrder($input);
-	//		echo dump($input);
-	//		echo dump($order);
+
 	        $jsApiParameters = $tools->GetJsApiParameters($order);
 	        $this->jsApiParameters=$jsApiParameters;
-	        $this->display();
+			
+			if($type=="order")
+			{
+				$usrinfo=session("MemberItem");
+				//echo dump($usrinfo);
+				$this->assign('account', $usrinfo);
+				$this->assign('orderno', $setattach);
+				$this->display("orderpay");
+			}
+			else
+			{
+				$this->display();
+			}
 		}
 		else
 		{
@@ -157,9 +144,7 @@ class PayAction extends BaseUserAction {
     Public function notify(){
         //这里没有去做回调的判断，可以参考手机做一个判断。
         $xmlObj=simplexml_load_string($GLOBALS['HTTP_RAW_POST_DATA']); //解析回调数据
-		
-		
-		
+        
         $appid=$xmlObj->appid;//微信appid
         $mch_id=$xmlObj->mch_id;  //商户号
         $nonce_str=$xmlObj->nonce_str;//随机字符串
@@ -188,7 +173,7 @@ class PayAction extends BaseUserAction {
 		
 		if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0 && $result_code=='SUCCESS')	
 		{
-			 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+			 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
 			 $dataInfo["result_code"]=$result_code.'';
 			 $dataInfo["fee_type"]=$fee_type.'';
 			 $dataInfo["transaction_id"]=$transaction_id.'';
@@ -198,9 +183,9 @@ class PayAction extends BaseUserAction {
 			 $cardid=$dataInfo["cardid"];
 			 $result=$mMPay->UpdateRechange($dataInfo,$cardid);
 		}
-		if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0 && $result_code=='SUCCESS')	
+		else if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0 && $result_code=='SUCCESS')	
 		{
-			 $dataInfo["ChangeTime"]=date('y-m-d-h-i-s');
+			 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
 			 $dataInfo["result_code"]=$result_code.'';
 			 $dataInfo["fee_type"]=$fee_type.'';
 			 $dataInfo["transaction_id"]=$transaction_id.'';
@@ -209,7 +194,7 @@ class PayAction extends BaseUserAction {
 			 
 			 //$cardid=$dataInfo["cardid"];
 			 $result=$mMPay->UpdatePayOrder($dataInfo);
-		} 
+		}
 		else
 		{
 			$content="-----------------出错啦-----------------";

@@ -159,7 +159,7 @@ class MemberOneCardSyncModel extends BaseModel {
 					$item["PaidMoney"]= 	$ctemp["PaidMoney"];
 					$item["Type"]= $ctemp["Type"];
 					$item["Way"]= 	$ctemp["Way"];
-					$item["Meno"]= 	$ctemp["Meno"];					
+					$item["Meno"]=str_replace("[快速充值][接口]","",$ctemp["Meno"]);						
 					$item["UserAccount"]= 	$ctemp["UserAccount"];
 					$item["StoreName"]= 	$ctemp["StoreName"];					
 					$item["OperateTime"]=$ctemp["OperateTime"];

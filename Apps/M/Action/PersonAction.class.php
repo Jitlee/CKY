@@ -19,7 +19,7 @@ class PersonAction extends BaseUserAction {
 		$mMember = D('M/Member');
 		$result=$mMember->GetByOpenid($openid);
 		//echo dump($result);
-		if(!$result)	
+		if(!$result)
 		{
 			$this->redirect('Home/selectreg');
 			exit;
@@ -143,7 +143,9 @@ class PersonAction extends BaseUserAction {
 	
 	public function recharge()
 	{
-		//echo session("cardid");
+		$result=session("MemberItem");
+		$this->assign('data', $result);
+		
 		$this->assign('title', "会员卡充值");
 		layout(TRUE);
 		$this->display();

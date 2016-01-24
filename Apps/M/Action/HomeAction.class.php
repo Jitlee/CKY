@@ -264,24 +264,10 @@ class HomeAction extends BaseAction {
 	
 	public function ftest()
 	{
-//		$m = D('M/OneCard');
-//		$cardid="18620554231";
-//		$res=$m->GetMemberGroup();//可能有多条。	
-		//echo dump($res);
-		
-//		$CardId="18620554231";//$this->GetCardId();
-//		$mMember = D('M/MemberOneCardSync');
-//		$result=$mMember->DataSync($CardId);
-//		echo dump($result);
-
-		//	$code ="18620554231";// $_GET['code'];
-			
-		$cityid="530000";
-		$m = D('M/areas');
-		
-		$area = $m->getCityByProvince($cityid);
-		echo dump($area);
- 
+ 		$strvaldb="[快速充值][接口]粗卡云平台充值";
+		$strval=str_replace("[快速充值][接口]","",$strvaldb);
+		echo $strval; 		
+		$this->display("Pay/orderpay");
 	}
 
 	

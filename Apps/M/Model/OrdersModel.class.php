@@ -93,7 +93,17 @@ class OrdersModel extends BaseModel {
 			->join('__SHOPS__ sp on sp.shopId = __ORDERS__.shopId')
 			->where($map)->find();
 	}
-	
+	/**
+	 * 获取订单记录信息
+	 */
+	public function getOrdersItem($obj){		
+		$orderId = I("orderId");
+		$map = array('orderId' => $orderId);
+		$field = 'cky_orders.*, sp.shopName, sp.shopTel';
+		return $this->field($field)
+			->join('__SHOPS__ sp on sp.shopId = __ORDERS__.shopId')
+			->where($map)->find();
+	}
 	/**
 	 * 
 	 * 获取订单商品详情
@@ -1055,14 +1065,15 @@ class OrdersModel extends BaseModel {
 		if($orderId=='')continue;//订单号为空则跳过
 		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1";		
 		$rsv = $this->queryRow($sql);
-		if($rsv["isPay"]!=0)continue;//不等于未支付   isPay  0 未支付，  1 已支付    payType 是否在线支付 0 货到付款 1在线支付
+		$orderStatus = (int)$rsv["orderStatus"];
+		if($rsv["isPay"]!=0 && $orderStatus !=0)continue;//不等于未支付   isPay  0 未支付，  1 已支付    payType 是否在线支付 0 货到付款 1在线支付
 
-		$sql = "UPDATE __PREFIX__orders set isPay = 1 WHERE orderId = $orderId";		
-		$rs = $this->execute($sql);		
+		$sql = "UPDATE __PREFIX__orders set isPay = 1,orderStatus=1 WHERE orderId = $orderId";		
+		$rs = $this->execute($sql);
 		$data = array();
 		$m = M('log_orders');
 		$data["orderId"] = $orderId;
-		$data["logContent"] = "订单打包中";
+		$data["logContent"] = "订单支付成功";
 		$data["logUserId"] = session("uid");
 		$data["logType"] = 0;
 		$data["logTime"] = date('Y-m-d H:i:s');

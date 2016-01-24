@@ -140,7 +140,7 @@
 			
 				
 				$("#submit").click(function() {
-					if(!cart.consignee) {
+					if(!vm.consignee) {
 						cky.alert("请选择收货地址");
 						return;
 					}
@@ -152,7 +152,7 @@
 						isself: 0,
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
-						consigneeId: cart.consignee.id,
+						consigneeId: vm.consignee.id,
 						payway: 1
 					}, function(result) {
 						layer.close(ll);

@@ -17,14 +17,22 @@
 
 <script type="text/javascript">
 	var shopId = util.i("shopId");
-	var cart = cky.storage.getItem("fast-cart" + shopId);
+	var subKey = util.i("submit");
+	var cacheKey = null;
+	var cart = null;
+	if(shopId) {
+		cacheKey = "fast-cart" + shopId;
+	} else if(subKey) {
+		cacheKey = subKey;
+	}
+	cart = cky.storage.getItem(cacheKey);
 	$(function() {
 		var inputRemarks = $("#inputRemarks");
 		inputRemarks.val(cart.remarks).trigger("input");
 		
 		$("#submit").click(function() {
 			cart.remarks = inputRemarks.val();
-			cky.storage.setItem("fast-cart" + shopId, cart, 24 * 60 * 60);
+			cky.storage.setItem(cacheKey, cart, 24 * 60 * 60);
 			window.history.back();
 		});
 	});

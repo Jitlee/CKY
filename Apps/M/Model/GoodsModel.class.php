@@ -36,16 +36,8 @@ class GoodsModel extends BaseModel {
 	
 	public function detail($queryType = 0) {
 		$goodsId = I('id');
-		$field = 'goodsId, shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount';
-		$join = null;
-		switch($queryType) {
-			case 0:
-				$field .= ',goodsDesc';
-				break;
-			case 1: // 快餐商品详情
-				$join = 'cky_shops on cky_shops.shopId = cky_goods.shopId';
-				$field .= ',goodsSpec, cky_shops.shopId, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime';
-		}
+		$field = 'goodsId, g.shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime';
+		$join = 'g inner join __SHOPS__ s on s.shopId = g.shopId';
 		return $this->field($field)->join($join)->find($goodsId);
 	}
 	

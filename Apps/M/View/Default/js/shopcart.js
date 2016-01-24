@@ -2,10 +2,11 @@
 /**
  * 添加到购物车管理
  * @param {Object} pickerId
- * @param {Object} shopId
+ * @param {Object} shop
  * @param {Object} goods
  */
-function ShopCart(pickerId, shopId, goods) {
+function ShopCart(pickerId, shop, goods) {
+	var shopId = shop.shopId;
 	var shopCart = this;
 	// 获取购物车列表
 	var CACHE_KEY = "cky-shop-cart";
@@ -18,9 +19,9 @@ function ShopCart(pickerId, shopId, goods) {
 		shops: {}
 	};
 	
-	var hasCart = cart.shops[shopId] && cart.shops[shopId][goods.goodsId];
+	var hasCart = cart.shops[shopId] && cart.shops[shopId].goods[goods.goodsId];
 	if(hasCart) {
-		goodsCount = cart.shops[shopId][goods.goodsId].count;
+		goodsCount = cart.shops[shopId].goods[goods.goodsId].count;
 		num.text(goodsCount);
 	}
 	
@@ -72,13 +73,13 @@ function ShopCart(pickerId, shopId, goods) {
 		if(cartType == "add") {
 			// 添加到购物车
 			if(!hasCart) {
-				if(cart.shops[shopId]) {
-					cart.shops[shopId] = {};
+				if(!cart.shops[shopId]) {
+					cart.shops[shopId] = shop;
+					cart.shops[shopId].goods = {};
 				}
-				cart.shops[shopId] = { };
-				cart.shops[shopId][goods.goodsId] = goods;
+				cart.shops[shopId].goods[goods.goodsId] = goods;
 			}
-			cart.shops[shopId][goods.goodsId].count = Number(num.text());
+			cart.shops[shopId].goods[goods.goodsId].count = Number(num.text());
 			
 			// 保存购物车
 			cky.storage.setItem(CACHE_KEY, cart);

@@ -56,7 +56,7 @@ var cky = {
 	storage: {
 		getItem: function(key) {
 			var data = $.localStorage.getItem(key);
-			if(data) {
+			if(data && data != "null") {
 				data = JSON.parse(data);
 				var expires = data.expires;
 				var time = data.time;
@@ -133,6 +133,17 @@ var cky = {
 		    	}
 		    }
 		});
+	},
+	
+	/**
+	 * 判断是否为{} 空对象
+	 * @param {Object} obj
+	 */
+	isEmpty: function(obj) {
+		for(var i in obj) {
+			return false;
+		}
+		return true;
 	}
 };
 

@@ -10,12 +10,21 @@ namespace M\Action;
  */
 class OrdersAction extends BaseUserAction {
 	/**
-	 * 提交订单
+	 * 快餐提交订单
 	 */
-	public function index() {
+	public function fast() {
 		$this->assign('title', '订单确认');
 		$this->display();
 	}
+	
+	/**
+	 * 商品提交订单
+	 */
+	public function shop() {
+		$this->assign('title', '订单确认');
+		$this->display();
+	}
+	
 	
 	/**
 	 * 添加备注
@@ -388,6 +397,7 @@ class OrdersAction extends BaseUserAction {
 		$result = array('status' => 0);
 		
 //		echo '-----';
+//		echo dump(I('goods'));
 //		echo html_entity_decode(html_entity_decode(stripslashes(I('goods'))));
 //		echo dump($cartGoods);
 //		exit();
@@ -422,7 +432,6 @@ class OrdersAction extends BaseUserAction {
 			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
 			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 		}
-		
 		if($result['status'] == 0) {
 			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
 		}

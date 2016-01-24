@@ -1,0 +1,171 @@
+<link rel="stylesheet" href="__CSS__/order.css" />
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+<div class="mui-content mui-content-bottom">
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right" href="{:U('Address/addresslist')}?submit={:I('submit')}">
+				<!-- ko if:consignee -->
+				<span data-bind="text: consignee.name + '  ' + consignee.phone"></span>
+				<h5 data-bind="text: consignee.address"></h5>
+				<!-- /ko -->
+				
+				<!-- ko if:!consignee -->
+				<p class="add-consignee"><i class="iconfont icon-tianjia"></i>  请选择收货地址</p>
+				<!-- /ko -->
+			</a>
+		</li>
+	</ul>
+	<hr class="cky-address-hr"/>
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a href="{:U('remarks')}?submit={:I('submit')}" class="mui-navigate-right">
+				<span>备注</span>
+				<p id="inputRemarks" class="cky-update cky-update-nav font14 font-gray" data-bind="text: remarks"></p>
+			</a>
+		</li>
+	</ul>
+	<div>
+		<!-- ko foreach: shops -->
+		<ul id="goodsList" class="mui-table-view cky-mtop-10">
+			<li class="mui-table-view-cell">
+				<a>
+					<span class="cky-bold font17" data-bind="text: shopName"></span>
+					<!--<p class="cky-update">商家配送</p>-->
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a>
+					<!-- ko foreach: goods -->
+					<div class="cky-order-item cky-relative">
+						<span class="cky-order-title" data-bind="text: goodsName"></span>
+						<div class="cky-update">
+							<span data-bind="text: 'x ' + count"></span>
+							<span data-bind="text: shopPrice + '元'"></span>
+						</div>
+					</div>
+					<!-- /ko -->
+					
+					
+					<div id="fast" class="cky-order-item cky-relative">
+						<span data-bind="">快递费</span>
+						<div class="cky-update">
+							<span data-bind="text: fastMoney + '元'"></span>
+						</div>
+					</div>
+				</a>
+			</li>
+		</ul>
+		<!-- /ko -->
+	</div>
+	
+	<div class="cky-order-money cky-relative">
+		<span>订单金额</span>
+		<span data-bind="text: total + '元'"></span>
+	</div>
+	
+	<footer class="cky-footer">
+		<p class="font-red font17">共<span data-bind="text: total + '元'">0</span></p>
+		<button id="submit" class="cky-update mui-btn mui-btn-primary" style="height:100%">提交订单</button>
+	</footer>
+</div>
+
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	
+	window.onpageshow = function(event) { // 页面显示的时候  事件（包含回退）
+	    var subKey = util.i("submit");
+	    var CACHE_KEY = "cky-shop-cart";
+		var cart = cky.storage.getItem(CACHE_KEY);
+		var selectedCart = cky.storage.getItem(subKey);
+		if(cart && selectedCart) {
+			var vm = {
+				goods: [],
+				shops:[],
+				total: 0,
+				remarks: selectedCart.remarks,
+				consignee: selectedCart.consignee
+			}
+			for(var shopId in selectedCart.shops) {
+				var _total = 0;
+				var shop = $.extend({}, cart.shops[shopId]);
+				shop.goods = [];
+				shop.fastMoney = 0;
+				for(var goodsId in selectedCart.shops[shopId]) {
+					var _goods = cart.shops[shopId].goods[goodsId];
+					shop.goods.push(_goods);
+					_total += _goods.count * _goods.shopPrice;
+					vm.goods.push(_goods);
+				}
+				vm.total += _total;
+				if(shop.deliveryMoney > 0 && _total < shop.deliveryFreeMoney) {
+					vm.total += shop.deliveryMoney;
+					shop.fastMoney = shop.deliveryMoney;
+				}
+				vm.shops.push(shop);
+			}
+			ko.applyBindings(vm);
+			
+			$(function(){
+				$("#submit").click(function() {
+					if(!vm.consignee) {
+						cky.alert("请选择收货地址");
+						return;
+					}
+					
+					var ll = cky.loadding();
+					var goodsJSONString = JSON.stringify(vm.goods.map(function(g) { return { goodsId: g.goodsId, shopId: shopId, count: g.count }  }));
+					$.post("{:U('submitOrder')}", {
+						goods: goodsJSONString,
+						isself: 0,
+						needreceipt: 1,
+						orderunique: new Date().getTime(),
+						consigneeId: vm.consignee.id,
+						payway: 1
+					}, function(result) {
+						layer.close(ll);
+						var status = result.status;
+						if(status == 0) {
+							var data = result.data;
+							if(data && data.orderIds && data.orderIds.length > 0) {
+								// 删除临时数据和购物车
+								cky.storage.removeItem(subKey);
+								for(var shopId in selectedCart.shops) {
+									for(var goodsId in selectedCart.shops[shopId]) {
+										delete cart.shops[shopId].goods[goodsId];
+									}
+									if(!cky.isEmpty(selectedCart.shops[shopId])) {
+										delete selectedCart.shops[shopId];
+									}
+								}
+								if(cky.isEmpty(selectedCart.shops)) {
+									cky.storage.removeItem(CACHE_KEY);
+								} else {
+									cky.storage.setKey(CACHE_KEY, cart);
+								}
+								
+								if(data.orderIds.length == 1) {
+									window.location.href = "{:U('pay')}?orderId=" + data.orderIds[0];
+								} else {
+									window.location.href = "{:U('Orders/list')}";
+								}
+							} else {
+								cky.alert("提交订单失败，请稍后再试");
+							}
+						} else if(status < 0) {
+							var msg = result.data || "提交订单失败，请稍后再试";
+							cky.alert(msg);
+						}
+						
+					});
+				});
+			});
+		}
+	};
+</script>

@@ -78,22 +78,29 @@
 		});
 		
 		var shopId = util.i("shopId");
+		var subkey = util.i("submit");
+		var cacheKey = null;
+		var cart = null;
 		if(shopId) {
-			var shopCacheKey = "fast-cart" + shopId;
+			cacheKey = "fast-cart" + shopId;
+		} else if(subkey) {
+			cacheKey = subkey;
+		}
+		cart = cky.storage.getItem(cacheKey);
+		if(cart) {
 			// 选择地址
 			$("#addressList").on("click", "li", function(evt) {
 				evt.stopPropagation();
 				evt.preventDefault();
 				
 				var $this = $(this);
-				var cart = cky.storage.getItem(shopCacheKey);
 				cart.consignee = {
 					id: $this.attr("a-id"),
 					name: $this.attr("a-name"),
 					phone: $this.attr("a-phone"),
 					address: $this.attr("a-address")
 				};
-				cky.storage.setItem("fast-cart" + shopId, cart, 24 * 60 * 60);
+				cky.storage.setItem(cacheKey, cart, 24 * 60 * 60);
 				window.history.back();
 			});
 		}

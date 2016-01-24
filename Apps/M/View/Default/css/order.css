@@ -153,3 +153,11 @@ h5.order-type {
 #orderList {
 	background-color: #eee;
 }
+
+.cky-order-title {
+	width: -webkit-calc(100% - 100px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}

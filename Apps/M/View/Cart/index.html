@@ -50,7 +50,7 @@
 	</div>
 </div>
 
-<footer class="cky-footer">
+<footer class="cky-footer cky-hidden">
 	<label><input type="checkbox" class="all"/><span>全选</span></label>
 	<div class="cky-text-right" style="padding-right: 10px">
 		<p>合计: <r>￥0</r></p>
@@ -124,20 +124,20 @@
 			function sum() {
 				var count = 0;
 				var totalMoney = 0;
-				selectedCard = {};
+				selectedCard = { shops: {} };
 				$("input[type=checkbox].shop").each(function () {
 					var all = $(this);
 					var _totalMoney = 0;
 					var shopId = all.val();
 					var shop = cart.shops[shopId];
-					selectedCard[shopId] = {};
+					selectedCard.shops[shopId] = {};
 					$("input[type=checkbox].goods:checked", all.closest(".cky-cart-table")).each(function() {
 						var goodsId = $(this).val();
 						var goods = shop.goods[goodsId];
 						count += goods.count;
 						_totalMoney += count * goods.shopPrice;
 						
-						selectedCard[shopId][goodsId] = 0;
+						selectedCard.shops[shopId][goodsId] = 0;
 					});
 					totalMoney += _totalMoney;
 				});

@@ -10,7 +10,7 @@
 <div class="mui-content mui-content-bottom">
 	<ul class="mui-table-view">
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right" href="{:U('Address/addresslist')}?shopId={:I('shopId')}">
+			<a class="mui-navigate-right" href="{:U('Address/addresslist')}?submit={:I('submit')}">
 				<!-- ko if:consignee -->
 				<span data-bind="text: consignee.name + '  ' + consignee.phone"></span>
 				<h5 data-bind="text: consignee.address"></h5>
@@ -25,14 +25,14 @@
 	<hr class="cky-address-hr"/>
 	<ul class="mui-table-view cky-mtop-10">
 		<li class="mui-table-view-cell">
-			<a href="{:U('remarks')}?shopId={:I('shopId')}" class="mui-navigate-right">
+			<a href="{:U('remarks')}?submit={:I('submit')}" class="mui-navigate-right">
 				<span>备注</span>
 				<p id="inputRemarks" class="cky-update cky-update-nav font14 font-gray" data-bind="text: remarks"></p>
 			</a>
 		</li>
 	</ul>
 	<div>
-		<!-- ko foreach: $data -->
+		<!-- ko foreach: shops -->
 		<ul id="goodsList" class="mui-table-view cky-mtop-10">
 			<li class="mui-table-view-cell">
 				<a>
@@ -44,7 +44,7 @@
 				<a>
 					<!-- ko foreach: goods -->
 					<div class="cky-order-item cky-relative">
-						<span data-bind="text: goodsName"></span>
+						<span class="cky-order-title" data-bind="text: goodsName"></span>
 						<div class="cky-update">
 							<span data-bind="text: 'x ' + count"></span>
 							<span data-bind="text: shopPrice + '元'"></span>
@@ -85,35 +85,36 @@
 		var cart = cky.storage.getItem(CACHE_KEY);
 		var selectedCart = cky.storage.getItem(subKey);
 		if(cart && selectedCart) {
-			var vm = { 
+			var vm = {
+				goods: [],
 				shops:[],
 				total: 0,
 				remarks: selectedCart.remarks,
 				consignee: selectedCart.consignee
 			}
-			
 			for(var shopId in selectedCart.shops) {
 				var _total = 0;
 				var shop = $.extend({}, cart.shops[shopId]);
 				shop.goods = [];
 				shop.fastMoney = 0;
-				for(var goodsId in cart.shops[shopId].goods) {
-					var goods = cart.shops[shopId].goods[goodsId];
-					shop.goods.push(goods);
-					_total += goods.count * goods.shopPrice;
+				for(var goodsId in selectedCart.shops[shopId]) {
+					var _goods = cart.shops[shopId].goods[goodsId];
+					shop.goods.push(_goods);
+					_total += _goods.count * _goods.shopPrice;
+					vm.goods.push(_goods);
 				}
 				vm.total += _total;
 				if(shop.deliveryMoney > 0 && _total < shop.deliveryFreeMoney) {
 					vm.total += shop.deliveryMoney;
 					shop.fastMoney = shop.deliveryMoney;
 				}
-				shops.push(shop);
+				vm.shops.push(shop);
 			}
 			ko.applyBindings(vm);
 			
 			$(function(){
 				$("#submit").click(function() {
-					if(!cart.consignee) {
+					if(!vm.consignee) {
 						cky.alert("请选择收货地址");
 						return;
 					}
@@ -125,7 +126,7 @@
 						isself: 0,
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
-						consigneeId: cart.consignee.id,
+						consigneeId: vm.consignee.id,
 						payway: 1
 					}, function(result) {
 						layer.close(ll);
@@ -133,8 +134,27 @@
 						if(status == 0) {
 							var data = result.data;
 							if(data && data.orderIds && data.orderIds.length > 0) {
-								cky.storage.removeItem("fast-cart" + shopId);
-								window.location.href = "{:U('pay')}?orderId=" + data.orderIds[0];
+								// 删除临时数据和购物车
+								cky.storage.removeItem(subKey);
+								for(var shopId in selectedCart.shops) {
+									for(var goodsId in selectedCart.shops[shopId]) {
+										delete cart.shops[shopId].goods[goodsId];
+									}
+									if(!cky.isEmpty(selectedCart.shops[shopId])) {
+										delete selectedCart.shops[shopId];
+									}
+								}
+								if(cky.isEmpty(selectedCart.shops)) {
+									cky.storage.removeItem(CACHE_KEY);
+								} else {
+									cky.storage.setKey(CACHE_KEY, cart);
+								}
+								
+								if(data.orderIds.length == 1) {
+									window.location.href = "{:U('pay')}?orderId=" + data.orderIds[0];
+								} else {
+									window.location.href = "{:U('Orders/list')}";
+								}
 							} else {
 								cky.alert("提交订单失败，请稍后再试");
 							}

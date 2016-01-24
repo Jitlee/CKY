@@ -78,43 +78,54 @@ class PersonAction extends BaseUserAction {
 	{ 
 		$mMember = D('M/Member');
 		
-		$result=$this->scorelistPage(10,1,0);
+		$result=$this->scorelistPageLoad(10,1);
 		$this->assign('data', $result);
 		$this->assign('title', "积分记录");
 		layout(TRUE);
 		$this->display();
 	}
-	public function scorelistPage($pageSize = 10, $pageNum = 1,$type=1)
+	public function scorelistPage()
 	{
+		$pageSize = I("pageSize");
+		$pageNum =  I("pageNum");
+		$content="$pageSize=".$pageSize;
+		$content=$content.',$pageNum='.$pageNum.',$type='.$type;
+		logger($content);
+		
+		$result=$this->scorelistPageLoad($pageSize,$pageNum);
+		$this->ajaxReturn($result, "JSON");
+	}
+	public function scorelistPageLoad($pageSize = 10, $pageNum = 1)
+	{	
 		$mMember = D('M/Member');
 		$uid=session("uid");
 		$result=$mMember->GetScoreList($uid,$pageSize,$pageNum);
-		if($type==0)
-		{
-			return $result;
-		}		
-		$this->ajaxReturn($result, "JSON");
+		return $result;
 	}
 	/*充值记录*/
 	public function rechargelist()
 	{
 		$mMember = D('M/Member');
-		$result=$this->rechargelistPage(10,1,0);
+		$result=$this->rechargelistPageLoad(10,1);
 		$this->assign('data', $result);
 		$this->assign('title', "储值记录");
 		layout(TRUE);
 		$this->display();
 	}
-	public function rechargelistPage($pageSize = 10, $pageNum = 1,$type=1)
+	public function rechargelistPage()
+	{
+		$pageSize = I("pageSize");
+		$pageNum =  I("pageNum");
+		
+		$result=$this->rechargelistPageLoad($pageSize,$pageNum);
+		$this->ajaxReturn($result, "JSON");
+	}
+	public function rechargelistPageLoad($pageSize = 10, $pageNum = 1)
 	{
 		$mMember = D('M/Member');
 		$uid=session("uid");
-		$result=$mMember->GetRechargeList($uid,$pageSize,$pageNum);
-		if($type==0)
-		{
-			return $result;
-		}		
-		$this->ajaxReturn($result, "JSON");
+		$result=$mMember->GetRechargeList($uid,$pageSize,$pageNum);		 
+		return $result;		 
 	}
 	
 	/*储值*/

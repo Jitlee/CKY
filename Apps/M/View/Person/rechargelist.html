@@ -48,7 +48,10 @@
 		var template = $("li:first-child", recrodList);		
 		function page() 
 		{
-				$.get("{:U('rechargelistPage', '', '')}/20/" + (++pageNum), null, function(list) {
+				var ll = layer.open({type: 2});
+				var murl="{:U('rechargelistPage', '', '')}";
+				pageNum=pageNum+1;
+				$.get(murl, {pageSize:10 ,pageNum: pageNum }, function(list) {
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {
@@ -68,9 +71,12 @@
 				       			$(".ctime", item).text(this.OperateTime);
 				       			recrodList.append(item);
 				       		});
-		       	} else {
+		       	} 
+		       	else 
+		       	{
 		       		pageNum--;	
 		    		}
+		       	layer.close(ll);
 		    });
 		}
 	});

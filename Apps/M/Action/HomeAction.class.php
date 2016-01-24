@@ -264,10 +264,11 @@ class HomeAction extends BaseAction {
 	
 	public function ftest()
 	{
- 		$strvaldb="[快速充值][接口]粗卡云平台充值";
-		$strval=str_replace("[快速充值][接口]","",$strvaldb);
-		echo $strval; 		
-		$this->display("Pay/orderpay");
+// 		$strvaldb="[快速充值][接口]粗卡云平台充值";
+//		$strval=str_replace("[快速充值][接口]","",$strvaldb);
+//		echo $strval; 		
+		$this->display("Pay/success");
+		//$this->display("Pay/orderpay");
 	}
 
 	

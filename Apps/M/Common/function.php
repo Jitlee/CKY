@@ -75,6 +75,7 @@ function maskPhone($phone) {
 	return preg_replace($pattern, $replacement, $phone);
 }
 
+ 
 function formatOrderStatus($orderStatus) {
 	$orderStatus = (int)$orderStatus;
 	switch($orderStatus) {

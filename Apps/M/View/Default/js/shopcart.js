@@ -89,14 +89,14 @@ function ShopCart(pickerId, shop, goods) {
 		} else if(cartType == "direct") {
 			// 直接购买，跳转到下单页面
 			var directKey = "direct_" + new Date().getTime();
-			var cart ={
+			var selectedCart ={
 				shops: {}
 			};
-			cart.shops[shopId] = _shop;
+			selectedCart.shops[shopId] = _shop;
 			_shop.goods = { };
 			_shop.goods[goods.goodsId] = _goods;
 			// 保存购物车
-			cky.storage.setItem(directKey, cart);
+			cky.storage.setItem(directKey, selectedCart);
 			window.location.href = "../Orders/shop.html?from=direct&submit=" + directKey;
 			close();
 		}

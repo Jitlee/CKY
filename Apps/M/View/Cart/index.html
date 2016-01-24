@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="__CSS__/cart.css" />
+<link rel="stylesheet" href="__CSS__/cart.css?1" />
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
@@ -56,7 +56,7 @@
 		<p>合计: <r>￥0</r></p>
 		<h5>不含运费</h5>
 	</div>
-	<a disabled="true" class="disabled">去结算(<span>0</span>)</a>
+	<a class="disabled">去结算(<span>0</span>)</a>
 </footer>
 <script src="__KO__"></script>
 <script>
@@ -142,10 +142,8 @@
 				});
 				
 				if(count > 0) {
-					payElement.prop("disabled", false);
 					payElement.removeClass("disabled");
 				} else {
-					payElement.prop("disabled", true);
 					payElement.addClass("disabled");
 				}
 				
@@ -154,9 +152,11 @@
 			}
 			
 			function onsubmit() {
-				var smtKey = "topay_" + new Date().getTime();
-				cky.storage.setItem(smtKey, selectedCard);
-				window.location.href = "{:U('Orders/shop')}/?submit=" + smtKey;
+				if(!payElement.hasClass("disabled")) {
+					var smtKey = "topay_" + new Date().getTime();
+					cky.storage.setItem(smtKey, selectedCard);
+					window.location.href = "{:U('Orders/shop')}/?submit=" + smtKey;
+				}
 			}
 		} else {
 			$("#emptyBlock").removeClass("cky-hidden");

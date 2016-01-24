@@ -161,6 +161,6 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 	
 	// 提交事件
 	function onok() {
-		window.location.href = "../Orders/index.html?shopId=" + shopId;
+		window.location.href = "../Orders/fast.html?shopId=" + shopId;
 	}
 }

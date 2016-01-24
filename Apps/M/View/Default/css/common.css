@@ -687,3 +687,8 @@ p.cky-update {
 	text-align: right;
 }
 
+.cky-cart-btn {
+	position: absolute!important;
+	top: -2px!important;
+	right: 50px;
+}

@@ -10,12 +10,21 @@ namespace M\Action;
  */
 class OrdersAction extends BaseUserAction {
 	/**
-	 * 提交订单
+	 * 快餐提交订单
 	 */
-	public function index() {
+	public function fast() {
 		$this->assign('title', '订单确认');
 		$this->display();
 	}
+	
+	/**
+	 * 商品提交订单
+	 */
+	public function shop() {
+		$this->assign('title', '订单确认');
+		$this->display();
+	}
+	
 	
 	/**
 	 * 添加备注

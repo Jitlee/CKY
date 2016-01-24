@@ -23,6 +23,9 @@ class GoodsAction extends BaseAction {
 		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['goodsName']);
+		
+//		echo $m->getLastSql();
+		
 		$this->display();
 	}
 	

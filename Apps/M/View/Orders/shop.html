@@ -80,11 +80,12 @@
 <script type="text/javascript">
 	
 	window.onpageshow = function(event) { // 页面显示的时候  事件（包含回退）
-	    var subKey = util.i("submit");
+	    var subKey = util.i("submit"); // 购物车来的
+	    var from = util.i("from", "cart"); // 来源： cart-购物车   direct-直接购买
 	    var CACHE_KEY = "cky-shop-cart";
-		var cart = cky.storage.getItem(CACHE_KEY);
 		var selectedCart = cky.storage.getItem(subKey);
-		if(cart && selectedCart) {
+		var cart = cky.storage.getItem(CACHE_KEY);
+		if(selectedCart) {
 			var vm = {
 				goods: [],
 				shops:[],
@@ -92,23 +93,44 @@
 				remarks: selectedCart.remarks,
 				consignee: selectedCart.consignee
 			}
-			for(var shopId in selectedCart.shops) {
-				var _total = 0;
-				var shop = $.extend({}, cart.shops[shopId]);
-				shop.goods = [];
-				shop.fastMoney = 0;
-				for(var goodsId in selectedCart.shops[shopId]) {
-					var _goods = cart.shops[shopId].goods[goodsId];
-					shop.goods.push(_goods);
-					_total += _goods.count * _goods.shopPrice;
-					vm.goods.push(_goods);
+			if(from == "cart") { // 从购物车来
+				for(var shopId in selectedCart.shops) {
+					var _total = 0;
+					var shop = $.extend({}, cart.shops[shopId]);
+					shop.goods = [];
+					shop.fastMoney = 0;
+					for(var goodsId in selectedCart.shops[shopId]) {
+						var _goods = cart.shops[shopId].goods[goodsId];
+						shop.goods.push(_goods);
+						_total += _goods.count * _goods.shopPrice;
+						vm.goods.push(_goods);
+					}
+					vm.total += _total;
+					if(shop.deliveryMoney > 0 && _total < shop.deliveryFreeMoney) {
+						vm.total += shop.deliveryMoney;
+						shop.fastMoney = shop.deliveryMoney;
+					}
+					vm.shops.push(shop);
 				}
-				vm.total += _total;
-				if(shop.deliveryMoney > 0 && _total < shop.deliveryFreeMoney) {
-					vm.total += shop.deliveryMoney;
-					shop.fastMoney = shop.deliveryMoney;
+			} else if(from == "direct"){ // 直接购买
+				for(var shopId in selectedCart.shops) {
+					var _total = 0;
+					var shop = $.extend({}, selectedCart.shops[shopId]);;
+					shop.goods = [];
+					shop.fastMoney = 0;
+					for(var goodsId in selectedCart.shops[shopId].goods) {
+						var _goods = selectedCart.shops[shopId].goods[goodsId];
+						shop.goods.push(_goods);
+						_total += _goods.count * _goods.shopPrice;
+						vm.goods.push(_goods);
+					}
+					vm.total += _total;
+					if(shop.deliveryMoney > 0 && _total < shop.deliveryFreeMoney) {
+						vm.total += shop.deliveryMoney;
+						shop.fastMoney = shop.deliveryMoney;
+					}
+					vm.shops.push(shop);
 				}
-				vm.shops.push(shop);
 			}
 			ko.applyBindings(vm);
 			
@@ -136,18 +158,20 @@
 							if(data && data.orderIds && data.orderIds.length > 0) {
 								// 删除临时数据和购物车
 								cky.storage.removeItem(subKey);
-								for(var shopId in selectedCart.shops) {
-									for(var goodsId in selectedCart.shops[shopId]) {
-										delete cart.shops[shopId].goods[goodsId];
+								if(from == "cart") {
+									for(var shopId in selectedCart.shops) {
+										for(var goodsId in selectedCart.shops[shopId]) {
+											delete cart.shops[shopId].goods[goodsId];
+										}
+										if(!cky.isEmpty(selectedCart.shops[shopId])) {
+											delete selectedCart.shops[shopId];
+										}
 									}
-									if(!cky.isEmpty(selectedCart.shops[shopId])) {
-										delete selectedCart.shops[shopId];
+									if(cky.isEmpty(selectedCart.shops)) {
+										cky.storage.removeItem(CACHE_KEY);
+									} else {
+										cky.storage.setKey(CACHE_KEY, cart);
 									}
-								}
-								if(cky.isEmpty(selectedCart.shops)) {
-									cky.storage.removeItem(CACHE_KEY);
-								} else {
-									cky.storage.setKey(CACHE_KEY, cart);
 								}
 								
 								if(data.orderIds.length == 1) {

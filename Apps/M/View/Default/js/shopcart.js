@@ -70,23 +70,36 @@ function ShopCart(pickerId, shop, goods) {
 	}
 	
 	function onok() {
+		var _shop = $.extend({}, shop);
+		var _goods = $.extend({}, goods);
+		_goods.count =  Number(num.text());
 		if(cartType == "add") {
 			// 添加到购物车
 			if(!hasCart) {
 				if(!cart.shops[shopId]) {
-					cart.shops[shopId] = shop;
+					cart.shops[shopId] = _shop;
 					cart.shops[shopId].goods = {};
 				}
-				cart.shops[shopId].goods[goods.goodsId] = goods;
+				cart.shops[shopId].goods[goods.goodsId] = _goods;
 			}
-			cart.shops[shopId].goods[goods.goodsId].count = Number(num.text());
 			
 			// 保存购物车
 			cky.storage.setItem(CACHE_KEY, cart);
+			close();
 		} else if(cartType == "direct") {
 			// 直接购买，跳转到下单页面
+			var directKey = "direct_" + new Date().getTime();
+			var cart ={
+				shops: {}
+			};
+			cart.shops[shopId] = _shop;
+			_shop.goods = { };
+			_shop.goods[goods.goodsId] = _goods;
+			// 保存购物车
+			cky.storage.setItem(directKey, cart);
+			window.location.href = "../Orders/shop.html?from=direct&submit=" + directKey;
+			close();
 		}
-		close();
 	}
 	
 	shopCart.open = onopen;

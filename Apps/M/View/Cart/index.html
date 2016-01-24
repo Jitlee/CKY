@@ -56,7 +56,7 @@
 		<p>合计: <r>￥0</r></p>
 		<h5>不含运费</h5>
 	</div>
-	<a disabled="true">去结算(<span>0</span>)</a>
+	<a disabled="true" class="disabled">去结算(<span>0</span>)</a>
 </footer>
 <script src="__KO__"></script>
 <script>
@@ -64,8 +64,7 @@
 	$(function() {
 		var CACHE_KEY = "cky-shop-cart";
 		var cart = cky.storage.getItem(CACHE_KEY);
-		if(cart) {
-			
+		if(cart && cart.shops && !cky.isEmpty(cart.shops)) {
 			var shops = [];
 			for(var shopId in cart.shops) {
 				var shop = $.extend({}, cart.shops[shopId]);
@@ -144,8 +143,10 @@
 				
 				if(count > 0) {
 					payElement.prop("disabled", false);
+					payElement.removeClass("disabled");
 				} else {
 					payElement.prop("disabled", true);
+					payElement.addClass("disabled");
 				}
 				
 				countElement.text(count);

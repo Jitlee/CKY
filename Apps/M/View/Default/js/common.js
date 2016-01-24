@@ -56,7 +56,7 @@ var cky = {
 	storage: {
 		getItem: function(key) {
 			var data = $.localStorage.getItem(key);
-			if(data && data != "null") {
+			if(data && data != "null" && data != "undefined") {
 				data = JSON.parse(data);
 				var expires = data.expires;
 				var time = data.time;

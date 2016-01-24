@@ -168,6 +168,10 @@
 	-webkit-box-sizing: border-box;
 }
 
+.cky-footer.cky-hidden {
+	display: none;
+}
+
 .cky-footer > * {
 	display: table-cell;
 	vertical-align: middle;
@@ -204,6 +208,6 @@
 	color: #fff;
 }
 
-.cky-footer a:disabled {
-	color: #E0E0E0;
+.cky-footer a.disabled {
+	background-color: #999;
 }

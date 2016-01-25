@@ -10,7 +10,7 @@
 <div class="mui-content mui-content-padded mui-content-bottom mui-content-top">
 	<nav class="mui-bar	cky-bar cky-top-bar">
 		<a id="catsButton" class="cky-bar-item cky-drop-btn">商家分类</a>
-		<a id="areasButton" class="cky-bar-item cky-drop-btn">综合排序</a>
+		<a id="sortButton" class="cky-bar-item cky-drop-btn">综合排序</a>
 		<a id="positionButton" class="cky-bar-item cky-drop-btn">小猴快送</a>
 	</nav>
 	
@@ -52,8 +52,7 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__JS__/geo.location.js?22"></script>
-<script type="text/javascript" src="__JS__/drop-menus.js?11"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
@@ -129,5 +128,19 @@
 		}
 		queryByPage();
 		util.onScrollEnd(queryByPage);
+		
+		// 商家分类
+		$("#catsButton").dropMenu({
+			api: "{:U('GoodsCats/query')}",
+			idProperty: "catId",
+			nameProperty: "catName",
+			parentIdproperty: "parentId",
+			parentId: 1,
+			callback: function(evt) {
+				catId = evt.catId;
+				force = true;
+				queryByPage();
+			}
+		});
 	});
 </script>

@@ -24,7 +24,9 @@ class ShopsModel extends BaseModel {
 		$order = "shopId desc";
 		$filter = 'shopStatus = 1 and shopFlag = 1';
 		if($catId > 0) {
-			$filter = $filter.' and catId='.$catId;
+			$filter = $filter.' and goodsCatId1='.$catId;
+		} else {
+			$filter = $filter.' and goodsCatId1=336';
 		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;
@@ -71,7 +73,9 @@ class ShopsModel extends BaseModel {
 		$order = "shopId desc";
 		$filter = 'shopStatus = 1 and shopFlag = 1';
 		if($catId > 0) {
-			$filter = $filter.' and catId='.$catId;
+			$filter = $filter.' and goodsCatId1='.$catId;
+		} else {
+			$filter = $filter.' and goodsCatId1=1';
 		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;

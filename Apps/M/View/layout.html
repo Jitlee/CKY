@@ -6,17 +6,17 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>{$title}</title>
-    <link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/mui.min.css?2" />
+    <link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/{:autoVer('mui.min.css')}" />
     <link rel="stylesheet" href="__FONT__" />
-    <link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/common.css?10" />
+    <link rel="stylesheet" href="__ROOT__/Apps/M/View/default/css/{:autoVer('common.css')}" />
     <script src="__JQ__"></script>
     <script src="__JS__/jquery.html5storage.min.js"></script>
     <script src="__JS__/common.js?2"></script>
     
     <script src="__JS__/layerm/layer.js"></script>
-    <script src="__JS__/util.js?4.01"></script>
+    <script src="__JS__/{:autoVer('util.js')}"></script>
     
-	<script type="text/javascript" src="__JS__/geo.location.js?22"></script>
+	<script type="text/javascript" src="__JS__/{:autoVer('geo.location.js')}"></script>
 </head>
 <body>
 	{__CONTENT__}

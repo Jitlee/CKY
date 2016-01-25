@@ -101,3 +101,15 @@ function formatOrderStatus($orderStatus) {
 			return '订单已结束';
 	}
 }
+
+/**
+ * Add version to the file for cache problem
+ * @param string $url to add version
+ * @return string
+ */
+function autoVer($filename){
+	$ext = substr(strrchr($filename, '.'), 1);
+	$path = $_SERVER['DOCUMENT_ROOT'].'/Apps/M/View/Default/'.$ext.'/'.$filename;
+    $ver = filemtime($path);
+    echo $filename.'?v='.$ver;
+}

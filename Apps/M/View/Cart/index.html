@@ -43,7 +43,7 @@
 					<r data-bind="text: '¥' + shopPrice"></r>
 					<h4 data-bind="text: 'x' + count"></h4>
 				</div>
-				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.ShopId, goodsId: goodsId }">删除</a>
+				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.shopId, goodsId: goodsId }">删除</a>
 			</div>
 			<!-- /ko -->
 		</div>
@@ -171,13 +171,14 @@
 				});
 				
 				// 删除商品
-				$("a.cky-cart-delete").click(
+				$("a.cky-cart-delete").click(function(){
 					$this = $(this);
 					layer.open({
 					    content: '确定删除选中的商品吗？',
 					    btn: ['确定', '取消'],
 					    shadeClose: false,
 					    yes: function(){
+					    	cky.closeAll();
 							var shopId = $this.attr("shopId");
 							var goodsId = $this.attr("goodsId");
 							var parent = $this.closest(".cky-cart-table-cell-goods");
@@ -189,13 +190,21 @@
 								delete cart.shops[shopId];
 								root.remove();
 							}
-							if(cky.isEmpty())
+							if(cky.isEmpty(cart.shops)) {
+								cky.storage.removeItem(CACHE_KEY);
+								$("#emptyBlock").removeClass("cky-hidden");
+								$("#cartList").addClass("cky-hidden");
+								$(".cky-footer").addClass("cky-hidden");
+							} else {
+								cky.storage.setItem(CACHE_KEY, cart);
+								sum();
+							}
 							
 					    }, no: function(){
 					        
 					    }
 					});
-				);
+				});
 			} else {
 				$("#emptyBlock").removeClass("cky-hidden");
 			}

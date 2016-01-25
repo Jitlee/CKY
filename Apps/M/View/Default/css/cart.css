@@ -48,6 +48,7 @@
 	font-size: 15px;
 	background-color: #EDEDED;
 	position: relative;
+	overflow: hidden;
 }
 
 .cky-cart-table-cell-goods:not(:first-child) {

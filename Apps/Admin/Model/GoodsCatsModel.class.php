@@ -18,6 +18,7 @@ class GoodsCatsModel extends BaseModel {
 		$data = array();
 		$data["catName"] = I("catName");
 		if($this->checkEmpty($data,true)){
+			$data["catIcon"] = I("catIcon");
 			$data["parentId"] = I("parentId",0);
 		    $data["isShow"] = (int)I("isShow",0);
 			$data["catSort"] = (int)I("catSort",0);
@@ -39,6 +40,7 @@ class GoodsCatsModel extends BaseModel {
 		$data = array();
 		$data["catName"] = I("catName");
 	    if($this->checkEmpty($data)){
+			$data["catIcon"] = I("catIcon");
 	    	$data["isShow"] = (int)I("isShow",0);
 	    	$data["catSort"] = (int)I("catSort",0);
 	    	$m = M('goods_cats');

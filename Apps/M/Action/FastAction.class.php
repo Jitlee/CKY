@@ -13,6 +13,7 @@ class FastAction extends BaseAction {
 	public function page() {
 		$m = D('M/Shops');
 		$list = $m->fast();
+//		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	

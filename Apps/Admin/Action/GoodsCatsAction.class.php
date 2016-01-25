@@ -25,6 +25,7 @@ class GoodsCatsAction extends BaseAction{
     		   $object = $m->get(I('parentId',0));
     		   $object['parentId'] = $object['catId'];
     		   $object['catName'] = '';
+			   $object['catIcon'] = '';
     		   $object['catSort'] = 0;
     		   $object['catId'] = 0;
     		}else{

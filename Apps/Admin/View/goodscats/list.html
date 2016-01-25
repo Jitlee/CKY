@@ -44,7 +44,7 @@
 	   });
    }
    function del(id){
-	   Plugins.confirm({title:'信息提示',content:'您确定要删除该分类吗?',okText:'确定',cancelText:'取消',okFun:function(){
+	   Plugins.confirm({title:'信息提示',content:'您确定要·该分类吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("{:U('Admin/GoodsCats/del')}",{id:id},function(data,textStatus){
@@ -126,7 +126,7 @@
                <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/GoodsCats/toEdit',array('id'=>$vo['catId']))}">修改</a>&nbsp;
                <php>}</php>
                <php>if(in_array('spfl_03',$RTC_STAFF['grant'])){</php>
-               <a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['catId']},0)"">刪除</a>
+              	<if condition="$vo.canDelete eq 1"><a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['catId']},0)"">刪除1</a></if>
                <php>}</php>
                </td>
              </tr>

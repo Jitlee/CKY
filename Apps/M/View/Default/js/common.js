@@ -144,6 +144,14 @@ var cky = {
 			return false;
 		}
 		return true;
+	},
+	
+	pageShow: function(callback) {
+		if(window.onpageshow) {
+			window.onpageshow(callback);
+		} else {
+			callback();
+		}
 	}
 };
 

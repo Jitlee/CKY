@@ -50,6 +50,10 @@
 	position: relative;
 }
 
+.cky-cart-table-cell-goods:not(:first-child) {
+	border-top: 5px solid #fff;
+}
+
 .cky-cart-table-cell, .cky-cart-table-cell a, .cky-cart-table-cell .iconfont {
 	color: #666;
 }
@@ -60,6 +64,10 @@
 
 .cky-cart-table-cell.cky-cart-table-cell-shop > * {
 	vertical-align: middle;
+}
+
+.cky-cart-table-cell-shop a.cky-update {
+	top: 15px;
 }
 
 .icon-shangpu {
@@ -151,10 +159,33 @@
 
 .cky-cart-table-cell-goods .cky-cart-sum {
 	text-align: right;
-	min-width: 50px;
+	min-width: 100px;
 }
 .cky-cart-table-cell-goods .cky-cart-sum h4 {
 	font-style: normal;
+}
+
+a.cky-cart-delete {
+	display: block;
+	position: absolute;
+	top:0px;
+	right:0px;
+	bottom: 0px;
+	width: 50px;
+	background: #f60;
+	color: #fff;
+	text-align: center;
+	line-height: 90px;
+	-webkit-transform: translateX(55px);
+	-webkit-transition: -webkit-transform 0.2s ease-in-out;
+}
+
+a.cky-cart-delete.cky-active {
+	-webkit-transform: translateX(0px);
+}
+
+a.cky-cart-delete:active {
+	background-color: #df5900;
 }
 
 .cky-footer {

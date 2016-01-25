@@ -79,7 +79,7 @@
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
 	
-	window.onpageshow = function(event) { // 页面显示的时候  事件（包含回退）
+	cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
 	    var subKey = util.i("submit"); // 购物车来的
 	    var from = util.i("from", "cart"); // 来源： cart-购物车   direct-直接购买
 	    var CACHE_KEY = "cky-shop-cart";
@@ -191,5 +191,5 @@
 				});
 			});
 		}
-	};
+	});
 </script>

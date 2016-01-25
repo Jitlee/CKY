@@ -82,7 +82,7 @@
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
 	
-	window.onpageshow = function(event) { // 页面显示的时候  事件（包含回退）
+	cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
 	    var shopId = util.i("shopId");
 		var cart = cky.storage.getItem("fast-cart" + shopId);
 		if(cart) {
@@ -174,5 +174,5 @@
 				});
 			});
 		}
-	};
+	});
 </script>

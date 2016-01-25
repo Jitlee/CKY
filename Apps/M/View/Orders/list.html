@@ -64,12 +64,9 @@
 	var vm = ko.observableArray(orders);
 	ko.applyBindings(vm, document.getElementById("orderList"));
 	
-	
 	util.onScrollEnd(queryByPage);
 	
-	window.onpageshow = function(event) {
-		queryByPage();
-	}
+	cky.pageShow(queryByPage);
 	
 	function queryByPage() {
 		if(force) {

@@ -25,6 +25,7 @@
 			<div class="cky-cart-table-cell cky-cart-table-cell-shop">
 				<input type="checkbox" class="shop" data-bind="value: shopId"/>
 				<i class="iconfont icon-shangpu"></i><a data-bind="text: shopName"></a><i class="iconfont icon-right"></i>
+				<a class="shop-edit cky-update">编辑</a>
 			</div>
 			<!-- ko foreach: goods -->
 			<div class="cky-cart-table-cell cky-cart-table-cell-goods">
@@ -42,6 +43,7 @@
 					<r data-bind="text: '¥' + shopPrice"></r>
 					<h4 data-bind="text: 'x' + count"></h4>
 				</div>
+				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.ShopId, goodsId: goodsId }">删除</a>
 			</div>
 			<!-- /ko -->
 		</div>
@@ -60,106 +62,143 @@
 </footer>
 <script src="__KO__"></script>
 <script>
-
-	$(function() {
-		var CACHE_KEY = "cky-shop-cart";
-		var cart = cky.storage.getItem(CACHE_KEY);
-		if(cart && cart.shops && !cky.isEmpty(cart.shops)) {
-			var shops = [];
-			for(var shopId in cart.shops) {
-				var shop = $.extend({}, cart.shops[shopId]);
-				shop.goods = [];
-				for(var goodsId in cart.shops[shopId].goods) {
-					var goods = $.extend({}, cart.shops[shopId].goods[goodsId]);
-					shop.goods.push(goods);
-				}
-				shops.push(shop);
-			}
-			ko.applyBindings(shops, document.getElementById("cartList"));
-			
-			var cartList = $("#cartList").removeClass("cky-hidden");
-			$(".cky-footer").removeClass("cky-hidden");
-			
-			// 勾选
-			$("input[type=checkbox]").change(function(evt) {
-				evt.stopPropagation();
-				evt.preventDefault();
-				var $this = $(this);
-				var checked = $this.prop("checked");
-				var parent = $this.closest(".cky-cart-table");
-				if($this.hasClass("all")) {
-					$("input[type=checkbox].goods, input[type=checkbox].shop").prop("checked", checked);
-				} else if($this.hasClass("shop")) {
-					$("input[type=checkbox].goods", parent).prop("checked", checked);
-					if(checked) {
-						if($("input[type=checkbox].shop:not(:checked)").length == 0) {
-							$("input[type=checkbox].all").prop("checked", checked);
-						}
-					} else {
-						$("input[type=checkbox].all").prop("checked", checked);
+	cky.pageShow(function() {
+		$(function() {
+			var CACHE_KEY = "cky-shop-cart";
+			var cart = cky.storage.getItem(CACHE_KEY);
+			if(cart && cart.shops && !cky.isEmpty(cart.shops)) {
+				var shops = [];
+				for(var shopId in cart.shops) {
+					var shop = $.extend({}, cart.shops[shopId]);
+					shop.goods = [];
+					for(var goodsId in cart.shops[shopId].goods) {
+						var goods = $.extend({}, cart.shops[shopId].goods[goodsId]);
+						shop.goods.push(goods);
 					}
-				} else if($this.hasClass("goods")) {
-					if(checked) {
-						if($("input[type=checkbox].goods:not(:checked)", parent).length == 0) {
-							$("input[type=checkbox].shop", parent).prop("checked", checked);
-							
-							if($("input[type=checkbox].goods:not(:checked)").length == 0) {
+					shops.push(shop);
+				}
+				ko.applyBindings(shops, document.getElementById("cartList"));
+				
+				var cartList = $("#cartList").removeClass("cky-hidden");
+				$(".cky-footer").removeClass("cky-hidden");
+				
+				// 勾选
+				$("input[type=checkbox]").change(function(evt) {
+					evt.stopPropagation();
+					evt.preventDefault();
+					var $this = $(this);
+					var checked = $this.prop("checked");
+					var parent = $this.closest(".cky-cart-table");
+					if($this.hasClass("all")) {
+						$("input[type=checkbox].goods, input[type=checkbox].shop").prop("checked", checked);
+					} else if($this.hasClass("shop")) {
+						$("input[type=checkbox].goods", parent).prop("checked", checked);
+						if(checked) {
+							if($("input[type=checkbox].shop:not(:checked)").length == 0) {
 								$("input[type=checkbox].all").prop("checked", checked);
 							}
+						} else {
+							$("input[type=checkbox].all").prop("checked", checked);
 						}
-					} else {
-						$("input[type=checkbox].all").prop("checked", checked);
-						$("input[type=checkbox].shop", parent).prop("checked", checked);
+					} else if($this.hasClass("goods")) {
+						if(checked) {
+							if($("input[type=checkbox].goods:not(:checked)", parent).length == 0) {
+								$("input[type=checkbox].shop", parent).prop("checked", checked);
+								
+								if($("input[type=checkbox].goods:not(:checked)").length == 0) {
+									$("input[type=checkbox].all").prop("checked", checked);
+								}
+							}
+						} else {
+							$("input[type=checkbox].all").prop("checked", checked);
+							$("input[type=checkbox].shop", parent).prop("checked", checked);
+						}
 					}
-				}
-				sum();
-			});
-			
-			var totalMoneyElement = $(".cky-footer r");
-			var deliveryMoneyElement = $(".cky-footer h5");
-			var countElement = $(".cky-footer a span");
-			var payElement = $(".cky-footer a").click(onsubmit);
-			var selectedCard = null;
-			function sum() {
-				var count = 0;
-				var totalMoney = 0;
-				selectedCard = { shops: {} };
-				$("input[type=checkbox].shop").each(function () {
-					var all = $(this);
-					var _totalMoney = 0;
-					var shopId = all.val();
-					var shop = cart.shops[shopId];
-					selectedCard.shops[shopId] = {};
-					$("input[type=checkbox].goods:checked", all.closest(".cky-cart-table")).each(function() {
-						var goodsId = $(this).val();
-						var goods = shop.goods[goodsId];
-						count += goods.count;
-						_totalMoney += count * goods.shopPrice;
-						
-						selectedCard.shops[shopId][goodsId] = 0;
-					});
-					totalMoney += _totalMoney;
+					sum();
 				});
 				
-				if(count > 0) {
-					payElement.removeClass("disabled");
-				} else {
-					payElement.addClass("disabled");
+				var totalMoneyElement = $(".cky-footer r");
+				var deliveryMoneyElement = $(".cky-footer h5");
+				var countElement = $(".cky-footer a span");
+				var payElement = $(".cky-footer a").click(onsubmit);
+				var selectedCard = null;
+				function sum() {
+					var count = 0;
+					var totalMoney = 0;
+					selectedCard = { shops: {} };
+					$("input[type=checkbox].shop").each(function () {
+						var all = $(this);
+						var _totalMoney = 0;
+						var shopId = all.val();
+						var shop = cart.shops[shopId];
+						selectedCard.shops[shopId] = {};
+						$("input[type=checkbox].goods:checked", all.closest(".cky-cart-table")).each(function() {
+							var goodsId = $(this).val();
+							var goods = shop.goods[goodsId];
+							count += goods.count;
+							_totalMoney += count * goods.shopPrice;
+							
+							selectedCard.shops[shopId][goodsId] = 0;
+						});
+						totalMoney += _totalMoney;
+					});
+					
+					if(count > 0) {
+						payElement.removeClass("disabled");
+					} else {
+						payElement.addClass("disabled");
+					}
+					
+					countElement.text(count);
+					totalMoneyElement.text("¥" + totalMoney.toFixed(2));
 				}
 				
-				countElement.text(count);
-				totalMoneyElement.text("¥" + totalMoney.toFixed(2));
-			}
-			
-			function onsubmit() {
-				if(!payElement.hasClass("disabled")) {
-					var smtKey = "topay_" + new Date().getTime();
-					cky.storage.setItem(smtKey, selectedCard);
-					window.location.href = "{:U('Orders/shop')}/?submit=" + smtKey;
+				function onsubmit() {
+					if(!payElement.hasClass("disabled")) {
+						var smtKey = "topay_" + new Date().getTime();
+						cky.storage.setItem(smtKey, selectedCard);
+						window.location.href = "{:U('Orders/shop')}/?submit=" + smtKey;
+					}
 				}
+				
+				// 商铺编辑
+				$("a.shop-edit").click(function() {
+					var $this = $(this);
+					var parent = $this.closest(".cky-cart-table");
+					$this.text($this.hasClass("cky-active") ? "编辑" : "完成");
+					$("a.cky-cart-delete").toggleClass("cky-active");
+					$this.toggleClass("cky-active");
+				});
+				
+				// 删除商品
+				$("a.cky-cart-delete").click(
+					$this = $(this);
+					layer.open({
+					    content: '确定删除选中的商品吗？',
+					    btn: ['确定', '取消'],
+					    shadeClose: false,
+					    yes: function(){
+							var shopId = $this.attr("shopId");
+							var goodsId = $this.attr("goodsId");
+							var parent = $this.closest(".cky-cart-table-cell-goods");
+							var root = $this.closest(".cky-cart-table");
+							var shop = cart.shops[shopId];
+							delete cart.shops[shopId].goods[goodsId];
+							parent.remove();
+							if(cky.isEmpty(cart.shops[shopId].goods)) {
+								delete cart.shops[shopId];
+								root.remove();
+							}
+							if(cky.isEmpty())
+							
+					    }, no: function(){
+					        
+					    }
+					});
+				);
+			} else {
+				$("#emptyBlock").removeClass("cky-hidden");
 			}
-		} else {
-			$("#emptyBlock").removeClass("cky-hidden");
-		}
+		});
 	});
 </script>

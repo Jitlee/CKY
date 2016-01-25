@@ -43,7 +43,10 @@
 		var template = $("li:first-child", recrodList);		
 		function page() 
 		{
-				$.get("{:U('consumelistPage', '', '')}/20/" + (++pageNum), null, function(list) {
+				var ll = layer.open({type: 2});
+				var murl="{:U('consumelistPage', '', '')}";
+				pageNum=pageNum+1;
+				$.get(murl, {pageSize:10 ,pageNum: pageNum }, function(list) {
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {
@@ -56,6 +59,7 @@
 		       	} else {
 		       		pageNum--;	
 		    		}
+		       	layer.close(ll);
 		    });
 		}
 	});

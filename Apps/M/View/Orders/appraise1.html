@@ -1,0 +1,98 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('order.css')}" />
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+
+<div class="mui-content">
+	<div id="orderList">
+		<!-- ko foreach: $data -->
+		<div class="cky-table-view cky-mtop-10">
+			<volist name="orderInfo['goodsList']" id="goods" key='key1'>	
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media">
+							<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" src="__ROOT__/{$goods['goodsThums']}">
+								<div class="mui-media-body">
+									{$goods["goodsName"]}
+									<p class='mui-ellipsis'>{$orderInfo['order']['createTime']}</p>
+									
+								</div>
+							</a>
+						</li>
+					</ul>
+					<if condition='$goods["gaId"] eq ""'>
+						<div class="mui-input-group">
+							<div class="mui-input-row">
+								<label>商品评分：</label>
+								 <div class='content'>
+									<div class="{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore" style='float:left'></div>
+									<div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore_hint" style='float:left'></div>
+								</div>
+							</div>
+							<div class="mui-input-row">
+								<label>时效得分：</label>
+								<div class='content'>							
+									<div class="{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore" style='float:left'></div>
+									<div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore_hint" style='float:left'></div>
+								</div>
+							</div>
+							<div class="mui-input-row">
+								<label>服务得分：</label>
+								<div class='content'>	
+								    <div class="{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore" style='float:left'></div>
+								    <div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore_hint" style='float:left'></div>									
+								</div>
+							</div>
+							<div class="mui-input-row" style="height: 50px;">
+								<label>评价：</label>
+								<div class='content'>	
+								 <textarea rows="5" cols="70" style="width:410px;"  placeholder="长度在家10-50个字之间评价
+可以为其它小伙伴提供提供参考哦～"
+								 	name="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" 
+								 	id="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" maxlength="50"></textarea>
+								 </div>
+							</div>
+							<div class="mui-content-padded" style="text-align: center;">
+								<button type="button" class="mui-btn mui-btn-danger">评价</button>
+							</div>
+						</div>
+			 		</if>
+			 </volist>
+		</div>
+		<!-- /ko -->
+	</div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/plugins/raty/jquery.raty.min.js"></script>
+    	 <script type="text/javascript">
+    	 	var domainURL  = "{:RTCDomain()}";
+    	 	var shopId = "{$orderInfo['shopId']}";
+	   		//添加商品评价
+			
+	   		$(function(){
+	   			var options = {
+	   					hints         : ['很不满意', '不满意', '一般', '满意', '非常满意'],
+	   					width:200,
+	   					targetKeep: true,
+	   					starHalf:'__PUBLIC__/plugins/raty/img/star-half-big.png',
+	   					starOff:'__PUBLIC__/plugins/raty/img/star-off-big.png',
+	   					starOn:'__PUBLIC__/plugins/raty/img/star-on-big.png',
+	   					cancelOff: '__PUBLIC__/plugins/raty/img/cancel-off-big.png',
+	   				    cancelOn: '__PUBLIC__/plugins/raty/img/cancel-on-big.png'
+	   		    }
+	   			<volist name="orderInfo['goodsList']" id="goods" key='key1'>
+	   			options.target='#{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore_hint';
+	   			$('.{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore').raty(options);
+	   			options.target='#{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore_hint';
+	   			$('.{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore').raty(options);
+	   			options.target='#{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore_hint';
+	   			$('.{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore').raty(options);
+	   			</volist>
+	   		});
+	   		
+</script>

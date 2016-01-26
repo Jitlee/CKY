@@ -141,8 +141,9 @@
 		var $this = $(this);
 		var parent = $this.closest("a.cky-table-view");
 		var orderId = parent.attr("oid");
-		alert("orderId:" + orderId);
-//		window.location.href = "{:U('pay')}?orderId=" + orderId;
+		//alert("orderId:" + orderId);
+		//orderId/37
+		window.location.href = "{:U('GoodsAppraises/toAppraise')}?orderId=" + orderId;
 	});
 	
 	// 去付款

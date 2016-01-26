@@ -126,7 +126,7 @@
                <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/GoodsCats/toEdit',array('id'=>$vo['catId']))}">修改</a>&nbsp;
                <php>}</php>
                <php>if(in_array('spfl_03',$RTC_STAFF['grant'])){</php>
-              	<if condition="$vo.canDelete eq 1"><a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['catId']},0)"">刪除1</a></if>
+              	<if condition="$vo.canDelete eq 1"><a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['catId']},0)"">刪除</a></if>
                <php>}</php>
                </td>
              </tr>

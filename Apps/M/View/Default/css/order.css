@@ -161,3 +161,7 @@ h5.order-type {
     white-space: nowrap;
     display: block;
 }
+
+.cky-col-view {
+	table-layout: auto;
+}

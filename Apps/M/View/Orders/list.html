@@ -42,6 +42,9 @@
 					</div>
 					<div class="cky-col-view-cell cky-text-right">
 						<p class="font14 font-black" data-bind="text: '订单金额 ' + totalMoney + '元'"></p>
+						<!-- ko if: ((orderStatus == 5 || orderStatus == 6) && isAppraises == 0) -->
+						<button class="mui-btn btn-appraises">去评价</button>
+						<!-- /ko -->
 						<!-- ko if: (orderStatus == 0 && needPay > 0 && payType == 1) -->
 						<button class="mui-btn btn-pay">去付款</button>
 						<!-- /ko -->
@@ -131,6 +134,17 @@
 		});
 	});
 	
+	// 去评价
+	$("#orderList").on("click", "button.btn-appraises", function (evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		var $this = $(this);
+		var parent = $this.closest("a.cky-table-view");
+		var orderId = parent.attr("oid");
+		alert("orderId:" + orderId);
+//		window.location.href = "{:U('pay')}?orderId=" + orderId;
+	});
+	
 	// 去付款
 	$("#orderList").on("click", "button.btn-pay", function (evt) {
 		evt.stopPropagation();
@@ -139,7 +153,6 @@
 		var parent = $this.closest("a.cky-table-view");
 		var orderId = parent.attr("oid");
 		window.location.href = "{:U('pay')}?orderId=" + orderId;
-		
 	});
 	
 	// 继续订这家

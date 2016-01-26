@@ -67,23 +67,32 @@ class ShopsModel extends BaseModel {
 		$pageNo = intval(I('pageNo', 1));
 		$catId = intval(I('catId', 0));
 		$areaId = intval(I('areaId', 0));
+		$sortType = intval(I('sortType', 0));
 		$lng = floatval(I('lng', 0));
 		$lat = floatval(I('lat', 0));
-		$distance = floatval(I('distance', 0));
 		$order = "shopId desc";
 		$filter = 'shopStatus = 1 and shopFlag = 1';
 		if($catId > 0) {
-			$filter = $filter.' and goodsCatId1='.$catId;
+			$filter = $filter.' and goodsCatId2='.$catId;
 		} else {
 			$filter = $filter.' and goodsCatId1=1';
 		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;
 		}
-		if($lng > 0 && $lat > 0 && $distance > 0) {
-			$filter = $filter.sprintf(' AND SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2)) <= ',
-				$lat, $lng).$distance;
-			$order = 'distance';
+		
+		switch($sortType) {
+			case 1: // 人气
+				$order = "totalUsers desc";
+				break;
+			case 2: // 评价
+				$order = "totalScore desc";
+				break;
+			case 3: // 最近
+				$order = "distance";
+				break;
+			default:
+				break;
 		}
 		
 		$field = array('cky_shops.shopId','shopSn','shopName','shopImg','shopTel',

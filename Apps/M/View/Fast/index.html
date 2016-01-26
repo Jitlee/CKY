@@ -87,6 +87,8 @@
 		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
 			currentLongitude = lng;
 			currentLatitude = lat;
+			force = true;
+			queryByPage();
 		});
 		function queryByPage() {
 			if(force) {
@@ -144,9 +146,9 @@
 		// 综合排序
 		$("#sortButton").dropMenu({
 			menus: [
-				{ id: 1, name: "销量", value: 1 },
-				{ id: 2, name: "评价", value: 2 },
-				{ id: 3, name: "价格", value: 3 }
+				{ id: 1, name: "人气", value: 1 },
+				{ id: 2, name: "评价最高", value: 2 },
+				{ id: 3, name: "距离最近", value: 3 }
 			],
 			defaultText: "综合",
 			callback: function(evt) {

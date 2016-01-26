@@ -47,6 +47,7 @@ class ShopsModel extends BaseModel {
 		$sdata["areaId2"] = (int)I("areaId2");
 		$sdata["areaId3"] = (int)I("areaId3");
 		$sdata["goodsCatId1"] = (int)I("goodsCatId1");
+		$sdata["goodsCatId2"] = (int)I("goodsCatId2");
 		$sdata["shopName"] = I("shopName");
 		$sdata["shopCompany"] = I("shopCompany");
 		$sdata["shopImg"] = I("shopImg");
@@ -166,6 +167,7 @@ class ShopsModel extends BaseModel {
 		$data["areaId2"] = (int)I("areaId2");
 		$data["areaId3"] = (int)I("areaId3");
 		$data["goodsCatId1"] = (int)I("goodsCatId1");
+		$data["goodsCatId2"] = (int)I("goodsCatId2");
 		$data["isSelf"] = (int)I("isSelf",0);
 		if($data["isSelf"]==1){
 			$data["deliveryType"] = 1;

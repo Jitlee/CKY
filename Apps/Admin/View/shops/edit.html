@@ -101,7 +101,8 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		$("#shopTel").formValidator({onShow:"",onFocus:"请输入商家电话",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"商家电话不能为空,请确认"});
 		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入商家地址",onCorrect:"输入正确"}).inputValidator({min:1,max:120,onError:"商家地址不能为空,请确认"});
 		$("#areaId3").formValidator({onFocus:"请选择所属地区"}).inputValidator({min:1,onError: "请选择所属地区"});
-		$("#goodsCatId1").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
+//		$("#goodsCatId1").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
+		$("#goodsCatId2").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
 		$("#bankId").formValidator({onFocus:"请选择所属银行"}).inputValidator({min:1,onError: "请选择所属银行"});
 		$("#bankNo").formValidator({onShow:"",onFocus:"请输入银行卡号",onCorrect:"输入正确"}).inputValidator({min:16,max:19,onError:"银行卡号格式错误,请确认"});
 	
@@ -119,6 +120,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		<if condition="$object['shopId'] !=0 ">
 		   getAreaList("areaId2",{$object.areaId1},0,{$object.areaId2});
 		   getAreaList("areaId3",{$object.areaId2},1,{$object.areaId3});
+		   getCatListForEdit("goodsCatId2","{$object.goodsCatId1}",0,"{$object.goodsCatId2}");
 		</if>
 		
 		initTime('serviceStartTime','{$object['serviceStartTime']}');
@@ -170,7 +172,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		$("#shopCompany").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#shopAddress").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#areaId3").attr("disabled",true).unFormValidator(true); //解除校验
-		$("#goodsCatId3").attr("disabled",true).unFormValidator(true); //解除校验
+		$("#goodsCatId2").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#bankId").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#bankNo").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#serviceStartTime").attr("disabled",true).unFormValidator(true); //解除校验
@@ -187,7 +189,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		$("#shopCompany").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#shopAddress").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#areaId3").attr("disabled",false).unFormValidator(false); //解除校验
-		$("#goodsCatId3").attr("disabled",false).unFormValidator(false); //解除校验
+		$("#goodsCatId2").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#bankId").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#bankNo").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#serviceStartTime").attr("disabled",false).unFormValidator(false); //解除校验
@@ -328,6 +330,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.areaId2 = $('#areaId2').val();
 	   params.areaId3 = $('#areaId3').val();//地区
 	   params.goodsCatId1 = $('#goodsCatId1').val();
+	   params.goodsCatId2 = $('#goodsCatId2').val();
 	   params.isSelf = $("input[name='isSelf']:checked").val();
 	   params.shopName = $('#shopName').val();
 	   params.shopCompany = $('#shopCompany').val();
@@ -422,6 +425,25 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 			  $('#invoiceRemarkstr').hide();
 		  }
    }
+   
+   function getCatListForEdit(objId,parentId,t,id){
+	   var params = {};
+	   params.id = parentId;
+	   $('#'+objId).empty();
+	   var html = [];
+	   $.post("{:U('Admin/GoodsCats/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="">请选择</option>');
+			var json = RTC.toJson(data);
+			if(json.status=='1' && json.list){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.catId+'" '+((id==opts.catId)?'selected':'')+'>'+opts.catName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+}
    
    </script>
    <body class="rtc-page" style="position:relative;">
@@ -547,11 +569,14 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            <tr>
              <th align='right'>所属行业<font color='red'>*</font>：</th>
              <td>
-             <select id='goodsCatId1'>
+             <select id='goodsCatId1' onchange='javascript:getCatListForEdit("goodsCatId2",this.value,0)'>
                 <option value=''>请选择</option>
                 <volist name="goodsCatsList" id="vo">
                 <option value='{$vo['catId']}' <if condition="$object['goodsCatId1'] == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
                 </volist>
+             </select>
+             <select id='goodsCatId2'>
+                <option value=''>请选择</option>
              </select>
              </td>
            </tr>

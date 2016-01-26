@@ -128,30 +128,31 @@ class PersonAction extends BaseUserAction {
 		return $result;		 
 	}
 	
-	/*储值*/
+	/**消费记录**/
 	public function consumelist()
 	{
 		$mMember = D('M/Member');
-		$result=$this->consumelistPage(10,1,0);		
+		$result=$this->consumelistPageLoad(10,1);		
 		$this->assign('data', $result);
 		$this->assign('title', "消费记录");
 		layout(TRUE);
 		$this->display();
 	}
 	
-	public function consumelistPage($pageSize = 10, $pageNum = 1,$type=1)
+	public function consumelistPage($pageSize = 10, $pageNum = 1)
+	{
+		$result=$this->consumelistPageLoad($pageSize,$pageNum);
+		$this->ajaxReturn($result, "JSON");
+	}
+	public function consumelistPageLoad($pageSize = 10, $pageNum = 1)
 	{
 		$mMember = D('M/Member');
 		$uid=session("uid");
-		$result=$mMember->GetConsumeList($uid,$pageSize,$pageNum);
-		if($type==0)
-		{
-			return $result;
-		}		
-		$this->ajaxReturn($result, "JSON");
+		$result=$mMember->GetConsumeList($uid,$pageSize,$pageNum);		 
+		return $result;
 	}
 	
-	
+	/****会员卡充值****/
 	public function recharge()
 	{
 		$result=session("MemberItem");
@@ -161,7 +162,7 @@ class PersonAction extends BaseUserAction {
 		layout(TRUE);
 		$this->display();
 	}
-	public function rechargepay($money = 0, $type  = "")
+	public function rechargepay($money = 0, $type = "")
 	{
 		session("money",$money);
 		session("type",$type);

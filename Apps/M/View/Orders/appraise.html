@@ -1,0 +1,113 @@
+﻿<!doctype html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>商品评价</title>
+        <link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/common.css" />
+        <link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/user.css">
+        <link rel="stylesheet" href="__CSS__/{:autoVer('order.css')}" />
+	 
+	 
+    </head>
+    
+    <body style="background-color:#f5f5f5;">
+        <div style="text-align:center;">
+        	<div class="rtc-appraise-box">
+				
+				<div  class="cky-table-view cky-mtop-10">
+					 
+						
+					<volist name="orderInfo['goodsList']" id="goods" key='key1'>
+						<div class="cky-table-view-cell">
+							<div class="cky-table-cell-thumb cky-table-cell-thumb40">
+								<img src="__ROOT__/{$goods['goodsThums']}" width="40" height="40" class='goods-img'/>
+							</div>
+							<div class="cky-media">
+								<span class="cky-media-title font14">{$goods["goodsAttrName"]}</span>
+								<h5 class="font12">{$orderInfo['order']['createTime']}</h5>
+						    </div>
+						</div>
+					 
+					<if condition='$goods["gaId"] eq ""'>
+					<div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_appraise" class="appraise-box">
+						<div class="main-box">
+							<div class="item">
+								<div class='title'>商品评分：</div>								
+								<div class='content'>
+									<div class="{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore" style='float:left'></div>
+									<div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore_hint" style='float:left'></div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="item">
+								<div class='title'>时效得分：</div>								
+								<div class='content'>									
+									<div class="{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore" style='float:left'></div>
+									<div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore_hint" style='float:left'></div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="item">
+								<div class='title'>服务得分：</div>								
+								<div class='content'>
+								    <div class="{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore" style='float:left'></div>
+								    <div id="{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore_hint" style='float:left'></div>									
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="item">
+								<div class='title'>点评内容：</div>					
+								<div class='content'>									
+									<textarea rows="5" cols="70" style="width:410px;" name="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" id="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" maxlength="50"></textarea>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div id="checkout" class="btn-box" >						
+								<a class="btn-submit" href="javascript:;" onclick="addGoodsAppraises({$orderInfo['order']['shopId']},{$goods['goodsId']},'{$goods['goodsAttrId']}',{$orderInfo['order']['orderId']})">
+									<button class='rtc-btn-query'>评价</button>
+								</a>
+								<div style="clear: both;"></div>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+					</if>
+					</volist>					
+					
+				</div>
+				
+			</div>
+        </div>
+    </body>
+    
+	     
+	     
+	     <script type="text/javascript" src="__PUBLIC__/plugins/raty/jquery.raty.min.js"></script>
+    	 <script type="text/javascript">
+    	 	var domainURL  = "{:RTCDomain()}";
+    	 	var shopId = "{$orderInfo['shopId']}";
+	   		//添加商品评价
+			
+	   		$(function(){
+	   			var options = {
+	   					hints         : ['很不满意', '不满意', '一般', '满意', '非常满意'],
+	   					width:200,
+	   					targetKeep: true,
+	   					starHalf:'__PUBLIC__/plugins/raty/img/star-half-big.png',
+	   					starOff:'__PUBLIC__/plugins/raty/img/star-off-big.png',
+	   					starOn:'__PUBLIC__/plugins/raty/img/star-on-big.png',
+	   					cancelOff: '__PUBLIC__/plugins/raty/img/cancel-off-big.png',
+	   				    cancelOn: '__PUBLIC__/plugins/raty/img/cancel-on-big.png'
+	   		    }
+	   			<volist name="orderInfo['goodsList']" id="goods" key='key1'>
+	   			options.target='#{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore_hint';
+	   			$('.{$goods['goodsId']}_{$goods['goodsAttrId']}_goodsScore').raty(options);
+	   			options.target='#{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore_hint';
+	   			$('.{$goods['goodsId']}_{$goods['goodsAttrId']}_timeScore').raty(options);
+	   			options.target='#{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore_hint';
+	   			$('.{$goods['goodsId']}_{$goods['goodsAttrId']}_serviceScore').raty(options);
+	   			</volist>
+	   		});
+	   		
+		</script>
+</html>

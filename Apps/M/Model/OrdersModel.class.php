@@ -18,7 +18,7 @@ class OrdersModel extends BaseModel {
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
 		$map = array('o.userId'	=> $userId, 'o.orderFlag' => array('neq', -1));
-		$field = 'o.orderId, orderNo, o.createTime, o.shopId, shopName, shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods';
+		$field = 'o.orderId, orderNo, o.createTime, o.shopId, o.isAppraises, shopName, shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods';
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
 		$group = 'o.orderId';
 		return $this->field($field)->join($join)->where($map)

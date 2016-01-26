@@ -16,7 +16,8 @@
 				idProperty: "id",
 				nameProperty: "name",
 				parentIdProperty: "parentId",
-				parentId: 0
+				parentId: 0,
+				defaultText: "不限"
 			}, options);
 			var container = $(".cky-drop-body");
 			if(container.length == 0) {
@@ -102,7 +103,7 @@
 			function renderList(list) {
 				var defaultData = {};
 				defaultData[options.idProperty] = 0;
-				defaultData[options.nameProperty] = "不限";
+				defaultData[options.nameProperty] = options.defaultText;
 				list.unshift(defaultData);
 				_list = list;
 				$.each(list, function() {

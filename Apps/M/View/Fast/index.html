@@ -80,8 +80,7 @@
 		var pageNo = 1;
 		var shops = [];
 		var catId = 0;
-		var areaId = 0;
-		var distance = 0;
+		var sortType = 0;
 		var vm = ko.observableArray(shops);
 		ko.applyBindings(vm, document.getElementById("shopsList"));
 		
@@ -102,8 +101,7 @@
 				$.getJSON("{:U('Fast/page')}", {
 					pageNo: pageNo,
 					catId: catId,
-					areaId: areaId,
-					distance: distance,
+					sortType: sortType,
 					lng: currentLongitude,
 					lat: currentLatitude
 				}, function(list) {
@@ -138,6 +136,21 @@
 			parentId: 1,
 			callback: function(evt) {
 				catId = evt.catId;
+				force = true;
+				queryByPage();
+			}
+		});
+		
+		// 综合排序
+		$("#sortButton").dropMenu({
+			menus: [
+				{ id: 1, name: "销量", value: 1 },
+				{ id: 2, name: "评价", value: 2 },
+				{ id: 3, name: "价格", value: 3 }
+			],
+			defaultText: "综合",
+			callback: function(evt) {
+				sortType = evt.value;
 				force = true;
 				queryByPage();
 			}

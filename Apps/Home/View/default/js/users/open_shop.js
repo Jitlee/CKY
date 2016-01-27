@@ -130,6 +130,8 @@
 	   params.bankNo = $('#bankNo').val();
 	   params.isInvoice = $("input[name='isInvoice']:checked").val();
 	   params.invoiceRemarks = $.trim($('#invoiceRemarks').val());
+	   params.shopProfile = $.trim($('#shopProfile').val());
+	   params.shopWishes = $.trim($('#shopWishes').val());
 	   params.serviceStartTime = $('#serviceStartTime').val();
 	   params.serviceEndTime = $('#serviceEndTime').val();
 	   params.shopAtive = $("input[name='shopAtive']:checked").val();

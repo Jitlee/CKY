@@ -148,6 +148,8 @@ class ShopsModel extends BaseModel {
 		    $s->deliveryCostTime = (int)I("deliveryCostTime",0);
 		    $s->deliveryOff = (int)I("deliveryOff",1);
 		    $s->invoiceRemarks = I("invoiceRemarks");
+		    $s->shopWishes = I("shopWishes");
+		    $s->shopProfile = I("shopProfile");
 		    $s->qqNo = I("qqNo");
 			$s->shopStatus = 0;
 			$s->shopAtive = (int)I("shopAtive",1)?1:0;
@@ -292,6 +294,8 @@ class ShopsModel extends BaseModel {
 			$s->createTime = date('Y-m-d H:i:s');
 			$s->qqNo = I("qqNo");
 			$s->invoiceRemarks = I("invoiceRemarks");
+			$s->shopWishes = I("shopWishes");
+			$s->shopProfile = I("shopProfile");
 		    $shopId = $s->add();
 			if(false !== $shopId){
 
@@ -372,6 +376,8 @@ class ShopsModel extends BaseModel {
 		if($this->checkEmpty($data,true)){
 			$data["qqNo"] = I("qqNo");
 			$data["invoiceRemarks"] = I("invoiceRemarks");
+			$data["shopWishes"] = I("shopWishes");
+			$data["shopProfile"] = I("shopProfile");
 			$rs = $m->where("shopId=".$shopId)->save($data);
 		    if(false !== $rs){
 		    	S('RTC_CACHE_RECOMM_SHOP_'.$shops['areaId2'],null);

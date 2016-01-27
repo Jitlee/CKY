@@ -311,6 +311,10 @@ r {
 	border-top:1px solid #eee;
 }
 
+.cky-table-view-cell > a {
+	display: block;
+}
+
 .cky-money {
 	color: #33CCCC !important;
 	font-size: 20px;

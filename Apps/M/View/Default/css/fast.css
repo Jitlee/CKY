@@ -146,12 +146,14 @@ header.cky-header {
 	margin: 0;
 	padding: 0;	
 	list-style: none;
-	width: 100px;
+	width: 75px;
 	background-color: #E1E1E1;
 	color: #333;
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	overflow-x: hidden;
+	-ms-overflow-x: hidden;
 }
 
 .cky-fast-cat-cell {
@@ -165,7 +167,7 @@ header.cky-header {
 }
 
 .cky-fast-goods {
-	padding-left: 100px;
+	padding-left: 75px;
 }
 
 .cky-fast-goods .cky-table-view-cell {
@@ -188,6 +190,12 @@ header.cky-header {
 	height: 20px;
 	line-height: 20px;
 }
+
+.cky-fast-goods .cky-table-view .cky-media .cky-fast-add.cky-update {
+	top: -25px;
+	right: 0px;
+}
+
 
 .cky-fast-goods-cell {
 	border-bottom: #FEEFEF solid 1px;

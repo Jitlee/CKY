@@ -63,10 +63,10 @@ class GoodsAppraisesAction extends BaseAction{
 	 * 添加评价
 	 */
     public function addGoodsAppraises(){
-    	$this->isUserAjaxLogin();
-    	$USER = session('RTC_USER');
-    	$morders = D('Home/Goods_appraises');
-    	$obj["userId"] = $USER['userId'];
+    	//$this->isUserAjaxLogin();
+    	//$USER = session('RTC_USER');
+    	$morders = D('M/Goods_appraises');
+    	$obj["userId"] = session("uid");
     	$obj["orderId"] = (int)I("orderId");
     	$obj["goodsId"] = (int)I("goodsId");
     	$obj["goodsAttrId"] = (int)I("goodsAttrId");

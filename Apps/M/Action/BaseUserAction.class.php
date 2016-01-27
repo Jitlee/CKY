@@ -13,7 +13,6 @@ class BaseUserAction extends BaseAction {
 //				session('openid',$openid);
 //			}
 
-			
 			//如果openid不存在重新获取
 			if(strlen($openid)>10){}
 			else{

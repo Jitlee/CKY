@@ -86,10 +86,10 @@ class GoodsAppraisesModel extends BaseModel {
 		$serviceScore = $serviceScore>5?5:$serviceScore;
 		$serviceScore = $serviceScore<1?1:$serviceScore;
 		//检查订单是否有效
-		$sql="select isAppraises,orderFlag,shopId from __PREFIX__orders o where o.orderStatus = 4 and o.orderId=".$orderId." and o.userId=".$userId;
+		$sql="select isAppraises,orderFlag,shopId from __PREFIX__orders o where o.orderStatus = 5 and o.orderId=".$orderId." and o.userId=".$userId;
 		$rs = $this->query($sql);
 		if(empty($rs)){
-			$rd['msg'] = '无效的订单!';
+			$rd['msg'] = '无效的订单!'.$userId;
 			return $rd;
 		}
 		if($rs[0]['isAppraises']==1 || $rs[0]['orderFlag']==-1){

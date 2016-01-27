@@ -964,6 +964,8 @@ function editShop(){
 	   params.avgeCostMoney = $('#avgeCostMoney').val();
 	   params.isInvoice = $("input[name='isInvoice']:checked").val();
 	   params.invoiceRemarks = $('#invoiceRemarks').val();
+	   params.shopProfile = $('#shopProfile').val();
+	   params.shopWishes = $('#shopWishes').val();
 	   params.serviceStartTime = $('#serviceStartTime').val();
 	   params.serviceEndTime = $('#serviceEndTime').val();
 	   

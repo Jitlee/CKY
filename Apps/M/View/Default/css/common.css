@@ -138,7 +138,7 @@ r {
 .cky-grid .cky-grid-cell{
 	float: left;
 	text-align: center;
-	font-size:17px;
+	font-size:15px;
 	display: block;
 }
 
@@ -172,9 +172,10 @@ r {
 	border: 1px solid transparent;
 	background-position: 90% 50%;
 	background-size: 10vw 10vw;
-	padding-right: 12vw;
+	padding-right: 15.5vw;
 	padding-top: 5vw;
 	padding-bottom: 5vw;
+	text-align: right;
 }
 
 .cky-hotpot-ticket {
@@ -198,13 +199,13 @@ r {
 }
 
 .cky-grid2 .cky-media p{
-	font-size:  16px;
+	font-size:  15px;
 	color:#333;
 	line-height: 1.1;
 }
 
 .cky-grid2 .cky-media h5{
-	font-size:  13px;
+	font-size:  11px;
 	color:#666;
 }
 

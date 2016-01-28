@@ -34,7 +34,10 @@ function addGoodsAppraises(shopId,goodsId,goodsAttrId,orderId){
 			if(json.status==1){
 				$('#'+goodsId+'_'+goodsAttrId+'_appraise').slideUp();
 				$('#'+goodsId+'_'+goodsAttrId+'_appraise').empty();
-				$('#'+goodsId+'_'+goodsAttrId+'_status').html('评价成功');
+				var itemstatus=$('.'+goodsId+'_'+goodsAttrId+'_status');
+				itemstatus.html('评价成功');
+				itemstatus.removeClass("c1");
+				itemstatus.addClass("c2");
 			}else if(json.status==-1){
 				cky.toast(json.msg);
 			}else{

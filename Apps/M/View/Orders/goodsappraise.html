@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('order.css')}" />
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+<div class="mui-content">
+	<div id="orderList">
+		<volist name="appraise['root']" id="goods" key='appr'>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:void(0);" class="top-navigate">
+						<img class="mui-media-object mui-pull-left" src="/{$goods['goodsThums']}">
+						<div class="mui-media-body">
+							<p>{$goods["goodsScore"]}</p>
+							{$goods["content"]}
+							<p class='mui-ellipsis'>{$goods['ocreateTIme']}</p>
+						</div>
+						 
+					</a>
+				</li>
+			</ul>
+		</volist>
+	</div>
+</div>
+ 

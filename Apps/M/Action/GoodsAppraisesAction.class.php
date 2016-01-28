@@ -35,12 +35,12 @@ class GoodsAppraisesAction extends BaseAction{
 	 * 获取指定商品评价
 	 */
 	public function getAppraise(){
-		$this->isLogin();
-		$m = D('Home/Goods_appraises');
-    	$appraise = $m->getAppraise();
+		 
+		$m = D('M/Goods_appraises');
+    	$appraise = $m->getGoodsAppraises();
     	$this->assign('appraise',$appraise);
-    	
-        $this->display("default/shops/goodsappraises/appraise");
+    	//echo dump($appraise);
+        $this->display("Orders/goodsappraise");
 	}
 	/******************************************************************
 	 *                         会员操作
@@ -49,15 +49,13 @@ class GoodsAppraisesAction extends BaseAction{
 	 * 订单评价
 	 */
     public function toAppraise(){
-//  	$this->isUserLogin();
-//  	$USER = session('RTC_USER');
-    	$morders = D('Home/Goods_appraises');
+    	$morders = D('M/Goods_appraises');
     	$obj["userId"] = session("uid");
     	$obj["orderId"] = (int)I("orderId");
 		$rs = $morders->getOrderAppraises($obj);
 		$this->assign("orderInfo",$rs);
 		$this->assign('title', "订单评价");
-		$this->display("Orders/appraise1");
+		$this->display("Orders/appraise");
 	}
 	/**
 	 * 添加评价

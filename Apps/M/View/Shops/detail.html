@@ -16,7 +16,7 @@
 </header>
 <div class="mui-content">
 	<div class="cky-head-img" style="background-image: url(/{$data.shopImg});">
-		<h4>秀山历史文化公园(4A)</h4>
+		<h4>{$data.shopProfile}</h4>
 		<h5><i class="iconfont icon-tupian"></i>5</h5>
 	</div>
 	<ul class="mui-table-view">
@@ -32,7 +32,7 @@
 			暂无评分
 			</h5>
 			<p class="shop-detail-sub">
-				不仅山川修理，更有历代墨客骚人之吟咏。
+				{$data.shopWishes}
 				<span class="shop-detail-button">
 					<a class="iconfont icon-love"></a>
 					<a class="iconfont icon-share"></a>
@@ -45,10 +45,10 @@
 					<i class="iconfont icon-rili font-gray"></i>
 					每天{:timeToString($data['serviceStartTime'])}~{:timeToString($data['serviceEndTime'])}
 				</div>
-				<div class="cky-detail-col2">
+				<a class="cky-detail-col2 font-gray" href="tel:{$data.shopTel}">
 					电话：{$data.shopTel}
 					<i class="iconfont icon-phone font-blue"></i>
-				</div>
+				</a>
 			</div>
 		</li>
 		

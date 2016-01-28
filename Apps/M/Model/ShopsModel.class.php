@@ -58,8 +58,9 @@ class ShopsModel extends BaseModel {
 	 	if($shopId == 0) {
 	 		$shopId = I('id');
 		}
-		return $this->field('shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc')
-			->find($shopId);
+		$field = 'shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc, shopWishes, shopProfile';
+		$join = 'left join '; // TODO: 查询商家图片
+		return $this->field($field)->find($shopId);
 	 }
 
 	public function fast() {

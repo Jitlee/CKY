@@ -26,31 +26,32 @@
 		<div class="mui-spinner">
 		</div>
 	</div>
-	<div id="shopsList" class="cky-table-view mui-hidden">
+	<ul id="shopsList" class="cky-table-view mui-hidden">
 		<!-- ko foreach: $data -->
-		<a class="cky-table-view-cell" data-bind="attr:{ href: '{:U('Shops/detail')}?id=' + shopId }">
-			<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
-				
-			</div>
-			<div class="cky-media">
-				<span class="cky-media-title font20" data-bind="text: shopName"></span>
-				<!-- ko if:deliveryOff > 0 && deliveryOff < 1 -->
-				<h5 class="cky-right font-red" data-bind="text: (deliveryOff * 10).toFixed(1) + '折'"></h5>
-				<!-- /ko -->
-				<div class="cky-clearfix"></div>
-				<div class="cky-media-sub font15 font-gray2">
-					<p class="cky-media-address" data-bind="text: shopAddress + ' ' + catName "></p>
-					<span class="cky-right font15 font-gray2" data-bind="text: geolocation.distanceToReadability(distance * geolocation.METERS_PER_DEGREE)"></span>
+		<li class="cky-table-view-cell">
+			<a data-bind="attr:{ href: '{:U('Shops/detail')}?id=' + shopId }">
+				<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
+					
 				</div>
+				<div class="cky-media">
+					<span class="cky-media-title font20" data-bind="text: shopName"></span>
+					<!-- ko if:deliveryOff > 0 && deliveryOff < 1 -->
+					<h5 class="cky-right font-red" data-bind="text: (deliveryOff * 10).toFixed(1) + '折'"></h5>
+					<!-- /ko -->
+					<div class="cky-clearfix"></div>
+					<div class="cky-media-sub font15 font-gray2">
+						<p class="cky-media-address" data-bind="text: shopAddress + ' ' + catName "></p>
+						<span class="cky-right font15 font-gray2" data-bind="text: geolocation.distanceToReadability(distance * geolocation.METERS_PER_DEGREE)"></span>
+					</div>
+					<div class="cky-clearfix"></div>
+					<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
+					<h5 class="cky-right"><i class="iconfont icon-phone font20 font-blue"></i></h5>
+			    </div>
 				<div class="cky-clearfix"></div>
-				<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
-				<h5 class="cky-right"><i class="iconfont icon-phone font20 font-blue"></i></h5>
-				<div class="cky-clearfix"></div>
-		    </div>
-			<div class="cky-clearfix"></div>
-		</a>
+			</a>
+		</li>
 		<!-- /ko -->
-	</div>
+	</ul>
 </div>
 
 <include file="Public:tab"/>

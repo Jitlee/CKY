@@ -113,3 +113,18 @@ function autoVer($filename){
     $ver = filemtime($path);
     echo $filename.'?v='.$ver;
 }
+
+function getScore($i=5)
+{
+	$empnum=5-$i;
+	$rest="";
+	for($in=0;$in<$i;$in++)
+	{
+		$rest=$rest."<i class='iconfont icon-empty-star star_c'></i>";
+	}
+	for($in=0;$in<$empnum;$in++)
+	{
+		$rest=$rest."<i class='iconfont icon-empty-star'></i>";
+	}
+	return $rest;
+}

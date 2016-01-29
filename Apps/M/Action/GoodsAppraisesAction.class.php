@@ -37,7 +37,8 @@ class GoodsAppraisesAction extends BaseAction{
 	public function getAppraise(){
 		 
 		$m = D('M/Goods_appraises');
-    	$appraise = $m->getGoodsAppraises();
+		$goodsId = (int)I("goodsId");
+    	$appraise = $m->getGoodsAppraises($goodsId);
     	$this->assign('appraise',$appraise);
     	//echo dump($appraise);
         $this->display("Orders/goodsappraise");

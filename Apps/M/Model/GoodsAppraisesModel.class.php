@@ -33,9 +33,8 @@ class GoodsAppraisesModel extends BaseModel {
 	/**
 	 * 查询商品评价
 	 */
-	public function getGoodsAppraises(){		
-		$goodsId = (int)I("goodsId");
-		$sql = "SELECT ga.*, u.TrueName as userName, od.createTime as ocreateTIme 
+	public function getGoodsAppraises($goodsId){
+		$sql = "SELECT ga.*, u.TrueName as userName,u.ImagePath as userImagePath, od.createTime as ocreateTIme 
 				FROM __PREFIX__goods_appraises ga , __PREFIX__orders od , __PREFIX__member u 
 				WHERE ga.userId = u.uid AND ga.orderId = od.orderId AND ga.goodsId = $goodsId AND ga.isShow =1 order by id desc ";		
 		$data = $this->pageQuery($sql);	

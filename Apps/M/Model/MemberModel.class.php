@@ -44,6 +44,16 @@ class MemberModel extends BaseModel {
 		$filter["OpenID"]=$openid;
 		return $db->where($filter)->find();
 	}
+	public function ChangeImgPath($openid,$ImagePath)
+	{
+		$db = M('member');
+		$filter["OpenID"]=$openid;
+		$MemberItem=  $db->where($filter)->find();
+		$MemberItem["ChangeTime"]=date('y-m-d-h-i-s');
+		$MemberItem["ImagePath"]=$ImagePath;
+		$db->save($MemberItem);
+	}
+	
 	
 	/***积分记录***/
 	public function GetScoreList($uid,$pageSize = 10, $pageNum = 1)

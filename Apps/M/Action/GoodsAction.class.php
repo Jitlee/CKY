@@ -25,6 +25,12 @@ class GoodsAction extends BaseAction {
 		$this->assign('title', $data['goodsName']);
 		
 //		echo $m->getLastSql();
+		//评价
+		$m = D('M/Goods_appraises');
+		$goodsid=I('id');
+    	$appraise = $m->getGoodsAppraises($goodsid);
+		//echo dump($appraise);
+    	$this->assign('appraise',$appraise);
 		
 		$this->display();
 	}

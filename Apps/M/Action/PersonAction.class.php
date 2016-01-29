@@ -38,7 +38,12 @@ class PersonAction extends BaseUserAction {
 		{
 			$wxm= new WxUserInfo();
 			$userimg=$wxm->callback($openid);
-			session("userimg",$userimg);
+			if(strlen($userimg)>10)
+			{
+				session("userimg",$userimg);
+				//更新到对像
+				$mMember->ChangeImgPath($openid,$userimg);
+			}
 		}
 		$this->assign('headimgurl', $userimg);
 	

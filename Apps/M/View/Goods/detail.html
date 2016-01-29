@@ -58,7 +58,25 @@
 				<p class="mui-content-padded">{$data.goodsDesc}</p>
 			</div>
 			<div id="item2mobile" class="mui-slider-item mui-control-content">
-				<p class="mui-content-padded">此商品暂无评价</p>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">更多</a>
+					</li>
+				</ul>
+				<volist name="appraise['root']" id="apprs" key='appr'>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media">
+							<a href="javascript:void(0);" class="top-navigate">
+								<img class="mui-media-object mui-pull-left" src="{$apprs['userImagePath']}">
+								<div class="mui-media-body">
+									<p>{$apprs["userName"]}&nbsp;&nbsp;{:getScore($apprs["goodsScore"])}</p>
+									{$apprs["content"]}
+									<p class='mui-ellipsis'>{$apprs['ocreateTIme']}</p>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</volist>
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
 				<!-- 相关产品 -->

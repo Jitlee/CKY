@@ -13,6 +13,7 @@ class GoodsAction extends BaseAction {
 	public function page() {
 		$m = D('M/Goods');
 		$list = $m->goods();
+//		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
@@ -49,6 +50,12 @@ class GoodsAction extends BaseAction {
 		$m = D('M/GoodsGallerys');
 		$list = $m->query();
 //		echo $m->getLastSql();
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	public function records() {
+		$m = D('M/OrderGoods');
+		$list = $m->records();
 		$this->ajaxReturn($list, 'JSON');
 	}
 }

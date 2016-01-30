@@ -37,8 +37,8 @@ class ShopsModel extends BaseModel {
 			$order = 'distance';
 		}
 		
-		$field = array('cky_shops.shopId','shopSn','shopName','shopImg','shopTel',
-			'latitude','longitude','deliveryOff','shopAddress','cky_goods_cats.catName');
+		$field = array('s.shopId','shopSn','shopName','shopImg','shopTel',
+			'latitude','longitude','deliveryOff','shopAddress','gc.catName');
 		if($lng > 0 && $lat > 0) {
 			$field[sprintf('SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
 				$lat, $lng)] = 'distance';
@@ -47,7 +47,7 @@ class ShopsModel extends BaseModel {
 		}
 		
 		return $this->field($field)
-	 				->join('cky_goods_cats on cky_goods_cats.catId = cky_shops.goodsCatId1')
+	 				->join('s INNER JOIN __GOODS_CATS__ gc on gc.catId = s.goodsCatId1')
 					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 	 }
 	 
@@ -58,9 +58,10 @@ class ShopsModel extends BaseModel {
 	 	if($shopId == 0) {
 	 		$shopId = I('id');
 		}
-		$field = 'shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc, shopWishes, shopProfile';
-		$join = 'left join '; // TODO: 查询商家图片
-		return $this->field($field)->find($shopId);
+		$field = 's.shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc, shopWishes, shopProfile, ROUND(`totalScore`/3/`totalUsers`, 1) score';
+		$join = 's left join __SHOP_SCORES__ ss on s.shopId = ss.shopId';
+		$map = array('s.shopId' => $shopId);
+		return $this->field($field)->join($join)->where($map)->find();
 	 }
 
 	public function fast() {

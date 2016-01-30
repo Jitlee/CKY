@@ -22,6 +22,11 @@ class OrderGoodsModel extends BaseModel {
 			->where($map)->select();
 	}
 	
-	
+	public function records() {
+		$goodsId = I("goodsId");
+		$map = array('goodsId' => $goodsId);
+		return $this->where($map)->field('o.createTime, count(og.id) as count,INSERT(userName,ROUND(CHAR_LENGTH(o.userName) / 2),ROUND(CHAR_LENGTH(o.userName) / 4),\'****\') userName')
+			->join('og INNER JOIN __ORDERS__ o on og.orderId = o.orderId')->select();
+	}
 	
 }

@@ -23,13 +23,9 @@
 		<li class="mui-table-view-cell">
 			<h5>
 			<span>
-				<i class="iconfont icon-favorfill"></i>
-				<i class="iconfont icon-favorfill"></i>
-				<i class="iconfont icon-empty-star"></i>
-				<i class="iconfont icon-empty-star"></i>
-				<i class="iconfont icon-empty-star"></i>
+				{:getScore($data['score'])}
 			</span>
-			暂无评分
+			<if condition="$data.score gt 0">{$data.score}<else/>暂无评分</if>
 			</h5>
 			<p class="shop-detail-sub">
 				{$data.shopWishes}

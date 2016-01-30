@@ -50,7 +50,7 @@
 				</a>
 			<a class="mui-control-item" href="#item3mobile">
 					成交记录
-				</a>
+			</a>
 		</div>
 		<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
 		<div class="mui-slider-group">
@@ -79,27 +79,24 @@
 				</volist>
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
-				<!-- 相关产品 -->
-				<p class="mui-content-padded">暂无成交记录</p>
-				<!--<div class="mui-content-padded">
-					<ul class="cky-table-view">
-						<li class="cky-table-view-cell">
-							<a href="{:U('Shops/goods', '', '')}">
-								<div class="cky-table-cell-thumb cky-free-reserve" style="background-image: url(__ROOT__/Apps/M/View/default/images/dabbf221.jpg);">
-								</div>
-								<div class="cky-media">
-									<span class="font20">香肠饭</span>
-									<div class="cky-center cky-media-content cky-ellipsis2 font16">
-										
-									</div>
-									<span class="font15 font-orange">现价￥19</span>
-									<h5 class="cky-right"><button class="cky-detail-buy-button">购买</button></h5>
-							    </div>
-						    </a>
-						</li>
-					</ul>
-				</div>-->
-				<!-- 相关产品end -->
+				<div id="recordLoading" class="mui-loading">
+					<div class="mui-spinner">
+					</div>
+				</div>
+				<p id="emptyrecordBlock" class="mui-content-padded cky-hidden">暂无成交记录</p>
+				<ul id="recordList" class="mui-table-view cky-hidden">
+					<!-- ko foreach: $data -->
+					<li class="mui-table-view-cell">
+						<a>
+							<div class="cky-col-view">
+								<span class="cky-col-view-cell" data-bind="text:userName"></span>
+								<span class="cky-col-view-cell" data-bind="text: 'x' + count">x3</span>
+								<span class="cky-col-view-cell cky-text-right" data-bind="text: createTime"></span>
+							</div>
+						</a>
+					</li>
+					<!-- /ko -->
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -140,6 +137,7 @@
 	}];
 	var gallerysVM = ko.observableArray(gallerys);
 	ko.applyBindings(gallerysVM, swiperList);
+	
 	$(function() {
 		$.getJSON("{:U('Goods/gallerys')}", { id: "{:I('id')}" }, function(list) {
 			if(list && list.length > 0) {
@@ -178,6 +176,20 @@
 		});
 		
 		$("#submit").click(shopCart.ok);
+		
+		// 销售记录
+		var recordList = document.getElementById("recordList");
+		var recordVM = ko.observableArray([]);
+		ko.applyBindings(recordVM, recordList);
+		app.getJSON("{:U('Goods/records')}?id={$data.goodsId}", null, function(arr) {
+			$("#recordLoading").hide();
+			if(arr && arr.length > 0) {
+				recordVM(arr);
+				$("#recordList").removeClass("cky-hidden");
+			} else {
+				$("#emptyrecordBlock").removeClass("cky-hidden");
+			}			
+		});
 	});
 	
 	

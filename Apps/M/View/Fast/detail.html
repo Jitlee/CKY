@@ -17,7 +17,7 @@
 			<p class="font13">起送费 ¥{$data.deliveryStartMoney} | <if condition="$data.deliveryMoney eq 0">免配送费<else/>配送费 ¥{$data.deliveryMoney}</if> | {$data.deliveryCostTime}分钟</p>
 			<p class="font13 cky-fast-header-sub">
 				<i class="iconfont icon-laba cky-left"></i>
-				<span class="cky-left">创“中国式”小吃——在思考与辛劳中经历收获的喜悦</span>
+				<span class="cky-left">{$data.shopWishes}</span>
 				<i class=" cky-left iconfont icon-dayu"></i>
 				<div class="cky-clearfix"></div>
 			</p>
@@ -73,7 +73,7 @@
 					</li>
 					<li class="cky-table-view-cell cky-fast-goods-sub-cell">
 						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
-							<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+							<p>招牌指数<span class="cky-zhishu" data-bind="css: cky.getZhishu(score)"></span></p>
 							<p class="font13" data-bind="text: goodsSpec"></p>
 						</a>
 					</li>
@@ -88,9 +88,19 @@
 		</div>
 		<div id="item3mobile" class="mui-slider-item mui-control-content">
 			<!-- 相关产品 -->
-			<div class="mui-content-padded">
-				
-			</div>
+			<ul class="mui-table-view cky-mtop-10">
+				<li class="mui-table-view-cell">
+					<a>
+						<i class="iconfont icon-shizhong font-gray"></i>配送时间：{:timeToString($data['serviceStartTime'])}~{:timeToString($data['serviceEndTime'])}
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="{:U('Shops/map','')}?shopId={$data.shopId}&shopName={$data.shopName}&mapLevel={$data.mapLevel}&longitude={$data.longitude}&latitude={$data.latitude}">
+						<i class="iconfont icon-weizhi font-gray"></i>
+						{$data.shopAddress}
+					</a>
+				</li>
+			</ul>
 			<!-- 相关产品end -->
 		</div>
 	</div>

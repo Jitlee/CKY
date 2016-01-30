@@ -13,7 +13,7 @@ class GoodsModel extends BaseModel {
 		$shopId = I('shopId');
 		$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
-		$map = array('shopId'	=> $shopId);
+		$map = array('g.shopId'	=> $shopId);
 		
 		// 过滤
 		$shopCatId = intval(I('shopCatId', 0));
@@ -30,7 +30,8 @@ class GoodsModel extends BaseModel {
 				break;
 		}
 		
-		return $this->field('goodsId, goodsSn, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec')
+		return $this->field('g.goodsId, goodsSn, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec, round(totalScore / 3.0 / totalUsers, 2) score')
+			->join('g LEFT JOIN __GOODS_SCORES__ gc on g.goodsId = gc.goodsId')
 			->where($map)->order($order)->page($pageNo, $pageSize)->select();
 	}
 	

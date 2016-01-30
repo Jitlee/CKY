@@ -143,6 +143,7 @@ r {
 }
 
 .cky-grid4 .cky-grid-cell{
+	position: relative;
 	width: 25%;
 }
 
@@ -155,6 +156,19 @@ r {
 	max-width: 90px;
 	display: block;
 	margin:5px auto;
+}
+
+.cky-grid4 .cky-grid-cell.jqqd::before {
+	position: absolute;
+	font-size: 9px;
+	content: "敬请期待";
+	text-align: center;
+	top: 0px;
+	padding: 0px 3px;
+	height: 15px;
+	line-height: 16px;
+	background-color: #F20;
+	color: #fff;
 }
 
 .cky-special {

@@ -34,13 +34,31 @@ class GoodsAppraisesModel extends BaseModel {
 	 * 查询商品评价
 	 */
 	public function getGoodsAppraises($goodsId){
+		
+		$sqltotal="SELECT CAST(ss.totalscore/totalusers/3 as int)  as avgscore,ss.totalusers  FROM __PREFIX__goods_scores ss where goodsid=".$goodsId;
+		$avgs = $this->queryRow($sqltotal);
+		
+		$sql = "SELECT ga.*, u.TrueName as userName,u.ImagePath as userImagePath, od.createTime as ocreateTIme 
+				FROM __PREFIX__goods_appraises ga , __PREFIX__orders od , __PREFIX__member u 
+				WHERE ga.userId = u.uid AND ga.orderId = od.orderId AND ga.goodsId = $goodsId AND ga.isShow =1 order by id desc ";		
+		$data = $this->pageQuery($sql);
+		$data["avgtotal"]=	$avgs;
+		//echo dump($data);
+		return $data;
+	}
+	 /**
+	 * 查询店铺评价
+	 */
+	public function getShopAppraises($shopId){
+		$sqltotal="SELECT CAST(ss.totalscore/totalusers/3 as int)  as avgscore,ss.totalusers FROM __PREFIX__shop_scores ss where shopid=".$shopId;
+		$avgs = $this->queryRow($sqltotal);
 		$sql = "SELECT ga.*, u.TrueName as userName,u.ImagePath as userImagePath, od.createTime as ocreateTIme 
 				FROM __PREFIX__goods_appraises ga , __PREFIX__orders od , __PREFIX__member u 
 				WHERE ga.userId = u.uid AND ga.orderId = od.orderId AND ga.goodsId = $goodsId AND ga.isShow =1 order by id desc ";		
 		$data = $this->pageQuery($sql);	
+		$data["avgtotal"]=	$avgs;
 		return $data;
 	}
-	 
  	/**
 	  * 获取指定商品评价
 	  */

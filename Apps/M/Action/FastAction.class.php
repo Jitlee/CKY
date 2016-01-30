@@ -25,6 +25,13 @@ class FastAction extends BaseAction {
 //		echo $m->getLastSql();
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
+		
+		//评价
+		$m = D('M/Goods_appraises');
+		$shopid=I('id');
+    	$appraise = $m->getShopAppraises($shopid);
+    	$this->assign('appraise',$appraise);
+		
 		$this->display();
 	}
 	

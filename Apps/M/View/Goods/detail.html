@@ -59,10 +59,15 @@
 			</div>
 			<div id="item2mobile" class="mui-slider-item mui-control-content">
 				<ul class="mui-table-view">
-					<li class="mui-table-view-cell mui-media">
-						<a href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">更多</a>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">
+		                    <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
+		                	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
+		                </a>
 					</li>
 				</ul>
+				 
+				 
 				<volist name="appraise['root']" id="apprs" key='appr'>
 					<ul class="mui-table-view">
 						<li class="mui-table-view-cell mui-media">

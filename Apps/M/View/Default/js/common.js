@@ -152,6 +152,45 @@ var cky = {
 		} else {
 			callback();
 		}
+	},
+	
+	/**
+	 * 获取星星指数
+	 * @param {Object} scores
+	 */
+	getScore: function(scores) {
+		var s = Math.floor(scores * 2);
+		var arr = [];
+		for(var i = 0; i < 10; i+=2) {
+			if(s > i && s < i + 2) {
+				arr.push("icon-half-star");
+			} else if(s > i) {
+				arr.push("icon-favorfill");
+			} else {
+				arr.push("icon-empty-star");
+			}
+		}
+		return "<i class=\"iconfont " + arr.join("\"></i><i class=\"iconfont ") + "\"></i>";
+	},
+	
+	/**
+	 * 获取招牌指数
+	 * @param {Object} zhishu
+	 */
+	getZhishu: function(zhishu) {
+		zhishu = Math.max(Math.min(Math.ceil(zhishu), 5), 1);
+		switch(zhishu) {
+			case 2:
+				return "cky-zhishu2";
+			case 3:
+				return "cky-zhishu3";
+			case 4:
+				return "cky-zhishu4";
+			case 5:
+				return "cky-zhishu5";
+			default:
+				return "cky-zhishu1";
+		}
 	}
 };
 

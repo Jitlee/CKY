@@ -52,6 +52,7 @@ class ShopsAction extends BaseAction {
 	public function detail() {		
 		$m = D('M/Shops');
 		$data = $m->detail();
+//		echo $m->getLastSql();
 		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);

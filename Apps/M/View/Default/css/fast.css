@@ -1,4 +1,4 @@
-body {
+#item1mobile {
 	background-color: #fff;	
 }
 
@@ -366,6 +366,10 @@ header.cky-fast-header .mui-btn {
 
 .mui-slider {
 	background-color: #fff;
+}
+
+#item3mobile {
+	background-color: #efeff4;
 }
 
 .cky-fast-cart.cky-active .cky-fast-cart-icon {

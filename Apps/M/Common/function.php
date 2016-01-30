@@ -114,13 +114,16 @@ function autoVer($filename){
     echo $filename.'?v='.$ver;
 }
 
+/**
+ * 获取评分星星html拼装内容
+ */
 function getScore($i=5)
 {
 	$empnum=5-$i;
 	$rest="";
 	for($in=0;$in<$i;$in++)
 	{
-		$rest=$rest."<i class='iconfont icon-empty-star star_c'></i>";
+		$rest=$rest."<i class='iconfont icon-favorfill star_c'></i>";
 	}
 	for($in=0;$in<$empnum;$in++)
 	{

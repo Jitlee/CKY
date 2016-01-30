@@ -28,7 +28,7 @@
 				<div class="cky-media">
 					<span class="cky-media-title font20" data-bind="text: shopName"></span>
 					<div class="cky-media-sub font13 font-gray2">
-						<span class="cky-score" data-bind="html:getStar(totalScore / totalUsers)"></span>
+						<span class="cky-score" data-bind="html:cky.getScore(totalScore / 3.0 / totalUsers)"></span>
 						<span data-bind="text: '月售' + totalUsers + '单'"></span>
 						<label class="cky-right cky-waimai"><i class="iconfont icon-waimai"></i><span>小猴快跑</span></label>
 						<div class="cky-clearfix"></div>
@@ -55,20 +55,6 @@
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
-	function getStar(scores) {
-		var s = Math.floor(scores * 2);
-		var arr = [];
-		for(var i = 0; i < 10; i+=2) {
-			if(s > i && s < i + 2) {
-				arr.push("icon-half-star");
-			} else if(s > i) {
-				arr.push("icon-favorfill");
-			} else {
-				arr.push("icon-empty-star");
-			}
-		}
-		return "<i class=\"iconfont " + arr.join("\"></i><i class=\"iconfont ") + "\"></i>";
-	}
 
 	$(function() {
 		var currentLongitude = 0;

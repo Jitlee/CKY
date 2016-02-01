@@ -54,10 +54,26 @@ class GoodsAppraisesModel extends BaseModel {
 		$avgs = $this->queryRow($sqltotal);
 		$sql = "SELECT ga.*, u.TrueName as userName,u.ImagePath as userImagePath, od.createTime as ocreateTIme 
 				FROM __PREFIX__goods_appraises ga , __PREFIX__orders od , __PREFIX__member u 
-				WHERE ga.userId = u.uid AND ga.orderId = od.orderId AND ga.goodsId = $goodsId AND ga.isShow =1 order by id desc ";		
+				WHERE ga.userId = u.uid AND ga.orderId = od.orderId AND ga.shopid = $shopId AND ga.isShow =1 order by id desc ";		
 		$data = $this->pageQuery($sql);	
 		$data["avgtotal"]=	$avgs;
 		return $data;
+	}
+	 /**
+	 * 查询评价-
+	 */
+	public function getAppraisesPage($goodsId=0,$shopId=0,$pageSize, $pageNum){
+		$where="AND ga.goodsId = $goodsId";
+		if($shopId>0)
+		{
+			$where="AND ga.shopId = $shopId";
+		}
+		$pmin=$pageSize *($pageNum-1);
+		$pmax=$pageSize * $pageNum;
+		$sql = "SELECT ga.*, u.TrueName as userName,u.ImagePath as userImagePath, od.createTime as ocreateTIme 
+				FROM __PREFIX__goods_appraises ga , __PREFIX__orders od , __PREFIX__member u 
+				WHERE ga.userId = u.uid AND ga.orderId = od.orderId $where AND ga.isShow =1  order by id desc";		
+		return M()->query($sql);
 	}
  	/**
 	  * 获取指定商品评价

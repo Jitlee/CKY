@@ -26,9 +26,9 @@
 					<a href="javascript:void(0);" class="top-navigate">
 						<img class="mui-media-object mui-pull-left" src="{$goods['userImagePath']}">
 						<div class="mui-media-body">
-							<p>{$goods["userName"]}&nbsp;&nbsp;{:getScore($goods["goodsScore"])}</p> 
+							<p class="pcontent">{$goods["userName"]}&nbsp;&nbsp;{:getScore($goods["goodsScore"])}</p> 
 							
-							{$goods["content"]}
+							<div class="pj">	{$goods["content"]}</div>
 							<p class='mui-ellipsis'>{$goods['ocreateTIme']}</p>
 						</div>
 					</a>
@@ -37,4 +37,55 @@
 		</volist>
 	</div>
 </div>
+<script src="__JS__/jquery.touchSwipe.min.js"></script>
+<script>
+	$(function() {
+		var pageNum = 1;
+		var goodList = $("#recrodList").swipe({
+			swipeUp: onscrollend,
+			threshold: 100,
+			allowPageScroll: "vertical"
+		});
+		
+		$(window).bind("scroll", onscrollend);
+		
+		function onscrollend() {
+			if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+       			console.info("滚动到底了");
+       			page();
+			}
+		}
+		
+		var recrodList = $("#recrodList");
+		var template = $("li:first-child", recrodList);		
+		function page() 
+		{
+			var ll = layer.open({type: 2});
+			var murl="{:U('getAppraiseLoad', '', '')}";
+			pageNum=pageNum+1;
+			var vshopId={$shopId};
+			var vgoodsid={$goodsId};
+			$.get(murl, {pageSize:10 ,pageNum: pageNum ,shopId: vshopId,goodsId:vgoodsid}, function(list) {	
+				console.info(list.length);  
+				console.info(list);
+				if(list && list.length > 0) 
+				{
+		       		$.each(list, function() {
+		       			var item = template.clone();
+		       			$(".pcontent", item).text(this.userName+'&nbsp;&nbsp;'+this.goodsScore);
+		       			$(".pj", item).text(this.content);
+		       			$(".mui-ellipsis", item).text(this.ocreateTIme);
+		       			console.info("滚动到底了");
+		       			recrodList.append(item);
+		       		}); 
+		       	} 
+		       	else 
+		       	{
+		       		pageNum--;	
+		    	}
+       			layer.close(ll);
+	    	});
+		}
+	});
+</script>
  

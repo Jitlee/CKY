@@ -58,34 +58,36 @@
 				<p class="mui-content-padded">{$data.goodsDesc}</p>
 			</div>
 			<div id="item2mobile" class="mui-slider-item mui-control-content">
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right" href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">
-		                    <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
-		                	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
-		                </a>
-					</li>
-				</ul>
-				 
-				 
-				<volist name="appraise['root']" id="apprs" key='appr'>
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell mui-media">
-							<a href="javascript:void(0);" class="top-navigate">
-								<img class="mui-media-object mui-pull-left" src="{$apprs['userImagePath']}">
-								<div class="mui-media-body">
-									<p>{$apprs["userName"]}&nbsp;&nbsp;{:getScore($apprs["goodsScore"])}</p>
-									{$apprs["content"]}
-									<p class='mui-ellipsis'>{$apprs['ocreateTIme']}</p>
-								</div>
-							</a>
-						</li>
-					</ul>
-				</volist>
-				
-				<div class="cky-text-center">						
-					<a class="mui-btn font13 font-gray">查看更多评价</a>
-				</div>
+				<if condition='$appraise["avgtotal"]["totalusers"] gt 0'>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+				                    <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
+				                	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
+				                </a>
+							</li>
+						</ul>
+						<volist name="appraise['root']" id="apprs" key='appr'>
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell mui-media">
+									<a href="javascript:void(0);" class="top-navigate">
+										<img class="mui-media-object mui-pull-left" src="{$apprs['userImagePath']}">
+										<div class="mui-media-body">
+											<p>{$apprs["userName"]}&nbsp;&nbsp;{:getScore($apprs["goodsScore"])}</p>
+											{$apprs["content"]}
+											<p class='mui-ellipsis'>{$apprs['ocreateTIme']}</p>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</volist>
+						
+						<div class="cky-text-center">						
+							<a class="mui-btn font13 font-gray" href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">查看更多评价</a>
+						</div>
+					<else/>
+						<p id="emptyrecordBlock" class="mui-content-padded">暂无评价记录</p>
+					</if>
 				<br />
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">

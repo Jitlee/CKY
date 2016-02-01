@@ -267,8 +267,18 @@ class HomeAction extends BaseAction {
 // 		$strvaldb="[快速充值][接口]粗卡云平台充值";
 //		$strval=str_replace("[快速充值][接口]","",$strvaldb);
 //		echo $strval; 		
-		$this->display("Pay/success");
+		//$this->display("Pay/success");
 		//$this->display("Pay/orderpay");
+		
+		$m = D('M/Goods_appraises');
+		$goodsId = 0;
+		$shopId = 42;
+		
+		$pageSize =10;
+		$pageNum =  2;
+		$appraise = $m->getAppraisesPage($goodsId,$shopId,$pageSize,$pageNum);
+		echo dump($appraise);
+		$this->display();
 	}
 
 	

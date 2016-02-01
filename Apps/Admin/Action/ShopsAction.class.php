@@ -16,7 +16,13 @@ class ShopsAction extends BaseAction{
 		$this->isLogin();
 		//获取商品分类信息
 		$m = D('Admin/GoodsCats');
-		$this->assign('goodsCatsList',$m->queryByList());
+		$cats = $m->queryByList();
+		foreach($cats as $key => $cat) {
+			$cats[$key]['children'] = $m->queryByList($cat['catId']);
+		}
+//		echo dump($cats);
+		$this->assign('goodsCatsList', $cats);
+		
 		//获取地区信息
 		$m = D('Admin/Areas');
 		$this->assign('areaList',$m->queryShowByList(0));

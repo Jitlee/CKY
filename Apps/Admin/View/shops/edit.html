@@ -520,6 +520,31 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              </td>
            </tr>
            <tr>
+           	<th align='right'>所属行业<font color='red'>*</font>：</th>
+           	<td>
+           		<table id="shopPlatesTable">
+           			<thead>
+           				<tr>
+           					<td>行业</td><td>分类</td><td>排序</td>
+           				</tr>
+           			</thead>
+           			<tbody>
+           				<foreach name="goodsCatsList" item="item">
+						<tr>
+							<td><lable><input type="checkbox"/>{$item.catName}</lable></td>
+							<td><select>
+								<foreach name="item.children" item="item2">
+									<option>{$item2.catName}</option>
+								</foreach>								
+							</select></td>
+							<td><input type="number" /></td>
+						</tr>
+						</foreach>
+           			</tbody>
+           		</table>
+           	</td>
+           </tr>
+           <tr>
 	             <th width='120'>商家简介<font color='red'>*</font>：</th>
 	             <td colspan='3'>
 	             <textarea rows="2" cols="60" id='shopDesc' name='shopDesc'>{$object.shopDesc}</textarea>
@@ -566,7 +591,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              </div>
              </td>
            </tr>
-           <tr>
+           <!--<tr>
              <th align='right'>所属行业<font color='red'>*</font>：</th>
              <td>
              <select id='goodsCatId1' onchange='javascript:getCatListForEdit("goodsCatId2",this.value,0)'>
@@ -579,7 +604,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
                 <option value=''>请选择</option>
              </select>
              </td>
-           </tr>
+           </tr>-->
            <tr>
              <th align='right'>营业状态<font color='red'>*</font>：</th>
              <td>
@@ -696,5 +721,10 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            </tr>
         </table>
        </form>
+       <script type="text/javascript">
+       		$(function() {
+       			
+       		});
+       </script>
    </body>
 </html>

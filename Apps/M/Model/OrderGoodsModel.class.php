@@ -24,9 +24,11 @@ class OrderGoodsModel extends BaseModel {
 	
 	public function records() {
 		$goodsId = I("goodsId");
+		$pageSize = 20;
+		$pageNo = intval(I('pageNo', 1));
 		$map = array('goodsId' => $goodsId);
 		return $this->where($map)->field('o.createTime, count(og.id) as count,INSERT(userName,ROUND(CHAR_LENGTH(o.userName) / 2),ROUND(CHAR_LENGTH(o.userName) / 4),\'****\') userName')
-			->join('og INNER JOIN __ORDERS__ o on og.orderId = o.orderId')->select();
+			->join('og INNER JOIN __ORDERS__ o on og.orderId = o.orderId')->page($pageNo, $pageSize)->select();
 	}
 	
 }

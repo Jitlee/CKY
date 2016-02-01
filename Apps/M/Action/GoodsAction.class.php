@@ -53,6 +53,11 @@ class GoodsAction extends BaseAction {
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
+	public function record() {
+		$this->assign('title', '购买记录');
+		$this->display();
+	}
+	
 	public function records() {
 		$m = D('M/OrderGoods');
 		$list = $m->records();

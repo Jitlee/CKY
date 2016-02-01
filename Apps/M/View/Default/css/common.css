@@ -589,6 +589,23 @@ a.cky-segmented-item {
     padding-left: 5px;
 }
 
+table.cky-table {
+	width: 100%;
+	font-size:12px;
+}
+
+table.cky-table th{
+	padding: 8px;
+	/*width:33.3333%;*/
+}
+
+table.cky-table td{
+	background: #fff;
+	padding: 8px;
+	border-top: solid #D5D5D5 1px;
+	box-sizing: border-box;
+}
+
 .cky-update {
 	position: absolute;
 	right: 8px;

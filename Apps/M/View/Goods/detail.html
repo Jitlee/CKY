@@ -82,6 +82,11 @@
 						</li>
 					</ul>
 				</volist>
+				
+				<div class="cky-text-center">						
+					<a class="mui-btn font13 font-gray">查看更多评价</a>
+				</div>
+				<br />
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
 				<div id="recordLoading" class="mui-loading">
@@ -89,19 +94,28 @@
 					</div>
 				</div>
 				<p id="emptyrecordBlock" class="mui-content-padded cky-hidden">暂无成交记录</p>
-				<ul id="recordList" class="mui-table-view cky-hidden">
-					<!-- ko foreach: $data -->
-					<li class="mui-table-view-cell">
-						<a>
-							<div class="cky-col-view">
-								<span class="cky-col-view-cell" data-bind="text:userName"></span>
-								<span class="cky-col-view-cell" data-bind="text: 'x' + count">x3</span>
-								<span class="cky-col-view-cell cky-text-right" data-bind="text: createTime"></span>
-							</div>
-						</a>
-					</li>
-					<!-- /ko -->
-				</ul>
+				<div id="recordsList" class="cky-hidden"> 
+					<table class="cky-table">
+						<thead>
+							<tr>
+								<th class="cky-text-left">会员</th><th class="cky-text-left">数量</th><th class="cky-text-right">时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- ko foreach: $data -->
+							<tr>
+								<td data-bind="text:userName"></td>
+								<td class="cky-col-view-cell" data-bind="text: 'x' + count">x3</td>
+								<td class="cky-text-right" data-bind="text: createTime"></td>
+							</tr>
+							<!-- /ko -->
+						</tbody>
+					</table>
+					<div class="cky-text-center">						
+						<a href="{:U('record')}?goodsId={$data.goodsId}" class="mui-btn font13 font-gray">查看更多成交记录</a>
+					</div>
+					<br />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -183,14 +197,14 @@
 		$("#submit").click(shopCart.ok);
 		
 		// 销售记录
-		var recordList = document.getElementById("recordList");
+		var recordsList = document.getElementById("recordsList");
 		var recordVM = ko.observableArray([]);
-		ko.applyBindings(recordVM, recordList);
-		app.getJSON("{:U('Goods/records')}?id={$data.goodsId}", null, function(arr) {
+		ko.applyBindings(recordVM, recordsList);
+		$.get("{:U('Goods/records')}?goodsId={$data.goodsId}", null, function(arr) {
 			$("#recordLoading").hide();
 			if(arr && arr.length > 0) {
 				recordVM(arr);
-				$("#recordList").removeClass("cky-hidden");
+				$("#recordsList").removeClass("cky-hidden");
 			} else {
 				$("#emptyrecordBlock").removeClass("cky-hidden");
 			}			

@@ -66,9 +66,7 @@
 			var vshopId={$shopId};
 			var vgoodsid={$goodsId};
 			$.get(murl, {pageSize:15 ,pageNum: pageNum ,shopId: vshopId,goodsId:vgoodsid}, function(list) {	
-				console.info(list.length);  
-				
-				
+				//console.info(list.length); 
 				if(list && list.length > 0) 
 				{
 		       		$.each(list, function() {

@@ -46,8 +46,8 @@ class ShopsModel extends BaseModel {
 		$sdata["areaId1"] = (int)I("areaId1");
 		$sdata["areaId2"] = (int)I("areaId2");
 		$sdata["areaId3"] = (int)I("areaId3");
-		$sdata["goodsCatId1"] = (int)I("goodsCatId1");
-		$sdata["goodsCatId2"] = (int)I("goodsCatId2");
+//		$sdata["goodsCatId1"] = (int)I("goodsCatId1");
+//		$sdata["goodsCatId2"] = (int)I("goodsCatId2");
 		$sdata["shopName"] = I("shopName");
 		$sdata["shopCompany"] = I("shopCompany");
 		$sdata["shopImg"] = I("shopImg");
@@ -116,7 +116,11 @@ class ShopsModel extends BaseModel {
 							$tmp['areaId2'] = (int)I("areaId2");
 							$tmp['areaId3'] = $v;
 							$tmp['communityId'] = 0;
-							$ra = $m->add($tmp);
+							if(false === $m->add($tmp)) {
+								echo $m->getDbError();
+								$rd['status']= -3;
+								return $rd;
+							}
 						}
 					}
 				    if($relateCommunity!=''){
@@ -131,16 +135,29 @@ class ShopsModel extends BaseModel {
 								$tmp['areaId2'] = $v['areaId2'];
 								$tmp['areaId3'] = $v['areaId3'];
 								$tmp['communityId'] = $v['communityId'];
-								$ra = $m->add($tmp);
+								if(false === $m->add($tmp)) {
+									$rd['status']= -4;
+									return $rd;
+								}
 							}
+						}
+					}
+
+					// 商家行业
+					$plates = json_decode(html_entity_decode(stripslashes(I('plates'))));
+					$m = M('ShopPlates');
+					foreach($plates as $plate) {
+						$plate = (array)$plate;
+						$plate['shopId'] = $shopId;
+						if(false === $m->add($plate)) {
+							$rd['status']= -5;
+							return $rd;
 						}
 					}
 				}
 				
 			}
-			
 		}
-		echo M()->getLastSql();
 		return $rd;
 	 } 
      /**
@@ -254,7 +271,10 @@ class ShopsModel extends BaseModel {
 							$tmp['areaId2'] = (int)I("areaId2");
 							$tmp['areaId3'] = $v;
 							$tmp['communityId'] = 0;
-							$ra = $m->add($tmp);
+							if(false === $m->add($tmp)) {
+								$rd['status']= -3;
+								return $rd;
+							}
 					}
 				}
 				if($relateCommunity!=''){
@@ -269,8 +289,24 @@ class ShopsModel extends BaseModel {
 							$tmp['areaId2'] = $v['areaId2'];
 							$tmp['areaId3'] = $v['areaId3'];
 							$tmp['communityId'] = $v['communityId'];
-							$ra = $m->add($tmp);
+							if(false === $m->add($tmp)) {
+								$rd['status']= -4;
+								return $rd;
+							}
 						}
+					}
+				}
+				
+				// 商家行业
+				$plates = json_decode(html_entity_decode(stripslashes(I('plates'))));
+				$m = M('ShopPlates');
+				$m->where(array('shopId'=>$shopId))->delete();
+				foreach($plates as $plate) {
+					$plate = (array)$plate;
+					$plate['shopId'] = $shopId;
+					if(false === $m->add($plate)) {
+						$rd['status']= -5;
+						return $rd;
 					}
 				}
 			}

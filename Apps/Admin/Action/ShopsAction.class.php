@@ -50,6 +50,7 @@ class ShopsAction extends BaseAction{
 	public function edit(){
 		$this->isAjaxLogin();
 		$m = D('Admin/Shops');
+		$m->startTrans();
     	$rs = array();
     	if(I('id',0)>0){
     		$this->checkAjaxPrivelege('ppgl_02');
@@ -62,6 +63,13 @@ class ShopsAction extends BaseAction{
     		$this->checkAjaxPrivelege('ppgl_01');
     		$rs = $m->insert();
     	}
+			
+		if($rs['status'] < 0) {
+			$m->rollback();
+		} else {
+			$m->commit();
+		}
+
     	$this->ajaxReturn($rs);
 	}
 	/**

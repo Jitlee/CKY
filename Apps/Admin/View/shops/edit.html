@@ -33,6 +33,10 @@ dl.areaSelect{padding:0 5px; display: inline-block; width:100%; margin-bottom: 0
 dl.areaSelect:hover{border:1px solid #E5CD29;}
 dl.areaSelect:hover dd{display: block;}
 dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
+
+#shopPlatesTable td,#shopPlatesTable th {
+	padding: 0px 5px;
+}
 </style>
    <script>
    var shopMap = null;
@@ -102,7 +106,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入商家地址",onCorrect:"输入正确"}).inputValidator({min:1,max:120,onError:"商家地址不能为空,请确认"});
 		$("#areaId3").formValidator({onFocus:"请选择所属地区"}).inputValidator({min:1,onError: "请选择所属地区"});
 //		$("#goodsCatId1").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
-		$("#goodsCatId2").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
+//		$("#goodsCatId2").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
 		$("#bankId").formValidator({onFocus:"请选择所属银行"}).inputValidator({min:1,onError: "请选择所属银行"});
 		$("#bankNo").formValidator({onShow:"",onFocus:"请输入银行卡号",onCorrect:"输入正确"}).inputValidator({min:16,max:19,onError:"银行卡号格式错误,请确认"});
 	
@@ -120,7 +124,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		<if condition="$object['shopId'] !=0 ">
 		   getAreaList("areaId2",{$object.areaId1},0,{$object.areaId2});
 		   getAreaList("areaId3",{$object.areaId2},1,{$object.areaId3});
-		   getCatListForEdit("goodsCatId2","{$object.goodsCatId1}",0,"{$object.goodsCatId2}");
+//		   getCatListForEdit("goodsCatId2","{$object.goodsCatId1}",0,"{$object.goodsCatId2}");
 		</if>
 		
 		initTime('serviceStartTime','{$object['serviceStartTime']}');
@@ -172,7 +176,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		$("#shopCompany").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#shopAddress").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#areaId3").attr("disabled",true).unFormValidator(true); //解除校验
-		$("#goodsCatId2").attr("disabled",true).unFormValidator(true); //解除校验
+//		$("#goodsCatId2").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#bankId").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#bankNo").attr("disabled",true).unFormValidator(true); //解除校验
 		$("#serviceStartTime").attr("disabled",true).unFormValidator(true); //解除校验
@@ -189,7 +193,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		$("#shopCompany").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#shopAddress").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#areaId3").attr("disabled",false).unFormValidator(false); //解除校验
-		$("#goodsCatId2").attr("disabled",false).unFormValidator(false); //解除校验
+//		$("#goodsCatId2").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#bankId").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#bankNo").attr("disabled",false).unFormValidator(false); //解除校验
 		$("#serviceStartTime").attr("disabled",false).unFormValidator(false); //解除校验
@@ -345,6 +349,14 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请上传商家图片!',timeout:1000});
 		   return;
 	   }
+	   
+	   	var plates = getPlates();
+	   	if(plates.length == 0) {
+	   		Plugins.Tips({title:'信息提示',icon:'error',content:'请选择商家行业!',timeout:1000});
+	   		return;
+	   	}
+	   
+	   params.plates = JSON.stringify(plates);
 	   params.shopTel = $('#shopTel').val();
 	   params.qqNo = $('#qqNo').val();
 	   params.shopAddress = $('#shopAddress').val();
@@ -426,24 +438,41 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 		  }
    }
    
-   function getCatListForEdit(objId,parentId,t,id){
-	   var params = {};
-	   params.id = parentId;
-	   $('#'+objId).empty();
-	   var html = [];
-	   $.post("{:U('Admin/GoodsCats/queryByList')}",params,function(data,textStatus){
-		    html.push('<option value="">请选择</option>');
-			var json = RTC.toJson(data);
-			if(json.status=='1' && json.list){
-				var opts = null;
-				for(var i=0;i<json.list.length;i++){
-					opts = json.list[i];
-					html.push('<option value="'+opts.catId+'" '+((id==opts.catId)?'selected':'')+'>'+opts.catName+'</option>');
-				}
-			}
-			$('#'+objId).html(html.join(''));
-	   });
-}
+// function getCatListForEdit(objId,parentId,t,id){
+//	   var params = {};
+//	   params.id = parentId;
+//	   $('#'+objId).empty();
+//	   var html = [];
+//	   $.post("{:U('Admin/GoodsCats/queryByList')}",params,function(data,textStatus){
+//		    html.push('<option value="">请选择</option>');
+//			var json = RTC.toJson(data);
+//			if(json.status=='1' && json.list){
+//				var opts = null;
+//				for(var i=0;i<json.list.length;i++){
+//					opts = json.list[i];
+//					html.push('<option value="'+opts.catId+'" '+((id==opts.catId)?'selected':'')+'>'+opts.catName+'</option>');
+//				}
+//			}
+//			$('#'+objId).html(html.join(''));
+//	   });
+//}
+	
+		function getPlates() {
+			var plates = [];
+			$("#shopPlatesTable input[type='checkbox']:checked").each(function() {
+				var $this = $(this);
+				var tr = $this.closest("tr");
+				var plateId1 = $this.val();
+				var plateId2 = $("select", tr).val();
+				var plateSort = $("input[type='number']", tr).val();
+				plates.push({
+					plateId1: plateId1,
+					plateId2: plateId2,
+					plateSort: plateSort
+				});
+			});
+			return plates;
+		}
    
    </script>
    <body class="rtc-page" style="position:relative;">
@@ -531,10 +560,10 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            			<tbody>
            				<foreach name="goodsCatsList" item="item">
 						<tr>
-							<td><lable><input type="checkbox"/>{$item.catName}</lable></td>
+							<td><lable><input type="checkbox" value="{$item.catId}"/>{$item.catName}</lable></td>
 							<td><select>
 								<foreach name="item.children" item="item2">
-									<option>{$item2.catName}</option>
+									<option value="{$item2.catId}">{$item2.catName}</option>
 								</foreach>								
 							</select></td>
 							<td><input type="number" /></td>
@@ -721,10 +750,5 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            </tr>
         </table>
        </form>
-       <script type="text/javascript">
-       		$(function() {
-       			
-       		});
-       </script>
    </body>
 </html>

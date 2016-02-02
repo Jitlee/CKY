@@ -24,7 +24,7 @@ class HomeAction extends BaseAction {
 	/*错误提示*/
 	public function getwxerror() {
 		$openid=session('openid');
-		echo $openid;
+		//echo $openid;
 		$openid=''.$openid;		
 		if($openid && strlen($openid)>10)
 		{

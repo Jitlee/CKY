@@ -165,7 +165,7 @@ var cky = {
 			if(s > i && s < i + 2) {
 				arr.push("icon-half-star");
 			} else if(s > i) {
-				arr.push("icon-favorfill");
+				arr.push("icon-favorfill  star_c");
 			} else {
 				arr.push("icon-empty-star");
 			}

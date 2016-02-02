@@ -19,7 +19,7 @@
             </a>
 		</li>
 	</ul>
-	<div id="orderList">
+	<div id="apprList">
 		<volist name="appraise['root']" id="goods" key='appr'>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media">
@@ -41,7 +41,7 @@
 <script>
 	$(function() {
 		var pageNum = 1;
-		var goodList = $("#recrodList").swipe({
+		var goodList = $("#apprList").swipe({
 			swipeUp: onscrollend,
 			threshold: 100,
 			allowPageScroll: "vertical"
@@ -56,8 +56,8 @@
 			}
 		}
 		
-		var recrodList = $("#recrodList");
-		var template = $("li:first-child", recrodList);		
+		var recrodList = $("#apprList");
+		var template = $("ul:first-child", recrodList);		
 		function page() 
 		{
 			var ll = layer.open({type: 2});
@@ -65,14 +65,15 @@
 			pageNum=pageNum+1;
 			var vshopId={$shopId};
 			var vgoodsid={$goodsId};
-			$.get(murl, {pageSize:10 ,pageNum: pageNum ,shopId: vshopId,goodsId:vgoodsid}, function(list) {	
+			$.get(murl, {pageSize:15 ,pageNum: pageNum ,shopId: vshopId,goodsId:vgoodsid}, function(list) {	
 				console.info(list.length);  
-				console.info(list);
+				
+				
 				if(list && list.length > 0) 
 				{
 		       		$.each(list, function() {
 		       			var item = template.clone();
-		       			$(".pcontent", item).text(this.userName+'&nbsp;&nbsp;'+this.goodsScore);
+		       			$(".pcontent", item).html(this.userName+'  '+ cky.getScore(this.goodsScore));
 		       			$(".pj", item).text(this.content);
 		       			$(".mui-ellipsis", item).text(this.ocreateTIme);
 		       			console.info("滚动到底了");

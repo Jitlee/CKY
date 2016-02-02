@@ -64,8 +64,8 @@ class GoodsAppraisesAction extends BaseAction{
 		$pageSize = I("pageSize");
 		$pageNum =  I("pageNum");
 		
-    	$appraise = $m->getAppraisesPage($goodsId,$shopId,$pageSize,$pageNum);
-    	$this->ajaxReturn($appraise, "JSON");
+    	$res = $m->getAppraisesPage($goodsId,$shopId,$pageSize,$pageNum);
+    	$this->ajaxReturn($res, "JSON");
 	}
 	/******************************************************************
 	 *                         会员操作

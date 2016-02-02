@@ -68,11 +68,12 @@ class GoodsAppraisesModel extends BaseModel {
 		{
 			$where="AND ga.shopId = $shopId";
 		}
-		$pmin=$pageSize *($pageNum-1);
+		$pmin=$pageSize * ($pageNum-1);
 		$pmax=$pageSize * $pageNum;
 		$sql = "SELECT ga.*, u.TrueName as userName,u.ImagePath as userImagePath, od.createTime as ocreateTIme 
 				FROM __PREFIX__goods_appraises ga , __PREFIX__orders od , __PREFIX__member u 
-				WHERE ga.userId = u.uid AND ga.orderId = od.orderId $where AND ga.isShow =1  order by id desc";		
+				WHERE ga.userId = u.uid AND ga.orderId = od.orderId $where AND ga.isShow =1  order by id desc"." limit ".$pmin.",".$pmax;
+		
 		return M()->query($sql);
 	}
  	/**
@@ -84,7 +85,6 @@ class GoodsAppraisesModel extends BaseModel {
 	 	$sql = "select gp.*,g.goodsName,g.goodsThums from __PREFIX__goods_appraises gp ,__PREFIX__goods g where gp.goodsId=g.goodsId and gp.id=".$id;
 		return $this->queryRow($sql);
 	 }
-	
 	  
 	 /**
 	  * 删除商品评价

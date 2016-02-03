@@ -560,13 +560,13 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            			<tbody>
            				<foreach name="goodsCatsList" item="item">
 						<tr>
-							<td><lable><input type="checkbox" value="{$item.catId}"/>{$item.catName}</lable></td>
+							<td><lable><input type="checkbox" value="{$item.catId}" <present name="item.checked">checked="checked"</present> />{$item.catName}</lable></td>
 							<td><select>
 								<foreach name="item.children" item="item2">
-									<option value="{$item2.catId}">{$item2.catName}</option>
+									<option value="{$item2.catId}" <present name="item2.checked">selected</present>>{$item2.catName}</option>
 								</foreach>								
 							</select></td>
-							<td><input type="number" /></td>
+							<td><input type="number" value="{$item.plateSort}" /></td>
 						</tr>
 						</foreach>
            			</tbody>

@@ -389,17 +389,18 @@ class ShopsModel extends BaseModel {
 	  * 分页列表
 	  */
      public function queryByPage(){
-        $m = M('shops');
+//      $m = M('shops');
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
-	 	$sql = "select shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,gc.catName from __PREFIX__shops s,__PREFIX__users u ,__PREFIX__goods_cats gc 
-	 	     where gc.catId=s.goodsCatId1 and s.userId=u.userId and shopStatus=1 and shopFlag=1 ";
+	 	$sql = "select s.shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName from __PREFIX__shops s,__PREFIX__users u , __PREFIX__shop_plates sp,__PREFIX__goods_cats gc 
+	 	     where s.shopId=sp.shopId and sp.plateId1=gc.catId and s.userId=u.userId and shopStatus=1 and shopFlag=1 ";
 	 	if(I('shopName')!='')$sql.=" and shopName like '%".I('shopName')."%'";
 	 	if(I('shopSn')!='')$sql.=" and shopSn like '%".I('shopSn')."%'";
 	 	if($areaId1>0)$sql.=" and areaId1=".$areaId1;
 	 	if($areaId2>0)$sql.=" and areaId2=".$areaId2;
-	 	$sql.=" order by shopId desc";
-		return $m->pageQuery($sql);
+	 	$sql.=" group by s.shopId order by shopId desc";
+//		echo $sql;
+		return $this->pageQuery($sql);
 	 }
      /**
 	  * 分页列表[待审核列表]
@@ -408,14 +409,14 @@ class ShopsModel extends BaseModel {
         $m = M('shops');
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
-	 	$sql = "select shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,gc.catName from __PREFIX__shops s,__PREFIX__users u ,__PREFIX__goods_cats gc 
-	 	     where gc.catId=s.goodsCatId1 and s.userId=u.userId and shopStatus<=0 and shopFlag=1";
+	 	$sql = "select s.shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName  from __PREFIX__shops s,__PREFIX__users u , __PREFIX__shop_plates sp,__PREFIX__goods_cats gc 
+	 	     where s.shopId=sp.shopId and sp.plateId1=gc.catId and s.userId=u.userId and shopStatus<=0 and shopFlag=1";
 	 	if(I('shopName')!='')$sql.=" and shopName like '%".I('shopName')."%'";
 	 	if(I('shopSn')!='')$sql.=" and shopSn like '%".I('shopSn')."%'";
 	 	if(I('shopStatus',-999)!=-999)$sql.=" and shopStatus =".(int)I('shopStatus');
 	 	if($areaId1>0)$sql.=" and areaId1=".$areaId1;
 	 	if($areaId2>0)$sql.=" and areaId2=".$areaId2;
-	 	$sql.=" order by shopId desc";
+	 	$sql.=" group by s.shopId order by shopId desc";
 		return $m->pageQuery($sql);
 	 }
 	 /**

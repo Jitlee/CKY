@@ -112,9 +112,13 @@ r {
 	color: #F60;
 }
 
-.cky-media p, .cky-table-view-cell,.cky-media-title, .cky-table-view-cell,
+.cky-table-view-cell,.cky-media-title, .cky-table-view-cell,
 .cky-grid-cell,.cky-bar-item,.cky-media-name {
 	color: #333;
+}
+
+.cky-media p {
+	color: #666;
 }
 
 .swiper-img {
@@ -317,8 +321,6 @@ r {
 	padding-bottom: 10px;
 	padding-left:18px;
 	padding-right:18px;
-	margin-left:-8px;
-	margin-right:-8px;
 	background-color: #fff;
 }
 

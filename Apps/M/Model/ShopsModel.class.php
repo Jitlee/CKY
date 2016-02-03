@@ -24,9 +24,9 @@ class ShopsModel extends BaseModel {
 		$order = "shopId desc";
 		$filter = 'shopStatus = 1 and shopFlag = 1';
 		if($catId > 0) {
-			$filter = $filter.' and goodsCatId1='.$catId;
+			$filter = $filter.' and plateId2='.$catId;
 		} else {
-			$filter = $filter.' and goodsCatId1=336';
+			$filter = $filter.' and plateId1=336';
 		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;
@@ -47,7 +47,8 @@ class ShopsModel extends BaseModel {
 		}
 		
 		return $this->field($field)
-	 				->join('s INNER JOIN __GOODS_CATS__ gc on gc.catId = s.goodsCatId1')
+	 				->join('s INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
+					->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
 					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 	 }
 	 
@@ -75,9 +76,9 @@ class ShopsModel extends BaseModel {
 		$order = "shopId desc";
 		$filter = 'shopStatus = 1 and shopFlag = 1';
 		if($catId > 0) {
-			$filter = $filter.' and goodsCatId2='.$catId;
+			$filter = $filter.' and plateId2='.$catId;
 		} else {
-			$filter = $filter.' and goodsCatId1=1';
+			$filter = $filter.' and plateId1=1';
 		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;
@@ -97,7 +98,7 @@ class ShopsModel extends BaseModel {
 				break;
 		}
 		
-		$field = array('cky_shops.shopId','shopSn','shopName','shopImg','shopTel',
+		$field = array('s.shopId','shopSn','shopName','shopImg','shopTel',
 			'deliveryStartMoney', 'deliveryCostTime', 'serviceStartTime', 'serviceEndTime', 'deliveryMoney', 'deliveryFreeMoney',
 			'totalScore', 'totalUsers',
 			'latitude','longitude','deliveryOff','shopAddress');
@@ -109,7 +110,9 @@ class ShopsModel extends BaseModel {
 		}
 		
 		return $this->field($field)
-	 				->join('cky_shop_scores on cky_shop_scores.shopId = cky_shops.shopId')
+					->join('s INNER JOIN __SHOP_SCORES__ ss on ss.shopId = s.shopId')
+	 				->join('INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
+					->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
 					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 	}
 };

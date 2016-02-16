@@ -14,14 +14,6 @@ class ShopsAction extends BaseAction{
 	 */
 	public function toEdit(){
 		$this->isLogin();
-		//获取商品分类信息
-		$m = D('Admin/GoodsCats');
-		$cats = $m->queryByList();
-		foreach($cats as $key => $cat) {
-			$cats[$key]['children'] = $m->queryByList($cat['catId']);
-		}
-//		echo dump($cats);
-		$this->assign('goodsCatsList', $cats);
 		
 		//获取地区信息
 		$m = D('Admin/Areas');
@@ -35,10 +27,41 @@ class ShopsAction extends BaseAction{
     	if(I('id',0)>0){
     		$this->checkPrivelege('ppgl_02');
     		$object = $m->get();
+			// 获取行业分类
+			$m = M('ShopPlates');
+			$plates = $m->where(array('shopId' => I('id')))->select();
+			$object['plates'] = $plates;
     	}else{
     		$this->checkPrivelege('ppgl_01');
     		$object = $m->getModel();
     	}
+		
+		//获取商品分类信息
+		$m = D('Admin/GoodsCats');
+		$cats = $m->queryByList();
+		foreach($cats as $key => $cat) {
+			$childPlates = $m->queryByList($cat['catId']);
+			$cats[$key]['children'] = $childPlates;
+			if(!empty($plates)) { // 设置是否选中  设置第一项
+				foreach($plates as $plate1) {
+					if($plate1['plateId1'] == $cat['catId']) {
+						$cats[$key]['checked'] = true;
+						$cats[$key]['plateSort'] = $plate1['plateSort'];
+						
+						// 设置是否选中  设置第二项
+						foreach($childPlates as $key2 => $plate2) {
+							if($plate2['catId'] == $plate1['plateId2']) {
+								$cats[$key]['children'][$key2]['checked'] = true;
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
+
+		$this->assign('goodsCatsList', $cats);
     	
     	$this->assign('object',$object);
     	$this->assign('src',I('src','index'));
@@ -106,6 +129,7 @@ class ShopsAction extends BaseAction{
 		$this->assign('areaList',$m->queryShowByList(0));
 		$m = D('Admin/Shops');
     	$page = $m->queryByPage();
+//		echo $m->getLastSql();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	

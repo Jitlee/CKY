@@ -78,9 +78,7 @@
        店铺名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='{$shopName}'/> 
        店铺编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='{$shopSn}'/> 
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
-  <php>if(in_array('dplb_01',$RTC_STAFF['grant'])){</php>
-  <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Shops/toEdit')}" style='float:right'>新增</a>
-  <php>}</php>     
+  
        </div>
        </form>
        <div class='rtc-body'>
@@ -115,16 +113,10 @@
                		<if condition="$vo['recommid'] == 0 ">-<else/>推荐</if>&nbsp;
                </td>
                <td>
-               <php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>
-	               	<a class="btn btn-default glyphicon glyphicon-pencil" 
-	               		href="{:U('Admin/recommend/torecommend',array('id'=>$vo['shopId'],'recommid'=>$vo['recommid'],'src'=>'index'))}">推荐餐厅</a>
-	               	&nbsp;&nbsp;
-               		<a class="btn btn-default glyphicon glyphicon-pencil" 
-               			href="{:U('Admin/Shops/toEdit',array('id'=>$vo['shopId'],'src'=>'index'))}">修改</a>&nbsp;
-               <php>}</php>
-               <php>if(in_array('dplb_03',$RTC_STAFF['grant'])){</php>
-               <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['shopId']})">刪除</buttona>
-               <php>}</php>
+	               <php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>
+		               	<a class="btn btn-default glyphicon glyphicon-pencil" 
+		               		href="{:U('Admin/recommend/torecommend',array('id'=>$vo['shopId'],'recommid'=>$vo['recommid'],'src'=>'index'))}">推荐餐厅</a> 
+	               <php>}</php> 
                </td>
              </tr>
              </volist>

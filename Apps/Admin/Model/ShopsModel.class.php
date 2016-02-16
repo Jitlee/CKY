@@ -392,8 +392,11 @@ class ShopsModel extends BaseModel {
         $m = M('shops');
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
-	 	$sql = "select shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,gc.catName from __PREFIX__shops s,__PREFIX__users u ,__PREFIX__goods_cats gc 
-	 	     where gc.catId=s.goodsCatId1 and s.userId=u.userId and shopStatus=1 and shopFlag=1 ";
+	 	$sql = "select IFNULL(rc.recommid,0) recommid,shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,gc.catName from __PREFIX__shops s
+	 		left join __PREFIX__users u on s.userId=u.userId   
+	 		left join __PREFIX__goods_cats gc on gc.catId=s.goodsCatId1 
+	 		left join __PREFIX__recommend rc  on s.shopid=rc.shopsid  
+	 	     where   shopStatus=1 and shopFlag=1 ";
 	 	if(I('shopName')!='')$sql.=" and shopName like '%".I('shopName')."%'";
 	 	if(I('shopSn')!='')$sql.=" and shopSn like '%".I('shopSn')."%'";
 	 	if($areaId1>0)$sql.=" and areaId1=".$areaId1;
@@ -423,7 +426,7 @@ class ShopsModel extends BaseModel {
 	  */
 	  public function queryByList(){
 	     $m = M('shops');
-	     $sql = "select * from __PREFIX__shops order by shopId desc";
+	     $sql = "select IFNULL(rc.recommid,0) recommid,s.* from __PREFIX__shops s left join __PREFIX__recommend rc  on s.shopid=rc.shopsid  order by s.shopId desc";
 		 $rs = $m->find($sql);
 	  }
 	  

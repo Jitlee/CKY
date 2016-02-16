@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <link href="__ROOT__/Apps/Admin/View/css/upload.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="__ROOT__/Apps/Admin/View/css/daterangepicker/daterangepicker-bs3.css">
+      
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__ROOT__/Apps/Admin/View/js/daterangepicker.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+      <script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
+      <script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+      <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=37f0869604ca86505487639427d52bf6"></script>
+      <script type="text/javascript" src="__ROOT__/Apps/Admin/View/js/upload.js"></script>
+      
+   </head>
+   <style>
+   img {max-width: 100px;}
+.ATRoot{height:22px;line-height:22px;margin-left:5px;clear:both;cursor:pointer;}
+.ATNode{margin-left:5px;line-height:22px;margin-left:17px;clear:both;cursor:pointer;}
+.Hide{display:none;}
+dl.areaSelect{padding:0 5px; display: inline-block; width:100%; margin-bottom: 0;/*border:1px solid #eee;*/}
+dl.areaSelect:hover{border:1px solid #E5CD29;}
+dl.areaSelect:hover dd{display: block;}
+dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
+
+#shopPlatesTable td,#shopPlatesTable th {
+	padding: 0px 5px;
+}
+</style>
+   <script>
+   var shopMap = null;
+   var toolBar = null;
+   var filetypes = ["gif","jpg","png","jpeg"];
+   var ThinkPHP = window.Think = {
+	        "ROOT"   : "__ROOT__"
+	}
+   $(function () {
+   		//展开按钮
+// 		$("#expendAll").click(function(){
+// 			if ($(this).prop('checked')==true) {$("dl.areaSelect dd").removeClass('Hide')}
+// 			else{$("dl.areaSelect dd").addClass('Hide')}
+// 		})
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   edit();
+			       return false;
+			},onError:function(msg){
+		}});
+	   
+		$("#sort").formValidator({onShow:"",onFocus:"请输入排序",onCorrect:"输入正确"}).inputValidator({min:1,max:5,onError:"排序不能为空,请确认"});
+		$("#EfficacyDateRange").formValidator({onShow:"",onFocus:"请输入有效期",onCorrect:"输入正确"}).inputValidator({min:10,max:50,onError:"有效期不能为空,请确认"});
+		
+		$('#EfficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});		
+   });
+	
+	//恢复校验
+	function reformValidator(){
+		
+		$("#serviceStartTime").attr("disabled",false).unFormValidator(false); //解除校验
+		$("#serviceEndTime").attr("disabled",false).unFormValidator(false); //解除校验
+	}
+   
+	//修改结束 2015-4-23
+   function edit(){
+	   var params = {};
+	   params.recommid = $('#recommid').val();
+	   params.shopsid=$('#shopsid').val();
+	   params.sort = $('#sort').val();
+	   params.RecommStatus = $("input[name='RecommStatus']:checked").val();
+	   
+	   var date = $('#EfficacyDateRange').val().split(' 至 ');
+	   params.EfficacySData = date[0];
+	   params.EfficacyEDate = date[1]; 
+	   
+	   alert(params.EfficacyEDate);
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/recommend/edit')}",params,function(data,textStatus){
+			var json = RTC.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href='{:U("Admin/recommend/$src")}';
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!'+json.msg,timeout:1000});
+			}
+		});
+   }
+   function initTime(objId,val){
+	   val = parseInt(val,10);
+	   for(var i=0;i<24;i++){
+		   $('<option value="'+i+'" '+((val==i)?"selected":'')+'>'+i+':00</option>').appendTo($('#'+objId));
+		   $('<option value="'+(i+".5")+'" '+((val==(i+".5"))?"selected":'')+'>'+i+':30</option>').appendTo($('#'+objId));
+	   }
+   } 
+   </script>
+   <body class="rtc-page" style="position:relative;">
+   		
+		
+       <form name="myform" method="post" id="myform" autocomplete="off">
+        <input type='hidden' id='shopsid' value='{$object.shopsid}'/>
+		<input type='hidden' id='recommid' value='{$recom.recommid}'/>
+
+        <table class="table table-hover table-striped table-bordered rtc-form">
+          
+           <tr>
+             <th align='right'>商家编号：</th>
+             <td>{$object.shopSn}</td>
+           </tr>
+           <tr>
+             <th align='right'>商家名称：</th>
+             <td>{$object.shopName}</td>
+           </tr>
+           <tr>
+             <th align='right'>店主姓名：</th>
+             <td>{$object.userName}</td>
+           </tr>
+           <tr>
+             <th align='right'>店主联系手机：</th>
+             <td>{$object.userPhone}</td>
+           </tr>
+           <tr>
+             <th align='right'>公司名称：</th>
+             <td>{$object.shopCompany}</td>
+           </tr> 
+           
+           
+           <tr>
+             <th align='right'>有效期<font color='red'>*</font>：</th>
+             <td>
+             	<input type='text' id='EfficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$recom.EfficacySData} 至 {$recom.EfficacyEDate}'/>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>排序<font color='red'>*</font>：</th>
+             <td><input type='text' id='sort' class="form-control rtc-ipt" value='{$recom.sort}' style='width:300px' maxLength='25'/></td>
+           </tr>
+            <tr>
+             <th align='right'>推荐状态<font color='red'>*</font>：</th>
+             <td>
+             <label>
+             <input type='radio' id='RecommStatus0' name='RecommStatus' checked="checked" value='0' <if condition="$recom['RecommStatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
+             </label>
+             <label>
+             <input type='radio' id='RecommStatus1' name='RecommStatus' value='1' <if condition="$recom['RecommStatus'] ==0">checked</if> />停用
+             </label>
+             </td>
+           </tr>
+           <tr>
+             <td colspan='2' style='padding-left:250px;'>
+                 <button type="submit" class="btn btn-success">保&nbsp;存</button>
+                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/Shops/index')}"'>返&nbsp;回</button>
+             </td>
+           </tr>
+        </table>
+       </form>
+   </body>
+</html>

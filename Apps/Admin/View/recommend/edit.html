@@ -85,10 +85,11 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.EfficacySData = date[0];
 	   params.EfficacyEDate = date[1]; 
 	   
-	   alert(params.EfficacyEDate);
+	   //alert(params.RecommStatus);
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("{:U('Admin/recommend/edit')}",params,function(data,textStatus){
 			var json = RTC.toJson(data);
+			//alert("");
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
 				   location.href='{:U("Admin/recommend/$src")}';
@@ -99,13 +100,13 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 			}
 		});
    }
-   function initTime(objId,val){
-	   val = parseInt(val,10);
-	   for(var i=0;i<24;i++){
-		   $('<option value="'+i+'" '+((val==i)?"selected":'')+'>'+i+':00</option>').appendTo($('#'+objId));
-		   $('<option value="'+(i+".5")+'" '+((val==(i+".5"))?"selected":'')+'>'+i+':30</option>').appendTo($('#'+objId));
-	   }
-   } 
+// function initTime(objId,val){
+//	   val = parseInt(val,10);
+//	   for(var i=0;i<24;i++){
+//		   $('<option value="'+i+'" '+((val==i)?"selected":'')+'>'+i+':00</option>').appendTo($('#'+objId));
+//		   $('<option value="'+(i+".5")+'" '+((val==(i+".5"))?"selected":'')+'>'+i+':30</option>').appendTo($('#'+objId));
+//	   }
+// } 
    </script>
    <body class="rtc-page" style="position:relative;">
    		
@@ -117,7 +118,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
         <table class="table table-hover table-striped table-bordered rtc-form">
           
            <tr>
-             <th align='right'>商家编号：</th>
+             <th align='right' style=" widows: 30%;">商家编号：</th>
              <td>{$object.shopSn}</td>
            </tr>
            <tr>
@@ -152,17 +153,17 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              <th align='right'>推荐状态<font color='red'>*</font>：</th>
              <td>
              <label>
-             <input type='radio' id='RecommStatus0' name='RecommStatus' checked="checked" value='0' <if condition="$recom['RecommStatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
+             <input type='radio' id='RecommStatus0' name='RecommStatus' checked="checked" value='1' <if condition="$recom['RecommStatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
              </label>
              <label>
-             <input type='radio' id='RecommStatus1' name='RecommStatus' value='1' <if condition="$recom['RecommStatus'] ==0">checked</if> />停用
+             <input type='radio' id='RecommStatus1' name='RecommStatus' value='0' <if condition="$recom['RecommStatus'] ==0">checked</if> />停用
              </label>
              </td>
            </tr>
            <tr>
              <td colspan='2' style='padding-left:250px;'>
                  <button type="submit" class="btn btn-success">保&nbsp;存</button>
-                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/Shops/index')}"'>返&nbsp;回</button>
+                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/Recommend/index')}"'>返&nbsp;回</button>
              </td>
            </tr>
         </table>

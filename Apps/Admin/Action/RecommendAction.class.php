@@ -46,19 +46,21 @@ class RecommendAction extends BaseAction{
 	 */
 	public function edit(){
 		$m = D('Admin/Recommend');
-		$m->startTrans();
-	    	$rs = array();
-	    	if(I('recommid',0)>0){ 
-	    		    $rs = $m->edit(); 
-	    	}else{ 
-	    		$rs = $m->insert();
-	    	}	
-		if($rs['status'] < 0) {
-			$m->rollback();
-		} else {
-			$m->commit();
-		}
-	    	$this->ajaxReturn($rs);
+		//$m->startTrans();
+    	$rs = array();
+    	if(I('recommid',0)>0){ 
+    		$rs = $m->edit(); 
+    	}
+    	else
+    	{ 
+    		$rs = $m->insert();
+    	}	
+//		if($rs['status'] < 0) {
+//			$m->rollback();
+//		} else {
+//			$m->commit();
+//		}
+	    $this->ajaxReturn($rs);
 	}
 	
 		/**
@@ -78,6 +80,13 @@ class RecommendAction extends BaseAction{
     	$this->assign('areaId1',I('areaId1',0));
     	$this->assign('areaId2',I('areaId2',0));
         $this->display("list");
+	}
+		
+	public function del(){
+		$this->isAjaxLogin();		
+		$m = D('Admin/Recommend');
+    	$rs = $m->del();
+    	$this->ajaxReturn($rs);
 	}
 		
 }

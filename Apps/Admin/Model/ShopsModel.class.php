@@ -393,7 +393,7 @@ class ShopsModel extends BaseModel {
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
  
-	 	$sql = "select IFNULL(rc.recommid,0) recommid,shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName from __PREFIX__shops s
+	 	$sql = "select IFNULL(rc.recommid,0) recommid,shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName from __PREFIX__shops s
 	 		left join __PREFIX__users u on s.userId=u.userId   
 	 		left join __PREFIX__goods_cats gc on gc.catId=s.goodsCatId1 
 	 		left join __PREFIX__recommend rc  on s.shopid=rc.shopsid  

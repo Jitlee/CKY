@@ -210,11 +210,11 @@
                                 <li><a href="{:U('Admin/Shops/toEdit')}" target='pageContent' >添加商家</a></li>
                                 <php>}</php>
                                 <php>if(in_array('dplb_00',$RTC_STAFF['grant'])){</php>
-					            <li><a href="{:U('Admin/Shops/index')}" target='pageContent' >商家列表</a></li>
-					            <li><a href="{:U('Admin/Recommend/index')}" target='pageContent' >推荐餐厅列表</a></li>
+					            <li><a href="{:U('Admin/Shops/index')}" target='pageContent' >商家列表</a></li>					            
 					            <php>}</php>
                                 <php>if(in_array('dpsh_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Shops/queryPeddingByPage')}" target='pageContent' >店铺审核</a></li>
+					            <li><a href="{:U('Admin/Recommend/index')}" target='pageContent' >推荐餐厅</a></li>
 					            <php>}</php>
                             </ul>
                         </li>

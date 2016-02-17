@@ -21,10 +21,9 @@ class RecommendModel extends BaseModel {
 			$data["sort"] = (int)I("sort");
 			$data["EfficacySData"] = I("EfficacySData");
 			$data["EfficacyEDate"] = I("EfficacyEDate");
-			$data["CreateTime"] = time();
+			$data["CreateTime"] =date('Y-m-d H:i:s');
 			$data["RecommStatus"] = I("RecommStatus");
-		    if($this->checkEmpty($data,true)){ 
-				
+		    if($this->checkEmpty($data,true)){
 			    $rs = $m->add($data);
 				if(false !== $rs){
 					$rd['status']= 1;
@@ -44,12 +43,11 @@ class RecommendModel extends BaseModel {
 	 public function edit(){
 	 	$rd = array('status'=>-1);
 	 	$id = (int)I("recommid",0);
-		$data["shopsid"] = (int)I("shopsid");
+
 		$data["sort"] = (int)I("sort");
 		$data["EfficacySData"] = I("EfficacySData");
 		$data["EfficacyEDate"] = I("EfficacyEDate");
-//		$data["CreateTime"] = time();
-		$data["RecommStatus"] = I("RecommStatus");
+		$data["RecommStatus"] = (int)I("RecommStatus");
 	    if($this->checkEmpty($data,true)){ 
 			$m = M('recommend');
 		    $rs = $m->where("recommid=".(int)I('recommid',0))->save($data);
@@ -57,7 +55,7 @@ class RecommendModel extends BaseModel {
 				$rd['status']= 1;
 			}
 		}
-		$rd['msg']=dump($data);
+		//$rd['msg']=dump($data);
 		return $rd;
 	 }
 	 
@@ -74,20 +72,31 @@ class RecommendModel extends BaseModel {
 	  * 分页列表
 	  */
      public function queryByPage(){
-        $m = M('shops');
+        $m = M('recommend');
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
-	 	$sql = "select IFNULL(rc.recommid,0) recommid,shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,gc.catName from __PREFIX__shops s
+	 	$sql = "select rc.*,shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,gc.catName from __PREFIX__shops s
 	 		left join __PREFIX__users u on s.userId=u.userId   
 	 		left join __PREFIX__goods_cats gc on gc.catId=s.goodsCatId1 
 	 		inner join __PREFIX__recommend rc  on s.shopid=rc.shopsid  
-	 	     where   shopStatus=1 and shopFlag=1 ";
+	 	     where  shopFlag=1 ";
 	 	if(I('shopName')!='')$sql.=" and shopName like '%".I('shopName')."%'";
 	 	if(I('shopSn')!='')$sql.=" and shopSn like '%".I('shopSn')."%'";
 	 	if($areaId1>0)$sql.=" and areaId1=".$areaId1;
 	 	if($areaId2>0)$sql.=" and areaId2=".$areaId2;
-	 	$sql.=" order by shopId desc";
+	 	$sql.=" order by sort desc";
 		return $m->pageQuery($sql);
 	 }
+	 
+	public function del(){
+		$rd = array('status'=>-1);
+	    $m = M('recommend');
+	    $rs = $m->delete((int)I('recommid'));
+		if(false !== $rs){
+		   $rd['status']= 1;
+		}
+		return $rd;
+	 }
+	 
 };
 ?>

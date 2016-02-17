@@ -18,10 +18,10 @@
    </head>
    <script>
    function del(id){
-	   Plugins.confirm({title:'信息提示',content:'您确定要删除该商家吗?',okText:'确定',cancelText:'取消',okFun:function(){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该推荐餐厅吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
-		   $.post("{:U('Admin/Shops/del')}",{id:id},function(data,textStatus){
+		   $.post("{:U('Admin/Recommend/del')}",{recommid:id},function(data,textStatus){
 					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
@@ -89,10 +89,12 @@
                <th width='80'>店铺名称</th>
                <th width='80'>店铺编号</th>
                <th width='80'>店主</th>
-               <th width='80'>分类</th>
+               <th width='80'>分类</th>               
+               <th width='40'>营业状态</th>
                
-               <th width='60'>营业状态</th>
-               <th width='80'>推荐餐厅</th>
+               <th width='100'>有效期</th>
+               <th width='40'>排序</th>
+               <th width='40'>推荐状态</th>
                <th width='120'>操作</th>
              </tr>
            </thead>
@@ -109,14 +111,18 @@
                <if condition="$vo['shopAtive'] == 1 "><span class='label label-success'>营业中</span></if>
                <if condition="$vo['shopAtive'] == 0 "><span class='label label-warning'>休息中</span></if>&nbsp;
                </td>
+               <td>{$vo['EfficacySData']}至{$vo['EfficacyEDate']}</td>
+               <td>{$vo['sort']}</td>
                <td>
-               		<if condition="$vo['recommid'] == 0 ">-<else/>推荐</if>&nbsp;
+	               <if condition="$vo['RecommStatus'] == 1 "><span class='label label-success'>启用</span></if>
+	               <if condition="$vo['RecommStatus'] == 0 "><span class='label label-warning'>停用</span></if>&nbsp;
                </td>
                <td>
-	               <php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>
+	               <!--<php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>-->
 		               	<a class="btn btn-default glyphicon glyphicon-pencil" 
-		               		href="{:U('Admin/recommend/torecommend',array('id'=>$vo['shopId'],'recommid'=>$vo['recommid'],'src'=>'index'))}">推荐餐厅</a> 
-	               <php>}</php> 
+		               		href="{:U('Admin/recommend/torecommend',array('id'=>$vo['shopId'],'recommid'=>$vo['recommid'],'src'=>'index'))}">推荐餐厅</a>
+		               	<button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['recommid']})">刪除</buttona>
+	               <!--<php>}</php> -->
                </td>
              </tr>
              </volist>

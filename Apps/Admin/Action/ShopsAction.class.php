@@ -86,13 +86,11 @@ class ShopsAction extends BaseAction{
     		$this->checkAjaxPrivelege('ppgl_01');
     		$rs = $m->insert();
     	}
-			
 		if($rs['status'] < 0) {
 			$m->rollback();
 		} else {
 			$m->commit();
 		}
-
     	$this->ajaxReturn($rs);
 	}
 	/**

@@ -270,15 +270,9 @@ class HomeAction extends BaseAction {
 		//$this->display("Pay/success");
 		//$this->display("Pay/orderpay");
 		
-		$m = D('M/Goods_appraises');
-		$goodsId = 0;
-		$shopId = 42;
-		
-		$pageSize =10;
-		$pageNum =  2;
-		$appraise = $m->getAppraisesPage($goodsId,$shopId,$pageSize,$pageNum);
-		echo dump($appraise);
-		$this->display();
+		$m = D('M/Recommend');
+		$list = $m->fast();
+		echo dump($list);
 	}
 
 	

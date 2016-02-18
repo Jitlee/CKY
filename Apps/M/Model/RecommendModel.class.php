@@ -9,6 +9,7 @@
  * 商家分类服务类
  */
 class RecommendModel extends BaseModel {
+	
 	public function fast() {
 		$pageSize = 10000; // 不需要翻页
 		$pageNo = intval(I('pageNo', 1));
@@ -30,33 +31,32 @@ class RecommendModel extends BaseModel {
 		
 		switch($sortType) {
 			case 1: // 人气
-				$order = "totalUsers desc";
+				$order = "rc.sort,totalUsers desc";
 				break;
 			case 2: // 评价
-				$order = "totalScore desc";
+				$order = "rc.sort,totalScore desc";
 				break;
 			case 3: // 最近
-				$order = "distance";
+				$order = "rc.sort, distance";
 				break;
 			default:
 				break;
 		}
 		
-		$field = array('s.shopId','shopSn','shopName','shopImg','shopTel',
-			'deliveryStartMoney', 'deliveryCostTime', 'serviceStartTime', 'serviceEndTime', 'deliveryMoney', 'deliveryFreeMoney',
-			'totalScore', 'totalUsers',
-			'latitude','longitude','deliveryOff','shopAddress');
+		$field = 'cky_shops.shopId,shopSn,shopName,shopImg,shopTel,
+			deliveryStartMoney, deliveryCostTime, serviceStartTime, serviceEndTime, deliveryMoney, deliveryFreeMoney,
+			totalScore, totalUsers,latitude,longitude,deliveryOff,shopAddress';
 		if($lng > 0 && $lat > 0) {
-			$field[sprintf('SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
-				$lat, $lng)] = 'distance';
+			$field=$field.sprintf(',SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2)) AS distance',$lat, $lng);
 		} else {
-			$field['(0)'] = 'distance';
-		}
-		
-		return $this->field($field)
-					->join('s INNER JOIN __SHOP_SCORES__ ss on ss.shopId = s.shopId')
-	 				->join('INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
-					->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
+			$field=$field.',0 AS distance';
+		}		
+		$Model = M('shops');
+		return $Model->field($field)
+					->join('INNER JOIN cky_shop_scores ss on ss.shopId = cky_shops.shopid')
+	 				->join('INNER JOIN cky_shop_plates sp on sp.shopId = cky_shops.shopId')
+					->join('INNER JOIN cky_goods_cats  gc on gc.catId = sp.plateId2')
+					->join('INNER JOIN cky_recommend   rc  on cky_shops.shopid=rc.shopsid')
 					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 	}
 };

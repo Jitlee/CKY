@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="__CSS__/{:autoVer('fast.css')}" />
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<script src="__JS__/swiper.jquery.min.js"></script>
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
@@ -7,12 +9,25 @@
 		推荐餐厅
 	</h1>
 </header>
-<div class="mui-content mui-content-padded mui-content-top">
+
+<div class="mui-content mui-content-padded mui-content-bottom">
 	<nav class="mui-bar	cky-bar cky-top-bar">
-		<a id="catsButton" class="cky-bar-item cky-drop-btn">商家分类</a>
+		<a id="catsButton" class="cky-bar-item cky-drop-btn">分类</a>
 		<a id="sortButton" class="cky-bar-item cky-drop-btn">综合排序</a>
-		<a id="positionButton" class="cky-bar-item cky-drop-btn">小猴快送</a>
+		<a id="positionButton" class="cky-bar-item cky-drop-btn">智能排序</a>
 	</nav>
+	
+	<div class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <foreach name="ads" item="item">
+        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
+	        </foreach>
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
 	
 	<div id="shopsLoading" class="mui-loading">
 		<div class="mui-spinner">
@@ -44,7 +59,6 @@
 			<div>
 				<p><i class="cky-icon cky-icon-shou">首</i>首单立减10元（在线支付专享）</p>
 				<p><i class="cky-icon cky-icon-fan">返</i>新用户下单，返3张5元红包</p>
-				<div class="font13 font-gray cky-update cky-drop-btn">还有3个活动</div>
 			</div>
 		</li>
 		<!-- /ko -->
@@ -76,6 +90,7 @@
 			queryByPage();
 		});
 		function queryByPage() {
+			
 			if(force) {
 				vm.removeAll();
 				shops.length = 0;
@@ -92,6 +107,7 @@
 					lng: currentLongitude,
 					lat: currentLatitude
 				}, function(list) {
+					//alert(list);
 					if(_pageNo == 1) {
 						shops.length = 0;
 						$("#shopsLoading").hide();

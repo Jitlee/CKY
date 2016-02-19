@@ -10,7 +10,7 @@
  */
 class RecommendModel extends BaseModel {
 	
-	public function fast() {
+	public function RecommendList() {
 		$pageSize = 10000; // 不需要翻页
 		$pageNo = intval(I('pageNo', 1));
 		$catId = intval(I('catId', 0));
@@ -59,5 +59,23 @@ class RecommendModel extends BaseModel {
 					->join('INNER JOIN cky_recommend   rc  on cky_shops.shopid=rc.shopsid')
 					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 	}
+	
+	public function getGoodsByShopid($shopid)
+	{		 
+		$pageSize = 2;
+		$pageNo = 1;
+		$filter = array('shopId'	=> $shopid);
+		
+		// 排序
+		$order = 'createTime desc';		
+		$Model = M('goods');
+		return $Model->field('shopId,goodsId, goodsSn, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec')
+			//->join('LEFT JOIN __GOODS_SCORES__ gc on cky_goods.goodsId = gc.goodsId')
+			->where($filter)
+			->order($order)
+			->page($pageNo, $pageSize)
+			->select();		
+	}
+	
 };
 ?>

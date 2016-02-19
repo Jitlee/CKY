@@ -141,11 +141,11 @@
              <select id='adPositionId'>
                 <option value=''>请选择</option>
                 <option value='-1' <if condition="$object['adPositionId'] == -1 ">selected</if>>首页主广告</option>
-                <option value='-2' <if condition="$object['adPositionId'] == -2 ">selected</if>>品牌汇广告</option>
-                <option value='-3' <if condition="$object['adPositionId'] == -3 ">selected</if>>店铺街广告</option>
-                <volist name="goodsCatList" id="vo">
+                <option value='-2' <if condition="$object['adPositionId'] == -2 ">selected</if>>推荐餐厅广告</option>
+                <!--<option value='-3' <if condition="$object['adPositionId'] == -3 ">selected</if>>店铺街广告</option>-->
+                <!--<volist name="goodsCatList" id="vo">
                 <option value='{$vo['catId']}' <if condition="$object['adPositionId'] == $vo['catId'] ">selected</if>>(商品分类){$vo['catName']}</option>
-                </volist>
+                </volist>-->
              </select>
              </td>
            </tr>

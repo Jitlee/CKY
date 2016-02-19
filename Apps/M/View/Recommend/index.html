@@ -9,7 +9,10 @@
 		推荐餐厅
 	</h1>
 </header>
-
+<style>
+	.swiper-img{height: 35vw;
+	max-height: 200px;}
+</style>
 <div class="mui-content mui-content-padded mui-content-bottom">
 	<nav class="mui-bar	cky-bar cky-top-bar">
 		<a id="catsButton" class="cky-bar-item cky-drop-btn">分类</a>
@@ -56,10 +59,11 @@
 			</a>
 		</li>
 		<li class="cky-table-view-cell" data-bind="attr:{ href: '{:U('Fast/detail')}?id=' + shopId }">
-			<div>
-				<p><i class="cky-icon cky-icon-shou">首</i>首单立减10元（在线支付专享）</p>
-				<p><i class="cky-icon cky-icon-fan">返</i>新用户下单，返3张5元红包</p>
-			</div>
+			<div data-bind="html: goodsitems"></div>
+
+			<!--<div>
+				<span class=" font13 font-gray" data-bind="text: goodsitems +'fffff'"></span>
+			</div>-->
 		</li>
 		<!-- /ko -->
 	</ul>
@@ -71,6 +75,15 @@
 <script type="text/javascript">
 
 	$(function() {
+		//广告滚动
+		var mySwiper = new Swiper ('.swiper-container', {
+	      // Optional parameters
+	      direction: 'horizontal',
+	      pagination: '.swiper-pagination',
+	      autoplay: 3000,
+	      loop: true
+	   });
+	   
 		var currentLongitude = 0;
 		var currentLatitude = 0;
 		
@@ -120,7 +133,6 @@
 						});
 					}
 					vm(shops);
-					
 					if(list && list.length < 10) {
 						isEOF = true;
 					}

@@ -271,8 +271,58 @@ class HomeAction extends BaseAction {
 		//$this->display("Pay/orderpay");
 		
 		$m = D('M/Recommend');
-		$list = $m->fast();
-		echo dump($list);
+		$list = $m->RecommendList();
+		
+		
+		foreach ($list as $key =>$v){
+			echo 'shopid'.$v["shopId"];
+			$v["goodsitems"]=$this->GetGoods($v["shopId"]);
+			if($newitem)
+			{
+				array_push($newitem,$v);
+			}
+			else
+			{
+				$newitem[]=$v;
+			}
+		}
+		//echo dump($list);
+	}
+
+	function GetGoods($shopid=0)
+	{
+		$m = D('M/Recommend');
+    	$goods=$m->getGoodsByShopid($shopid);
+    	$html="<ul class='cky-table-view'>";
+    	foreach ($goods as $v) {
+ 			$html=$html."<li class='cky-table-view-cell cky-fast-goods-cell'>";
+			$html=$html."<a>";
+			$html=$html."	<div class='cky-table-cell-thumb cky-table-cell-thumb60' style='{ backgroundImage:/" . $v["goodsThums"] . "'></div>">;
+			$html=$html."	<div class='cky-media'>";
+			$html=$html."		<span class='cky-media-title font17'>".$v["goodsName"]."</span>";
+			$html=$html."		<div class='cky-media-sub font13 font-gray2'>";
+			$html=$html."			<span>已售" . $v["saleCount"] . "单</span>";
+			$html=$html."		</div>";
+			$html=$html."		<div class='cky-relative'>";
+			$html=$html."			<span class='font-red font17'>¥".$v["shopPrice"] . "</span>";
+			$html=$html."			<span class='font13 font-gray'>".$v["goodsUnit"] . "</span>";
+			$html=$html."		</div>";
+			$html=$html."   </div>";
+			$html=$html."</a>";			
+			$html=$html."</li>";
+		}
+		$html=$html."</ul>";
+		
+							
+							
+								
+						
+
+					
+				
+				
+		echo dump($goods);
+		return $html;
 	}
 
 	

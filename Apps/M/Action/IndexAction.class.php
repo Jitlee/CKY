@@ -11,7 +11,7 @@ namespace M\Action;
 use Think\Controller;
 class IndexAction extends Controller {
 	public function index() {
-		$this->assign('title', "生活");
+		$this->assign('title', "粗卡");
 		$this->assign('tabid', 'home');
 		$addb = D('ads');
 		$ads = $addb->queryByType(-1);

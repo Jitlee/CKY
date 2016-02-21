@@ -49,7 +49,8 @@ class RecommendAction extends BaseUserAction {
     	foreach ($goods as $v) {
  			$html=$html."<li class='cky-table-view-cell cky-fast-goods-cell'>";
 			$html=$html."<a>";
-			$html=$html."	<div class='cky-table-cell-thumb cky-table-cell-thumb60' style='{ backgroundImage:/" . $v["goodsThums"] . "'></div>";
+			$html=$html."	<div class='cky-table-cell-thumb cky-table-cell-thumb40'>
+			<img class='cky-table-cell-thumb50' src='/" . $v["goodsThums"] . "' /></div>";
 			$html=$html."	<div class='cky-media'>";
 			$html=$html."		<span class='cky-media-title font17'>".$v["goodsName"]."</span>";
 //			$html=$html."		<div class='cky-media-sub font13 font-gray2'>";
@@ -58,12 +59,13 @@ class RecommendAction extends BaseUserAction {
 			$html=$html."		<div class='cky-relative'>";
 			$html=$html."			<span class='font-red font17'>¥".$v["shopPrice"] . "</span>";
 			$html=$html."			<span class='font13 font-gray'>".$v["goodsUnit"] . "</span>";
-			$html=$html."			<span>已售" . $v["saleCount"] . "</span>";
+			$html=$html."			<label class='cky-right font12'>已售" . $v["saleCount"] . "</label>";
 			$html=$html."		</div>";
 			$html=$html."   </div>";
 			$html=$html."</a>";			
 			$html=$html."</li>";
 		}
+		
 		$html=$html."</ul>";
 		
 		return $html;

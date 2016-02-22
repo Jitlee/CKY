@@ -33,4 +33,11 @@ class ActivityAction extends Controller {
 		$this->assign('data', $data);
 		$this->display();
 	}
+	
+	/**
+	 * 获取卡券列表
+	 */
+	public function coupons() {
+		
+	}
 }

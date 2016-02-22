@@ -21,7 +21,7 @@
 	.cky-table-cell-thumb60{ left:0px ;}
 	.cky-recomenditem{ margin-bottom: 10px;}
 	.cky-table-cell-thumb50{width: 40px;height: 40px;left: 20px; padding: 0px;}
-	.font12{font-size: 12px; color: #000000;}
+	.font12{font-size: 12px;}
 </style>
 <div class="mui-content mui-content-bottom">
 	<nav class="mui-bar	cky-bar cky-top-bar">
@@ -55,7 +55,7 @@
 				<a data-bind="attr:{ href: '{:U('Fast/detail')}?id=' + shopId }">
 					<div>
 							<span class="cky-media-title font20" data-bind="text: shopName"></span>
-							<label class="cky-right font12"><span>快餐</span></label>
+							<label class="cky-right font12 font-gray2"><span>快餐</span></label>
 					</div>
 					<div class="subline">
 							<span class="cky-score font12" data-bind="html:cky.getScore(totalScore / 3.0 / totalUsers)"></span>
@@ -65,9 +65,27 @@
 					</div> 
 				</a>
 			</li>
-			<!-- ko if: goodsitems -->  
-        	<li class="cky-table-view-cell cky-item-netx" data-bind="attr:{ href: '{:U('Fast/detail')}?id=' + shopId }">
-				<div data-bind="html: goodsitems"></div>
+			<!-- ko if: goodsItems -->  
+	        	<li class="cky-table-view-cell cky-item-netx" data-bind="attr:{ href: '{:U('Fast/detail')}?id=' + shopId }">
+				<ul class="cky-table-view">
+					<!-- ko foreach: goodsItems -->
+					<li class='cky-table-view-cell cky-fast-goods-cell'>
+						<a>
+							<div class='cky-table-cell-thumb cky-table-cell-thumb60' data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }">
+							</div>
+							<div class='cky-media'>
+								<span class='cky-media-title font17' data-bind="text: goodsName"></span>
+								<div class="cky-media-title font16">&nbsp;</div>
+								<div class='cky-relative'>
+									<span class='font-red font17' data-bind="text: '¥' + shopPrice"></span>	
+									<label class='cky-right font12 font-gray' data-bind="text: '已售' + saleCount"></label>
+									<span class='font13 font-gray' data-bind="text: goodsUnit"></span>
+								</div>
+							</div>
+						</a>			
+					</li>
+					<!-- /ko -->
+				</ul>
 			</li>		  
 		    <!-- /ko -->			
 		</ul>

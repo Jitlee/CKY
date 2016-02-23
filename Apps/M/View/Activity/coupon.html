@@ -1,0 +1,30 @@
+<header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
+	</button>
+	<h1 id="title" class="mui-title" style="color: #ED7D31;">{$title}</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang" style="color: #ED7D31;"></i></button>
+</header>
+
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<script src="__JS__/swiper.jquery.min.js"></script>
+
+<div class="mui-content mui-content-bottom mui-content-padded">
+	<!-- Slider main container -->
+	<div class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <foreach name="ads" item="item">
+        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
+	        </foreach>
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
+</div>
+
+<div class="cky-col-view">
+	<div class="cky-col-view-cell">每日抢券</div>
+	<div class="cky-col-view-cell text-right">每天10点抢全品类券！</div>
+</div>

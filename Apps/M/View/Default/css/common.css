@@ -285,6 +285,14 @@ r {
     display: inline-block;
 }
 
+.cky-ellipsis {
+	overflow : hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	white-space: nowrap;
+	word-break: keep-all;
+}
+
 .cky-ellipsis2{
 	overflow : hidden;
 	text-overflow: ellipsis;

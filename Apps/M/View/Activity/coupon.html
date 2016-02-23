@@ -1,3 +1,80 @@
+<style>
+	.title {
+		color: #333;
+		background-color: #fff;
+	}
+	
+	.title .cky-update, .ticket-title .cky-update {
+		top: 0px;
+		right: 10px;
+	}
+	
+	.ticket-title {
+		padding-right: 100px;
+	}
+	
+	.ticket-title, .title {
+		height: 40px;
+		line-height: 40px;
+		padding-left: 10px;
+	}
+	
+	.ticket-border {
+		border-radius: 10px;
+		border: solid 1px #CCCCCC;
+		margin: 0 10px 10px 10px;
+		padding: 10px;
+		background-color: #fff;
+	}
+	
+	.ticket-thumb {
+		position: absolute;
+		height: 70px;
+		width: 70px;
+		top: 10px;
+		left: 10px;
+		border-radius: 10px;
+		border: solid 1px #CCCCCC;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: contain;
+	}
+	
+	.ticket-amount {
+		height: 40px;
+		line-height: 40px;
+	}
+	
+	.ticket-mini, .ticket-content {
+		height: 30px;
+		line-height: 30px;
+	}
+	
+	.ticket-amount, .ticket-mini {
+		margin-left: 90px;
+	}
+	
+	.ticket-amount r {
+		font-size: 20px;
+	}
+	.ticket-amount span {
+		font-size: 36px;
+	}
+	
+	.ticket-amount r, .ticket-amount span {
+		color: #009999;
+	}
+	
+	.ticket-date {
+		background-color: #009999;
+		color: #fff;
+		margin: 0 -10px -10px -10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		padding-left: 10px;
+	}
+	
+</style>
 <header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
@@ -9,7 +86,7 @@
 <link rel="stylesheet" href="__CSS__/swiper.min.css" />
 <script src="__JS__/swiper.jquery.min.js"></script>
 
-<div class="mui-content mui-content-bottom mui-content-padded">
+<div class="mui-content">
 	<!-- Slider main container -->
 	<div class="swiper-container">
 	    <!-- Additional required wrapper -->
@@ -22,9 +99,101 @@
 	    <!-- If we need pagination -->
 	    <div class="swiper-pagination"></div>
 	</div>
+	
+	<div class="cky-relative title">
+		<div class="cky-col-view-cell font14">每日抢券</div>
+		<div class="cky-update font10">每天10点抢全品类券！</div>
+	</div>
+	
+	<div id="couponList">
+		<!-- ko foreach: $data -->
+		<div class="cky-relative ticket-title">
+			<div class="cky-ellipsis font14" data-bind="text: title"></div>
+			<div class="cky-update font12">已领取<span data-bind="text: Math.round(userCount * 100 / totalCount)"></span>%</div>
+		</div>
+		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }">
+			<div class="ticket-thumb"></div>
+			<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
+			<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
+			<!-- ko if: content -->
+			<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
+			<!-- /ko -->
+			<!-- ko ifnot: content -->
+			<div class="ticket-content cky-ellipsis" data-bind="text: shopName"></div>
+			<!-- /ko -->
+			<div class="ticket-date font12">
+				<span data-bind="text: efficacySDate"></span>
+				--
+				<span data-bind="text: efficacyEDate"></span>
+			</div>
+		</div>
+		<!-- /ko -->
+	</div>
 </div>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	function getAmount(typeName, ticketAmount) {
+		switch(typeName) {
+			case "zkq": // 折扣券
+				return "<span>" + ticketAmount + "</span><r>折</r>";
+			case "zkq": // 折扣券
+				return "<r>¥</r><span>" + ticketAmount + "</span>";
+		}
+		return "";
+	}
 
-<div class="cky-col-view">
-	<div class="cky-col-view-cell">每日抢券</div>
-	<div class="cky-col-view-cell text-right">每天10点抢全品类券！</div>
-</div>
+	$(function(){
+		var coupons = [{
+			ticketID: 1,
+			typeName: 'zkq',
+			ticketAmount: 8.8,
+			content: '苹果7新品发布',
+			title: '超乎你想象',
+			totalCount: 99,
+			userCount: 30,
+			miniConsumption: 200,
+			efficacySDate: '2016.02.23',
+			efficacyEDate: '2016.03.23',
+		}];
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var vm = ko.observableArray(coupons);
+		ko.applyBindings(vm, document.getElementById("couponList"));
+//		function queryByPage() {
+//			if(force) {
+//				vm.removeAll();
+//				coupons.length = 0;
+//				pageNo = 1;
+//				isEOF = false;
+//				force = false;
+//			}
+//			var _pageNo = pageNo;
+//			if(!isEOF) {
+//				$.getJSON("{:U('Activity/pageCoupons')}", {
+//					pageNo: _pageNo
+//				}, function(list) {
+//					if(_pageNo == 1) {
+//						coupons.length = 0;
+//						$("#activitiesLoading").hide();
+//						$("#couponList").removeClass("cky-hidden");
+//					}
+//					pageNo = ++_pageNo;
+//					if(list && list.length > 0) {
+//						$.each(list, function() {
+//							coupons.push(this);
+//						});
+//					}
+//					vm(coupons);
+//					
+//					if(list && list.length < 12) {
+//						isEOF = true;
+//					}
+//				});
+//			}
+//		}
+//		queryByPage();
+//		
+//		util.onScrollEnd(queryByPage);
+	});
+</script>

@@ -56,38 +56,41 @@
 		}});
 		$('#efficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
 		
-	   $("#activityTitle").formValidator({onFocus:"请输入活动标题"}).inputValidator({min:1,max:100,onError:"请输入100字以内活动标题"});
-	   $("#catId").formValidator({onFocus:"请选择活动分类"}).inputValidator({min:1,onError: "请选择活动分类"});
-	   $("#activityKey").formValidator({onFocus:"请输入关键字"}).inputValidator({min:1,max:80,onError:"请输入关键字"});
+	   $("#title").formValidator({onFocus:"请输入卡券名称"}).inputValidator({min:1,max:100,onError:"请输入50字以卡券名称"});
+	   $("#miniConsumption").formValidator({onFocus:"请输入最低消费"}).inputValidator({min:1,onError: "请输入最低消费"});
+	   $("#endDate").formValidator({onFocus:"请输入结束日期"}).inputValidator({min:1,max:80,onError:"请输入结束日期"});
 	   
    });
    function edit(){
 	   var params = {};
-	   params.id = $('#id').val();
-	   params.activityTitle = $('#activityTitle').val();
-	   params.catId = $('#catId').val();
-	   params.isShow = $("input[name='isShow']:checked").val();
-	   params.activityImg = $('#adFile').val();
+	   params.ticketID = $('#ticketID').val();
+	   params.title = $('#title').val();
+	   params.typeName = $('#typeName').val();
+	   //params.isShow = $("input[name='isShow']:checked").val();
+	   params.imagePath = $('#adFile').val();
 	   
-	   params.activitySort = $('#activitySort').val();   
+	   params.content = $('#content').val();   
 	   var date = $('#efficacyDateRange').val().split(' 至 ');
 	   params.efficacySDate = date[0];
 	   params.efficacyEDate = date[1]; 
 	   
-	   params.activityContent = $('#activityContent').val();
-	   params.activityKey = $('#activityKey').val();
-	   if(params.activityContent==''){
-		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入活动内容!',timeout:1000});
+	   params.endDate = $('#endDate').val();
+	   params.miniConsumption = $('#miniConsumption').val();
+	   params.limitDayUse = $('#limitDayUse').val();
+	   params.limitDayGet = $('#limitDayGet').val();
+	   params.limitGetnum = $('#limitGetnum').val();
+	   params.onlynewUser= $('#onlynewUser').prop("checked");
+	   if(params.title==''){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入卡券名称!',timeout:1000});
 		   return;
 	   }
 	   //alert(params.efficacyEData);
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
-	   $.post("{:U('Admin/Activity/edit')}",params,function(data,textStatus){
-	   	
+	   $.post("{:U('Admin/Ticket/edit')}",params,function(data,textStatus){	   	
 			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
-				   location.href="{:U('Admin/Activity/index')}";
+				   location.href="{:U('Admin/Ticket/index')}";
 				}});
 			}else{
 				Plugins.closeWindow();
@@ -96,20 +99,24 @@
 		});
    }
    </script>
+   <style>
+   		.mui-hidden{ display: none;}
+   		.limit td{  padding: 2px;}
+   </style>
    <body class="rtc-page">
    		<iframe name="upload" style="display:none"></iframe>
 		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:70px;left:120px;z-index:10;" 
 			enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
-				<input id="adFile" name="adFile" class="form-control rtc-ipt" type="text" value="{$object.activityImg}" readonly 
+				<input id="adFile" name="adFile" class="form-control rtc-ipt" type="text" value="{$object.imagePath}" readonly 
 					style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 				<div class="div1">
 					<div class="div2">浏览</div>
 					<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
 				</div>
 				<div style="clear:both;"></div>
-				<div >&nbsp;图片大小:400 x 300 (px)(格式为 gif, jpg, jpeg, png)</div>
-				<input type="hidden" name="dir" value="activity">
+				<div >&nbsp;图片大小:200 x 200 (px)(格式为 gif, jpg, jpeg, png)</div>
+				<input type="hidden" name="dir" value="ticket">
 				<input type="hidden" name="width" value="400">
 				<input type="hidden" name="folder" value="Filedata">
 				<input type="hidden" name="sfilename" value="Filedata">
@@ -120,20 +127,20 @@
 		</form>
 		
        <form name="myform" method="post" id="myform" autocomplete="off">
-        <input type='hidden' id='id' value='{$object.activityId}'/>
+        <input type='hidden' id='ticketID' value='{$object.ticketID}'/>
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>卡券名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='activityTitle' class="form-control rtc-ipt" value='{$object.activityTitle}' maxLength='25'/></td>
+             <td><input type='text' id='title' class="form-control rtc-ipt" value='{$object.title}' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>类型名称<font color='red'>*</font>：</th>
              <td>
-	             <select id='catId'>
+	             <select id='typeName'>
 	                <option value=''>请选择</option>
-	                <option value='ptq' <if condition="$object['TypeName'] == 'ptq' ">selected</if>>普通券</option>
-	                <option value='djq' <if condition="$object['TypeName'] == 'djq' ">selected</if>>代金券</option>
-	                <option value='zkq' <if condition="$object['TypeName'] == 'zkq' ">selected</if>>折扣券</option>
+	                <option value='ptq' <if condition="$object['typeName'] == 'ptq' ">selected</if>>普通券</option>
+	                <option value='djq' <if condition="$object['typeName'] == 'djq' ">selected</if>>代金券</option>
+	                <option value='zkq' <if condition="$object['typeName'] == 'zkq' ">selected</if>>折扣券</option>
 	             </select>
              	<input type='text' id='ticketAmount' class="form-control" style='width:100px' value='{$object.ticketAmount}'/>
              	<span id="spanticketAmount">元%</span>
@@ -151,33 +158,33 @@
                </div>
              </td>
            </tr>
-           <tr>
-             <th align='right'>有效期<font color='red'>*</font>：</th>
+           <!--<tr class="mui-hidden">
+             <th align='right'>有效期[一段时间内]<font color='red'>*</font>：</th>
              <td>
-             <input type="radio"  name="efficacy"/>	永久有效
+             <input type="radio"  value="0" name="effiDateType"/>	永久有效
              </td>
-           </tr>
+           </tr>-->
            <tr>
              <th align='right'>有效期<font color='red'>*</font>：</th>
              <td>
-             	<input type="radio"  name="efficacy"/>
+             	<input type="radio"  value="1" checked="checked" class="mui-hidden" name="effiDateType"/>
              	<input type='text' id='efficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$object.efficacySDate} 至 {$object.efficacyEDate}'/>
              </td>
            </tr>
-           <tr>
+           <!--<tr class="mui-hidden">
              <th align='right'>有效期<font color='red'>*</font>：</th>
              <td>
-             	<input type="radio"  name="efficacy"/> 从下发第
+             	<input type="radio" value="2" class="mui-hidden"  name="effiDateType"/> 从下发第
              	<input type='text' id='efficacySDay' class="form-control"  style='width:80px' value='{$object.efficacySDay}'/>
              	日起
              	<input type='text' id='efficacyEDay' class="form-control"  style='width:80px' value='{$object.efficacyEDay}'/>
              	天有效
              </td>
-           </tr>
+           </tr>-->
            <tr>
              <th align='right'>结束日期<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='endDate' class="form-control" readonly='true' style='width:300px' value='{$object.endDate}'/>
+             	<input type='text' id='endDate' class="form-control" style='width:300px' value='{$object.endDate}'/>
              </td>
            </tr>
            <!--<tr>
@@ -200,12 +207,32 @@
              </td>
            </tr>
            <tr>
-             <th align='right'>限制条件<font color='red'>*</font>：</th>
+             <th align='right'>新人专享<font color='red'>*</font>：</th>
              <td>
-             	单人单日限用<input type='text' id='limitDayUse' class="form-control rtc-ipt" value='{$object.limitDayUse}' style='width:300px' maxLength='5'/>张 [0表示不限制]
-			<br/>单人单日限领 <input type='text' id='limitDayGet' class="form-control rtc-ipt" value='{$object.limitDayGet}' style='width:300px' maxLength='5'/>张 [0表示不限制]
-			<br/>单人限领	<input type='text' id='limitGetnum' class="form-control rtc-ipt" value='{$object.limitGetnum}' style='width:300px' maxLength='5'/>张 [0表示不限制]
-
+             	<input type='checkbox' id='onlynewUser'   value='{$object.onlynewUser}'/>             	
+             </td>
+           </tr>
+           
+           <tr>
+             <th align='right'>限制条件<font color='red'>*</font>：</th>
+             <td class="limit">
+             	<table>
+             		<tr>
+             			<td>单人单日限用</td>
+             			<td><input type='text' id='limitDayUse' class="form-control rtc-ipt" value='{$object.limitDayUse}' style='width:150px' maxLength='5'/></td>
+             			<td>张 [0表示不限制]</td>
+             		</tr>
+             		<tr>
+             			<td>单人单日限用</td>
+             			<td><input type='text' id='limitDayGet' class="form-control rtc-ipt" value='{$object.limitDayGet}' style='width:150px' maxLength='5'/></td>
+             			<td> 张 [0表示不限制]</td>
+             		</tr>
+             		<tr>
+             			<td>单人限领</td>
+             			<td><input type='text' id='limitGetnum' class="form-control rtc-ipt" value='{$object.limitGetnum}' style='width:150px' maxLength='5'/></td>
+             			<td>张 [0表示不限制]</td>
+             		</tr>
+             	</table> 
              </td>
            </tr>
            <tr>
@@ -217,7 +244,7 @@
            <tr>
              <td colspan='2' style='padding-left:250px;'>
                  <button type="submit" class="btn btn-success">保&nbsp;存</button>
-                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/Activity/index')}"'>返&nbsp;回</button>
+                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/Ticket/index')}"'>返&nbsp;回</button>
              </td>
            </tr>
         </table>

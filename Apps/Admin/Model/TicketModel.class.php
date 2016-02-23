@@ -14,18 +14,23 @@ class TicketModel extends BaseModel {
 	  */
 	 public function insert(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("id",0);
+	 	$id = $this->create_guid();
 		$data = array();
-		$data["catId"] = (int)I("catId");
-		$data["activityTitle"] = I("activityTitle");
-		$data["isShow"] = (int)I("isShow",0);
-		$data["activitySort"] = (int)I("activitySort");
+		$data["ticketID"]=$id;
+		$data["title"] = (int)I("title");
+		$data["typeName"] = I("typeName");
+		 
+	 
+		$data["imagePath"] = I("imagePath");
+		$data["content"] = I("content");
 		$data["efficacySDate"] = I("efficacySDate");
 		$data["efficacyEDate"] = I("efficacyEDate");
-		$data["activityContent"] = I("activityContent");
-		$data["activityKey"] = I("activityKey");
-		$data["activityImg"] = I("activityImg");		
-		$data["staffId"] =1;// (int)session('RTC_STAFF.staffId');
+		$data["endDate"] = I("endDate");		
+		$data["miniConsumption"] = (int)I("miniConsumption");
+		$data["limitDayUse"] = (int)I("limitDayUse");
+		$data["limitDayGet"] = (int)I("limitDayGet");
+		$data["limitGetnum"] = (int)I("limitGetnum");
+		$data["onlynewUser"] = (int)I("onlynewUser");
 		
 		$data["createTime"] = date('Y-m-d H:i:s');
 	    
@@ -43,20 +48,23 @@ class TicketModel extends BaseModel {
 	  */
 	 public function edit(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("id",0);
+	 	$id = I("ticketID");
 		$data = array();
-		$data["catId"] = (int)I("catId");
-		$data["activityTitle"] = I("activityTitle");
-		$data["isShow"] = (int)I("isShow",0);
-		$data["activitySort"] = (int)I("activitySort");
+		$data["title"] = (int)I("title");
+		$data["typeName"] = I("typeName");
+		 
+	 
+		$data["imagePath"] = I("imagePath");
+		$data["content"] = I("content");
 		$data["efficacySDate"] = I("efficacySDate");
 		$data["efficacyEDate"] = I("efficacyEDate");
+		$data["endDate"] = I("endDate");		
+		$data["miniConsumption"] = (int)I("miniConsumption");
+		$data["limitDayUse"] = (int)I("limitDayUse");
+		$data["limitDayGet"] = (int)I("limitDayGet");
+		$data["limitGetnum"] = (int)I("limitGetnum");
+		$data["onlynewUser"] = (int)I("onlynewUser");
 		
-		$data["activityContent"] = I("activityContent");
-		$data["activityKey"] = I("activityKey");
-		$data["activityImg"] = I("activityImg");
-		
-		$data["staffId"] =(int)session('RTC_STAFF.staffId');
 	    if($this->checkEmpty($data,true)){	
 			$m = M('activity_ticket');
 		    $rs = $m->where("ticketID=".I('id',0))->save($data);
@@ -65,7 +73,32 @@ class TicketModel extends BaseModel {
 			}
 		}
 		return $rd;
-	 } 
+	} 
+	 
+	public function create_guid($namespace = '') {     
+	    static $guid = '';
+	    $uid = uniqid("", true);
+	    $data = $namespace;
+	    $data .= $_SERVER['REQUEST_TIME'];
+	    $data .= $_SERVER['HTTP_USER_AGENT'];
+	    $data .= $_SERVER['LOCAL_ADDR'];
+	    $data .= $_SERVER['LOCAL_PORT'];
+	    $data .= $_SERVER['REMOTE_ADDR'];
+	    $data .= $_SERVER['REMOTE_PORT'];
+	    $hash = strtoupper(hash('ripemd128', $uid . $guid . md5($data)));
+	    $guid = '' .   
+	            substr($hash,  0,  8) . 
+	            '-' .
+	            substr($hash,  8,  4) .
+	            '-' .
+	            substr($hash, 12,  4) .
+	            '-' .
+	            substr($hash, 16,  4) .
+	            '-' .
+	            substr($hash, 20, 12) .
+	            '';
+	    return $guid;
+	}
 	 /**
 	  * 获取指定对象
 	  */

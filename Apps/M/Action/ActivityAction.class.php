@@ -37,7 +37,15 @@ class ActivityAction extends Controller {
 	/**
 	 * 获取卡券列表
 	 */
-	public function coupons() {
-		
+	public function coupon() {
+		$this->assign('title', '领券中心');
+		$this->display();
+	}
+	
+	public function pageCoupons() {
+		$m = D('M/ActivityTicket');
+		$uid = getuid();
+		$list = $m->queryAll($uid);
+		$this->ajaxReturn($list, 'JSON');
 	}
 }

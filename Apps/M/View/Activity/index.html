@@ -142,9 +142,15 @@
 		// 活动分类点击
 		$(".activity-categroy .cky-col-view-cell").click(function() {
 			var $this = $(this);
+			catId = $this.attr('catId');
+			
+			if(catId == 357) {
+				window.location.href = "{:U('coupon')}";
+				return;
+			}
+			
 			$(".activity-categroy .cky-active").removeClass("cky-active");
 			$this.addClass("cky-active");
-			catId = $this.attr('catId');
 			force = true;
 			queryByPage();
 		});

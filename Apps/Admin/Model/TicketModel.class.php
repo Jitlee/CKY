@@ -17,7 +17,7 @@ class TicketModel extends BaseModel {
 	 	$id = $this->create_guid();
 		$data = array();
 		$data["ticketID"]=$id;
-		$data["title"] = (int)I("title");
+		$data["title"] = I("title");
 		$data["typeName"] = I("typeName");
 		 
 	 
@@ -31,6 +31,8 @@ class TicketModel extends BaseModel {
 		$data["limitDayGet"] = (int)I("limitDayGet");
 		$data["limitGetnum"] = (int)I("limitGetnum");
 		$data["onlynewUser"] = (int)I("onlynewUser");
+		$data["totalCount"] = (int)I("totalCount");
+		$data["ticketAmount"] = (int)I("ticketAmount");
 		
 		$data["createTime"] = date('Y-m-d H:i:s');
 	    
@@ -50,7 +52,7 @@ class TicketModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 	 	$id = I("ticketID");
 		$data = array();
-		$data["title"] = (int)I("title");
+		$data["title"] =I("title");
 		$data["typeName"] = I("typeName");
 		 
 	 
@@ -64,10 +66,12 @@ class TicketModel extends BaseModel {
 		$data["limitDayGet"] = (int)I("limitDayGet");
 		$data["limitGetnum"] = (int)I("limitGetnum");
 		$data["onlynewUser"] = (int)I("onlynewUser");
+		$data["totalCount"] = (int)I("totalCount");
+		$data["ticketAmount"] = (int)I("ticketAmount");
 		
 	    if($this->checkEmpty($data,true)){	
 			$m = M('activity_ticket');
-		    $rs = $m->where("ticketID=".I('id',0))->save($data);
+		    $rs = $m->where("ticketID='".$id."'")->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
 			}
@@ -104,7 +108,7 @@ class TicketModel extends BaseModel {
 	  */
      public function get(){
 	 	$m = M('activity_ticket');
-		return $m->where("ticketID=".I('id'))->find();
+		return $m->where("ticketID='".I('id')."'")->find();
 	 }
 	 /**
 	  * 分页列表

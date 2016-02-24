@@ -31,7 +31,7 @@
    var filetypes = ["gif","jpg","png","jpeg"];
    $(function () {
 	   KindEditor.ready(function(K) {
-			editor1 = K.create('textarea[name="activityContent"]', {
+			editor1 = K.create('textarea[name="content"]', {
 				height:'350px',
 				allowFileManager : false,
 				allowImageUpload : true,
@@ -57,9 +57,22 @@
 		$('#efficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
 		
 	   $("#title").formValidator({onFocus:"请输入卡券名称"}).inputValidator({min:1,max:100,onError:"请输入50字以卡券名称"});
+	   $("#totalCount").formValidator({onFocus:"请输入发行数量"}).inputValidator({min:1,max:100,onError:"请输入发行数量"});
 	   $("#miniConsumption").formValidator({onFocus:"请输入最低消费"}).inputValidator({min:1,onError: "请输入最低消费"});
 	   $("#endDate").formValidator({onFocus:"请输入结束日期"}).inputValidator({min:1,max:80,onError:"请输入结束日期"});
 	   
+//	   if('ptq' !='{$object.typeName}')
+//	   {
+//	   		$("#spantype").hide();
+//	   }
+//	   else
+//	   {
+//	   		$("#spantype").show();
+//	   }
+	   $("#typeName").change(function(){
+	   	typestatus();
+	   });
+	   typestatus();
    });
    function edit(){
 	   var params = {};
@@ -76,10 +89,27 @@
 	   
 	   params.endDate = $('#endDate').val();
 	   params.miniConsumption = $('#miniConsumption').val();
+	   if(params.miniConsumption=="")
+	   {
+		   	Plugins.Tips({title:'信息提示',icon:'error',content:'请输入最低消费!',timeout:1000});
+		   	return;
+	   }
 	   params.limitDayUse = $('#limitDayUse').val();
 	   params.limitDayGet = $('#limitDayGet').val();
 	   params.limitGetnum = $('#limitGetnum').val();
-	   params.onlynewUser= $('#onlynewUser').prop("checked");
+	   params.totalCount= $('#totalCount').val();
+	   params.ticketAmount= $('#ticketAmount').val();
+	   if(params.ticketAmount=="")
+	   {
+	   		params.ticketAmount=0;
+	   }
+	   	
+	   params.onlynewUser=0;
+	   if($('#onlynewUser').prop("checked"))
+	   {
+	   		params.onlynewUser=1;	
+	   }
+	   
 	   if(params.title==''){
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入卡券名称!',timeout:1000});
 		   return;
@@ -98,6 +128,20 @@
 			}
 		});
    }
+   function typestatus()
+   {
+   		$("#spantype").show();
+   		$("#spanticketAmount").html("%");
+		if($("#typeName").val()=='ptq')
+		{
+			$("#spantype").hide();
+			$("#ticketAmount").val("");
+		}
+		else if($("#typeName").val()=='djq')
+		{
+			$("#spanticketAmount").html("元");
+		}
+   }
    </script>
    <style>
    		.mui-hidden{ display: none;}
@@ -105,7 +149,7 @@
    </style>
    <body class="rtc-page">
    		<iframe name="upload" style="display:none"></iframe>
-		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:70px;left:120px;z-index:10;" 
+		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:100px;left:120px;z-index:10;" 
 			enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
 				<input id="adFile" name="adFile" class="form-control rtc-ipt" type="text" value="{$object.imagePath}" readonly 
@@ -133,20 +177,28 @@
              <th width='120' align='right'>卡券名称<font color='red'>*</font>：</th>
              <td><input type='text' id='title' class="form-control rtc-ipt" value='{$object.title}' maxLength='25'/></td>
            </tr>
-           <tr>
+           <tr> 
              <th align='right'>类型名称<font color='red'>*</font>：</th>
              <td>
 	             <select id='typeName'>
-	                <option value=''>请选择</option>
 	                <option value='ptq' <if condition="$object['typeName'] == 'ptq' ">selected</if>>普通券</option>
 	                <option value='djq' <if condition="$object['typeName'] == 'djq' ">selected</if>>代金券</option>
 	                <option value='zkq' <if condition="$object['typeName'] == 'zkq' ">selected</if>>折扣券</option>
 	             </select>
-             	<input type='text' id='ticketAmount' class="form-control" style='width:100px' value='{$object.ticketAmount}'/>
-             	<span id="spanticketAmount">元%</span>
+	             <span id="spantype" style="display: none;">
+             		<input type='text' id='ticketAmount' class="form-control" style='width:100px' value='{$object.ticketAmount}'/>
+             		<span id="spanticketAmount">元%</span>
+             	</span>
              </td>
-           </tr>           
-           <tr style="height:70px;">
+           </tr> 
+           <tr>
+             <th align='right'>预发数量<font color='red'>*</font>：</th>
+             <td>
+             	<input type='text' id='totalCount' class="form-control rtc-ipt" value='{$object.totalCount}' style='width:150px' maxLength='8'/>
+             </td>
+           </tr>
+           
+           <tr style="height:50px;">
              <th align='right'>形象图片<font color='red'>*</font>：</th>
              <td></td>
            </tr>
@@ -202,14 +254,14 @@
            <tr>
              <th align='right'>最低消费<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='miniConsumption' class="form-control rtc-ipt" value='{$object.miniConsumption}' style='width:300px' maxLength='5'/>
-             	元 [消费达到此额度才能使用] [0表示不限制]
+             	<input type='text' id='miniConsumption' class="form-control rtc-ipt" value='{$object.miniConsumption}'
+             		 style='width:300px' maxLength='5'/>元 [消费达到此额度才能使用] [0表示不限制]
              </td>
            </tr>
            <tr>
              <th align='right'>新人专享<font color='red'>*</font>：</th>
              <td>
-             	<input type='checkbox' id='onlynewUser'   value='{$object.onlynewUser}'/>             	
+             	<input type='checkbox' id='onlynewUser' <if condition="$object['onlynewUser']==1 "> checked="checked" </if> />             	
              </td>
            </tr>
            
@@ -236,7 +288,7 @@
              </td>
            </tr>
            <tr>
-             <th align='right'>内容<font color='red'>*</font>：</th>
+             <th align='right'>卡券内容<font color='red'>*</font>：</th>
              <td>
              <textarea id='content' name='content' style='width:50%;height:200px;'>{$object.content}</textarea>
              </td>

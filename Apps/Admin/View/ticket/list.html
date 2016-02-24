@@ -65,12 +65,18 @@
              <tr>
                <th width='40'>序号</th>
                <th>标题</th>
-               <th width='80'>分类</th>
-               <th width='80'>是否显示</th>
-               <th width='190'>有效期</th>
-               <th width='40'>排序</th>
+               <th width='100'>分类</th>
+               <th width='80'>预发数量</th>
+               <th width='120'>金额(元)/折扣(%)</th>
+               <th width='80'>最低消费</th>
                
-               <th width='80'>最后编辑者</th>
+               <th width='190'>有效期</th>
+               <th width='100'>结束时间</th>
+               
+               <th width='80'>已发数量</th>
+               <th width='80'>已用数量</th>
+               
+                
                <th width='150'>创建时间</th>
                <th width='150'>操作</th>
              </tr>
@@ -80,41 +86,30 @@
              <tr>
                <td>{$i}</td>
                <td>{$vo['title']}</td>
-               <td>{$vo['catName']}</td>
                <td>
-               <div class="dropdown">
-               <if condition="$vo['isShow']==0 ">
-                   <button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
-					     隐藏
-					  <span class="caret"></span>
-				   </button>
-               <else/>
-                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
-					     显示
-					  <span class="caret"></span>
-				   </button>
-               </if>
-               
-                   <ul class="dropdown-menu" role="menu">
-					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['ticketID']})">显示</a></li>
-					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['ticketID']})">隐藏</a></li>
-				   </ul>
-			   
-               </div>
+	               	<if condition="$vo['typeName']=='ptq' ">普通券</if>
+	               	<if condition="$vo['typeName']=='djq' ">代金券</if>
+	               	<if condition="$vo['typeName']=='zkq' ">折扣券</if>
                </td>
-               <td>{$vo['efficacySDate']}至{$vo['efficacyEDate']}</td>
-               <td>{$vo['activitySort']}</td>
+               <td>{$vo['totalCount']}</td>
+               <td>{$vo['ticketAmount']}</td>
+               <td>{$vo['miniConsumption']}</td>
                
-               <td>{$vo['staffName']}</td>
+               <td>{$vo['efficacySDate']}至{$vo['efficacyEDate']}</td>
+               <td>{$vo['endDate']}</td>
+               
+               <td>{$vo['sendCount']}</td>
+               <td>{$vo['usedCount']}</td>
+               
                <td>{$vo['createTime']}</td>
                <td>
                		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Ticket/toEdit',array('id'=>$vo['ticketID']))}">修改</a>&nbsp;               
-               		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['ticketID']})"">刪除</a>
+               		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del('{$vo['ticketID']}')"">刪除</a>
                </td>
              </tr>
              </volist>
              <tr>
-                <td colspan='7' align='center'>{$Page['pager']}</td>
+                <td colspan='12' align='center'>{$Page['pager']}</td>
              </tr>
            </tbody>
         </table>

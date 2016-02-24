@@ -16,21 +16,26 @@ class TicketAction extends BaseAction{
 		$this->isLogin();
 	    $m = D('Admin/Ticket');
 	    	$object = array();
-	    	if(I('id',0)>0){
+			
+	    	if(strlen(I('id'))>0){
 	    		$this->checkPrivelege('wzlb_02');
 	    		$object = $m->get();
-			//dump($object);
+				//dump($object);
 	    	}else{
 	    		$this->checkPrivelege('wzlb_01');
 	    		$object = $m->getModel();
+				$object["limitDayUse"]=1;
+				$object["limitDayGet"]=1;
+				$object["limitGetnum"]=1;
+				$object["miniConsumption"]=0;
 	    	}
 //	    	$m = D('Admin/GoodsCats');
 //	    	$this->assign('catList',$m->queryByList(347));
-//	    	$this->assign('object',$object);
+	    	$this->assign('object',$object);
 			$this->view->display('/ticket/edit');
 	}
 	/**
-	 * 新增/修改操作
+	 * 新增/修改操作 
 	 */
 	public function edit(){
 		$this->isAjaxLogin();
@@ -38,7 +43,7 @@ class TicketAction extends BaseAction{
 		try {
 			$m = D('Admin/Ticket');
 		    
-		    	if(I('id',0)>0){
+		    	if(strlen(I('ticketID'))>0){
 		    		$this->checkAjaxPrivelege('wzlb_02');
 		    		$rs = $m->edit();
 		    	}else{

@@ -74,6 +74,65 @@
 		padding-left: 10px;
 	}
 	
+	.ticket-ball {
+		width: 16px;
+		height: 8px;
+		position: absolute;
+		right: 50px;
+		background-color: #efeff4;
+	}
+	
+	.ticket-ball-top {
+		top: -1px;
+		border-left: solid #ccc 1px;
+		border-bottom: solid #ccc 1px;
+		-webkit-border-radius: 0 0 16px 16px;
+	}
+	
+	.ticket-ball-bottom {
+		bottom: -1px;
+		border-right: solid #ccc 1px;
+		border-top: solid #ccc 1px;
+		-webkit-border-radius: 16px 16px 0 0;
+	}
+	
+	ul.ticket-split {
+		right: 55px;
+		position: absolute;
+		top: 10px;
+		bottom: 10px;
+		width: 5px;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+	}
+	
+	ul.ticket-split li {
+		height: 4px;
+		width: 4px;
+		margin: 0px 0px 4px 0px;
+		padding: 0;
+		border-radius: 4px;
+		background-color: #efeff4;
+	}
+	
+	.ticket-btn, .ticket-nav {
+		position: absolute;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		right: 30px;
+		width: 20px;
+		white-space: pre-wrap;
+		word-break: break-all;
+		font-size: 17px;
+		color: #999;
+	}
+	
+	.ticket-nav {
+		right: 8px;
+	}
+	
 </style>
 <header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
@@ -112,7 +171,7 @@
 			<div class="cky-update font12">已领取<span data-bind="text: Math.round(userCount * 100 / totalCount)"></span>%</div>
 		</div>
 		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }">
-			<div class="ticket-thumb"></div>
+			<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 			<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 			<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
 			<!-- ko if: content -->
@@ -126,6 +185,14 @@
 				--
 				<span data-bind="text: efficacyEDate"></span>
 			</div>
+			
+			<!-- 装饰-->
+			<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+			<div class="ticket-ball ticket-ball-top"></div>
+			<div class="ticket-ball ticket-ball-bottom"></div>
+			
+			<div class="ticket-btn">点击领取</div>
+			<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 		</div>
 		<!-- /ko -->
 	</div>
@@ -136,8 +203,10 @@
 		switch(typeName) {
 			case "zkq": // 折扣券
 				return "<span>" + ticketAmount + "</span><r>折</r>";
-			case "zkq": // 折扣券
+			case "xjq": // 现金券
 				return "<r>¥</r><span>" + ticketAmount + "</span>";
+			case "ptq":
+				return "<span>" + ticketAmount + "</span>";
 		}
 		return "";
 	}
@@ -154,6 +223,7 @@
 			miniConsumption: 200,
 			efficacySDate: '2016.02.23',
 			efficacyEDate: '2016.03.23',
+			imagePath: "Upload/shops/2016-01/56936ad213a6b.jpg"
 		}];
 		var isEOF = false;
 		var force = true;

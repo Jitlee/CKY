@@ -168,7 +168,7 @@
 		<!-- ko foreach: $data -->
 		<div class="cky-relative ticket-title">
 			<div class="cky-ellipsis font14" data-bind="text: title"></div>
-			<div class="cky-update font12">已领取<span data-bind="text: Math.round(userCount * 100 / totalCount)"></span>%</div>
+			<div class="cky-update font12">已领取<span data-bind="text: Math.round(usedCount * 100 / totalCount)"></span>%</div>
 		</div>
 		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }">
 			<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
@@ -203,7 +203,7 @@
 		switch(typeName) {
 			case "zkq": // 折扣券
 				return "<span>" + ticketAmount + "</span><r>折</r>";
-			case "xjq": // 现金券
+			case "djq": // 代金券
 				return "<r>¥</r><span>" + ticketAmount + "</span>";
 			case "ptq":
 				return "<span>" + ticketAmount + "</span>";
@@ -219,7 +219,7 @@
 			content: '苹果7新品发布',
 			title: '超乎你想象',
 			totalCount: 99,
-			userCount: 30,
+			usedCount: 30,
 			miniConsumption: 200,
 			efficacySDate: '2016.02.23',
 			efficacyEDate: '2016.03.23',
@@ -230,40 +230,40 @@
 		var pageNo = 1;
 		var vm = ko.observableArray(coupons);
 		ko.applyBindings(vm, document.getElementById("couponList"));
-//		function queryByPage() {
-//			if(force) {
-//				vm.removeAll();
-//				coupons.length = 0;
-//				pageNo = 1;
-//				isEOF = false;
-//				force = false;
-//			}
-//			var _pageNo = pageNo;
-//			if(!isEOF) {
-//				$.getJSON("{:U('Activity/pageCoupons')}", {
-//					pageNo: _pageNo
-//				}, function(list) {
-//					if(_pageNo == 1) {
-//						coupons.length = 0;
-//						$("#activitiesLoading").hide();
-//						$("#couponList").removeClass("cky-hidden");
-//					}
-//					pageNo = ++_pageNo;
-//					if(list && list.length > 0) {
-//						$.each(list, function() {
-//							coupons.push(this);
-//						});
-//					}
-//					vm(coupons);
-//					
-//					if(list && list.length < 12) {
-//						isEOF = true;
-//					}
-//				});
-//			}
-//		}
-//		queryByPage();
-//		
-//		util.onScrollEnd(queryByPage);
+		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				coupons.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			if(!isEOF) {
+				$.getJSON("{:U('Activity/pageCoupons')}", {
+					pageNo: _pageNo
+				}, function(list) {
+					if(_pageNo == 1) {
+						coupons.length = 0;
+						$("#activitiesLoading").hide();
+						$("#couponList").removeClass("cky-hidden");
+					}
+					pageNo = ++_pageNo;
+					if(list && list.length > 0) {
+						$.each(list, function() {
+							coupons.push(this);
+						});
+					}
+					vm(coupons);
+					
+					if(list && list.length < 12) {
+						isEOF = true;
+					}
+				});
+			}
+		}
+		queryByPage();
+		
+		util.onScrollEnd(queryByPage);
 	});
 </script>

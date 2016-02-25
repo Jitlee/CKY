@@ -18,5 +18,11 @@ class ActivityTicketModel extends BaseModel {
 			->where('t.ticketStatus = 1 and t.efficacyEDate >= CURDATE()')
     			->order('t.createTime')->page($pageNo, $pageSize)->select();
     }
+	
+	public function updateUsedCount($id) {
+		$map['ticketID'] = $id;
+		$data['usedCount'] = array('exp', '`usedCount` + 1');
+		return $this->where($map)->save($data);
+	}
 };
 ?>

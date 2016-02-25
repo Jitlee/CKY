@@ -56,10 +56,22 @@ class ActivityAction extends Controller {
 			$ticketId = I('ticketId');
 //			$uid = getuid();
 			$uid = 1;
-			$m = D('M/ActivityTicketM');
-			$ret = $m->pick($ticketId, $uid);
-			echo dump($ret);
-			$this->ajaxReturn($ret != false, 'JSON');
+			$mm = D('M/ActivityTicketM');
+			$mm->startTrans();
+			$status = -1;
+			if($mm->pick($ticketId, $uid) !== false) {
+				$m = D('M/ActivityTicket');
+				if($m->updateUsedCount($ticketId) !== false) {
+					$status = 1;
+				} 
+			}
+			if($status > 0) {
+				$mm->commit();
+			} else {
+				$mm->rollback();
+			}
+			
+			$this->ajaxReturn($status > 0, 'JSON');
 		}
 	}
 }

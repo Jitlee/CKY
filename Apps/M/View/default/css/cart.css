@@ -1,0 +1,245 @@
+.cky-cart-empty {
+	text-align: center;
+	margin: auto;
+	width: 200px;
+	margin-top: 40px;
+}
+
+.cky-cart-empty-icon {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+}
+.cky-cart-empty-top {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+}
+
+.cky-cart-empty-top > div {
+	display: table-cell;
+}
+
+.cky-cart-empty-top hr {
+	border-top: solid 2px #999;
+}
+
+.cky-cart-empty-icon .iconfont{
+	font-size: 40px;
+	color: #999;
+}
+
+.cky-cart-empty h5 {
+	line-height: 30px;
+	color: #999;
+}
+
+.cky-cart-table {
+	margin: 0;
+	padding:0;
+	display: block;
+	list-style: none;
+	margin-bottom: 10px;
+}
+
+.cky-cart-table-cell {
+	display: block;
+	padding: 10px 12px;
+	font-size: 15px;
+	background-color: #EDEDED;
+	position: relative;
+	overflow: hidden;
+}
+
+.cky-cart-table-cell-goods:not(:first-child) {
+	border-top: 5px solid #fff;
+}
+
+.cky-cart-table-cell, .cky-cart-table-cell a, .cky-cart-table-cell .iconfont {
+	color: #666;
+}
+
+.cky-cart-table-cell.cky-cart-table-cell-shop {
+	background-color: #fff;
+}
+
+.cky-cart-table-cell.cky-cart-table-cell-shop > * {
+	vertical-align: middle;
+}
+
+.cky-cart-table-cell-shop a.cky-update {
+	top: 15px;
+}
+
+.icon-shangpu {
+	vertical-align: middle;
+	font-size: 24px;
+	margin: 0 5px;
+}
+
+.cky-cart-table-cell input[type=checkbox], .cky-footer input[type=checkbox] {
+	box-sizing: border-box;
+	appearance: none;
+	-o-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-webkit-appearance: none;
+	font-family:"iconfont" !important;
+	font-size:16px;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	border:none;
+	outline: none;
+	background: 0 0;
+	border-radius: 0;
+	width: 24px;
+	height: 24px;
+	font-size: 24px;
+	color: #999;
+}
+
+.cky-cart-table-cell input[type=checkbox]:before, .cky-footer input[type=checkbox]:before{
+	content: "\e626";
+}
+
+.cky-cart-table-cell input[type=checkbox]:checked, .cky-footer input[type=checkbox]:checked{
+	color: #f60;
+}
+
+.cky-cart-table-cell input[type=checkbox]:checked:before, .cky-footer input[type=checkbox]:checked:before{
+	content: "\e62c";
+}
+
+
+.cky-cart-table-cell-goods {
+	display: table;
+	width: 100%;
+}
+
+.cky-cart-table-cell-goods > * {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.cky-cart-cbx {
+	width: 35px;
+}
+
+.cky-cart-thums-outter {
+	width: 110px;
+	text-align: center;
+}
+
+.cky-cart-thums {
+	height: 90px;
+	width: 90px;
+	
+	background-color: #fff;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size:cover;
+	padding: 0px 10px;
+}
+
+.cky-cart-media {
+	margin: 0px 10px;
+}
+
+.cky-cart-media p {
+	color: #666;
+	overflow: hidden;
+	font-size: 12px;
+	margin: 0;
+}
+
+.cky-cart-media h5 {
+	font-size: 10px;
+}
+
+.cky-cart-table-cell-goods .cky-cart-sum {
+	text-align: right;
+	min-width: 100px;
+}
+.cky-cart-table-cell-goods .cky-cart-sum h4 {
+	font-style: normal;
+}
+
+a.cky-cart-delete {
+	display: block;
+	position: absolute;
+	top:0px;
+	right:0px;
+	bottom: 0px;
+	width: 50px;
+	background: #f60;
+	color: #fff;
+	text-align: center;
+	line-height: 90px;
+	-webkit-transform: translateX(55px);
+	-webkit-transition: -webkit-transform 0.2s ease-in-out;
+}
+
+a.cky-cart-delete.cky-active {
+	-webkit-transform: translateX(0px);
+}
+
+a.cky-cart-delete:active {
+	background-color: #df5900;
+}
+
+.cky-footer {
+	display: table;
+	height: 44px;
+	color: #666;
+	font-size: 13px;
+	background-color: #fff;
+	border-top: solid 1px #E0E0E0;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.cky-footer.cky-hidden {
+	display: none;
+}
+
+.cky-footer > * {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.cky-footer label {
+	line-height: 24px;
+	padding-left: 10px;
+}
+
+.cky-footer label * {
+	vertical-align: middle;
+}
+
+.cky-footer label span {
+	margin: 0px 10px;
+}
+
+.cky-footer p,.cky-footer h5 {
+	padding: 0;
+	margin: 0;
+}
+
+.cky-footer h5 {
+	font-size: 10px;
+}
+
+.cky-footer a {
+	height: 44px;
+	line-height: 44px;
+	text-align: center;
+	width: 100px;
+	background-color: #f60;
+	color: #fff;
+}
+
+.cky-footer a.disabled {
+	background-color: #999;
+}

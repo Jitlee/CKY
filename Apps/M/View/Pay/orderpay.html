@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="format-detection" content="telephone=no">
+		<title>{$title}</title>
+		<link href="__CSS__/mui.min.css" rel="stylesheet" type="text/css" />
+		<link href="__CSS__/mobile.css" rel="stylesheet" type="text/css" />
+		
+
+		<script src="__JQ__"></script>
+		<script src="__JS__/android_toast.min.js"></script>
+		<script src="__JS__/layerm/layer.js"></script>
+		<script src="__JS__/util.js?4.01"></script>
+		<script src="__JS__/common.js"></script>
+	</head>
+
+	<body>
+		<div class="mui-content" style="padding-top: 0;">
+			<p class="yyg-pay-total">总支付金额：¥ <r> {$money} </r></p> 
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label id="yueButton" for="yueCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
+						<div>
+							<img class="circle-img" alt="" src="__IMG__/pay/payck.png">
+							余额支付：<span class="yyg-gray">(余额¥{$account.EnableValue})</span>
+						</div>
+						<input id="yueCheckBox" type="checkbox">
+					</label>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label id="wxButton" for="wxCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
+						<div>
+							<img class="circle-img" alt="" src="__IMG__/pay/wxpay.png">
+							微信支付
+						</div>
+						<input id="wxCheckBox" type="checkbox">
+					</label>
+				</li>
+			</ul>
+			
+			<footer class="yyg-footer">
+				<div id="zhifuButton" class="yyg-btn yyg-btn-primary">立即支付</div>
+			</footer>
+		</div>
+	</body>
+</html>
+<style>
+	.yyg-pay-total{text-align: left;}
+	.circle-img{ height: 24px;  width: 24px;}
+</style>
+<script type="text/javascript">
+	var yueCheckBox;
+	var wxCheckBox;
+	$(document).ready(function() {
+		var money = parseFloat({$account.EnableValue}) ;	 
+		var total = parseFloat({$money});
+		yueCheckBox=$("#yueCheckBox");
+		wxCheckBox=$("#wxCheckBox");
+		if(money<total)
+		{
+			yueCheckBox.prop("disabled", true);
+			wxCheckBox.prop("checked",true);	
+		}
+		else
+		{
+			yueCheckBox.prop("checked",true);
+		}
+		
+		yueCheckBox.click(function() {
+			if(yueCheckBox.prop("checked")) {
+				wxCheckBox.prop("checked",false);	 
+			}
+		});
+		wxCheckBox.click(function() {
+			if(wxCheckBox.prop("checked")) {
+				 yueCheckBox.prop("checked",false);
+			}
+		});
+		
+		
+		var zhifuButton = $("#zhifuButton").click(function(){
+			// 无需第三方付款
+			zhifuButton.prop("disabled", true);
+			if(yueCheckBox.prop("checked")) {
+				cky.loadding();
+				localPay();
+			} else if(wxCheckBox.prop("checked")) {
+				wxdPay();
+			}
+			else
+			{
+				util.msg("请选择支付方式");
+			}
+		});
+		//调用微信JS api 支付
+        function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                {$jsApiParameters},
+		        function(res){
+		            WeixinJSBridge.log(res.err_msg);
+		            //alert(res.err_code+res.err_desc+res.err_msg);
+		            if(res.err_msg == "get_brand_wcpay_request:ok"){  
+		               window.location.href = "{:U('Pay/success', '','')}"; 
+		           }else if(res.err_msg == "get_brand_wcpay_request:cancel"){  
+		               //window.location.href = "{:U('Pay/error', '','')}";  
+		           }else{  
+		              window.location.href = "{:U('Pay/error', '','')}";
+		           }  
+		        }
+        	);
+        }   
+
+        function wxdPay()
+        {
+        	if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
+        
+		function localPay() {
+			$.post("{:U('Pay/payvalue','','')}", {
+				orderno: "{$orderno}"
+			}, function(data) {
+				if (data.status) {
+					 window.location.href ="{:U('success','','')}";
+				} else {
+					 util.msg("支付失败,错误代码：" + result.msg);
+				}
+				zhifuButton.prop("disabled", false);
+			});
+		}
+		
+	});
+</script>

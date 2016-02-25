@@ -1,0 +1,14 @@
+<div id="fastCart" class="cky-fast-cart cky-hidden" data-bind="css: activeCss">
+	<div class="cky-fast-cart-icon iconfont icon-gouwuche">
+		<span class="mui-badge" data-bind="text: num"></span>
+	</div>
+	<span class="cky-fast-cart-empty">购物车空空如也~</span>
+	
+	<div class="cky-fast-total">
+		<p class="font-red font17">共 ¥<span data-bind="text: total">0</span></p>
+		<span class="font-black1 font12" data-bind="text: fastMoney">免配送费</span>
+	</div>
+	<button class="mui-btn cky-right" data-bind="text: startMoney, enable: ready, click: ok"></button>
+	<div class="cky-clearfix"></div>
+</div>
+<script type="text/javascript" src="__JS__/{:autoVer('fastcart.js')}"></script>

@@ -1,0 +1,292 @@
+<style>
+	.title {
+		color: #333;
+		background-color: #fff;
+	}
+	
+	.title .cky-update, .ticket-title .cky-update {
+		top: 0px;
+		right: 10px;
+	}
+	
+	.ticket-title {
+		padding-right: 100px;
+	}
+	
+	.ticket-title, .title {
+		height: 40px;
+		line-height: 40px;
+		padding-left: 10px;
+	}
+	
+	.ticket-border {
+		border-radius: 10px;
+		border: solid 1px #CCCCCC;
+		margin: 0 10px 10px 10px;
+		padding: 10px;
+		background-color: #fff;
+		overflow: hidden;
+	}
+	
+	.ticket-thumb {
+		position: absolute;
+		height: 70px;
+		width: 70px;
+		top: 10px;
+		left: 10px;
+		border-radius: 10px;
+		border: solid 1px #CCCCCC;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: contain;
+	}
+	
+	.ticket-amount {
+		height: 40px;
+		line-height: 40px;
+	}
+	
+	.ticket-mini, .ticket-content {
+		height: 30px;
+		line-height: 30px;
+	}
+	
+	.ticket-amount, .ticket-mini {
+		margin-left: 90px;
+	}
+	
+	.ticket-amount r {
+		font-size: 20px;
+	}
+	.ticket-amount span {
+		font-size: 36px;
+	}
+	
+	.ticket-amount r, .ticket-amount span {
+		color: #009999;
+	}
+	
+	.ticket-date {
+		background-color: #009999;
+		color: #fff;
+		margin: 0 -10px -10px -10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		padding-left: 10px;
+	}
+	
+	.ticket-ball {
+		width: 16px;
+		height: 8px;
+		position: absolute;
+		right: 50px;
+		background-color: #efeff4;
+	}
+	
+	.ticket-ball-top {
+		top: -1px;
+		border-left: solid #ccc 1px;
+		border-bottom: solid #ccc 1px;
+		-webkit-border-radius: 0 0 16px 16px;
+	}
+	
+	.ticket-ball-bottom {
+		bottom: -1px;
+		border-right: solid #ccc 1px;
+		border-top: solid #ccc 1px;
+		-webkit-border-radius: 16px 16px 0 0;
+	}
+	
+	ul.ticket-split {
+		right: 55px;
+		position: absolute;
+		top: 10px;
+		bottom: 10px;
+		width: 5px;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+	}
+	
+	ul.ticket-split li {
+		height: 4px;
+		width: 4px;
+		margin: 0px 0px 4px 0px;
+		padding: 0;
+		border-radius: 4px;
+		background-color: #efeff4;
+	}
+	
+	.ticket-btn, .ticket-nav {
+		position: absolute;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		right: 30px;
+		width: 20px;
+		white-space: pre-wrap;
+		word-break: break-all;
+		font-size: 17px;
+		color: #999;
+	}
+	
+	.ticket-nav {
+		right: 8px;
+	}
+	
+	.ticket-empty {
+		position: absolute;
+		top: 10px;
+		right: 30px;
+		font-size: 120px;
+		color: #ccc;
+		opacity: 0.8;
+		-webkit-transform: rotate(-45deg);
+	}
+	
+	.ticket-disabled .ticket-amount r, .ticket-disabled .ticket-amount span {
+		color: #999;
+	}
+	
+	.ticket-disabled .ticket-date {
+		background-color: #999;
+	}
+	
+</style>
+<header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
+	</button>
+	<h1 id="title" class="mui-title" style="color: #ED7D31;">{$title}</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang" style="color: #ED7D31;"></i></button>
+</header>
+
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<script src="__JS__/swiper.jquery.min.js"></script>
+
+<div class="mui-content">
+	<!-- Slider main container -->
+	<div class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <foreach name="ads" item="item">
+        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
+	        </foreach>
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
+	
+	<div class="cky-relative title">
+		<div class="cky-col-view-cell font14">每日抢券</div>
+		<div class="cky-update font10">每天10点抢全品类券！</div>
+	</div>
+	
+	<div id="couponList">
+		<!-- ko foreach: $data -->
+		<div class="cky-relative ticket-title">
+			<div class="cky-ellipsis font14" data-bind="text: title"></div>
+			<div class="cky-update font12">已领取<span data-bind="text: Math.round(usedCount * 100 / totalCount)"></span>%</div>
+		</div>
+		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }, css: (totalCount > 0 && totalCount == usedCount ? 'ticket-disabled' : '')">
+			<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
+			<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
+			<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
+			<!-- ko if: content -->
+			<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
+			<!-- /ko -->
+			<!-- ko ifnot: content -->
+			<div class="ticket-content cky-ellipsis" data-bind="text: shopName"></div>
+			<!-- /ko -->
+			<div class="ticket-date font12">
+				<span data-bind="text: efficacySDate"></span>
+				--
+				<span data-bind="text: efficacyEDate"></span>
+			</div>
+			
+			<!-- 装饰-->
+			<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+			<div class="ticket-ball ticket-ball-top"></div>
+			<div class="ticket-ball ticket-ball-bottom"></div>
+			
+			<!-- ko if: totalCount > 0 && totalCount == usedCount -->
+			<i class="ticket-empty iconfont icon-yiqiangguang"></i>
+			<!-- /ko -->
+			
+			<div class="ticket-btn">点击领取</div>
+			<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
+		</div>
+		<!-- /ko -->
+	</div>
+</div>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	function getAmount(typeName, ticketAmount) {
+		switch(typeName) {
+			case "zkq": // 折扣券
+				return "<span>" + ticketAmount + "</span><r>折</r>";
+			case "djq": // 代金券
+				return "<r>¥</r><span>" + ticketAmount + "</span>";
+			case "ptq":
+				return "<span>" + ticketAmount + "</span>";
+		}
+		return "";
+	}
+	
+	$(function(){
+		var coupons = [{
+			ticketID: 1,
+			typeName: 'zkq',
+			ticketAmount: 8.8,
+			content: '苹果7新品发布',
+			title: '超乎你想象',
+			totalCount: 99,
+			usedCount: 99,
+			miniConsumption: 200,
+			efficacySDate: '2016.02.23',
+			efficacyEDate: '2016.03.23',
+			imagePath: "Upload/shops/2016-01/56936ad213a6b.jpg"
+		}];
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var vm = ko.observableArray(coupons);
+		ko.applyBindings(vm, document.getElementById("couponList"));
+		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				coupons.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			if(!isEOF) {
+				$.getJSON("{:U('Activity/pageCoupons')}", {
+					pageNo: _pageNo
+				}, function(list) {
+					if(_pageNo == 1) {
+						coupons.length = 0;
+						$("#activitiesLoading").hide();
+						$("#couponList").removeClass("cky-hidden");
+					}
+					pageNo = ++_pageNo;
+					if(list && list.length > 0) {
+						$.each(list, function() {
+							coupons.push(this);
+						});
+					}
+					vm(coupons);
+					
+					if(list && list.length < 12) {
+						isEOF = true;
+					}
+				});
+			}
+		}
+		queryByPage();
+		
+		util.onScrollEnd(queryByPage);
+	});
+</script>

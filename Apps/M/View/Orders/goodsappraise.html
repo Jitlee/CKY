@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('order.css')}" />
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+<style>
+	.star_c{ color:#FCD410;}
+</style>
+<div class="mui-content">
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right" href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">
+                <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
+            	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
+            </a>
+		</li>
+	</ul>
+	<div id="apprList">
+		<volist name="appraise['root']" id="goods" key='appr'>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:void(0);" class="top-navigate">
+						<img class="mui-media-object mui-pull-left" src="{$goods['userImagePath']}">
+						<div class="mui-media-body">
+							<p class="pcontent">{$goods["userName"]}&nbsp;&nbsp;{:getScore($goods["goodsScore"])}</p> 
+							
+							<div class="pj">	{$goods["content"]}</div>
+							<p class='mui-ellipsis'>{$goods['ocreateTIme']}</p>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</volist>
+	</div>
+</div>
+<script src="__JS__/jquery.touchSwipe.min.js"></script>
+<script>
+	$(function() {
+		var pageNum = 1;
+		var goodList = $("#apprList").swipe({
+			swipeUp: onscrollend,
+			threshold: 100,
+			allowPageScroll: "vertical"
+		});
+		
+		$(window).bind("scroll", onscrollend);
+		
+		function onscrollend() {
+			if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+       			console.info("滚动到底了");
+       			page();
+			}
+		}
+		
+		var recrodList = $("#apprList");
+		var template = $("ul:first-child", recrodList);		
+		function page() 
+		{
+			var ll = layer.open({type: 2});
+			var murl="{:U('getAppraiseLoad', '', '')}";
+			pageNum=pageNum+1;
+			var vshopId={$shopId};
+			var vgoodsid={$goodsId};
+			$.get(murl, {pageSize:15 ,pageNum: pageNum ,shopId: vshopId,goodsId:vgoodsid}, function(list) {	
+				//console.info(list.length); 
+				if(list && list.length > 0) 
+				{
+		       		$.each(list, function() {
+		       			var item = template.clone();
+		       			$(".pcontent", item).html(this.userName+'  '+ cky.getScore(this.goodsScore));
+		       			$(".pj", item).text(this.content);
+		       			$(".mui-ellipsis", item).text(this.ocreateTIme);
+		       			console.info("滚动到底了");
+		       			recrodList.append(item);
+		       		}); 
+		       	} 
+		       	else 
+		       	{
+		       		pageNum--;	
+		    	}
+       			layer.close(ll);
+	    	});
+		}
+	});
+</script>
+ 

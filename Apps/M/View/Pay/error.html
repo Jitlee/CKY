@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>支付结果</title>
+   <link rel="stylesheet" href="__CSS__/{:autoVer('mui.min.css')}" />
+    <link rel="stylesheet" href="__CSS__/{:autoVer('common.css')}" />
+    <script src="__JQ__"></script>    
+    <script src="__JS__/{:autoVer('common.js')}"></script>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<!--<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>-->
+	<h1 id="title" class="mui-title">支付结果</h1>
+</header>
+<div class="mui-content">
+	<h4>支付出现异常.<span id="time">10</span>秒后自动返回。</h4>
+	<h5 class="order-type">
+			</h5>
+	<div class="status-block">
+		<div class="status-block-img status-block-img-done">
+			
+		</div>
+	</div>
+	
+ 
+</div>
+
+<footer class="cky-footer">
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">			 
+			<div class="cky-order-item cky-relative">
+				<span><a href="{:U('Person/index', '', '')}">个人中心</a></span>
+			</div>		 
+		</li>
+	</ul>
+</footer>
+<script>
+	window.setTimeout(function() {
+		window.location.href = "{:U('Person/index', '','')}";
+	}, 10000);
+	
+	var i = 5;
+	var senda=document.getElementById('time');
+	setInterval(function(){
+		if(i>0){
+			senda.innerHTML =''+i;
+			i--;
+		}
+	},10000);
+
+</script>
+<style>
+.cky-footer .cky-update{position:c;right: 0px;top:2px;background-color:#FFFFFF;text-align: right;} 
+ 
+h4{color:red; text-align: center; line-height: 40px; padding: 10px;}
+.cky-relative{ text-align: center;}
+.status-block-img {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	height: 150px;
+	width: 150px;
+	line-height: 170px;
+	margin: auto;
+	text-align: center;
+	color: #EA5A2A;
+	font-size: 24px;
+} 
+.status-block-img-done {background-image: url(__IMG__/pay/error.png);}
+</style>
+</body>
+</html>

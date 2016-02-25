@@ -1,0 +1,217 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('goods-detail.css')}" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('goods-picker.css')}" />
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/mui.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		商品详情
+	</h1>
+	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
+		<i class="iconfont icon-gouwuche font24"></i>
+	</a>
+	<button class="mui-btn mui-btn-link mui-pull-right">
+		<i class="iconfont icon-favor font24"></i>
+	</button>
+</header>
+<div class="mui-content">
+	<!-- Slider main container -->
+	<div id="swiperList" class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+    		<!-- ko foreach: $data -->
+			<div class="swiper-slide">
+				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/'+ goodsImg +')' }"></a>
+			</div>
+			<!-- /ko -->
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
+	
+	<div class="cky-goods-bar">
+		<span class="font-red">¥ {$data.shopPrice}</span>
+		<button ctype="direct" class="cky-right mui-btn mui-btn-negative">立即购买</button>
+		<button ctype="add" class="cky-right mui-btn mui-btn-positive">加入购物车</button>
+	</div>
+	<p class="font15 font-gray mui-content-padded">{$data.saleCount}人已抢购</p>
+	
+	<div id="slider" class="mui-slider">
+		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+			<a class="mui-control-item mui-active" href="#item1mobile">
+					详情
+				</a>
+			<a class="mui-control-item" href="#item2mobile">
+					评价
+				</a>
+			<a class="mui-control-item" href="#item3mobile">
+					成交记录
+			</a>
+		</div>
+		<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+		<div class="mui-slider-group">
+			<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+				<p class="mui-content-padded">{$data.goodsDesc}</p>
+			</div>
+			<div id="item2mobile" class="mui-slider-item mui-control-content">
+				<if condition='$appraise["avgtotal"]["totalusers"] gt 0'>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+				                    <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
+				                	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
+				                </a>
+							</li>
+						</ul>
+						<volist name="appraise['root']" id="apprs" key='appr'>
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell mui-media">
+									<a href="javascript:void(0);" class="top-navigate">
+										<img class="mui-media-object mui-pull-left" src="{$apprs['userImagePath']}">
+										<div class="mui-media-body">
+											<p>{$apprs["userName"]}&nbsp;&nbsp;{:getScore($apprs["goodsScore"])}</p>
+											{$apprs["content"]}
+											<p class='mui-ellipsis'>{$apprs['ocreateTIme']}</p>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</volist>
+						
+						<div class="cky-text-center">						
+							<a class="mui-btn font13 font-gray" href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">查看更多评价</a>
+						</div>
+					<else/>
+						<p id="emptyrecordBlock" class="mui-content-padded">暂无评价记录</p>
+					</if>
+				<br />
+			</div>
+			<div id="item3mobile" class="mui-slider-item mui-control-content">
+				<div id="recordLoading" class="mui-loading">
+					<div class="mui-spinner">
+					</div>
+				</div>
+				<p id="emptyrecordBlock" class="mui-content-padded cky-hidden">暂无成交记录</p>
+				<div id="recordsList" class="cky-hidden"> 
+					<table class="cky-table">
+						<thead>
+							<tr>
+								<th class="cky-text-left">会员</th><th class="cky-text-left">数量</th><th class="cky-text-right">时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- ko foreach: $data -->
+							<tr>
+								<td data-bind="text:userName"></td>
+								<td class="cky-col-view-cell" data-bind="text: 'x' + count">x3</td>
+								<td class="cky-text-right" data-bind="text: createTime"></td>
+							</tr>
+							<!-- /ko -->
+						</tbody>
+					</table>
+					<div class="cky-text-center">						
+						<a href="{:U('record')}?goodsId={$data.goodsId}" class="mui-btn font13 font-gray">查看更多成交记录</a>
+					</div>
+					<br />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="goodsPicker" class="cky-goods-picker cky-hidden" data-bind="css: activeCss">
+	<div class="cky-goods-picker-body">
+		<div class="cky-goods-picker-thums" style="background-image: url(/{$data.goodsThums});"></div>
+		<div class="cky-goods-picker-media">
+			<r class="font20">¥ {$data.shopPrice}</r>
+			<h5>库存{$data.goodsStock}{$data.goodsUnit}</h5>
+			<h5></h5>
+		</div>
+		<div class="cky-goods-picker-content">
+		<hr />
+		<div class="mui-content-padded">
+			<div class="cky-col-view">
+				<div class="cky-col-view-cell">购买数量</div>
+				<div class="cky-col-view-cell cky-num-pick">
+					<span class="jian"><i class="iconfont icon-jian"></i></span>
+					<span class="num">1</span>
+					<span class="jia"><i class="iconfont icon-jia"></i></span>
+				</div>
+			</div>
+		</div>
+		</div>
+		<a id="submit" class="cky-btn cky-btn-block cky-btn-red">确定</a>
+	</div>
+</div>
+
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+
+<script type="text/javascript">
+	
+	var swiperList = document.getElementById("swiperList");
+	var gallerys = [{
+		goodsImg: "{$data.goodsImg}",
+	}];
+	var gallerysVM = ko.observableArray(gallerys);
+	ko.applyBindings(gallerysVM, swiperList);
+	
+	$(function() {
+		$.getJSON("{:U('Goods/gallerys')}", { id: "{:I('id')}" }, function(list) {
+			if(list && list.length > 0) {
+				var swiperList = document.getElementById("swiperList");
+				$.each(list, function() {
+					gallerys.push(this);
+				});
+				gallerysVM(gallerys);
+				var mySwiper = new Swiper ('.swiper-container', {
+				    direction: 'horizontal',
+				    pagination: '.swiper-pagination',
+				    loop: true
+		   		});
+			}
+		});
+		
+		
+		var shopCart = new ShopCart("goodsPicker", {
+			shopId: {$data.shopId},
+			shopName: "{$data.shopName}",
+			deliveryFreeMoney: {$data.deliveryFreeMoney},
+			deliveryMoney: {$data.deliveryMoney},
+		}, {
+			goodsId: {$data.goodsId},
+			goodsName: "{$data.goodsName}",
+			goodsThums: "{$data.goodsThums}",
+			shopPrice: {$data.shopPrice},
+			goodsStock: {$data.goodsStock},
+			goodsUnit: "{$data.goodsUnit}"
+		});
+		
+		$("button[ctype]").click(function() {
+			var $this = $(this);
+			var ctype = $this.attr("ctype");
+			shopCart.open(ctype);
+		});
+		
+		$("#submit").click(shopCart.ok);
+		
+		// 销售记录
+		var recordsList = document.getElementById("recordsList");
+		var recordVM = ko.observableArray([]);
+		ko.applyBindings(recordVM, recordsList);
+		$.get("{:U('Goods/records')}?goodsId={$data.goodsId}", null, function(arr) {
+			$("#recordLoading").hide();
+			if(arr && arr.length > 0) {
+				recordVM(arr);
+				$("#recordsList").removeClass("cky-hidden");
+			} else {
+				$("#emptyrecordBlock").removeClass("cky-hidden");
+			}			
+		});
+	});
+	
+	
+</script>

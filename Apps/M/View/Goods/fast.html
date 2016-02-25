@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('fast.css')}" />
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/mui.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<header class="cky-fast-header">
+	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<!-- Slider main container -->
+	<div id="swiperList" class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	    		<!-- ko foreach: $data -->
+    			<div class="swiper-slide">
+    				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/'+ goodsImg +')' }"></a>
+    			</div>
+    			<!-- /ko -->
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
+</header>
+<div class="mui-content mui-content-padded">
+	<p class="font-black font17">{$data.goodsName}</p>
+	<p>已售 {$data.saleCount} <i class="iconfont icon-zan"></i>46</p>
+	<div class="cky-fast-price-row cky-relative" id="goodsList">
+		<span class="font-red font24">¥ {$data.shopPrice}</span>
+		<div class="cky-update cky-fast-add"
+			id="goods_{$data.goodsId}"
+			goodsId="{$data.goodsId}"
+			goodsName="{$data.goodsName}"
+			goodsThums="{$data.goodsThums}"
+			shopCatId="{$data.shopCatId1}"
+			goodsUnit="{$data.goodsUnit}"
+			shopPrice="{$data.shopPrice}">
+			<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+			<span class="count cky-hidden">1</span>
+			<button class="add"><i class="font-red iconfont icon-jia"></i></button>
+		</div>
+	</div>
+	<hr />
+	<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
+	<p class="font13">{$data.goodsSpec}</p>
+</div>
+
+<include file="Public:fastcart"/>
+<script type="text/javascript">
+	// 加载快餐商品图片
+	var swiperList = document.getElementById("swiperList");
+	var gallerys = [{
+		goodsImg: "{$data.goodsImg}",
+	}];
+	var gallerysVM = ko.observableArray(gallerys);
+	ko.applyBindings(gallerysVM, swiperList);
+	
+	$.getJSON("{:U('Goods/gallerys')}", { id: "{:I('id')}" }, function(list) {
+		if(list) {
+			var swiperList = document.getElementById("swiperList");
+			$.each(list, function() {
+				gallerys.push(this);
+			});
+			gallerysVM(gallerys);
+			if(gallerys.length > 1) {
+				var mySwiper = new Swiper('.swiper-container', {
+			    	direction: 'horizontal',
+				    pagination: '.swiper-pagination',
+				    loop: true
+			    });
+		  	}
+		}
+	});
+	
+	$(function() {
+		var fastCart = new FastCart({$data.shopId}, "{$data.shopName}",
+			{$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
+			{$data.deliveryMoney}, {$data.deliveryCostTime},
+			{$data.serviceStartTime}, {$data.serviceEndTime});
+		
+	});
+	
+	
+	
+</script>

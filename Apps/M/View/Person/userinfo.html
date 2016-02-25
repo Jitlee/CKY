@@ -1,0 +1,97 @@
+<!--<header class="mui-bar mui-bar-nav">
+	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" onclick="history.go(-1)">
+			<span class="mui-icon mui-icon-left-nav" ></span>
+	    	返回
+	  </button>
+	  <h1 class="mui-title">{$title}</h1>
+</header>-->
+
+<div class="mui-content">
+	 	<div class="diverweima" style="width: 300px; height: 360px; display: none;">
+			<div style="text-align: center;">
+				<img  alt="" src="{:U('Person/qrcode', '', '')}">
+				<img  alt="" src="{:U('Person/ywm', '', '')}">
+			</div>
+		</div>
+	<ul class="mui-table-view"> 
+			<li class="mui-table-view-cell">
+						<span>会员卡</span>
+						<div  class="cellinfo-right" >{$data.CardId}</div>
+			</li>
+			<li class="mui-table-view-cell">
+				<span>会员级别</span>
+				<div  class="cellinfo-right" >{$data.MemberGroupName}</div>
+			</li>
+			<li class="mui-table-view-cell">
+				<span>二维码</span>
+				<div  class="cellinfo-right"  id="erweima"><i class="iconfont  icon-fukuanma font24"></i></div>
+			</li>
+			<li class="mui-table-view-cell">
+				<span>手机号</span>
+				<div  class="cellinfo-right" >{$data.Mobile}</div>
+			</li>
+	</ul>
+	<ul class="mui-table-view"> 
+			<li class="mui-table-view-cell">
+					<div class=" mui-navigate-right" id="addresslist">
+						<span>收货地址</span>
+						<div  class="cellinfo-right" ></div>
+					</div>
+			</li>
+			<li class="mui-table-view-cell">
+					<div class=" mui-navigate-right">
+						<span>姓名</span>
+						<div  class="cellinfo-right" >{$data.TrueName}</div>
+					</div>
+			</li>
+			<li class="mui-table-view-cell">
+				<div class=" mui-navigate-right">
+						<span>性别</span>						
+						<div class="cellinfo-right" ><if condition="($data.Sex eq 1)">先生<else/>女士</if></div>
+				</div>
+			</li>
+			<li class="mui-table-view-cell">
+				<div class=" mui-navigate-right">
+						<span>生日</span>
+						<div class="cellinfo-right" ><if condition="($data.IsLunar eq 1)">农历</if>{$data.Birthday}</div>
+				</div>
+			</li>
+			<li class="mui-table-view-cell">
+					<div class=" mui-navigate-right">
+						<span>电子邮件</span>
+						<div  class="cellinfo-right" >{$data.Email}</div>
+					</div>
+			</li>
+	</ul>
+</div>
+ <include file="Public:tab"/>
+
+<link rel="stylesheet" href="__CSS__/{:autoVer('me.css')}">
+<link rel="stylesheet" href="__CSS__/{:autoVer('person-comm.css')}" />
+<style>
+		.font16{font-size: 16px;}
+		.font20{font-size: 20px;}
+		.font24{font-size: 24px;}
+		.font32{font-size: 32px;}
+</style>
+ <script src="__JS__/layer/layer.js"></script>
+<script type="text/javascript">
+	$(function() {
+		//地址
+		$("#addresslist").click(function(){
+				window.location.href="{:U('Address/addresslist', '', '')}";
+		});
+			$("#erweima").click(function(){
+					//window.location.href="{:U('Person/erweima', '', '')}";
+					layer.open({
+				    type: 1,
+				    shade: false,
+				    title: false, //不显示标题
+				    content: $('.diverweima'), //捕获的元素
+				    cancel: function(index){
+				        layer.close(index);
+				    }
+				});
+			});
+	});
+</script>

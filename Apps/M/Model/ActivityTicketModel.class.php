@@ -19,14 +19,10 @@ class ActivityTicketModel extends BaseModel {
     			->order('t.createTime')->page($pageNo, $pageSize)->select();
     }
 	
-	public function pick($obj) {
-		// 要修改的数据对象属性赋值
-		$data['ticketID'] = $obj['ticketID'];
-		$data['efficacySDate'] = $obj['efficacySDate'];
-		$data['efficacyEDate'] = $obj['efficacyEDate'];
-		$data['uid'] = $obj['uid'];
-		$data['ticketmStatus'] = 'now()';
-		$this->save($data);
+	public function updateUsedCount($id) {
+		$map['ticketID'] = $id;
+		$data['usedCount'] = array('exp', '`usedCount` + 1');
+		return $this->where($map)->save($data);
 	}
 };
 ?>

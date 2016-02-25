@@ -79,19 +79,19 @@
 		width: 16px;
 		height: 8px;
 		position: absolute;
-		right: 50px;
+		right: 61px;
 		background-color: #efeff4;
 	}
 	
 	.ticket-ball-top {
-		top: -1px;
+		top: 40px;
 		border-left: solid #ccc 1px;
 		border-bottom: solid #ccc 1px;
 		-webkit-border-radius: 0 0 16px 16px;
 	}
 	
 	.ticket-ball-bottom {
-		bottom: -1px;
+		bottom: 0px;
 		border-right: solid #ccc 1px;
 		border-top: solid #ccc 1px;
 		-webkit-border-radius: 16px 16px 0 0;
@@ -140,7 +140,7 @@
 		right: 30px;
 		font-size: 120px;
 		color: #ccc;
-		opacity: 0.8;
+		opacity: 0.7;
 		-webkit-transform: rotate(-45deg);
 	}
 	
@@ -150,6 +150,10 @@
 	
 	.ticket-disabled .ticket-date {
 		background-color: #999;
+	}
+	
+	.icon-yilingqu {
+		color: #009999;
 	}
 	
 </style>
@@ -185,37 +189,47 @@
 	
 	<div id="couponList">
 		<!-- ko foreach: $data -->
-		<div class="cky-relative ticket-title">
-			<div class="cky-ellipsis font14" data-bind="text: title"></div>
-			<div class="cky-update font12">已领取<span data-bind="text: Math.round(usedCount * 100 / totalCount)"></span>%</div>
-		</div>
-		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }, css: (totalCount > 0 && totalCount == usedCount ? 'ticket-disabled' : '')">
-			<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
-			<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
-			<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
-			<!-- ko if: content -->
-			<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
-			<!-- /ko -->
-			<!-- ko ifnot: content -->
-			<div class="ticket-content cky-ellipsis" data-bind="text: shopName"></div>
-			<!-- /ko -->
-			<div class="ticket-date font12">
-				<span data-bind="text: efficacySDate"></span>
-				--
-				<span data-bind="text: efficacyEDate"></span>
+		<div class="ticket cky-relative">
+			<div class="cky-relative ticket-title">
+				<div class="cky-ellipsis font14" data-bind="text: title"></div>
+				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(Number(usedCount) * 100 / Number(totalCount))"></span>%</div>
 			</div>
-			
-			<!-- 装饰-->
-			<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, usedCount: usedCount, totalCount: totalCount }, css: getTicketClass(totalCount, usedCount, isReceived)">
+				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
+				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
+				<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
+				<!-- ko if: content -->
+				<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
+				<!-- /ko -->
+				<!-- ko ifnot: content -->
+				<div class="ticket-content cky-ellipsis" data-bind="text: shopName"></div>
+				<!-- /ko -->
+				<div class="ticket-date font12">
+					<span data-bind="text: efficacySDate"></span>
+					--
+					<span data-bind="text: efficacyEDate"></span>
+				</div>
+				
+				<!-- 装饰-->
+				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+				
+				
+				<!-- ko if:  !isReceived && totalCount > 0 && totalCount == usedCount -->
+				<i class="ticket-empty iconfont icon-yiqiangguang"></i>
+				<!-- /ko -->
+				
+				<!-- ko if: isReceived -->
+				<i class="ticket-empty iconfont icon-yilingqu"></i>
+				<div class="ticket-btn">进店看看</div>
+				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
+				<!-- /ko -->
+				<!-- ko if: !isReceived && totalCount > usedCount -->
+				<div class="ticket-btn">点击领取</div>
+				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
+				<!-- /ko -->
+			</div>
 			<div class="ticket-ball ticket-ball-top"></div>
 			<div class="ticket-ball ticket-ball-bottom"></div>
-			
-			<!-- ko if: totalCount > 0 && totalCount == usedCount -->
-			<i class="ticket-empty iconfont icon-yiqiangguang"></i>
-			<!-- /ko -->
-			
-			<div class="ticket-btn">点击领取</div>
-			<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 		</div>
 		<!-- /ko -->
 	</div>
@@ -234,20 +248,17 @@
 		return "";
 	}
 	
+	function getTicketClass(totalCount, usedCount, isReceived) {
+		if(!isReceived && totalCount > 0 && totalCount == usedCount) {
+			return "ticket-disabled";
+		} else if (isReceived) {
+			return "ticket-received";
+		}
+		return "";
+	}
+	
 	$(function(){
-		var coupons = [{
-			ticketID: 1,
-			typeName: 'zkq',
-			ticketAmount: 8.8,
-			content: '苹果7新品发布',
-			title: '超乎你想象',
-			totalCount: 99,
-			usedCount: 99,
-			miniConsumption: 200,
-			efficacySDate: '2016.02.23',
-			efficacyEDate: '2016.03.23',
-			imagePath: "Upload/shops/2016-01/56936ad213a6b.jpg"
-		}];
+		var coupons = [];
 		var isEOF = false;
 		var force = true;
 		var pageNo = 1;
@@ -274,6 +285,7 @@
 					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
 						$.each(list, function() {
+							this.isReceived = this.isReceived == "0";
 							coupons.push(this);
 						});
 					}
@@ -285,8 +297,36 @@
 				});
 			}
 		}
+		
 		queryByPage();
 		
 		util.onScrollEnd(queryByPage);
+		
+		// 领取事件
+		$("#couponList").on("click", ".ticket-border", function() {
+			var $this = $(this);
+			if(!$this.hasClass("ticket-disabled") && !$this.hasClass("ticket-received")) {
+				// 待领取
+				var ll = cky.loadding();
+				$.post("{:U('pick')}", { ticketId: $this.attr("tid") }, function(result) {
+					cky.close(ll);
+					console.log(result);
+					if(result) {
+						cky.toast("领券成功");
+						// 重新计算 100%;
+						var percent = Math.round((Number($this.attr("usedCount")) + 1) * 100 / Number($this.attr("totalCount")));
+						$(".ticket-percent", $this.parent()).text(percent);
+						$(".ticket-btn", $this).text("进店看看")
+							.before("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
+						$this.addClass("ticket-received");
+					} else {
+						cky.toast("领券失败");
+					}
+				});
+			} else if($this.hasClass("ticket-received") && $this.attr('shopId')) {
+				// 已领取： 跳转
+				window.location.href = "{:U('Shops/detail')}?shopId=" + $this.attr('shopId'); 
+			}
+		});
 	});
 </script>

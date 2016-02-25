@@ -44,10 +44,34 @@ class ActivityAction extends Controller {
 	
 	public function pageCoupons() {
 		$m = D('M/ActivityTicket');
-//		$uid = getuid();
-		$uid = 0;
+		$uid = getuid();
+//		$uid = 1;
 		$list = $m->queryAll($uid);
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	public function pick() {
+		if(IS_POST) {
+			$ticketId = I('ticketId');
+			$uid = getuid();
+//			$uid = 1;
+			$mm = D('M/ActivityTicketM');
+			$mm->startTrans();
+			$status = -1;
+			if($mm->pick($ticketId, $uid) !== false) {
+				$m = D('M/ActivityTicket');
+				if($m->updateUsedCount($ticketId) !== false) {
+					$status = 1;
+				} 
+			}
+			if($status > 0) {
+				$mm->commit();
+			} else {
+				$mm->rollback();
+			}
+			
+			$this->ajaxReturn($status > 0, 'JSON');
+		}
 	}
 }

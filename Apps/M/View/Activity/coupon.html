@@ -25,6 +25,7 @@
 		margin: 0 10px 10px 10px;
 		padding: 10px;
 		background-color: #fff;
+		overflow: hidden;
 	}
 	
 	.ticket-thumb {
@@ -133,6 +134,24 @@
 		right: 8px;
 	}
 	
+	.ticket-empty {
+		position: absolute;
+		top: 10px;
+		right: 30px;
+		font-size: 120px;
+		color: #ccc;
+		opacity: 0.8;
+		-webkit-transform: rotate(-45deg);
+	}
+	
+	.ticket-disabled .ticket-amount r, .ticket-disabled .ticket-amount span {
+		color: #999;
+	}
+	
+	.ticket-disabled .ticket-date {
+		background-color: #999;
+	}
+	
 </style>
 <header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
@@ -170,7 +189,7 @@
 			<div class="cky-ellipsis font14" data-bind="text: title"></div>
 			<div class="cky-update font12">已领取<span data-bind="text: Math.round(usedCount * 100 / totalCount)"></span>%</div>
 		</div>
-		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }">
+		<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID }, css: (totalCount > 0 && totalCount == usedCount ? 'ticket-disabled' : '')">
 			<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 			<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 			<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
@@ -191,6 +210,10 @@
 			<div class="ticket-ball ticket-ball-top"></div>
 			<div class="ticket-ball ticket-ball-bottom"></div>
 			
+			<!-- ko if: totalCount > 0 && totalCount == usedCount -->
+			<i class="ticket-empty iconfont icon-yiqiangguang"></i>
+			<!-- /ko -->
+			
 			<div class="ticket-btn">点击领取</div>
 			<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 		</div>
@@ -210,7 +233,7 @@
 		}
 		return "";
 	}
-
+	
 	$(function(){
 		var coupons = [{
 			ticketID: 1,
@@ -219,7 +242,7 @@
 			content: '苹果7新品发布',
 			title: '超乎你想象',
 			totalCount: 99,
-			usedCount: 30,
+			usedCount: 99,
 			miniConsumption: 200,
 			efficacySDate: '2016.02.23',
 			efficacyEDate: '2016.03.23',

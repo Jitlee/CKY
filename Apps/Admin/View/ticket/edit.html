@@ -21,7 +21,7 @@
       <script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
       <script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
       <script src="__ROOT__/Apps/Admin/View/js/daterangepicker.js"></script>
-      <script src="__ROOT__/Apps/Admin/View/js/DatePicker/WdatePicker.js"></script>
+      <!--<script src="__ROOT__/Apps/Admin/View/js/DatePicker/WdatePicker.js"></script>-->
       <script type="text/javascript" src="__ROOT__/Apps/Admin/View/js/upload.js"></script>
    </head>
    <script>
@@ -60,7 +60,7 @@
 	   $("#title").formValidator({onFocus:"请输入卡券名称"}).inputValidator({min:1,max:100,onError:"请输入50字以卡券名称"});
 	   $("#totalCount").formValidator({onFocus:"请输入发行数量"}).inputValidator({min:1,max:100,onError:"请输入发行数量"});
 	   $("#miniConsumption").formValidator({onFocus:"请输入最低消费"}).inputValidator({min:1,onError: "请输入最低消费"});
-	   $("#endDate").formValidator({onFocus:"请输入结束日期"}).inputValidator({min:1,max:80,onError:"请输入结束日期"});
+	   //$("#endDate").formValidator({onFocus:"请输入结束日期"}).inputValidator({min:1,max:80,onError:"请输入结束日期"});
 	   
 //	   if('ptq' !='{$object.typeName}')
 //	   {
@@ -88,7 +88,7 @@
 	   params.efficacySDate = date[0];
 	   params.efficacyEDate = date[1]; 
 	   
-	   params.endDate = $('#endDate').val();
+	   //params.endDate = $('#endDate').val();
 	   params.miniConsumption = $('#miniConsumption').val();
 	   if(params.miniConsumption=="")
 	   {
@@ -234,12 +234,12 @@
              	天有效
              </td>
            </tr>-->
-           <tr>
+           <!--<tr>
              <th align='right'>结束日期<font color='red'>*</font>：</th>
              <td>
              	<input type='text' id='endDate' class="form-control"  onfocus="WdatePicker();"  style='width:300px' value='{$object.endDate}'/>
              </td>
-           </tr>
+           </tr>-->
            <!--<tr>
              <th align='right'>是否显示<font color='red'>*</font>：</th>
              <td>

@@ -25,7 +25,7 @@ class TicketModel extends BaseModel {
 		$data["content"] = I("content");
 		$data["efficacySDate"] = I("efficacySDate");
 		$data["efficacyEDate"] = I("efficacyEDate");
-		$data["endDate"] = I("endDate");		
+		//$data["endDate"] = I("endDate");		
 		$data["miniConsumption"] = (int)I("miniConsumption");
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");
@@ -60,7 +60,7 @@ class TicketModel extends BaseModel {
 		$data["content"] = I("content");
 		$data["efficacySDate"] = I("efficacySDate");
 		$data["efficacyEDate"] = I("efficacyEDate");
-		$data["endDate"] = I("endDate");		
+		//$data["endDate"] = I("endDate");		
 		$data["miniConsumption"] = (int)I("miniConsumption");
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");

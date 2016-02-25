@@ -28,6 +28,8 @@ class TicketAction extends BaseAction{
 				$object["limitDayGet"]=1;
 				$object["limitGetnum"]=1;
 				$object["miniConsumption"]=0;
+				$object["efficacySDate"] = date('Y-m-d');
+				$object["efficacyEDate"] = date("Y-m-d",strtotime("+1 month"));	
 	    	}
 //	    	$m = D('Admin/GoodsCats');
 //	    	$this->assign('catList',$m->queryByList(347));
@@ -53,7 +55,7 @@ class TicketAction extends BaseAction{
 		}catch (Exception $e){
             $rs["msg"]=$e;
         }
-	    	$this->ajaxReturn($rs);
+	    $this->ajaxReturn($rs);
 	}
 	/**
 	 * 删除操作

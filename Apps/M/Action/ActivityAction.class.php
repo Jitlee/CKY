@@ -45,9 +45,21 @@ class ActivityAction extends Controller {
 	public function pageCoupons() {
 		$m = D('M/ActivityTicket');
 //		$uid = getuid();
-		$uid = 0;
+		$uid = 1;
 		$list = $m->queryAll($uid);
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	public function pick() {
+		if(IS_POST) {
+			$ticketId = I('ticketId');
+//			$uid = getuid();
+			$uid = 1;
+			$m = D('M/ActivityTicketM');
+			$ret = $m->pick($ticketId, $uid);
+			echo dump($ret);
+			$this->ajaxReturn($ret != false, 'JSON');
+		}
 	}
 }

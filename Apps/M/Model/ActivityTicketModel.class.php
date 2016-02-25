@@ -18,15 +18,5 @@ class ActivityTicketModel extends BaseModel {
 			->where('t.ticketStatus = 1 and t.efficacyEDate >= CURDATE()')
     			->order('t.createTime')->page($pageNo, $pageSize)->select();
     }
-	
-	public function pick($obj) {
-		// 要修改的数据对象属性赋值
-		$data['ticketID'] = $obj['ticketID'];
-		$data['efficacySDate'] = $obj['efficacySDate'];
-		$data['efficacyEDate'] = $obj['efficacyEDate'];
-		$data['uid'] = $obj['uid'];
-		$data['ticketmStatus'] = 'now()';
-		$this->save($data);
-	}
 };
 ?>

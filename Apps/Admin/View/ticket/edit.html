@@ -21,6 +21,7 @@
       <script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
       <script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
       <script src="__ROOT__/Apps/Admin/View/js/daterangepicker.js"></script>
+      <script src="__ROOT__/Apps/Admin/View/js/DatePicker/WdatePicker.js"></script>
       <script type="text/javascript" src="__ROOT__/Apps/Admin/View/js/upload.js"></script>
    </head>
    <script>
@@ -236,7 +237,7 @@
            <tr>
              <th align='right'>结束日期<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='endDate' class="form-control" style='width:300px' value='{$object.endDate}'/>
+             	<input type='text' id='endDate' class="form-control"  onfocus="WdatePicker();"  style='width:300px' value='{$object.endDate}'/>
              </td>
            </tr>
            <!--<tr>

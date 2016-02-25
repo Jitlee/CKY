@@ -103,14 +103,7 @@ class OneCardModel extends BaseModel {
 			, "pageIndex"=>$pageIndex
 			,"pageSize"=>$pageSize
 			,"orderBy"=>" OperateTime desc "
-		);
-//		userAccount 是 工号 
-//cardId 是 会员卡号 
-//memberPassword 是 会员密码 
-//where 是 查询条件 
-//pageIndex 是 页码 
-//pageSize 是 页大小 
-//orderBy 是 排序规则 
+		); 
 		
 		$url='OpenApi/Get_CountListPaged';		
 		return $this->GetData($url, $data);
@@ -180,8 +173,17 @@ class OneCardModel extends BaseModel {
 		return $this->GetData($url, $data);
 	}
 	
-	 
-	
+	public function SendVerycode($mobile,$content)
+	{
+		$data = array(
+			"userAccount"=>"10000"
+			,"mobile"=>$mobile
+			,"content"=>$content
+		);
+		
+		$url='OpenApi/SendSms';		
+		return $this->GetData($url, $data);
+	}
 	
 	
 	function GetData($url,$data)

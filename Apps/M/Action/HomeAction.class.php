@@ -264,33 +264,23 @@ class HomeAction extends BaseAction {
 	
 	public function ftest()
 	{
-// 		$strvaldb="[快速充值][接口]粗卡云平台充值";
-//		$strval=str_replace("[快速充值][接口]","",$strvaldb);
-//		echo $strval; 		
-		//$this->display("Pay/success");
-		//$this->display("Pay/orderpay");
+		$mOne = D('M/OneCard');
+		$mobile="18617097726";
 		
-//		$m = D('M/Recommend');
-//		$list = $m->RecommendList();
-//		
-//		
-//		foreach ($list as $key =>$v){
-//			echo 'shopid'.$v["shopId"];
-//			$v["goodsitems"]=$this->GetGoods($v["shopId"]);
-//			if($newitem)
-//			{
-//				array_push($newitem,$v);
-//			}
-//			else
-//			{
-//				$newitem[]=$v;
-//			}
-//		}
-		$uid = uniqid("", true);
-		
-		echo $this->create_guid();
-
-		//echo dump($list);
+		$code=rand(1010,9797);		
+		$content="尊敬的用户：".$code."是本次操作的验证码，5分钟内有效。";		
+		$res=$mOne->SendVerycode($mobile,$content);
+		$status= (int)$res["status"];
+		if($status == 0)
+		{
+			$mcode = D('M/Verifycode');	
+			$res=$mcode->Insert($mobile,$code);
+			$status= (int)$res["status"];
+			if($status == 1)
+			{
+				echo "成功";	
+			}
+		}
 	}
 	
 public function create_guid($namespace = '') {     

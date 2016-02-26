@@ -44,8 +44,8 @@ class ActivityAction extends Controller {
 	
 	public function pageCoupons() {
 		$m = D('M/ActivityTicket');
-		$uid = getuid();
-//		$uid = 1;
+//		$uid = getuid();
+		$uid = 3;
 		$list = $m->queryAll($uid);
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
@@ -54,8 +54,8 @@ class ActivityAction extends Controller {
 	public function pick() {
 		if(IS_POST) {
 			$ticketId = I('ticketId');
-			$uid = getuid();
-//			$uid = 1;
+//			$uid = getuid();
+			$uid = 2;
 			$mm = D('M/ActivityTicketM');
 			$mm->startTrans();
 			$status = -1;

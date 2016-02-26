@@ -19,6 +19,26 @@ class ActivityTicketModel extends BaseModel {
     			->order('t.createTime')->page($pageNo, $pageSize)->select();
     }
 	
+	public function queryPersonAll($uid) {
+    		$pageSize = 12;
+		$pageNo = intval(I('pageNo', 1));
+		$type = intval(I('type', 0));
+		if($type == 0) { // 有效
+			$filter = 'ticketMStatus = 0 and tm.efficacyEDate >= CURDATE()';
+		} else if($type == 1) { // 过期
+			$filter = 'ticketMStatus = 0 and tm.efficacyEDate < CURDATE()';
+		} else if($type == 2) { //已使用
+			$filter = 'ticketMStatus = 1';
+		}
+    		return $this->field('s.shopImg, s.shopName, t.limitUseShopId, t.ticketID, t.title, t.imagePath,'
+    			.' t.ticketAmount, tm.efficacySDate, tm.efficacyEDate, t.miniConsumption, t.typeName, t.content,'
+    			.$type.' as status')
+			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
+    			->join('inner join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
+			->where($filter)
+    			->order('t.createTime')->page($pageNo, $pageSize)->select();
+    }
+	
 	public function updateUsedCount($id) {
 		$map['ticketID'] = $id;
 		$data['usedCount'] = array('exp', '`usedCount` + 1');

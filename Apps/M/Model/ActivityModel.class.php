@@ -14,8 +14,11 @@ class ActivityModel extends BaseModel {
 		$pageNo = intval(I('pageNo', 1));
 		
     		$catId = I('catId', 0);
+		$time= strftime("%Y-%m-%d");
 		$map = array(
-			'isShow'		=> 1,
+			'isShow'				=> 1,
+			'efficacySDate'		=> array('ELT', $time),
+			'efficacyEDate'		=> array('EGT', $time),
 		);
 		if($catId > 0) {
 			$map['catId']	= $catId;

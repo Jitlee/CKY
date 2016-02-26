@@ -1,28 +1,8 @@
 <style>
-	.title {
-		color: #333;
-		background-color: #fff;
-	}
-	
-	.title .cky-update, .ticket-title .cky-update {
-		top: 0px;
-		right: 10px;
-	}
-	
-	.ticket-title {
-		padding-right: 100px;
-	}
-	
-	.ticket-title, .title {
-		height: 40px;
-		line-height: 40px;
-		padding-left: 10px;
-	}
-	
 	.ticket-border {
 		border-radius: 10px;
 		border: solid 1px #CCCCCC;
-		margin: 0 10px 10px 10px;
+		margin: 10px 10px 0px 10px;
 		padding: 10px;
 		background-color: #fff;
 		overflow: hidden;
@@ -84,7 +64,7 @@
 	}
 	
 	.ticket-ball-top {
-		top: 40px;
+		top: 0px;
 		border-left: solid #ccc 1px;
 		border-bottom: solid #ccc 1px;
 		-webkit-border-radius: 0 0 16px 16px;
@@ -137,11 +117,10 @@
 	.ticket-empty {
 		position: absolute;
 		top: 10px;
-		right: 30px;
-		font-size: 120px;
+		right: 40px;
+		font-size: 100px;
 		color: #ccc;
-		opacity: 0.7;
-		-webkit-transform: rotate(-45deg);
+		opacity: 0.3;
 	}
 	
 	.ticket-disabled .ticket-amount r, .ticket-disabled .ticket-amount span {
@@ -156,50 +135,57 @@
 		color: #009999;
 	}
 	
+	.tab {
+		text-align: center;
+		background-color: #fff;
+		height: 40px;
+		line-height: 40px;
+		border-bottom: #ccc 1px solid;
+	}
+	
+	.tab .cky-active {
+		color: #F60;
+		position: relative;
+	}
+	
+	.tab .cky-active::after {
+		content: " ";
+		position: absolute;
+		display: block;
+		bottom: 0px;
+		left:10px;
+		right: 10px;
+		height: 2px;
+		background-color: #F60;
+	}
+	
+	.mui-btn-block {
+		margin: 10px 0;
+	}
 </style>
-<header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
+<header class="mui-bar mui-bar-nav">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
-		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
+		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
-	<h1 id="title" class="mui-title" style="color: #ED7D31;">{$title}</h1>
-	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang" style="color: #ED7D31;"></i></button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right">使用说明</button>
 </header>
 
-<link rel="stylesheet" href="__CSS__/swiper.min.css" />
-<script src="__JS__/swiper.jquery.min.js"></script>
-
 <div class="mui-content">
-	<!-- Slider main container -->
-	<div class="swiper-container">
-	    <!-- Additional required wrapper -->
-	    <div class="swiper-wrapper">
-	        <!-- Slides -->
-	        <foreach name="ads" item="item">
-        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
-	        </foreach>
-	    </div>
-	    <!-- If we need pagination -->
-	    <div class="swiper-pagination"></div>
-	</div>
-	
-	<div class="cky-relative title">
-		<div class="cky-col-view-cell font14">每日抢券</div>
-		<div class="cky-update font10">每天10点抢全品类券！</div>
+	<div id="tab" class="cky-col-view tab">
+		<div class="cky-col-view-cell cky-active" tab-type="0">未使用({$data.unuse})</div>
+		<div class="cky-col-view-cell" tab-type="1">已过期({$data.overdue})</div>
+		<div class="cky-col-view-cell" tab-type="2">已使用({$data.used})</div>
 	</div>
 	
 	<div id="couponsLoading" class="mui-loading">
 		<div class="mui-spinner">
 		</div>
 	</div>
-	
 	<div id="couponList">
 		<!-- ko foreach: $data -->
 		<div class="ticket cky-relative">
-			<div class="cky-relative ticket-title">
-				<div class="cky-ellipsis font14" data-bind="text: title"></div>
-				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(Number(usedCount) * 100 / Number(totalCount))"></span>%</div>
-			</div>
-			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, usedCount: usedCount, totalCount: totalCount }, css: getTicketClass(totalCount, usedCount, isReceived)">
+			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId }, css: { 'ticket-disabled': status > 0 }">
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 				<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
@@ -218,26 +204,17 @@
 				<!-- 装饰-->
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 				
+				<i class="ticket-empty iconfont icon-youhuiquan1"></i>
 				
-				<!-- ko if:  !isReceived && totalCount > 0 && totalCount == usedCount -->
-				<i class="ticket-empty iconfont icon-yiqiangguang"></i>
-				<!-- /ko -->
-				
-				<!-- ko if: isReceived -->
-				<i class="ticket-empty iconfont icon-yilingqu"></i>
 				<div class="ticket-btn">进店看看</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
-				<!-- /ko -->
-				<!-- ko if: !isReceived && totalCount > usedCount -->
-				<div class="ticket-btn">点击领取</div>
-				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
-				<!-- /ko -->
 			</div>
 			<div class="ticket-ball ticket-ball-top"></div>
 			<div class="ticket-ball ticket-ball-bottom"></div>
 		</div>
 		<!-- /ko -->
 	</div>
+	<button id="moreButton" class="mui-btn mui-btn-block cky-hidden">更多好券，去领券中心看看<i class="iconfont icon-gengduo"></i></button>
 </div>
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
@@ -267,6 +244,7 @@
 		var isEOF = false;
 		var force = true;
 		var pageNo = 1;
+		var type = 0;
 		var vm = ko.observableArray(coupons);
 		ko.applyBindings(vm, document.getElementById("couponList"));
 		function queryByPage() {
@@ -276,11 +254,13 @@
 				pageNo = 1;
 				isEOF = false;
 				force = false;
+				$("#couponsLoading").show();
 			}
 			var _pageNo = pageNo;
 			if(!isEOF) {
-				$.getJSON("{:U('Activity/pageCoupons')}", {
-					pageNo: _pageNo
+				$.getJSON("{:U('Activity/pagePersonCoupons')}", {
+					pageNo: _pageNo,
+					type: type
 				}, function(list) {
 					if(_pageNo == 1) {
 						coupons.length = 0;
@@ -290,7 +270,6 @@
 					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
 						$.each(list, function() {
-							this.isReceived = this.isReceived == "0";
 							coupons.push(this);
 						});
 					}
@@ -298,6 +277,11 @@
 					
 					if(list && list.length < 12) {
 						isEOF = true;
+						if(type == 0) {
+							$("#moreButton").show();
+						}
+					} else {
+						$("#moreButton").hide();
 					}
 				});
 			}
@@ -307,31 +291,32 @@
 		
 		util.onScrollEnd(queryByPage);
 		
-		// 领取事件
+		// 跳转事件
 		$("#couponList").on("click", ".ticket-border", function() {
 			var $this = $(this);
-			if(!$this.hasClass("ticket-disabled") && !$this.hasClass("ticket-received")) {
-				// 待领取
-				var ll = cky.loadding();
-				$.post("{:U('pick')}", { ticketId: $this.attr("tid") }, function(result) {
-					cky.close(ll);
-					console.log(result);
-					if(result) {
-						cky.toast("领券成功");
-						// 重新计算 100%;
-						var percent = Math.round((Number($this.attr("usedCount")) + 1) * 100 / Number($this.attr("totalCount")));
-						$(".ticket-percent", $this.parent()).text(percent);
-						$(".ticket-btn", $this).text("进店看看")
-							.before("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
-						$this.addClass("ticket-received");
-					} else {
-						cky.toast("领券失败");
-					}
-				});
-			} else if($this.hasClass("ticket-received") && $this.attr('shopId')) {
+			if(!$this.hasClass("ticket-disabled") && $this.attr('shopId')) {
 				// 已领取： 跳转
 				window.location.href = "{:U('Shops/detail')}?shopId=" + $this.attr('shopId'); 
 			}
+		});
+		
+		var tab = $("#tab");
+		// tab页切换
+		$(".cky-col-view-cell", tab).click(function() {
+			var $this = $(this);
+			if(!$this.hasClass("cky-active")) {
+				$(".cky-active", tab).removeClass("cky-active");
+				$this.addClass("cky-active");
+				type = $this.attr("tab-type");
+				$("#moreButton").hide();
+				force = true;
+				queryByPage();
+			}
+		});
+		
+		// 更多按钮
+		$("#moreButton").click(function() {
+			window.location.href = "{:U('Activity/coupon')}";
 		});
 	});
 </script>

@@ -22,5 +22,22 @@ class ActivityTicketMModel extends BaseModel {
 //		echo $this->getLastSql();
 		return $ret;
 	}
+	
+	public function total($uid) {
+		$filter = 'ticketMStatus = 0 and efficacyEDate >= CURDATE() and uid='.$uid;
+		$unuse = $this->where($filter)->count();
+		
+		$filter = 'ticketMStatus = 1 and uid='.$uid;
+		$used = $this->where($filter)->count();
+		
+		$filter = 'ticketMStatus = 0 and efficacyEDate < CURDATE() and uid='.$uid;
+		$overdue = $this->where($filter)->count();
+		
+		return array(
+			'unuse'			=> $unuse,
+			'used'			=> $used,
+			'overdue'		=> $overdue,
+		);
+	}
 };
 ?>

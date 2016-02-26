@@ -79,3 +79,7 @@ textarea {
 .mui-btn .mui-icon {
 	font-size: 24px!important;
 }
+
+.mui-btn-block {
+	padding: 8px 0px;
+}

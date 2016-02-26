@@ -246,5 +246,16 @@ class PersonAction extends BaseUserAction {
 		$obj->UPCAbarcode($code);
 	}
 	
+	/** 优惠券 */
+	public function coupon() {
+		$m = D('M/ActivityTicketM');
+		$uid = getuid();
+		$data = $m->total($uid);
+//		echo $m->getLastSql();
+//		echo dump($data);
+		$this->assign('data', $data);
+		$this->assign('title', '优惠券');
+		$this->display();
+	}
 	
 }

@@ -134,7 +134,19 @@ class HomeAction extends BaseAction {
 			}				  
 			//$verycode= $_POST['verycode'];
 			$Mobile = $_POST['mobile'];
-						
+			$verycode=I("verycode");
+			
+			//验证验证码.
+			$mcode = D('M/Verifycode');	
+			$rs=$mcode->Check($Mobile,$verycode);
+			$status= (int)$rs["status"];
+			if($status != 1)
+			{
+				 $result["msg"]="验证码无效。";
+				 $this->ajaxReturn($result, "JSON");
+				 return;
+			}	 
+		
 			$mMember = D('M/Member');
 			$user=$mMember->GetByMobile($Mobile);	//根据手机查询	
 			$userOpenkey=$mMember->GetByOpenid($openid);	//根据手机查询

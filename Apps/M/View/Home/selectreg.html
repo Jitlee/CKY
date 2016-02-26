@@ -1,0 +1,49 @@
+ 		<!--<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  onclick="history.go(-1)"></a>
+			<h1 class="mui-title">选择</h1>
+		</header>-->
+ 
+		
+		<div class="mui-content">
+			<div class="mui-content-padded">
+			
+				<ul class="mui-table-view">
+					<li class="userline land-cell cell-center" data-bind="visible: isLogin" id="loginUser">					 
+						<span class="cell-right">
+							&nbsp;<br/>
+							<span style="text-align: center;padding-top: 3px; font-weight: bold; font-size: 24px;">温馨提示</span>
+							<p style="font-size: 16px; padding-top: 3px;">您还不是会员，享受更多优惠服务，请点击申请新卡或绑定会员卡。</p>
+						</span>					
+					</li>
+				</ul>
+			
+			<div style=" padding: 5px; text-align: center; ">
+				<button id='btnnewcard' type="button" class="mui-btn mui-btn-block mui-btn-primary">申请新卡</button>
+				<button id='btnconcard' type="button" class="mui-btn mui-btn-block mui-btn-outlined">绑定会员卡</button>
+			</div>
+			</div>	
+		</div>
+		<include file="Public:tab"/>
+<style>
+	.cell-right span{  padding: 1px;}
+	.mui-btn{ width: 97%;}
+	span{ padding: inherit;}
+</style>
+<script type="text/javascript">
+	 //表单提交
+	$(document).ajaxStart(function() {
+		$("button:submit").attr("disabled", true);
+	}).ajaxStop(function() {
+		$("button:submit").attr("disabled", false);
+	});
+	$(function() {		
+		$("#btnnewcard").click(function() {
+			window.location.href="{:U('Home/reg', '', '')}";
+			return false;
+		});
+		$("#btnconcard").click(function() {
+			window.location.href="{:U('Home/conncardbycardid', '', '')}";
+			return false;
+		});
+	});
+</script>

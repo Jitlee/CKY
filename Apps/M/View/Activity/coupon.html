@@ -365,7 +365,7 @@
 				$.post("{:U('pick')}", { ticketId: $this.attr("tid") }, function(result) {
 					cky.close(ll);
 					console.log(result);
-					if(result) {
+					if(result == 1) {
 						cky.toast("领券成功");
 						// 重新计算 100%;
 						var percent = Math.round((Number($this.attr("usedCount")) + 1) * 100 / Number($this.attr("totalCount")));
@@ -373,6 +373,10 @@
 						$(".ticket-btn", $this).text("进店看看")
 							.before("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
 						$this.addClass("ticket-received");
+					} else if(result == -2) {
+						cky.toast("做人不能贪心，你已经领取过了^_^")
+					} else if(result == -3) {
+						cky.toast("此券还是留给新人吧^_^");
 					} else {
 						cky.toast("领券失败");
 					}

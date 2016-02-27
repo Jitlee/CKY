@@ -42,6 +42,7 @@
 		width: 100%;
 	}
 </style>
+
 <header class="mui-bar mui-bar-nav mui-nav-white">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
@@ -49,42 +50,8 @@
 	<h1 id="title" class="mui-title">{$title}</h1>
 	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang"></i></button>
 </header>
-<div class="mui-content mui-content-bottom">
-	<div style="position: relative;">
-		<div style="position:absolute;left:0;width:35px;height:100px;
-			background-color:#ED7D31;text-align: center;padding-top: 8px;
-			font-size:20px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;
-			color:#fff;">本期主打</div>
-		<a  href="{$ads.adURL}"
-			style="margin-left:35px;margin-right:135px;
-			height:100px;display: block;
-			background-position: center;
-			background-image: url('/{$ads.adFile}');
-			background-repeat: no-repeat;background-size: cover;">
-		</a>
-		<a title="活动预告"
-			href="{:U('coming')}"
-			style="display: block;
-			position:absolute;right:0;top:0;width:135px;height:100px;
-			background-image: url('__IMG__/coming.png');
-			background-repeat: no-repeat;
-			background-position: 18px 50%;
-			background-size: 90% 90%;
-			background-color:#AAAAAA;text-align: center;"></a>
-	</div>
-	<div class="activity-categroy">
-		<div class="cky-col-view">
-			<volist name="catList" id="item" offset="0" length="3">
-				<div class="cky-col-view-cell" catId="{$item.catId}"><a>{$item.catName}</a></div>
-			</volist>
-		</div>
-		<div class="cky-col-view">
-			<volist name="catList" id="item" offset="3" length="2">
-				<div class="cky-col-view-cell" catId="{$item.catId}"><a>{$item.catName}</a></div>
-			</volist>
-			<div class="cky-col-view-cell cky-active" catId="0"><a>全部</a></div>
-		</div>
-	</div>
+
+<div class="mui-content">
 	<div id="activitiesLoading" class="mui-loading">
 		<div class="mui-spinner">
 		</div>
@@ -97,7 +64,7 @@
 		<!-- /ko -->
 	</div>
 </div>
-<include file="Public:tab"/>
+
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
 	
@@ -119,7 +86,7 @@
 			}
 			var _pageNo = pageNo;
 			if(!isEOF) {
-				$.getJSON("{:U('Activity/page')}", {
+				$.getJSON("{:U('Activity/pageComing')}", {
 					pageNo: _pageNo,
 					catId: catId,
 				}, function(list) {

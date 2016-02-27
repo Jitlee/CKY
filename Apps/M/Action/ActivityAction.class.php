@@ -90,4 +90,15 @@ class ActivityAction extends Controller {
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
+	
+	public function comming() {
+		$this->assign('title', '活动预告');
+		$this->display();
+	}
+	
+	public function pageComing() {
+		$m = D('M/Activity');
+		$list = $m->queryComing();
+		$this->ajaxReturn($list, 'JSON');
+	}
 }

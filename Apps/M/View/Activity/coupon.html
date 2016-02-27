@@ -66,6 +66,19 @@
 		color: #009999;
 	}
 	
+	.ticket-mini {
+	    background-color: rgba(0, 153, 153, 0.38);
+	    width: 120px;
+	    font-size: 12px;
+	    padding-left: 25px;
+	    border-radius: 30px;
+	    color: #fff;
+	    height: 20px;
+	    line-height: 20px;
+	    margin-top: 5px;
+	    margin-bottom: 5px;
+	}
+	
 	.ticket-date {
 		background-color: #009999;
 		color: #fff;
@@ -148,6 +161,10 @@
 		color: #999;
 	}
 	
+	.ticket-disabled .ticket-mini, .ticket-disabled .ticket-mini {
+		background-color: #ddd;
+	}
+	
 	.ticket-disabled .ticket-date {
 		background-color: #999;
 	}
@@ -156,13 +173,32 @@
 		color: #009999;
 	}
 	
+	.ticket-newer::after {
+	    content: "新人";
+	    position: absolute;
+	    top: 5px;
+	    right: -35px;
+	    background-color: #FF0000;
+	    height: 20px;
+	    line-height: 20px;
+	    text-align: center;
+	    width: 100px;
+	    -webkit-transform: rotate(45deg);
+	    color: #fff;
+	    font-size: 8px;
+	}
+	
+	.ticket-disabled .ticket-newer::after, .ticket-disabled .ticket-newer::after {
+		background-color: #ddd;
+	}
+	
 </style>
-<header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
+<header class="mui-bar mui-bar-nav">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
-		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
+		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
-	<h1 id="title" class="mui-title" style="color: #ED7D31;">{$title}</h1>
-	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang" style="color: #ED7D31;"></i></button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang"></i></button>
 </header>
 
 <link rel="stylesheet" href="__CSS__/swiper.min.css" />
@@ -199,10 +235,22 @@
 				<div class="cky-ellipsis font14" data-bind="text: title"></div>
 				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(Number(usedCount) * 100 / Number(totalCount))"></span>%</div>
 			</div>
-			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, usedCount: usedCount, totalCount: totalCount }, css: getTicketClass(totalCount, usedCount, isReceived)">
+			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, usedCount: usedCount, totalCount: totalCount }, css: getTicketClass(totalCount, usedCount, isReceived, onlyNewUser)">
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
+					
+				<!-- ko if: miniConsumption > 0 -->
 				<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
+				<!-- /ko -->
+				
+				<!-- ko if: miniConsumption == 0 && onlyNewUser == 0 -->
+				<div class="ticket-mini">无最低消费</div>
+				<!-- /ko -->
+				
+				<!-- ko if: miniConsumption == 0 && onlyNewUser == 1 -->
+				<div class="ticket-mini">新人专享</div>
+				<!-- /ko -->
+				
 				<!-- ko if: content -->
 				<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
 				<!-- /ko -->
@@ -253,13 +301,14 @@
 		return "";
 	}
 	
-	function getTicketClass(totalCount, usedCount, isReceived) {
+	function getTicketClass(totalCount, usedCount, isReceived, onlyNewUser) {
+		var css = onlyNewUser == "1" ? "ticket-newer " : "";
 		if(!isReceived && totalCount > 0 && totalCount == usedCount) {
-			return "ticket-disabled";
+			return css + "ticket-disabled";
 		} else if (isReceived) {
-			return "ticket-received";
+			return css + "ticket-received";
 		}
-		return "";
+		return css;
 	}
 	
 	$(function(){

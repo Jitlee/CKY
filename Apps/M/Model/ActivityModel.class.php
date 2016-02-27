@@ -31,5 +31,23 @@ class ActivityModel extends BaseModel {
 		$activityId = I('id', 0);
 		return $this->find($activityId);
 	}
+	
+	public function queryComing() {
+    		$pageSize = 12;
+		$pageNo = intval(I('pageNo', 1));
+		
+    		$catId = I('catId', 0);
+		$time= strftime("%Y-%m-%d");
+		$map = array(
+			'isShow'				=> 1,
+			'efficacySDate'		=> array('GT', $time),
+		);
+		if($catId > 0) {
+			$map['catId']	= $catId;
+		}
+		return $this->field('activityId, activityTitle, activityImg')->where($map)
+			->order('createTime')->page($pageNo, $pageSize)->select();
+    }
+	
 };
 ?>

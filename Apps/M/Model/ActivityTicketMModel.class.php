@@ -15,12 +15,19 @@ class ActivityTicketMModel extends BaseModel {
 	 */
 	public function pick($ticketId, $uid) {
 		$sql = 'insert into __ACTIVITY_TICKET_M__(ticketID, efficacySDate, efficacyEDate, uid, ticketMStatus)'
-			.'select ticketID, efficacySDate, efficacyEDate, '.$uid.', 0 from __ACTIVITY_TICKET__'
-			.' where ticketID = \''.$ticketId.'\' and usedCount < totalCount and ticketStatus = 1'
-			.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\') '
-			.'update cky_activity_ticket_m set usekey=CAST(ticket_m_id+10000000 as CHAR) where ticket_m_id=@@identity';
+		.'select ticketID, efficacySDate, efficacyEDate, '.$uid.', 0 from __ACTIVITY_TICKET__'
+		.' where ticketID = \''.$ticketId.'\' and sendCount < totalCount and ticketStatus = 1'
+		.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\'); ';			
 		$ret = $this->query($sql);
-//		echo $this->getLastSql();
+		if($ret != FALSE)
+		{
+			$sql="update cky_activity_ticket_m set usekey=Cast(ticket_m_ID+10000000 as CHAR) 
+	where createTime > date_add(now(),interval -1 minute) AND usekey='' ";
+			$ret = $this->query($sql);
+			//更新认领
+			$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
+			$ret = $this->query($sql);
+		}
 		return $ret;
 	}
 	

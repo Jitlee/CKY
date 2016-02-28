@@ -21,8 +21,7 @@ class MemberPayModel extends BaseModel {
 			}
 		}
 		return $rd;
-	} 
-	
+	}
 	
 	public function GetByPayNo($key)
 	{
@@ -63,6 +62,7 @@ class MemberPayModel extends BaseModel {
 			
 		return $res;
 	}
+	
 	/** 向一卡易帐户充值 **/
 	public function UpdateRechange($dataInfo,$carid)
 	{

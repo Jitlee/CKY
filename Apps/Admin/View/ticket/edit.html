@@ -31,23 +31,7 @@
 	}
    var filetypes = ["gif","jpg","png","jpeg"];
    $(function () {
-	   KindEditor.ready(function(K) {
-			editor1 = K.create('textarea[name="content"]', {
-				height:'350px',
-				allowFileManager : false,
-				allowImageUpload : true,
-				items:[
-				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-				        'anchor', 'link', 'unlink', '|', 'about'
-				],
-				afterBlur: function(){ this.sync(); }
-			});
-		});
+ 
 		
 	   $.formValidator.initConfig({
 		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
@@ -101,6 +85,8 @@
 	   params.totalCount= $('#totalCount').val();
 	   params.ticketAmount= $('#ticketAmount').val();
 	   params.limitUseShopID= $('#limitUseShopID').val();
+	   params.maxiConsumption= $('#maxiConsumption').val();
+	   
 	   if(params.ticketAmount=="")
 	   {
 	   		params.ticketAmount=0;
@@ -134,6 +120,7 @@
    {
    		$("#spantype").show();
    		$("#spanticketAmount").html("%");
+   		$("#trzkq").hide();
 		if($("#typeName").val()=='ptq')
 		{
 			$("#spantype").hide();
@@ -143,6 +130,11 @@
 		{
 			$("#spanticketAmount").html("元");
 		}
+		else if($("#typeName").val()=='zkq')
+		{
+			$("#spanticketAmount").html("元");
+			$("#trzkq").show();
+		}
    }
    </script>
    <style>
@@ -151,7 +143,7 @@
    </style>
    <body class="rtc-page">
    		<iframe name="upload" style="display:none"></iframe>
-		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:100px;left:120px;z-index:10;" 
+		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:130px;left:120px;z-index:10;" 
 			enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
 				<input id="adFile" name="adFile" class="form-control rtc-ipt" type="text" value="{$object.imagePath}" readonly 
@@ -199,7 +191,12 @@
              	<input type='text' id='totalCount' class="form-control rtc-ipt" value='{$object.totalCount}' style='width:150px' maxLength='8'/>
              </td>
            </tr>
-           
+           <tr>
+             <th align='right'>卡券内容<font color='red'>*</font>：</th>
+             <td>
+             		<input type='text' id='content' class="form-control rtc-ipt" value='{$object.content}' style='width:300px' maxLength='50'/>             
+             </td>
+           </tr>
            <tr style="height:50px;">
              <th align='right'>形象图片<font color='red'>*</font>：</th>
              <td></td>
@@ -260,6 +257,14 @@
              		 style='width:300px' maxLength='5'/>元 [消费达到此额度才能使用] [0表示不限制]
              </td>
            </tr>
+           <tr id="trzkq">
+             <th align='right'>最高折扣金额<font color='red'>*</font>：</th>
+             <td>
+             	<input type='text' id='maxiConsumption' class="form-control rtc-ipt" value='{$object.miniConsumption}'
+             		 style='width:300px' maxLength='5'/>元 [消费最高折扣金额] [0表示不限制]
+             </td>
+           </tr>
+            
            <tr>
              <th align='right'>新人专享<font color='red'>*</font>：</th>
              <td>
@@ -302,12 +307,7 @@
              	</table> 
              </td>
            </tr>
-           <tr>
-             <th align='right'>卡券内容<font color='red'>*</font>：</th>
-             <td>
-             <textarea id='content' name='content' style='width:50%;height:200px;'>{$object.content}</textarea>
-             </td>
-           </tr>
+           
            <tr>
              <td colspan='2' style='padding-left:250px;'>
                  <button type="submit" class="btn btn-success">保&nbsp;存</button>

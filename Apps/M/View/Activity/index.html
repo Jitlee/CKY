@@ -75,12 +75,12 @@
 	<div class="activity-categroy">
 		<div class="cky-col-view">
 			<volist name="catList" id="item" offset="0" length="3">
-				<div class="cky-col-view-cell" catId="{$item.catId}"><a>{$item.catName}</a></div>
+				<div class="cky-col-view-cell"  catkey="{$item.catkey}" catId="{$item.catId}"><a>{$item.catName}</a></div>
 			</volist>
 		</div>
 		<div class="cky-col-view">
 			<volist name="catList" id="item" offset="3" length="2">
-				<div class="cky-col-view-cell" catId="{$item.catId}"><a>{$item.catName}</a></div>
+				<div class="cky-col-view-cell"   catkey="{$item.catKey}" catId="{$item.catId}"><a>{$item.catName}</a></div>
 			</volist>
 			<div class="cky-col-view-cell cky-active" catId="0"><a>全部</a></div>
 		</div>
@@ -143,15 +143,13 @@
 			}
 		}
 		queryByPage();
-		
 		util.onScrollEnd(queryByPage);
-		
 		// 活动分类点击
 		$(".activity-categroy .cky-col-view-cell").click(function() {
 			var $this = $(this);
-			catId = $this.attr('catId');
+			catkey = $this.attr('catkey');
 			
-			if(catId == 357) {
+			if(catkey == "card") {
 				window.location.href = "{:U('coupon')}";
 				return;
 			}

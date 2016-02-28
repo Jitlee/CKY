@@ -27,13 +27,16 @@ class TicketModel extends BaseModel {
 		$data["efficacyEDate"] = I("efficacyEDate");
 		//$data["endDate"] = I("endDate");		
 		$data["miniConsumption"] = (int)I("miniConsumption");
+		$data["maxiConsumption"] = I("maxiConsumption");
+		
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");
 		$data["limitGetnum"] = (int)I("limitGetnum");
 		$data["onlyNewUser"] = (int)I("onlyNewUser");
 		$data["totalCount"] = (int)I("totalCount");
-		$data["ticketAmount"] = (int)I("ticketAmount");
+		$data["ticketAmount"] = (double)I("ticketAmount");
 		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
+		
 		
 		$data["createTime"] = date('Y-m-d H:i:s');
 	    
@@ -63,12 +66,14 @@ class TicketModel extends BaseModel {
 		$data["efficacyEDate"] = I("efficacyEDate");
 		//$data["endDate"] = I("endDate");		
 		$data["miniConsumption"] = (int)I("miniConsumption");
+		$data["maxiConsumption"] = I("maxiConsumption");
+		
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");
 		$data["limitGetnum"] = (int)I("limitGetnum");
 		$data["onlyNewUser"] = (int)I("onlyNewUser");
 		$data["totalCount"] = (int)I("totalCount");
-		$data["ticketAmount"] = (int)I("ticketAmount");
+		$data["ticketAmount"] = (double)I("ticketAmount");
 		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
 		
 	    if($this->checkEmpty($data,true)){	

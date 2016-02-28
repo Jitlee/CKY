@@ -55,11 +55,11 @@
 				<a data-bind="attr:{ href: '{:U('Fast/detail')}?id=' + shopId }">
 					<div>
 							<span class="cky-media-title font20" data-bind="text: shopName"></span>
-							<label class="cky-right font12 font-gray2"><span>快餐</span></label>
+							<label class="cky-right font12 font-gray2"><span data-bind="text: shoptypes"></span></label>
 					</div>
 					<div class="subline">
 							<span class="cky-score font12" data-bind="html:cky.getScore(totalScore / 3.0 / totalUsers)"></span>
-							&nbsp;<span class="font12"><em data-bind="text: totalUsers/3"></em> 人评价</span>
+							&nbsp;<span class="font12"><em data-bind="text: totalUsers/3" class=" font12 "></em> 人评价</span>
 							<label class="cky-right font12"  data-bind="text: geolocation.distanceToReadability(distance * geolocation.METERS_PER_DEGREE)">0.3KM</label>
 							
 					</div> 

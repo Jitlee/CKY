@@ -344,6 +344,10 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.longitude = $('#longitude').val();
 	   params.mapLevel = $('#mapLevel').val();
 	   params.shopDesc = $('#shopDesc').val();
+	   if(params.shopDesc==""){ 
+	   		Plugins.Tips({title:'信息提示',icon:'error',content:'请输入商家描述!',timeout:1000});
+		   return;
+	  	}
 	   //拒绝的时候不用上传
 	   if(params.shopImg=='' && params.shopStatus!=-1 ){
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请上传商家图片!',timeout:1000});
@@ -419,7 +423,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 				Plugins.Tips({title:'信息提示',icon:'error',content:'登录账号或店主联系手机已存在!',timeout:1000});
 			}else{
 				Plugins.closeWindow();
-				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!'+data,timeout:1000});
 			}
 		});
    }

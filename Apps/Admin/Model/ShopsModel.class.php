@@ -166,156 +166,161 @@ class ShopsModel extends BaseModel {
 	  * 修改
 	  */
 	 public function edit(){
-	 	$rd = array('status'=>-1);
-	 	$shopId = (int)I('id',0);
-	 	if($shopId==0)return rd;
-	 	$m = M('shops');
-	 	//获取店铺资料
-	 	$shops = $m->where("shopId=".$shopId)->find();
-	    //检测手机号码是否存在
-	 	if(I("userPhone")!=''){
-	 		$hasUserPhone = self::checkLoginKey(I("userPhone"),$shops['userId']);
-	 		if($hasUserPhone==0){
-	 			$rd = array('status'=>-2);
-	 		    return $rd;
-	 		}
-	 	}
-	    $data = array();
-		$data["shopSn"] = I("shopSn");
-		$data["areaId1"] = (int)I("areaId1");
-		$data["areaId2"] = (int)I("areaId2");
-		$data["areaId3"] = (int)I("areaId3");
-		$data["goodsCatId1"] = (int)I("goodsCatId1");
-		$data["goodsCatId2"] = (int)I("goodsCatId2");
-		$data["isSelf"] = (int)I("isSelf",0);
-		if($data["isSelf"]==1){
-			$data["deliveryType"] = 1;
-		}else{
-			$data["deliveryType"] = 0;
-		}
-		$data["shopName"] = I("shopName");
-		$data["shopCompany"] = I("shopCompany");
-		$data["shopImg"] = I("shopImg");
-		$data["shopAddress"] = I("shopAddress");
-		$data["deliveryStartMoney"] = I("deliveryStartMoney",0);
-		$data["deliveryCostTime"] = I("deliveryCostTime",0);
-		$data["deliveryFreeMoney"] = I("deliveryFreeMoney",0);
-		$data["deliveryMoney"] = I("deliveryMoney",0);
-		$data["deliveryOff"] = I("deliveryOff",0);
-		$data["avgeCostMoney"] = I("avgeCostMoney",0);
-		$data["bankId"] = I("bankId");
-		$data["bankNo"] = I("bankNo");
-		$data["longitude"] = (float)I("longitude");
-		$data["latitude"] = (float)I("latitude");
-		$data["mapLevel"] = (int)I("mapLevel",13);
-		$data["isInvoice"] = I("isInvoice",1);
-		$data["serviceStartTime"] = I("serviceStartTime");
-		$data["serviceEndTime"] = I("serviceEndTime");
-		$data["shopStatus"] = (int)I("shopStatus",0);
-		$data["shopAtive"] = (int)I("shopAtive",1);
-		$data["shopTel"] = I("shopTel");
-		$data["shopDesc"] = I("shopDesc");
-	 
-		
-		if($this->checkEmpty($data,true)){
-			$data['qqNo'] = I('qqNo');
-			$data["invoiceRemarks"] = I("invoiceRemarks");
-			$rs = $m->where("shopId=".$shopId)->save($data);
-		    if(false !== $rs){
-		    	$shopMessage = '';
-		    	//如果[已通过的店铺]被改为未审核的话也要停止了该店铺的商品
-		    	if($shops['shopStatus']!=$data['shopStatus']){
-					if($data['shopStatus']!=1){
-						$sql = "update __PREFIX__goods set isSale=0,goodsStatus=0 where shopId=".$shopId;
-			 	        $m->execute($sql);
-			 	        $shopMessage = "您的店铺状态已被改为“未审核”状态，如有疑问请与商场管理员联系。";
+	 	try
+	 	{
+		 	$rd = array('status'=>-1);
+		 	$shopId = (int)I('id',0);
+		 	if($shopId==0)return rd;
+		 	$m = M('shops');
+		 	//获取店铺资料
+		 	$shops = $m->where("shopId=".$shopId)->find();
+		    //检测手机号码是否存在
+		 	if(I("userPhone")!=''){
+		 		$hasUserPhone = self::checkLoginKey(I("userPhone"),$shops['userId']);
+		 		if($hasUserPhone==0){
+		 			$rd = array('status'=>-2);
+		 		    return $rd;
+		 		}
+		 	}
+		    $data = array();
+			$data["shopSn"] = I("shopSn");
+			$data["areaId1"] = (int)I("areaId1");
+			$data["areaId2"] = (int)I("areaId2");
+			$data["areaId3"] = (int)I("areaId3");
+			$data["goodsCatId1"] = (int)I("goodsCatId1");
+			$data["goodsCatId2"] = (int)I("goodsCatId2");
+			$data["isSelf"] = (int)I("isSelf",0);
+			if($data["isSelf"]==1){
+				$data["deliveryType"] = 1;
+			}else{
+				$data["deliveryType"] = 0;
+			}
+			$data["shopName"] = I("shopName");
+			$data["shopCompany"] = I("shopCompany");
+			$data["shopImg"] = I("shopImg");
+			$data["shopAddress"] = I("shopAddress");
+			$data["deliveryStartMoney"] = I("deliveryStartMoney",0);
+			$data["deliveryCostTime"] = I("deliveryCostTime",0);
+			$data["deliveryFreeMoney"] = I("deliveryFreeMoney",0);
+			$data["deliveryMoney"] = I("deliveryMoney",0);
+			$data["deliveryOff"] = I("deliveryOff",0);
+			$data["avgeCostMoney"] = I("avgeCostMoney",0);
+			$data["bankId"] = I("bankId");
+			$data["bankNo"] = I("bankNo");
+			$data["longitude"] = (float)I("longitude");
+			$data["latitude"] = (float)I("latitude");
+			$data["mapLevel"] = (int)I("mapLevel",13);
+			$data["isInvoice"] = I("isInvoice",1);
+			$data["serviceStartTime"] = I("serviceStartTime");
+			$data["serviceEndTime"] = I("serviceEndTime");
+			$data["shopStatus"] = (int)I("shopStatus",0);
+			$data["shopAtive"] = (int)I("shopAtive",1);
+			$data["shopTel"] = I("shopTel");
+			$data["shopDesc"] = I("shopDesc");
+		 
+			
+			if($this->checkEmpty($data,true)){
+				$data['qqNo'] = I('qqNo');
+				$data["invoiceRemarks"] = I("invoiceRemarks");
+				$rs = $m->where("shopId=".$shopId)->save($data);
+			    if(false !== $rs){
+			    	$shopMessage = '';
+			    	//如果[已通过的店铺]被改为未审核的话也要停止了该店铺的商品
+			    	if($shops['shopStatus']!=$data['shopStatus']){
+						if($data['shopStatus']!=1){
+							$sql = "update __PREFIX__goods set isSale=0,goodsStatus=0 where shopId=".$shopId;
+				 	        $m->execute($sql);
+				 	        $shopMessage = "您的店铺状态已被改为“未审核”状态，如有疑问请与商场管理员联系。";
+						}
+						if($shops['shopStatus']!=1 && $data['shopStatus']==1){
+							$shopMessage = "您的店铺状态已被改为“已审核”状态，您可以出售自己的商品啦~";
+						}
+						$yj_data = array(
+							'msgType' => 0,
+							'sendUserId' => session('RTC_STAFF.staffId'),
+							'receiveUserId' => $shops['userId'],
+							'msgContent' => $shopMessage,
+							'createTime' => date('Y-m-d H:i:s'),
+							'msgStatus' => 0,
+							'msgFlag' => 1,
+						);
+						M('messages')->add($yj_data);
+			    	}
+			    	//检查用户类型
+			    	$m = M('users');
+			    	$userType = $m->where('userId='.$shops['userId'])->getField('userType');
+			    	
+			    	//保存用户资料		    	
+			    	$data = array();
+			    	$data["userName"] = I("userName");
+			        $data["userPhone"] = I("userPhone");
+			       
+			        //如果是普通用户则提升为店铺会员
+			        if($userType==0){
+			        	$data["userType"] = 1;
+			        }
+			        $urs = $m->where("userId=".$shops['userId'])->save($data);
+					$rd['status']= 1;
+					
+			        //建立店铺和社区的关系
+					$relateArea = I('relateAreaId');
+					$relateCommunity = I('relateCommunityId');
+					$m = M('shops_communitys');
+					$m->where('shopId='.$shopId)->delete();
+					if($relateArea!=''){
+						$relateAreas = explode(',',$relateArea);
+						foreach ($relateAreas as $v){
+							if($v=='' || $v=='0')continue;
+							    $tmp = array();
+								$tmp['shopId'] = $shopId;
+								$tmp['areaId1'] = (int)I("areaId1");
+								$tmp['areaId2'] = (int)I("areaId2");
+								$tmp['areaId3'] = $v;
+								$tmp['communityId'] = 0;
+								if(false === $m->add($tmp)) {
+									$rd['status']= -3;
+									return $rd;
+								}
+						}
 					}
-					if($shops['shopStatus']!=1 && $data['shopStatus']==1){
-						$shopMessage = "您的店铺状态已被改为“已审核”状态，您可以出售自己的商品啦~";
-					}
-					$yj_data = array(
-						'msgType' => 0,
-						'sendUserId' => session('RTC_STAFF.staffId'),
-						'receiveUserId' => $shops['userId'],
-						'msgContent' => $shopMessage,
-						'createTime' => date('Y-m-d H:i:s'),
-						'msgStatus' => 0,
-						'msgFlag' => 1,
-					);
-					M('messages')->add($yj_data);
-		    	}
-		    	//检查用户类型
-		    	$m = M('users');
-		    	$userType = $m->where('userId='.$shops['userId'])->getField('userType');
-		    	
-		    	//保存用户资料		    	
-		    	$data = array();
-		    	$data["userName"] = I("userName");
-		        $data["userPhone"] = I("userPhone");
-		       
-		        //如果是普通用户则提升为店铺会员
-		        if($userType==0){
-		        	$data["userType"] = 1;
-		        }
-		        $urs = $m->where("userId=".$shops['userId'])->save($data);
-				$rd['status']= 1;
-				
-		        //建立店铺和社区的关系
-				$relateArea = I('relateAreaId');
-				$relateCommunity = I('relateCommunityId');
-				$m = M('shops_communitys');
-				$m->where('shopId='.$shopId)->delete();
-				if($relateArea!=''){
-					$relateAreas = explode(',',$relateArea);
-					foreach ($relateAreas as $v){
-						if($v=='' || $v=='0')continue;
-						    $tmp = array();
-							$tmp['shopId'] = $shopId;
-							$tmp['areaId1'] = (int)I("areaId1");
-							$tmp['areaId2'] = (int)I("areaId2");
-							$tmp['areaId3'] = $v;
-							$tmp['communityId'] = 0;
-							if(false === $m->add($tmp)) {
-								$rd['status']= -3;
-								return $rd;
-							}
-					}
-				}
-				if($relateCommunity!=''){
-				    $m = M('communitys');
-				    $lc = $m->where('communityFlag=1 and (communityId in(0,'.$relateCommunity.") or areaId3 in(0,".$relateArea."))")->select();
-				    if(count($lc)>0){
-				    	$m = M('shops_communitys');
-						foreach ($lc as $key => $v){
-							$tmp = array();
-							$tmp['shopId'] = $shopId;
-							$tmp['areaId1'] = $v['areaId1'];
-							$tmp['areaId2'] = $v['areaId2'];
-							$tmp['areaId3'] = $v['areaId3'];
-							$tmp['communityId'] = $v['communityId'];
-							if(false === $m->add($tmp)) {
-								$rd['status']= -4;
-								return $rd;
+					if($relateCommunity!=''){
+					    $m = M('communitys');
+					    $lc = $m->where('communityFlag=1 and (communityId in(0,'.$relateCommunity.") or areaId3 in(0,".$relateArea."))")->select();
+					    if(count($lc)>0){
+					    	$m = M('shops_communitys');
+							foreach ($lc as $key => $v){
+								$tmp = array();
+								$tmp['shopId'] = $shopId;
+								$tmp['areaId1'] = $v['areaId1'];
+								$tmp['areaId2'] = $v['areaId2'];
+								$tmp['areaId3'] = $v['areaId3'];
+								$tmp['communityId'] = $v['communityId'];
+								if(false === $m->add($tmp)) {
+									$rd['status']= -4;
+									return $rd;
+								}
 							}
 						}
 					}
-				}
-				
-				// 商家行业
-				$plates = json_decode(html_entity_decode(stripslashes(I('plates'))));
-				$m = M('ShopPlates');
-				$m->where(array('shopId'=>$shopId))->delete();
-				foreach($plates as $plate) {
-					$plate = (array)$plate;
-					$plate['shopId'] = $shopId;
-					if(false === $m->add($plate)) {
-						$rd['status']= -5;
-						return $rd;
+					// 商家行业
+					$plates = json_decode(html_entity_decode(stripslashes(I('plates'))));
+					$m = M('ShopPlates');
+					$m->where(array('shopId'=>$shopId))->delete();
+					foreach($plates as $plate) {
+						$plate = (array)$plate;
+						$plate['shopId'] = $shopId;
+						if(false === $m->add($plate)) {
+							$rd['status']= -5;
+							return $rd;
+						}
 					}
 				}
 			}
 		}
-	
+	 	catch(Exception $e)
+		{
+			$rd["msg"]=$e->getMessage();   
+		}
 		return $rd;
 	 } 
 	 /**
@@ -397,11 +402,13 @@ class ShopsModel extends BaseModel {
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
  
-	 	$sql = "select IFNULL(rc.recommid,0) recommid,shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName from __PREFIX__shops s
-	 		left join __PREFIX__users u on s.userId=u.userId   
-	 		left join __PREFIX__goods_cats gc on gc.catId=s.goodsCatId1 
-	 		left join __PREFIX__recommend rc  on s.shopid=rc.shopsid  
-	 	     where   shopStatus=1 and shopFlag=1 ";
+	 	$sql = "select IFNULL(rc.recommid,0) recommid,s.shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName from __PREFIX__shops s
+	 		left join __PREFIX__users u on s.userId=u.userId
+	 		left join __PREFIX__recommend rc  on s.shopid=rc.shopsid
+	 		left join __PREFIX__shop_plates	sp on sp.shopid=s.shopid
+		  	left join __PREFIX__goods_cats gc on gc.catId=sp.plateid1		  
+	 	     where   
+	 	     	shopStatus=1 and shopFlag=1 ";
  
 //	 	$sql = "select s.shopId,shopSn,shopName,u.userName,shopAtive,shopStatus,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) catName from __PREFIX__shops s,__PREFIX__users u , __PREFIX__shop_plates sp,__PREFIX__goods_cats gc 
 //	 	     where s.shopId=sp.shopId and sp.plateId1=gc.catId and s.userId=u.userId and shopStatus=1 and shopFlag=1 ";
@@ -410,7 +417,7 @@ class ShopsModel extends BaseModel {
 	 	if(I('shopSn')!='')$sql.=" and shopSn like '%".I('shopSn')."%'";
 	 	if($areaId1>0)$sql.=" and areaId1=".$areaId1;
 	 	if($areaId2>0)$sql.=" and areaId2=".$areaId2;
-	 	$sql.=" group by s.shopId order by shopId desc";
+	 	$sql.=" group by s.shopId order by s.shopId desc";
 //		echo $sql;
 		return $this->pageQuery($sql);
 	 }

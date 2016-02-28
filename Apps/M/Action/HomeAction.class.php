@@ -290,23 +290,28 @@ class HomeAction extends BaseAction {
 	
 	public function ftest()
 	{
-		$mOne = D('M/OneCard');
-		$mobile="18617097726";
+//		$mOne = D('M/OneCard');
+//		$mobile="18617097726";
+//		
+//		$code=rand(1010,9797);		
+//		$content="尊敬的用户：".$code."是本次操作的验证码，5分钟内有效。";		
+//		$res=$mOne->SendVerycode($mobile,$content);
+//		$status= (int)$res["status"];
+//		if($status == 0)
+//		{
+//			$mcode = D('M/Verifycode');	
+//			$res=$mcode->Insert($mobile,$code);
+//			$status= (int)$res["status"];
+//			if($status == 1)
+//			{
+//				echo "成功";	
+//			}
+//		}
+
+		$m = D('M/ActivityTicketM');
+		$list = $m->pick("A1C970B6-8741-961A-695A-82D2EBECA354",72);
 		
-		$code=rand(1010,9797);		
-		$content="尊敬的用户：".$code."是本次操作的验证码，5分钟内有效。";		
-		$res=$mOne->SendVerycode($mobile,$content);
-		$status= (int)$res["status"];
-		if($status == 0)
-		{
-			$mcode = D('M/Verifycode');	
-			$res=$mcode->Insert($mobile,$code);
-			$status= (int)$res["status"];
-			if($status == 1)
-			{
-				echo "成功";	
-			}
-		}
+		echo dump($list);
 	}
 	
 public function create_guid($namespace = '') {     

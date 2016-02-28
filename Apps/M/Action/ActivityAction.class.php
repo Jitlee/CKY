@@ -12,7 +12,6 @@ use Think\Controller;
 class ActivityAction extends Controller {
 	public function index() {
 		$this->assign('title', '活动');
-		
 		$addb = D('M/Ads');
 		$ads = $addb->queryByType(-3);
 		
@@ -23,13 +22,13 @@ class ActivityAction extends Controller {
 		$m = D('M/GoodsCats');
 		$categories = array_slice($m->queryByParentkey("activity"), 0, 5);
 	    $this->assign('catList', $categories);
+		//echo dump($categories);
 		$this->display();
 	}
 	
 	public function page() {
 		$m = D('M/Activity');
 		$list = $m->queryByCatId();
-//		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	

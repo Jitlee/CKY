@@ -10,10 +10,10 @@
  */
 class ActivityModel extends BaseModel {
     public function queryByCatId() {
-    		$pageSize = 12;
+    	$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
 		
-    		$catId = I('catId', 0);
+    	$catId = I('catId', 0);
 		$time= strftime("%Y-%m-%d");
 		$map = array(
 			'isShow'				=> 1,
@@ -53,7 +53,7 @@ class ActivityModel extends BaseModel {
 		$pageSize = 120;
 		$pageNo = intval(I('pageNo', 1));
 		
-    		$shopId = I('shopId', 0);
+    	$shopId = I('shopId', 0);
 		$time= strftime("%Y-%m-%d");
 		$map = array(
 			'limitUseShopID'		=> $shopId,

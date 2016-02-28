@@ -14,7 +14,6 @@ r {
 }
 
 .cky-bar,.cky-bar-item,
-
 .cky-grid,.cky-grid-cell,
 .cky-table-view,.cky-table-view-cell,
 .cky-segmented-item {
@@ -749,3 +748,4 @@ p.cky-update {
 	right: 50px;
 }
 .star_c{ color:#FCD410;}
+.mui-content-empty {margin: 10px;text-align: center;  font-size: 16px;}

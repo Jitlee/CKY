@@ -25,6 +25,7 @@ class ActivityModel extends BaseModel {
 		$data["activityContent"] = I("activityContent");
 		$data["activityKey"] = I("activityKey");
 		$data["activityImg"] = I("activityImg");
+		$data["limitUseShopID"] = (int)I("limitUseShopID");
 		
 		$data["staffId"] =1;// (int)session('RTC_STAFF.staffId');
 		$data["createTime"] = date('Y-m-d H:i:s');
@@ -54,6 +55,7 @@ class ActivityModel extends BaseModel {
 		$data["activityContent"] = I("activityContent");
 		$data["activityKey"] = I("activityKey");
 		$data["activityImg"] = I("activityImg");
+		$data["limitUseShopID"] = (int)I("limitUseShopID");
 		
 		$data["staffId"] =(int)session('RTC_STAFF.staffId');
 	    if($this->checkEmpty($data,true)){	
@@ -77,9 +79,17 @@ class ActivityModel extends BaseModel {
 	  */
      public function queryByPage(){
         $m = M('activity');
-	 	$sql = "select a.activityTitle,a.activityId,a.efficacySDate,a.efficacyEDate,a.activitySort,a.isShow,a.createTime,c.catName,a.activityImg,s.staffName
-	 	    from __PREFIX__activity a,__PREFIX__goods_cats c,__PREFIX__staffs s 
-	 	    where a.catId=c.catId and a.staffId = s.staffId ";
+	 	$sql = "
+	 	select 
+	 		a.activityTitle,a.activityId,a.efficacySDate,a.efficacyEDate,a.activitySort
+	 		,a.isShow,a.createTime,c.catName,a.activityImg,s.staffName,sp.shopName
+	 	from __PREFIX__activity a 
+		left join __PREFIX__shops sp on sp.shopid=a.limitUseShopID  
+	 	left join __PREFIX__goods_cats c on a.catId=c.catId
+		left join __PREFIX__staffs s on a.staffId = s.staffId 
+	 	where 
+	 		a.catId=c.catId and a.staffId = s.staffId 
+	 	";
 	 	if(I('activityTitle')!='')$sql.=" and activityTitle like '%".I('activityTitle')."%'";
 	 	$sql.=' order by activityId desc';
 		return $m->pageQuery($sql);

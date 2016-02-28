@@ -436,8 +436,16 @@ class ShopsModel extends BaseModel {
 	  */
 	  public function queryByList(){
 	     $m = M('shops');
-	     $sql = "select IFNULL(rc.recommid,0) recommid,s.* from __PREFIX__shops s left join __PREFIX__recommend rc  on s.shopid=rc.shopsid  order by s.shopId desc";
-		 $rs = $m->find($sql);
+	     $sql = "select IFNULL(rc.recommid,0) recommid,s.* from __PREFIX__shops s left join __PREFIX__recommend rc  on s.shopid=rc.shopsid  order by s.shopId desc";		  
+		 $rs = $m->query($sql);
+		 return $rs;
+	  }
+	  
+	  public function queryListForSelect(){
+	     $m = M('shops');
+	     $sql = "select s.shopId,s.shopName from __PREFIX__shops s where shopStatus=1 order by s.shopId desc";		  
+		 $rs = $m->query($sql);		 
+		 return $rs;
 	  }
 	  
 	 /**

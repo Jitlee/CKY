@@ -66,13 +66,14 @@
                <th width='40'>序号</th>
                <th>标题</th>
                <th width='100'>分类</th>
-               <th width='80'>预发数量</th>
+               
                <th width='120'>金额(元)/折扣(%)</th>
                <th width='80'>最低消费</th>
                
                <th width='190'>有效期</th>
                <!--<th width='100'>结束时间</th>-->
-               
+               <th width='150'>活动商家</th>
+               <th width='80'>预发数量</th>
                <th width='80'>已发数量</th>
                <th width='80'>已用数量</th>
                
@@ -91,13 +92,15 @@
 	               	<if condition="$vo['typeName']=='djq' ">代金券</if>
 	               	<if condition="$vo['typeName']=='zkq' ">折扣券</if>
                </td>
-               <td>{$vo['totalCount']}</td>
+               
                <td>{$vo['ticketAmount']}</td>
                <td>{$vo['miniConsumption']}</td>
                
                <td>{$vo['efficacySDate']}至{$vo['efficacyEDate']}</td>
               <!-- <td>{$vo['endDate']}</td>-->
+               <td>{$vo['shopName']}</td>
                
+               <td>{$vo['totalCount']}</td>
                <td>{$vo['sendCount']}</td>
                <td>{$vo['usedCount']}</td>
                

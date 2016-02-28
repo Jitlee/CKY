@@ -100,6 +100,7 @@
 	   params.limitGetnum = $('#limitGetnum').val();
 	   params.totalCount= $('#totalCount').val();
 	   params.ticketAmount= $('#ticketAmount').val();
+	   params.limitUseShopID= $('#limitUseShopID').val();
 	   if(params.ticketAmount=="")
 	   {
 	   		params.ticketAmount=0;
@@ -267,6 +268,19 @@
            </tr>
            
            <tr>
+             <th align='right'>活动商家<font color='red'>*</font>：</th>
+             <td>
+             	<select id="limitUseShopID" name="limitUseShopID">
+             		<option  value="0">全部商家</option>
+	             	 <volist name="shops" id="vo" key='i'>
+	             		<option value="{$vo['shopId']}" <if condition="$object['limitUseShopID'] == $vo['shopId'] ">selected</if> >{$vo['shopName']}</option>
+	             	</volist>               
+             	</select>      	
+             </td>
+           </tr>
+           
+           
+           <tr class="mui-hidden">
              <th align='right'>限制条件<font color='red'>*</font>：</th>
              <td class="limit">
              	<table>

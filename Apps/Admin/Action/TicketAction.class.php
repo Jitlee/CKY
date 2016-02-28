@@ -17,24 +17,31 @@ class TicketAction extends BaseAction{
 	    $m = D('Admin/Ticket');
 	    	$object = array();
 			
-	    	if(strlen(I('id'))>0){
-	    		$this->checkPrivelege('wzlb_02');
-	    		$object = $m->get();
-				//dump($object);
-	    	}else{
-	    		$this->checkPrivelege('wzlb_01');
-	    		$object = $m->getModel();
-				$object["limitDayUse"]=1;
-				$object["limitDayGet"]=1;
-				$object["limitGetnum"]=1;
-				$object["miniConsumption"]=0;
-				$object["efficacySDate"] = date('Y-m-d');
-				$object["efficacyEDate"] = date("Y-m-d",strtotime("+1 month"));	
-	    	}
-//	    	$m = D('Admin/GoodsCats');
-//	    	$this->assign('catList',$m->queryByList(347));
-	    	$this->assign('object',$object);
-			$this->view->display('/ticket/edit');
+    	if(strlen(I('id'))>0){
+    		$this->checkPrivelege('wzlb_02');
+    		$object = $m->get();
+			//dump($object);
+    	}else{
+    		$this->checkPrivelege('wzlb_01');
+    		$object = $m->getModel();
+			$object["limitDayUse"]=1;
+			$object["limitDayGet"]=1;
+			$object["limitGetnum"]=1;
+			$object["miniConsumption"]=0;
+			$object["efficacySDate"] = date('Y-m-d');
+			$object["efficacyEDate"] = date("Y-m-d",strtotime("+1 month"));
+			$object["limitUseShopID"]=0;
+				
+    	}
+		
+		//select shops
+		$mshop = D('Admin/Shops');
+		$shops=$mshop->queryListForSelect();		
+	    $this->assign('shops',$shops);
+		//end select shops
+		
+    	$this->assign('object',$object);
+		$this->view->display('/ticket/edit');
 	}
 	/**
 	 * 新增/修改操作 

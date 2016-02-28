@@ -62,8 +62,7 @@ class PersonAction extends BaseUserAction {
 	}
 	
 	public function changepwd()
-	{
-		
+	{	
 		if(IS_POST) {
 			$key=$this->GetCardId();
 			$mMember = D('M/OneCard');
@@ -84,6 +83,13 @@ class PersonAction extends BaseUserAction {
 		$mMember = D('M/Member');
 		
 		$result=$this->scorelistPageLoad(10,1);
+		
+		$datanum=1;
+		if($result==null){
+			$datanum=0;
+		}
+		$this->assign('datanum', $datanum);
+		
 		$this->assign('data', $result);
 		$this->assign('title', "积分记录");
 		layout(TRUE);
@@ -112,6 +118,13 @@ class PersonAction extends BaseUserAction {
 	{
 		$mMember = D('M/Member');
 		$result=$this->rechargelistPageLoad(10,1);
+		
+		$datanum=1;
+		if($result==null){
+			$datanum=0;
+		}
+		$this->assign('datanum', $datanum);
+		
 		$this->assign('data', $result);
 		$this->assign('title', "储值记录");
 		layout(TRUE);
@@ -137,8 +150,15 @@ class PersonAction extends BaseUserAction {
 	public function consumelist()
 	{
 		$mMember = D('M/Member');
-		$result=$this->consumelistPageLoad(10,1);		
-		$this->assign('data', $result);
+		$result=$this->consumelistPageLoad(10,1);
+		
+		$datanum=1;
+		if($result==null){
+			$datanum=0;
+		}
+		$this->assign('datanum', $datanum);
+		//echo dump($result);
+		$this->assign('data', $result);		
 		$this->assign('title', "消费记录");
 		layout(TRUE);
 		$this->display();
@@ -153,7 +173,7 @@ class PersonAction extends BaseUserAction {
 	{
 		$mMember = D('M/Member');
 		$uid=session("uid");
-		$result=$mMember->GetConsumeList($uid,$pageSize,$pageNum);		 
+		$result=$mMember->GetConsumeList($uid,$pageSize,$pageNum);			 
 		return $result;
 	}
 	

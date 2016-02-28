@@ -33,6 +33,7 @@ class TicketModel extends BaseModel {
 		$data["onlynewUser"] = (int)I("onlynewUser");
 		$data["totalCount"] = (int)I("totalCount");
 		$data["ticketAmount"] = (int)I("ticketAmount");
+		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
 		
 		$data["createTime"] = date('Y-m-d H:i:s');
 	    
@@ -68,6 +69,7 @@ class TicketModel extends BaseModel {
 		$data["onlynewUser"] = (int)I("onlynewUser");
 		$data["totalCount"] = (int)I("totalCount");
 		$data["ticketAmount"] = (int)I("ticketAmount");
+		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
 		
 	    if($this->checkEmpty($data,true)){	
 			$m = M('activity_ticket');
@@ -115,7 +117,7 @@ class TicketModel extends BaseModel {
 	  */
      public function queryByPage(){
         $m = M('activity_ticket');
-	 	$sql = "select a.* from __PREFIX__activity_ticket a";
+	 	$sql = "select a.*,s.shopName from __PREFIX__activity_ticket a  left join __PREFIX__shops s on s.shopid=a.limitUseShopID ";
 	 	if(I('title')!='')$sql.=" and title like '%".I('title')."%'";
 	 	$sql.=' order by createTime desc';
 		return $m->pageQuery($sql);
@@ -127,7 +129,6 @@ class TicketModel extends BaseModel {
 	     $m = M('activity_ticket');
 	     $sql = "select * from __PREFIX__activity_ticket  order by createTime desc";
 		 $rs = $m->query($sql);
-
 		 return $rs;
 	  }
 	  

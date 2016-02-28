@@ -7,16 +7,20 @@
 </header>-->
 
 <div class="mui-content mui-content-bottom">
-	<ul  id="recrodList"  class="mui-table-view mui-table-view-chevron">
-		<foreach name="data" item="item">
-			<li class="mui-table-view-cell mui-media">
-					<a class="top-navigate">
-						<div class="mui-media-body"><span class="meno b">{$item.Meno}</span><p class='mui-ellipsis ctime'>{$item.OperateTime}</p></div>
-						<span  class="cellinfo-right cvalue add-color b"><if condition="($item.Point lt 0)">-<else/>+</if>{$item.Point}</span>
-					</a>
-			</li>
-		</foreach>
-	</ul>
+		<if condition="$datanum eq 0">
+				<p class="mui-content-empty">暂无记录</p>
+		<else />
+				<ul  id="recrodList"  class="mui-table-view mui-table-view-chevron">
+					<foreach name="data" item="item">
+						<li class="mui-table-view-cell mui-media">
+								<a class="top-navigate">
+									<div class="mui-media-body"><span class="meno b">{$item.Meno}</span><p class='mui-ellipsis ctime'>{$item.OperateTime}</p></div>
+									<span  class="cellinfo-right cvalue add-color b"><if condition="($item.Point lt 0)">-<else/>+</if>{$item.Point}</span>
+								</a>
+						</li>
+					</foreach>
+				</ul>
+		</if>
 </div>
 <include file="Public:tab"/>
 <link rel="stylesheet" href="__CSS__/{:autoVer('person-comm.css')}" />

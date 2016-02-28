@@ -15,18 +15,28 @@ class ActivityAction extends BaseAction{
 	public function toEdit(){
 		$this->isLogin();
 	    $m = D('Admin/Activity');
-	    	$object = array();
-	    	if(I('id',0)>0){
-	    		$this->checkPrivelege('wzlb_02');
-	    		$object = $m->get();
-			//dump($object);
-	    	}else{
-	    		$this->checkPrivelege('wzlb_01');
-	    		$object = $m->getModel();
-	    	}
-	    	$m = D('Admin/GoodsCats');
-	    	$this->assign('catList',$m->queryByList(347));
-	    	$this->assign('object',$object);
+    	$object = array();
+    	if(I('id',0)>0){
+    		$this->checkPrivelege('wzlb_02');
+    		$object = $m->get();
+		//dump($object);
+    	}else{
+    		$this->checkPrivelege('wzlb_01');
+    		$object = $m->getModel();
+			$object["efficacySDate"] = date('Y-m-d');
+			$object["efficacyEDate"] = date("Y-m-d",strtotime("+1 month"));
+			$object["activitySort"] =0;
+    	}
+    	$m = D('Admin/GoodsCats');
+    	$this->assign('catList',$m->queryByList(347));
+		
+		//select shops
+		$mshop = D('Admin/Shops');
+		$shops=$mshop->queryListForSelect();		
+	    $this->assign('shops',$shops);
+		//end select shops
+		
+    	$this->assign('object',$object);
 		$this->view->display('/activity/edit');
 	}
 	/**

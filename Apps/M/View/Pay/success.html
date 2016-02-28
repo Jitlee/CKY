@@ -45,10 +45,11 @@
 <script>
 	window.setTimeout(function() {
 		<if condition="$Think.session.type eq order">
+			window.history.go(-3);
 			window.location.href = "{:U('Orders/lst', '','')}";
-
 		<else/>
-			window.location.href = "{:U('Person/index', '','')}";			
+			window.history.go(-3);
+			window.location.href = "{:U('Person/index', '','')}";
 		</if>
 	}, 5000);
 	

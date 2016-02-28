@@ -76,6 +76,8 @@
 	   
 	   params.activityContent = $('#activityContent').val();
 	   params.activityKey = $('#activityKey').val();
+	   params.limitUseShopID= $('#limitUseShopID').val();
+	   
 	   if(params.activityContent==''){
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入活动内容!',timeout:1000});
 		   return;
@@ -174,6 +176,17 @@
              <th align='right'>关键字<font color='red'>*</font>：</th>
              <td>
              <input type='text' id='activityKey' class="form-control rtc-ipt" value='{$object.activityKey}' maxLength='80'/>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>活动商家<font color='red'>*</font>：</th>
+             <td>
+             	<select id="limitUseShopID" name="limitUseShopID">
+             		<option  value="0">全部商家</option>
+	             	 <volist name="shops" id="vo" key='i'>
+	             		<option value="{$vo['shopId']}"  <if condition="$object['limitUseShopID'] == $vo['shopId'] ">selected</if> >{$vo['shopName']}</option>
+	             	</volist>               
+             	</select>      	
              </td>
            </tr>
            <tr>

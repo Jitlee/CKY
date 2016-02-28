@@ -454,6 +454,40 @@ a.cky-segmented-item {
 	color: #fff;
 }
 
+/** tab样式 **/
+
+.cky-tab {
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	background-color: #fff;
+	border-bottom: solid 1px #ccc;
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.cky-tab-item {
+	display: table-cell;
+}
+
+.cky-tab .cky-active {
+	color: #FF2200;
+	position: relative;
+	disp
+}
+
+.cky-tab .cky-active::after {
+	position: absolute;
+	content: " ";
+	display: block;
+	left:10px;
+	right: 10px;
+	bottom: 0px;
+	height: 2px;
+	background-color: #F20;
+}
+
 /** 行两列样式 **/
 .cky-col-view {
 	width: 100%;

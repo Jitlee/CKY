@@ -67,9 +67,9 @@ class ActivityAction extends Controller {
 			$mm = D('M/ActivityTicketM');
 			$status = -1;
 			
-			if($mm->isReceived($uid, $ticketId)) {				
+			if(!$mm->isReceived($uid, $ticketId)) {				
 				$status = -2;				
-			} else if($mm->isNewUser($uid, $ticketId)) {
+			} else if(!$mm->isNewUser($uid, $ticketId)) {
 				$status = -3;
 			} else {
 				$mm->startTrans();

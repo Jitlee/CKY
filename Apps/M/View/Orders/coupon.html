@@ -1,0 +1,120 @@
+<style>
+	
+</style>
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right">使用说明</button>
+</header>
+
+<div class="mui-content">
+	<div id="tab" class="cky-tab">
+		<div class="cky-tab-item cky-active" tab-type="0">可用优惠券({$data.canuse})</div>
+		<div class="cky-tab-item" tab-type="1">不可用优惠券({$data.cannotuse})</div>
+	</div>
+	
+	<div id="couponsLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<div id="couponList">
+		<!-- ko foreach: $data -->
+		
+		<!-- /ko -->
+	</div>
+	<button id="moreButton" class="mui-btn mui-btn-block cky-hidden">更多好券，去领券中心看看<i class="iconfont icon-gengduo"></i></button>
+</div>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	function getAmount(typeName, ticketAmount) {
+		switch(typeName) {
+			case "zkq": // 折扣券
+				return "<span>" + ticketAmount + "</span><r>折</r>";
+			case "djq": // 代金券
+				return "<r>¥</r><span>" + ticketAmount + "</span>";
+			case "ptq":
+				return "<span>" + ticketAmount + "</span>";
+		}
+		return "";
+	}
+	
+	$(function(){
+		var coupons = [];
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var type = 0;
+		var vm = ko.observableArray(coupons);
+		ko.applyBindings(vm, document.getElementById("couponList"));
+		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				coupons.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+				$("#couponsLoading").show();
+			}
+			var _pageNo = pageNo;
+			if(!isEOF) {
+				$.getJSON("{:U('Activity/pagePersonCoupons')}", {
+					pageNo: _pageNo,
+					type: type
+				}, function(list) {
+					if(_pageNo == 1) {
+						coupons.length = 0;
+						$("#couponsLoading").hide();
+						$("#couponList").removeClass("cky-hidden");
+					}
+					pageNo = ++_pageNo;
+					if(list && list.length > 0) {
+						$.each(list, function() {
+							coupons.push(this);
+						});
+					}
+					vm(coupons);
+					
+					if(!list && type == 0) {
+						$("#moreButton").removeClass("cky-hidden");
+					} else if(list && list.length < 12) {
+						isEOF = true;
+						if(type == 0) {
+							$("#moreButton").removeClass("cky-hidden");
+						}
+					} else {
+						$("#moreButton").addClass("cky-hidden");
+					}
+				});
+			}
+		}
+		
+		queryByPage();
+		
+		util.onScrollEnd(queryByPage);
+		
+		// 跳转事件
+		$("#couponList").on("click", ".ticket-border", function() {
+			var $this = $(this);
+			if(!$this.hasClass("ticket-disabled") && $this.attr('shopId')) {
+				// 已领取： 跳转
+				window.location.href = "{:U('Shops/detail')}?shopId=" + $this.attr('shopId'); 
+			}
+		});
+		
+		var tab = $("#tab");
+		// tab页切换
+		$(".cky-tab-item", tab).click(function() {
+			var $this = $(this);
+			if(!$this.hasClass("cky-active")) {
+				$(".cky-active", tab).removeClass("cky-active");
+				$this.addClass("cky-active");
+				type = $this.attr("tab-type");
+				$("#moreButton").addClass("cky-hidden")
+				force = true;
+				queryByPage();
+			}
+		});
+	});
+</script>

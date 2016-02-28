@@ -17,7 +17,8 @@ class ActivityTicketMModel extends BaseModel {
 		$sql = 'insert into __ACTIVITY_TICKET_M__(ticketID, efficacySDate, efficacyEDate, uid, ticketMStatus)'
 			.'select ticketID, efficacySDate, efficacyEDate, '.$uid.', 0 from __ACTIVITY_TICKET__'
 			.' where ticketID = \''.$ticketId.'\' and usedCount < totalCount and ticketStatus = 1'
-			.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\')';
+			.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\') '
+			.'update cky_activity_ticket_m set usekey=CAST(ticket_m_id+10000000 as CHAR) where ticket_m_id=@@identity';
 		$ret = $this->query($sql);
 //		echo $this->getLastSql();
 		return $ret;

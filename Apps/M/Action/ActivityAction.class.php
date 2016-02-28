@@ -21,7 +21,7 @@ class ActivityAction extends Controller {
 		}
 		
 		$m = D('Admin/GoodsCats');
-		$categories = array_slice($m->queryByList(347), 0, 5);
+		$categories = array_slice($m->queryByParentkey("activity"), 0, 5);
 	    	$this->assign('catList', $categories);
 		$this->display();
 	}

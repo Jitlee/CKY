@@ -28,7 +28,7 @@ class ActivityAction extends BaseAction{
 			$object["activitySort"] =0;
     	}
     	$m = D('Admin/GoodsCats');
-    	$this->assign('catList',$m->queryByList(347));
+    	$this->assign('catList',$m->queryByParentkey("activity"));
 		
 		//select shops
 		$mshop = D('Admin/Shops');

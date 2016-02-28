@@ -38,7 +38,7 @@ class ShopsAction extends BaseAction{
 		
 		//获取商品分类信息
 		$m = D('Admin/GoodsCats');
-		$cats = $m->queryByList();
+		$cats = $m->queryByListforshops();
 		foreach($cats as $key => $cat) {
 			$childPlates = $m->queryByList($cat['catId']);
 			$cats[$key]['children'] = $childPlates;

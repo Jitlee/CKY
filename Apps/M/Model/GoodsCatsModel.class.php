@@ -17,5 +17,7 @@ class GoodsCatsModel extends BaseModel {
 		);
 		return $this->where($map)->order('catSort')->select();
 	}
+	
+	
 };
 ?>

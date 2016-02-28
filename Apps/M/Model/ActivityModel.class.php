@@ -49,5 +49,21 @@ class ActivityModel extends BaseModel {
 			->order('createTime')->page($pageNo, $pageSize)->select();
     }
 	
+	public function queryByShopId() {
+		$pageSize = 120;
+		$pageNo = intval(I('pageNo', 1));
+		
+    		$shopId = I('shopId', 0);
+		$time= strftime("%Y-%m-%d");
+		$map = array(
+			'limitUseShopID'		=> $shopId,
+			'isShow'				=> 1,
+			'efficacySDate'		=> array('ELT', $time),
+			'efficacyEDate'		=> array('EGT', $time),
+		);
+		return $this->field('activityId, activityTitle, activityImg')->where($map)
+			->order('createTime')->page($pageNo, $pageSize)->select();
+	}
+	
 };
 ?>

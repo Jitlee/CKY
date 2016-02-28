@@ -97,3 +97,11 @@
 .cky-table-view-cell:first-child {
     border-top: none;
 }
+
+.cky-activity-cell {
+	margin: 10px 0;
+}
+	
+.cky-activity-cell img {
+	width: 100%;
+}

@@ -193,7 +193,7 @@
 	}
 	
 </style>
-<header class="mui-bar mui-bar-nav">
+<header class="mui-bar mui-bar-nav mui-nav-white">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
@@ -233,9 +233,9 @@
 		<div class="ticket cky-relative">
 			<div class="cky-relative ticket-title">
 				<div class="cky-ellipsis font14" data-bind="text: title"></div>
-				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(Number(usedCount) * 100 / Number(totalCount))"></span>%</div>
+				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(Number(sendCount) * 100 / Number(totalCount))"></span>%</div>
 			</div>
-			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, usedCount: usedCount, totalCount: totalCount }, css: getTicketClass(totalCount, usedCount, isReceived, onlyNewUser)">
+			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, sendCount: sendCount, totalCount: totalCount }, css: getTicketClass(totalCount, sendCount, isReceived, onlyNewUser)">
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 					
@@ -267,7 +267,7 @@
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 				
 				
-				<!-- ko if:  !isReceived && totalCount > 0 && totalCount == usedCount -->
+				<!-- ko if:  !isReceived && totalCount > 0 && totalCount == sendCount -->
 				<i class="ticket-empty iconfont icon-yiqiangguang"></i>
 				<!-- /ko -->
 				
@@ -276,7 +276,7 @@
 				<div class="ticket-btn">进店看看</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 				<!-- /ko -->
-				<!-- ko if: !isReceived && totalCount > usedCount -->
+				<!-- ko if: !isReceived && totalCount > sendCount -->
 				<div class="ticket-btn">点击领取</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 				<!-- /ko -->
@@ -301,9 +301,9 @@
 		return "";
 	}
 	
-	function getTicketClass(totalCount, usedCount, isReceived, onlyNewUser) {
+	function getTicketClass(totalCount, sendCount, isReceived, onlyNewUser) {
 		var css = onlyNewUser == "1" ? "ticket-newer " : "";
-		if(!isReceived && totalCount > 0 && totalCount == usedCount) {
+		if(!isReceived && totalCount > 0 && totalCount == sendCount) {
 			return css + "ticket-disabled";
 		} else if (isReceived) {
 			return css + "ticket-received";
@@ -368,7 +368,7 @@
 					if(result == 1) {
 						cky.toast("领券成功");
 						// 重新计算 100%;
-						var percent = Math.round((Number($this.attr("usedCount")) + 1) * 100 / Number($this.attr("totalCount")));
+						var percent = Math.round((Number($this.attr("sendCount")) + 1) * 100 / Number($this.attr("totalCount")));
 						$(".ticket-percent", $this.parent()).text(percent);
 						$(".ticket-btn", $this).text("进店看看")
 							.before("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");

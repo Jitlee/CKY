@@ -12,7 +12,7 @@ class ActivityTicketModel extends BaseModel {
     public function queryAll($uid) {
     		$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
-    		return $this->field('s.shopImg, s.shopName, t.limitUseShopId, t.ticketID, t.title, t.imagePath, t.ticketAmount, t.totalCount, t.usedCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.typeName, t.content,  isnull(tm.uid) isReceived, t.onlyNewUser')
+    		return $this->field('s.shopImg, s.shopName, t.limitUseShopId, t.ticketID, t.title, t.imagePath, t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.typeName, t.content,  isnull(tm.uid) isReceived, t.onlyNewUser')
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
     			->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
 			->where('t.ticketStatus = 1 and t.efficacyEDate >= CURDATE()')
@@ -39,9 +39,9 @@ class ActivityTicketModel extends BaseModel {
     			->order('t.createTime')->page($pageNo, $pageSize)->select();
     }
 	
-	public function updateUsedCount($id) {
+	public function updateSendCount($id) {
 		$map['ticketID'] = $id;
-		$data['usedCount'] = array('exp', '`usedCount` + 1');
+		$data['usedCount'] = array('exp', '`sendCount` + 1');
 		return $this->where($map)->save($data);
 	}
 };

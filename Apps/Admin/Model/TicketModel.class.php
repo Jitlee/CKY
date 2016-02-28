@@ -30,7 +30,7 @@ class TicketModel extends BaseModel {
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");
 		$data["limitGetnum"] = (int)I("limitGetnum");
-		$data["onlynewUser"] = (int)I("onlynewUser");
+		$data["onlyNewUser"] = (int)I("onlyNewUser");
 		$data["totalCount"] = (int)I("totalCount");
 		$data["ticketAmount"] = (int)I("ticketAmount");
 		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
@@ -66,7 +66,7 @@ class TicketModel extends BaseModel {
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");
 		$data["limitGetnum"] = (int)I("limitGetnum");
-		$data["onlynewUser"] = (int)I("onlynewUser");
+		$data["onlyNewUser"] = (int)I("onlyNewUser");
 		$data["totalCount"] = (int)I("totalCount");
 		$data["ticketAmount"] = (int)I("ticketAmount");
 		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺

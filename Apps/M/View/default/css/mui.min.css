@@ -79,3 +79,18 @@ textarea {
 .mui-btn .mui-icon {
 	font-size: 24px!important;
 }
+
+.mui-btn-block {
+	padding: 8px 0px;
+}
+
+.mui-bar.mui-nav-white {
+	background-color: #EFEFEF;
+}
+
+.mui-bar.mui-nav-white .mui-title, 
+.mui-bar.mui-nav-white .mui-icon, 
+.mui-bar.mui-nav-white .mui-btn, 
+.mui-bar.mui-nav-white .iconfont {
+	color: #ED7D31;
+}

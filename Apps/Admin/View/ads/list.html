@@ -44,7 +44,7 @@
                 <option value=''>请选择</option>
                 <option value='-1' <if condition="$params['adPositionId'] == -1 ">selected</if>>首页主广告</option>
                 <option value='-2' <if condition="$params['adPositionId'] == -2 ">selected</if>>品牌汇广告</option>
-                <option value='-3' <if condition="$params['adPositionId'] == -3 ">selected</if>>店铺街广告</option>
+                <option value='-3' <if condition="$params['adPositionId'] == -3 ">selected</if>>领券中心－今日主打</option>
                 <volist name="goodsCatList" id="vo">
                 <option value='{$vo['catId']}' <if condition="$params['adPositionId'] == $vo['catId'] ">selected</if>>(商品分类){$vo['catName']}</option>
                 </volist>
@@ -84,7 +84,7 @@
                <td>
                <if condition="$vo['adPositionId'] == -1 ">首页主广告
                <elseif condition="$vo['adPositionId'] == -2 "/>品牌汇广告
-               <elseif condition="$vo['adPositionId'] == -3 "/>店铺街广告
+               <elseif condition="$vo['adPositionId'] == -3 "/>领券中心－今日主打
                <else/>首页分层广告</if>
                </td>
                <td>{$vo['adURL']}</td>

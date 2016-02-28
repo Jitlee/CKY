@@ -106,10 +106,10 @@
 	   		params.ticketAmount=0;
 	   }
 	   	
-	   params.onlynewUser=0;
-	   if($('#onlynewUser').prop("checked"))
+	   params.onlyNewUser=0;
+	   if($('#onlyNewUser').prop("checked"))
 	   {
-	   		params.onlynewUser=1;	
+	   		params.onlyNewUser=1;	
 	   }
 	   
 	   if(params.title==''){
@@ -263,7 +263,7 @@
            <tr>
              <th align='right'>新人专享<font color='red'>*</font>：</th>
              <td>
-             	<input type='checkbox' id='onlynewUser' <if condition="$object['onlynewUser']==1 "> checked="checked" </if> />             	
+             	<input type='checkbox' id='onlyNewUser' <if condition="$object['onlyNewUser']==1 "> checked="checked" </if> />             	
              </td>
            </tr>
            

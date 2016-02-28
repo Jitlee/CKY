@@ -88,7 +88,7 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		cart.total += shopPrice;
 		cart.count++;
 		// 数量对应
-		$(".count", parent).text(cart.count);
+		$(".count", parent).text(cart.goods[goodsId].count);
 		
 		refreshCart();
 	});
@@ -115,7 +115,7 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		}
 		cart.total -= shopPrice;
 		cart.count--;
-		$(".count", parent).text(cart.count);
+		$(".count", parent).text(cart.goods[goodsId].count);
 		refreshCart();
 	});
 	

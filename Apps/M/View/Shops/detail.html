@@ -74,7 +74,13 @@
 				<p class="mui-content-padded">{$data.shopDesc}</p>
 			</div>
 			<div id="item2mobile" class="mui-slider-item mui-control-content">
-				暂无活动
+				<ul class="mui-table-view">
+				<!-- ko foreach: $data -->
+				<a class="cky-activity-cell" data-bind="attr: { href: '{:U('Activity/detail')}?id=' + activityId }">
+					<img data-bind="attr: { alt: activityTitle, src: '/' + activityImg }"/>
+				</a>
+				<!-- /ko -->
+				</ul>
 			</div>
 			<div id="item3mobile" class="mui-slider-item mui-control-content">
 				
@@ -151,5 +157,14 @@
 		
 //		queryByPage();
 		util.onScrollEnd(queryByPage);
+		
+		// 加载活动
+		$.getJSON("{:U('Activity/shopActivities')}", { shopId: "{:I('id')}" }, function(list) {
+			if(list && list.length) {
+				ko.applyBindings(list, document.getElementById("item2mobile"));
+			} else {
+				$("#item2mobile").empty();
+			}
+		});
 	});
 </script>

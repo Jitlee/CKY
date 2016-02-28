@@ -75,7 +75,7 @@ class ActivityAction extends Controller {
 				$mm->startTrans();
 				if($mm->pick($ticketId, $uid) !== false) {
 					$m = D('M/ActivityTicket');
-					if($m->updateUsedCount($ticketId) !== false) {
+					if($m->updateSendCount($ticketId) !== false) {
 						$status = 1;
 					} 
 				}
@@ -106,6 +106,12 @@ class ActivityAction extends Controller {
 	public function pageComing() {
 		$m = D('M/Activity');
 		$list = $m->queryComing();
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	public function shopActivities() {
+		$m = D('M/Activity');
+		$list = $m->queryByShopId();
 		$this->ajaxReturn($list, 'JSON');
 	}
 }

@@ -20,9 +20,9 @@ class ActivityAction extends Controller {
 			$this->assign('ads', $ads[0]);
 		}
 		
-		$m = D('Admin/GoodsCats');
+		$m = D('M/GoodsCats');
 		$categories = array_slice($m->queryByParentkey("activity"), 0, 5);
-	    	$this->assign('catList', $categories);
+	    $this->assign('catList', $categories);
 		$this->display();
 	}
 	

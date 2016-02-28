@@ -89,14 +89,14 @@ class GoodsCatsModel extends BaseModel {
 	  /**
 	   * 根据上级key查询子级分类
 	   */
-	  public function queryByParentkey($key) {
+	public function queryByParentkey($key) {
 		$m = M('goods_cats');
 		$sql = "select gc.catId,gc.catName,gc.catKey from __PREFIX__goods_cats gp
 		left join  __PREFIX__goods_cats gc on gc.parentId=gp.catId
 		where gc.catFlag=1  and  gp.catkey='".$key."' order by gc.catSort asc";
 		//echo $sql;
 	  	$rs1 = $m->query($sql);
-		return $rs1;//$this->where($map)->order('catSort')->select();
+		return $rs1;
 	}
 	  
 	  

@@ -147,7 +147,7 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 提交订单
 	 */
-	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself){	
+	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket){	
 		$orderInfos = array();
 		$orderIds = array();
 		$orderNos = array();
@@ -204,6 +204,10 @@ class OrdersModel extends BaseModel {
 			$data["isAppraises"] = 0;
 			$data["isSelf"] = $isself;
 			$data["needPay"] = $shopgoods["totalMoney"]+$deliverMoney;
+			
+			if($ticket['limitUseShopID'] == $shopId) {
+				
+			}
 
 			$data["createTime"] = date("Y-m-d H:i:s");
 			

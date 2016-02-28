@@ -238,18 +238,24 @@
 			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId, sendCount: sendCount, totalCount: totalCount }, css: getTicketClass(totalCount, sendCount, isReceived, onlyNewUser)">
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
-					
-				<!-- ko if: miniConsumption > 0 -->
-				<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
+				
+				<div class="ticket-mini">
+				<!-- ko if: maxiConsumption > 0 -->
+				不超过<span data-bind="text: maxiConsumption"></span>可用
 				<!-- /ko -->
 				
-				<!-- ko if: miniConsumption == 0 && onlyNewUser == 0 -->
-				<div class="ticket-mini">无最低消费</div>
+				<!-- ko if: maxiConsumption == 0 && miniConsumption > 0 -->
+				满<span data-bind="text: miniConsumption"></span>可用
 				<!-- /ko -->
 				
-				<!-- ko if: miniConsumption == 0 && onlyNewUser == 1 -->
-				<div class="ticket-mini">新人专享</div>
+				<!-- ko if: maxiConsumption == 0 && miniConsumption == 0 && onlyNewUser == 0 -->
+				无最低消费
 				<!-- /ko -->
+				
+				<!-- ko if: maxiConsumption == 0 && miniConsumption == 0 && onlyNewUser == 1 -->
+				新人专享
+				<!-- /ko -->
+				</div>
 				
 				<!-- ko if: content -->
 				<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
@@ -271,7 +277,7 @@
 				<i class="ticket-empty iconfont icon-yiqiangguang"></i>
 				<!-- /ko -->
 				
-				<!-- ko if: isReceived -->
+				<!-- ko if: isReceived && limitUseShopID > 0 -->
 				<i class="ticket-empty iconfont icon-yilingqu"></i>
 				<div class="ticket-btn">进店看看</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
@@ -359,6 +365,7 @@
 		// 领取事件
 		$("#couponList").on("click", ".ticket-border", function() {
 			var $this = $(this);
+			var shopId = Number($this.attr('shopId'));
 			if(!$this.hasClass("ticket-disabled") && !$this.hasClass("ticket-received")) {
 				// 待领取
 				var ll = cky.loadding();
@@ -372,6 +379,14 @@
 						$(".ticket-percent", $this.parent()).text(percent);
 						$(".ticket-btn", $this).text("进店看看")
 							.before("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
+							
+						if(shopId > 0) {
+							$(".ticket-btn", $this).show();
+							$(".ticket-nav", $this).show();
+						} else {
+							$(".ticket-btn", $this).hide();
+							$(".ticket-nav", $this).hide();
+						}
 						$this.addClass("ticket-received");
 					} else if(result == -2) {
 						cky.toast("做人不能贪心，你已经领取过了^_^")
@@ -381,9 +396,9 @@
 						cky.toast("领券失败");
 					}
 				});
-			} else if($this.hasClass("ticket-received") && $this.attr('shopId')) {
+			} else if($this.hasClass("ticket-received") && shopId > 0) {
 				// 已领取： 跳转
-				window.location.href = "{:U('Shops/detail')}?shopId=" + $this.attr('shopId'); 
+				window.location.href = "{:U('Shops/detail')}?shopId=" + shopId; 
 			}
 		});
 	});

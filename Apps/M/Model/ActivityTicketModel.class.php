@@ -57,7 +57,7 @@ class ActivityTicketModel extends BaseModel {
 	}
 
 	public function getById($id, $uid) {
-		$sql = 'select t.ticketID, t.ticketStatus, t.ticketAmount, t.content, t.limitSendShopID, t.onlyNewUser, t.efficacySDate, '
+		$sql = 'select t.ticketID, t.ticketStatus, t.ticketAmount, t.content, t.limitUseShopID, t.onlyNewUser, t.efficacySDate, '
 			.'t.efficacyEDate, t.miniConsumption, t.maxiConsumption, UNIX_TIMESTAMP(t.efficacySDate) stime, '
 			.'UNIX_TIMESTAMP(t.efficacyEDate) etime from cky_activity_ticket t '
 			.'where t.ticketID='.$id.' and ' 

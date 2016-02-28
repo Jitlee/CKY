@@ -202,17 +202,23 @@
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 					
-				<!-- ko if: miniConsumption > 0 -->
-				<div class="ticket-mini">满<span data-bind="text: miniConsumption"></span>可用</div>
+				<div class="ticket-mini">
+				<!-- ko if: maxiConsumption > 0 -->
+				不超过<span data-bind="text: maxiConsumption"></span>可用
 				<!-- /ko -->
 				
-				<!-- ko if: miniConsumption == 0 && onlyNewUser == 0 -->
-				<div class="ticket-mini">无最低消费</div>
+				<!-- ko if: maxiConsumption == 0 && miniConsumption > 0 -->
+				满<span data-bind="text: miniConsumption"></span>可用
 				<!-- /ko -->
 				
-				<!-- ko if: miniConsumption == 0 && onlyNewUser == 1 -->
-				<div class="ticket-mini">新人专享</div>
+				<!-- ko if: maxiConsumption == 0 && miniConsumption == 0 && onlyNewUser == 0 -->
+				无最低消费
 				<!-- /ko -->
+				
+				<!-- ko if: maxiConsumption == 0 && miniConsumption == 0 && onlyNewUser == 1 -->
+				新人专享
+				<!-- /ko -->
+				</div>
 				
 				<!-- ko if: content -->
 				<div class="ticket-content cky-ellipsis" data-bind="text: content"></div>
@@ -230,9 +236,10 @@
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 				
 				<i class="ticket-empty iconfont icon-youhuiquan1"></i>
-				
+				<!-- ko if: shopId > 0 -->
 				<div class="ticket-btn">进店看看</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
+				<!-- /ko -->
 			</div>
 			<div class="ticket-ball ticket-ball-top"></div>
 			<div class="ticket-ball ticket-ball-bottom"></div>
@@ -312,9 +319,10 @@
 		// 跳转事件
 		$("#couponList").on("click", ".ticket-border", function() {
 			var $this = $(this);
-			if(!$this.hasClass("ticket-disabled") && $this.attr('shopId')) {
+			var shopId = Number($this.attr('shopId'));
+			if(!$this.hasClass("ticket-disabled") && shopId > 0) {
 				// 已领取： 跳转
-				window.location.href = "{:U('Shops/detail')}?shopId=" + $this.attr('shopId'); 
+				window.location.href = "{:U('Shops/detail')}?shopId=" + shopId; 
 			}
 		});
 		

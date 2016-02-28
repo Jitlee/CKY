@@ -73,15 +73,29 @@
 			</a>
 		</li>
 	</ul>
+	
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a id="couponButton" class="mui-navigate-right">
+				<span class="font17">使用优惠券<span id="validCouponCount" class="cky-valid-count">0张可用</span></span>
+				<!-- ko if: couponAmount > 0 -->
+				<p class="cky-update cky-right" data-bind="text: '已抵用' + couponAmount + '元'"></p>
+				<!-- /ko -->
+			</a>
+		</li>
+	</ul>
+	
+	<br />
+	
 	<footer class="cky-footer">
-		<p class="font-red font17">共<span data-bind="text: total + '元'">0</span></p>
+		<p class="font-red font17">实付款：<span data-bind="text: realPayment + '元'">0</span></p>
 		<button id="submit" class="cky-update mui-btn mui-btn-primary" style="height:100%">提交订单</button>
 	</footer>
 </div>
 
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
-	
+	var couponsCount = 0; // 可用优惠券数量
 	cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
 	    var shopId = util.i("shopId");
 		var cart = cky.storage.getItem("fast-cart" + shopId);
@@ -93,14 +107,47 @@
 				fastMoney: fastMoney,
 				shopName: cart.shopName,
 				remarks: cart.remarks,
-				consignee: cart.consignee
+				consignee: cart.consignee,
+				couponAmount: 0,
+				realPayment: cart.total + fastMoney,
+				ticketId: 0
 			}
 			for(var goodsId in cart.goods) {
 				vm.goods.push(cart.goods[goodsId]);
 			}
+			
+			if(cart.coupon) {
+				vm.ticketId = cart.coupon.ticketId;
+				switch(cart.coupon.typeName) {
+					case "djq": // 代金券
+						vm.couponAmount = cart.coupon.ticketAmount;
+						vm.realPayment -= cart.coupon.ticketAmount;
+						break;
+					case "zkq": // 折扣券
+						vm.couponAmount = (vm.realPayment - vm.realPayment * (cart.coupon.ticketAmount / 10.0)).toFixed(2);
+						vm.realPayment = (vm.realPayment * (cart.coupon.ticketAmount / 10.0)).toFixed(2);
+						break;
+					case "ptq": // 普通券
+						vm.couponAmount = vm.realPayment - cart.coupon.ticketAmount;
+						vm.realPayment = cart.coupon.ticketAmount;
+						break;
+				}
+			}
+			
 			ko.applyBindings(vm);
 			
 			$(function(){
+				if(couponsCount == 0) {
+					// 获取代金券可用数量
+					$.get("{:U('Orders/countcoupon')}", {
+						_t: shopId + "," + (fastMoney + cart.total)
+					}, function(result) {
+						couponsCount = result;
+						$("#validCouponCount").text(result + "张可用");
+					});
+				}
+				$("#couponButton").attr("href", "{:U('Orders/coupon')}?shopId={:I('shopId')}&_t=" + shopId + "," + (fastMoney + cart.total));
+				
 				// 送达时间
 				$("#fastDay").select([{key: 0,text: "今天"}]);
 				var fastTimeSelect = $("#fastTime").select(getServicesTime());
@@ -153,7 +200,8 @@
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
 						consigneeId: vm.consignee.id,
-						payway: 1
+						payway: 1,
+						ticketId: vm.ticketId // 优惠券Id
 					}, function(result) {
 						layer.close(ll);
 						var status = result.status;
@@ -166,10 +214,9 @@
 								cky.alert("提交订单失败，请稍后再试");
 							}
 						} else if(status < 0) {
-							var msg = result.data || "提交订单失败，请稍后再试";
+							var msg = result.data || ("提交订单失败，请稍后再试（错误代码：" + status + "）");
 							cky.alert(msg);
 						}
-						
 					});
 				});
 			});

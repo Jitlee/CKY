@@ -122,6 +122,92 @@ class OrdersAction extends BaseUserAction {
 		$this->ajaxReturn($rdata, 'JSON');
 	}
 	
+	public function coupon() {
+		$m = D('M/ActivityTicket');
+		$uid = getuid();
+		$t = I('_t', "");
+		$ids =  explode(',', $t); // 采用shopId1, amount1, shopId2, amount2,... 存储
+		$shopIds = array();
+		$amounts = array();
+		$totalAmount = 0;
+		for ($i=0; $i < count($ids); $i += 2) {
+			array_push($shopIds, (int)$ids[$i]);
+			array_push($amounts, (float)$ids[$i + 1]);
+			$totalAmount += (float)$ids[$i + 1];
+		} 
+		$list = $m->queryUseAll($uid, join($shopIds));
+//		echo $m->getLastSql();
+		$valids = array();
+		$invalids = array();
+		foreach($list as $ticket) {
+			$ticket['valid'] = (int)$ticket['valid'];
+			$ticket['miniConsumption'] = (int)$ticket['miniConsumption'];
+			$ticket['maxiConsumption'] = (int)$ticket['maxiConsumption'];
+			$ticket['shopId'] = (int)$ticket['shopId'];
+			$amount = 0;
+			if($ticket['shopId'] > 0) {
+				$index = array_search($ticket['shopId'], $shopIds);
+				$amount = $amounts[$index];
+			} else {
+				$amount = $totalAmount;
+			}
+			
+			if($ticket['valid'] == 1
+				&& ($ticket['miniConsumption'] == 0
+				|| $ticket['miniConsumption'] <= $amount)
+				&& ($ticket['maxiConsumption'] == 0 ||
+				$ticket['maxiConsumption'] >= $amount)) {
+				array_push($valids, $ticket);
+			} else {
+				array_push($invalids, $ticket);
+			}
+		}
+		$this->assign('valids', $valids);
+		$this->assign('invalids', $invalids);
+		$this->assign('title', '使用优惠券');
+		$this->display();
+	}
+	
+	public function countcoupon() {
+		$m = D('M/ActivityTicket');
+		$uid = getuid();
+		$t = I('_t', "");
+		$ids =  explode(',', $t); // 采用shopId1, amount1, shopId2, amount2,... 存储
+		$shopIds = array();
+		$amounts = array();
+		$totalAmount = 0;
+		for ($i=0; $i < count($ids); $i += 2) {
+			array_push($shopIds, (int)$ids[$i]);
+			array_push($amounts, (float)$ids[$i + 1]);
+			$totalAmount += (float)$ids[$i + 1];
+		} 
+		$list = $m->queryUseAll($uid, join($shopIds));
+//		echo $m->getLastSql();
+		$count = 0;
+		foreach($list as $ticket) {
+			$ticket['valid'] = (int)$ticket['valid'];
+			$ticket['miniConsumption'] = (int)$ticket['miniConsumption'];
+			$ticket['maxiConsumption'] = (int)$ticket['maxiConsumption'];
+			$ticket['shopId'] = (int)$ticket['shopId'];
+			$amount = 0;
+			if($ticket['shopId'] > 0) {
+				$index = array_search($ticket['shopId'], $shopIds);
+				$amount = $amounts[$index];
+			} else {
+				$amount = $totalAmount;
+			}
+			
+			if($ticket['valid'] == 1
+				&& ($ticket['miniConsumption'] == 0
+				|| $ticket['miniConsumption'] <= $amount)
+				&& ($ticket['maxiConsumption'] == 0 ||
+				$ticket['maxiConsumption'] >= $amount)) {
+				$count++;
+			}
+		}
+		$this->ajaxReturn($count, 'JSON');
+	}
+	
 	//---------------
 	// 源代码
 	//---------------	
@@ -385,6 +471,7 @@ class OrdersAction extends BaseUserAction {
 		$mshop = D('M/Shops');
 		$mgoods = D('M/Goods');
 		$morders = D('M/Orders');
+		$mticket = D('M/ActivityTicket');
 		$userId = getuid();
 		
 		$consigneeId = (int)I("consigneeId");
@@ -392,7 +479,17 @@ class OrdersAction extends BaseUserAction {
 		$isself = (int)I("isself"); // 是否自取
 		$cartGoods = (array)json_decode(html_entity_decode(stripslashes(I('goods'))));
 		$needreceipt = (int)I("needreceipt"); // 是否需要票据
-		$orderunique = I("orderunique"); 
+		$orderunique = I("orderunique");
+		
+		$ticketId = (int)I('ticketId', 0); // 优惠券Id
+		$ticket = null;
+		if($ticketId > 0) {
+			$ticket = $mticket->getById($ticketId, $userId);
+			$ticket['shopId'] = (int)$ticket['limitUseShopID'];
+			$ticket['ticketAmount'] = (float)$ticket['ticketAmount'];
+			$ticket['miniConsumption'] = (int)$ticket['miniConsumption'];
+			$ticket['maxiConsumption'] = (int)$ticket['maxiConsumption'];
+		}
 		
 		$result = array('status' => 0);
 		
@@ -432,6 +529,18 @@ class OrdersAction extends BaseUserAction {
 			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
 			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 		}
+		
+		// 核对优惠券信息
+		if($ticket) {
+			// 是否过期
+			
+			if($ticket['shopId'] > 0) { // 指定商家
+				
+			} else { // 全部商铺
+				
+			}
+		}
+
 		if($result['status'] == 0) {
 			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
 		}

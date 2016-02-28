@@ -43,6 +43,9 @@
 	padding-left: 15px;
 	height: 44px;
 	line-height: 44px;
+	display: table;
+	table-layout: fixed;
+	width: 100%;
 }
 
 .cky-footer .cky-update {
@@ -100,12 +103,6 @@ h5.order-type {
 	background-image: url(../images/iconfont-done-order.png);
 }
 
-.cky-footer {
-	padding: 0;
-	display: table;
-	table-layout: fixed;
-	width: 100%;
-}
 #cancel, #pay, #goshop {
 	background-color: transparent;
 	font-size: 17px;

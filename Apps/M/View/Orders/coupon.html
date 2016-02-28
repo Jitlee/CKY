@@ -1,7 +1,24 @@
 <style>
+	footer {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 55px;
+		line-height: 55px;
+		background-color: #efeff4;  
+		padding: 0px 15px;
+	}
 	
+	#validsList {
+		padding-bottom: 55px;
+	}
+	
+	#ok {
+		vertical-align: middle;
+	}
 </style>
-<header class="mui-bar mui-bar-nav">
+<header class="mui-bar mui-bar-nav mui-nav-white">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
@@ -11,109 +28,160 @@
 
 <div class="mui-content">
 	<div id="tab" class="cky-tab">
-		<div class="cky-tab-item cky-active" tab-type="0">可用优惠券({$data.canuse})</div>
-		<div class="cky-tab-item" tab-type="1">不可用优惠券({$data.cannotuse})</div>
+		<div class="cky-tab-item cky-active" tab-type="0">可用优惠券({:count($valids)})</div>
+		<div class="cky-tab-item" tab-type="1">不可用优惠券({:count($invalids)})</div>
 	</div>
-	
-	<div id="couponsLoading" class="mui-loading">
-		<div class="mui-spinner">
-		</div>
+	<div id="validsList">
+		<ul class="mui-table-view mui-table-view-radio">
+			<foreach name="valids" item="item">
+			<li class="mui-table-view-cell mui-tab" id="{$item.ticketID}" typeName="{$item.typeName}" ticketAmount="{$item.ticketAmount}">
+				<a class="mui-navigate-right">
+					<if condition="$item.typeName eq 'ptq'">
+						<if condition="$item.maxiConsumption gt 0">
+						{$item.maxiConsumption}以内只需{$item.ticketAmount}
+						<elseif condition="$item.onlyNewUser eq 1"/>
+						新人专享{$item.ticketAmount}
+						<else/>
+						只需{$item.ticketAmount}
+						</if>
+					<elseif condition="$item.typeName eq 'zkq'"/>
+						<if condition="$item.maxiConsumption gt 0">
+						{$item.maxiConsumption}以内{$item.ticketAmount}折
+						
+						<elseif condition="$item.miniConsumption gt 0">
+						满{$item.miniConsumption}享{$item.ticketAmount}折
+						<elseif condition="$item.onlyNewUser eq 1"/>
+						新人专享全场{$item.ticketAmount}折
+						<else/>
+						{$item.ticketAmount}折
+						</if>
+					<elseif condition="$item.typeName eq 'djq'"/>
+						<if condition="$item.miniConsumption gt 0">
+						满{$item.miniConsumption}减{$item.ticketAmount}
+						<elseif condition="$item.onlyNewUser eq 1"/>
+						新人专享减{$item.ticketAmount}
+						<else/>
+						减{$item.ticketAmount}
+						</if>
+					</if>
+					<p>使用范围：<if condition="$item.shopId gt 0">{$item.shopName}<else/>全部商家</if></p>
+					<p>有效期至：{$item.efficacyEDate}</p>
+				</a>
+			</li>
+			</foreach>
+		</ul>
+		<footer>
+			<button id="ok" class="cky-btn cky-btn-block cky-btn-red" disabled="disabled">确定</button>
+		</footer>
 	</div>
-	<div id="couponList">
-		<!-- ko foreach: $data -->
-		
-		<!-- /ko -->
+	<div id="invalidsList" style="display: none;">
+		<ul class="mui-table-view">
+			<foreach name="invalids" item="item">
+			<li class="mui-table-view-cell mui-tab">
+				<a>
+					<if condition="$item.typeName eq 'ptq'">
+						<if condition="$item.maxiConsumption gt 0">
+						{$item.maxiConsumption}以内只需{$item.ticketAmount}
+						<elseif condition="$item.onlyNewUser eq 1"/>
+						新人专享{$item.ticketAmount}
+						<else/>
+						只需{$item.ticketAmount}
+						</if>
+					<elseif condition="$item.typeName eq 'zkq'"/>
+						<if condition="$item.maxiConsumption gt 0">
+						{$item.maxiConsumption}以内{$item.ticketAmount}折
+						
+						<elseif condition="$item.miniConsumption gt 0">
+						满{$item.miniConsumption}享{$item.ticketAmount}折
+						<elseif condition="$item.onlyNewUser eq 1"/>
+						新人专享全场{$item.ticketAmount}折
+						<else/>
+						{$item.ticketAmount}折
+						</if>
+					<elseif condition="$item.typeName eq 'djq'"/>
+						<if condition="$item.miniConsumption gt 0">
+						满{$item.miniConsumption}减{$item.ticketAmount}
+						<elseif condition="$item.onlyNewUser eq 1"/>
+						新人专享减{$item.ticketAmount}
+						<else/>
+						减{$item.ticketAmount}
+						</if>
+					</if>
+					<p>使用范围：<if condition="$item.shopId gt 0">{$item.shopName}<else/>全部商家</if></p>
+					<p>有效期至：{$item.efficacyEDate}</p>
+					<p class="font-black">
+						<if condition="strtotime($item['efficacysDate']) gt strtotime(date('Y-m-d'))">
+							{$item.efficacysDate}才能开始使用该券
+						<elseif condition="$item.valid eq 0"/>
+							该券已过期
+						<elseif condition="(float)I('amount', 0) lt $item['miniConsumption']"/>
+							差{$item['miniConsumption'] - (float)I('amount', 0)}元可用该券
+						<else/>
+							不符合使用条件
+						</if>
+					</p>
+				</a>
+			</li>
+			</foreach>
+		</ul>
 	</div>
-	<button id="moreButton" class="mui-btn mui-btn-block cky-hidden">更多好券，去领券中心看看<i class="iconfont icon-gengduo"></i></button>
 </div>
-<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/mui.min.js"></script>
 <script type="text/javascript">
-	function getAmount(typeName, ticketAmount) {
-		switch(typeName) {
-			case "zkq": // 折扣券
-				return "<span>" + ticketAmount + "</span><r>折</r>";
-			case "djq": // 代金券
-				return "<r>¥</r><span>" + ticketAmount + "</span>";
-			case "ptq":
-				return "<span>" + ticketAmount + "</span>";
-		}
-		return "";
-	}
 	
 	$(function(){
-		var coupons = [];
-		var isEOF = false;
-		var force = true;
-		var pageNo = 1;
-		var type = 0;
-		var vm = ko.observableArray(coupons);
-		ko.applyBindings(vm, document.getElementById("couponList"));
-		function queryByPage() {
-			if(force) {
-				vm.removeAll();
-				coupons.length = 0;
-				pageNo = 1;
-				isEOF = false;
-				force = false;
-				$("#couponsLoading").show();
-			}
-			var _pageNo = pageNo;
-			if(!isEOF) {
-				$.getJSON("{:U('Activity/pagePersonCoupons')}", {
-					pageNo: _pageNo,
-					type: type
-				}, function(list) {
-					if(_pageNo == 1) {
-						coupons.length = 0;
-						$("#couponsLoading").hide();
-						$("#couponList").removeClass("cky-hidden");
-					}
-					pageNo = ++_pageNo;
-					if(list && list.length > 0) {
-						$.each(list, function() {
-							coupons.push(this);
-						});
-					}
-					vm(coupons);
-					
-					if(!list && type == 0) {
-						$("#moreButton").removeClass("cky-hidden");
-					} else if(list && list.length < 12) {
-						isEOF = true;
-						if(type == 0) {
-							$("#moreButton").removeClass("cky-hidden");
-						}
-					} else {
-						$("#moreButton").addClass("cky-hidden");
-					}
-				});
-			}
-		}
-		
-		queryByPage();
-		
-		util.onScrollEnd(queryByPage);
-		
-		// 跳转事件
-		$("#couponList").on("click", ".ticket-border", function() {
-			var $this = $(this);
-			if(!$this.hasClass("ticket-disabled") && $this.attr('shopId')) {
-				// 已领取： 跳转
-				window.location.href = "{:U('Shops/detail')}?shopId=" + $this.attr('shopId'); 
-			}
-		});
-		
 		var tab = $("#tab");
+		var validsList = $("#validsList");
+		var invalidsList = $("#invalidsList");
 		// tab页切换
 		$(".cky-tab-item", tab).click(function() {
 			var $this = $(this);
 			if(!$this.hasClass("cky-active")) {
 				$(".cky-active", tab).removeClass("cky-active");
 				$this.addClass("cky-active");
-				type = $this.attr("tab-type");
-				$("#moreButton").addClass("cky-hidden")
-				force = true;
-				queryByPage();
+				type = Number($this.attr("tab-type"));
+				validsList.toggle();
+				invalidsList.toggle();
+			}
+		});
+		var ok = $("#ok");
+		
+		// 保存优惠券
+		var shopId = util.i("shopId");
+		var subkey = util.i("submit");
+		var cacheKey = null;
+		var cart = null;
+		if(shopId) {
+			cacheKey = "fast-cart" + shopId;
+		} else if(subkey) {
+			cacheKey = subkey;
+		}
+		cart = cky.storage.getItem(cacheKey);
+		if(cart && cart.coupon) {
+			var li = $("#" + cart.coupon.ticketId).addClass("mui-selected");
+			if(li.length > 0) {
+				ok.removeAttr("disabled");
+			}
+		}
+		
+		// 单选
+		$("li", validsList).click(function(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+			ok.removeAttr("disabled");
+		});
+		
+		ok.click(function() {
+			var li = $(".mui-selected", validsList);
+			if(cart && li.length > 0) {
+				var $this = $(this);
+				cart.coupon = {
+					ticketId: Number(li.attr("id")),
+					typeName: li.attr("typeName"),
+					ticketAmount: Number(li.attr("ticketAmount"))
+				};
+				cky.storage.setItem(cacheKey, cart, 24 * 60 * 60);
+				window.history.back();
 			}
 		});
 	});

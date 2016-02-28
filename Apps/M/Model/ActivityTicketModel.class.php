@@ -24,25 +24,49 @@ class ActivityTicketModel extends BaseModel {
 		$pageNo = intval(I('pageNo', 1));
 		$type = intval(I('type', 0));
 		if($type == 0) { // 有效
-			$filter = 'ticketMStatus = 0 and tm.efficacyEDate >= CURDATE()';
+			$filter = 'ticketMStatus = 0 and t.efficacyEDate >= CURDATE()';
 		} else if($type == 1) { // 过期
-			$filter = 'ticketMStatus = 0 and tm.efficacyEDate < CURDATE()';
+			$filter = 'ticketMStatus = 0 and t.efficacyEDate < CURDATE()';
 		} else if($type == 2) { //已使用
 			$filter = 'ticketMStatus = 1';
 		}
     		return $this->field('s.shopImg, s.shopName, t.limitUseShopId, t.ticketID, t.title, t.imagePath,t.onlyNewUser,'
-    			.' t.ticketAmount, tm.efficacySDate, tm.efficacyEDate, t.miniConsumption, t.typeName, t.content,'
+    			.' t.ticketAmount, tm.efficacySDate, tm.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content,'
     			.$type.' as status')
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
     			->join('inner join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
 			->where($filter)
     			->order('t.createTime')->page($pageNo, $pageSize)->select();
     }
+
+	public function queryUseAll($uid, $shopIds) {
+		$sql = 'select t.ticketID, t.title, t.typeName, t.ticketAmount, t.content, t.limitUseShopID, s.shopId, s.shopName, '
+				.'(CURDATE() between t.efficacySDate and t.efficacyEDate) valid, t.onlyNewUser, '
+				.'t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption from cky_activity_ticket t '
+				.'left join cky_shops s on s.shopId = t.limitUseShopID '
+				.'where (t.limitUseShopID = 0 or t.limitUseShopID in('.$shopIds.')) '
+				.'and EXISTS(select * from cky_activity_ticket_m tm where t.ticketID = tm.ticketID and tm.uid='.$uid.') '
+				.' order by t.createTime desc ';
+		return $this->query($sql);
+	}
 	
 	public function updateSendCount($id) {
 		$map['ticketID'] = $id;
 		$data['usedCount'] = array('exp', '`sendCount` + 1');
 		return $this->where($map)->save($data);
+	}
+
+	public function getById($id, $uid) {
+		$sql = 'select t.ticketID, t.ticketStatus, t.ticketAmount, t.content, t.limitSendShopID, t.onlyNewUser, t.efficacySDate, '
+			.'t.efficacyEDate, t.miniConsumption, t.maxiConsumption, UNIX_TIMESTAMP(t.efficacySDate) stime, '
+			.'UNIX_TIMESTAMP(t.efficacyEDate) etime from cky_activity_ticket t '
+			.'where t.ticketID='.$id.' and ' 
+			.'EXISTS(select 0 from cky_activity_ticket_m tm where tm.ticketID = t.ticketID and tm.uid='.$uid.')';
+		$list = $this->query($sql);
+		if(!empty($list)) {
+			return $list[0];
+		}
+		return null;
 	}
 };
 ?>

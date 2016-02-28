@@ -70,14 +70,28 @@
 		<span data-bind="text: total + '元'"></span>
 	</div>
 	
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a id="couponButton" class="mui-navigate-right">
+				<span class="font17">使用优惠券<span id="validCouponCount" class="cky-valid-count">0张可用</span></span>
+				<!-- ko if: couponAmount > 0 -->
+				<p class="cky-update cky-right" data-bind="text: '已抵用' + couponAmount + '元'"></p>
+				<!-- /ko -->
+			</a>
+		</li>
+	</ul>
+	
+	<br />
+	
 	<footer class="cky-footer">
-		<p class="font-red font17">共<span data-bind="text: total + '元'">0</span></p>
+		<p class="font-red font17">实付款：<span data-bind="text: realPayment + '元'">0</span></p>
 		<button id="submit" class="cky-update mui-btn mui-btn-primary" style="height:100%">提交订单</button>
 	</footer>
 </div>
 
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
+	var couponsCount = 0; // 可用优惠券数量
 	
 	cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
 	    var subKey = util.i("submit"); // 购物车来的
@@ -90,9 +104,14 @@
 				goods: [],
 				shops:[],
 				total: 0,
+				realPayment: 0,
+				couponAmount: 0,
+				ticketId: 0,
 				remarks: selectedCart.remarks,
 				consignee: selectedCart.consignee
 			}
+			
+			var _t = []; // 计算优惠券的参数：采用shopId1, amount1, shopId2, amount2,... 存储
 			if(from == "cart") { // 从购物车来
 				for(var shopId in selectedCart.shops) {
 					var _total = 0;
@@ -111,6 +130,9 @@
 						shop.fastMoney = shop.deliveryMoney;
 					}
 					vm.shops.push(shop);
+					
+					_t.push(shopId);
+					_t.push(_total + shop.fastMoney);
 				}
 			} else if(from == "direct"){ // 直接购买
 				for(var shopId in selectedCart.shops) {
@@ -130,11 +152,47 @@
 						shop.fastMoney = shop.deliveryMoney;
 					}
 					vm.shops.push(shop);
+					
+					_t.push(shopId);
+					_t.push(_total + shop.fastMoney);
 				}
 			}
+			
+			vm.realPayment = vm.total;
+			
+			if(selectedCart.coupon) {
+				vm.ticketId = selectedCart.coupon.ticketId;
+				switch(selectedCart.coupon.typeName) {
+					case "djq": // 代金券
+						vm.couponAmount = selectedCart.coupon.ticketAmount;
+						vm.realPayment -= selectedCart.coupon.ticketAmount;
+						break;
+					case "zkq": // 折扣券
+						vm.couponAmount = (vm.realPayment - vm.realPayment * (selectedCart.coupon.ticketAmount / 10.0)).toFixed(2);
+						vm.realPayment = (vm.realPayment * (selectedCart.coupon.ticketAmount / 10.0)).toFixed(2);
+						break;
+					case "ptq": // 普通券
+						vm.couponAmount = vm.realPayment - selectedCart.coupon.ticketAmount;
+						vm.realPayment = selectedCart.coupon.ticketAmount;
+						break;
+				}
+			}
+			
 			ko.applyBindings(vm);
 			
 			$(function(){
+				if(couponsCount == 0) {
+					// 获取代金券可用数量
+					$.get("{:U('Orders/countcoupon')}", {
+						_t: _t.join(",")
+					}, function(result) {
+						couponsCount = result;
+						$("#validCouponCount").text(result + "张可用");
+					});
+				}
+				$("#couponButton").attr("href", "{:U('Orders/coupon')}?submit={:I('submit')}&_t=" + _t.join(","));
+				
+				
 				$("#submit").click(function() {
 					if(!vm.consignee) {
 						cky.alert("请选择收货地址");
@@ -149,7 +207,8 @@
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
 						consigneeId: vm.consignee.id,
-						payway: 1
+						payway: 1,
+						ticketId: vm.ticketId // 优惠券Id
 					}, function(result) {
 						layer.close(ll);
 						var status = result.status;

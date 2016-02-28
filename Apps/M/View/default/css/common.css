@@ -61,8 +61,8 @@ r {
 }
 
 .cky-btn-block {
-	padding-top: 15px;
-	padding-bottom: 15px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	width: 100%;
 }
 
@@ -474,7 +474,6 @@ a.cky-segmented-item {
 .cky-tab .cky-active {
 	color: #FF2200;
 	position: relative;
-	disp
 }
 
 .cky-tab .cky-active::after {
@@ -486,6 +485,17 @@ a.cky-segmented-item {
 	bottom: 0px;
 	height: 2px;
 	background-color: #F20;
+}
+
+.cky-valid-count {
+	display: inline-block;
+	background-color: #f20;
+	color: #fff;
+	font-size: 12px;
+	vertical-align: middle;
+	padding: 1px 5px;
+	border-radius: 5px;
+	margin-left: 3px;
 }
 
 /** 行两列样式 **/

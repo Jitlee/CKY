@@ -721,7 +721,7 @@ class GoodsModel extends BaseModel {
 	 	$shopId = (int)session('RTC_USER.shopId');
 	 	$ids = I('ids');
 	 	if($isSale==1){
-	 		//核对店铺状态
+	 		//核对商家状态
 	 		$sql = "select shopStatus from __PREFIX__shops where shopId=".$shopId;
 	 		$shopRs = $m->query($sql);
 	 		if($shopRs[0]['shopStatus']!=1){
@@ -762,7 +762,7 @@ class GoodsModel extends BaseModel {
 	 }
 	 
 	/**
-	 * 获取店铺商品列表
+	 * 获取商家商品列表
 	 */
 	public function getShopsGoods($shopId = 0){
 		
@@ -828,7 +828,7 @@ class GoodsModel extends BaseModel {
 	
 	
 	/**
-	 * 获取店铺商品列表
+	 * 获取商家商品列表
 	 */
 	public function getHotGoods($shopId){
 		$hotgoods = S("RTC_CACHE_HOT_GOODS_".$shopId);
@@ -1080,7 +1080,7 @@ class GoodsModel extends BaseModel {
             $goods['isBest'] = (trim($sheet->getCell("K".$row)->getValue())!='')?1:0;
             $goods['isNew'] = (trim($sheet->getCell("L".$row)->getValue())!='')?1:0;
             $goods['isHot'] = (trim($sheet->getCell("M".$row)->getValue())!='')?1:0;
-            //查询商城分类
+            //查询平台分类
             $goodsCat = trim($sheet->getCell("N".$row)->getValue());
             if($goodsCatMap[$goodsCat]==''){
 	            $sql = "select gc1.catId catId1,gc2.catId catId2,gc3.catId catId3,gc3.catName 
@@ -1095,7 +1095,7 @@ class GoodsModel extends BaseModel {
             $goods['goodsCatId1'] = (int)$goodsCatMap[$goodsCat]['catId1'];
             $goods['goodsCatId2'] = (int)$goodsCatMap[$goodsCat]['catId2'];
             $goods['goodsCatId3'] = (int)$goodsCatMap[$goodsCat]['catId3'];
-            //查询商城分类
+            //查询平台分类
             $shopGoodsCat = trim($sheet->getCell("O".$row)->getValue());
             if($shopGoodsCatMap[$shopGoodsCat]==''){
 	            $sql = "select sc1.catId catId1,sc2.catId catId2,sc2.catName

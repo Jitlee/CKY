@@ -10,7 +10,7 @@ namespace Home\Model;
  */
 class AreasModel extends BaseModel {
 	/**
-	  * 获取店铺的服务县区 
+	  * 获取商家的服务县区 
 	  */ 
 	public function getDistrictsByShop($obj){
 		$shopId = $obj["shopId"];
@@ -21,7 +21,7 @@ class AreasModel extends BaseModel {
 	 }
 	
 	/**
-	  * 获取店铺的社区
+	  * 获取商家的社区
 	  */
  	public function getShopCommunitys($obj){
  		$shopId = $obj["shopId"];

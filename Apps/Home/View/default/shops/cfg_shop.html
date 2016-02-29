@@ -18,7 +18,7 @@ $(function () {
 			},onError:function(msg){
 		}});
 	   
-	    $("#shopKeywords").formValidator({onShow:"",onFocus:"请输入店铺SEO关键字",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"店铺SEO关键字不能为空,请确认"});
+	    $("#shopKeywords").formValidator({onShow:"",onFocus:"请输入商家SEO关键字",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"商家SEO关键字不能为空,请确认"});
 	    
 });
 
@@ -64,7 +64,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
 			
 			</div>
 		</form>
-       <div class='rtc-page-header'>商家中心 > 店铺设置</div>
+       <div class='rtc-page-header'>商家中心 > 商家设置</div>
        <div class='rtc-page-content'>
        
        <form name="myform" method="post" id="myform" autocomplete="off">
@@ -72,15 +72,15 @@ var filetypes = ["gif","jpg","png","jpeg"];
         <input type='hidden' id='shopBanner' value='{$object.shopBanner}'/>
         <table class="table table-hover table-striped table-bordered rtc-form">
             <!-- tr >
-             <th width='120' align='right'>店铺SEO标题<font color='red'>*</font>：</th>
+             <th width='120' align='right'>商家SEO标题<font color='red'>*</font>：</th>
              <td><input type='text' id='shopTitle' class="form-control rtc-ipt" value='{$object.shopTitle}' style='width:250px;' maxLength='25'/></td>
            </tr -->
            <tr>
-             <th width='120' align='right'>店铺SEO关键字<font color='red'>*</font>：</th>
+             <th width='120' align='right'>商家SEO关键字<font color='red'>*</font>：</th>
              <td><input type='text' id='shopKeywords' class="form-control rtc-ipt" value='{$object.shopKeywords}' style='width:350px;' maxLength='25'/></td>
            </tr>
            <tr>
-	         <th width='120'>店铺SEO描述：</th>
+	         <th width='120'>商家SEO描述：</th>
 	         <td colspan='3'>
 	             <textarea rows="2" style='width:350px;' id='shopDesc' name='shopDesc' >{$object.shopDesc}</textarea>
 	         </td>

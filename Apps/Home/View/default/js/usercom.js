@@ -263,7 +263,7 @@ function orderCancel(id,type){
 					}else if(json.status==-1){
 						RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 					}else{
-						RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+						RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 					}
 			   });
 	        }
@@ -280,7 +280,7 @@ function orderCancel(id,type){
 				}else if(json.status==-1){
 					RTC.msg('操作失，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 				}else{
-					RTC.msg('操作失，请与商城管理员联系 !', {icon: 5});
+					RTC.msg('操作失，请与平台管理员联系 !', {icon: 5});
 				}
 		   });
 		});
@@ -358,7 +358,7 @@ function orderConfirm(id,type){
 				}else if(json.status==-1){
 					RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 				}else{
-					RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+					RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 				}
 		   });
 		});
@@ -387,7 +387,7 @@ function orderConfirm(id,type){
 					}else if(json.status==-1){
 						RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 					}else{
-						RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+						RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 					}
 			   });
 	        }
@@ -471,7 +471,7 @@ function getUserMsgTips(){
 					$("#li_queryAppraiseByPage .rtc-msg-tips-box").hide();
 				}
 				$("#li_queryAppraiseByPage .rtc-msg-tips-box").html(json[i]);
-			}else if(i==100000){//商城消息
+			}else if(i==100000){//平台消息
 				if(json[i]>0){
 					$("#li_queryMessageByPage .rtc-msg-tips-box").show();
 				}else{
@@ -599,7 +599,7 @@ function queryFavoriteShops(p){
 	});
 }
 function cancelShopFavorites(obj,id){
-	layer.confirm('您确定取消关注该店铺吗？',{icon: 3, title:'系统提示'}, function(tips){
+	layer.confirm('您确定取消关注该商家吗？',{icon: 3, title:'系统提示'}, function(tips){
 		layer.close(tips);
 	    var ll = layer.load('数据处理中，请稍候...');
 		jQuery.post(Think.U("Home/Favorites/cancelFavorite") ,{id:id,type:1},function(data) {

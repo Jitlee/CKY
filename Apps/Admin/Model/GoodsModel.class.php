@@ -20,13 +20,13 @@ class GoodsModel extends BaseModel {
 		//相册
 		$m = M('goods_gallerys');
 		$goods['gallery'] = $m->where('goodsId='.$id)->select();
-		//商城分类
+		//平台分类
 		$sql = "select c1.catName goodsName1,c2.catName goodsName2,c3.catName goodsName3
 		        from __PREFIX__goods_cats c3 , __PREFIX__goods_cats c2,__PREFIX__goods_cats c1
 		        where c3.parentId=c2.catId and c2.parentId=c1.catId and c3.catId=".$goods['goodsCatId3'];
 		$rs = $this->query($sql);
 		$goods['goodsCats'] = $rs[0];
-		//店铺分类
+		//商家分类
 		$sql = "select c1.catName goodsName1,c2.catName goodsName2
 		        from __PREFIX__shops_cats c2 ,__PREFIX__shops_cats c1
 		        where c2.parentId=c1.catId and c2.catId=".$goods['shopCatId2'];
@@ -140,7 +140,7 @@ class GoodsModel extends BaseModel {
 			$goods = $this->query($sql);
 			$msg = "";
 			if(I('status',0)==0){
-				$msg = "商品[".$goods[0]['goodsName']."]已被商城下架";
+				$msg = "商品[".$goods[0]['goodsName']."]已被平台下架";
 			}else{
 				$msg = "商品[".$goods[0]['goodsName']."]已通过审核";
 			}

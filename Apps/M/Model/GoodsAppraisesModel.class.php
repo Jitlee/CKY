@@ -47,7 +47,7 @@ class GoodsAppraisesModel extends BaseModel {
 		return $data;
 	}
 	 /**
-	 * 查询店铺评价
+	 * 查询商家评价
 	 */
 	public function getShopAppraises($shopId){
 		$sqltotal="SELECT CAST(ss.totalscore/totalusers/3 as int)  as avgscore,ss.totalusers FROM __PREFIX__shop_scores ss where shopid=".$shopId;

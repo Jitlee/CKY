@@ -796,7 +796,7 @@ class OrdersModel extends BaseModel {
 		$olist = $this->query($sql);
 		$data[4] = $olist[0]['cnt'];
 		
-		//获取商城信息
+		//获取平台信息
 		$sql = "select count(*) cnt from __PREFIX__messages WHERE  receiveUserId=".$userId." and msgStatus=0 and msgFlag=1 ";
 		$olist = $this->query($sql);
 		$data[100000] = empty($olist)?0:$olist[0]['cnt'];

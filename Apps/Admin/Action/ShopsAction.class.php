@@ -6,7 +6,7 @@
   
  * 联系方式:
  * ============================================================================
- * 店铺控制器
+ * 商家控制器
  */
 class ShopsAction extends BaseAction{
 	/**
@@ -173,7 +173,7 @@ class ShopsAction extends BaseAction{
 		$this->ajaxReturn($rs);
 	}
     /**
-	 * 获取待审核的店铺数量
+	 * 获取待审核的商家数量
 	 */
 	public function queryPenddingGoodsNum(){
 		$this->isAjaxLogin();

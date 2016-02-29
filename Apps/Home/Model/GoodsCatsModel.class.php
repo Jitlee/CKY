@@ -70,7 +70,7 @@ class GoodsCatsModel extends BaseModel {
 			}
 			S("RTC_CACHE_GOODS_CAT_GOODS_WEB_".$areaId2,$cats,31536000);
 		}
-		//获取每个分类推荐的店铺
+		//获取每个分类推荐的商家
 		if($cats){
 			$recommendShops = S("RTC_CACHE_RECOMM_SHOP_".$areaId2);
 		    if(!$recommendShops){

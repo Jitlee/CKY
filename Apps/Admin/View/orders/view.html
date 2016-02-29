@@ -26,8 +26,8 @@
              <span style='font-weight:bold;'>订单号：{$object['orderNo']}</span>
              <span style='margin-left:100px;'>
                                        状态：<if condition='$object["orderStatus"] eq -3'>用户拒收
-               <elseif condition='$object["orderStatus"] eq -5'/>店铺不同意拒收
-               <elseif condition='$object["orderStatus"] eq -4'/>店铺同意拒收
+               <elseif condition='$object["orderStatus"] eq -5'/>商家不同意拒收
+               <elseif condition='$object["orderStatus"] eq -4'/>商家同意拒收
 			   <elseif condition='$object["orderStatus"] eq -2'/>未付款
 			   <elseif condition='($object["orderStatus"] eq -6) OR ($vo["orderStatus"] eq -7)'/>用户取消
 			   <elseif condition='$object["orderStatus"] eq 0'/>未受理
@@ -77,7 +77,7 @@
                   <if condition='$object["isSelf"] eq 1'>
                                                                   自提
                   <else/>
-                  	<if condition='$object["deliverType"] eq 1'>店铺配送<else/>商城配送</if>
+                  	<if condition='$object["deliverType"] eq 1'>商家配送<else/>平台配送</if>
                   </if>                                                
                   </td>
                 </tr>

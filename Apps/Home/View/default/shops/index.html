@@ -17,9 +17,9 @@
 					</td>
 					<td style="vertical-align:top;line-height:25px;">
 						<div style="font-weight:bolder;">{$shopInfo['shop']['shopName']}</div>
-						<div style="">店铺名称： 
+						<div style="">商家名称： 
 							<span style="color:#55AAFF">{$shopInfo['shop']['shopName']} </span></div>
-						<div style="">店铺状态：
+						<div style="">商家状态：
 						<if condition="$shopInfo['shop']['shopStatus'] eq 1">
 							<if condition="($shopInfo['shop']['shopAtive'] eq 1) and  ($shopInfo['shop']['shopStatus'] eq 1)">
 								营业中，
@@ -39,7 +39,7 @@
 						</div>
 					</td>
 					<td width="280" style="vertical-align:top;line-height:25px;">
-						<div style="font-weight:bolder;">店铺动态评分</div>
+						<div style="font-weight:bolder;">商家动态评分</div>
 						<div style="">商品描述:
 							<for start="0" end="$shopInfo['details']['goodsScore']">
 							    <img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
@@ -67,10 +67,10 @@
 	<div class='rtc-shophome-area'>
 		<div class='rtc-shophome-nav'>
 			<div class='header'>
-				店铺提示
+				商家提示
 			</div>
 			<div class='main'>
-				<div style="font-weight:bolder;">您需要关注的店铺情况：</div>
+				<div style="font-weight:bolder;">您需要关注的商家情况：</div>
 				<div style="color:#55AAFF;">
 					商品提示：
 					<span>待审核商品（<span style="color:red;">{$shopInfo['details']['waitGoodsCnt']|intval}</span>）</span>&nbsp;&nbsp;&nbsp;&nbsp;

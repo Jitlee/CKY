@@ -263,7 +263,7 @@ function submitOrder(){
 		}
 	});
 	if(!flag){
-		RTC.msg("抱歉，您的订单金额未达到该店铺的配送订单起步价，不能提交订单。", {icon: 5});
+		RTC.msg("抱歉，您的订单金额未达到该商家的配送订单起步价，不能提交订单。", {icon: 5});
 		return;
 	}
 	var ll = layer.msg('正在保存数据，请稍候...', {icon: 16,shade: [0.5, '#B3B3B3']});

@@ -104,7 +104,7 @@ function sale(v){
 	    			location.reload();
 	    		});
 	    	}else if(json.status=='-3'){
-	    		RTC.msg('上架商品失败!您的店铺权限不能出售商品，如有疑问请与商城管理员联系。', {icon: 5,time:3000});
+	    		RTC.msg('上架商品失败!您的商家权限不能出售商品，如有疑问请与平台管理员联系。', {icon: 5,time:3000});
 	    	}else{
 	    		RTC.msg('操作失败!', {icon: 5});
 	    	}
@@ -284,7 +284,7 @@ function editGoods(menuId){
 				   }
 			   }
 			   if(!isPriceRecomm){
-				   RTC.msg('请选择一个推荐的价格，以便在商城展示！',{icon: 5,time:3000});
+				   RTC.msg('请选择一个推荐的价格，以便在平台展示！',{icon: 5,time:3000});
 				   return;
 			   }
 		   }
@@ -330,7 +330,7 @@ function editGoods(menuId){
 				});
 			}else if(json.status=='-2'){
 				if(params.isSale==1){
-				    RTC.msg('您的店铺已被封，如有疑问请与商城管理员联系!', {icon: 5,time:4000},function(){
+				    RTC.msg('您的商家已被封，如有疑问请与平台管理员联系!', {icon: 5,time:4000},function(){
 				    	if((menuId=='toEditGoods')){
 							location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 						}else{
@@ -348,7 +348,7 @@ function editGoods(menuId){
 				}
 			}else if(json.status=='-3'){
 				if(params.isSale==1){
-					RTC.msg('您的店铺权限不能上架商品，所编辑商品已被存放在仓库中，如有疑问请与商城管理员联系!', {icon: 5,time:4000},function(){
+					RTC.msg('您的商家权限不能上架商品，所编辑商品已被存放在仓库中，如有疑问请与平台管理员联系!', {icon: 5,time:4000},function(){
 						if((menuId=='toEditGoods')){
 							location.href= Think.U('Home/Goods/toEdit','umark=toEditGoods');
 						}else{
@@ -606,7 +606,7 @@ function shopOrderAccept(id){
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -634,7 +634,7 @@ function batchShopOrderAccept(){
 					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -652,7 +652,7 @@ function shopOrderProduce(id){
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -680,7 +680,7 @@ function batchShopOrderProduce(){
 					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -698,7 +698,7 @@ function shopOrderDelivery(id){
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -726,7 +726,7 @@ function batchShopOrderDelivery(id){
 					$(".rtc-tab-nav").find("li").eq(statusMark).click();
 				});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -744,7 +744,7 @@ function shopOrderReceipt(id){
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
-				RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 			}
 	   });
 	});
@@ -764,7 +764,7 @@ function shopOrderRefund(id,type){
 				}else if(json.status==-1){
 					RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 				}else{
-					RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+					RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 				}
 		   });
 		});
@@ -793,7 +793,7 @@ function shopOrderRefund(id,type){
 					}else if(json.status==-1){
 						RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 					}else{
-						RTC.msg('操作失败，请与商城管理员联系 !', {icon: 5});
+						RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
 					}
 			   });
 	        }
@@ -882,7 +882,7 @@ function editPass(){
 			}
 	   });
 }
-/***************编辑店铺资料******************/
+/***************编辑商家资料******************/
 function getCommunitysForShopEdit(){
 
 	  $.post(Think.U('Home/Areas/getAreaAndCommunitysByList'),{areaId:areaId},function(data,textStatus){
@@ -1014,7 +1014,7 @@ function editShop(){
 			}
 		});
 }
-/******************店铺设置************************/
+/******************商家设置************************/
 function setShop(){
 	   var params = {};
 	   params.shopTitle = $('#shopTitle').val();

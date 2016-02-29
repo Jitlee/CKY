@@ -32,7 +32,7 @@
 		<div class="rtc-shophome-nav">
 			<div class="rtc-shophome-nav-box">
 				<a href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopId,'ct1'=>-1))}"><li <if condition="$ct1 eq -1">class="liselected"</if>>本店所有商品</li></a>
-				<a href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopId,'ct1'=>0))}"><li <if condition="$ct1 eq 0">class="liselected"</if>>店铺首页</li></a>
+				<a href="{:U('Home/Shops/toShopHome/',array('shopId'=>$shopId,'ct1'=>0))}"><li <if condition="$ct1 eq 0">class="liselected"</if>>商家首页</li></a>
 				<volist name="shopscates" key="k" id="vo">
 				<a href="{:U('Home/Shops/toShopHome/',array('shopId'=>$vo['shopId'],'ct1'=>$vo['catId']))}"><li <if condition="$ct1 eq $vo['catId']">class="liselected"</if>>{$vo["catName"]}</li></a>
 				</volist>
@@ -76,7 +76,7 @@
 						<table class="details-tab">
 							<tbody>
 								<tr>
-									<td class="title">店铺名称：</td>
+									<td class="title">商家名称：</td>
 									<td>{$shops['shopName']}</td>
 								</tr>
 								<tr>
@@ -88,11 +88,11 @@
 									<td style="line-height:30px;padding-bottom:10px;">{$shops['deliveryStartMoney']}元起，配送费{$shops['deliveryMoney']}元，<br/>{$shops['deliveryFreeMoney']}元起免配送费<br/></td>
 								</tr>
 								<tr>
-									<td class="title">店铺地址：</td>
+									<td class="title">商家地址：</td>
 									<td>{$shops['shopAddress']}</td>
 								</tr>
 								<tr>
-									<td class="title">店铺电话：</td>
+									<td class="title">商家电话：</td>
 									<td>{$shops['shopTel']}</td>
 								</tr>
 								<if condition="$shops['qqNo'] neq ''">
@@ -122,7 +122,7 @@
 								<tr>
 									<td colspan='2' align='center' style='padding-top:20px;'>
 									<a class='rtc-shop-btn' href="javascript:favoriteShops({$shops['shopId']})">
-										<span id='f1_txt' f='{$favoriteShopId}'><if condition="$favoriteShopId gt 0">已关注<else/>关注店铺</if></span>
+										<span id='f1_txt' f='{$favoriteShopId}'><if condition="$favoriteShopId gt 0">已关注<else/>关注商家</if></span>
 									</a>
 									</td>
 								</tr>

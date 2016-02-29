@@ -6,7 +6,7 @@ namespace Home\Model;
   
  * 联系方式:
  * ============================================================================
- * 店铺服务类
+ * 商家服务类
  */
 class ShopsModel extends BaseModel {
      /**
@@ -93,18 +93,18 @@ class ShopsModel extends BaseModel {
 		     array('areaId2','integer','请选择所在城市!',1),
 		     array('areaId3','integer','请选择所在县区!',1),
 		     array('goodsCatId1','integer','请选择行业！',1),
-		     array('shopName','require','请输入店铺名称!',1),
+		     array('shopName','require','请输入商家名称!',1),
 		     array('shopCompany','require','请输入公司名称!',1),
 		     array('shopTel','require','请输入公司!电话',1),
 		     array('shopImg','require','请上传公司图标!',1),
 		     array('shopAddress','require','请输入公司地址!',1),
 		     array('bankId','integer','请选择银行!',1),
 		     array('bankNo','require','请输入银行卡号!',1),
-		     array('latitude','require','请标记店铺地址!',1),
-		     array('longitude','require','请标记店铺地址!',1),
-		     array('mapLevel','integer','请标记店铺地址!',1),
+		     array('latitude','require','请标记商家地址!',1),
+		     array('longitude','require','请标记商家地址!',1),
+		     array('mapLevel','integer','请标记商家地址!',1),
 		     array('isInvoice',array(0,1),'无效的开发票状态！',1,'in'),
-		     array('serviceStartTime','double','请选择店铺开始时间!'),
+		     array('serviceStartTime','double','请选择商家开始时间!'),
 		     array('serviceEndTime','double','请选择电批结束时间!',1)
 		);
 	 	//检测账号是否存在
@@ -164,7 +164,7 @@ class ShopsModel extends BaseModel {
 				 $data['shopId'] = $shopId;
 				 $m = M('shop_scores');
 				 $m->add($data);
-				 //建立店铺和社区的关系
+				 //建立商家和社区的关系
 				 $relateArea = I('relateAreaId');
 				 $relateCommunity = I('relateCommunityId');
 				 if($relateArea!=''){
@@ -211,7 +211,7 @@ class ShopsModel extends BaseModel {
 	 } 
 	
 	 /**
-	  * 会员注册开通店铺
+	  * 会员注册开通商家
 	  */
 	 public function addByUser($userId){
 	 	$rd = array('status'=>-1);
@@ -219,7 +219,7 @@ class ShopsModel extends BaseModel {
 		$sql = "select count(*) counts from __PREFIX__shops s where s.shopFlag=1 and userId=".$userId;
 		$checkRs = $this->queryRow($sql);
 		if($checkRs['counts']>0){
-			$rd['msg'] = '店铺申请已存在，请勿重复申请!';
+			$rd['msg'] = '商家申请已存在，请勿重复申请!';
 			return $rd;
 		}
 	 	$verify = session('VerifyCode_userPhone');
@@ -243,18 +243,18 @@ class ShopsModel extends BaseModel {
 		     array('areaId2','integer','请选择所在城市!',1),
 		     array('areaId3','integer','请选择所在县区!',1),
 		     array('goodsCatId1','integer','请选择行业！',1),
-		     array('shopName','require','请输入店铺名称!',1),
+		     array('shopName','require','请输入商家名称!',1),
 		     array('shopCompany','require','请输入公司名称!',1),
 		     array('shopTel','require','请输入公司!电话',1),
 		     array('shopImg','require','请上传公司图标!',1),
 		     array('shopAddress','require','请输入公司地址!',1),
 		     array('bankId','integer','请选择银行!',1),
 		     array('bankNo','require','请输入银行卡号!',1),
-		     array('latitude','require','请标记店铺地址!',1),
-		     array('longitude','require','请标记店铺地址!',1),
-		     array('mapLevel','integer','请标记店铺地址!',1),
+		     array('latitude','require','请标记商家地址!',1),
+		     array('longitude','require','请标记商家地址!',1),
+		     array('mapLevel','integer','请标记商家地址!',1),
 		     array('isInvoice',array(0,1),'无效的开发票状态！',1,'in'),
-		     array('serviceStartTime','double','请选择店铺开始时间!'),
+		     array('serviceStartTime','double','请选择商家开始时间!'),
 		     array('serviceEndTime','double','请选择电批结束时间!',1)
 		);
 	 	$hasUserPhone = self::checkLoginKey(I("userPhone"),$userId);
@@ -305,7 +305,7 @@ class ShopsModel extends BaseModel {
 				$data['shopId'] = $shopId;
 				$m = M('shop_scores');
 				$m->add($data);
-			    //建立店铺和社区的关系
+			    //建立商家和社区的关系
 				$relateArea = I('relateAreaId');
 				$relateCommunity = I('relateCommunityId');
 				if($relateArea!=''){
@@ -392,7 +392,7 @@ class ShopsModel extends BaseModel {
 				$data[userName] = I("userName");
 				$m->where("userId=".$shops['userId'])->save($data);
 				if($shops['isSelf']==0){
-			        //建立店铺和社区的关系
+			        //建立商家和社区的关系
 					$relateArea = I('relateAreaId');
 					$relateCommunity = I('relateCommunityId');
 					$m = M('shops_communitys');
@@ -434,7 +434,7 @@ class ShopsModel extends BaseModel {
 	 
 	 
 	 /**
-	  * 修改店铺设置
+	  * 修改商家设置
 	  */
 	 public function editShopCfg($shopId){
 	 	
@@ -470,7 +470,7 @@ class ShopsModel extends BaseModel {
 		$us = $m->where("userId=".$rs['userId'])->find();
 		$rs['userName'] = $us['userName'];
 		$rs['userPhone'] = $us['userPhone'];
-		//获取店铺社区关系
+		//获取商家社区关系
 		$m = M('shops_communitys');
 		$rc = $m->where('shopId='.(int)$id)->select();
 		$relateArea = array();
@@ -510,7 +510,7 @@ class ShopsModel extends BaseModel {
 	 	return $rs;
 	 }
 	/**
-	 * 获取店铺信息
+	 * 获取商家信息
 	 */
 	public function getShopInfo($oshopId = 0){
 		$m = M('shops');
@@ -731,7 +731,7 @@ class ShopsModel extends BaseModel {
 	}
 	
 	/**
-	  * 统计店铺信息
+	  * 统计商家信息
 	  */
 	public function getShopDetails($obj){
 		
@@ -794,7 +794,7 @@ class ShopsModel extends BaseModel {
 		return $data;
 	}
 	/**
-	 * 获取店铺评分
+	 * 获取商家评分
 	 */
 	public function getShopScores($obj){
 		$shopId = (int)$obj["shopId"];
@@ -821,7 +821,7 @@ class ShopsModel extends BaseModel {
 	
 	
 	/**
-	 * 获取自营店铺
+	 * 获取自营商家
 	 */
 	public function getSelfShop($areaId2){
 		$m = M('shops');
@@ -831,7 +831,7 @@ class ShopsModel extends BaseModel {
 	}
 	
 	/**
-	 * 检测自营店铺ID
+	 * 检测自营商家ID
 	 */
 	function checkSelfShopId($areaId2){
 		$m = M('shops');
@@ -840,7 +840,7 @@ class ShopsModel extends BaseModel {
 		return (int)$shop['shopId'];
 	}
 	/**
-	 * 获取店铺搜索提示列表
+	 * 获取商家搜索提示列表
 	 * @return \Think\mixed
 	 */
 	public function getKeyList($areaId2){

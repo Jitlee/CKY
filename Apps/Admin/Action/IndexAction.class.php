@@ -10,7 +10,7 @@ namespace Admin\Action;
  */
 class IndexAction extends BaseAction {
 	/**
-	 * 跳到商城首页
+	 * 跳到平台首页
 	 */
     public function index(){
     	$this->isLogin();
@@ -29,7 +29,7 @@ class IndexAction extends BaseAction {
     	$this->display("/main");
     }
     /**
-     * 跳去商城配置界面
+     * 跳去平台配置界面
      */
     public function toMallConfig(){
     	$this->isLogin();
@@ -47,7 +47,7 @@ class IndexAction extends BaseAction {
     	$this->display("/mall_config");
     }
     /**
-     * 保存商城配置信息
+     * 保存平台配置信息
      */
     public function saveMallConfig(){
     	$this->isAjaxLogin();
@@ -89,7 +89,7 @@ class IndexAction extends BaseAction {
     	//获取待审核商品
     	$m = D('Admin/Goods');
     	$grs = $m->queryPenddingGoodsNum();
-    	//获取待审核店铺
+    	//获取待审核平台商家
     	$m = D('Admin/Shops');
     	$srs = $m->queryPenddingShopsNum();
     	$rd = array('status'=>1);

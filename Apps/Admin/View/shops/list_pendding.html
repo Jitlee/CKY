@@ -74,9 +74,9 @@
              <select id='areaId2' name='areaId2'>
                <option value=''>请选择</option>
              </select>     
-       店铺名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='{$shopName}'/> 
-       店铺编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='{$shopSn}'/> 
-      店铺状态 ：<select id='shopStatus' name='shopStatus'>
+       商家名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='{$shopName}'/> 
+       商家编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='{$shopSn}'/> 
+      商家状态 ：<select id='shopStatus' name='shopStatus'>
              <option value='-999'>全部</option>
              <option value='0' <if condition="$shopStatus ==0 ">selected</if>>待审核</option>
              <option value='-1' <if condition="$shopStatus ==-1 ">selected</if>>拒绝</option>
@@ -91,12 +91,12 @@
            <thead>
              <tr>
                <th width='30'>序号</th>
-               <th width='80'>店铺名称</th>
-               <th width='80'>店铺编号</th>
+               <th width='80'>商家名称</th>
+               <th width='80'>商家编号</th>
                <th width='80'>店主</th>
                <th width='80'>分类</th>
                <th width='60'>营业状态</th>
-               <th width='60'>店铺状态</th>
+               <th width='60'>商家状态</th>
                <th width='120'>操作</th>
              </tr>
            </thead>

@@ -10,10 +10,10 @@
 			       return false;
 			},onError:function(msg){
 		}});
-	    $("#shopName").formValidator({onShow:"",onFocus:"店铺名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店铺名称不符合要求,请确认"});
+	    $("#shopName").formValidator({onShow:"",onFocus:"商家名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店铺名称不符合要求,请确认"});
 		$("#userName").formValidator({onShow:"",onFocus:"请输入店主姓名",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店主姓名不能为空,请确认"});
 		$("#shopCompany").formValidator({onShow:"",onFocus:"请输入公司名称",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"公司名称不能为空,请确认"});
-		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入店铺地址",onCorrect:"输入正确"}).inputValidator({min:1,max:120,onError:"店铺地址不能为空,请确认"});
+		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入商家地址",onCorrect:"输入正确"}).inputValidator({min:1,max:120,onError:"店铺地址不能为空,请确认"});
 		$("#areaId3").formValidator({onFocus:"请选择所属地区"}).inputValidator({min:1,onError: "请选择所属地区"});
 		$("#goodsCatId1").formValidator({onFocus:"请选择所属行业"}).inputValidator({min:1,onError: "请选择所属行业"});
 		$("#bankId").formValidator({onFocus:"请选择所属银行"}).inputValidator({min:1,onError: "请选择所属银行"});
@@ -137,7 +137,7 @@
 	   params.shopAtive = $("input[name='shopAtive']:checked").val();
 	   params.verify = $('#authcode').val();
 	   if(params.shopImg==''){
-		   RTC.msg('请上传店铺图片!', {icon: 5});
+		   RTC.msg('请上传商家图片!', {icon: 5});
 		   return;
 	   }
 	   var relateArea = [0];
@@ -177,7 +177,7 @@
 	   $.post(domainURL +"/index.php/Home/Shops/openShopByUser",params,function(data,textStatus){
 			var json = RTC.toJson(data);
 			if(json.status=='1'){
-				RTC.msg('您的开店申请已提交，请等候商城管理员审核!', {icon: 1}, function(){
+				RTC.msg('您的开店申请已提交，请等候平台管理员审核!', {icon: 1}, function(){
 					location.href=domainURL +'/index.php/Home/Orders/queryByPage';
 				});
 			}else if(json.status==-4){
@@ -187,7 +187,7 @@
 				RTC.msg('验证码已超过有效期!', {icon: 5});
 				getVerify();
 			}else{
-				RTC.msg('操作您的开店申请失败，请联系商城管理员!', {icon: 5});
+				RTC.msg('操作您的开店申请失败，请联系平台管理员!', {icon: 5});
 				getVerify();
 			}
 		});

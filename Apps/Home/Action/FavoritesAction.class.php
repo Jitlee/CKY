@@ -31,7 +31,7 @@ class FavoritesAction extends BaseAction{
 		$this->ajaxReturn($rs);
 	}
     /**
-	 * 获取店铺关注
+	 * 获取商家关注
 	 */
 	public function queryShopsByPage(){
 		$this->isAjaxLogin();

@@ -410,9 +410,9 @@ class OrdersAction extends BaseUserAction {
 				}
 	
 				$catgoods[$goods["shopId"]]["shopgoods"][] = $goods;
-				$catgoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//店铺免运费最低金额
-				$catgoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//店铺配送费
-				$catgoods[$goods["shopId"]]["deliveryStartMoney"] = $goods["deliveryStartMoney"];//店铺配送费
+				$catgoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//商家免运费最低金额
+				$catgoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//商家配送费
+				$catgoods[$goods["shopId"]]["deliveryStartMoney"] = $goods["deliveryStartMoney"];//商家配送费
 				$catgoods[$goods["shopId"]]["totalCnt"] = $catgoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
 				$catgoods[$goods["shopId"]]["totalMoney"] = $catgoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 			}
@@ -526,8 +526,8 @@ class OrdersAction extends BaseUserAction {
 			
 			$goods["cnt"] = $count;
 			$shopGoods[$goods["shopId"]]["shopgoods"][] = $goods;
-			$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//店铺免运费最低金额
-			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//店铺免运费最低金额
+			$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//商家免运费最低金额
+			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//商家免运费最低金额
 			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
 			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 		}
@@ -715,7 +715,7 @@ class OrdersAction extends BaseUserAction {
 	}
 	
 	/**
-	 * 获取店铺订单消息提示
+	 * 获取商家订单消息提示
 	 */
 	public function getShopMsgTips(){
 		$this->isShopAjaxLogin();

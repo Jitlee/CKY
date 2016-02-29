@@ -95,7 +95,7 @@ class UsersModel extends BaseModel {
 				$data['lastIP'] = get_client_ip();
 				$m = M('users');
 		    	$m->where(" userId=".$rs['userId'])->data($data)->save();
-		    	//如果是店铺则加载店铺信息
+		    	//如果是商家则加载商家信息
 		    	if($rs['userType']>=1){
 		    		$s = M('shops');
 			 		  $shops = $s->where('userId='.$rs['userId']." and shopFlag=1")->find();

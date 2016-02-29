@@ -126,7 +126,7 @@
              <select id='areaId2' name='areaId2'>
                <option value=''>请选择</option>
              </select>
-  商城分类：<select id='goodsCatId1' name='goodsCatId1' onchange='javascript:getCatList("goodsCatId2",this.value,0)'>
+  平台分类：<select id='goodsCatId1' name='goodsCatId1' onchange='javascript:getCatList("goodsCatId2",this.value,0)'>
 	                <option value='0'>请选择</option>
 	                <volist name="goodsCatsList" id="vo">
 	                <option value='{$vo['catId']}' <if condition="$goodsCatId1 == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
@@ -140,7 +140,7 @@
 	             </select>
    </div>
    <div class='rtc-tbar'>             
-       所属店铺：<input type='text' id='shopName' name='shopName' value='{$shopName}'/>          
+       所属商家：<input type='text' id='shopName' name='shopName' value='{$shopName}'/>          
        商品：<input type='text' id='goodsName' name='goodsName' value='{$goodsName}'/> 
   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
        </div>
@@ -153,8 +153,8 @@
                <th width='180'>商品名称</th>
                <th width='60'>商品编号</th>
                <th width='40'>价格</th>
-               <th width='40'>店铺</th>
-               <th width='100'>商城分类</th>
+               <th width='40'>商家</th>
+               <th width='100'>平台分类</th>
                <th width='40'>销量</th>
                <th width='50'>操作</th>
              </tr>

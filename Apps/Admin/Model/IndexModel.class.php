@@ -29,7 +29,7 @@ class IndexModel extends BaseModel {
 		return $configs;
 	}
 	/**
-	 * 保存商城配置信息
+	 * 保存平台配置信息
 	 */
 	public function saveConfigsForCode(){
 		$rd = array('status'=>-1);
@@ -72,14 +72,14 @@ class IndexModel extends BaseModel {
 		$weekDate = date('Y-m-d 00:00:00',time()-604800);//一周内
 		$ret['userNew'] = M('member')->where(' RegisterTime>"'.$weekDate.'"')->count();//新增用户
 		
-		//申请店铺
+		//申请商家
 		$ret['shopApply'] = M('Shops')->where('shopStatus >= 0 and shopFlag=1 and createTime>"'.$weekDate.'"')->count();
 		
 		//新增商品
 		$ret['goodsNew'] = M('goods')->where('goodsFlag=1 and createTime>"'.$weekDate.'"')->count();
 		//新增订单
 		$ret['ordersNew'] = M('orders')->where('orderFlag=1 and orderStatus >=0 and createTime>"'.$weekDate.'"')->count();
-		//新增店铺
+		//新增商家
 		$map['shopStatus'] = 1;
 		$ret['shopNew'] = M('Shops')->where('shopStatus = 1 and shopFlag=1 and createTime>"'.$weekDate.'"')->count();
 		return $ret;
@@ -92,7 +92,7 @@ class IndexModel extends BaseModel {
 	public function getSumInfo(){
 		$ret = array();
 		$ret['userSum'] = M('member')->count();//新增用户
-		//申请店铺
+		//申请商家
 		$ret['shopApplySum'] = M('Shops')->where('shopStatus = 0 and shopFlag=1')->count();
 		//商品
 		$ret['goodsSum'] = M('goods')->where('goodsFlag=1')->count();
@@ -101,7 +101,7 @@ class IndexModel extends BaseModel {
 		//订单总金额
 		$ret['moneySum'] = M('orders')->where('orderFlag=1 and orderStatus >=0')->sum('totalMoney');
 		
-		//店铺
+		//商家
 		$ret['shopSum'] = M('Shops')->where('shopStatus = 1 and shopFlag=1')->count();
 		return $ret;
 	}

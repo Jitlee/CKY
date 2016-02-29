@@ -155,7 +155,7 @@ class GoodsAppraisesModel extends BaseModel {
 				
 				$rs = $gm->add($data);
 			}
-			//添加商城评分
+			//添加平台评分
 			$sql = "UPDATE __PREFIX__shop_scores set 
 						totalUsers = totalUsers +1 , totalScore = totalScore +".$data["totalScore"]."
 						,goodsUsers = goodsUsers +1 , goodsScore = goodsScore +".$data["goodsScore"]."

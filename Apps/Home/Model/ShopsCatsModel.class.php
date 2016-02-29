@@ -6,7 +6,7 @@
   
  * 联系方式:
  * ============================================================================
- * 店铺分类服务类
+ * 商家分类服务类
  */
 class ShopsCatsModel extends BaseModel {
 	/**
@@ -174,7 +174,7 @@ class ShopsCatsModel extends BaseModel {
 	 
 	 
 	/**
-	  * 获取店铺商品分类列表
+	  * 获取商家商品分类列表
 	*/
     public function getShopCateList($shopId = 0){
 		$shopId = ($shopId>0)?$shopId:(int)I("shopId");

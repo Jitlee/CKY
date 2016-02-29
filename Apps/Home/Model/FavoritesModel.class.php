@@ -6,7 +6,7 @@ namespace Home\Model;
   
  * 联系方式:
  * ============================================================================
- * 关注商品/店铺服务类
+ * 关注商品/商家服务类
  */
 class FavoritesModel extends BaseModel {
 	/**
@@ -37,7 +37,7 @@ class FavoritesModel extends BaseModel {
 	}
 	
     /**
-	 * 关注店铺
+	 * 关注商家
 	 */
 	public function favoriteShops(){
 		$rd = array('status'=>-1);

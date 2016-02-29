@@ -126,7 +126,7 @@ class UserAddressAction extends BaseAction{
 	}
 	
 	/**
-	 * 获取店铺配送区县
+	 * 获取商家配送区县
 	 */
 	public function getShopDistricts(){
 	
@@ -139,7 +139,7 @@ class UserAddressAction extends BaseAction{
 	}
 	
 	/**
-	 * 获取店铺配送社区
+	 * 获取商家配送社区
 	 */
 	public function getShopCommunitys(){
 	

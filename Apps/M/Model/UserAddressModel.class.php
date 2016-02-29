@@ -190,7 +190,7 @@ class UserAddressModel extends BaseModel {
 	}	
 	
 	/**
-	 * 获取店铺服务社区
+	 * 获取商家服务社区
 	 * 
 	 * @param unknown_type $countryId
 	 * @param unknown_type $shopId
@@ -207,7 +207,7 @@ class UserAddressModel extends BaseModel {
 	}
 	
 	/**
-	 * 获取店铺配送区
+	 * 获取商家配送区
 	 * 
 	 * @param unknown_type $shopId
 	 */

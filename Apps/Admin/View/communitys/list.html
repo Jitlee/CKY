@@ -107,7 +107,7 @@
                <th width='40'>序号</th>
                <th>社区名称</th>
                <th >所属地区</th>
-               <th width='100'>是否商城配送</th>    
+               <th width='100'>是否平台配送</th>    
                <th width='80'>是否显示</th> 
                <th width='60'>排序号</th>
                <th width='170'>操作</th>
@@ -121,7 +121,7 @@
                <td>{$vo['areaName1']}{$vo['areaName2']}{$vo['areaName3']}</td>
                <td>
                <if condition="$vo['isService']==1 ">
-               <span class='label label-success'>商城配送</span>
+               <span class='label label-success'>平台配送</span>
                <else/>
                <span class='label label-primary'>商家配送</span>
                </if>

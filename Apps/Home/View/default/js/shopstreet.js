@@ -69,7 +69,7 @@ function getDistrictsShops(){
 	       	});
 		}else{
 			$('#spcnt').html(0);
-			$('.rtc-shop-address-box').html('<div style="font-size:15px;text-align:center;padding-top:80%;">没有相关店铺信息</div>');
+			$('.rtc-shop-address-box').html('<div style="font-size:15px;text-align:center;padding-top:80%;">没有相关商家信息</div>');
 			$('#rtc-page-items').empty();
 			$('.rtc-shop-list').empty();
 		}

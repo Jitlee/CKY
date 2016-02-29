@@ -52,7 +52,7 @@ function checkCartPay(shopId,goodsId,num,ischk,isBook,goodsAttrId){
 				$("#buy-num_"+goodsId+"_"+goodsAttrId).css({"border":""});
 				var price = parseFloat($("#price_"+goodsId+"_"+goodsAttrId).val(),10);
 				$("#prc_"+goodsId+"_"+goodsAttrId).html((num*price).toFixed(1));
-				//店铺下的商品
+				//商家下的商品
 				var shopTotalMoney = 0;
 				$("input[name='chk_goods_"+shopId+"']").each(function(){
 					if($(this).is(":checked")){

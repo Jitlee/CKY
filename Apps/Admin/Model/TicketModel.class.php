@@ -35,7 +35,7 @@ class TicketModel extends BaseModel {
 		$data["onlyNewUser"] = (int)I("onlyNewUser");
 		$data["totalCount"] = (int)I("totalCount");
 		$data["ticketAmount"] = (double)I("ticketAmount");
-		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
+		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制商家
 		
 		
 		$data["createTime"] = date('Y-m-d H:i:s');
@@ -74,7 +74,7 @@ class TicketModel extends BaseModel {
 		$data["onlyNewUser"] = (int)I("onlyNewUser");
 		$data["totalCount"] = (int)I("totalCount");
 		$data["ticketAmount"] = (double)I("ticketAmount");
-		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制店铺
+		$data["limitUseShopID"] = (int)I("limitUseShopID");//限制商家
 		
 	    if($this->checkEmpty($data,true)){	
 			$m = M('activity_ticket');

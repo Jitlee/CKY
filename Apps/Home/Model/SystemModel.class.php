@@ -11,7 +11,7 @@ namespace Home\Model;
 class SystemModel extends BaseModel {
 	protected $tableName = 'sys_configs'; 
     /**
-     * 获取商城配置文件
+     * 获取平台配置文件
      */
 	public function loadConfigs(){
 		$configs = RTCDataFile('mall_config');

@@ -6,7 +6,7 @@
   
  * 联系方式:
  * ============================================================================
- * 店铺服务类
+ * 商家服务类
  */
 class ShopsModel extends BaseModel {
      /**
@@ -40,7 +40,7 @@ class ShopsModel extends BaseModel {
 		$data["loginPwd"] = md5(I('loginPwd').$data['loginSecret']);
 		$data["userName"] = I("userName");
 		$data["userPhone"] = I("userPhone");
-		//店铺资料
+		//商家资料
 		$sdata = array();
 		$sdata["shopSn"] = I("shopSn");
 		$sdata["areaId1"] = (int)I("areaId1");
@@ -104,7 +104,7 @@ class ShopsModel extends BaseModel {
 				    $data['shopId'] = $shopId;
 				    $m = M('shop_scores');
 				    $m->add($data);
-					//建立店铺和社区的关系
+					//建立商家和社区的关系
 					$relateArea = I('relateAreaId');
 					$relateCommunity = I('relateCommunityId');
 					if($relateArea!=''){
@@ -172,7 +172,7 @@ class ShopsModel extends BaseModel {
 		 	$shopId = (int)I('id',0);
 		 	if($shopId==0)return rd;
 		 	$m = M('shops');
-		 	//获取店铺资料
+		 	//获取商家资料
 		 	$shops = $m->where("shopId=".$shopId)->find();
 		    //检测手机号码是否存在
 		 	if(I("userPhone")!=''){
@@ -225,15 +225,15 @@ class ShopsModel extends BaseModel {
 				$rs = $m->where("shopId=".$shopId)->save($data);
 			    if(false !== $rs){
 			    	$shopMessage = '';
-			    	//如果[已通过的店铺]被改为未审核的话也要停止了该店铺的商品
+			    	//如果[已通过的商家]被改为未审核的话也要停止了该商家的商品
 			    	if($shops['shopStatus']!=$data['shopStatus']){
 						if($data['shopStatus']!=1){
 							$sql = "update __PREFIX__goods set isSale=0,goodsStatus=0 where shopId=".$shopId;
 				 	        $m->execute($sql);
-				 	        $shopMessage = "您的店铺状态已被改为“未审核”状态，如有疑问请与商场管理员联系。";
+				 	        $shopMessage = "您的商家状态已被改为“未审核”状态，如有疑问请与商场管理员联系。";
 						}
 						if($shops['shopStatus']!=1 && $data['shopStatus']==1){
-							$shopMessage = "您的店铺状态已被改为“已审核”状态，您可以出售自己的商品啦~";
+							$shopMessage = "您的商家状态已被改为“已审核”状态，您可以出售自己的商品啦~";
 						}
 						$yj_data = array(
 							'msgType' => 0,
@@ -255,14 +255,14 @@ class ShopsModel extends BaseModel {
 			    	$data["userName"] = I("userName");
 			        $data["userPhone"] = I("userPhone");
 			       
-			        //如果是普通用户则提升为店铺会员
+			        //如果是普通用户则提升为商家会员
 			        if($userType==0){
 			        	$data["userType"] = 1;
 			        }
 			        $urs = $m->where("userId=".$shops['userId'])->save($data);
 					$rd['status']= 1;
 					
-			        //建立店铺和社区的关系
+			        //建立商家和社区的关系
 					$relateArea = I('relateAreaId');
 					$relateCommunity = I('relateCommunityId');
 					$m = M('shops_communitys');
@@ -333,7 +333,7 @@ class ShopsModel extends BaseModel {
 		$us = $m->where("userId=".$rs['userId'])->find();
 		$rs['userName'] = $us['userName'];
 		$rs['userPhone'] = $us['userPhone'];
-		//获取店铺社区关系
+		//获取商家社区关系
 		$m = M('shops_communitys');
 		$rc = $m->where('shopId='.(int)I('id'))->select();
 		$relateArea = array();
@@ -349,14 +349,14 @@ class ShopsModel extends BaseModel {
 		return $rs;
 	 }
 	 /**
-	  * 停止或者拒绝店铺
+	  * 停止或者拒绝商家
 	  */
 	 public function reject(){
 	 	$rd = array('status'=>-1);
 	 	$shopId = I('id',0);
 	 	if($shopId==0)return rd;
 	 	$m = M('shops');
-	 	//获取店铺资料
+	 	//获取商家资料
 	 	$shops = $m->where("shopId=".$shopId)->find();
 	 	$data = array();
 	 	$data['shopStatus'] = (int)I('shopStatus',-1);
@@ -364,14 +364,14 @@ class ShopsModel extends BaseModel {
 	 	if($this->checkEmpty($data,true)){
 		 	$rs = $m->where("shopId=".$shopId)->save($data);
 			if(false !== $rs){
-				//如果[已通过的店铺]被改为停止或者拒绝的话也要停止了该店铺的商品
+				//如果[已通过的商家]被改为停止或者拒绝的话也要停止了该商家的商品
 				if($shops['shopStatus']!=$data['shopStatus']){
 					$shopMessage = '';
 					if($data['shopStatus']!=1){
 						$sql = "update __PREFIX__goods set isSale=0,goodsStatus=0 where shopId=".$shopId;
 			 	        $m->execute($sql);
 			 	        if($data['shopStatus']==0){
-			 	        	$shopMessage = "您的店铺状态已被改为“未审核”状态，如有疑问请与商场管理员联系。";
+			 	        	$shopMessage = "您的商家状态已被改为“未审核”状态，如有疑问请与商场管理员联系。";
 			 	        }else{
 			 	        	$shopMessage = I('statusRemarks');
 			 	        }
@@ -470,7 +470,7 @@ class ShopsModel extends BaseModel {
 		//删除登录账号
 		$sql = "update __PREFIX__users set userFlag=-1 where userId=".$shop['userId'];
 		$m->execute($sql);
-		//标记店铺删除状态
+		//标记商家删除状态
 	    $data = array();
 		$data["shopFlag"] = -1;
 		$data["shopStatus"] = -2;
@@ -481,7 +481,7 @@ class ShopsModel extends BaseModel {
 		return $rd;
 	 }
      /**
-	  * 获取待审核的店铺数量
+	  * 获取待审核的商家数量
 	  */
 	 public function queryPenddingShopsNum(){
 	 	$rd = array('status'=>-1);

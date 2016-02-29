@@ -4,9 +4,9 @@
   		<meta charset="utf-8">
       	<meta http-equiv="X-UA-Compatible" content="IE=edge">
       	<meta name="viewport" content="width=device-width, initial-scale=1">
-      	<title>店铺街 - {$CONF['mallTitle']}</title>
+      	<title>商家街 - {$CONF['mallTitle']}</title>
       	<meta name="keywords" content="{$CONF['mallKeywords']}" />
-      	<meta name="description" content="{$CONF['mallDesc']},商城店铺展示" />
+      	<meta name="description" content="{$CONF['mallDesc']},平台商家展示" />
       	<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/common.css" />
      	<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/shopstreet.css" />
      	<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/base.css" />
@@ -36,7 +36,7 @@
 				</select>
 				<div style="float:right;">
 					<div class="rtc-street-sch-bx1">
-						&nbsp;&nbsp;&nbsp;&nbsp;筛选店铺&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;筛选商家&nbsp;&nbsp;&nbsp;&nbsp;
 						<select id="deliveryStartMoney" onchange="getDistrictsShops();">
 							<option value="-1">起送金额(全部)</option>
 							<option value="0-10">10元以下</option>
@@ -56,7 +56,7 @@
 							<option value="200">200元以上</option>
 						</select>
 						<select id="shopAtive" onchange="getDistrictsShops();">
-							<option value="-1">店铺状态(全部)</option>
+							<option value="-1">商家状态(全部)</option>
 							<option value="1">营业中</option>
 							<option value="0">休息中</option>
 						</select>
@@ -64,7 +64,7 @@
 					</div>
 					<div class="rtc-street-sch-bx2">
 						<div class="rtc-street-scp-dp">
-							<input id="shopName" class="rtc-street-scp-sn" placeholder="搜索 店铺" autocomplete="off" value='{$keyWords}'>
+							<input id="shopName" class="rtc-street-scp-sn" placeholder="搜索 商家" autocomplete="off" value='{$keyWords}'>
 							<div class="rtc-street-scp-sk" onclick="getDistrictsShops();">搜&nbsp;索</div>
 						</div>				
 					</div>
@@ -74,7 +74,7 @@
 			</div>
 		</div>
 		
-		<!----加载店铺街start----->
+		<!----加载商家街start----->
 		<div class="rtc-container">
 			
 			<div class="rtc-shadow">
@@ -82,7 +82,7 @@
                 {{# for(var i = 0; i < d.length; i++){ }}
                 <li onclick="getShopByCommunitys(this);" data="{{d[i].communityId}}" class="rtc-shop-address liselected">
 				      <div style="padding:4px;">{{d[i].communityName}}</div>
-				      <div style="padding:4px;">附近共有 <span style="font-weight:bold;color:red;">{{d[i].spcnt}}</span> 家店铺入驻并提供服务</div>
+				      <div style="padding:4px;">附近共有 <span style="font-weight:bold;color:red;">{{d[i].spcnt}}</span> 家商家入驻并提供服务</div>
 				</li>
                 {{# } }}
                 </script>
@@ -100,7 +100,7 @@
                                <div style="font-weight:bolder;">
                                  <a href="{{ Think.U('Home/Shops/toShopHome','shopId='+d[i].shopId)}}">{{d[i].shopName}}</a>
                                </div>
-                               <div style="">店铺地址：{{d[i].shopAddress}}</div><div style="">{{d[i].deliveryStartMoney}}元起送，配送费{{d[i].deliveryMoney}}元，{{d[i].deliveryFreeMoney}}元起免配送费</div>
+                               <div style="">商家地址：{{d[i].shopAddress}}</div><div style="">{{d[i].deliveryStartMoney}}元起送，配送费{{d[i].deliveryMoney}}元，{{d[i].deliveryFreeMoney}}元起免配送费</div>
                                <div class="rtc-shop-streets-items-status">
                                   <img style="vertical-align:middle" src="__ROOT__/Apps/Home/View/default/images/icon_menu_01.png">&nbsp;&nbsp;
                                                                                                       {{#if(d[i].shopAtive==1){}}营业中{{#}else{}}休息中{{#}}}

@@ -6,7 +6,7 @@ namespace Home\Action;
   
  * 联系方式:
  * ============================================================================
- * 店铺控制器
+ * 商家控制器
  */
 class ShopsAction extends BaseAction {
 	/**
@@ -15,7 +15,7 @@ class ShopsAction extends BaseAction {
 	public function toShopHome(){
 		$mshops = D('Home/Shops');
 		$shopId = (int)I('shopId');
-		//如果沒有传店铺ID进来则取默认自营店铺
+		//如果沒有传商家ID进来则取默认自营商家
 		if($shopId==0){
 			$areaId2 = $this->getDefaultCity();
 			$shopId = $mshops->checkSelfShopId($areaId2);
@@ -36,7 +36,7 @@ class ShopsAction extends BaseAction {
 			$this->assign('sprice',I("sprice"));//上架开始时间
 			$this->assign('eprice',I("eprice"));//上架结束时间
 			$this->assign('goodsName',urldecode(I("goodsName")));//上架结束时间
-					
+
 			$mshopscates = D('Home/ShopsCats');
 			$shopscates = $mshopscates->getShopCateList($shopId);
 			$this->assign('shopscates',$shopscates);
@@ -44,19 +44,20 @@ class ShopsAction extends BaseAction {
 			$mgoods = D('Home/Goods');
 			$shopsgoods = $mgoods->getShopsGoods($shopId);
 			$this->assign('shopsgoods',$shopsgoods);
+			
 			//获取评分
 			$obj = array();
 			$obj["shopId"] = $shopId;
 			$shopScores = $mshops->getShopScores($obj);
 			$this->assign("shopScores",$shopScores);
-			
+						
 			$m = D('Home/Favorites');
 			$this->assign("favoriteShopId",$m->checkFavorite($shopId,1));
 		}
         $this->display("default/shop_home");
 	}
 	/**
-     * 跳到店铺街
+     * 跳到商家街
      */
 	public function toShopStreet(){
 		$areas= D('Home/Areas');
@@ -99,8 +100,7 @@ class ShopsAction extends BaseAction {
 	/**
      * 获取社区内的商铺
      */
-	public function getShopByCommunitys(){
-		
+	public function getShopByCommunitys(){		
    		$mshops = D('Home/Shops');
    		$obj["communityId"] = (int)I("communityId");
    		$obj["areaId3"] = (int)I("areaId3");
@@ -113,7 +113,6 @@ class ShopsAction extends BaseAction {
 
    		$this->assign('ctplist',$pages);
        	$this->ajaxReturn($ctplist);
-       	
 	}
 	
     /**
@@ -134,7 +133,8 @@ class ShopsAction extends BaseAction {
 	public function checkLogin(){
 		$rs = array('status'=>-2);
 	    $rs["status"]= 1;
-		if(!$this->checkVerify("4") && ($GLOBALS['CONFIG']["captcha_model"]["valueRange"]!="" && strpos($GLOBALS['CONFIG']["captcha_model"]["valueRange"],"3")>=0)){			
+		if(!$this->checkVerify("4") && ($GLOBALS['CONFIG']["captcha_model"]["valueRange"]!="" 
+			&& strpos($GLOBALS['CONFIG']["captcha_model"]["valueRange"],"3")>=0)){			
 			$rs["status"]= -2;//验证码错误
 		}else{
 			$m = D('Home/Shops');
@@ -267,7 +267,7 @@ class ShopsAction extends BaseAction {
 					$shops = $m->loadShopInfo((int)$USER['userId']);
 					$USER = array_merge($USER,$shops);
 					session('RTC_USER',$USER);
-					$this->assign('msg','您的申请已通过，请刷新页面后点击右上角的"卖家中心"进入店铺界面.');
+					$this->assign('msg','您的申请已通过，请刷新页面后点击右上角的"卖家中心"进入商家界面.');
 					$this->display("default/users/user_msg");
 				}else{
 					$this->assign('msg','您的申请正在审核中...');
@@ -334,7 +334,7 @@ class ShopsAction extends BaseAction {
 	}
 
 	/**
-	 * 获取店铺搜索提示列表
+	 * 获取商家搜索提示列表
 	 */
 	public function getKeyList(){
 		$m = D('Home/Shops');

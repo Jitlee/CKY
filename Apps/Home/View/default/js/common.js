@@ -93,7 +93,7 @@ $(function() {
 		$("#rtc-panel-shop").css({"background-color":"#E23C3D","border":"1px solid red","color":"#ffffff"});
 		$("#rtc-panel-goods").css({"background-color":"#F3F3F3","border":"0","color":"#000000"});
 		$("#keyword").val("");
-		$("#keyword").attr("placeholder","搜索 店铺");
+		$("#keyword").attr("placeholder","搜索 商家");
 	});
 	
 	var view = $(window);

@@ -287,7 +287,7 @@ function cancelFavorites(id,type){
 	jQuery.post(Think.U("Home/Favorites/cancelFavorite") ,{id:id,type:type},function(data) {
 		var json = RTC.toJson(data,1);
 		if(json.status==1){
-			$('#f'+type+'_txt').html('关注'+((type==1)?'店铺':'商品'));
+			$('#f'+type+'_txt').html('关注'+((type==1)?'商家':'商品'));
 			$('#f'+type+'_txt').attr('f',0);
 		}else{
 			RTC.msg('取消关注失败!',{offset: '100px'});

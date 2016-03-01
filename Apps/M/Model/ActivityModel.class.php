@@ -53,7 +53,7 @@ class ActivityModel extends BaseModel {
 		$pageSize = 120;
 		$pageNo = intval(I('pageNo', 1));
 		
-    	$shopId = I('shopId', 0);
+    		$shopId = I('shopId', 0);
 		$time= strftime("%Y-%m-%d");
 		$map = array(
 			'limitUseShopID'		=> $shopId,

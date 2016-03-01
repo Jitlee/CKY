@@ -153,7 +153,7 @@ class OrdersAction extends BaseUserAction {
 			}
 			
 			if($ticket['valid'] == 1
-				$ticket['typeName'] == 'djq' // 目前只有代金券可以在线上使用
+				&& $ticket['typeName'] == 'djq' // 目前只有代金券可以在线上使用
 				&& ($ticket['miniConsumption'] == 0
 				|| $ticket['miniConsumption'] <= $amount)
 				&& ($ticket['maxiConsumption'] == 0 ||
@@ -199,6 +199,7 @@ class OrdersAction extends BaseUserAction {
 			}
 			
 			if($ticket['valid'] == 1
+				&& $ticket['typeName'] == 'djq' // 目前只有代金券可以在线上使用
 				&& ($ticket['miniConsumption'] == 0
 				|| $ticket['miniConsumption'] <= $amount)
 				&& ($ticket['maxiConsumption'] == 0 ||
@@ -590,7 +591,7 @@ class OrdersAction extends BaseUserAction {
 		}
 
 		if($result['status'] == 0) {
-			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket);
+			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
 		}
 		
 		$this->ajaxReturn($result, 'JSON');

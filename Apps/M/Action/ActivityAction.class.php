@@ -113,4 +113,16 @@ class ActivityAction extends BaseUserAction {
 		$list = $m->queryByShopId();
 		$this->ajaxReturn($list, 'JSON');
 	}
+	
+	public function coupondetail() {
+		$m = D('M/ActivityTicket');
+		$id = I('id');
+		$uid = getuid();
+		$data = $m->getById($id, $uid);
+//		echo $m->getLastSql();
+		$data['detail'] = htmlspecialchars_decode(html_entity_decode($data['detail']));
+		$this->assign('data', $data);
+		$this->assign('title', $data['title']);
+		$this->display();
+	}
 }

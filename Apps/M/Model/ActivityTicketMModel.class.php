@@ -19,14 +19,16 @@ class ActivityTicketMModel extends BaseModel {
 		.' where ticketID = \''.$ticketId.'\' and sendCount < totalCount and ticketStatus = 1'
 		.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\'); ';			
 		$ret = $this->query($sql);
-		if($ret != FALSE)
+		if($ret !== false)
 		{
 			$sql="update cky_activity_ticket_m set usekey=Cast(ticket_m_ID+10000000 as CHAR) 
 	where createTime > date_add(now(),interval -1 minute) AND usekey='' ";
 			$ret = $this->query($sql);
-			//更新认领
-			$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
-			$ret = $this->query($sql);
+			if($ret !== false) {
+				//更新认领
+				$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
+				$ret = $this->query($sql);
+			}
 		}
 		return $ret;
 	}

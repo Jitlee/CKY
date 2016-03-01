@@ -233,7 +233,7 @@
 		<div class="ticket cky-relative">
 			<div class="cky-relative ticket-title">
 				<div class="cky-ellipsis font14" data-bind="text: title"></div>
-				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(Number(sendCount) * 100 / Number(totalCount))"></span>%</div>
+				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(sendCount * 100 / totalCount)"></span>%</div>
 			</div>
 			<div class="ticket-border cky-relative" data-bind="click: $parent.click, css: getTicketClass(totalCount, sendCount, isReceived, onlyNewUser)">
 				<!-- ko if:  !isReceived && totalCount == sendCount -->
@@ -248,11 +248,11 @@
 				
 				<div class="ticket-mini">
 				<!-- ko if: maxiConsumption > 0 -->
-				<span data-bind="text: Number(maxiConsumption)"></span>以内可用
+				<span data-bind="text: maxiConsumption"></span>以内可用
 				<!-- /ko -->
 				
 				<!-- ko if: maxiConsumption == 0 && miniConsumption > 0 -->
-				满<span data-bind="text: Number(miniConsumption)"></span>可用
+				满<span data-bind="text: miniConsumption"></span>可用
 				<!-- /ko -->
 				
 				<!-- ko if: maxiConsumption == 0 && miniConsumption == 0 && onlyNewUser == 0 -->
@@ -279,8 +279,8 @@
 				<!-- 装饰-->
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 				
-				<div class="ticket-btn" data-bind="css:{ 'cky-hidden': !isReceived && totalCount == sendCount }, text: typeName == 'djq' ? '立即使用' : '查看详情'"></div>
-				<div class="ticket-nav" data-bind="css:{ 'cky-hidden': !isReceived && totalCount == sendCount }"><i class="iconfont icon-jiantou"></i></div>
+				<div class="ticket-btn" data-bind="visble: totalCount > sendCount, text: (!isReceived ? '立即领取' : (typeName == 'djq' ? '立即使用' : '查看详情'))"></div>
+				<div class="ticket-nav" data-bind="visble: totalCount > sendCount"><i class="iconfont icon-jiantou"></i></div>
 			</div>
 			<div class="ticket-ball ticket-ball-top"></div>
 			<div class="ticket-ball ticket-ball-bottom"></div>
@@ -293,11 +293,11 @@
 	function getAmount(typeName, ticketAmount) {
 		switch(typeName) {
 			case "zkq": // 折扣券
-				return "<span>" + Number(ticketAmount) + "</span><r>折</r>";
+				return "<span>" + ticketAmount + "</span><r>折</r>";
 			case "djq": // 代金券
-				return "<r>¥</r><span>" + Number(ticketAmount) + "</span>";
+				return "<r>¥</r><span>" + ticketAmount + "</span>";
 			case "ptq":
-				return "<span>" + Number(ticketAmount) + "</span>";
+				return "<span>" + ticketAmount + "</span>";
 		}
 		return "";
 	}
@@ -344,6 +344,11 @@
 					if(list && list.length > 0) {
 						$.each(list, function() {
 							this.isReceived = this.isReceived == "0";
+							this.ticketAmount = Number(this.ticketAmount);
+							this.totalCount = Number(this.totalCount);
+							this.sendCount = Number(this.sendCount);
+							this.maxiConsumption = Number(this.maxiConsumption);
+							this.miniConsumption = Number(this.miniConsumption);
 							coupons.push(this);
 						});
 					}
@@ -362,22 +367,24 @@
 		
 		// 领取事件
 		function onclick(obj, evt) {
-			if(!this.isReceived && totalCount == sendCount) {
+			if(!this.isReceived && this.totalCount > this.sendCount) {
 				// 待领取
 				var ll = cky.loadding();
-				$.post("{:U('pick')}", { ticketId: $this.attr("tid") }, function(result) {
+				$.post("{:U('pick')}", { ticketId: this.ticketID }, function(result) {
 					cky.close(ll);
 					console.log(result);
 					if(result == 1) {
 						var $this = $(evt.delegateTarget);
 						cky.toast("领券成功");
 						// 重新计算 100%;
-						var percent = Math.round((Number($this.attr("sendCount")) + 1) * 100 / Number($this.attr("totalCount")));
+						var percent = Math.round((obj.sendCount + 1) * 100 / obj.totalCount);
 						$(".ticket-percent", $this.parent()).text(percent);
 						$this.prepend("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
 						$this.addClass("ticket-received");
-						$("ticket-btn", $this).removeClass("cky-hidden").text(obj.typeName == "djq" ? "立即使用" : "查看详情");
-						$("ticket-nav", $this).removeClass("cky-hidden");
+						$(".ticket-btn", $this).show().text(obj.typeName == "djq" ? "立即使用" : "查看详情");
+						$(".ticket-nav", $this).show();
+						obj.isReceived = true;
+						obj.sendCount++;
 					} else if(result == -2) {
 						cky.toast("做人不能贪心，你已经领取过了^_^")
 					} else if(result == -3) {
@@ -388,9 +395,8 @@
 				});
 			} else if(this.isReceived) {
 				if(this.typeName == "djq") {
-					var shopId = Number(this.limitUseShopId);
-					if(shopId > 0) {
-						window.location.href = "{:U('Shops/detail')}?shopId=" + shopId;
+					if(this.limitUseShopId > 0) {
+						window.location.href = "{:U('Shops/detail')}?shopId=" + this.limitUseShopId;
 					} else {
 						window.location.href = "{:U('Shops/index')}";
 					}

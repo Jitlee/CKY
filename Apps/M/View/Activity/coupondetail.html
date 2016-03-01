@@ -1,0 +1,107 @@
+<style>
+	.mui-bar-nav {
+		box-shadow: none;
+	}
+	.header {
+		color: #fff;
+		background-color: #ED7D31;
+	}
+	
+	.title {
+		height: 50px;
+		line-height: 50px;
+		padding-left: 60px;
+		position: relative;
+	}
+	
+	.title .thumb{
+		position: absolute;
+		top: 5px;
+		left: 10px;
+		height: 40px;
+		width: 40px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		background-size: cover;
+		border-radius: 40px;
+		display: inline-block;
+	}
+	
+	.content {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+	
+	.header .cky-col-view{
+		padding: 5px 10px;
+	}
+	
+	.header h5{
+		color: #ddd;
+	}
+	
+	.code {
+		text-align: center;
+		background-color: #fff;
+	}
+	
+	.code h4 {
+		font-size: 36px;
+		padding: 30px 20px 0 0;
+		color: #408DD2;
+	}
+	
+	.code h5 {
+		padding: 5px 0;
+	}
+	
+	.detail {
+		padding: 10px;
+	}
+	
+</style>
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">详情</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang"></i></button>
+</header>
+<div class="mui-content">
+	<div class="header">
+		
+		<div class="title">
+			<div class="thumb" style="background-image: url(/{$data.imagePath});"></div>
+			{$data.title}
+		</div>
+		<div class="cky-col-view">
+			<div class="cky-col-view-cell">
+				<if condition="$data.typeName eq 'djq'">
+					<h5>券面额</h5>{:del0($data['ticketAmount'])}元
+				<elseif condition="$data.typeName eq 'ptq'"/>
+					<h5>券面值</h5>{:del0($data['ticketAmount'])}
+				<elseif condition="$data.typeName eq 'zkq'"/>
+					<h5>券面折扣</h5>{:del0($data['ticketAmount'])}折
+				</if>
+			</div>
+			<div class="cky-col-view-cell cky-text-right">
+				<h5>使用条件</h5>
+				<if condition="$data.maxiConsumption gt 0">
+					{$data.maxiConsumption}以下可用
+				<elseif condition="$data.onlyNewUser eq 1"/>
+					新人专享
+				<else />
+					见详情
+				</if>
+			</div>
+		</div>
+	</div>
+	<div class="code">
+		<h4>{$data.usekey}</h4>
+		<h5>使用代码</h5>
+	</div>
+	<div class="detail">
+		{$data.detail}
+	</div>
+</div>

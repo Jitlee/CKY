@@ -295,3 +295,18 @@ function RTCReadExcel($file){
 	return PHPExcel_IOFactory::load(RTCRootPath()."/Upload/".$file);
 }
 
+/**
+ * 去除多余的0
+ */
+function del0($s) {
+    $s = trim(strval($s));
+    if (preg_match('#^-?\d+?\.0+$#', $s)) {
+        return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);
+    } 
+    if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {
+        return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);
+    }
+    return $s;
+}
+
+

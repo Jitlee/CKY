@@ -12,7 +12,7 @@ class ActivityTicketModel extends BaseModel {
     public function queryAll($uid) {
     		$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
-    		return $this->field('s.shopImg, s.shopName, t.limitUseShopId, t.ticketID, t.title, t.imagePath, t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content,  isnull(tm.uid) isReceived, t.onlyNewUser')
+    		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath, s.shopImg) imagePath, t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content,  isnull(tm.uid) isReceived, t.onlyNewUser')
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
     			->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
 			->where('t.ticketStatus = 1 and t.efficacyEDate >= CURDATE()')
@@ -30,7 +30,7 @@ class ActivityTicketModel extends BaseModel {
 		} else if($type == 2) { //已使用
 			$filter = 'ticketMStatus = 1';
 		}
-    		return $this->field('s.shopImg, s.shopName, t.limitUseShopId, t.ticketID, t.title, t.imagePath,t.onlyNewUser,'
+    		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath, s.shopImg) imagePath,t.onlyNewUser,'
     			.' t.ticketAmount, tm.efficacySDate, tm.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content,'
     			.$type.' as status')
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
@@ -58,10 +58,13 @@ class ActivityTicketModel extends BaseModel {
 
 	public function getById($id, $uid) {
 		$sql = 'select t.ticketID, t.ticketStatus, t.ticketAmount, t.content, t.limitUseShopID, t.onlyNewUser, t.efficacySDate, '
-			.'t.efficacyEDate, t.miniConsumption, t.maxiConsumption, UNIX_TIMESTAMP(t.efficacySDate) stime, '
-			.'UNIX_TIMESTAMP(t.efficacyEDate) etime from cky_activity_ticket t '
-			.'where t.ticketID='.$id.' and ' 
-			.'EXISTS(select 0 from cky_activity_ticket_m tm where tm.ticketID = t.ticketID and tm.uid='.$uid.')';
+			.'s.shopName, t.detail, ifnull(t.imagePath, s.shopImg) imagePath, t.title, t.typeName, t.onlyNewUser, '
+			.'t.efficacyEDate, t.miniConsumption, t.maxiConsumption, UNIX_TIMESTAMP(t.efficacySDate) stime, tm.usekey, '
+			.'UNIX_TIMESTAMP(t.efficacyEDate) etime from __ACTIVITY_TICKET__ t '
+			.'inner join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID '
+			.'left join __SHOPS__ s on s.shopId = t.limitUseShopID '
+			.'where t.ticketID=\''.$id.'\' ' 
+			.'and tm.uid='.$uid;
 		$list = $this->query($sql);
 		if(!empty($list)) {
 			return $list[0];

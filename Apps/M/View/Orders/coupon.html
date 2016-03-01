@@ -110,10 +110,13 @@
 					<p>使用范围：<if condition="$item.shopId gt 0">{$item.shopName}<else/>全部商家</if></p>
 					<p>有效期至：{$item.efficacyEDate}</p>
 					<p class="font-black">
-						<if condition="strtotime($item['efficacysDate']) gt strtotime(date('Y-m-d'))">
+						<if condition="$item.typeName neq 'djq'">
+							此券需要到店使用
+						<elseif condition="strtotime($item['efficacysDate']) gt strtotime(date('Y-m-d'))"/>
 							{$item.efficacysDate}才能开始使用该券
 						<elseif condition="$item.valid eq 0"/>
 							该券已过期
+							差{$item['miniConsumption'] - (float)I('amount', 0)}元可用该券
 						<elseif condition="(float)I('amount', 0) lt $item['miniConsumption']"/>
 							差{$item['miniConsumption'] - (float)I('amount', 0)}元可用该券
 						<else/>

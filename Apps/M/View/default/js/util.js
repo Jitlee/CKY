@@ -82,8 +82,7 @@ util = {
 	 * 消息提醒
 	 * @param {Object} 提醒消息
 	 */
-	msg: function(msg)
-	{
+	msg: function(msg) {
 		layer.open({
 		    content: msg,
 		    style: 'background-color:#09C1FF; color:#fff; border:none;',

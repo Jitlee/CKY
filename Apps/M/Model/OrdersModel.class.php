@@ -147,7 +147,7 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 提交订单
 	 */
-	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket){	
+	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself){	
 		$orderInfos = array();
 		$orderIds = array();
 		$orderNos = array();
@@ -203,11 +203,9 @@ class OrdersModel extends BaseModel {
 			$data["invoiceClient"] = I("invoiceClient");
 			$data["isAppraises"] = 0;
 			$data["isSelf"] = $isself;
-			$data["needPay"] = $shopgoods["totalMoney"]+$deliverMoney;
-			
-			if($ticket['limitUseShopID'] == $shopId) {
-				
-			}
+			$data["ticketId"] = $shopgoods["ticketId"]; // 优惠券Id
+			$data["deductible"] = $shopgoods["deductible"]; // 抵扣金额(元)
+			$data["needPay"] = $shopgoods["totalMoney"]+$deliverMoney - $shopgoods["deductible"];
 
 			$data["createTime"] = date("Y-m-d H:i:s");
 			

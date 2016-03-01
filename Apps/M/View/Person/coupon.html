@@ -52,7 +52,7 @@
 	    font-size: 12px;
 	    padding-left: 25px;
 	    border-radius: 30px;
-	    color: #fff;
+	    color: #666;
 	    height: 20px;
 	    line-height: 20px;
 	    margin-top: 5px;
@@ -132,9 +132,13 @@
 		top: 10px;
 		right: 30px;
 		font-size: 120px;
-		color: #ccc;
-		opacity: 0.5;
+		color: #009999;
+		opacity: 0.1;
 		-webkit-transform: rotate(-45deg);
+	}
+	
+	.ticket-disabled .ticket-empty {
+		color: #ccc;
 	}
 	
 	.ticket-disabled .ticket-amount r, .ticket-disabled .ticket-amount span {
@@ -176,7 +180,7 @@
 		margin-top: 10px;
 	}
 </style>
-<header class="mui-bar mui-bar-nav">
+<header class="mui-bar mui-bar-nav mui-nav-white">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
@@ -196,19 +200,19 @@
 		</div>
 	</div>
 	<div id="couponList">
-		<!-- ko foreach: $data -->
+		<!-- ko foreach: list -->
 		<div class="ticket cky-relative">
-			<div class="ticket-border cky-relative" data-bind="attr: { tid: ticketID, shopId: limitUseShopId }, css: { 'ticket-disabled': status > 0, 'ticket-newer': onlyNewUser == 1 }">
+			<div class="ticket-border cky-relative" data-bind="click: $parent.click, css: { 'ticket-disabled': status > 0, 'ticket-newer': onlyNewUser == 1 }">
+				<i class="ticket-empty iconfont icon-youhuiquan1"></i>
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
-					
 				<div class="ticket-mini">
 				<!-- ko if: maxiConsumption > 0 -->
 				不超过<span data-bind="text: maxiConsumption"></span>可用
 				<!-- /ko -->
 				
 				<!-- ko if: maxiConsumption == 0 && miniConsumption > 0 -->
-				满<span data-bind="text: miniConsumption"></span>可用
+				满<span data-bind="text: Number(miniConsumption)"></span>可用
 				<!-- /ko -->
 				
 				<!-- ko if: maxiConsumption == 0 && miniConsumption == 0 && onlyNewUser == 0 -->
@@ -235,9 +239,13 @@
 				<!-- 装饰-->
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 				
-				<i class="ticket-empty iconfont icon-youhuiquan1"></i>
-				<!-- ko if: shopId > 0 -->
-				<div class="ticket-btn">进店看看</div>
+				<!-- ko if: typeName == 'djq' &&  status == 0 -->
+				<div class="ticket-btn">立即使用</div>
+				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
+				<!-- /ko -->
+				
+				<!-- ko if: typeName != 'djq' && status == 0 -->
+				<div class="ticket-btn">查看详情</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 				<!-- /ko -->
 			</div>
@@ -253,11 +261,11 @@
 	function getAmount(typeName, ticketAmount) {
 		switch(typeName) {
 			case "zkq": // 折扣券
-				return "<span>" + ticketAmount + "</span><r>折</r>";
+				return "<span>" + Number(ticketAmount) + "</span><r>折</r>";
 			case "djq": // 代金券
-				return "<r>¥</r><span>" + ticketAmount + "</span>";
+				return "<r>¥</r><span>" + Number(ticketAmount) + "</span>";
 			case "ptq":
-				return "<span>" + ticketAmount + "</span>";
+				return "<span>" + Number(ticketAmount) + "</span>";
 		}
 		return "";
 	}
@@ -268,11 +276,14 @@
 		var force = true;
 		var pageNo = 1;
 		var type = 0;
-		var vm = ko.observableArray(coupons);
+		var vm = {
+			click: onclick,
+			list: ko.observableArray(coupons)
+		}
 		ko.applyBindings(vm, document.getElementById("couponList"));
 		function queryByPage() {
 			if(force) {
-				vm.removeAll();
+				vm.list.removeAll();
 				coupons.length = 0;
 				pageNo = 1;
 				isEOF = false;
@@ -296,7 +307,7 @@
 							coupons.push(this);
 						});
 					}
-					vm(coupons);
+					vm.list(coupons);
 					
 					if(!list && type == 0) {
 						$("#moreButton").removeClass("cky-hidden");
@@ -317,14 +328,20 @@
 		util.onScrollEnd(queryByPage);
 		
 		// 跳转事件
-		$("#couponList").on("click", ".ticket-border", function() {
-			var $this = $(this);
-			var shopId = Number($this.attr('shopId'));
-			if(!$this.hasClass("ticket-disabled") && shopId > 0) {
-				// 已领取： 跳转
-				window.location.href = "{:U('Shops/detail')}?shopId=" + shopId; 
+		function onclick() {
+			if(this.status == 0) {
+				if(this.typeName == "djq") {
+					var shopId = Number(this.limitUseShopId);
+					if(shopId > 0) {
+						window.location.href = "{:U('Shops/detail')}?shopId=" + shopId;
+					} else {
+						window.location.href = "{:U('Shops/index')}";
+					}
+				} else {
+					window.location.href = "{:U('Activity/coupondetail')}?id=" + this.ticketID;
+				}
 			}
-		});
+		};
 		
 		var tab = $("#tab");
 		// tab页切换

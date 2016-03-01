@@ -33,7 +33,7 @@ class ActivityTicketMModel extends BaseModel {
 	
 	public function total($uid) {
 		$filter = 'ticketMStatus = 0 and t.efficacyEDate >= CURDATE() and uid='.$uid;
-		$unuse = $this->where($filter)->count();
+		$unuse = $this->join('tm inner join __ACTIVITY_TICKET__ t on t.ticketID = tm.ticketID')->where($filter)->count();
 		
 		$filter = 'ticketMStatus = 1 and uid='.$uid;
 		$used = $this->where($filter)->count();

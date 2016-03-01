@@ -153,6 +153,7 @@ class OrdersAction extends BaseUserAction {
 			}
 			
 			if($ticket['valid'] == 1
+				$ticket['typeName'] == 'djq' // 目前只有代金券可以在线上使用
 				&& ($ticket['miniConsumption'] == 0
 				|| $ticket['miniConsumption'] <= $amount)
 				&& ($ticket['maxiConsumption'] == 0 ||
@@ -530,6 +531,8 @@ class OrdersAction extends BaseUserAction {
 			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//商家免运费最低金额
 			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
 			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
+			$shopGoods[$goods["shopId"]]['ticketId'] = $ticketId;
+			$shopGoods[$goods["shopId"]]['deductible'] = 0;
 		}
 		
 		// 核对优惠券信息
@@ -537,14 +540,52 @@ class OrdersAction extends BaseUserAction {
 			// 是否过期
 			$today = strtotime("today");
 			if($today >= $ticket['stime'] && $today <= $ticket['etime']) {
-				if($ticket['limitUseShopID'] > 0) { // 指定商家
-					
-				} else { // 全部商铺
-					
+				if($ticket['limitUseShopID'] > 0) { // 指定商铺券
+					if($ticket['typeName'] == 'djq') { // 只处理代金券
+						$shop = $shopGoods[$ticket['limitUseShopID']];
+						$_amount = $shop['totalMoney'];
+						if($isself != 1 && $_amount < $shop['deliveryFreeMoney']) {
+							$_amount += $shop['deliveryMoney'];
+						}
+						if($ticket['miniConsumption'] > $_amount) {
+							$result['status']  = -5;
+							$result['data'] = '对不起，消费总额未能达到代金券的使用要求!';
+						} else {
+							// 直接抵扣现金使用
+							$shop['deductible'] = $ticket['ticketAmount'];
+						}
+					}
+				} else { // 全平台券
+					$_totalAmount = 0; // 所有金额总和
+					$surplus = $ticket['ticketAmount'];
+					foreach ($catgoods as $key=> $shopGoods) {
+						$shop = $shopGoods[$key];
+						$_amount = $shop['totalMoney'];
+						if($isself != 1 && $_amount < $shop['deliveryFreeMoney']) {
+							$_amount += $shop['deliveryMoney'];
+						}
+						$_totalAmount += $_amount;
+						
+						if($ticket['typeName'] == 'djq') { // 只处理代金券
+							if($surplus > 0) { // 从第一家开始扣起，直到为0
+								if($surplus > $_amount) {
+									$surplus -= $_amount;
+									$shop['deductible'] = $_amount;
+								} else {
+									$shop['deductible'] = $surplus;
+									$surplus = 0;
+								}
+							}
+						}
+					}
+					if($surplus != 0 || $ticket['miniConsumption'] > $_totalAmount) {
+						$result['status']  = -6;
+						$result['data'] = '对不起，消费总额未能达到代金券的使用要求!';
+					}
 				}
 			} else {
 				$result['status']  = -4;
-				$result['data'] = '对不起，优惠券使用异常!';
+				$result['data'] = '对不起，请在优惠券的有效期内使用!';
 			}
 		}
 

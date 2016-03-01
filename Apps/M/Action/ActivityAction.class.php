@@ -9,7 +9,7 @@ namespace M\Action;
  * 活动控制器
  */
 use Think\Controller;
-class ActivityAction extends Controller {
+class ActivityAction extends BaseUserAction {
 	public function index() {
 		$this->assign('title', '活动');
 		$addb = D('M/Ads');

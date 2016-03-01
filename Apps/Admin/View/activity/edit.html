@@ -32,7 +32,7 @@
    $(function () {
 	   KindEditor.ready(function(K) {
 			editor1 = K.create('textarea[name="activityContent"]', {
-				height:'350px',
+				height:'250px',
 				allowFileManager : false,
 				allowImageUpload : true,
 				items:[
@@ -77,6 +77,7 @@
 	   params.activityContent = $('#activityContent').val();
 	   params.activityKey = $('#activityKey').val();
 	   params.limitUseShopID= $('#limitUseShopID').val();
+	   
 	   
 	   if(params.activityContent==''){
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入活动内容!',timeout:1000});

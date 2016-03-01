@@ -46,14 +46,25 @@
 	   $("#miniConsumption").formValidator({onFocus:"请输入最低消费"}).inputValidator({min:1,onError: "请输入最低消费"});
 	   //$("#endDate").formValidator({onFocus:"请输入结束日期"}).inputValidator({min:1,max:80,onError:"请输入结束日期"});
 	   
-//	   if('ptq' !='{$object.typeName}')
-//	   {
-//	   		$("#spantype").hide();
-//	   }
-//	   else
-//	   {
-//	   		$("#spantype").show();
-//	   }
+ 		KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="detail"]', {
+				height:'200px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','multiimage','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});// end KindEditor.ready
+		
 	   $("#typeName").change(function(){
 	   	typestatus();
 	   });
@@ -86,7 +97,12 @@
 	   params.ticketAmount= $('#ticketAmount').val();
 	   params.limitUseShopID= $('#limitUseShopID').val();
 	   params.maxiConsumption= $('#maxiConsumption').val();
+	   params.detail= $('#detail').val();
 	   
+	   if(params.imagePath==''){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入活动形象图片!',timeout:1000});
+		   return;
+	   }
 	   if(params.ticketAmount=="")
 	   {
 	   		params.ticketAmount=0;
@@ -112,7 +128,7 @@
 				}});
 			}else{
 				Plugins.closeWindow();
-				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!'+data,timeout:1000});
 			}
 		});
    }
@@ -121,18 +137,21 @@
    		$("#spantype").show();
    		$("#spanticketAmount").html("%");
    		$("#trzkq").hide();
+   		$("#trminicon").show();   		
+   		$("#spanticketAmount").html("元");
 		if($("#typeName").val()=='ptq')
 		{
-			$("#spantype").hide();
-			$("#ticketAmount").val("");
+			$("#trminicon").hide();
+			$('#limitUseShopID').val("0");
+	   		$('#maxiConsumption').val("0");
 		}
 		else if($("#typeName").val()=='djq')
 		{
-			$("#spanticketAmount").html("元");
+			
 		}
 		else if($("#typeName").val()=='zkq')
 		{
-			$("#spanticketAmount").html("元");
+			$("#spanticketAmount").html("折");
 			$("#trzkq").show();
 		}
    }
@@ -181,7 +200,7 @@
 	             </select>
 	             <span id="spantype" style="display: none;">
              		<input type='text' id='ticketAmount' class="form-control" style='width:100px' value='{$object.ticketAmount}'/>
-             		<span id="spanticketAmount">元%</span>
+             		<span id="spanticketAmount">元</span>
              	</span>
              </td>
            </tr> 
@@ -207,6 +226,12 @@
              	<div id="preview_Filedata">
                <img id='preview' src='__ROOT__/{$object.activityImg}' height='152' <if condition="$object['activityImg'] =='' ">style='display:none'</if>/>
                </div>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>卡券详情<font color='red'>*</font>：</th>
+             <td>
+             		<textarea type='text' id='detail' name="detail" class="form-control rtc-ipt" value='{$object.detail}' style='width:300px' maxLength='500'></textarea>             
              </td>
            </tr>
            <!--<tr class="mui-hidden">
@@ -250,7 +275,7 @@
              </td>
            </tr>-->
            
-           <tr>
+           <tr id="trminicon">
              <th align='right'>最低消费<font color='red'>*</font>：</th>
              <td>
              	<input type='text' id='miniConsumption' class="form-control rtc-ipt" value='{$object.miniConsumption}'

@@ -3,8 +3,8 @@
    <script>
    $(function () {
 	   $("#btnvalidator").click(function(){
-	   		var ticketkey=$("#ticketkey").val();	   		
-	   		if(ticketkey.length<5)
+	   		var varticketkey=$("#ticketkey").val();	   		
+	   		if(varticketkey.length<5)
 	   		{
 	   			RTC.msg('请输入正确的券码!', {icon: 5});
 	   			$("#ticketdey").focus();
@@ -13,10 +13,31 @@
 	   		else
 	   		{
 	   			
-	   		}
+	   			$.post("{:U('Home/Ticket/access')}",{ticketkey:varticketkey},function(data,textStatus){
+					var json = RTC.toJson(data);
+					//alert(data);
+					if(json.status=='1'){
+						//alert(json.obj);
+						RTC.msg('验证成功!', {icon: 1});
+						$("#spantitle").html(json.obj.title);
+						$("#spanticketAmount").html(json.obj.Amount);
+						$("#spanefficacyEDate").html(json.obj.efficacyEDate);
+						$("#spancontent").html(json.obj.content);
+						//$("#spantitle").html(json.obj.title);
+						$("#tickcontent").show();
+					} 
+					else
+					{
+						RTC.msg(json.msg, {icon: 5});
+					}
+				});
+	   		}   
 	   });
    });
    </script>
+   <style >
+   	.mui-hidden{ display: none;}
+   </style>
    <div class="rtc-body"> 
        <div class='rtc-page-header'>商家中心 >卡券验证  </div>
        <div class='rtc-page-content'>
@@ -32,15 +53,31 @@
              </td>
            </tr>
         </table>
-        <table class="table table-hover table-striped table-bordered rtc-form">
+        <table id="tickcontent" class="table table-hover table-striped table-bordered rtc-form mui-hidden">
+        	<tr>
+        		 <th width='120' align='right'  style="font-size: 14px; font-weight: bold;">验证结果：</td> 
+        		 	<td   colspan="2">&nbsp;</td>
+        	</tr>
            <tr>
-             <th width='120' align='right'>券码：<font color='red'>*</font>：</th>
-             <td  width='190'>
-             	<input type='text' id='ticketkey' class="form-control rtc-ipt"  maxLength='15' size='40'/>
-             </td>
-             <td style="padding-top: 5px;">
-             	<button id="btnvalidator" class='rtc-btn-query' type="button">验证</button>
-             </td>
+             <th width='120' align='right' >卡券名称： </th>
+             <td  width='290'><span id="spantitle"></span></td>
+             <td>&nbsp;</td>
+           </tr>
+           <tr>
+             <th width='120' align='right'>卡券金额： </th>
+             <td  width='290'><span id="spanticketAmount"></span></td>
+             <td>&nbsp;</td>
+           </tr>
+           
+           <tr>
+             <th width='120' align='right'>有效期致： </th>
+             <td  width='290'><span id="spanefficacyEDate"></span></td>
+             <td>&nbsp;</td>
+           </tr>
+           <tr>
+             <th width='120' align='right'>卡券内容： </th>
+             <td   colspan="2"><span id="spancontent"></span></td>
+           
            </tr>
         </table>
         

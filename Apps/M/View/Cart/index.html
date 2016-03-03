@@ -131,13 +131,14 @@
 						var _totalMoney = 0;
 						var shopId = all.val();
 						var shop = cart.shops[shopId];
-						selectedCard.shops[shopId] = {};
 						$("input[type=checkbox].goods:checked", all.closest(".cky-cart-table")).each(function() {
 							var goodsId = $(this).val();
 							var goods = shop.goods[goodsId];
 							count += goods.count;
-							_totalMoney += count * goods.shopPrice;
-							
+							_totalMoney += goods.count * goods.shopPrice;
+							if(!selectedCard.shops[shopId]) {
+								selectedCard.shops[shopId] = {};
+							}
 							selectedCard.shops[shopId][goodsId] = 0;
 						});
 						totalMoney += _totalMoney;

@@ -16,7 +16,7 @@ class ActivityTicketModel extends BaseModel {
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
     			->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
 			->where('t.ticketStatus = 1 and t.efficacyEDate >= CURDATE()')
-    			->order('t.createTime')->page($pageNo, $pageSize)->select();
+    			->order('t.createTime desc')->page($pageNo, $pageSize)->select();
     }
 	
 	public function queryPersonAll($uid) {
@@ -36,7 +36,7 @@ class ActivityTicketModel extends BaseModel {
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
     			->join('inner join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
 			->where($filter)
-    			->order('t.createTime')->page($pageNo, $pageSize)->select();
+    			->order('t.createTime desc')->page($pageNo, $pageSize)->select();
     }
 
 	public function queryUseAll($uid, $shopIds) {

@@ -55,10 +55,16 @@ class ActivityTicketModel extends BaseModel {
 		$data['usedCount'] = array('exp', '`sendCount` + 1');
 		return $this->where($map)->save($data);
 	}
+	
+	public function updateUsedCount($id) {
+		$map['ticketID'] = $id;
+		$data['usedCount'] = array('exp', '`usedCount` + 1');
+		return $this->where($map)->save($data);
+	}
 
 	public function getById($id, $uid) {
 		$sql = 'select t.ticketID, t.ticketStatus, t.ticketAmount, t.content, t.limitUseShopID, t.onlyNewUser, t.efficacySDate, '
-			.'s.shopName, t.detail, ifnull(t.imagePath, s.shopImg) imagePath, t.title, t.typeName, t.onlyNewUser, '
+			.'s.shopName, t.detail, ifnull(t.imagePath, s.shopImg) imagePath, t.title, t.typeName, t.onlyNewUser, tm.ticketMStatus, '
 			.'t.efficacyEDate, t.miniConsumption, t.maxiConsumption, UNIX_TIMESTAMP(t.efficacySDate) stime, tm.usekey, '
 			.'UNIX_TIMESTAMP(t.efficacyEDate) etime from __ACTIVITY_TICKET__ t '
 			.'inner join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID '

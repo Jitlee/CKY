@@ -491,6 +491,7 @@ class OrdersAction extends BaseUserAction {
 			$ticket['ticketAmount'] = (float)$ticket['ticketAmount'];
 			$ticket['miniConsumption'] = (int)$ticket['miniConsumption'];
 			$ticket['maxiConsumption'] = (int)$ticket['maxiConsumption'];
+			$ticket['ticketMStatus'] = (int)$ticket['ticketMStatus'];
 			$ticket['stime'] = (int)$ticket['stime'];
 			$ticket['etime'] = (int)$ticket['etime'];
 		}
@@ -538,9 +539,13 @@ class OrdersAction extends BaseUserAction {
 		
 		// 核对优惠券信息
 		if($ticket) {
+			echo '有优惠券';
 			// 是否过期
 			$today = strtotime("today");
-			if($today >= $ticket['stime'] && $today <= $ticket['etime']) {
+			if($ticket['ticketMStatus'] != 0) {
+				$result['status']  = -7;
+				$result['data'] = '对不起，次优惠券已被使用过!';
+			} else if($today >= $ticket['stime'] && $today <= $ticket['etime']) {
 				if($ticket['limitUseShopID'] > 0) { // 指定商铺券
 					if($ticket['typeName'] == 'djq') { // 只处理代金券
 						$shop = $shopGoods[$ticket['limitUseShopID']];
@@ -591,7 +596,7 @@ class OrdersAction extends BaseUserAction {
 		}
 
 		if($result['status'] == 0) {
-			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself);
+			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket);
 		}
 		
 		$this->ajaxReturn($result, 'JSON');

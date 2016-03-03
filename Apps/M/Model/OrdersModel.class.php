@@ -147,7 +147,7 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 提交订单
 	 */
-	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself){	
+	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket){	
 		$orderInfos = array();
 		$orderIds = array();
 		$orderNos = array();
@@ -163,6 +163,17 @@ class OrdersModel extends BaseModel {
 		
         $m = M('orderids');
         $m->startTrans();
+        
+        $tm = D('M/ActivityTicket');
+        $tmm = D('M/ActivityTicketM');
+        
+        if($ticket) {
+        	// 更新优惠券使用数量
+        	$tm->updateUsedCount($ticket['ticketID']);
+        	// 标记$ticket已使用
+        	$tmm->updateStatus($userId, $ticket['ticketID']);
+        }
+        
 		foreach ($catgoods as $key=> $shopgoods){
 			//生成订单ID
 			$orderSrcNo = $m->add(array('rnd'=>microtime(true)));

@@ -66,5 +66,14 @@ class ActivityTicketMModel extends BaseModel {
 		$list = $this->query($sql);
 		return empty($list);
 	}
+
+	public function updateStatus($uid, $ticketId, $status = 1) {
+		$map = array(
+			'uid'		=> $uid,
+			'ticketID'	=> $ticketId,
+		);
+		$data['ticketMStatus'] = $status;
+		return $this->where($map)->save($data);
+	}
 };
 ?>

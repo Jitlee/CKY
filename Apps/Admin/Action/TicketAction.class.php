@@ -20,7 +20,7 @@ class TicketAction extends BaseAction{
     	if(strlen(I('id'))>0){
     		$this->checkPrivelege('wzlb_02');
     		$object = $m->get();
-			//dump($object);
+			//echo	dump($object);
     	}else{
     		$this->checkPrivelege('wzlb_01');
     		$object = $m->getModel();
@@ -30,8 +30,7 @@ class TicketAction extends BaseAction{
 			$object["miniConsumption"]=0;
 			$object["efficacySDate"] = date('Y-m-d');
 			$object["efficacyEDate"] = date("Y-m-d",strtotime("+1 month"));
-			$object["limitUseShopID"]=0;
-				
+			$object["limitUseShopID"]=0;				
     	}
 		
 		//select shops

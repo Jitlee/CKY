@@ -212,7 +212,13 @@ $.fn.select = function(list) {
 	
 	this.click(function() {
 		var html = [];
-		html.push("<ul class=\"mui-table-view mui-input-group cky-select-list\">");
+		var width = 0.8 * document.documentElement.clientWidth;
+		var height = 0.8 * document.documentElement.clientHeight;
+		html.push("<ul class=\"mui-table-view mui-input-group cky-select-list\" style=\"width:");
+		html.push(width);
+		html.push("px;max-height:");
+		html.push(height);
+		html.push("px;\">");
 		$.each(list, function(i) {
 			html.push("<li id=\"cky-select-")
 			html.push(this.key);

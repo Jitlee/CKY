@@ -509,6 +509,24 @@ a.cky-segmented-item {
 	display: table-cell;
 }
 
+.cky-auto-mask {
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	background-color: #efeff4;
+}
+
+.cky-auto-mask a {
+	text-decoration: underline;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	white-space: nowrap;
+}
+
 
 /** 字体大小和颜色(开始)  **/
 .font32 {

@@ -234,9 +234,9 @@
 								}
 								
 								if(data.orderIds.length == 1) {
-									window.location.href = "{:U('pay')}?orderId=" + data.orderIds[0];
+									window.location.replace("{:U('pay')}?orderId=" + data.orderIds[0]);
 								} else {
-									window.location.href = "{:U('Orders/list')}";
+									window.location.replace("{:U('Orders/list')}");
 								}
 							} else {
 								cky.alert("提交订单失败，请稍后再试");
@@ -249,6 +249,20 @@
 					});
 				});
 			});
+		} else {
+			if(from == "direct") { // 直接购买
+				// 空的
+				cky.autoDirect(
+					"{:U('Shops/detail')}?id={:I('shopId')}",
+					"订单已提交，再去这家店去逛逛 >>"
+				);
+			} else if(from == "cart") {
+				// 空的
+				cky.autoDirect(
+					"{:U('Shops/index')}",
+					"订单已提交，随便看看吧 >>"
+				);
+			}
 		}
 	});
 </script>

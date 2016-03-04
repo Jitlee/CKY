@@ -191,6 +191,17 @@ var cky = {
 			default:
 				return "cky-zhishu1";
 		}
+	},
+	
+	/**
+	 * 添加自动跳转的遮罩
+	 * @param {URL} url 跳转的url
+	 * @param {String} title 标题
+	 */
+	autoDirect: function(url, title) {
+		var mask = $("<div class=\"cky-auto-mask\"></div>");
+		$("<a>").attr("href", url).text(title).appendTo(mask);
+		$(document.body).append(mask);
 	}
 };
 

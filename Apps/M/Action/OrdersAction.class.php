@@ -485,7 +485,7 @@ class OrdersAction extends BaseUserAction {
 		
 		$ticketId = I('ticketId'); // 优惠券Id
 		$ticket = null;
-		if($ticketId > 0) {
+		if(!empty($ticketId)) {
 			$ticket = $mticket->getById($ticketId, $userId);
 			$ticket['limitUseShopID'] = (int)$ticket['limitUseShopID'];
 			$ticket['ticketAmount'] = (float)$ticket['ticketAmount'];
@@ -591,7 +591,6 @@ class OrdersAction extends BaseUserAction {
 				$result['data'] = '对不起，请在优惠券的有效期内使用!';
 			}
 		}
-
 		if($result['status'] == 0) {
 			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket);
 		}

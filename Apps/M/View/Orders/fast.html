@@ -209,7 +209,7 @@
 							var data = result.data;
 							if(data && data.orderIds && data.orderIds.length > 0) {
 								cky.storage.removeItem("fast-cart" + shopId);
-								window.location.href = "{:U('pay')}?orderId=" + data.orderIds[0];
+								window.location.replace("{:U('pay')}?orderId=" + data.orderIds[0]);
 							} else {
 								cky.alert("提交订单失败，请稍后再试");
 							}
@@ -220,6 +220,12 @@
 					});
 				});
 			});
+		} else {
+			// 空的
+			cky.autoDirect(
+				"{:U('Index/index')}",
+				"订单已提交，返回主页 >>"
+			);
 		}
 	});
 </script>

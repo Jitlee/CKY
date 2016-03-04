@@ -483,7 +483,7 @@ class OrdersAction extends BaseUserAction {
 		$needreceipt = (int)I("needreceipt"); // 是否需要票据
 		$orderunique = I("orderunique");
 		
-		$ticketId = (int)I('ticketId', 0); // 优惠券Id
+		$ticketId = I('ticketId'); // 优惠券Id
 		$ticket = null;
 		if($ticketId > 0) {
 			$ticket = $mticket->getById($ticketId, $userId);
@@ -539,7 +539,6 @@ class OrdersAction extends BaseUserAction {
 		
 		// 核对优惠券信息
 		if($ticket) {
-			echo '有优惠券';
 			// 是否过期
 			$today = strtotime("today");
 			if($ticket['ticketMStatus'] != 0) {
@@ -548,27 +547,25 @@ class OrdersAction extends BaseUserAction {
 			} else if($today >= $ticket['stime'] && $today <= $ticket['etime']) {
 				if($ticket['limitUseShopID'] > 0) { // 指定商铺券
 					if($ticket['typeName'] == 'djq') { // 只处理代金券
-						$shop = $shopGoods[$ticket['limitUseShopID']];
-						$_amount = $shop['totalMoney'];
-						if($isself != 1 && $_amount < $shop['deliveryFreeMoney']) {
-							$_amount += $shop['deliveryMoney'];
+						$_amount = $shopGoods[$ticket['limitUseShopID']]['totalMoney'];
+						if($isself != 1 && $_amount < $shopGoods[$ticket['limitUseShopID']]['deliveryFreeMoney']) {
+							$_amount += $shopGoods[$ticket['limitUseShopID']]['deliveryMoney'];
 						}
 						if($ticket['miniConsumption'] > $_amount) {
 							$result['status']  = -5;
 							$result['data'] = '对不起，消费总额未能达到代金券的使用要求!';
 						} else {
 							// 直接抵扣现金使用
-							$shop['deductible'] = $ticket['ticketAmount'];
+							$shopGoods[$ticket['limitUseShopID']]['deductible'] = $ticket['ticketAmount'];
 						}
 					}
 				} else { // 全平台券
 					$_totalAmount = 0; // 所有金额总和
 					$surplus = $ticket['ticketAmount'];
-					foreach ($catgoods as $key=> $shopGoods) {
-						$shop = $shopGoods[$key];
-						$_amount = $shop['totalMoney'];
-						if($isself != 1 && $_amount < $shop['deliveryFreeMoney']) {
-							$_amount += $shop['deliveryMoney'];
+					foreach ($shopGoods as $shopId=> $shop) {
+						$_amount = $shopGoods[$shopId]['totalMoney'];
+						if($isself != 1 && $_amount < $shopGoods[$shopId]['deliveryFreeMoney']) {
+							$_amount += $shopGoods[$shopId]['deliveryMoney'];
 						}
 						$_totalAmount += $_amount;
 						
@@ -576,9 +573,9 @@ class OrdersAction extends BaseUserAction {
 							if($surplus > 0) { // 从第一家开始扣起，直到为0
 								if($surplus > $_amount) {
 									$surplus -= $_amount;
-									$shop['deductible'] = $_amount;
+									$shopGoods[$shopId]['deductible'] = $_amount;
 								} else {
-									$shop['deductible'] = $surplus;
+									$shopGoods[$shopId]['deductible'] = $surplus;
 									$surplus = 0;
 								}
 							}

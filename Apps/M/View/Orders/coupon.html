@@ -179,7 +179,7 @@
 			if(cart && li.length > 0) {
 				var $this = $(this);
 				cart.coupon = {
-					ticketId: Number(li.attr("id")),
+					ticketId: li.attr("id"),
 					typeName: li.attr("typeName"),
 					ticketAmount: Number(li.attr("ticketAmount"))
 				};

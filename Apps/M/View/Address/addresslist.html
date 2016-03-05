@@ -7,76 +7,62 @@
 					</div>
 			</li>			 
 		</ul>
-		<p>收货地址</p>
+		<p>&nbsp;收货地址</p>
 		
-		<ul id="addressList" class="mui-table-view">
-			<foreach name="data" item="item">
-			<li class="mui-table-view-cell mui-media" a-id="{$item.addressId}" a-name="{$item.userName}" a-phone="{$item.userPhone}" a-address="{$item.address}">						 
-					<div class="mui-media-body">
-						<span class="meno b">{$item.userName}&nbsp;&nbsp;&nbsp;&nbsp;{$item.userPhone}</span>
-						<p class='mui-ellipsis ctime'>{$item.areaId1Name}{$item.areaId2Name}{$item.areaId3Name}{$item.address}</p>
-					</div>
-					<span  class="cellinfo-right cvalue add-color b">
-						<if condition="($item.isDefault eq 1)">
-							<span class="mui-icon mui-icon-checkmarkempty"></span>									
-						</if>
-					</span>
-			</li>
-			<li  class="mui-table-view-cell mui-media">
+		<ul id="addressList" class="mui-table-view mui-hidden">
+			
+			<!-- ko foreach: $data -->
+			
+			<li class="mui-table-view-cell" data-bind="attr:{a_id: addressId, a_name: userName, a_phone: userPhone ,a_address: address}">
 				<div class="mui-media-body">
-						<span></span>
-						 <span class="mui-icon mui-icon-compose"  onclick="edit({$item.addressId})"></span>
-						 &nbsp;&nbsp;&nbsp;
-						 <span class="mui-icon mui-icon-trash" onclick="deleteItem({$item.addressId})"></span>
-					</div>
-					<span  class="cellinfo-right font12">
-						<if condition="($item.isDefault eq 0)">
-							<span  onclick="setDefualt({$item.addressId})"><span class="mui-icon mui-icon-checkmarkempty" ></span>设置为默认</span>									
-						</if>
-					</span>
-				
+					<span class="meno b" data-bind="text: userName + '      '+ userPhone "></span>
+					<p class='mui-ellipsis ctime' data-bind="text: areaId1Name+areaId2Name+areaId3Name+address"></p>
+				</div>
+				<span  class="cellinfo-right cvalue add-color b">
+					<!-- ko if: isDefault == 1 -->
+						<span class="mui-icon mui-icon-checkmarkempty"></span>									
+					<!-- /ko -->
+				</span>
 			</li>
-		</foreach>
+			<li  class="mui-table-view-cell mui-media"  data-bind="attr:{a_id: addressId}">
+				<div class="mui-media-body">
+					<span></span>
+					 <span class="mui-icon mui-icon-compose"   data-bind="attr:{a_id: addressId}"  onclick="edit(this)"></span>
+					 &nbsp;&nbsp;&nbsp;
+					 <span class="mui-icon mui-icon-trash"   data-bind="attr:{a_id: addressId}" onclick="deleteItem(this)"></span>
+				</div>
+				<span  class="cellinfo-right font12">
+					<if condition="($item.isDefault eq 0)">
+						<span   data-bind="attr:{a_id: addressId}" onclick="setDefualt(this)"><span class="mui-icon mui-icon-checkmarkempty" ></span>设置为默认</span>									
+					</if>
+				</span>
+			</li>			
+			<!-- /ko -->
+		<!--<foreach name="data" item="item">-->
+		<!--</foreach>-->
 	</ul>
 		
 </div>
 <include file="Public:tab"/>
 <link rel="stylesheet" href="__CSS__/{:autoVer('person-comm.css')}" />
+<script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
-	function edit(id)
-	{
-		window.location.href="{:U('Address/addressedit', '', '')}/addressId/"+id;
-	}
-	function deleteItem(id){
-		layer.open({
-		    content: '您确定要删除此地址吗？',
-		    btn: ['确认', '取消'],
-		    shadeClose: false,
-		    yes: function(){
-		        $.post("{:U('Address/delete','','')}", {addressId: id}, delsuccess, "json");
-		    }
-		    , no: function(){
-		    }
-		});
-		
-		return;
-		function delsuccess(data) {
-			window.location.href="{:U('Address/addresslist', '', '')}";
-		}
-	}
-	function setDefualt(id){
-		$.post("{:U('Address/setdefalut','','')}", {addressId: id}, setsuccess, "json");
-		return;
-		function setsuccess(data) {			 
-			window.location.href="{:U('Address/addresslist', '', '')}";			 
-		}
-	}
+	var force = true;
+	var pageNo = 1;
+	var isEOF = false;
+	var addrees = [];
+	var vm =null;
 	$(function() {
+		vm = ko.observableArray(addrees);
+		ko.applyBindings(vm, document.getElementById("addressList"));
+		
+		//进入时加载
+		queryByPage();
 		//地址
 		$("#address").click(function(){
 			window.location.href="{:U('Address/addressedit', '', '')}";
 		});
-		
+		//alert("");
 		var shopId = util.i("shopId");
 		var subkey = util.i("submit");
 		var cacheKey = null;
@@ -88,23 +74,103 @@
 		}
 		cart = cky.storage.getItem(cacheKey);
 		if(cart) {
+			
 			// 选择地址
 			$("#addressList").on("click", "li", function(evt) {
 				evt.stopPropagation();
 				evt.preventDefault();
 				
 				var $this = $(this);
+				
+				var vid=$this.attr("a_name");
+				if(vid== undefined){return;}
+					
+				
+				
 				cart.consignee = {
-					id: $this.attr("a-id"),
-					name: $this.attr("a-name"),
-					phone: $this.attr("a-phone"),
-					address: $this.attr("a-address")
+					id: $this.attr("a_id"),
+					name: $this.attr("a_name"),
+					phone: $this.attr("a_phone"),
+					address: $this.attr("a_address")
 				};
 				cky.storage.setItem(cacheKey, cart, 24 * 60 * 60);
 				window.history.back();
 			});
 		}
 	});
+	
+	function edit(obj)
+	{
+		var id=$(obj).attr("a_id");
+		window.location.href="{:U('Address/addressedit', '', '')}/addressId/"+id;
+	}
+	function deleteItem(obj){
+		var id=$(obj).attr("a_id");
+//		layer.open({
+//		    content: '您确定要删除此地址吗？',
+//		    btn: ['确认', '取消'],
+//		    shadeClose: false,
+//		    yes: function(){
+//		        $.post("{:U('Address/delete','','')}", {addressId: id}, delsuccess, "json");
+//		    }
+//		    , no: function(){
+//		    }
+//		});
+		if(confirm("您确定要删除此地址吗？"))
+		{
+			 $.post("{:U('Address/delete','','')}", {addressId: id}, delsuccess, "json");
+		}
+		
+		return;
+		function delsuccess(data) {
+			window.location.href="{:U('Address/addresslist', '', '')}";
+//			force = true;
+//			queryByPage();
+		}
+	}
+	function setDefualt(obj){
+		var id=$(obj).attr("a_id");
+		$.post("{:U('Address/setdefalut','','')}", {addressId: id}, setsuccess, "json");
+		return;
+		function setsuccess(data) {			 
+			window.location.href="{:U('Address/addresslist', '', '')}";
+//			force = true;
+//			queryByPage();
+		}
+	}
+	
+	function queryByPage() {
+		if(force) {
+			vm.removeAll();
+			addrees.length = 0;
+			pageNo = 1;				
+			force = false;
+		}
+		var _pageNo = pageNo;
+		if(!isEOF) {
+			$.getJSON("{:U('Address/loadList')}", {
+				pageNo: _pageNo					
+			}, function(list) {
+				
+				if(_pageNo == 1) {
+					addrees.length = 0;
+					$("#addressList").removeClass("mui-hidden");
+				}
+				pageNo = ++_pageNo;
+				if(list && list.length > 0) {
+					$.each(list, function() {
+						addrees.push(this);
+					});
+				}
+				vm(addrees);
+				if(list && list.length < 12) {
+					isEOF = true;
+				}
+			});
+		}
+	}
+
+	
 </script>
 
  

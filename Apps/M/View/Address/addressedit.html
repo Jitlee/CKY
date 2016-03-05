@@ -70,32 +70,33 @@
 		$("button:submit").attr("disabled", false);
 	});
 	$(function(){				
-				$("#btnsave").click(function(){
-					var p=$("#provinces").find("option:selected").text();
-					var c=$("#city").find("option:selected").text();
-					var x=$("#County").find("option:selected").text();
-					if(p=="=选择="){util.msg("请选择地址信息."); return false;}
-					if(c=="=选择="){util.msg("请选择地址信息."); return false;}
-					if(x=="=选择=")x="";
-					if($("#jiedao").val()==""){util.msg("请输入地址信息."); return false;}
-					if($("#shouhuoren").val()==""){util.msg("请输入收货人."); return false;}
-					if($("#mobile").val()==""){util.msg("请输入手机号码."); return false;}
-					
-					$("#areaId1Name").val(p);
-					$("#areaId2Name").val(c);
-					$("#areaId3Name").val(x);
-					
-					var self = $("form");
-					$.post("{:U('Address/addressedit','','')}", self.serialize(), savesuccess, "json");
-					return;
-					function savesuccess(data) {
-						if (data.status) {
-							 window.location.href="{:U('Address/addresslist', '', '')}";
-						} else {
-							 util.msg(data.msg);
-						}
-					}
-				});		
+		$("#btnsave").click(function(){
+			var p=$("#provinces").find("option:selected").text();
+			var c=$("#city").find("option:selected").text();
+			var x=$("#County").find("option:selected").text();
+			if(p=="=选择="){util.msg("请选择地址信息."); return false;}
+			if(c=="=选择="){util.msg("请选择地址信息."); return false;}
+			if(x=="=选择=")x="";
+			if($("#jiedao").val()==""){util.msg("请输入地址信息."); return false;}
+			if($("#shouhuoren").val()==""){util.msg("请输入收货人."); return false;}
+			if($("#mobile").val()==""){util.msg("请输入手机号码."); return false;}
+			
+			$("#areaId1Name").val(p);
+			$("#areaId2Name").val(c);
+			$("#areaId3Name").val(x);
+			
+			var self = $("form");
+			$.post("{:U('Address/addressedit','','')}", self.serialize(), savesuccess, "json");
+			return;
+			function savesuccess(data) {
+				if (data.status) {
+					 //window.location.href="{:U('Address/addresslist', '', '')}";
+					 window.history.back();
+				} else {
+					util.msg(data.msg);
+				}
+			}
+		});
 		//初使化省市区
 		var proid='{$Item.areaId1}';
 		$("#provinces").val(proid);

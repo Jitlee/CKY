@@ -13,16 +13,19 @@ class AddressAction extends Controller {
 
 /*****地址管理******/
 	public function addresslist()
+	{		
+		$this->assign('title', '收货地址');		
+		//$this->assign("data", $result);
+		$this->display();
+						
+	}
+	
+	public function loadList()
 	{
 		$mMAdd= D('M/MemberAddress');
 		$uid=session("uid");
 		$result=$mMAdd->GetList($uid);
-			
-		$this->assign('title', '收货地址');
-		
-		$this->assign("data", $result);
-		$this->display();
-						
+		$this->ajaxReturn($result,"JSON");
 	}
 	
 	public function delete(){

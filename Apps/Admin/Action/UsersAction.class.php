@@ -122,6 +122,7 @@ class UsersAction extends BaseAction{
     	$page = $m->queryAccountByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);
     	$page['pager'] = $pager->show();
+		//echo  dump($page);
     	$this->assign('loginName',I('loginName'));
     	$this->assign('userStatus',I('userStatus',-1));
     	$this->assign('userType',I('userType',-1));

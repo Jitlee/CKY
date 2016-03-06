@@ -201,11 +201,11 @@ class UsersModel extends BaseModel {
       */
 	 public function queryAccountByPage(){
         $m = M('users');
-	 	$sql = "select * from __PREFIX__users where userFlag=1 ";
-	 	if(I('loginName')!='')$sql.=" and loginName LIKE '%".I('loginName')."%'";
-	 	if(I('userStatus',-1)!=-1)$sql.=" and userStatus=".I('userStatus',-1);
-	 	if(I('userType',-1)!=-1)$sql.=" and userType=".I('userType',-1);
-	 	$sql.="  order by userId desc";
+	 	$sql = "select u.*,s.shopName from __PREFIX__users  u inner join __PREFIX__shops  s on s.userid=u.userid  where u.userFlag=1 ";
+	 	if(I('loginName')!='')$sql.=" and u.loginName LIKE '%".I('loginName')."%'";
+	 	if(I('userStatus',-1)!=-1)$sql.=" and u.userStatus=".I('userStatus',-1);
+	 	if(I('userType',-1)!=-1)$sql.=" and u.userType=".I('userType',-1);
+	 	$sql.="  order by u.userId desc";
 		$rs = $m->pageQuery($sql);
 		//计算等级
 		if(count($rs)>0){

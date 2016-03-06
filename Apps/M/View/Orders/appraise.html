@@ -62,13 +62,12 @@
 							</div>
 							<div class="mui-input-row" style="height: 50px;">
 								<label>评价：</label>
-								<div class='content'>	
-								 <textarea rows="5" cols="70" style="width:410px;"  placeholder="长度在家10-50个字之间评价
-可以为其它小伙伴提供提供参考哦～"
+								 
+								 <input  type="text"   placeholder="长度在家10-50个字之间评价可以为其它小伙伴提供提供参考哦～"
 								 	name="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" 
-								 	id="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" maxlength="50"></textarea>
-								 </div>
-							</div>
+								 	id="{$goods['goodsId']}_{$goods['goodsAttrId']}_content" maxlength="50"/>
+								 
+							</div> <input/>
 							<div class="mui-content-padded" style="text-align: center;">
 								<button type="button" class="mui-btn mui-btn-danger"									
 									 onclick="addGoodsAppraises({$orderInfo['order']['shopId']},{$goods['goodsId']},'{$goods['goodsAttrId']}',{$orderInfo['order']['orderId']})">评价</button>

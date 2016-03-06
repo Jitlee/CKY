@@ -602,7 +602,7 @@ function shopOrderAccept(id){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
@@ -613,7 +613,7 @@ function shopOrderAccept(id){
 }
 //批量受理
 function batchShopOrderAccept(){
-	var ids = RTC.getChks('.chk_0');
+	var ids = RTC.getChks('.chk_1');
 	ids = ids.join(',');
 	if(ids==''){
 		RTC.msg('请选择要受理的订单 !', {icon: 5});
@@ -626,12 +626,12 @@ function batchShopOrderAccept(){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else if(json.status==-2){
 				RTC.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
-					$(".rtc-tab-nav").find("li").eq(statusMark).click();
+					$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 				});
 			}else{
 				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
@@ -648,7 +648,7 @@ function shopOrderProduce(id){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
@@ -659,7 +659,7 @@ function shopOrderProduce(id){
 }
 //批量打包
 function batchShopOrderProduce(){
-	var ids = RTC.getChks('.chk_1');
+	var ids = RTC.getChks('.chk_2');
 	ids = ids.join(',');
 	if(ids==''){
 		RTC.msg('请选择要打包的订单 !', {icon: 5});
@@ -672,12 +672,12 @@ function batchShopOrderProduce(){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 	    	if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else if(json.status==-2){
 				RTC.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
-					$(".rtc-tab-nav").find("li").eq(statusMark).click();
+					$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 				});
 			}else{
 				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
@@ -694,7 +694,7 @@ function shopOrderDelivery(id){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
@@ -705,7 +705,7 @@ function shopOrderDelivery(id){
 }
 //批量发货配送
 function batchShopOrderDelivery(id){
-	var ids = RTC.getChks('.chk_2');
+	var ids = RTC.getChks('.chk_3');
 	ids = ids.join(',');
 	if(ids==''){
 		RTC.msg('请选择要发货的订单 !', {icon: 5});
@@ -718,12 +718,12 @@ function batchShopOrderDelivery(id){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 	    	if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else if(json.status==-2){
 				RTC.msg('操作完成，部分订单状态已发生改变，请注意核对订单状态 !', {icon: 5},function(){
-					$(".rtc-tab-nav").find("li").eq(statusMark).click();
+					$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 				});
 			}else{
 				RTC.msg('操作失败，请与平台管理员联系 !', {icon: 5});
@@ -740,7 +740,7 @@ function shopOrderReceipt(id){
 	    	layer.close(tips);
 	    	var json = RTC.toJson(data);
 			if(json.status>0){
-				$(".rtc-tab-nav").find("li").eq(statusMark).click();
+				$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 			}else if(json.status==-1){
 				RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 			}else{
@@ -760,7 +760,7 @@ function shopOrderRefund(id,type){
 		    	layer.close(tips);
 		    	var json = RTC.toJson(data);
 				if(json.status>0){
-					$(".rtc-tab-nav").find("li").eq(statusMark).click();
+					$(".rtc-tab-nav").find("li").eq(statusMark-1).click();
 				}else if(json.status==-1){
 					RTC.msg('操作失败，订单状态已发生改变，请刷新后再重试 !', {icon: 5});
 				}else{
@@ -817,7 +817,7 @@ function queryOrderPager(statusMark,pcurr){
 				for(var i=0;i<json.root.length;i++){
 					var order = json.root[i];
 					html.push("<tr style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+";'>");
-					if(order.orderStatus==0 || order.orderStatus==1 || order.orderStatus==2){
+					if(order.orderStatus==0 || order.orderStatus==1 || order.orderStatus==2  || order.orderStatus==3){
 						html.push("<td width='20'><input type='checkbox' class='chk_"+order.orderStatus+"' value='"+order.orderId+"'/></td>");
 					}
 					html.push("<td width='100'><a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+";font-weight:bold;' onclick=showOrder('"+order.orderId+"')>"+order.orderNo+"</a></td>");
@@ -840,9 +840,11 @@ function queryOrderPager(statusMark,pcurr){
 					}else if(order.orderStatus==4){
 						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderReceipt('"+order.orderId+"')>确认收货</a>");
 					}
+					
 					html.push("</td>");
 				    html.push("</tr>");
 				}
+				//alert(html);
 				$("#otbody"+statusMark).html(html.join(""));
 			}
 			layer.close(ll);

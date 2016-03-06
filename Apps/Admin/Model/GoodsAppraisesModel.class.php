@@ -50,10 +50,10 @@ class GoodsAppraisesModel extends BaseModel {
      	$areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
         $m = M('goods_appraises');
-	 	$sql = "select gp.*,g.goodsName,g.goodsThums,o.orderNo,u.loginName from __PREFIX__goods_appraises gp
+	 	$sql = "select gp.*,g.goodsName,g.goodsThums,o.orderNo,u.truename from __PREFIX__goods_appraises gp
 	 	         left join __PREFIX__goods g on gp.goodsId=g.goodsId
 		         left join __PREFIX__orders o on gp.orderId=o.orderId 
-		         left join __PREFIX__users u on u.userId=gp.userId 
+		         left join __PREFIX__member  u on u.uid=gp.userId 
 		         left join __PREFIX__shops p on p.shopId=gp.shopId 
 	 	        where p.shopId=g.shopId and gp.goodsId=g.goodsId and o.orderId=gp.orderId ";
 	 	if($areaId1>0)$sql.=" and p.areaId1=".$areaId1;

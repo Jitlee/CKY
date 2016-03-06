@@ -927,7 +927,7 @@ class OrdersModel extends BaseModel {
 			if($orderId=='')continue;//订单号为空则跳过
 			$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag=1 and shopId=".$shopId;		
 			$rsv = $this->queryRow($sql);
-			if($rsv["orderStatus"]!=0)continue;//订单状态不符合则跳过
+			if($rsv["orderStatus"]!=1)continue;//订单状态不符合则跳过
 			$sql = "UPDATE __PREFIX__orders set orderStatus = 2 WHERE orderId = $orderId and shopId=".$shopId;		
 			$rs = $this->execute($sql);		
 	

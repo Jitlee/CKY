@@ -56,6 +56,11 @@ class OrdersModel extends BaseModel {
 		$this->orderFlag = -1;
 		return $this->where($map)->save();
 	 }
+
+//	public function closeTimeoutOrders($uid) {
+//		$sql = "update __ORDERS__ set orderStatus = -2 where orderStatus = 0 and userId = $uid and  DATE_ADD(createTime,INTERVAL 5 MINUTE) < now()";
+//		$this->query($sql);
+//	}
 	
 	//----------------------------
 	// 以下源代码方法

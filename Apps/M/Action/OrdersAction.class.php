@@ -60,6 +60,10 @@ class OrdersAction extends BaseUserAction {
 	}
 	
 	public function lst() {
+//		$m = D('M/Orders');
+//		$uid = getuid();
+//		$m->closeTimeoutOrders($uid);
+//		echo $m->getLastSql();
 		$this->assign('title', '订单');
 		$this->display('list');
 	}
@@ -68,7 +72,14 @@ class OrdersAction extends BaseUserAction {
 		$m = D('M/Orders');
 		$map = array('userId' => getuid());
 		$list = $m->query($map);
-//		echo $m->getLastSql();
+		$time = time();
+		foreach($list as $idx => $order) {
+			if((int)$order['orderStatus'] == 0
+				&& $time - strtotime($order['createTime']) > 300) {
+				// 超时5分钟
+				$list[$idx]['orderStatus'] = -2;
+			}
+		}
 		$this->ajaxReturn($list, 'JSON');
 	}
 	/* 跳转到支付页面  */

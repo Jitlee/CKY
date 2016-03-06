@@ -563,12 +563,7 @@ class OrdersAction extends BaseUserAction {
 				} else { // 全平台券
 					$_totalAmount = 0; // 所有金额总和
 					$surplus = $ticket['ticketAmount'];
-<<<<<<< HEAD
-					
-					foreach ($shopGoods as $shopId => $shops) {
-=======
 					foreach ($shopGoods as $shopId=> $shop) {
->>>>>>> origin/master
 						$_amount = $shopGoods[$shopId]['totalMoney'];
 						if($isself != 1 && $_amount < $shopGoods[$shopId]['deliveryFreeMoney']) {
 							$_amount += $shopGoods[$shopId]['deliveryMoney'];

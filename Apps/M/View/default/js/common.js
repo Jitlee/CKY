@@ -191,6 +191,17 @@ var cky = {
 			default:
 				return "cky-zhishu1";
 		}
+	},
+	
+	/**
+	 * 添加自动跳转的遮罩
+	 * @param {URL} url 跳转的url
+	 * @param {String} title 标题
+	 */
+	autoDirect: function(url, title) {
+		var mask = $("<div class=\"cky-auto-mask\"></div>");
+		$("<a>").attr("href", url).text(title).appendTo(mask);
+		$(document.body).append(mask);
 	}
 };
 
@@ -201,7 +212,13 @@ $.fn.select = function(list) {
 	
 	this.click(function() {
 		var html = [];
-		html.push("<ul class=\"mui-table-view mui-input-group cky-select-list\">");
+		var width = 0.8 * document.documentElement.clientWidth;
+		var height = 0.8 * document.documentElement.clientHeight;
+		html.push("<ul class=\"mui-table-view mui-input-group cky-select-list\" style=\"width:");
+		html.push(width);
+		html.push("px;max-height:");
+		html.push(height);
+		html.push("px;\">");
 		$.each(list, function(i) {
 			html.push("<li id=\"cky-select-")
 			html.push(this.key);

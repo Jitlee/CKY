@@ -45,14 +45,14 @@ class ActivityTicketModel extends BaseModel {
 				.'t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption from cky_activity_ticket t '
 				.'left join cky_shops s on s.shopId = t.limitUseShopID '
 				.'where (t.limitUseShopID = 0 or t.limitUseShopID in('.$shopIds.')) '
-				.'and EXISTS(select * from cky_activity_ticket_m tm where t.ticketID = tm.ticketID and tm.uid='.$uid.') '
+				.'and EXISTS(select * from cky_activity_ticket_m tm where tm.ticketMStatus = 0 and t.ticketID = tm.ticketID and tm.uid='.$uid.') '
 				.' order by t.createTime desc ';
 		return $this->query($sql);
 	}
 	
 	public function updateSendCount($id) {
 		$map['ticketID'] = $id;
-		$data['usedCount'] = array('exp', '`sendCount` + 1');
+		$data['sendCount'] = array('exp', '`sendCount` + 1');
 		return $this->where($map)->save($data);
 	}
 	

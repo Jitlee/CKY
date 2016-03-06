@@ -12,7 +12,7 @@
 	   		}
 	   		else
 	   		{
-	   			
+	   			clearhtml();
 	   			$.post("{:U('Home/Ticket/access')}",{ticketkey:varticketkey},function(data,textStatus){
 					var json = RTC.toJson(data);
 					//alert(data);
@@ -20,7 +20,7 @@
 						//alert(json.obj);
 						RTC.msg('验证成功!', {icon: 1});
 						$("#spantitle").html(json.obj.title);
-						$("#spanticketAmount").html(json.obj.Amount);
+						$("#spanticketAmount").html(json.obj.ticketAmount);
 						$("#spanefficacyEDate").html(json.obj.efficacyEDate);
 						$("#spancontent").html(json.obj.content);
 						//$("#spantitle").html(json.obj.title);
@@ -34,9 +34,17 @@
 	   		}   
 	   });
    });
+   function clearhtml()
+   {
+	   	$("#spantitle").html("");
+		$("#spanticketAmount").html("");
+		$("#spanefficacyEDate").html("");
+		$("#spancontent").html("");
+   }
    </script>
    <style >
    	.mui-hidden{ display: none;}
+   	.tdtitle{font-size: 16px;font-weight: bold; color: #000000;}
    </style>
    <div class="rtc-body"> 
        <div class='rtc-page-header'>商家中心 >卡券验证  </div>
@@ -44,7 +52,7 @@
        <form name="myform" method="post" id="myform" autocomplete="off">
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
-             <th width='120' align='right'>券码：<font color='red'>*</font>：</th>
+             <th width='120' align='right'>券码：</th>
              <td  width='190'>
              	<input type='text' id='ticketkey' class="form-control rtc-ipt"  maxLength='15' size='40'/>
              </td>
@@ -55,8 +63,8 @@
         </table>
         <table id="tickcontent" class="table table-hover table-striped table-bordered rtc-form mui-hidden">
         	<tr>
-        		 <th width='120' align='right'  style="font-size: 14px; font-weight: bold;">验证结果：</td> 
-        		 	<td   colspan="2">&nbsp;</td>
+        		 <th width='120' align='right'  class="tdtitle">验证结果</th> 
+        		 <td   colspan="2">&nbsp;</td>
         	</tr>
            <tr>
              <th width='120' align='right' >卡券名称： </th>
@@ -68,7 +76,6 @@
              <td  width='290'><span id="spanticketAmount"></span></td>
              <td>&nbsp;</td>
            </tr>
-           
            <tr>
              <th width='120' align='right'>有效期致： </th>
              <td  width='290'><span id="spanefficacyEDate"></span></td>

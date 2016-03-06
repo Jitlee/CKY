@@ -79,7 +79,7 @@
 			<a id="couponButton" class="mui-navigate-right">
 				<span class="font17">使用优惠券<span id="validCouponCount" class="cky-valid-count">0张可用</span></span>
 				<!-- ko if: couponAmount > 0 -->
-				<p class="cky-update cky-right" data-bind="text: '已抵用' + couponAmount + '元'"></p>
+				<p class="cky-update cky-update-nav" data-bind="text: '已抵用' + couponAmount + '元'"></p>
 				<!-- /ko -->
 			</a>
 		</li>
@@ -209,7 +209,7 @@
 							var data = result.data;
 							if(data && data.orderIds && data.orderIds.length > 0) {
 								cky.storage.removeItem("fast-cart" + shopId);
-								window.location.href = "{:U('pay')}?orderId=" + data.orderIds[0];
+								window.location.replace("{:U('pay')}?orderId=" + data.orderIds[0]);
 							} else {
 								cky.alert("提交订单失败，请稍后再试");
 							}
@@ -220,6 +220,12 @@
 					});
 				});
 			});
+		} else {
+			// 空的
+			cky.autoDirect(
+				"{:U('Index/index')}",
+				"订单已提交，返回主页 >>"
+			);
 		}
 	});
 </script>

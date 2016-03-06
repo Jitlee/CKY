@@ -97,7 +97,7 @@ function ShopCart(pickerId, shop, goods) {
 			_shop.goods[goods.goodsId] = _goods;
 			// 保存购物车
 			cky.storage.setItem(directKey, selectedCart);
-			window.location.href = "../Orders/shop.html?from=direct&submit=" + directKey;
+			window.location.href = "../Orders/shop.html?from=direct&shopId=" + shopId + "&submit=" + directKey;
 			close();
 		}
 	}

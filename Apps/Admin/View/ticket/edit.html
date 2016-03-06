@@ -97,6 +97,8 @@
 	   params.ticketAmount= $('#ticketAmount').val();
 	   params.limitUseShopID= $('#limitUseShopID').val();
 	   params.maxiConsumption= $('#maxiConsumption').val();
+	   params.miniConsumption= $('#miniConsumption').val();
+	   
 	   params.detail= $('#detail').val();
 	   
 	   if(params.imagePath==''){
@@ -231,7 +233,8 @@
            <tr>
              <th align='right'>卡券详情<font color='red'>*</font>：</th>
              <td>
-             		<textarea type='text' id='detail' name="detail" class="form-control rtc-ipt" value='{$object.detail}' style='width:300px' maxLength='500'></textarea>             
+             		<textarea type='text' id='detail' name="detail" class="form-control rtc-ipt" 
+             			 style='width:300px' maxLength='500'>{$object.detail}</textarea>             
              </td>
            </tr>
            <!--<tr class="mui-hidden">
@@ -285,7 +288,7 @@
            <tr id="trzkq">
              <th align='right'>最高折扣金额<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='maxiConsumption' class="form-control rtc-ipt" value='{$object.miniConsumption}'
+             	<input type='text' id='maxiConsumption' class="form-control rtc-ipt" value='{$object.maxiConsumption}'
              		 style='width:300px' maxLength='5'/>元 [消费最高折扣金额] [0表示不限制]
              </td>
            </tr>

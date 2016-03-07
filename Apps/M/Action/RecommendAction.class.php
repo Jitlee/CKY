@@ -28,6 +28,11 @@ class RecommendAction extends BaseUserAction {
 		$list = $m->RecommendList();
 		foreach ($list as $key =>$v) {
 			$v["goodsItems"] = $m->getGoodsByShopid($v["shopId"]);
+			$v["shoptypeskey"]=1;
+			if(strstr($v["shoptypes"], '快餐'))
+			{
+				$v["shoptypeskey"]=0;	
+			}
 			if($newitem) {
 				array_push($newitem,$v);
 			} else {

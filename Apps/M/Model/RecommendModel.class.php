@@ -22,9 +22,10 @@ class RecommendModel extends BaseModel {
 		$filter = 'shopStatus = 1 and shopFlag = 1';
 		if($catId > 0) {
 			$filter = $filter.' and plateId2='.$catId;
-		} else {
-			$filter = $filter.' and plateId1=1';
-		}
+		} 
+//		else {
+//			$filter = $filter.' and plateId1=1';
+//		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;
 		}

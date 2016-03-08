@@ -82,7 +82,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.RecommStatus = $("input[name='RecommStatus']:checked").val();
 	   
 	   var date = $('#EfficacyDateRange').val().split(' 至 ');
-	   params.EfficacySData = date[0];
+	   params.EfficacySDate = date[0];
 	   params.EfficacyEDate = date[1]; 
 	   
 	   //alert(params.RecommStatus);
@@ -96,7 +96,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 				}});
 			}else{
 				Plugins.closeWindow();
-				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!'+json.msg,timeout:1000});
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!'+data,timeout:1000});
 			}
 		});
    }
@@ -142,7 +142,7 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            <tr>
              <th align='right'>有效期<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='EfficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$recom.EfficacySData} 至 {$recom.EfficacyEDate}'/>
+             	<input type='text' id='EfficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$recom.EfficacySDate} 至 {$recom.EfficacyEDate}'/>
              </td>
            </tr>
            <tr>

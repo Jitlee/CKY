@@ -79,7 +79,8 @@ class RecommendAction extends BaseAction{
     	$this->assign('shopSn',I('shopSn'));
     	$this->assign('areaId1',I('areaId1',0));
     	$this->assign('areaId2',I('areaId2',0));
-        $this->display("list");
+        //$this->display("list");
+        $this->display('/recommend/list'); 
 	}
 		
 	public function del(){

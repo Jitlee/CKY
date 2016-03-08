@@ -11,28 +11,35 @@
 class RecommendModel extends BaseModel {
       
 	public function insert(){
-	 	$rd = array('status'=>-1);
-		$m = M('recommend');
-		$recCount = $m->where("shopsid=".(int)I('shopsid',0))->count();;
-		if($recCount==0)
+		try
 		{
-		 	$id = (int)I("recommid",0);		
-			$data["shopsid"] = (int)I("shopsid");
-			$data["sort"] = (int)I("sort");
-			$data["EfficacySData"] = I("EfficacySData");
-			$data["EfficacyEDate"] = I("EfficacyEDate");
-			$data["CreateTime"] =date('Y-m-d H:i:s');
-			$data["RecommStatus"] = I("RecommStatus");
-		    if($this->checkEmpty($data,true)){
-			    $rs = $m->add($data);
-				if(false !== $rs){
-					$rd['status']= 1;
+		 	$rd = array('status'=>-1);
+			$m = M('recommend');
+			$recCount = $m->where("shopsid=".(int)I('shopsid',0))->count();;
+			if($recCount==0)
+			{
+			 	$id = (int)I("recommid",0);		
+				$data["shopsid"] = (int)I("shopsid");
+				$data["sort"] = (int)I("sort");
+				$data["EfficacySDate"] = I("EfficacySDate");
+				$data["EfficacyEDate"] = I("EfficacyEDate");
+				$data["CreateTime"] =date('Y-m-d H:i:s');
+				$data["RecommStatus"] = I("RecommStatus");
+			    if($this->checkEmpty($data,true)){
+				    $rs = $m->add($data);
+					if(false !== $rs){
+						$rd['status']= 1;
+					}
 				}
 			}
+			else
+			{
+				$rd['msg']= "商家已设置推荐餐厅。";//dump($data);	
+			}
 		}
-		else
+	 	catch(Exception $e)
 		{
-			$rd['msg']= "商家已设置推荐餐厅。";//dump($data);	
+			$rd["msg"]=$e->getMessage();   
 		}
 		return $rd;
 	 } 
@@ -41,21 +48,28 @@ class RecommendModel extends BaseModel {
 	  * 修改
 	  */
 	 public function edit(){
-	 	$rd = array('status'=>-1);
-	 	$id = (int)I("recommid",0);
-
-		$data["sort"] = (int)I("sort");
-		$data["EfficacySData"] = I("EfficacySData");
-		$data["EfficacyEDate"] = I("EfficacyEDate");
-		$data["RecommStatus"] = (int)I("RecommStatus");
-	    if($this->checkEmpty($data,true)){ 
-			$m = M('recommend');
-		    $rs = $m->where("recommid=".(int)I('recommid',0))->save($data);
-			if(false !== $rs){
-				$rd['status']= 1;
+		try
+		{
+		 	$rd = array('status'=>-1);
+		 	$id = (int)I("recommid",0);
+	
+			$data["sort"] = (int)I("sort");
+			$data["EfficacySDate"] = I("EfficacySDate");
+			$data["EfficacyEDate"] = I("EfficacyEDate");
+			$data["RecommStatus"] = (int)I("RecommStatus");
+		    if($this->checkEmpty($data,true)){ 
+				$m = M('recommend');
+			    $rs = $m->where("recommid=".(int)I('recommid',0))->save($data);
+				if(false !== $rs){
+					$rd['status']= 1;
+				}
 			}
+			//$rd['msg']=dump($data);
 		}
-		//$rd['msg']=dump($data);
+	 	catch(Exception $e)
+		{
+			$rd["msg"]=$e->getMessage();   
+		}
 		return $rd;
 	 }
 	 

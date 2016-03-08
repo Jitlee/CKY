@@ -1,8 +1,8 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
-define("ACCESS_TOKEN", "hugc7sc5KNM_GcuVG9wcu4-RubHjkLxN7hZGDjthMQW2Nvk35x26vpx7vBXj6lnLQ0svL2GpcdkzSsbzRl25txspWzKetM5nRzjaOHv3ZH0ANGgAFAGTM");
+define("ACCESS_TOKEN", "G-RFbN01ZfnGUao1BSPXUTkO7W724wfTNxneT3lMBzTbTqgUCzKmq040UmfwfyD5xUSHuFC7jThTHh23HJaTu_eli7rCWZOdaklNskhn2_V4N7MFxAzs5ScF8T-RmyvgNAIhAFAANV");
 
-//https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx9c7c9bb54952b54d&secret=d4624c36b6795d1d99dcf0547af5443d
+//https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx06dcafb051f5e21f&secret=0408887ca15441398695ddd0b70b9ff4
 
 //创建菜单
 function createMenu($data){
@@ -90,19 +90,19 @@ $data = '{
             {
             	"type":"view",
 	           "name":" 首页  ",
-	           "url":"http://cky.ritacc.net/index.php/M"
+	           "url":"http://cukayun.cn/index.php/M"
                
             },
             {
                "type":"view",
                "name":"  外卖  ",
-               "url":"http://cky.ritacc.net/index.php/M/fast/index"
+               "url":"http://cukayun.cn/index.php/M/fast/index"
             }
             ,
       {
           "type":"view",
           "name":"个人中心",
-          "url":"http://cky.ritacc.net/index.php/M/Person/index"
+          "url":"http://cukayun.cn/index.php/M/Person/index"
       }]
 }';
 

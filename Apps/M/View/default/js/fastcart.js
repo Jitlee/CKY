@@ -115,7 +115,11 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		}
 		cart.total -= shopPrice;
 		cart.count--;
-		$(".count", parent).text(cart.goods[goodsId].count);
+		if(cart.goods[goodsId]) {
+			$(".count", parent).text(cart.goods[goodsId].count);
+		} else {
+			$(".count", parent).text(0);
+		}
 		refreshCart();
 	});
 	

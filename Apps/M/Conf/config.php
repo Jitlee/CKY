@@ -16,17 +16,17 @@
 			'__ROOTCSS__'			=> __ROOT__.'/Public/css',
 			'__CSS__'				=> '/Apps/M/View/default/css',
 		),
-		define('WEB_HOST', 'cky.ritacc.net'),
-		'WxPayConf_pub'=>array(
-			'APPID' => 'wx426b3015555a46be',
-			'MCHID' => '1292995201',
-			'KEY' => 'e10adc3949ba59abbe56e057f20f883e',
-			'APPSECRET' => '01c6d59a3f9024db6336662ac95c8e74',
-			'JS_API_CALL_URL'	=> WEB_HOST.'/index.php/M/Pay/wxpay',
-			'SSLCERT_PATH'		=> WEB_HOST.'/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_cert.pem',
-			'SSLKEY_PATH'		=> WEB_HOST.'/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_key.pem',
-			'NOTIFY_URL'		=> WEB_HOST.'/index.php/M/Pay/notify',
-			'CURL_TIMEOUT'		=> 30
-		),
+//		define('WEB_HOST', 'cky.ritacc.net'),
+//		'WxPayConf_pub'=>array(
+//			'APPID' => 'wx426b3015555a46be',
+//			'MCHID' => '1292995201',
+//			'KEY' => 'e10adc3949ba59abbe56e057f20f883e',
+//			'APPSECRET' => '01c6d59a3f9024db6336662ac95c8e74',
+//			'JS_API_CALL_URL'	=> WEB_HOST.'/index.php/M/Pay/wxpay',
+//			'SSLCERT_PATH'		=> WEB_HOST.'/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_cert.pem',
+//			'SSLKEY_PATH'		=> WEB_HOST.'/ThinkPHP/Library/Vendor/WxPayPubHelper/cacert/apiclient_key.pem',
+//			'NOTIFY_URL'		=> WEB_HOST.'/index.php/M/Pay/notify',
+//			'CURL_TIMEOUT'		=> 30
+//		),
 	);
 ?>

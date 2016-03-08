@@ -211,8 +211,6 @@ class OneCardModel extends BaseModel {
 	    $ch = curl_init();
 	    $timeout = 300;
 	    curl_setopt($ch, CURLOPT_URL, $url);
-	    //curl_setopt($ch, CURLOPT_REFERER, "http://www.ritacc.net/");   //构造来路
-	    //curl_setopt($ch, CURLOPT_POST, true);
 	    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);

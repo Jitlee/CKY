@@ -101,7 +101,8 @@ class PayAction extends BaseUserAction {
 		{
 			$this->assign('title', $Body);
 			$this->assign('money', $money);
-			$tfee=1;				//整数单位为分
+			$tfee=$money * 100;		//整数单位为分
+			//$tfee=1;				//整数单位为分
 			$setattach=$dataInfo["payNo"]; //附加信息原样返回			
 	        //2、统一下单
 	        $input = new \WxPayUnifiedOrder();
@@ -112,7 +113,7 @@ class PayAction extends BaseUserAction {
 	        $input->SetTime_start(date("YmdHis"));
 	        $input->SetTime_expire(date("YmdHis", time() + 600));
 	        $input->SetGoods_tag("Goods_test");
-	        $input->SetNotify_url("http://cky.ritacc.net/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
+	        $input->SetNotify_url("http://cukayun.cn/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
 	        $input->SetTrade_type("JSAPI");
 	        $input->SetOpenid($openId);
 	        $order = \WxPayApi::unifiedOrder($input);

@@ -63,4 +63,17 @@ class ShopsAction extends BaseAction {
 		$this->assign('title', I('shopName'));
 		$this->display();
 	}
+	
+	// 商家跳转
+	public function rdirect() {
+		$m = D('M/Shops');
+		$shop = $m->detail();
+		$this->assign('data', $shop);
+		
+		$m = D('M/GoodsCats');
+		$cats = $m->queryByParentId(0);
+		
+		$this->assign('title', $shop['shopName']);
+		$this->display('redirect');
+	}
 }

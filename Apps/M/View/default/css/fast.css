@@ -297,9 +297,10 @@ header.cky-fast-header .mui-btn {
 	width: 100%;
 	border-top:solid 1px #D5D5D5;
 	background-color: #E0E0E0;
+	z-index: 9;
 }
 
-.cky-fast-cart button{
+.cky-fast-cart button {
 	border: none;
 	margin-top: 10px;
 	color: #fff;

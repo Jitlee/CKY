@@ -12,7 +12,7 @@ use Think\Controller;
 class GoodsCatsAction extends BaseAction {
 	public function query() {
 		$m = D('M/GoodsCats');
-		$list = $m->query();
+		$list = $m->queryByParentId();
 		$this->ajaxReturn($list, 'JSON');
 	}
 }

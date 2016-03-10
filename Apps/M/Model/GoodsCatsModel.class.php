@@ -9,8 +9,10 @@
  * 行业服务类
  */
 class GoodsCatsModel extends BaseModel {
-	public function query() {
-		$parentId = I('parentId', 0);
+	public function queryByParentId($parentId = 0) {
+		if($parentId == 0) {
+			$parentId = I('parentId', 0);
+		}
 		$map = array(
 			'parentId'	=> $parentId,
 			'isShow'		=> '1',

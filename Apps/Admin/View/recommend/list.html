@@ -64,7 +64,7 @@
    
    </script>
    <body class='rtc-page'>
-     <form method='post' action="{:U('Admin/Shops/index')}">
+     <form method='post' action="{:U('Admin/Recommend/index')}">
        <div class='rtc-tbar'> 
     地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value=''>请选择</option>
@@ -114,13 +114,13 @@
                <td>{$vo['EfficacySDate']}至{$vo['EfficacyEDate']}</td>
                <td>{$vo['sort']}</td>
                <td>
-	               <if condition="$vo['RecommStatus'] == 1 "><span class='label label-success'>启用</span></if>
-	               <if condition="$vo['RecommStatus'] == 0 "><span class='label label-warning'>停用</span></if>&nbsp;
+	               <if condition="$vo['RecommStatus']+'' == '1' "><span class='label label-success'>启用</span></if>
+	               <if condition="$vo['RecommStatus']+'' == '0' "><span class='label label-warning'>停用</span></if>&nbsp;
                </td>
                <td>
 	               <!--<php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>-->
 		               	<a class="btn btn-default glyphicon glyphicon-pencil" 
-		               		href="{:U('Admin/recommend/torecommend',array('id'=>$vo['shopId'],'recommid'=>$vo['recommid'],'src'=>'index'))}">推荐餐厅</a>
+		               		href="{:U('Admin/recommend/torecommend',array('id'=>$vo['shopId'],'recommid'=>$vo['recommid'],'src'=>'index'))}">编辑</a>
 		               	<button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['recommid']})">刪除</buttona>
 	               <!--<php>}</php> -->
                </td>

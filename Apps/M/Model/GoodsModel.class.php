@@ -67,8 +67,10 @@ class GoodsModel extends BaseModel {
 	public function guess() {
 		$pageNo = 1;
 		$pageSize = 20;
-		return $this->field('goodsId, goodsSn, goodsName, goodsThums, marketPrice, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec')
-			->order('createTime')->page($pageNo, $pageSize)->select();
+		$map = array("s.shopFlag"=>1);
+		return $this->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
+			->join('g inner join __SHOPS__ s on s.shopId = g.shopId')
+			->where($map)->order('g.createTime')->page($pageNo, $pageSize)->select();
 	}
 };
 ?>

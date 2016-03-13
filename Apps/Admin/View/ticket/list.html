@@ -16,13 +16,29 @@
       <script src="__PUBLIC__/js/common.js"></script>
       <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
    </head>
-   <script>
+   <script>   
    function toggleIsShow(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 	   $.post("{:U('Admin/Ticket/editiIsShow')}",{id:v,isShow:t},function(data,textStatus){
 			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+				    location.reload();
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+	   });
+   }
+   function tickSync()
+   {
+		Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	    $.post("{:U('M/Onecardtick/tickSync')}",{v: 1},function(data,textStatus){
+	    	//alert(data);
+			var json = RTC.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({content:'同步成功',timeout:1000,callback:function(){
 				    location.reload();
 				}});
 			}else{
@@ -48,13 +64,22 @@
 				});
 	   }});
    }
+   
+   $(function(){
+   		$("#tickSync").click(function(){
+   			tickSync();
+   		});
+   });
+   
    </script>
    <body class='rtc-page'>
        <form method='post' action='{:U("Admin/Ticket/index")}'>
        <div class='rtc-tbar' style='height:25px;'>
                     卡券标题：<input type='text' id='activityTitle' name='activityTitle' class='form-control rtc-ipt-15' value='{$activityTitle}'/> 
-       <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>             
+       <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>
        
+       <button type="button" id="tickSync" class="btn  btn-success glyphicon"
+       		style='float:right; margin-right: 5px;margin-left: 5px;'>同步一卡易卡券</button>
        <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Ticket/toEdit')}" style='float:right'>新增</a>
        
        </div>
@@ -68,6 +93,7 @@
                <th width='100'>分类</th>
                
                <th width='120'>金额(元)/折扣(折)</th>
+               <th width='150'>一卡易卡券</th>
                <th width='80'>最低消费</th>
                
                <th width='190'>有效期</th>
@@ -79,6 +105,7 @@
                
                 
                <th width='150'>创建时间</th>
+               
                <th width='150'>操作</th>
              </tr>
            </thead>
@@ -94,6 +121,9 @@
                </td>
                
                <td>{$vo['ticketAmount']}</td>
+               <td>
+	               <if condition="$vo['IsOneCardyTick']==1">一卡易<else/>-</if>               
+               </td>
                <td>{$vo['miniConsumption']}</td>
                
                <td>{$vo['efficacySDate']}至{$vo['efficacyEDate']}</td>
@@ -106,7 +136,9 @@
                
                <td>{$vo['createTime']}</td>
                <td>
-               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Ticket/toEdit',array('id'=>$vo['ticketID']))}">修改</a>&nbsp;               
+	               	<if condition="$vo['IsOneCardyTick']==0">
+	               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Ticket/toEdit',array('id'=>$vo['ticketID']))}">修改</a>&nbsp;               
+	               	</if> 	
                		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del('{$vo['ticketID']}')"">刪除</a>
                </td>
              </tr>

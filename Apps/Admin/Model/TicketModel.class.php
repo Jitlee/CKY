@@ -19,8 +19,7 @@ class TicketModel extends BaseModel {
 		$data["ticketID"]=$id;
 		$data["title"] = I("title");
 		$data["typeName"] = I("typeName");
-		 
-	 
+		 	 
 		$data["imagePath"] = I("imagePath");
 		$data["content"] = I("content");
 		$data["efficacySDate"] = I("efficacySDate");

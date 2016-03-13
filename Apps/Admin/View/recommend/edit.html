@@ -152,12 +152,12 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
             <tr>
              <th align='right'>推荐状态<font color='red'>*</font>：</th>
              <td>
-             <label>
-             <input type='radio' id='RecommStatus0' name='RecommStatus' checked="checked" value='1' <if condition="$recom['RecommStatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
-             </label>
-             <label>
-             <input type='radio' id='RecommStatus1' name='RecommStatus' value='0' <if condition="$recom['RecommStatus'] ==0">checked</if> />停用
-             </label>
+             	<label>
+	             <input type='radio' id='RecommStatus0' name='RecommStatus'  value='1' <if condition="$recom['RecommStatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
+	             </label>
+	             <label>
+	             <input type='radio' id='RecommStatus1' name='RecommStatus' value='0' <if condition="$recom['RecommStatus'] ==0 ">checked</if> />停用
+	             </label>
              </td>
            </tr>
            <tr>

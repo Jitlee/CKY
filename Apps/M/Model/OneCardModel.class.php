@@ -2,11 +2,10 @@
  namespace M\Model;
 /**
  * ============================================================================
- * 粗卡云:
-  
+ * 粗卡云:  
  * 联系方式:
  * ============================================================================
- * 广告服务类
+ * 一卡易接 口 服务类
  */
 class OneCardModel extends BaseModel {
 	 
@@ -172,7 +171,8 @@ class OneCardModel extends BaseModel {
 		$url='OpenApi/Get_MemberGroupPaged';		
 		return $this->GetData($url, $data);
 	}
-	
+	/*发送短信
+	 */
 	public function SendVerycode($mobile,$content)
 	{
 		$data = array(
@@ -221,21 +221,6 @@ class OneCardModel extends BaseModel {
 	    return $handles;
 	}
 
-// 	public function Get_CitiesByProvince(){
-// 		$provinces=$_POST["provinces"];
-//		$db = M('add');
-//		$filter["addparent"] = $provinces;
-//		$filter["addtype"] = 1;
-//		$data= $db->where($filter)->select();		
-//		$this->ajaxReturn($data,'JSON');
-//  }
-//	public function Get_CountyByCity(){
-// 		$cityid=$_POST["city"];
-//		$db = M('add');
-//		$filter["addparent"] = $cityid;
-//		$filter["addtype"] = 2;
-//		$data= $db->where($filter)->select();		
-//		//$this->ajaxReturn($data,'JSON');
-//  }
+ 
 
 }

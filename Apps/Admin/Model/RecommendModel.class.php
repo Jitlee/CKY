@@ -24,7 +24,7 @@ class RecommendModel extends BaseModel {
 				$data["EfficacySDate"] = I("EfficacySDate");
 				$data["EfficacyEDate"] = I("EfficacyEDate");
 				$data["CreateTime"] =date('Y-m-d H:i:s');
-				$data["RecommStatus"] = I("RecommStatus");
+				$data["RecommStatus"] = (int)I("RecommStatus");
 			    if($this->checkEmpty($data,true)){
 				    $rs = $m->add($data);
 					if(false !== $rs){

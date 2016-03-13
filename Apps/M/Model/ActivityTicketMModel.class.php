@@ -14,23 +14,48 @@ class ActivityTicketMModel extends BaseModel {
 	 * 领取券
 	 */
 	public function pick($ticketId, $uid) {
-		$sql = 'insert into __ACTIVITY_TICKET_M__(ticketID, efficacySDate, efficacyEDate, uid, ticketMStatus)'
-		.'select ticketID, efficacySDate, efficacyEDate, '.$uid.', 0 from __ACTIVITY_TICKET__'
-		.' where ticketID = \''.$ticketId.'\' and sendCount < totalCount and ticketStatus = 1'
-		.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\'); ';			
-		$ret = $this->query($sql);
-		if($ret !== false)
+		//查询卡券信息
+		$map = array('ticketID'	=> $ticketId);
+		$mtick= M('activity_ticket');
+		$mtickobj =$mtick->where($map)->find();
+		
+		$rd = array('status'=>-1);
+		if($mtickobj)
 		{
-			$sql="update cky_activity_ticket_m set usekey=Cast(ticket_m_ID+10000000 as CHAR) 
-	where createTime > date_add(now(),interval -1 minute) AND usekey='' ";
-			$ret = $this->query($sql);
-			if($ret !== false) {
-				//更新认领
-				$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
+			$isone=(int)$mtickobj["IsOneCardyTick"];
+			if($isone==1)
+			{
+				$m = D('M/OneCardTick');
+				$mobile=session("Mobile");
+				$res = $m->SendTick($ticketId,$mobile);
+				return $res;
+			}
+			else
+			{
+				$sql = 'insert into __ACTIVITY_TICKET_M__(ticketID, efficacySDate, efficacyEDate, uid, ticketMStatus)'
+				.'select ticketID, efficacySDate, efficacyEDate, '.$uid.', 0 from __ACTIVITY_TICKET__'
+				.' where ticketID = \''.$ticketId.'\' and sendCount < totalCount and ticketStatus = 1'
+				.' and not exists(select 0 from __ACTIVITY_TICKET_M__ where uid = '.$uid.' and ticketID = \''.$ticketId.'\'); ';			
 				$ret = $this->query($sql);
+				if($ret !== false)
+				{
+					$sql="update cky_activity_ticket_m 
+							set usekey=Cast(FLOOR(1000 + (RAND() * 8000)) * 100000 +ticket_m_ID+100000 as CHAR)
+						  where
+						  	createTime > date_add(now(),interval -1 minute) AND usekey='' ";
+					$ret = $this->query($sql);
+					if($ret !== false) {
+						//更新认领
+						$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
+						$ret = $this->query($sql);
+					}
+				}
+				return $ret;	
 			}
 		}
-		return $ret;
+				
+		
+		
 	}
 	
 	public function total($uid) {

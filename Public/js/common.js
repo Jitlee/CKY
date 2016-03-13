@@ -299,11 +299,12 @@ RTC.toJson = function(str,notLimit){
 		if(!notLimit){
 			if(json.status && json.status=='-999'){
 				alert('对不起，您已经退出系统！请重新登录');
-				if(window.parent){
-					window.parent.location.reload();
-				}else{
-					location.reload();
-				}
+				window.location.href='/index.php/Home/Shops/login';
+//				if(window.parent){
+//					window.parent.location.reload();
+//				}else{
+//					location.reload();
+//				}
 			}else if(json.status && json.status=='-998'){
 				if(Plugins){
 					Plugins.closeWindow();

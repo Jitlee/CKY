@@ -29,6 +29,7 @@ class PersonAction extends BaseUserAction {
 			//更新session
 			session("cardid",$result["CardId"]);
 			session("uid",$result["uid"]);
+			session("Mobile",$result["Mobile"]);
 			session("MemberItem",$result);
 		}
 		
@@ -58,6 +59,11 @@ class PersonAction extends BaseUserAction {
 		$CardId=$this->GetCardId();
 		$mMember = D('M/MemberOneCardSync');
 		$result=$mMember->DataSync($CardId);
+		
+		//同步卡券数据
+		$m = D('M/OneCardTick');		
+		$result = $m->GetTickMList(session("Mobile"),"");
+		
 		$this->ajaxReturn($result, "JSON");
 	}
 	

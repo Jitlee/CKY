@@ -17,7 +17,7 @@
 	
 	<div id="orderList" class="mui-hidden">
 		<!-- ko foreach: $data -->
-		<a class="cky-table-view cky-mtop-10" data-bind="attr: { oid: orderId, id: 'order_' + orderId, href: '{:U('detail')}?id=' + orderId }">
+		<a class="cky-table-view cky-mtop-10" data-bind="attr: { shopId:shopId, oid: orderId, id: 'order_' + orderId, href: '{:U('detail')}?id=' + orderId }">
 			<div class="cky-table-view-cell order-title">
 				<span class="font14" data-bind="text: shopName"></span>
 				<!-- ko if: orderStatus < 0 || orderStatus == 6 -->
@@ -162,7 +162,7 @@
 		evt.preventDefault();
 		var $this = $(this);
 		var parent = $this.closest("a.cky-table-view");
-		var orderId = parent.attr("oid");
-		window.location.href = "{:U('Fast/detail')}?id=" + orderId;
+		var shopId = parent.attr("shopId");
+		window.location.href = "{:U('Fast/detail')}?id=" + shopId;
 	});
 </script>

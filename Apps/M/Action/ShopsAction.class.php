@@ -71,7 +71,21 @@ class ShopsAction extends BaseAction {
 		$this->assign('data', $shop);
 		
 		$m = D('M/GoodsCats');
-		$cats = $m->queryByParentId(0);
+		$cats = $m->queryByParentId(0, I('id', 0));
+		$this->assign('cats', $cats);
+		
+//		echo $m->getLastSql();
+//		echo dump($cats);
+
+		if(count($cats) == 1) {
+			$catId = (int)$cats[0]['catId'];
+			if($catId == 336) {
+				$this->redirect('Shops/detail', array('id' => I('id', 0)));
+			} else if($catId == 1) {
+				$this->redirect('Fast/detail', array('id' => I('id', 0)));
+			}
+			return;
+		}
 		
 		$this->assign('title', $shop['shopName']);
 		$this->display('redirect');

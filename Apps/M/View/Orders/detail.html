@@ -65,7 +65,7 @@
 	<a id="cancel">取消订单</a>
 	<a id="pay" href="{:U('pay')}?orderId={:I('id')}">去付款</a>
 	<else/>
-		<a id="goshop" href="{:U('Fast/detail')}?id={$data.shopId}">还订这家</a>
+		<a id="goshop" href="{:U('Shops/rdirect')}?id={$data.shopId}">还订这家</a>
 	</if>
 </footer>
 <script>

@@ -243,7 +243,13 @@
 				<i class="ticket-empty iconfont icon-yilingqu"></i>
 				<!-- /ko -->
 				
+				<!-- ko if:  strhttp=='http' -->
+				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url('+ imagePath  +')' }"></div>
+				<!-- /ko -->
+				<!-- ko ifnot:  strhttp=='http' -->
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
+				<!-- /ko -->
+				
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 				
 				<div class="ticket-mini">

@@ -130,7 +130,7 @@ class OneCardTickModel extends OneCardModel {
 			$rd["msg"]=$onecres["message"];
 			return $rd;
 		}		
-		return $this->GetTickMList($mobile);
+		return $this->GetTickMList($mobile,$tickid);
 	}
 	
 	public function GetTickMList($mobile,$tickid)
@@ -150,9 +150,11 @@ class OneCardTickModel extends OneCardModel {
 			$rd["msg"]=$onecres["message"];
 			return $rd;
 		}
+		echo $onecres["data"];
 		//return $onecres;
 		//与本地库同步		 
 		$ticklist=json_decode($onecres["data"],true);
+		
 		$tickdb = M('activity_ticket_m');
 		for($i=0;$i<count($ticklist);$i++)
 		{		
@@ -168,9 +170,8 @@ class OneCardTickModel extends OneCardModel {
 				if((int)$onecitem["EnableCount"] ==0)
 				{
 					$data["ticketMStatus"]=1;	
-				}			
-				  
-				$rs = $tickdb->where("ticketID='".$onecitem["Guid"]."'")->save($data);
+				}				  
+				$rs = $tickdb->where("ticketmID='".$onecitem["Guid"]."'")->save($data);
 				if(false !== $rs){
 					$rd['status']= 1;
 				}
@@ -186,6 +187,7 @@ class OneCardTickModel extends OneCardModel {
 					$data["efficacyEDate"]=$onecitem["EndDate"];
 					$data["usekey"]=$onecitem["CouponCode"]; 
 					$data["ticketMStatus"]=0;
+					$data["uid"]=session("uid");
 					if((int)$onecitem["EnableCount"] ==0)
 					{
 						$data["ticketMStatus"]=1;	
@@ -195,10 +197,11 @@ class OneCardTickModel extends OneCardModel {
 					{
 						$data["ticketMStatus"]=1;	
 					}
-				}				 
-				$rs = $tickdb->add($data);
-			    if(false !== $rs){
-					$rd['status']= 1;
+								 
+					$rs = $tickdb->add($data);
+				    if(false !== $rs){
+						$rd['status']= 1;
+					}
 				}
 			}//结束 添加
 		}// end for

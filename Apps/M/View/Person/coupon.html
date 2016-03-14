@@ -204,7 +204,15 @@
 		<div class="ticket cky-relative">
 			<div class="ticket-border cky-relative" data-bind="click: $parent.click, css: { 'ticket-disabled': status > 0, 'ticket-newer': onlyNewUser == 1 }">
 				<i class="ticket-empty iconfont icon-youhuiquan1"></i>
+				<!-- ko if:  strhttp=='http' -->
+				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url('+ imagePath  +')' }"></div>
+				<!-- /ko -->
+				
+				<!-- ko ifnot:  strhttp=='http' -->
 				<div class="ticket-thumb" data-bind="style: { backgroundImage: 'url(/'+ imagePath  +')' }"></div>
+				<!-- /ko -->
+				
+				
 				<div class="ticket-amount" data-bind="html: getAmount(typeName, ticketAmount)"></div>
 				<div class="ticket-mini">
 				<!-- ko if: maxiConsumption > 0 -->
@@ -239,12 +247,12 @@
 				<!-- 装饰-->
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 				
-				<!-- ko if: typeName == 'djq' &&  status == 0 -->
+				<!-- ko if: typeName == 'djq' &&  status == 0  && IsOneCardyTick==0 -->
 				<div class="ticket-btn">立即使用</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 				<!-- /ko -->
 				
-				<!-- ko if: typeName != 'djq' && status == 0 -->
+				<!-- ko if: typeName != 'djq' && status == 0 || IsOneCardyTick==1 -->
 				<div class="ticket-btn">查看详情</div>
 				<div class="ticket-nav"><i class="iconfont icon-jiantou"></i></div>
 				<!-- /ko -->
@@ -330,8 +338,8 @@
 		// 跳转事件
 		function onclick() {
 			if(this.status == 0) {
-				if(this.typeName == "djq") {
-					var shopId = Number(this.limitUseShopId);
+				if(this.typeName == "djq" && this.IsOneCardyTick==0) {
+					var shopId = Number(this.limitUseShopId);					
 					if(shopId > 0) {
 						window.location.href = "{:U('Fast/detail')}?id=" + shopId;
 					} else {

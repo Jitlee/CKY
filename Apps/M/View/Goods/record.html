@@ -1,5 +1,5 @@
 <header class="mui-bar mui-bar-nav cky-bar-gray">
-	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
 	<h1 id="title" class="mui-title">
@@ -20,7 +20,7 @@
 				<th class="cky-text-left">会员</th><th class="cky-text-left">数量</th><th class="cky-text-right">时间</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody data-bind="visible: $data.length > 0">
 			<!-- ko foreach: $data -->
 			<tr>
 				<td data-bind="text:userName"></td>
@@ -66,7 +66,9 @@
 					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
 						$.each(list, function() {
-							records.push(this);
+							if(this.createTime) {
+								records.push(this);
+							}
 						});
 					}
 					vm(records);

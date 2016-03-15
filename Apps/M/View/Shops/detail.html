@@ -28,7 +28,7 @@
 			<if condition="$data.score gt 0">{$data.score}<else/>暂无评分</if>
 			</h5>
 			<p class="shop-detail-sub">
-				{$data.shopWishes}
+				{$data.shopWishes|default=$title}
 				<span class="shop-detail-button">
 					<a class="iconfont icon-love"></a>
 					<a class="iconfont icon-share"></a>

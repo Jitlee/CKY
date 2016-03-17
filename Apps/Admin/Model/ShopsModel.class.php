@@ -491,5 +491,24 @@ class ShopsModel extends BaseModel {
 	 	$rd['num'] = $rs[0]['counts'];
 	 	return $rd;
 	 }
+	 
+	 public function totalDailyBills() {
+        $areaId1 = (int)I('areaId1',0);
+     	$areaId2 = (int)I('areaId2',0);
+ 
+	 	$sql = 'select s.shopName, s.shopSn,count(o.orderId) ordersCount, sum((o.totalMoney + o.deliverMoney)) totalMoney, sum(o.needPay) realPay from cky_shops s inner join cky_orders o on s.shopId = o.shopId where o.isPay = 1 ';
+ 
+	 	if(I('shopName')!='') $sql.=" and s.shopName like '%".I('shopName')."%'";
+	 	if(I('shopSn')!='') $sql.=" and s.shopSn like '%".I('shopSn')."%'";
+	 	if($areaId1>0) $sql.=" and s.areaId1=".$areaId1;
+	 	if($areaId2>0) $sql.=" and s.areaId2=".$areaId2;
+		
+		$dates = explode(' 至 ', I('dateRange'));
+		$sql.=" and o.createTime between '".$dates[0]." 00:00:00' and '".$dates[1]." 23:59:59'";
+		
+	 	$sql.=" group by s.shopId order by s.shopId desc";
+//		echo $sql;
+		return $this->pageQuery($sql);
+	 }
 };
 ?>

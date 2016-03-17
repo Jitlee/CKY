@@ -181,5 +181,28 @@ class ShopsAction extends BaseAction{
     	$rs = $m->queryPenddingShopsNum();
     	$this->ajaxReturn($rs);
 	}
+
+	public function bill() {
+		$this->isLogin();
+		$this->checkPrivelege('ppgl_00');
+		$dateRange = I('dateRange');
+		
+		//获取地区信息
+		$m = D('Admin/Areas');
+		$this->assign('areaList',$m->queryShowByList(0));
+		$m = D('Admin/Shops');
+    		$page = $m->totalDailyBills();
+//		echo $m->getLastSql();
+    		$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
+    		$page['pager'] = $pager->show();
+    	
+	    	$this->assign('Page',$page);
+	    	$this->assign('shopName',I('shopName'));
+	    	$this->assign('shopSn',I('shopSn'));
+	    	$this->assign('dateRange',I('dateRange',date('Y-m-d 至 Y-m-d')));
+	    	$this->assign('areaId1',I('areaId1',0));
+	    	$this->assign('areaId2',I('areaId2',0));
+        $this->display("/shops/bill");
+	}
 };
 ?>

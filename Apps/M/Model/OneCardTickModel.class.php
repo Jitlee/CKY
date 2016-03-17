@@ -17,7 +17,7 @@ class OneCardTickModel extends OneCardModel {
 		$data = array("userAccount"=>"10000"
 			,"where"=>"1=1"
 			,"pageIndex"=>"0"
-			,"pageSize"=>"10"
+			,"pageSize"=>"20"
 			,"orderBy"=>" CreateTime desc "
 		);
 		$url='OpenApi/Get_CouponPaged';	
@@ -150,7 +150,7 @@ class OneCardTickModel extends OneCardModel {
 			$rd["msg"]=$onecres["message"];
 			return $rd;
 		}
-		echo $onecres["data"];
+		//echo $onecres["data"];
 		//return $onecres;
 		//与本地库同步		 
 		$ticklist=json_decode($onecres["data"],true);

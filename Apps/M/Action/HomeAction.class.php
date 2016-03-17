@@ -346,8 +346,14 @@ public function create_guid($namespace = '') {
 
 	public function ftest()
 	{
-		$m = D('M/OneCardTick');
-		$list = $m->GetTickMList("18620554231","");
+		$m = D('M/OneCardTest');
+		
+		//$list = $m->GetTick();
+		
+		$list = $m->GetTickMList("18620554231");
+		
+		
+		
 //		$this->assign('res', $list);	
 //		echo dump($list);
 //		$this->display();

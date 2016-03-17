@@ -150,5 +150,12 @@ class OrdersModel extends BaseModel {
 	 	}
 	 	return $rd;
 	 }
+	
+	/**
+	 * 统计已付款商家未处理单的个数
+	 */
+	public function totalUntreated() {
+		return $this->where('orderStatus = 1')->count();
+	}
 };
 ?>

@@ -93,8 +93,11 @@ class IndexAction extends BaseAction {
     	$m = D('Admin/Shops');
     	$srs = $m->queryPenddingShopsNum();
     	$rd = array('status'=>1);
+	$m = D('Admin/Orders');
+	$ors = $m->totalUntreated();
     	$rd['goodsNum'] = $grs['num'];
     	$rd['shopsNum'] = $srs['num'];
+    	$rd['ordersNum'] = $ors;
     	$this->ajaxReturn($rd);
     }
     

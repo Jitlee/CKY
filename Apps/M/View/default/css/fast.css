@@ -154,6 +154,7 @@ header.cky-header {
 	top: 0px;
 	overflow-x: hidden;
 	-ms-overflow-x: hidden;
+	z-index: 99;
 }
 
 .cky-fast-cat-cell {

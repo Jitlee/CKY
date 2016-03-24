@@ -27,6 +27,8 @@ class TicketAction extends BaseAction{
 			$object["limitDayUse"]=1;
 			$object["limitDayGet"]=1;
 			$object["limitGetnum"]=1;
+			$object["needPoint"]=0;
+			
 			$object["miniConsumption"]=0;
 			$object["efficacySDate"] = date('Y-m-d');
 			$object["efficacyEDate"] = date("Y-m-d",strtotime("+1 month"));

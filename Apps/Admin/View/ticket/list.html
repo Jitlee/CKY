@@ -80,7 +80,7 @@
        
        <button type="button" id="tickSync" class="btn  btn-success glyphicon"
        		style='float:right; margin-right: 5px;margin-left: 5px;'>同步一卡易卡券</button>
-       <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Ticket/toEdit')}" style='float:right'>新增</a>
+       <!--<a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/Ticket/toEdit')}" style='float:right'>新增</a>-->
        
        </div>
        </form>
@@ -136,9 +136,11 @@
                
                <td>{$vo['createTime']}</td>
                <td>
-	               	<if condition="$vo['IsOneCardyTick']==0">
+	               	
 	               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Ticket/toEdit',array('id'=>$vo['ticketID']))}">修改</a>&nbsp;               
-	               	</if> 	
+	               	
+	               	<!--<if condition="$vo['IsOneCardyTick']==0">-->
+	               	<!--</if> 	-->
                		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del('{$vo['ticketID']}')"">刪除</a>
                </td>
              </tr>

@@ -27,6 +27,7 @@ class TicketModel extends BaseModel {
 		//$data["endDate"] = I("endDate");		
 		$data["miniConsumption"] = (int)I("miniConsumption");
 		$data["maxiConsumption"] = I("maxiConsumption");
+		$data["needPoint"] = (int)I("needPoint");
 		
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");
@@ -66,6 +67,7 @@ class TicketModel extends BaseModel {
 		//$data["endDate"] = I("endDate");		
 		$data["miniConsumption"] = (int)I("miniConsumption");
 		$data["maxiConsumption"] = I("maxiConsumption");
+		$data["needPoint"] = (int)I("needPoint");
 		
 		$data["limitDayUse"] = (int)I("limitDayUse");
 		$data["limitDayGet"] = (int)I("limitDayGet");

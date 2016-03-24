@@ -34,17 +34,17 @@ var cky = {
 			case 0:
 				return "待支付";
 			case 1:
-				return "订单已支付";
+				return "已支付";
 			case 2:
-				return "商家已受理";
+				return "已受理";
 			case 3:
-				return "配送中";
+				return "打包中";
 			case 4:
-				return "已送达";
+				return "配送中";
 			case 5:
-				return "已到货";
-			case 6:
-				return "订单已完成";
+				return "完成";
+//			case 6:
+//				return "已到货";
 			default:
 				return "订单已结束";
 		}

@@ -84,8 +84,8 @@ class OneCardTickModel extends OneCardModel {
 				 
 				$data["ticketID"]=$onecitem["Guid"];
 				//$data["endDate"] = I("endDate");		
-				$data["miniConsumption"]  =0;// $onecitem["ImagePath"];
-				$data["maxiConsumption"]  =0;// $onecitem["ImagePath"];
+				$data["miniConsumption"]  =(double)$onecitem["MinConsumeValue"];
+				$data["maxiConsumption"]  =0;//	$onecitem["ImagePath"];
 				
 				$data["limitDayUse"] = 1;//(int)$onecitem["limitDayUse"];
 				$data["limitDayGet"] = 1;// (int)$onecitem["limitDayGet"];
@@ -130,10 +130,10 @@ class OneCardTickModel extends OneCardModel {
 			$rd["msg"]=$onecres["message"];
 			return $rd;
 		}		
-		return $this->GetTickMList($mobile,$tickid);
+		return $this->GetTickMList($mobile);
 	}
 	
-	public function GetTickMList($mobile,$tickid)
+	public function GetTickMList($mobile)
 	{
 		$rd = array('status'=>-1);		
 		$data = array(
@@ -157,8 +157,9 @@ class OneCardTickModel extends OneCardModel {
 		
 		$tickdb = M('activity_ticket_m');
 		for($i=0;$i<count($ticklist);$i++)
-		{		
+		{
 			$onecitem=$ticklist[$i];
+			$tickid=$onecitem["CouponGuid"];
 			/****设置内容*****/
 			$data = array();
 			/****END设置内容*****/				

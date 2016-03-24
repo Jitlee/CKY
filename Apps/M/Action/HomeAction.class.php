@@ -352,8 +352,9 @@ public function create_guid($namespace = '') {
 		
 		$list = $m->GetTickMList("18620554231");
 		
+		echo dump($list);
 		
-		
+		$list = $m->GetTick();
 //		$this->assign('res', $list);	
 //		echo dump($list);
 //		$this->display();

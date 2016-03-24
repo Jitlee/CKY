@@ -98,6 +98,7 @@
 	   params.limitUseShopID= $('#limitUseShopID').val();
 	   params.maxiConsumption= $('#maxiConsumption').val();
 	   params.miniConsumption= $('#miniConsumption').val();
+	   params.needPoint= $('#needPoint').val();
 	   
 	   params.detail= $('#detail').val();
 	   
@@ -333,6 +334,13 @@
              			<td>张 [0表示不限制]</td>
              		</tr>
              	</table> 
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>兑换积分<font color='red'>*</font>：</th>
+             <td>
+             	<input type='text' id='needPoint' class="form-control rtc-ipt" value='{$object.needPoint}'
+             		 style='width:300px' maxLength='4'/>
              </td>
            </tr>
            

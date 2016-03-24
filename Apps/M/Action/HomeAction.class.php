@@ -347,14 +347,20 @@ public function create_guid($namespace = '') {
 	public function ftest()
 	{
 		$m = D('M/OneCardTest');
-		
-		//$list = $m->GetTick();
-		
 		$list = $m->GetTickMList("18620554231");
+		echo dump($list); 
+		$list = $m->GetTick(); 
+		$m = D('M/OneCard');
+		$list = $m->GetMemberGroup();
+		echo dump($list);		
+
+//		$m = D('M/OneCardTick');
+//		$list = $m->GetTick();
+//		echo dump($list);		
+//		$list = $m->GetTickMList("18620554231","");
+//		echo dump($list);
 		
-		echo dump($list);
-		
-		$list = $m->GetTick();
+ 
 //		$this->assign('res', $list);	
 //		echo dump($list);
 //		$this->display();

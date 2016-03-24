@@ -188,8 +188,8 @@ class OneCardModel extends BaseModel {
 	
 	function GetData($url,$data)
 	{
-		$OpenId  ="5BC3C691C69C43D1BA1C6420C51F60C5";//32位OpenId，大写
-        $Secret  ="7G0CL7";                          //6位Secret，大写	 
+		$OpenId  =C("OneCard.OpenId");
+        $Secret  =C("OneCard.Secret");//6位Secret，大写	 
 	    $TimeStamp=time();
 		 		 
         $data = json_encode($data);

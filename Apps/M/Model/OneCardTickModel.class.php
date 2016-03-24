@@ -23,7 +23,7 @@ class OneCardTickModel extends OneCardModel {
 		$url='OpenApi/Get_CouponPaged';	
 		//更新卡券列表	
 		$onecres= $this->GetData($url, $data);
-		//return $onecres;
+		return $onecres;
 		if($onecres["status"] != 0)
 		{
 			$rd["msg"]=$onecres["message"];

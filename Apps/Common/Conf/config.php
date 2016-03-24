@@ -14,6 +14,10 @@
         'DATA_PATH_LEVEL'=>2, 
 	    'SESSION_PREFIX' => 'RTCMALL',
         'COOKIE_PREFIX'  => 'RTCMALL',
-		'LOAD_EXT_CONFIG' => 'wst_config'
+		'LOAD_EXT_CONFIG' => 'wst_config',
+		'OneCard'		=>array(
+			'OpenId'=>'5BC3C691C69C43D1BA1C6420C51F60C5',
+        	'Secret'=>'7G0CL7'
+		)
 	);
 ?>

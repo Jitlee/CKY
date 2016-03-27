@@ -3,4 +3,4 @@ Apps/Runtime/Temp/*
 Apps/Runtime/Cache/*
 Upload/*
 ThinkPHP/Library/Vendor/Weixinpay/*
-config.php
+Apps/Common/Conf/config.php

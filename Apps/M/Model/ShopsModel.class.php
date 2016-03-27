@@ -66,7 +66,7 @@ class ShopsModel extends BaseModel {
 	 }
 
 	public function fast() {
-		$pageSize = 10000; // 不需要翻页
+		$pageSize = 200; // 不需要翻页
 		$pageNo = intval(I('pageNo', 1));
 		$catId = intval(I('catId', 0));
 		$areaId = intval(I('areaId', 0));
@@ -114,6 +114,7 @@ class ShopsModel extends BaseModel {
 	 				->join('INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
 					->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
 					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+//					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 	}
 };
 ?>

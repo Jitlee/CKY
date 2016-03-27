@@ -346,13 +346,13 @@ public function create_guid($namespace = '') {
 
 	public function ftest()
 	{
-		$m = D('M/OneCardTest');
-		$list = $m->GetTickMList("18620554231");
-		echo dump($list); 
-		$list = $m->GetTick(); 
-		$m = D('M/OneCard');
-		$list = $m->GetMemberGroup();
-		echo dump($list);		
+//		$m = D('M/OneCardTest');
+//		$list = $m->GetTickMList("18620554231");
+//		echo dump($list); 
+//		$list = $m->GetTick(); 
+//		$m = D('M/OneCard');
+//		$list = $m->GetMemberGroup();
+//		echo dump($list);		
 
 //		$m = D('M/OneCardTick');
 //		$list = $m->GetTick();
@@ -369,8 +369,9 @@ public function create_guid($namespace = '') {
 //		$tickid="086bd212-62e8-e511-b098-001018640e2a";		
 //		$list = $m->GetTickMList($mobile);
 		 //echo date('Y-m-d H:i:s',strtotime('+10 year'));
+		 $time =17.5;
+		 $this->assign('time', $time);
 		 
-		echo dump($list);
 		$this->display();
 //		
 

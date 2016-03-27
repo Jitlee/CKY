@@ -15,6 +15,7 @@ class ShopsCatsModel extends BaseModel {
 			'shopId'		=> $shopId,
 			'parentId'		=> 0,
 			'isShow'		=> 1,
+			'catFlag'		=> 1
 		);
 		return $this->where($map)->select();
 	}

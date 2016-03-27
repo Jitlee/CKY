@@ -13,8 +13,12 @@ class GoodsModel extends BaseModel {
 		$shopId = I('shopId');
 		$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
-		$map = array('g.shopId'	=> $shopId);
-		
+		$map = array('g.shopId'	=> $shopId
+			,"g.isSale"=>1
+			,"g.goodsFlag"=>1
+		);
+		$map['goodsStock']  = array('gt',0);//库存大于0
+		 
 		// 过滤
 		$shopCatId = intval(I('shopCatId', 0));
 		if($shopCatId > 0) {
@@ -67,7 +71,12 @@ class GoodsModel extends BaseModel {
 	public function guess() {
 		$pageNo = 1;
 		$pageSize = 20;
-		$map = array("s.shopFlag"=>1);
+		$map = array("s.shopFlag"=>1
+			,"g.isSale"=>1
+			,"g.goodsFlag"=>1
+		);
+		$map['goodsStock']  = array('gt',0);//库存大于0
+		
 		return $this->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
 			->join('g inner join __SHOPS__ s on s.shopId = g.shopId')
 			->where($map)->order('g.createTime')->page($pageNo, $pageSize)->select();

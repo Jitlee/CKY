@@ -94,3 +94,7 @@ textarea {
 .mui-bar.mui-nav-white .iconfont {
 	color: #ED7D31;
 }
+
+.mui-btn, button, input[type=button], input[type=reset], input[type=submit] {
+	padding: 3px 12px;
+}

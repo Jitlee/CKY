@@ -29,6 +29,20 @@ class GoodsAppraisesAction extends BaseAction{
 //  	$this->assign("umark","GoodsAppraises");
 //      $this->display("default/shops/goodsappraises/list");
 //	}
+
+	public function totalAppraises() {
+		$m = D('M/Goods_appraises');
+		$data = $m->totalAppraises();
+		$this->ajaxReturn($data, 'JSON');
+	}
+	
+	// 查询商铺评价
+	public function pageAppraise() {
+		$m = D('M/Goods_appraises');
+		$list = $m->pageAppraises();
+//		echo $m->getLastSql();
+		$this->ajaxReturn($list, 'JSON');
+	}
 	
 	
 	/**

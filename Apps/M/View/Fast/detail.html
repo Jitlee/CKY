@@ -1,11 +1,8 @@
-<link rel="stylesheet" href="__CSS__/{:autoVer('fast.css')}" />
-<script type="text/javascript" src="__JS__/mui.min.js"></script>
-<script type="text/javascript" src="__KO__"></script>
+<link rel="stylesheet" href="__CSS__/{:autoVer('fast-detail.css')}" />
 <header class="cky-header">
 	<div class="cky-header-bg" style="background-image: url(__IMG__/fast-shop-bg.jpg);"></div>
 	<div class="cky-header-nav">
 		<div class="cky-header-nav-bg"></div>
-		<p class="cky-header-nav-title">{$data.shopName}</p>
 		<button class="cky-back mui-btn mui-btn-link mui-pull-left"><i class="mui-icon mui-icon-left-nav"></i></button>
 		<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-love"></i></button>
 		<div class="cky-clearfix"></div>
@@ -24,212 +21,164 @@
 		</div>
 	</div>
 </header>
-<div id="slider" class="mui-slider cky-margin-header">
-	<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-		<a class="mui-control-item mui-active" href="#item1mobile">点菜</a>
-		<a class="mui-control-item" href="#item2mobile">评价</a>
-		<a class="mui-control-item" href="#item3mobile">商家详情</a>
+<div id="content" class="mui-content cky-fast-content">
+	<div id="tab" class="cky-tab">
+		<a class="cky-tab-item cky-active" tab-id="0" href="#goods">点菜</a>
+		<a class="cky-tab-item" tab-id="0" href="#appraise">评价</a>
+		<a class="cky-tab-item" tab-id="0" href="#info">商家详情</a>
 	</div>
-	<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
-	<div class="mui-slider-group">
-		<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-			<ul id="goodsCatsList" class="cky-fast-cat">
-				<!-- ko foreach: $data -->
-				<li class="cky-fast-cat-cell" data-bind="attr: { idx: $index }">
-					<span data-bind="text: catName"></span>
-					<span class="mui-badge" style="display: none;" data-bind="attr: {id: 'badge_cat_' + catId}">0</span>
-				</li>
-				<!-- /ko -->
-			</ul>
-			<div class="cky-fast-goods">
-				<div id="goodsLoading" class="mui-loading">
-					<div class="mui-spinner">
+	<div id="goods" class="cky-tab-content cky-active cky-fast-goods">
+		<div id="goodsLoading" class="mui-loading">
+			<div class="mui-spinner">
+			</div>
+		</div>
+		<ul id="goodsList" class="cky-table-view cky-hidden">
+			<!-- ko foreach: goods -->
+			<li class="cky-table-view-cell cky-fast-goods-cell">
+				<a href="javascript:void(0);" data-bind="click: $parent.goodsClick">
+					<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+						
 					</div>
-				</div>
-				<ul id="goodsList" class="cky-table-view cky-hidden">
-					<!-- ko foreach: $data -->
-					<li class="cky-table-view-cell cky-fast-goods-cell">
-						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
-							<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
-								
+					<div class="cky-media">
+						<span class="cky-media-title font17" data-bind="text: goodsName"></span>
+						<div class="cky-media-sub font13 font-gray2">
+							<span data-bind="text: '已售' + saleCount + '单'"></span>
+						</div>
+						<div class="cky-relative">
+							<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+							<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
+							<div class="cky-update cky-fast-add"
+								data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
+								<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
+								<span class="count cky-hidden">1</span>
+								<button class="add"><i class="font-red iconfont icon-jia"></i></button>
 							</div>
-							<div class="cky-media">
-								<span class="cky-media-title font17" data-bind="text: goodsName"></span>
-								<div class="cky-media-sub font13 font-gray2">
-									<span data-bind="text: '已售' + saleCount + '单'"></span>
-								</div>
-								<div class="cky-relative">
-									<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
-									<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
-									<div class="cky-update cky-fast-add"
-										data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
-										<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
-										<span class="count cky-hidden">1</span>
-										<button class="add"><i class="font-red iconfont icon-jia"></i></button>
-									</div>
-								</div>
-						    </div>
-						</a>
-					</li>
-					<!--<li class="cky-table-view-cell cky-fast-goods-sub-cell">
-						<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
-							<p>招牌指数<span class="cky-zhishu" data-bind="css: cky.getZhishu(score)"></span></p>
-							<p class="font13" data-bind="text: goodsSpec"></p>
-						</a>
-					</li>-->
-					<!-- /ko -->
-				</ul>
-			</div>
-		</div>
-		<div id="item2mobile" class="mui-slider-item mui-control-content">
-			<div class="mui-content-padded">
-				<if condition='$appraise["avgtotal"]["totalusers"] gt 0'>
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell">
-							<a class="mui-navigate-right">
-			                    <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
-			                	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
-			                </a>
-						</li>
-					</ul>					 
-					<volist name="appraise['root']" id="apprs" key='appr'>
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media">
-								<a href="javascript:void(0);" class="top-navigate">
-									<img class="mui-media-object mui-pull-left" src="{$apprs['userImagePath']}">
-									<div class="mui-media-body">
-										<p>{$apprs["userName"]}&nbsp;&nbsp;{:getScore($apprs["goodsScore"])}</p>
-										{$apprs["content"]}
-										<p class='mui-ellipsis'>{$apprs['ocreateTIme']}</p>
-									</div>
-								</a>
-							</li>
-						</ul>
-					</volist>
-					<div class="cky-text-center">						
-						<a class="mui-btn font13 font-gray"  href="{:U('GoodsAppraises/getAppraise',"","")}/shopId/{:I('id')}">查看更多评价</a>
-					</div>
-				<else/>
-					<p id="emptyrecordBlock" class="mui-content-padded">暂无评价记录</p>
-				</if>
-			</div>
-		</div>
-		<div id="item3mobile" class="mui-slider-item mui-control-content">
-			<!-- 相关产品 -->
-			<ul class="mui-table-view cky-mtop-10">
-				<li class="mui-table-view-cell">
-					<a>
-						<i class="iconfont icon-shizhong font-gray"></i>配送时间：{:timeToString($data['serviceStartTime'])}~{:timeToString($data['serviceEndTime'])}
-					</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" href="{:U('Shops/map','')}?shopId={$data.shopId}&shopName={$data.shopName}&mapLevel={$data.mapLevel}&longitude={$data.longitude}&latitude={$data.latitude}">
-						<i class="iconfont icon-weizhi font-gray"></i>
-						{$data.shopAddress}
-					</a>
-				</li>
-			</ul>
-			<!-- 相关产品end -->
-		</div>
+						</div>
+				    </div>
+				</a>
+			</li>
+			<!--<li class="cky-table-view-cell cky-fast-goods-sub-cell">
+				<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+					<p>招牌指数<span class="cky-zhishu" data-bind="css: cky.getZhishu(score)"></span></p>
+					<p class="font13" data-bind="text: goodsSpec"></p>
+				</a>
+			</li>-->
+			<!-- /ko -->
+		</ul>
+		<ul id="catsList" class="cky-fast-cat">
+			<!-- ko foreach: cats -->
+			<li class="cky-fast-cat-cell" data-bind="click: $parent.catClick">
+				<span data-bind="text: catName"></span>
+				<span class="mui-badge" style="display: none;" data-bind="attr: {id: 'badge_cat_' + catId}">0</span>
+			</li>
+			<!-- /ko -->
+		</ul>
 	</div>
+	
+	<div id="appraise" class="cky-tab-content">
+		<include file="Fast:appraise"/>
+	</div>
+	
+	<ul id="info" class="cky-tab-content mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a>
+				<i class="iconfont icon-shizhong font-gray"></i>配送时间：{:timeToString($data['serviceStartTime'])}~{:timeToString($data['serviceEndTime'])}
+			</a>
+		</li>
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right" href="{:U('Shops/map','')}?shopId={$data.shopId}&shopName={$data.shopName}&mapLevel={$data.mapLevel}&longitude={$data.longitude}&latitude={$data.latitude}">
+				<i class="iconfont icon-weizhi font-gray"></i>
+				{$data.shopAddress}
+			</a>
+		</li>
+	</ul>
 </div>
 
+<script type="text/javascript" src="__KO__"></script>
 <include file="Public:fastcart"/>
-<script type="text/javascript">
-	var isEOF = false;
-	var force = true;
-	var pageNo = 1;
-	var goods = [];
-	var shopCatId = 0;
-	var sortType = 1;
-	var vm = ko.observableArray(goods);
-	ko.applyBindings(vm, document.getElementById("goodsList"));
-	
-	// 点菜
+<script>
 	$(function() {
+		var shopCatId = 0;
+		var sortType = 1;
 		var fastCart = null;
-		var cats = [];
-		// 加载分类
-		$.getJSON("{:U('Fast/cats')}", { shopId: util.i("id") }, function(list) {
-			list = list || [];
-			list.unshift({  catName: "畅销排行", catId: 0 });
-			ko.applyBindings(list, document.getElementById("goodsCatsList"));
-			$("#goodsCatsList li:first-child").addClass("cky-active");
-			cats = list;
-			if(fastCart) {
-				fastCart.refreshCats();
-			}
-			
-			// 加载点击事件
-			$("#goodsCatsList li").click(function() {
-				var $this = $(this);
-				if($this.hasClass("cky-active")) {
-					return;
-				}
-				var index = Number($this.attr("idx"));
-				var cat = list[index];
-				$("#goodsCatsList li.cky-active").removeClass("cky-active");
-				$this.addClass("cky-active");
-				if(cat) {
-					force = true;
-					shopCatId = cat.catId;
-					sortType = cat.catId == 0 ? 1 : 0;
-					queryByPage();
-				}
+		var vm = {
+			catClick: oncatclick,
+			goodsClick: ongoodsclick,
+			goods: ko.observableArray([]),
+			cats: ko.observableArray([])
+		};
+		ko.applyBindings(vm, document.getElementById("goods"));
+		// 点菜
+		function queryGoods() {
+			$.getJSON("{:U('Goods/page')}", {
+				shopId: {:I('id')},
+				shopCatId: shopCatId,
+				sortType: sortType
+			}, function(list) {
+				vm.goods(list);
+				$("#goodsLoading").hide();
+				$("#goodsList").removeClass("cky-hidden");
+				done();
 			});
+		}
+		queryGoods();
+		
+		// tab漂浮事件
+		var tab = $("#tab").on("click", ".cky-tab-item", ontabclick);
+		var muiContent = $(".mui-content");
+		$window = $(window).bind("scroll", function(evt) {
+			onscroll();
 		});
-		function queryByPage() {
-			if(force) {
-//				vm.removeAll();
-				goods.length = 0;
-				pageNo = 1;
-				isEOF = false;
-				force = false;
+		
+		function onscroll() {
+			if(!tab.hasClass("cky-tab-fixed") && $window.scrollTop() >= 148) {
+				tab.addClass("cky-tab-fixed");
+				muiContent.addClass("cky-fast-content-extend");
+				catsList.addClass("cky-fast-cat-fixed");
+				catsList.height($(window).height() - 90);
+			} else if(tab.hasClass("cky-tab-fixed") && $window.scrollTop() < 148) {
+				tab.removeClass("cky-tab-fixed");
+				muiContent.removeClass("cky-fast-content-extend");
+				catsList.removeClass("cky-fast-cat-fixed");
 			}
-			var _pageNo = pageNo;
-			if(!isEOF) {
-				$.getJSON("{:U('Goods/page')}", {
-					shopId: {:I('id')},
-					pageNo: pageNo,
-					shopCatId: shopCatId,
-					sortType: sortType
-				}, function(list) {
-					if(_pageNo == 1) {
-						vm.removeAll();
-						goods.length = 0;
-						$("#goodsLoading").hide();
-						$("#goodsList").removeClass("mui-hidden");
-					}
-					pageNo = ++_pageNo;
-					if(list && list.length > 0) {
-						$.each(list, function() {
-							goods.push(this);
-						});
-					}
-					vm(goods);
-					
-					if(list && list.length < 10) { // 不需要翻页
-						isEOF = true;
-					}
-					
-					done();
-				});
+			if(!catsList.hasClass("cky-fast-cat-fixed")) {
+				catsList.height($(window).height() - 211 + $window.scrollTop());
 			}
 		}
-		queryByPage();
-		// util.onScrollEnd(queryByPage); 不需要翻页
 		
-		// 商品点击事件
-		$("#goodsList").on("click", "a[goodsId]", function() {
-			var $this = $(this);
-			var goodsId = $this.attr("goodsId");
-			window.location.href = "{:U('Goods/fast')}?id=" + goodsId;
+		// 分类
+		var catsList = $("#catsList");
+		$.getJSON("{:U('Fast/cats')}", { shopId: "{:I('id')}" }, function(list) {
+			list.unshift({  catName: "畅销排行", catId: 0 });
+			vm.cats(list);
+			$("li:first-child", catsList).addClass("cky-active");
+			done();
 		});
+		catsList.height($(window).height() - 211);
+		function oncatclick(cat, evt) {
+			var $this = $(evt.currentTarget);
+			if($this.hasClass("cky-active")) {
+				return;
+			}
+			$("li.cky-active", catsList).removeClass("cky-active");
+			$this.addClass("cky-active");
+			shopCatId = cat.catId;
+			sortType = cat.catId == 0 ? 1 : 0;
+			queryGoods();
+		}
 		
+		function ongoodsclick(obj, evt){
+			var $this = $(evt.originalEvent.srcElement);
+			if(!$this.hasClass("cky-fast-add") && $this.closest(".cky-fast-add").length == 0) {
+				window.location.href = "{:U('Goods/fast')}?id=" + obj.goodsId;
+			}
+		}
+		
+		// 刷新购物车
 		function done() {
 			if(fastCart) {
 				fastCart.refreshGoods();
-				return;
+				fastCart.refreshCats();
 			} else {
 				// 购物车
 				fastCart = new FastCart({$data.shopId}, "{$data.shopName}",
@@ -238,18 +187,21 @@
 				{$data.serviceStartTime}, {$data.serviceEndTime});
 			}
 		}
-		$(document.body).css("overflow", "hidden");
-		$("#goodsList, #goodsCatsList").height($(window).height() - 182);
-		//$("#slider").css("");
 		
-//		$(window).bind("scroll", function(evt) {
-//			var wTop = $(window).scrollTop();
-//			if(wTop >= 81) {
-//				$(".cky-header-nav").addClass("cky-active");
-////				$(document.body).css("overflow", "hidden");
-//				$("#slider").addClass("cky-fixed");
-//			}
-//		});
+		// tab切换
+		function ontabclick(evt) {
+			evt.preventDefault();
+			var $this = $(this);
+			if(!$this.hasClass("cky-active")) {
+				var prevDivId = $(".cky-active", tab).attr("href");
+				$(".cky-active", tab).removeClass("cky-active");
+				$this.addClass("cky-active");
+				$(prevDivId).removeClass("cky-active");
+				$($this.attr("href")).addClass("cky-active");
+			}
+		}
 		
+		// 加载评价
+		$.showAppraise("{:I('id')}");
 	});
 </script>

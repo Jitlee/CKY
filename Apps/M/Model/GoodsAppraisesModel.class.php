@@ -9,6 +9,60 @@
  * 商品评价服务类
  */
 class GoodsAppraisesModel extends BaseModel {
+	
+	public function totalAppraises() {
+		$shopId = (int)I('shopId');
+		$sql = 'select avg(ga.goodsScore) goodsScore, avg(ga.serviceScore) serviceScore, avg(ga.timeScore) timeScore from cky_goods_appraises ga where ga.isShow=1 and ga.shopId='.$shopId;
+		$list = $this->query($sql);
+		$data = $list[0];
+		$map = array(
+			'isShow'				=> 1,
+			'shopId'				=> $shopId,
+			'goodsScore'			=> array('gt', 3)
+		);
+		$data['goodCount'] = $this->where($map)->count();
+		$map['goodsScore'] = 3;
+		$data['fairCount'] = $this->where($map)->count();
+		$map['goodsScore'] = array('lt', 3);
+		$data['poorCount'] = $this->where($map)->count();
+		return $data;
+	}
+	
+	// 查询商铺评价
+	public function pageAppraises() {
+		$shopId = I('shopId');
+		$pageNo = I('pageNo'); 
+		$pageSize = 10;
+		$filter = 'isShow=1 and shopId='.$shopId;
+		
+		// 好评，中评，差评
+		$aType = (int)I('aType');
+		switch($aType) {
+			case 1: // 好评
+				$filter .= ' and goodsScore > 3';
+				break;
+			case 2: // 中评
+				$filter .= ' and goodsScore = 3';
+				break;
+			case 3: // 差评
+				$filter .= ' and goodsScore < 3';
+				break;
+		}
+		
+		$showNotEmpty = (int)I('showNotEmpty');
+		if($showNotEmpty == 1) {
+			$filter .= ' and LENGTH(trim(content))>1';
+		}
+		
+		return $this
+			->field('ga.createTime, goodsScore, serviceScore, timeScore, content,INSERT(m.trueName,ROUND(CHAR_LENGTH(m.trueName) / 2),ROUND(CHAR_LENGTH(m.trueName) / 4),\'****\') userName')
+			->join('ga inner join __MEMBER__ m on ga.userId=m.uid')
+			->where($filter)
+			->order('ga.createTime desc')
+			->page($pageNo, $pageSize)
+			->select();
+	}
+	
 	 /**
 	  * 商品评价分页列表
 	  */

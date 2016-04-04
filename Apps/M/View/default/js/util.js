@@ -31,6 +31,14 @@ util = {
 	},
 	
 	/**
+	 * 格式化动态时间，今天就写
+	 * @param {Number} time 毫秒
+	 */
+	formatDynamicTime: function(time) {
+		
+	},
+	
+	/**
 	 * body滚动到底部时触发 
 	 * @param {Function} callback 回调函数
 	 * @param {Number} threshold 阀值，默认为200

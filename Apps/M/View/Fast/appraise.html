@@ -1,0 +1,185 @@
+<style>
+	.cky-appraise-avg {
+		background-color: #FAFAFA;
+		border-bottom: 1px solid #ccc;
+	}
+	
+	.cky-appraise-avg .cky-col-view-cell {
+		position: relative;
+		padding-top: 15px;
+		padding-bottom: 8px;
+	}
+	
+	.cky-appraise-avg .cky-col-view-cell:before {
+		content: "";
+		position: absolute;
+		left: 0px;
+		top: 10px;
+		height: 40px;
+		display: block;
+		border-left:solid 1px #CCC;
+	}
+	
+	.cky-appraise-avg .cky-col-view-cell:first-child:before {
+		content: none;
+	}
+	
+	.cky-appraise-function {
+		background-color: #fff;
+		border-bottom:solid 1px #CCC;
+	}
+	.cky-appraise-tab {
+		padding: 0px 3px;
+	}
+	
+	.cky-appraise-tab .cky-col-view-cell {
+		padding: 8px 3px;
+	}
+	
+	.cky-appraise-tab .mui-btn {
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.cky-appraise-function label {
+		display: block;
+		padding: 5px 6px 8px 6px;
+	}
+	
+	@media only screen  and (max-width: 350px) {
+		.cky-appraise-tab .mui-btn {
+			font-size: 12px;
+		}
+	}
+
+</style>
+<div id="appraiseBlock">
+	<div class="cky-col-view cky-appraise-avg">
+		<div class="cky-col-view-cell cky-text-center">
+			<span class="font-red font24" data-bind="text: avgScore"></span>
+			<h5 class="font12">总体评价</h5>
+		</div>
+		<div class="cky-col-view-cell cky-text-center">
+			<span class="font-red font24" data-bind="text: goodsScore"></span>
+			<h5 class="font12">菜品口味</h5>
+		</div>
+		<div class="cky-col-view-cell cky-text-center">
+			<span class="font-red font24" data-bind="text: timeScore"></span>
+			<h5 class="font12">配送服务</h5>
+		</div>
+	</div>
+	<div class="cky-appraise-function">
+		<div class="cky-col-view cky-appraise-tab">
+			<div class="cky-col-view-cell cky-text-center"><button class="mui-btn mui-btn-red" a-type="0">全部(<span data-bind="text:count"></span>)</button></div>
+			<div class="cky-col-view-cell cky-text-center"><button class="mui-btn mui-btn-outlined" a-type="1">好评(<span data-bind="text:goodCount"></span>)</button></div>
+			<div class="cky-col-view-cell cky-text-center"><button class="mui-btn mui-btn-outlined" a-type="2">中评(<span data-bind="text:fairCount"></span>)</button></div>
+			<div class="cky-col-view-cell cky-text-center"><button class="mui-btn mui-btn-outlined" a-type="3">差评(<span data-bind="text:poorCount"></span>)</button></div>
+		</div>
+		<label class="font-gray"><input type="checkbox" checked="checked"/> 只看有内容的评价</label>
+	</div>
+	<div id="appraisesLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<ul id="appraisesList" class="mui-table-view cky-hidden" data-bind="foreach: list">
+		<li class="mui-table-view-cell">
+			<a>
+				<h5 class="cky-col-view font12">
+					<span class="cky-col-view-cell" data-bind="text: userName"></span>
+					<span class="cky-col-view-cell cky-text-right" data-bind="text: createTime.substr(0, 10)"></span>
+				</h5>
+				<span class="start-red" data-bind="html: cky.getScore(Number(goodsScore))"></span>
+				<!-- ko if: content -->
+				<p class="font15 " data-bind="text: content"></p>
+				<!-- /ko -->
+			</a>
+		</li>
+	</ul>
+</div>
+
+<script>
+	$(function() {
+		var appraises = [];
+		var vm = {
+			avgScore: ko.observable(5),
+			goodsScore: ko.observable(5),
+			serviceScore: ko.observable(5),
+			timeScore: ko.observable(5),
+			count: ko.observable(0),
+			goodCount: ko.observable(0),
+			fairCount: ko.observable(0),
+			poorCount: ko.observable(0),
+			list: ko.observableArray(appraises)
+		};
+		ko.applyBindings(vm, document.getElementById("appraiseBlock"));
+		
+		var shopId = shopId;
+		var pageNo = 1;
+		var showNotEmpty = true;
+		var aType = 0; // 0全部1好评2中评3差评
+		var appraisesLoading = $("#appraisesLoading");
+		var appraisesList = $("#appraisesList");
+		
+		function page() {
+			$.getJSON("{:U('GoodsAppraises/pageAppraise')}", {
+				pageNo: pageNo,
+				shopId: shopId,
+				aType: aType,
+				showNotEmpty: showNotEmpty?1:0
+			}, function(list) {
+				if(pageNo == 1) {
+					appraises.length = 0;
+				}
+				if(list && list.length > 0) {
+					pageNo++;
+					appraises = appraises.concat(list);
+				}
+				vm.list(appraises);
+				appraisesLoading.hide();
+				appraisesList.removeClass("cky-hidden");
+			});
+		};
+		
+		util.onScrollEnd(page);
+		
+		$.showAppraise = function(id) {
+			shopId = id;
+			page();
+			// 加载总体评分
+			$.getJSON("{:U('GoodsAppraises/totalAppraises')}", {shopId: shopId}, function(data) {
+				for(var p in data) {
+					data[p] = Number(data[p]);
+				}
+				vm.avgScore(((data.goodsScore + data.serviceScore +data.timeScore) / 3).toFixed(1));
+				vm.goodsScore(data.goodsScore.toFixed(1));
+				vm.timeScore(data.timeScore.toFixed(1));
+				vm.count(data.goodCount + data.fairCount +data.poorCount);
+				vm.goodCount(data.goodCount);
+				vm.fairCount(data.fairCount);
+				vm.poorCount(data.poorCount);
+//				vm.avgScore();
+			})
+		};
+		
+		// 只看有内容的评价
+		$(".cky-appraise-function input").click(function() {
+			var $this = $(this);
+			pageNo = 1;
+			showNotEmpty = $this.prop("checked");
+			page();
+		});
+		
+		// 好中差选择
+		$(".cky-appraise-tab button").click(function() {
+			var $this = $(this);
+			if(!$this.hasClass("mui-btn-red")) {
+				$(".cky-appraise-tab button.mui-btn-red").removeClass("mui-btn-red").addClass("mui-btn-outlined");
+				$this.addClass("mui-btn-red").removeClass("mui-btn-outlined");
+				aType = $this.attr("a-type");
+				pageNo = 1;
+				page();
+			}
+		});
+	});
+</script>

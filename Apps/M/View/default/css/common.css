@@ -469,6 +469,16 @@ a.cky-segmented-item {
 
 .cky-tab-item {
 	display: table-cell;
+	color: #999;
+	font-size: 15px;
+}
+
+.cky-tab-content {
+	display: none;
+}
+
+.cky-tab-content.cky-active {
+	display: block;
 }
 
 .cky-tab .cky-active {
@@ -808,4 +818,8 @@ p.cky-update {
 	right: 50px;
 }
 .star_c{ color:#FCD410;}
+
+.start-red .star_c{
+	color: #FF4040;
+}
 .mui-content-empty {margin: 10px;text-align: center;  font-size: 16px;}

@@ -23,9 +23,9 @@
 </header>
 <div id="content" class="mui-content cky-fast-content">
 	<div id="tab" class="cky-tab">
-		<a class="cky-tab-item cky-active" tab-id="0" href="#goods">点菜</a>
-		<a class="cky-tab-item" tab-id="0" href="#appraise">评价</a>
-		<a class="cky-tab-item" tab-id="0" href="#info">商家详情</a>
+		<a class="cky-tab-item cky-active" tab-id="0" href1="#goods">点菜</a>
+		<a class="cky-tab-item" tab-id="0" href1="#appraise">评价</a>
+		<a class="cky-tab-item" tab-id="0" href1="#info">商家详情</a>
 	</div>
 	<div id="goods" class="cky-tab-content cky-active cky-fast-goods">
 		<div id="goodsLoading" class="mui-loading">
@@ -193,11 +193,11 @@
 			evt.preventDefault();
 			var $this = $(this);
 			if(!$this.hasClass("cky-active")) {
-				var prevDivId = $(".cky-active", tab).attr("href");
+				var prevDivId = $(".cky-active", tab).attr("href1");
 				$(".cky-active", tab).removeClass("cky-active");
 				$this.addClass("cky-active");
 				$(prevDivId).removeClass("cky-active");
-				$($this.attr("href")).addClass("cky-active");
+				$($this.attr("href1")).addClass("cky-active");
 			}
 		}
 		

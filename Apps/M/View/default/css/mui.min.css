@@ -9,15 +9,18 @@ body {
 }
 
 .mui-bar {
-	background-color: #ED7D31;
+	/*background-color: #ED7D31;*/
+	background-color: #f2f2f2;
 }
 
 .mui-title, .mui-bar-tab .mui-tab-item, .mui-bar .mui-btn-link{
-	color: #fff;
+	/*color: #fff;*/
+	color: #666;
 }
 
 .mui-bar-tab .mui-tab-item.mui-active {
-	color: #33CCCC;
+	/*color: #33CCCC;*/
+	color: #FF4040;
 }
 
 .mui-content-bottom {

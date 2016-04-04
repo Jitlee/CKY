@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="__CSS__/swiper.min.css" />
 <script src="__JS__/swiper.jquery.min.js"></script>
-<div class="mui-content mui-content-bottom mui-content-padded">
+<div class="mui-content mui-content-bottom">
 	<!-- Slider main container -->
 	<div class="swiper-container">
 	    <!-- Additional required wrapper -->
@@ -19,47 +19,49 @@
 	    <!-- If we need pagination -->
 	    <div class="swiper-pagination"></div>
 	</div>
-
-	<div class="cky-grid cky-grid4">
-		<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Shops/index')}"><img src="__IMG__/seller.png"/>商家</a>
-		<a class="cky-grid-cell font8 cky-animate-scale"  href="{:U('Recommend/index')}"><img  id="gltjct" src="__IMG__/restaurant.png"/>推荐餐厅</a>
-		<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Activity/index')}"><img src="__IMG__/activities.png"/>活动</a>
-		<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Fast/index')}"><img src="__IMG__/takeaway.png"/>外卖</a>
-		<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glxhkp"><img src="__IMG__/monkey.png"/>小猴快跑</a>
-		<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glshfw"><img src="__IMG__/life.png"/>生活服务</a>
-		<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glsc"><img src="__IMG__/mall.png"/>商城</a>
-		<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glother"><img src="__IMG__/other.png"/>其他</a>
+	<div class="mui-content-padded">
+		<div class="cky-grid cky-grid4">
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Shops/index')}"><img src="__IMG__/seller.png"/>商家</a>
+			<a class="cky-grid-cell font8 cky-animate-scale"  href="{:U('Recommend/index')}"><img  id="gltjct" src="__IMG__/restaurant.png"/>推荐餐厅</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Activity/index')}"><img src="__IMG__/activities.png"/>活动</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Fast/index')}"><img src="__IMG__/takeaway.png"/>外卖</a>
+			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glxhkp"><img src="__IMG__/monkey.png"/>小猴快跑</a>
+			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glshfw"><img src="__IMG__/life.png"/>生活服务</a>
+			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glsc"><img src="__IMG__/mall.png"/>商城</a>
+			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glother"><img src="__IMG__/other.png"/>其他</a>
+			
+		</div>
 		
+		<div class="cky-grid cky-grid2 cky-special">
+			<a class="cky-grid-cell cky-hotpot-ticket">
+				<div class="cky-media" id="m1">
+					<p>9.9 火锅券</p>
+					<h5>新用户专享</h5>
+				</div>
+			</a>
+			<a class="cky-grid-cell cky-points-edemption">
+				<div class="cky-media" id="m2">
+					<p>积分抽奖</p>
+					<h5>好运气 快来玩</h5>
+				</div>
+			</a>
+			<a class="cky-grid-cell cky-scratch-off">
+				<div class="cky-media" id="m3">
+					<p>一分钱 刮大奖</p>
+					<h5>机会不容错过</h5>
+				</div>
+			</a>
+			<a class="cky-grid-cell cky-delivery-free">
+				<div class="cky-media" id="m4">
+					<p>卡券大派送</p>
+					<h5>商家大让利</h5>
+				</div>
+			</a>
+		</div>
 	</div>
 	
-	<div class="cky-grid cky-grid2 cky-special">
-		<a class="cky-grid-cell cky-hotpot-ticket">
-			<div class="cky-media" id="m1">
-				<p>9.9 火锅券</p>
-				<h5>新用户专享</h5>
-			</div>
-		</a>
-		<a class="cky-grid-cell cky-points-edemption">
-			<div class="cky-media" id="m2">
-				<p>积分抽奖</p>
-				<h5>好运气 快来玩</h5>
-			</div>
-		</a>
-		<a class="cky-grid-cell cky-scratch-off">
-			<div class="cky-media" id="m3">
-				<p>一分钱 刮大奖</p>
-				<h5>机会不容错过</h5>
-			</div>
-		</a>
-		<a class="cky-grid-cell cky-delivery-free">
-			<div class="cky-media" id="m4">
-				<p>卡券大派送</p>
-				<h5>商家大让利</h5>
-			</div>
-		</a>
-	</div>
 	<br />
-	<span>猜你喜欢</span>
+	<span class="mui-content-padded">猜你喜欢</span>
 	<div id="guessList" class="cky-table-view" style="display: none;">
 		<!-- ko foreach: $data -->
 		<a class="cky-table-view-cell" data-bind="attr: { href: '{:U('goods/detail')}?id=' + goodsId }">

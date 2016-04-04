@@ -103,12 +103,13 @@ r {
 	background-color: #E1E1E1;
 }
 
-.cky-bar-gray .mui-btn-link {
+/*.cky-bar-gray .mui-btn-link {
 	color: #F60;
-}
+}*/
 
-.cky-bar-gray .mui-title {
-	color: #F60;
+.cky-bar-gray .mui-title,.cky-bar-gray .mui-btn-link {
+	/*color: #F60;*/
+	color: #666;
 }
 
 .cky-table-view-cell,.cky-media-title, .cky-table-view-cell,
@@ -123,8 +124,6 @@ r {
 .swiper-img {
 	display: block;
 	margin-bottom: 30px;
-	border: solid 3px darkgreen;
-	border-radius: 10px;
 	height:50vw;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -340,7 +339,7 @@ r {
 }
 
 .cky-money {
-	color: #33CCCC !important;
+	color: #FF4040 !important;
 	font-size: 20px;
 }
 
@@ -419,7 +418,7 @@ r {
 	color:#fff;
 	width:85px;
 	text-align: center;
-	background-color: #33CCCC;
+	background-color: #FF4040;
 	transform: matrix(0.707107,-0.707107,0.707107,0.707107, -20, 12);
 	-webkit-transform: matrix(0.707107,-0.707107,0.707107,0.707107, -20, 12);
 }
@@ -610,7 +609,7 @@ a.cky-segmented-item {
 }
 
 .font-blue {
-	color: #33CCCC; 
+	color: #FF4040; 
 }
 
 .height30 {
@@ -657,7 +656,7 @@ a.cky-segmented-item {
 }
 
 .cky-drop-table-cell.cky-active,.cky-drop-btn.cky-active {
-	color: #33CCCC;
+	color: #FF4040;
 }
 
 .cky-drop-btn:after {

@@ -115,9 +115,10 @@ var cky = {
 		});
 	},
 	
-	loadding: function() {
+	loadding: function(title) {
 		return layer.open({
-		    type: 2
+		    type: 2,
+		    title: title
 		});
 	},
 	

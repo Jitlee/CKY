@@ -80,7 +80,7 @@
 		var distance = 0;
 		var vm = ko.observableArray(shops);
 		ko.applyBindings(vm, document.getElementById("shopsList"));
-		
+//		cky.loadding();
 		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
 			currentLongitude = lng;
 			currentLatitude = lat;
@@ -90,6 +90,7 @@
 			}
 			force = true;
 			queryByPage();
+//			cky.closeAll();
 		});
 		function queryByPage() {
 			if(force) {
@@ -128,7 +129,7 @@
 				});
 			}
 		}
-		queryByPage();
+//		queryByPage();
 		
 		util.onScrollEnd(queryByPage);
 		

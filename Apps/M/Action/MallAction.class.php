@@ -14,7 +14,7 @@ class MallAction extends BaseAction {
 		
 		// 获取广告
 		$addb = D('ads');
-		$ads = $addb->queryByType(-1);
+		$ads = $addb->queryByType(-4);
 		$this->assign('ads', $ads);
 		
 		$this->assign('title', '商城');

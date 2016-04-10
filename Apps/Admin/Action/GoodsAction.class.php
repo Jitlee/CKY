@@ -175,5 +175,12 @@ class GoodsAction extends BaseAction{
 		$this->ajaxReturn($rs);
 	}
 	
+	public function lst() {
+		$this->isLogin();
+		$this->checkPrivelege('spsh_00');
+		$m = D('Admin/Goods');
+		$list = $m->queryByPage();
+		$this->ajaxReturn($list, 'JSON');
+	}
 };
 ?>

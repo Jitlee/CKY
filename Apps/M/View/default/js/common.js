@@ -203,7 +203,7 @@ var cky = {
 		var mask = $("<div class=\"cky-auto-mask\"></div>");
 		$("<a>").attr("href", url).text(title).appendTo(mask);
 		$(document.body).append(mask);
-	}
+	},
 };
 
 // 下拉框设定
@@ -280,4 +280,26 @@ $.fn.select = function(list) {
 	return $this;
 }
 
+/**
+ * 显示无数据
+ */
+$.fn.nodata = function(title, content) {
+	var $this = this;
+	var emptyBlock = $("\
+<div class=\"cky-no-data\">\
+	<div class=\"cky-no-data-top\">\
+		<div><hr/></div>\
+		<div class=\"cky-no-data-icon\">\
+			<i class=\"iconfont icon-zanwushuju\"></i>\
+		</div>\
+		<div><hr/></div>\
+	</div>\
+</div>");
+	emptyBlock.append("<h5>"+ (title||"暂无数据") +"</h5>");
+	if(content) {
+		emptyBlock.append("<h6>"+ content +"</h6>");
+	}
+	$this.append(emptyBlock);
+	return emptyBlock;
+}
 

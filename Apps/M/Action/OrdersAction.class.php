@@ -568,7 +568,7 @@ class OrdersAction extends BaseUserAction {
 							$result['data'] = '对不起，消费总额未能达到代金券的使用要求!';
 						} else {
 							// 直接抵扣现金使用
-							$shopGoods[$ticket['limitUseShopID']]['deductible'] = $ticket['ticketAmount'];
+							$shopGoods[$ticket['limitUseShopID']]['deductible'] = min($ticket['ticketAmount'], $_amount);
 						}
 					}
 				} else { // 全平台券
@@ -594,7 +594,7 @@ class OrdersAction extends BaseUserAction {
 						}
 					}
 					
-					if($surplus != 0 || $ticket['miniConsumption'] > $_totalAmount) {
+					if($ticket['miniConsumption'] > $_totalAmount) {
 						$result['status']  = -6;
 						$result['data'] = '对不起，消费总额未能达到代金券的使用要求!';
 					}

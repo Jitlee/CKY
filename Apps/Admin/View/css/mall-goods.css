@@ -1,0 +1,93 @@
+ul.goods-table {
+	position: absolute;
+	/*overflow: auto;*/
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.pagination{
+	margin: 0;
+}
+
+.goods-table:after {
+	content: " ";
+	display: block;
+	height: 1px;
+	visibility: collapse;
+	clear: both;
+}
+
+li.goods-thumb {
+	border: solid 1px #C0C0C4;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: cover;
+	margin: 5px;
+	width: 100px;
+		height: 100px;
+		position: relative;
+		float: left;
+}
+
+li.goods-thumb.goods-holder {
+	border: dashed 1px #C0C0C4;
+}
+
+.goods-title {
+	background-color: rgba(30,30,30,0.2);
+	color: #fff;
+	position: absolute;
+	margin: 0;
+	padding: 5px;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: keep-all;
+	text-overflow: ellipsis;
+}
+
+.goods-pager {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	text-align: center;
+}
+
+/** 左边列表开始  */
+.goods-left {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 240px;
+}
+
+.goods-left ul.goods-table {
+	width: 240px;
+	left: 0px;
+	bottom: 40px;
+	top:0px;
+}
+/** 左边列表结束  */
+
+
+/** 右边列表开始  */
+.goods-right {
+	position: absolute;
+	top: 0px;
+	left: 240px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.goods-right ul.goods-table {
+	top:0px;
+	left: 0px;
+	right: 0px;
+	bottom: 40px;
+}
+/** 左边列表结束  */

@@ -11,12 +11,12 @@
 	<ul class="mui-table-view">
 		<li class="mui-table-view-cell">
 			<a class="mui-navigate-right" href="{:U('Address/addresslist')}?submit={:I('submit')}">
-				<!-- ko if:consignee -->
-				<span data-bind="text: consignee.name + '  ' + consignee.phone"></span>
-				<h5 data-bind="text: consignee.address"></h5>
+				<!-- ko if:consignee() -->
+				<span data-bind="text: consignee().name + '  ' + consignee().phone"></span>
+				<h5 data-bind="text: consignee().address"></h5>
 				<!-- /ko -->
 				
-				<!-- ko if:!consignee -->
+				<!-- ko if:!consignee() -->
 				<p class="add-consignee"><i class="iconfont icon-tianjia"></i>  请选择收货地址</p>
 				<!-- /ko -->
 			</a>
@@ -108,7 +108,23 @@
 				couponAmount: 0,
 				ticketId: 0,
 				remarks: selectedCart.remarks,
-				consignee: selectedCart.consignee
+				consignee: ko.observable(selectedCart.consignee)
+			}
+			
+			// 获取默认地址
+			if(!selectedCart.consignee) {
+				$.getJSON("{:U('Address/getdefault')}", null, function(result) {
+					if(result) {
+						selectedCart.consignee = {
+							id: result.addressId,
+							name: result.userName,
+							phone: result.userPhone || result.userTel,
+							address: result.address
+						};
+						cky.storage.setItem(subKey, selectedCart);
+						vm.consignee(selectedCart.consignee);
+					}
+				});
 			}
 			
 			var _t = []; // 计算优惠券的参数：采用shopId1, amount1, shopId2, amount2,... 存储
@@ -164,8 +180,10 @@
 				vm.ticketId = selectedCart.coupon.ticketId;
 				switch(selectedCart.coupon.typeName) {
 					case "djq": // 代金券
-						vm.couponAmount = selectedCart.coupon.ticketAmount;
-						vm.realPayment -= selectedCart.coupon.ticketAmount;
+					
+						var realPayment = vm.realPayment;
+						vm.realPayment = Math.max(0, realPayment - selectedCart.coupon.ticketAmount);
+						vm.couponAmount = Math.min(selectedCart.coupon.ticketAmount, realPayment - vm.realPayment);
 						break;
 					case "zkq": // 折扣券
 						vm.couponAmount = (vm.realPayment - vm.realPayment * (selectedCart.coupon.ticketAmount / 10.0)).toFixed(2);
@@ -206,7 +224,7 @@
 						isself: 0,
 						needreceipt: 1,
 						orderunique: new Date().getTime(),
-						consigneeId: vm.consignee.id,
+						consigneeId: vm.consignee().id,
 						payway: 1,
 						ticketId: vm.ticketId // 优惠券Id
 					}, function(result) {
@@ -233,10 +251,10 @@
 									}
 								}
 								
-								if(data.orderIds.length == 1) {
+								if(data.orderIds.length == 0 && data.orderInfos[0].orderStatus == 0) {
 									window.location.replace("{:U('pay')}?orderId=" + data.orderIds[0]);
 								} else {
-									window.location.replace("{:U('Orders/list')}");
+									window.location.replace("{:U('Orders/lst')}");
 								}
 							} else {
 								cky.alert("提交订单失败，请稍后再试");

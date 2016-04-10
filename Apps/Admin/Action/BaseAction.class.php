@@ -99,4 +99,37 @@ class BaseAction extends Controller {
     	$this->assign("params",$params);
     }
     
+	public function upload($dir) {
+		if (!empty($_FILES)) {
+//			$dir = I('dir');
+			$config = array(
+			    'maxSize'    =>    3145728,
+			    'rootPath'   =>    './Upload/' . $dir . "/",
+			    'savePath'   =>    '',
+			    'saveName'   =>    array('uniqid',''),
+			    'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
+			    'autoSub'    =>    true,
+			    'subName'    =>    array('date','Ymd'),
+			);
+	
+			$upload = new \Think\Upload($config);// 实例化上传类
+			
+		    // 上传文件 
+		    $info = $upload->upload();
+		    if($info != false) {// 上传成功
+		    		$returnData["status"] = 0;
+				$returnData["url"] = '/Upload/' . $dir . "/". $info['Filedata']['savepath'] . $info['Filedata']['savename'];
+				$returnData["key"] = encode($returnData["url"]);
+		        $this->ajaxReturn($returnData, "JSON");
+		    }else{// 上传错误提示错误信息
+		    		$returnData["status"] = -1;
+		    		$returnData["info"] = $upload->getError();
+		        $this->ajaxReturn($returnData, "JSON");
+		    }
+		}
+	}
+	
+	public function removefile($name) {
+		del_dir_or_file(decode($name));
+	}
 }

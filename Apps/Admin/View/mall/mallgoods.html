@@ -1,0 +1,94 @@
+<!-- 待选列表开始 -->
+<div id="mallGoodsPanel" class="goods-right">
+	<ul id="rightGoodsTable" class="goods-table" data-bind="foreach: goods">
+		<li class="goods-thumb" data-bind="style: { 'background-image': 'url(/' + goodsThums+')' }">
+			<h6 class="goods-title" data-bind="text: goodsName"></h6>
+		</li>
+	</ul>
+	<nav class="goods-pager">
+		<ul class="pagination pagination-sm">
+			<li data-bind="css: {'disabled': prevPage() == 0 }, attr: { page: prevPage }"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+			<!-- ko foreach: pages -->
+			<li data-bind="css: { active: current }, attr: { page: page }"><a href="javascript: void(0)" data-bind="text: page">1</a></li>
+			<!-- /ko -->
+			<li data-bind="css: {'disabled': nextPage() == 0 }, attr: { page: nextPage }"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+		</ul>
+	</nav>
+</div>
+<!-- 待选列表结束 -->
+<script type="text/javascript">
+	$(function() {
+		var vm = {
+			pageNo: 1,
+			start: 0,
+			total: 0,
+			pageSize: getPageSize(),
+			prevPage: ko.observable(0),
+			nextPage: ko.observable(0),
+			pages: ko.observableArray([]),
+			goods: ko.observableArray([]),
+		};
+		ko.applyBindings(vm, document.getElementById("mallGoodsPanel"));
+		function queryGoods() {
+			window.clearTimeout(resizeHandler);
+			$.getJSON("{:U('Goods/lst')}", getParams(), function(result) {
+				vm.goods(result.root);
+				var pageNo = result.currPage;
+				var pageCount = result.totalPage;
+				var pages = [];
+				var prevPage = 0;
+				var nextPage = 0;
+				if(pageCount > 0) {
+					var start = Math.max(1, Math.min(pageCount - 4, pageNo - 2));
+					var end = Math.min(pageCount, start + 4);
+					for(var i = start; i <= end; i++) {
+						pages.push({ page: i, current: pageNo == i });
+					}
+					prevPage = (start - 3 > 0) ? (start - 3) : (start > 1 ? 1 : 0);
+					nextPage = (end + 3 <= pageCount) ? (end + 3) : (end < pageCount ? pageCount : 0);
+				}
+				vm.start = result.start;
+				vm.pageNo = pageNo;
+				vm.total = Number(result.total);
+				vm.prevPage(prevPage);
+				vm.nextPage(nextPage);
+				vm.pages(pages);
+				
+				$.mallGoodsDrag();
+			});
+		}
+		queryGoods();
+		
+		function saveOrder() {
+			debugger;
+		};
+		function getParams() {
+			var params = {};
+			params.p = vm.pageNo;
+			params.pageSize = vm.pageSize;
+			return params;
+		}
+		
+		$("#mallGoodsPanel .goods-pager").on("click", "li", function(evt) {
+			var $this = $(this);
+			if(!$this.hasClass("active") && !$this.hasClass("disabled")) {
+				vm.pageNo = Number($this.attr("page"));
+				queryGoods();
+			}
+		});
+		
+		var resizeHandler = 0;
+		$(window).resize(function() {
+			window.clearTimeout(resizeHandler);
+			window.setTimeout(function() {
+				vm.pageSize = getPageSize();
+				vm.pageNo = Math.floor(vm.start / vm.pageSize) + 1;
+				queryGoods();	
+			}, 500);
+		});
+		
+		function getPageSize() {
+			return Math.floor($("#rightGoodsTable").height() / 110) * Math.floor($("#rightGoodsTable").width() / 120);
+		}
+	});
+</script>

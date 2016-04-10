@@ -197,7 +197,5 @@ class GoodsModel extends BaseModel {
 		}
 		return $rd;
 	 }
-	 
-	 
 };
 ?>

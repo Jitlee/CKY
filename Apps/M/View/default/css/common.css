@@ -537,6 +537,52 @@ a.cky-segmented-item {
 	white-space: nowrap;
 }
 
+/** 空数据样式开始 **/
+
+.cky-no-data {
+	text-align: center;
+	margin: auto;
+	width: 200px;
+	margin-top: 40px;
+}
+
+.cky-no-data-icon {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+}
+.cky-no-data-top {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+}
+
+.cky-no-data-top > div {
+	display: table-cell;
+}
+
+.cky-no-data-top hr {
+	border-top: solid 2px #999;
+}
+
+.cky-no-data-icon .iconfont{
+	font-size: 40px;
+	color: #999;
+}
+
+.cky-no-data h5 {
+	line-height: 30px;
+	color: #999;
+}
+
+.cky-no-data h6 {
+	font-size: 10px;
+	line-height: 30px;
+	color: #999;
+}
+
+/** 空数据样式结束 **/
+
 
 /** 字体大小和颜色(开始)  **/
 .font32 {

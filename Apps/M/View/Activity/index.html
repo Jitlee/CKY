@@ -50,14 +50,16 @@
 	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang"></i></button>
 </header>
 <div class="mui-content mui-content-bottom">
-	<div style="position: relative;">
-		<div style="position:absolute;left:0;width:35px;height:100px;
-			background-color:#ED7D31;text-align: center;padding-top: 8px;
+	<div style="position: relative;background-color: #ED7D31">
+		<div style="position:absolute;left:0;width:35px;
+			top: 50%;
+			-webkit-transform: translateY(-50%);
+			text-align: center;
 			font-size:20px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;
 			color:#fff;">本期主打</div>
 		<a  href="{$ads.adURL}"
 			style="margin-left:35px;margin-right:135px;
-			height:100px;display: block;
+			height:35vw;display: block;
 			background-position: center;
 			background-image: url('/{$ads.adFile}');
 			background-repeat: no-repeat;background-size: cover;">
@@ -65,11 +67,11 @@
 		<a title="活动预告"
 			href="{:U('coming')}"
 			style="display: block;
-			position:absolute;right:0;top:0;width:135px;height:100px;
+			position:absolute;right:0;top:0;width:135px;height:35vw;
 			background-image: url('__IMG__/coming.png');
 			background-repeat: no-repeat;
-			background-position: 18px 50%;
-			background-size: 90% 90%;
+			background-position: 3vw 50%;
+			background-size: contain;
 			background-color:#AAAAAA;text-align: center;"></a>
 	</div>
 	<div class="activity-categroy">
@@ -128,11 +130,13 @@
 						$("#activitiesLoading").hide();
 						$("#activityList").removeClass("cky-hidden");
 					}
-					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
+						pageNo = ++_pageNo;
 						$.each(list, function() {
 							activities.push(this);
 						});
+					} else if(pageNo == 0) {
+						$(".mui-content").nodata("暂无活动");
 					}
 					vm(activities);
 					
@@ -157,6 +161,7 @@
 			$(".activity-categroy .cky-active").removeClass("cky-active");
 			$this.addClass("cky-active");
 			force = true;
+			catId = $this.attr("catId");
 			queryByPage();
 		});
 	});

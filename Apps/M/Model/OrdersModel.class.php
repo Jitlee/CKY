@@ -225,7 +225,9 @@ class OrdersModel extends BaseModel {
 
 			$data["createTime"] = date("Y-m-d H:i:s");
 			
-			if($payway==1){
+			if($data["needPay"] == 0) { // 0元直接跳过支付
+				$data["orderStatus"] = 1; // 未处理
+			} else if($payway==1){
 				$data["orderStatus"] = 0; // 待支付
 			}else{
 				$data["orderStatus"] = 1; // 未处理
@@ -239,7 +241,7 @@ class OrdersModel extends BaseModel {
 //			echo $morders->getLastSql();
 			
 			$orderNos[] = $data["orderNo"];
-			$orderInfos[] = array("orderId"=>$orderId,"orderNo"=>$data["orderNo"]) ;
+			$orderInfos[] = array("orderId"=>$orderId,"orderNo"=>$data["orderNo"], "orderStatus"=>$data["orderStatus"]) ;
 			//订单创建成功则建立相关记录
 			if($orderId>0){
 				$orderIds[] = $orderId;
@@ -517,7 +519,7 @@ class OrdersModel extends BaseModel {
 			}
 			//获取涉及的商品
 	        $sql = "SELECT og.goodsId,og.goodsName,og.goodsThums,og.orderId FROM __PREFIX__order_goods og
-					WHERE og.orderId in (".implode(',',$orderIds).")";	
+					WHERE og.orderId in (".implode(',',$orderIds).")";
 			$glist = $this->query($sql);
 			$goodslist = array();
 			for($i=0;$i<count($glist);$i++){

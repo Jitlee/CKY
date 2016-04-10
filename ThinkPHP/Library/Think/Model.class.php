@@ -1721,7 +1721,7 @@ class Model {
      * @return array('total','pageSize','start','root','totalPage','currPage');
      */
     public function pageQuery($sql,$page = 0,$pageSize = 0){
-		$pageSize = (intval($pageSize)==0)?C('PAGE_SIZE'):$pageSize;
+		$pageSize = (intval($pageSize)==0) ? I('pageSize', C('PAGE_SIZE')) : $pageSize;
 		if($pageSize==0)return array();
 		$page = (intval($page)<=0)?I(C('VAR_PAGE'),1):intval($page);
 		$page = ($page<=0)?1:$page;

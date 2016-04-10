@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/mall-goods.css" rel="stylesheet" type="text/css" />
+      <!--<link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />-->
+      
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__ROOT__/Apps/Admin/View/js/daterangepicker.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+      <script type="text/javascript" src="__ROOT__/Apps/Admin/View/js/knockout-3.4.0.js"></script>
+	<script type="text/javascript" src="__ROOT__/Apps/Admin/View/js/jquery.dragsort-0.5.2.min.js"></script>
+      <style type="text/css">
+      	/*.rtc-page, html {
+      		height: 100%;
+      	}
+      	
+      	.rtc-page {
+      		position: relative;
+      		overflow: hidden;
+      	}
+      	
+      	.goods-panel {
+      		position: absolute;
+      		top: 120px;
+      		bottom: 0px;
+      		left: 0px;
+      		width: 100%;
+      	}*/
+      
+      	.mod-row {
+      		width: 100%;
+      		display:table;
+      		table-layout: fixed;
+      	}
+      	
+      	.mod-row .mod-col {
+      		display: table-cell;
+      		padding: 8px;
+      	}
+      	
+      	.mod-border {
+      		border: solid 1px #C0C0C4;
+      		background-color: #f9f9f9;
+      		position: relative;
+      	}
+      	
+      	.mod-name  {
+      		background-color: rgba(30,30,30,0.2);
+      		color: #fff;
+      		position: absolute;
+      		margin: 0;
+      		padding: 5px;
+      		top: 0px;
+      		left: 0px;
+      		right: 0px;
+      		overflow: hidden;
+      		white-space: nowrap;
+      		word-break: keep-all;
+      		text-overflow: ellipsis;
+      	}
+      	
+      	.mod-thumb {
+      		width: 100%;
+      		height: 100px;
+      		background-position: 50% 50%;
+      		background-repeat: no-repeat;
+      		background-size: cover;
+      	}
+      	
+      	.mod-button {
+      		position: absolute;
+      		bottom: 5px;
+      		right: 5px;
+      	}
+      </style>
+   </head>
+   <body class="rtc-page">
+   		<h5>商城首页促销广告卡片</h5>
+   		<div class="mod-row">
+   			<foreach name="mods" item="item">
+		  		<div class="mod-col" id="mod-{$item.mod1}">
+		  			<div class="mod-border">
+			  			<h5 class="mod-name">{$item.modName|default='点击编辑促销广告分类'}</h5>
+			  			<div class="mod-thumb" style="background-image: url({$item.smallImage});"></div>
+			  			<div class="btn-group mod-button">
+						  	<button type="button" class="btn btn-default btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-json='{:json_encode($item)}'>编辑</button>
+						  	<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <span class="caret"></span>
+							    <span class="sr-only">Toggle Dropdown</span>
+						  	</button>
+						  	<ul class="dropdown-menu">
+							    <li><a href="#">清空促销商品</a></li>
+						  	</ul>
+						</div>
+		  			</div>
+		  		</div>
+		  	</foreach>
+		</div>
+		
+		
+		<!-- 弹出窗口 -->
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="editModalLabel">修改促销广告分类</h4>
+		      </div>
+		      <div class="modal-body">
+		        		<form id="editForm" class="form-horizontal">
+		        			<input type="hidden" id="mod-id" name="mod1" />
+			          	<div class="form-group">
+			            		<label for="mod-name" class="col-sm-3 control-label">分类名称:</label>
+				            <div class="col-sm-9">
+				            		<input type="text" class="form-control" name="modName" id="mod-name"/>
+					        </div>
+			          	</div>
+			          	<div class="form-group">
+			            		<label for="small-image" class="col-sm-3 control-label">分类图标(商城首页卡片):</label>
+			            		<div class="col-sm-7">
+			            			<input type="text" class="form-control" readonly="readonly" name="smallImage" id="small-image">
+				        		</div>
+					        	<div class="col-sm-2">
+					        		<button type="button" class="btn btn-default" upload-target="#small-image" upload-title="上传分类图标" upload-dir="mall">上传</button>
+					        	</div>
+			          	</div>
+			          	<div class="form-group">
+			            		<label for="big-image" class="col-sm-3 control-label">分类大图标(分类首页顶端广告):</label>
+			            		<div class="col-sm-7">
+			            			<input type="text" class="form-control" readonly="readonly" name="bigImage" id="big-image">
+				        		</div>
+				        		<div class="col-sm-2">
+				        			<button type="button" class="btn btn-default" upload-target="#big-image" upload-title="上传分类大图标" upload-dir="mall">上传</button>
+				        		</div>
+			          	</div>
+			          	<div class="form-group">
+			            		<label for="mode-theme" class="col-sm-3 control-label">分类主题:</label>
+		            			<div class="col-sm-9">
+					           	<select id="mode-theme" class="form-control">
+					            		<option value="1">商城默认</option>
+					            </select>
+					        	</div>
+			         	</div>
+		        		</form>
+		      	</div>
+		      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			        	<button id="submitEdit" type="button" class="btn btn-primary">确定</button>
+			     </div>
+		    </div>
+		  </div>
+		</div>
+		<include file="./upload"/>
+		<script type="text/javascript">
+			$(function(){
+				var modal = $('#editModal').on('show.bs.modal', function (event) {
+					var button = $(event.relatedTarget);
+				  	var data = button.data("json");
+				  	for(var p in data) {
+				  		var ele = modal.find("[name="+ p +"]");
+				  		if(ele.is("input") || ele.is("select")) {
+				  			ele.val(data[p]);
+				  		}
+				  	}
+				});
+				
+				var editForm = $("#editForm");
+				$("#submitEdit").click(function() {
+					var formData = editForm.serialize();
+					var formArray = editForm.serializeArray();
+					var obj = {};
+					for(var i = 0, len = formArray.length; i < len; i++) {
+						obj[formArray[i].name] = formArray[i].value;
+					}
+					$.post("{:U('mall/edit')}", formData, function(result) {
+						if(result.status < 0) {
+							Plugins.Tips({title:'信息提示',icon:'error',content:'保存出错',timeout:1000});
+						} else {
+							$('#editModal').modal("hide");
+							var modDiv = $("#mod-" + obj.mod1);
+							modDiv.find(".mod-name").text(obj.modName);
+							modDiv.find(".mod-thumb").css("backgroundImage", "url(" + obj.smallImage + ")");
+							modDiv.find(".btn-edit").data("json", obj);
+						}
+					});
+				});
+			});
+		</script> 
+   </body>
+</html>

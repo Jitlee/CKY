@@ -6,9 +6,29 @@
 	<button class="mui-btn mui-btn-link mui-pull-right">我的</button>
 </header>
 
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<style>
+	.swiper-img {
+		height: 30vw;
+		margin-bottom: 10px;
+	}
+</style>
 <div class="mui-content mui-content-bottom">
+	<!-- Slider main container -->
+	<div class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <foreach name="ads" item="item">
+        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
+	        </foreach>
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
 </div>
 <include file="Public:tab"/>
+<script src="__JS__/swiper.jquery.min.js"></script>
 <script>
 	$(function() {
 		var currentCity = $("#cityLabel").text();
@@ -23,5 +43,14 @@
 				currentCity = city.replace(/市$/, "");
 			}
 		});
+		
+		// 轮播广告
+		var mySwiper = new Swiper ('.swiper-container', {
+	      // Optional parameters
+	      direction: 'horizontal',
+	      pagination: '.swiper-pagination',
+	      autoplay: 3000,
+	      loop: true
+	   });
 	});
 </script>

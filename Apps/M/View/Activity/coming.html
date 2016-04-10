@@ -95,11 +95,13 @@
 						$("#activitiesLoading").hide();
 						$("#activityList").removeClass("cky-hidden");
 					}
-					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
+						pageNo = ++_pageNo;
 						$.each(list, function() {
 							activities.push(this);
 						});
+					} else if(pageNo == 1) {
+						$(".mui-content").nodata("暂无活动预告");
 					}
 					vm(activities);
 					

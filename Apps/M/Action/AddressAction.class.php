@@ -20,6 +20,13 @@ class AddressAction extends Controller {
 						
 	}
 	
+	public function getdefault() {
+		$m= D('M/MemberAddress');
+		$data = $m->getDefault(getuid());
+//		echo $m->getLastSql();
+		$this->ajaxReturn($data, 'JSON');
+	}
+	
 	public function loadList()
 	{
 		$mMAdd= D('M/MemberAddress');

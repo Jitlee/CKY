@@ -9,6 +9,15 @@
  * 广告服务类
  */
 class MemberAddressModel extends BaseModel {
+	protected $tableName = 'user_address'; 
+	
+	public function getDefault($uid) {
+		$map = array(
+			'userId'		=> $uid,
+			'isDefault'	=> 1,
+		);
+		return $this->where($map)->find();
+	}
 		
 	public function Insert($dataInfo)
 	{ 

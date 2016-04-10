@@ -29,13 +29,16 @@ class ActivityAction extends BaseUserAction {
 	public function page() {
 		$m = D('M/Activity');
 		$list = $m->queryByCatId();
+//		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
 	public function detail() {
 		$m = D('M/Activity');
 		$data = $m->getById();
+//		echo $m->getLastSql();
 		$data['activityContent'] = htmlspecialchars_decode(html_entity_decode($data['activityContent']));
+//		echo dump($data);
 		$this->assign('title', $data['activityTitle']);
 		$this->assign('data', $data);
 		$this->display();
@@ -72,12 +75,18 @@ class ActivityAction extends BaseUserAction {
 				$status = -3;
 			} else {
 				$mm->startTrans();
-				if($mm->pick($ticketId, $uid) !== false) {
+				$rst = $mm->pick($ticketId, $uid);
+				if($rst !== FALSE && $rst['status'] != -1) {
 					$m = D('M/ActivityTicket');
-					if($m->updateSendCount($ticketId) !== false) {
+					if($m->updateSendCount($ticketId) !== FALSE) {
 						$status = 1;
 					} 
 				}
+				
+				if($rst['status'] == -1) {
+					$status = -4; // 一卡易发送卡券失败
+				}
+				
 				if($status > 0) {
 					$mm->commit();
 				} else {
@@ -97,7 +106,7 @@ class ActivityAction extends BaseUserAction {
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
-	public function comming() {
+	public function coming() {
 		$this->assign('title', '活动预告');
 		$this->display();
 	}
@@ -105,6 +114,7 @@ class ActivityAction extends BaseUserAction {
 	public function pageComing() {
 		$m = D('M/Activity');
 		$list = $m->queryComing();
+//		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}
 	

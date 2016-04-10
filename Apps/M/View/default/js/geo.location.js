@@ -41,6 +41,13 @@ $(function() {
 			maximumAge:1000
 		};
 		if(navigator.geolocation){
+			window.setTimeout(function() {
+				// 5秒超时
+				_geo = null;
+				isBuzying = false;
+				run();
+			}, 5000);
+			
 			//浏览器支持geolocation
 			navigator.geolocation.getCurrentPosition(function(evt) {
 				console.info("浏览器定位成功");
@@ -55,11 +62,16 @@ $(function() {
 					run();
 				});
 			}, function() {
-				
+				_geo = null;
+				isBuzying = false;
+				run();
 			},options);
 		} else{
 			//浏览器不支持geolocation
 			
+			isBuzying = false;
+			_geo = null;
+			run();
 		}
 	}
 	
@@ -104,7 +116,11 @@ $(function() {
 	function run() {
 		var task = tasks.shift();
 		if(typeof task == "function") {
-			task.call(_geo, _geo.location.lng, _geo.location.lat, _geo.addressComponent.city, _geo.areaId);
+			if(_geo) {
+				task.call(_geo, _geo.location.lng, _geo.location.lat, _geo.addressComponent.city, _geo.areaId);
+			} else {
+				task.call();
+			}
 			run();
 		}
 	}

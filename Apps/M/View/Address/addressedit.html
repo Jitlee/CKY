@@ -91,7 +91,7 @@
 			function savesuccess(data) {
 				if (data.status) {
 					 //window.location.href="{:U('Address/addresslist', '', '')}";
-					 window.history.back();
+					 window.history.go(-1);
 				} else {
 					util.msg(data.msg);
 				}

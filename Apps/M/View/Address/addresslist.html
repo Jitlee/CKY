@@ -94,7 +94,7 @@
 					address: $this.attr("a_address")
 				};
 				cky.storage.setItem(cacheKey, cart, 24 * 60 * 60);
-				window.history.back();
+				window.history.go(-1);
 			});
 		}
 	});

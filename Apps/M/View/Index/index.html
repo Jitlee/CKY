@@ -1,5 +1,7 @@
 <header class="mui-bar mui-bar-nav">
-	<button class="mui-btn mui-btn-link mui-pull-left">通海 ▼</button>
+	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
+		<span id="cityLabel">深圳</span>
+	</button>
 	<h1 id="title" class="mui-title">{$title}</h1>
 	<a class="mui-btn mui-btn-link mui-pull-right" href="{:U('Person/index', '', '')}">我的</a>
 </header>
@@ -27,7 +29,7 @@
 			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Fast/index')}"><img src="__IMG__/takeaway.png"/>外卖</a>
 			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glxhkp"><img src="__IMG__/monkey.png"/>小猴快跑</a>
 			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glshfw"><img src="__IMG__/life.png"/>生活服务</a>
-			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glsc"><img src="__IMG__/mall.png"/>商城</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Mall/index')}" id="glsc"><img src="__IMG__/mall.png"/>商城</a>
 			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glother"><img src="__IMG__/other.png"/>其他</a>
 			
 		</div>
@@ -87,6 +89,20 @@
 
 <script>
 	$(function() {
+		
+		var currentCity = $("#cityLabel").text();
+		var currentLongitude = 0;
+		var currentLatitude = 0;
+		
+		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+			currentLongitude = lng;
+			currentLatitude = lat;
+			if(city) {
+				$("#cityLabel").text(city.replace(/市$/, ""));
+				currentCity = city.replace(/市$/, "");
+			}
+		});
+		
 		var mySwiper = new Swiper ('.swiper-container', {
 	      // Optional parameters
 	      direction: 'horizontal',
@@ -107,7 +123,7 @@
 //		$("#glhd").click(function(){cky.toast('敬请期待...');});
 		$("#glxhkp").click(function(){cky.toast('敬请期待...');});
 		$("#glshfw").click(function(){cky.toast('敬请期待...');});
-		$("#glsc").click(function(){cky.toast('敬请期待...');});
+//		$("#glsc").click(function(){cky.toast('敬请期待...');});
 		$("#glother").click(function(){cky.toast('敬请期待...');});
 		
 		$("#m1").click(function(){cky.toast('敬请期待...');});

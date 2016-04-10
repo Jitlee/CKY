@@ -171,6 +171,7 @@ r {
 	line-height: 16px;
 	background-color: #F20;
 	color: #fff;
+	white-space: nowrap;
 }
 
 .cky-special {

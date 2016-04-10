@@ -1,0 +1,27 @@
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
+		<span id="cityLabel">深圳</span>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+	<button class="mui-btn mui-btn-link mui-pull-right">我的</button>
+</header>
+
+<div class="mui-content mui-content-bottom">
+</div>
+<include file="Public:tab"/>
+<script>
+	$(function() {
+		var currentCity = $("#cityLabel").text();
+		var currentLongitude = 0;
+		var currentLatitude = 0;
+		
+		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+			currentLongitude = lng;
+			currentLatitude = lat;
+			if(city) {
+				$("#cityLabel").text(city.replace(/市$/, ""));
+				currentCity = city.replace(/市$/, "");
+			}
+		});
+	});
+</script>

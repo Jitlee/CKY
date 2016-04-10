@@ -23,7 +23,7 @@ class OneCardTickModel extends OneCardModel {
 		$url='OpenApi/Get_CouponPaged';	
 		//更新卡券列表	
 		$onecres= $this->GetData($url, $data);
-		return $onecres;
+		//return $onecres;
 		if($onecres["status"] != 0)
 		{
 			$rd["msg"]=$onecres["message"];
@@ -44,9 +44,8 @@ class OneCardTickModel extends OneCardModel {
 			if($typeshowname== "代金券"){$data["typeName"] ="djq";}
 			else if($typeshowname == "折扣券"){$data["typeName"] ="zkq";}
 			else if($typeshowname == "普通券"){$data["typeName"] ="ptq";}
-			$data["imagePath"] = $onecitem["ImagePath"];
-			$data["content"]  = " ";
 			
+		 
 			if($onecitem["EndDate"]!='永久有效')
 			{
 				$indexofz=strpos($onecitem["EndDate"],"到");
@@ -81,7 +80,9 @@ class OneCardTickModel extends OneCardModel {
 			}
 			else//不存在
 			{
-				 
+				$data["imagePath"] = $onecitem["ImagePath"];
+				$data["content"]  = " ";
+			
 				$data["ticketID"]=$onecitem["Guid"];
 				//$data["endDate"] = I("endDate");		
 				$data["miniConsumption"]  =(double)$onecitem["MinConsumeValue"];

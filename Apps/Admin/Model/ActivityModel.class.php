@@ -26,16 +26,17 @@ class ActivityModel extends BaseModel {
 		$data["activityKey"] = I("activityKey");
 		$data["activityImg"] = I("activityImg");
 		$data["limitUseShopID"] = (int)I("limitUseShopID");
+		$data["ticketId"] = I("ticketId","");		//卡券ID
 		
 		$data["staffId"] =1;// (int)session('RTC_STAFF.staffId');
 		$data["createTime"] = date('Y-m-d H:i:s');
-	    if($this->checkEmpty($data,true)){
+	    //if($this->checkEmpty($data,true)){
 			$m = M('activity');
 			$rs = $m->add($data);
 		    if(false !== $rs){
 				$rd['status']= 1;
 			}
-		}
+		//}
 		return $rd;
 	 } 
      /**
@@ -56,15 +57,16 @@ class ActivityModel extends BaseModel {
 		$data["activityKey"] = I("activityKey");
 		$data["activityImg"] = I("activityImg");
 		$data["limitUseShopID"] = (int)I("limitUseShopID");
+		$data["ticketId"] = I("ticketId","");		//卡券ID
 		
 		$data["staffId"] =(int)session('RTC_STAFF.staffId');
-	    if($this->checkEmpty($data,true)){	
+	    //if($this->checkEmpty($data,true)){	
 			$m = M('activity');
 		    $rs = $m->where("activityId=".(int)I('id',0))->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
 			}
-		}
+		//}
 		return $rd;
 	 } 
 	 /**

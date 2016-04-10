@@ -298,8 +298,16 @@ RTC.toJson = function(str,notLimit){
 		}
 		if(!notLimit){
 			if(json.status && json.status=='-999'){
-				alert('对不起，您已经退出系统！请重新登录');
-				window.location.href='/index.php/Home/Shops/login';
+				if(RTC.IsAdmin)
+				{
+					
+				}
+				else
+				{
+					alert('对不起，您已经退出系统！请重新登录');
+					window.location.href='/index.php/Home/Shops/login';	
+				}
+				
 //				if(window.parent){
 //					window.parent.location.reload();
 //				}else{
@@ -323,7 +331,7 @@ RTC.toJson = function(str,notLimit){
 }
 //把rtc-panel-full样式的表单设置布满屏幕高度
 $(function () {
-	if($('.rtc-panel-full').height()<RTC.pageHeight())$('.rtc-panel-full').height(RTC.pageHeight()-3);
+	if($('.rtc-panel-full') && $('.rtc-panel-full').height()<RTC.pageHeight())$('.rtc-panel-full').height(RTC.pageHeight()-3);
 });
 
 

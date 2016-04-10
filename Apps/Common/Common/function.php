@@ -309,4 +309,13 @@ function del0($s) {
     return $s;
 }
 
+function newid($length = 36 ) {
+
+	$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	$password = "";
+	for ( $i = 0; $i < $length; $i++ )
+		$password .= $chars[ mt_rand(0, strlen($chars) - 1) ];
+
+	return $password;
+}
 

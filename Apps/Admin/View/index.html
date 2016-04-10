@@ -213,6 +213,24 @@
 							</ul>
 						</li>
 						<php>}</php>
+						
+						<php>if(in_array('ddgl_00',$RTC_STAFF['grant'])){</php>
+						<li class="treeview">
+							<a href="#">
+								<span>一元购</span>
+								<!--<small id='yygitem' style='display:none' class="badge pull-right bg-green">0</small>-->
+							</a>
+							<ul class="treeview-menu">
+								<php>if(in_array('ddlb_00',$RTC_STAFF['grant'])){</php>
+								<li><a href="{:U('Admin/Miaosha/index')}" target='pageContent'>商品列表</a></li>
+								<php>}</php>
+								<php>if(in_array('tk_00',$RTC_STAFF['grant'])){</php>
+								<li><a href="{:U('Admin/Miaosha/toedit')}" target='pageContent'>添加商品</a></li>
+								<php>}</php>
+							</ul>
+						</li>
+						<php>}</php>
+						
 						<php>if(in_array('ddgl_00',$RTC_STAFF['grant'])){</php>
 						<li class="treeview">
 							<a href="#">
@@ -369,9 +387,9 @@
 								<php>if(in_array('gggl_00',$RTC_STAFF['grant'])){</php>
 								<li><a href="{:U('Admin/Ads/index')}" target='pageContent'>广告管理</a></li>
 								<php>}</php>
-								<!--<php>if(in_array('yhgl_00',$RTC_STAFF['grant'])){</php>
+								<php>if(in_array('yhgl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Banks/index')}" target='pageContent'>银行管理</a></li>
-					            <php>}</php>-->
+					            <php>}</php>
 								<!--<php>if(in_array('zfgl_00',$RTC_STAFF['grant'])){</php>
 					            <li><a href="{:U('Admin/Payments/index')}" target='pageContent'>支付管理</a></li>
 					            <php>}</php>-->

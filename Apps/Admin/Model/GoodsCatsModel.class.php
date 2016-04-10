@@ -98,7 +98,13 @@ class GoodsCatsModel extends BaseModel {
 	  	$rs1 = $m->query($sql);
 		return $rs1;
 	}
-	  
+	public function queryBykey($key) {
+		$m = M('goods_cats');
+		$sql = "select gp.* from __PREFIX__goods_cats gp where gp.catFlag=1  and  gp.catkey='$key'";
+		//echo $sql;
+	  	$rs1 = $m->query($sql);
+		return $rs1;
+	}
 	  
 	  public function queryByListforshops(){
 	     $m = M('goods_cats');

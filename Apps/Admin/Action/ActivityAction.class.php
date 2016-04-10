@@ -35,6 +35,10 @@ class ActivityAction extends BaseAction{
 		$shops=$mshop->queryListForSelect();		
 	    $this->assign('shops',$shops);
 		//end select shops
+		//卡券加载
+		$mshop = D('Admin/Ticket');
+		$shops=$mshop->queryByList();		
+	    $this->assign('tickets',$shops);
 		
     	$this->assign('object',$object);
 		$this->view->display('/activity/edit');
@@ -58,7 +62,7 @@ class ActivityAction extends BaseAction{
 		}catch (Exception $e){
             $rs["msg"]=$e;
         }
-	    	$this->ajaxReturn($rs);
+	    $this->ajaxReturn($rs);
 	}
 	/**
 	 * 删除操作

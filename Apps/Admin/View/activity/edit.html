@@ -77,7 +77,8 @@
 	   params.activityContent = $('#activityContent').val();
 	   params.activityKey = $('#activityKey').val();
 	   params.limitUseShopID= $('#limitUseShopID').val();
-	   
+	   params.ticketId= $('#ticketId').val(); 	//卡券ID
+	  
 	   
 	   if(params.activityContent==''){
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入活动内容!',timeout:1000});
@@ -179,6 +180,21 @@
              <input type='text' id='activityKey' class="form-control rtc-ipt" value='{$object.activityKey}' maxLength='80'/>
              </td>
            </tr>
+           
+           <tr>
+             <th align='right'>关联卡券</th>
+             <td>
+             	<select id="ticketId" name="ticketId">
+             		<option  value="">==请选择卡券==</option>
+	             	 <volist name="tickets" id="vo" key='i'>
+	             		<option value="{$vo['ticketID']}"  <if condition="$object['ticketID'] == $vo['ticketID'] ">selected</if> >{$vo['title']}</option>
+	             	</volist>               
+             	</select>
+             </td>
+           </tr>
+           
+           
+           
            <tr>
              <th align='right'>活动商家<font color='red'>*</font>：</th>
              <td>

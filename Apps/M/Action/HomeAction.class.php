@@ -354,12 +354,13 @@ public function create_guid($namespace = '') {
 //		$list = $m->GetMemberGroup();
 //		echo dump($list);		
 
-//		$m = D('M/OneCardTick');
-//		$list = $m->GetTick();
-//		echo dump($list);		
+		$m = D('M/OneCardTick');
+		$list = $m->GetTick();
+		echo dump($list);		
 //		$list = $m->GetTickMList("18620554231","");
 //		echo dump($list);
 		
+ 
  
 //		$this->assign('res', $list);	
 //		echo dump($list);

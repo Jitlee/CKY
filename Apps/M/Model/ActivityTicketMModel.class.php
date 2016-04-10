@@ -53,9 +53,6 @@ class ActivityTicketMModel extends BaseModel {
 				return $ret;	
 			}
 		}
-				
-		
-		
 	}
 	
 	public function total($uid) {
@@ -85,8 +82,9 @@ class ActivityTicketMModel extends BaseModel {
 	}
 	
 	public function isNewUser($uid, $ticketId) {
+		// 新用户改为三天内有效。
 		$sql = 'select 1 from cky_activity_ticket_m tm where tm.ticketID = '.$ticketId.' and '.
-				'exists(select 0 from cky_users u where u.userId='.$uid.' and date_sub(curdate(), INTERVAL 30 DAY) > date(u.`createTime`)) '.
+				'exists(select 0 from cky_member u where u.uid='.$uid.' and date_sub(curdate(), INTERVAL 3 DAY) < date(u.`RegisterTime`)) '.
 				'and exists(select 0 from cky_activity_ticket t where t.ticketID = tm.ticketID and t.onlyNewUser)';
 		$list = $this->query($sql);
 		return empty($list);

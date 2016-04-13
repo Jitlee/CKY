@@ -40,12 +40,12 @@
 						
 					</div>
 					<div class="cky-media">
-						<span class="cky-media-title font17" data-bind="text: goodsName"></span>
-						<div class="cky-media-sub font13 font-gray2">
+						<span class="cky-media-title font15" data-bind="text: goodsName"></span>
+						<div class="cky-media-sub font10 font-gray2">
 							<span data-bind="text: '已售' + saleCount + '单'"></span>
 						</div>
 						<div class="cky-relative">
-							<span class="font-red font17" data-bind="text: '¥' + shopPrice"></span>
+							<span class="font-red font15" data-bind="text: '¥' + shopPrice"></span>
 							<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
 							<div class="cky-update cky-fast-add"
 								data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
@@ -67,7 +67,7 @@
 		</ul>
 		<ul id="catsList" class="cky-fast-cat">
 			<!-- ko foreach: cats -->
-			<li class="cky-fast-cat-cell" data-bind="click: $parent.catClick">
+			<li class="cky-fast-cat-cell font13" data-bind="click: $parent.catClick">
 				<span data-bind="text: catName"></span>
 				<span class="mui-badge" style="display: none;" data-bind="attr: {id: 'badge_cat_' + catId}">0</span>
 			</li>
@@ -111,6 +111,7 @@
 		// 点菜
 		function queryGoods() {
 			$.getJSON("{:U('Goods/page')}", {
+				pageSize: 2000,
 				shopId: {:I('id')},
 				shopCatId: shopCatId,
 				sortType: sortType
@@ -142,7 +143,7 @@
 				catsList.removeClass("cky-fast-cat-fixed");
 			}
 			if(!catsList.hasClass("cky-fast-cat-fixed")) {
-				catsList.height($(window).height() - 211 + $window.scrollTop());
+				catsList.height($(window).height() - 209 + $window.scrollTop());
 			}
 		}
 		
@@ -154,7 +155,7 @@
 			$("li:first-child", catsList).addClass("cky-active");
 			done();
 		});
-		catsList.height($(window).height() - 211);
+		catsList.height($(window).height() - 209);
 		function oncatclick(cat, evt) {
 			var $this = $(evt.currentTarget);
 			if($this.hasClass("cky-active")) {

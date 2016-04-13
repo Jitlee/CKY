@@ -11,7 +11,7 @@
 class GoodsModel extends BaseModel {
 	public function goods() {
 		$shopId = I('shopId');
-		$pageSize = 12;
+		$pageSize = (int)I('pageSize', 12);
 		$pageNo = intval(I('pageNo', 1));
 		$map = array('g.shopId'	=> $shopId
 			,"g.isSale"=>1

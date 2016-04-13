@@ -86,6 +86,7 @@ class MiaoshaModel extends BaseModel {
 		$data["warnStock"] = (int)I("warnStock");
 		$data["goodsUnit"] = I("goodsUnit");
 		$data["isBest"] = (int)I("isBest");
+		$data["isBest"] = (int)I("isBest");
 		$data["isRecomm"] = (int)I("isRecomm");
 		$data["isNew"] = (int)I("isNew");
 		$data["isHot"] = (int)I("isHot");

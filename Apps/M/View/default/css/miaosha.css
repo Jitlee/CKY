@@ -1,0 +1,194 @@
+/* 顶部菜单部分开始 */
+.ms-menu {
+    line-height: 40px;
+    height: 40px;
+    text-align: center;
+    border-bottom: solid 1px #D5D5D5;
+    background: #fff;
+    position: relative;
+}
+
+.ms-menu, .ms-menu a {
+	color: #999;
+	font-size: 15px; 
+}
+
+@media only screen and (max-width: 340px) {
+	.ms-menu, .ms-menu a {
+		font-size: 12px; 
+	}
+}
+
+/** 下拉按钮 */
+.ms-dropbtn {
+	display: inline-block;
+	height: 40px;
+	width: 90px;
+	text-align: center;
+}
+
+.ms-menu .ms-dropbtn{
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 1;
+	border-left: solid 1px #D5D5D5;
+}
+
+/** 单选按钮 **/
+.ms-radio-group {
+	padding-left: 90px;
+}
+
+.ms-radio-group input[type=radio] {
+	display: none;
+}
+
+.ms-radio-group input[type=radio]:checked + label {
+	color: #FF5053;
+}
+
+/** 商品列表 **/
+
+.ms-list {
+	background-color: #fff;
+}
+
+.ms-list .ms-list-item a {
+	color: #333;
+}
+.ms-list:after {
+	content: " ";
+	height: 1px;
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+
+.ms-list .ms-list-item {
+	float: left;
+	display: inline-block;
+	width: 50%;
+	padding: 10px;
+	position: relative;
+	border-bottom: solid 1px #efeff4;
+}
+
+.ms-list .ms-list-item:nth-child(odd) {
+    border-right: solid 1px #efeff4;
+}
+
+.ms-thumb {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: contain;
+	height: 30vw;
+	width: 30vw;
+	margin: auto;
+}
+
+/** 进度条 **/
+.ms-progressbar,.ms-progressbar-item {
+	height: 8px;
+	border-radius: 4px;
+}
+
+.ms-progressbar {
+	background-color: #D5D5D5;
+}
+
+.ms-progressbar-item {
+	background-color: #FF002B;
+}
+
+.ms-list .ms-progressbar  {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.ms-list .ms-progressbar-item, .ms-list .ms-progressbar {
+	height: 4px;
+	border-radius: 2px;
+}
+
+/** 价格 **/
+
+.ms-list .ms-origin-price {
+	text-decoration: line-through;
+}
+
+.ms-to-buy {
+	position: absolute;
+	right: 10px;
+	bottom: 13px;
+	background-color: #f60;
+    color: #fff!important;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 9px 0 0 9px;
+    font-size: 12px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+/** 揭晓列表 */
+.jx-list {
+}
+
+.jx-list > .mui-table-view-cell {
+	border-right: solid 3px #FF5053;
+	border-left: solid 3px #FF5053;
+	border-bottom: solid 3px #FF5053;
+}
+
+.jx-list > .mui-table-view-cell:first-child {
+	border-top: solid 3px #FF5053;
+}
+
+.jx-countdown {
+	background-color: #FF5053;
+	color: #fff;
+	font-size: 20px;
+	line-height: 30px;
+	padding: 0 8px;
+}
+
+@media only screen and (max-width: 330px) {
+	.jx-countdown {
+		font-size: 14px;
+	}
+}
+
+@media only screen and (min-width: 330px) and (max-width: 380px) {
+	.jx-countdown {
+		font-size: 17px;
+	}
+}
+
+.mui-table-view .mui-media-object {
+	line-height: inherit;
+	max-width: inherit;
+	position: relative;
+}
+.mui-table-view .mui-media-object, .jx-thumb {
+	height: 90px;
+	width: 90px;
+}
+
+.jx-thumb {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: contain;
+	border: solid 1px #efeff4;
+}
+
+.mui-table-view .jx-qishu {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	line-height: 30px;
+	font-size: 17px;
+	color: #fff;
+	background-color: rgba(50,50,50, 0.3);
+}

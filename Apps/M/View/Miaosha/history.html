@@ -1,0 +1,77 @@
+<include file="tab"/>
+<link rel="stylesheet" href="__CSS__/{:autoVer('miaosha.css')}" />
+<div class="ms-menu">
+	<a class="ms-dropbtn">
+		商品分类
+		<i class="iconfont icon-dropdown"></i>
+	</a>
+	<div class="ms-radio-group mui-table">
+		<input id="newestSortRadio" type="radio" name="ms-sort" value="2"/><label for="newestSortRadio" class="mui-table-cell mui-col-xs-3 mui-text-center">最新</label>
+		<label class="mui-table-cell mui-col-xs-9"></label>
+	</div>
+</div>
+<div id="goodsLoading" class="mui-loading">
+	<div class="mui-spinner">
+	</div>
+</div>
+<div class="mui-table-view" data-bind="foreach: goods">
+	<div class="mui-table-view-cell mui-media">
+		<a>
+			<div class="mui-media-object mui-pull-left">
+				<div class="jx-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+				<div class="jx-qishu mui-text-center" data-bind="text: '第' + qishu + '期'"></div>
+			</div>
+			<div class="mui-media-body">
+				<span class="cky-ellipsis" data-bind="text: goodsName"></span>
+				<h5 class="font10" data-bind="text: '价值：¥' + marketPrice"></h5>
+				<div class="jx-user">获得者:<span data-bind="text: userName"></span></div>
+				<h5 class="font10">获得者本期参与：<r data-bind="text: prizeCount"></r>人次</h5>
+			</div>
+		</a>
+	</div>
+</div>
+
+<script type="text/javascript" src="__KO__"></script>
+<script>
+	$(function() {
+		var goods = [];
+		var vm = {
+			goods: ko.observableArray(goods),
+		};
+		ko.applyBindings(vm);
+		
+		var sortType = {:I('sortType', 1)};
+		
+		var pageNo = 1;
+		function page(clear) {
+			if(clear) {
+				goods.length = 0;
+				pageNo = 1;
+			}
+			$.getJSON("{:U('Miaosha/hs')}", {
+				type: 1,
+				pageNo: pageNo,
+				sortType: sortType,
+			}, function(list) {
+				$("#goodsLoading").hide();
+				if(list && list.length > 0) {
+					pageNo++;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				}
+			});
+		}
+		util.onScrollEnd(page);
+		page();
+		
+		// 排序单选
+		var sortGroup = $(".ms-radio-group");
+		$("input[type=radio][name=ms-sort][value=" + sortType + "]", sortGroup).attr("checked", true);
+		$('input[type=radio][name=ms-sort]', sortGroup).change(function() {
+			var $this = $(this);
+			sortType = this.value;
+			page(true);
+		});
+		
+	});
+</script>

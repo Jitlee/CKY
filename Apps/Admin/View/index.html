@@ -214,6 +214,27 @@
 						</li>
 						<php>}</php>
 						
+						<php>if(in_array('spgl_00',$RTC_STAFF['grant'])){</php>
+						<li class="treeview">
+							<a href="#">
+								<span>商城管理</span>
+								<small id='goodsTips' style='display:none' class="badge pull-right bg-green">0</small>
+							</a>
+							<ul class="treeview-menu">
+								<php>if(in_array('spfl_00',$RTC_STAFF['grant'])){</php>
+								<li><a href="{:U('Admin/Malllife/typeIndex')}" target='pageContent'>惠生活分类管理</a></li>
+								<php>}</php>
+								<php>if(in_array('ppgl_00',$RTC_STAFF['grant'])){</php>
+								<li><a href="{:U('Admin/Malllife/lifeIndex')}" target='pageContent'>惠生活管理</a></li>
+								<php>}</php>
+								<php>if(in_array('ppgl_00',$RTC_STAFF['grant'])){</php>
+								<li><a href="{:U('Admin/MallActivity/Index')}" target='pageContent'>商场活动管理</a></li>
+								<php>}</php>
+								
+							</ul>
+						</li>
+						<php>}</php>
+						
 						<php>if(in_array('ddgl_00',$RTC_STAFF['grant'])){</php>
 						<li class="treeview">
 							<a href="#">

@@ -8,20 +8,20 @@
  * ============================================================================
  * 角色服务类
  */
-class RolesModel extends BaseModel {
+class MalllifeTypeModel extends BaseModel {
     /**
 	  * 新增
 	  */
 	 public function insert(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("id",0);
+	 	//$id = (int)I("lifetypeid",0);
 		$data = array();
-		$data["roleName"] = I("roleName");
-		$data["grant"] = I("grant");
-		$data["createTime"] = date('Y-m-d H:i:s');
-		$data["roleFlag"] = 1;
+		$data["lifetypename"] = I("lifetypename");
+		$data["createtime"] = date('Y-m-d H:i:s');
+		$data["createuser"] = session('RTC_STAFF')["staffId"];
+		
 	    if($this->checkEmpty($data)){
-			$m = M('roles');
+			$m = M('mall_lifetype');
 			$rs = $m->add($data);
 			if(false !== $rs){
 				$rd['status']= 1;
@@ -34,12 +34,11 @@ class RolesModel extends BaseModel {
 	  */
 	 public function edit(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("id",0);
-	 	$m = M('roles');
-		$m->roleName = I("roleName");
-		$m->grant = I("grant");
+	 	$id = (int)I("lifetypeid",0);
+	 	$m = M('mall_lifetype');
+		$m->lifetypename = I("lifetypename");
 	    if($this->checkEmpty($data)){
-			$rs = $m->where("roleId=".$id)->save();
+			$rs = $m->where("lifetypeid=".$id)->save();
 			if(false !== $rs){
 				$rd['status']= 1;
 			}
@@ -50,22 +49,22 @@ class RolesModel extends BaseModel {
 	  * 获取指定对象
 	  */
      public function get(){
-	 	$m = M('roles');
-		return $m->where("roleId=".(int)I('id'))->find();
+	 	$m = M('mall_lifetype');
+		return $m->where("lifetypeid=".(int)I('id'))->find();
 	 }
 	 /**
 	  * 分页列表
 	  */
      public function queryByPage(){
-        $m = M('roles');
-	 	$sql = "select * from __PREFIX__roles order by roleId desc";
+        $m = M('mall_lifetype');
+	 	$sql = "select * from __PREFIX__mall_lifetype order by lifetypeid desc";
 		return $m->pageQuery($sql);
 	 }
 	 /**
 	  * 获取列表
 	  */
 	  public function queryByList(){
-	     $m = M('roles');
+	     $m = M('mall_lifetype');
 		 return $m->select();
 	  }
 	  
@@ -74,7 +73,7 @@ class RolesModel extends BaseModel {
 	  */
 	 public function del(){
 	 	$rd = array('status'=>-1);
-	 	$m = M('roles');
+	 	$m = M('mall_lifetype');
 	    $rs = $m->delete((int)I('id'));
 		if(false !== $rs){
 			$rd['status']= 1;

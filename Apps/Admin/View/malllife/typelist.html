@@ -18,10 +18,10 @@
    </head>
    <script>
    function del(id){
-	   Plugins.confirm({title:'信息提示',content:'您确定要删除该角色吗?',okText:'确定',cancelText:'取消',okFun:function(){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该惠生活类型吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
-		   $.post("{:U('Admin/Roles/del')}",{id:id},function(data,textStatus){
+		   $.post("{:U('Admin/Malllife/typeDel')}",{id:id},function(data,textStatus){
 					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
@@ -38,7 +38,7 @@
    <body class='rtc-page'>
        <div class='rtc-tbar' style='text-align:right;height:25px;'>
        <php>if(in_array('jsgl_01',$RTC_STAFF['grant'])){</php>
-       <a class="btn btn-success glyphicon glyphicon-plus"href="{:U('Admin/Roles/toEdit',array('id'=>$vo['roleId']))}" style='float:right'>新增</a>
+       <a class="btn btn-success glyphicon glyphicon-plus"href="{:U('Admin/Malllife/typeToEdit','')}" style='float:right'>新增</a>
        <php>}</php>
        </div>
       <div class="rtc-body"> 
@@ -46,7 +46,7 @@
            <thead>
              <tr>
                <th width='40'>&nbsp;</th>
-               <th>角色名称</th>
+               <th>类型名称</th>
                <th width='150'>操作</th>
              </tr>
            </thead>
@@ -54,13 +54,13 @@
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
-               <td>{$vo['roleName']}</td>
+               <td>{$vo['lifetypename']}</td>
                <td>
                <php>if(in_array('jsgl_02',$RTC_STAFF['grant'])){</php>
-               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Malllife/toEdit',array('id'=>$vo['roleId']))}">修改</a>&nbsp;
+               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Malllife/typeToEdit',array('id'=>$vo['lifetypeid']))}">修改</a>&nbsp;
                <php>}</php>
                <php>if(in_array('jsgl_03',$RTC_STAFF['grant'])){</php>
-               <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['roleId']})"">刪除</button>
+               <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['lifetypeid']})"">刪除</button>
                <php>}</php>
                </td>
              </tr>

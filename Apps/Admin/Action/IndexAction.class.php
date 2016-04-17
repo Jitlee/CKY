@@ -117,28 +117,7 @@ class IndexAction extends BaseAction {
 		$this->ajaxReturn($json);
     }
     
-    /**
-     * 输入授权码
-     */
-//  public function enterLicense(){
-//  	$this->isLogin();
-//  	$this->display("/enter_license");
-//  }
-    /**
-     * 验证授权码
-     */
-//  public function verifyLicense(){
-//  	$this->isAjaxLogin();
-//  	$license = I('license');
-//  	$content = file_get_contents(C('RTC_WEB').'/index.php?m=Api&c=License&a=verifyLicense&host='.RTCRootDomain().'&license='.$license);
-//  	$json = json_decode($content,true);
-//  	$rs = array('status'=>1);
-//  	if($json['status']==1){
-//  		$rs = D('Admin/Index')->saveLicense();
-//  	}
-//  	$rs['license'] = $json;
-//		$this->ajaxReturn($rs);
-//  }
+
     /**
      * 清除缓存
      */

@@ -5,7 +5,7 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
 	if(srcpath!="fail"){
 		$("#s_"+sfilename).val(srcpath);
 		$("#"+fname).val(srcpath);
-		if(fname=="goodsImg"){
+		if(fname=="goodsImg" || fname=="logo"){
 			$("#goodsThumbs").val(thumbpath);
 		}
 		$("#preview_"+sfilename).html("<img width='152' height='152' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");

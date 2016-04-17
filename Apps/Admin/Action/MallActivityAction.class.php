@@ -6,15 +6,15 @@
   
  * 联系方式:
  * ============================================================================
- * 活动控制器
+ * 商城活动控制器
  */
-class ActivityAction extends BaseAction{
+class MallActivityAction extends BaseAction{
 	/**
 	 * 跳到新增/编辑页面
 	 */
 	public function toEdit(){
 		$this->isLogin();
-	    $m = D('Admin/Activity');
+	    $m = D('Admin/MallActivity');
     	$object = array();
     	if(I('id',0)>0){
     		$this->checkPrivelege('wzlb_02');
@@ -41,7 +41,7 @@ class ActivityAction extends BaseAction{
 	    $this->assign('tickets',$shops);
 		
     	$this->assign('object',$object);
-		$this->view->display('/activity/edit');
+		$this->view->display('/mallactivity/edit');
 	}
 	/**
 	 * 新增/修改操作
@@ -50,7 +50,7 @@ class ActivityAction extends BaseAction{
 		$this->isAjaxLogin();
 		$rs = array('status'=>-1);
 		try {
-			$m = D('Admin/Activity');
+			$m = D('Admin/MallActivity');
 		    
 		    	if(I('id',0)>0){
 		    		$this->checkAjaxPrivelege('wzlb_02');
@@ -70,7 +70,7 @@ class ActivityAction extends BaseAction{
 	public function del(){
 		$this->isAjaxLogin();
 		$this->checkAjaxPrivelege('wzlb_03');
-		$m = D('Admin/Activity');
+		$m = D('Admin/MallActivity');
 	    	$rs = $m->del();
 	    	$this->ajaxReturn($rs);
 	}
@@ -80,12 +80,12 @@ class ActivityAction extends BaseAction{
 	public function toView(){
 		$this->isLogin();
 		$this->checkPrivelege('wzlb_00');
-		$m = D('Admin/Activity');
+		$m = D('Admin/MallActivity');
 		if(I('id')>0){
 			$object = $m->get();
 			$this->assign('object',$object);
 		}
-		$this->view->display('/activity/view');
+		$this->view->display('/mallactivity/view');
 	}
 	/**
 	 * 分页查询
@@ -93,20 +93,20 @@ class ActivityAction extends BaseAction{
 	public function index(){
 		$this->isLogin();
 		$this->checkPrivelege('wzlb_00');
-		$m = D('Admin/Activity');
+		$m = D('Admin/MallActivity');
     	$page = $m->queryByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page);
     	$this->assign('articleTitle',I('articleTitle'));
-        $this->display("/activity/list");
+        $this->display("/mallactivity/list");
 	}
 	/**
 	 * 列表查询
 	 */
     public function queryByList(){
     	$this->isAjaxLogin();
-		$m = D('Admin/Activity');
+		$m = D('Admin/MallActivity');
 		$list = $m->queryByList();
 		$rs = array();
 		$rs['status'] = 1;
@@ -119,7 +119,7 @@ class ActivityAction extends BaseAction{
 	 public function editiIsShow(){ 
 	 	$this->isAjaxLogin();
 	 	$this->checkAjaxPrivelege('wzlb_02');
-	 	$m = D('Admin/Activity');
+	 	$m = D('Admin/MallActivity');
 		$rs = $m->editiIsShow();
 		$this->ajaxReturn($rs);
 	 }

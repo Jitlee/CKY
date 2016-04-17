@@ -252,7 +252,10 @@ class PersonAction extends BaseUserAction {
 	
 	/*生成二维码*/
  	public function qrcode($level=3,$size=8)
- 	{ 	 	
+ 	{
+		header('Content-Type: image/png');
+		ob_clean();		
+		 	 	
 		$cardid=$this->GetCardId();
 		Vendor('phpqrcode.phpqrcode');
 		$errorCorrectionLevel =intval($level) ;//容错级别 
@@ -265,6 +268,9 @@ class PersonAction extends BaseUserAction {
 	/**一维码*/
 	public function ywm()
 	{
+		header('Content-Type: image/png');
+		ob_clean();
+			
 //		$code ="18620554231";// $_GET['code'];
 		$code =$this->GetCardId();
 		Vendor('phpqrcode.UPCtools');

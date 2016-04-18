@@ -98,7 +98,7 @@ class MallActivityAction extends BaseAction{
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page);
-    	$this->assign('articleTitle',I('articleTitle'));
+    	$this->assign('mactname',I('mactname'));
         $this->display("/mallactivity/list");
 	}
 	/**

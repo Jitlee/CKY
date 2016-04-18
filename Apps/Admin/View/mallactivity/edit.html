@@ -56,41 +56,46 @@
 		}});
 		$('#efficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
 		
-	   $("#activityTitle").formValidator({onFocus:"请输入活动标题"}).inputValidator({min:1,max:100,onError:"请输入100字以内活动标题"});
-	   $("#catId").formValidator({onFocus:"请选择活动分类"}).inputValidator({min:1,onError: "请选择活动分类"});
-	   $("#activityKey").formValidator({onFocus:"请输入关键字"}).inputValidator({min:1,max:80,onError:"请输入关键字"});
-	   
+	   $("#mactname").formValidator({onFocus:"请输入标题"}).inputValidator({min:1,max:100,onError:"请输入100字以内标题"});
+	   $("#mode").formValidator({onFocus:"请选择模式"}).inputValidator({min:1,onError: "请选择模式"});
+	   $("#desc").formValidator({onFocus:"请输入描述"}).inputValidator({min:1,max:80,onError:"请输入描述"});
+	   $("#logo").formValidator({onFocus:"请选择logo图片"}).inputValidator({min:1,max:80,onError:"选择logo图片"});
+	   $("#adpath").formValidator({onFocus:"请选择广告图片"}).inputValidator({min:1,max:80,onError:"选择广告图片"});
    });
    function edit(){
 	   var params = {};
-	   params.id = $('#id').val();
-	   params.activityTitle = $('#activityTitle').val();
-	   params.catId = $('#catId').val();
-	   params.isShow = $("input[name='isShow']:checked").val();
-	   params.activityImg = $('#adFile').val();
-	   
-	   params.activitySort = $('#activitySort').val();   
+	   params.mactid = $('#mactid').val();
+	   params.mactname = $('#mactname').val();
+	   params.logo = $('#logo').val();
+	   params.logothums = $('#logothums').val();
+	   params.adpath = $('#adpath').val();
+	   params.adpaththums = $('#adpaththums').val();
+	  
 	   var date = $('#efficacyDateRange').val().split(' 至 ');
 	   params.starttime = date[0];
 	   params.endtime = date[1]; 
-	   
+	   params.mode = $('#mode').val();
+	   params.modecolor = $('#modecolor').val();
 	   params.desc = $('#desc').val();
+	   params.status = $("input[name='status']:checked").val();
+	   params.sort = $('#sort').val();
 	   
-	   
-	  
-	   
-	   if(params.activityContent==''){
-		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入活动内容!',timeout:1000});
+	   if(params.mactname==''){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入标题!',timeout:1000});
+		   return;
+	   }
+	   if(params.desc.length <1){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入描述!',timeout:1000});
 		   return;
 	   }
 	   //alert(params.efficacyEData);
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
-	   $.post("{:U('Admin/Activity/edit')}",params,function(data,textStatus){
+	   $.post("{:U('Admin/MallActivity/edit')}",params,function(data,textStatus){
 	   	
 			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
-				   location.href="{:U('Admin/Activity/index')}";
+				   location.href="{:U('Admin/MallActivity/index')}";
 				}});
 			}else{
 				Plugins.closeWindow();
@@ -104,7 +109,7 @@
 		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:45px;left:120px;z-index:10; padding-left: 5px;" 
 			enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
-				<input id="logo" name="adFile" class="form-control rtc-ipt" type="text" value="{$object.logo}" readonly 
+				<input id="logo" name="logoFile" class="form-control rtc-ipt" type="text" value="{$object.logo}" readonly 
 					style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 				<div class="div1">
 					<div class="div2">浏览</div>
@@ -121,10 +126,11 @@
 				
 				</div>
 		</form>
+		<iframe name="uploadad" style="display:none"></iframe>
 		<form id="uploadform_ad" autocomplete="off" style="position:absolute;top:175px;left:120px;z-index:10;" 
-			enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
+			enctype="multipart/form-data" method="POST" target="uploadad" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
-				<input id="adpath" name="adpath" class="form-control rtc-ipt" type="text" value="{$object.adpath}" readonly 
+				<input id="adpath" name="adpath" class="form-control rtc-ipt" type="text" value="{$object.adpath}" readonly  
 					style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 				<div class="div1">
 					<div class="div2">浏览</div>
@@ -143,11 +149,15 @@
 		</form>
 		
        <form name="myform" method="post" id="myform" autocomplete="off">
-        <input type='hidden' id='id' value='{$object.activityId}'/>
+			<input type='hidden' id='mactid' value='{$object.mactid}'/>
+			<input type='hidden' id='goodsThumbs' value='{$object.logothums}'/>
+			<input type='hidden' id='malladThumbs' value='{$object.adpaththums}'/> 
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
-             <th width='120' align='right'>活动标题<font color='red'>*</font>：</th>
-             <td><input type='text' id='activityTitle' class="form-control rtc-ipt" value='{$object.activityTitle}' maxLength='25'/></td>
+             <th width='120' align='right'>标题<font color='red'>*</font>：</th>
+             <td>
+             	<input type='text' id='mactname' class="form-control rtc-ipt" value='{$object.mactname}' maxLength='25'/>
+             </td>
            </tr>
           
            <tr style="height:60px;">
@@ -157,7 +167,7 @@
            <tr style="height:70px;">
              <th align='right'>logo预览：</th>
              <td height='70px'>
-             	<div id="preview_logo">
+             	<div id="preview_Filedata">
                		<img id='preview' src='__ROOT__/{$object.logo}' height='70px' <if condition="$object['logo'] =='' ">style='display:none'</if>/>
                </div>
              </td>
@@ -169,8 +179,8 @@
            <tr>
              <th align='right'>广告预览：</th>
              <td height='40'>
-             	<div id="preview_adpath">
-               <img id='preview' src='__ROOT__/{$object.adpath}' height='152' <if condition="$object['adpath'] =='' ">style='display:none'</if>/>
+             	<div id="preview_ad">
+               		<img id='preview' src='__ROOT__/{$object.adpath}' height='152' <if condition="$object['adpath'] =='' ">style='display:none'</if>/>
                </div>
              </td>
            </tr>
@@ -178,16 +188,16 @@
              <th align='right'>状态<font color='red'>*</font>：</th>
              <td>
 	             <label>
-		             <input type='radio' id='isShow1' name='isShow' value='1' <if condition="$object['isShow'] ==0 ">checked</if> />准备中&nbsp;&nbsp;
+		             <input type='radio' id='status0' name='status' value='0' <if condition="$object['isShow'] ==0 ">checked</if> />准备中&nbsp;&nbsp;
 	             </label>
 	             <label>
-	             	<input type='radio' id='isShow0' name='isShow' value='0' <if condition="$object['isShow'] ==1 ">checked</if> />进行中
+	             	<input type='radio' id='status1' name='status' value='1' <if condition="$object['isShow'] ==1 ">checked</if> />进行中
 	             </label>
 	             <label>
-	             	<input type='radio' id='isShow0' name='isShow' value='0' <if condition="$object['isShow'] ==2 ">checked</if> />停止
+	             	<input type='radio' id='status2' name='status' value='2' <if condition="$object['isShow'] ==2 ">checked</if> />停止
 	             </label>
 	             <label>
-	             	<input type='radio' id='isShow0' name='isShow' value='0' <if condition="$object['isShow'] ==99 ">checked</if> />结束
+	             	<input type='radio' id='status99' name='status' value='99' <if condition="$object['isShow'] ==99 ">checked</if> />结束
 	             </label>
              </td>
            </tr>

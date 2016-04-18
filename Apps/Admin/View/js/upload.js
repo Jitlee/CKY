@@ -8,8 +8,19 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
 		if(fname=="goodsImg" || fname=="logo"){
 			$("#goodsThumbs").val(thumbpath);
 		}
-		$("#preview_"+sfilename).html("<img width='152' height='152' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");
-		
+		else if(fname=="adpath")
+		{
+			$("#malladThumbs").val(thumbpath);
+		}
+		//显示图片
+        if(fname=="logo")
+        {
+        	$("#preview_"+sfilename).html("<img width='70' height='70' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
+        }
+        else
+        {
+        	$("#preview_"+sfilename).html("<img width='152' height='152' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
+        }
 	}else{
 		$("#s_"+sfilename).val("");
 		$("#"+fname).val("");

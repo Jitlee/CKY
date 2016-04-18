@@ -204,7 +204,15 @@ class BaseAction extends Controller {
 				$srcpath = $rs[$Filedata]['savepath'].$rs[$Filedata]['savename'];
 				$thumbpath = $rs[$Filedata]['savepath'].$rs[$Filedata]['savethumbname'];
 				echo "<script>parent.getUploadFilename('$sfilename','$srcpath','$thumbpath','$fname');</script>";
-			}else{
+			}
+			else if($folder=="ad"){
+				$sfilename = I("sfilename");
+				$fname = I("fname");
+				$srcpath = $rs[$Filedata]['savepath'].$rs[$Filedata]['savename'];
+				$thumbpath = $rs[$Filedata]['savepath'].$rs[$Filedata]['savethumbname'];
+				echo "<script>parent.getUploadFilename('$sfilename','$srcpath','$thumbpath','$fname');</script>";
+			}
+			else{
 				echo json_encode($rs);
 			}
 			

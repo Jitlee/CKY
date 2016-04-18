@@ -14,22 +14,26 @@ class MallActivityModel extends BaseModel {
 	  */
 	 public function insert(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("id",0);
+	 	$id = (int)I("mactid",0);
 		$data = array();
-		$data["catId"] = (int)I("catId");
-		$data["activityTitle"] = I("activityTitle");
-		$data["isShow"] = (int)I("isShow",0);
-		$data["activitySort"] = (int)I("activitySort");
-		$data["efficacySDate"] = I("efficacySDate");
-		$data["efficacyEDate"] = I("efficacyEDate");
-		$data["activityContent"] = I("activityContent");
-		$data["activityKey"] = I("activityKey");
-		$data["activityImg"] = I("activityImg");
-		$data["limitUseShopID"] = (int)I("limitUseShopID");
-		$data["ticketId"] = I("ticketId","");		//卡券ID
+		 
+		$data["mactname"] = I("mactname");		
+		$data["logo"] =  I("logo");
+		$data["logothums"] = I("logothums");
+		$data["adpath"] = I("adpath");
+		$data["adpaththums"] = I("adpaththums");
+		$data["starttime"] = I("starttime");
+		$data["endtime"] = I("endtime");
 		
-		$data["staffId"] =1;// (int)session('RTC_STAFF.staffId');
-		$data["createTime"] = date('Y-m-d H:i:s');
+
+		$data["mode"] = I("mode","");
+		$data["modecolor"] = I("modecolor","");
+		$data["desc"] = I("desc","");
+		$data["status"] = (int)I("status",0);
+		$data["sort"] = (int)I("sort",0);
+		
+		$data["createtime"] = date('Y-m-d H:i:s');
+		$data["createuser"] = session('RTC_STAFF')["staffId"];
 	    //if($this->checkEmpty($data,true)){
 			$m = M('mall_activity');
 			$rs = $m->add($data);
@@ -37,32 +41,32 @@ class MallActivityModel extends BaseModel {
 				$rd['status']= 1;
 			}
 		//}
-		return $rd;
+		return $rd; 
 	 } 
      /**
 	  * 修改
 	  */
 	 public function edit(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("id",0);
+	 	$mactid = (int)I("mactid",0);
 		$data = array();
-		$data["catId"] = (int)I("catId");
-		$data["activityTitle"] = I("activityTitle");
-		$data["isShow"] = (int)I("isShow",0);
-		$data["activitySort"] = (int)I("activitySort");
-		$data["efficacySDate"] = I("efficacySDate");
-		$data["efficacyEDate"] = I("efficacyEDate");
+		$data["mactname"] = I("mactname");		
+		$data["logo"] =  I("logo");
+		$data["logothums"] = I("logothums");
+		$data["adpath"] = I("adpath");
+		$data["adpaththums"] = I("adpaththums");
+		$data["starttime"] = I("starttime");
+		$data["endtime"] = I("endtime");
 		
-		$data["activityContent"] = I("activityContent");
-		$data["activityKey"] = I("activityKey");
-		$data["activityImg"] = I("activityImg");
-		$data["limitUseShopID"] = (int)I("limitUseShopID");
-		$data["ticketId"] = I("ticketId","");		//卡券ID
-		
-		$data["staffId"] =(int)session('RTC_STAFF.staffId');
+
+		$data["mode"] = I("mode","");
+		$data["modecolor"] = I("modecolor","");
+		$data["desc"] = I("desc","");
+		$data["status"] = (int)I("status",0);
+		$data["sort"] = (int)I("sort",0);
 	    //if($this->checkEmpty($data,true)){	
 			$m = M('mall_activity');
-		    $rs = $m->where("activityId=".(int)I('id',0))->save($data);
+		    $rs = $m->where("mactid=".$mactid)->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
 			}
@@ -74,7 +78,7 @@ class MallActivityModel extends BaseModel {
 	  */
      public function get(){
 	 	$m = M('mall_activity');
-		return $m->where("activityId=".(int)I('id'))->find();
+		return $m->where("mactid=".(int)I('id'))->find();
 	 }
 	 /**
 	  * 分页列表
@@ -86,10 +90,10 @@ class MallActivityModel extends BaseModel {
 	 		a.*
 	 	from __PREFIX__mall_activity a
 	 	where 
-	 		a.catId=c.catId and a.staffId = s.staffId 
+	 		 1=1
 	 	";
-	 	if(I('activityTitle')!='')$sql.=" and activityTitle like '%".I('activityTitle')."%'";
-	 	$sql.=' order by activityId desc';
+	 	if(I('mactname')!='')$sql.=" and mactname like '%".I('mactname')."%'";
+	 	$sql.=' order by mactid desc';
 		return $m->pageQuery($sql);
 	 }
 	 /**
@@ -97,7 +101,7 @@ class MallActivityModel extends BaseModel {
 	  */
 	  public function queryByList(){
 	     $m = M('mall_activity');
-	     $sql = "select * from __PREFIX__mall_activity where isShow =1 order by activityId desc";
+	     $sql = "select * from __PREFIX__mall_activity   order by mactid desc";
 		 $rs = $m->query($sql);
 
 		 return $rs;
@@ -123,7 +127,7 @@ class MallActivityModel extends BaseModel {
 	 	if(I('id',0)==0)return $rd;
 	 	$m = M('mall_activity');
 	 	$m->isShow = ((int)I('isShow')==1)?1:0;
-	 	$rs = $m->where("activityId=".(int)I('id',0))->save();
+	 	$rs = $m->where("mactid=".(int)I('id',0))->save();
 	    if(false !== $rs){
 			$rd['status']= 1;
 		}

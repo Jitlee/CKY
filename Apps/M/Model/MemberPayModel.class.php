@@ -39,7 +39,7 @@ class MemberPayModel extends BaseModel {
 			//更新订单状态
 			$orderid=$dataInfo["extendid"];
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->OrderPay($orderid);
+			$res=$dbOrders->OrderPay((int)$orderid);
 			
 			//同步用户记录
 			$mSync = D('M/MemberOneCardSync');
@@ -104,7 +104,7 @@ class MemberPayModel extends BaseModel {
 		{
 			//更新订单状态
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->OrderPay($orderid);
+			$res=$dbOrders->OrderPay((int)$orderid);
 			
 			if($res["status"] == 1)
 			{

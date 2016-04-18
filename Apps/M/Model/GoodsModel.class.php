@@ -11,7 +11,7 @@
 class GoodsModel extends BaseModel {
 	public function goods() {
 		$shopId = I('shopId');
-		$pageSize = 12;
+		$pageSize = (int)I('pageSize', 12);
 		$pageNo = intval(I('pageNo', 1));
 		$map = array('g.shopId'	=> $shopId
 			,"g.isSale"=>1
@@ -80,6 +80,18 @@ class GoodsModel extends BaseModel {
 		return $this->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
 			->join('g inner join __SHOPS__ s on s.shopId = g.shopId')
 			->where($map)->order('g.createTime')->page($pageNo, $pageSize)->select();
+	}
+	
+	public function reduceStock($goodsId, $count) {
+		$data = array(
+			'goodsStock'	 	=> array('exp', '`goodsStock` - '.$count)
+		);
+		$map = array(
+			'goodsId'		=> $goodsId
+		);
+		$rst = $this->where($map)->save($data);
+		echo $this->getLastSql();
+		return $rst;
 	}
 };
 ?>

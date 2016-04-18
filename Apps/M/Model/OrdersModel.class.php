@@ -152,31 +152,39 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 提交订单
 	 */
-	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket){	
+	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket){
+
+        $this->startTrans();
+        
+        $rst = $this->_addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket);
+		if($rst['status'] == 1){
+			$this->commit();
+		}else{
+			$this->rollback();
+		}
+		return $rst;
+		
+	}
+	
+	function _addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket) {
+		$rst = array('status' => 1);
+		$m = M('orderids');
 		$orderInfos = array();
 		$orderIds = array();
 		$orderNos = array();
 		$remarks = I("remarks");
 		$yadb = D('M/UserAddress');
 		$addressInfo = $yadb->getAddressDetails($consigneeId);
-		
-//		echo dump($addressInfo);
-//		exit();
-		
-//		echo dump($catgoods);
-//		exit();
-		
-        $m = M('orderids');
-        $m->startTrans();
-        
-        $tm = D('M/ActivityTicket');
+		$tm = D('M/ActivityTicket');
         $tmm = D('M/ActivityTicketM');
+        $gm = D('M/Goods');
+        $gam = D('M/GoodsAttributes');
         
         if($ticket) {
-        	// 更新优惠券使用数量
-        	$tm->updateUsedCount($ticket['ticketID']);
-        	// 标记$ticket已使用
-        	$tmm->updateStatus($userId, $ticket['ticketID']);
+	        	// 更新优惠券使用数量
+	        	$tm->updateUsedCount($ticket['ticketID']);
+	        	// 标记$ticket已使用
+	        	$tmm->updateStatus($userId, $ticket['ticketID']);
         }
         
 		foreach ($catgoods as $key=> $shopgoods){
@@ -219,6 +227,7 @@ class OrdersModel extends BaseModel {
 			$data["invoiceClient"] = I("invoiceClient");
 			$data["isAppraises"] = 0;
 			$data["isSelf"] = $isself;
+			$data["orderType"] = $shopgoods["orderType"];  // 0普通商品、1快餐、2一元购
 			$data["ticketId"] = $shopgoods["ticketId"]; // 优惠券Id
 			$data["deductible"] = $shopgoods["deductible"]; // 抵扣金额(元)
 			$data["needPay"] = $shopgoods["totalMoney"]+$deliverMoney - $shopgoods["deductible"];
@@ -229,16 +238,13 @@ class OrdersModel extends BaseModel {
 				$data["orderStatus"] = 1; // 未处理
 			} else if($payway==1){
 				$data["orderStatus"] = 0; // 待支付
-			}else{
+			} else{
 				$data["orderStatus"] = 1; // 未处理
 			}
 			
 			$data["orderunique"] = $orderunique;
 			$data["isPay"] = 0;
-			$morders = M('orders');
-			$orderId = $morders->add($data);	
-//			echo dump($orderId);
-//			echo $morders->getLastSql();
+			$orderId = $this->add($data);
 			
 			$orderNos[] = $data["orderNo"];
 			$orderInfos[] = array("orderId"=>$orderId,"orderNo"=>$data["orderNo"], "orderStatus"=>$data["orderStatus"]) ;
@@ -259,10 +265,34 @@ class OrdersModel extends BaseModel {
 					$data["goodsName"] = $sgoods["goodsName"];
 					$data["goodsThums"] = $sgoods["goodsThums"];
 					
-					$mog->add($data);
+					if($mog->add($data) === FALSE) {
+						$rst['status'] = -101;
+						$rst['data'] = '创建订单商品失败';
+						return $rst;
+					}
+					
+					if(!empty($sgoods['miaoshaId'])) {
+						$rst = $this->_addMiaosha($userId, $sgoods, $orderId);
+						if($rst['status'] != 1) {
+							return $rst;
+						}
+					}
+					
+					if($gm->reduceStock($sgoods["goodsId"], $sgoods['cnt']) === FALSE) {
+						$rst['status'] = -102;
+						$rst['data'] = '修改库存失败';
+						return $rst;
+					}
+					if((int)$sgoods["goodsAttrId"]>0){
+						if($gam->reduceStock((int)$sgoods["goodsAttrId"], $sgoods['cnt']) === FALSE) {
+							$rst['status'] = -103;
+							$rst['data'] = '修改库存失败';
+							return $rst;
+						}
+					}
 				}
 			
-				if($payway==0){
+				if($rst['status'] == 1 && $payway==0){
 					//建立订单记录
 					$data = array();
 					$data["orderId"] = $orderId;
@@ -272,7 +302,6 @@ class OrdersModel extends BaseModel {
 					$data["logTime"] = date('Y-m-d H:i:s');
 					$mlogo = M('log_orders');
 					$mlogo->add($data);
-					
 					
 					//建立订单提醒
 					$sql ="SELECT userId,shopId,shopName FROM __PREFIX__shops WHERE shopId=$shopId AND shopFlag=1  ";
@@ -288,16 +317,6 @@ class OrdersModel extends BaseModel {
 						$data["createTime"] = date("Y-m-d H:i:s");
 						$morm->add($data);
 					}
-					
-					//修改库存
-					foreach ($pshopgoods as $key=> $sgoods){
-						$sql="update __PREFIX__goods set goodsStock=goodsStock-".$sgoods['cnt']." where goodsId=".$sgoods["goodsId"];
-						$this->execute($sql);
-						if((int)$sgoods["goodsAttrId"]>0){
-							$sql="update __PREFIX__goods_attributes set attrStock=attrStock-".$sgoods['cnt']." where id=".$sgoods["goodsAttrId"];
-							$this->execute($sql);
-						}
-					}
 				}else{
 					$data = array();
 					$data["orderId"] = $orderId;
@@ -308,15 +327,90 @@ class OrdersModel extends BaseModel {
 					$mlogo = M('log_orders');
 					$mlogo->add($data);
 				}
+			} else {
+				$rst['status'] = -102;
+				$rst['data'] = '创建订单号失败';
+				return $rst;
 			}
 		}
-		if(count($orderIds)>0){
-			$m->commit();
-		}else{
-			$m->rollback();
-		}
-		return array("orderIds"=>$orderIds,"orderInfos"=>$orderInfos,"orderNos"=>$orderNos);
+		$rst["orderIds"]=$orderIds;
+		$rst["orderInfos"]=$orderInfos;
+		$rst["orderNos"]=$orderNos;
+		return $rst;
+	}
+	
+	// 处理秒杀商品
+	function _addMiaosha($uid, $sgoods, $orderId) {
+//		echo dump($sgoods);
+		$rst = array('status' => 1);
+		// 获取云购码
+		$mcdb = M('MiaoshaCode');
+		$mcmap = array(
+			'mc.miaoshaId'		=> $sgoods['miaoshaId'],
+			'mc.uid'				=> 0,
+			'mc.mmid'			=> 0,
+			'm.miaoshaStatus'	=> array('lt', 2), 
+		);
+		$pageSize = $sgoods['cnt'];
+		$codes = $mcdb->field('mc.mcid, mc.qishu,mc.miaoshaCode,mc.miaoshaCode,rand() factor')
+			->join('mc  inner join __GOODS__ g on mc.miaoshaId = g.miaoshaId')
+			->join('inner join __MIAOSHA__ m on mc.miaoshaId = m.miaoshaId and mc.qishu=m.qishu')
+			->where($mcmap)
+			->order('factor asc')->page(1, $pageSize)->select();
 		
+		if(empty($codes)) {
+			$rst['status'] = -201;
+			$rst['data'] = '生成云购码失败';
+//			$rst['data'] = $mcdb->getLastSql();
+			return $rst;
+		}
+		
+		// 增加云购纪录
+		$mmdb = M('MemberMiaosha');
+		$mmdata = array(
+			'miaoshaId'		=> $sgoods['miaoshaId'],
+			'qishu'			=> $codes[0]['qishu'],
+			'uid'			=> $uid,
+			'count'			=> $sgoods['cnt'],
+			'orderId'		=> $orderId,
+		);
+		$mmid = $mmdb->add($mmdata);
+		if(!($mmid > 0)) {
+			$rst['status'] = -202;
+			$rst['data'] = '添加云购纪录失败';
+			return $rst;
+		}
+		
+		// 标记云购码
+		$mcids = array();
+		foreach($codes as $code) {
+			array_push($mcids, $code['mcid']);
+		}
+		
+		if($mcdb->where('mcid in('.join(',', $mcids).')')
+			->save(array( 'uid'=>$uid, 'mmid' => $mmid)) === FALSE) {
+			$rst['status'] = -203;
+			$rst['data'] = '获取云购码失败';
+//			$rst['data'] = $mcdb->getLastSql();
+			return $rst;
+		}
+		
+		// 修改秒杀商品库存
+		$mdb = M('miaosha');
+		$mddata = array(
+			'goumaicishu'		=> array('exp', '`goumaicishu` + 1'),
+			'canyurenshu'		=> array('exp', '`canyurenshu` + '.$sgoods['cnt']),
+			'shengyurenshu'		=> array('exp', ' `shengyurenshu` - '.$sgoods['cnt']),
+			'miaoshaStatus'		=> ($sgoods['cnt'] == (int)$sgoods['goodsStock'] ? 2 : 1)
+		);
+		if($mdb->where(array('miaoshaId'=>$sgoods['miaoshaId']))->save($mddata) === FALSE) {
+			$rst['status'] = -204;
+			$rst['data'] = '修改秒杀商品失败';
+//			$rst['data'] = $mdb->getLastSql();
+			return $rst;
+		}
+		
+		return $rst;
 	}
 	
 	/**
@@ -720,19 +814,32 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 取消订单
 	 */
-	public function orderCancel($obj){		
-		$userId = (int)$obj["userId"];
-		$orderId = (int)$obj["orderId"];
-		$rsdata = array('status'=>-1);
-		//判断订单状态，只有符合状态的订单才允许改变
-		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId and orderFlag = 1 and userId=".$userId;		
-		$rsv = $this->queryRow($sql);
-		if((int)$rsv["orderStatus"] != 0) { // 用户只有待付款的状态才能取消
-			return $rsdata;
+	public function orderCancel($uid, $orderId){
+		$rsdata = array('status' => -1);
+		
+		$filter = array();
+		$filter['userId'] = $uid;
+		$filter['orderId'] = $orderId;
+		$filter['isPay'] = 0;	// 未支付
+		$filter['orderStatus'] = 0; // 待支付
+		$order = $this->field("userId,orderType")->where($filter)->find();
+		if(empty($order)) { // 目前只有为待支付的订单可以取消
+			$rst['status'] = -1;
+			return $rst;
 		}
-		$orderStatus = -1; // 用户取消订单
-		$sql = "UPDATE __PREFIX__orders set orderStatus = ".$orderStatus." WHERE orderId = $orderId and userId=".$userId;	
-		$rs = $this->execute($sql);		
+		
+		// 修改orders表状态
+		$data = array();
+		$data['orderStatus'] = -2;
+		if($this->where($filter)->save($data) === FALSE) {
+			$rst['status'] = -2;
+			return $rst;
+		}
+		
+		// 退还库存
+//		$filter = array();
+//		$filter['o.orderId'] = $orderId;
+//		$goods = $this->field('g.goodsId, g.goodsNums')->where($filter)->select();
 		
 		$sql = "select ord.deliverType, ord.orderId, og.goodsId ,og.goodsId, og.goodsNums 
 				from __PREFIX__orders ord , __PREFIX__order_goods og 
@@ -1081,24 +1188,52 @@ class OrdersModel extends BaseModel {
 	 * 订单支付状态
 	 */
 	public function OrderPay($orderId){
-				
-		if($orderId=='')continue;//订单号为空则跳过
-		$sql = "SELECT orderId,orderNo,orderStatus FROM __PREFIX__orders WHERE orderId = $orderId AND orderFlag =1";		
-		$rsv = $this->queryRow($sql);
-		$orderStatus = (int)$rsv["orderStatus"];
-		if($rsv["isPay"]!=0 && $orderStatus !=0)continue;//不等于未支付   isPay  0 未支付，  1 已支付    payType 是否在线支付 0 货到付款 1在线支付
-
-		$sql = "UPDATE __PREFIX__orders set isPay = 1,orderStatus=1 WHERE orderId = $orderId";		
-		$rs = $this->execute($sql);
+		$rst = array('status' => 1);
+		$filter = array();
+		$filter['orderId'] = $orderId;
+		$filter['isPay'] = 0;	// 未支付
+		$filter['orderStatus'] = 0; // 待支付
+		$order = $this->field("userId,orderType")->where($filter)->find();
+		if(empty($order)) {
+			$rst['status'] = -1;
+			return $rst;
+		}
+		
+		// 修改orders表状态
 		$data = array();
-		$m = M('log_orders');
-		$data["orderId"] = $orderId;
-		$data["logContent"] = "订单支付成功";
-		$data["logUserId"] = session("uid");
-		$data["logType"] = 0;
-		$data["logTime"] = date('Y-m-d H:i:s');
-		$ra = $m->add($data);
+		$data['orderStatus'] = (int)$order['orderType'] == 2 ? 6 : 1; // 一元购直接完结商品
+		$data['isPay'] = 1;
+		if($this->where($filter)->save($data) === FALSE) {
+			$rst['status'] = -2;
+			return $rst;
+		}
+		
+		if((int)$order['orderType'] != 2) { // 一元购商品 不需要纪录和提醒，中奖后才会提醒
+			//建立订单记录
+			$data = array();
+			$data["orderId"] = $orderId;
+			$data["logContent"] = ($pshopgoods[0]["deliverType"]==0)? "下单成功":"下单成功等待审核";
+			$data["logUserId"] = $userId;
+			$data["logType"] = 0;
+			$data["logTime"] = date('Y-m-d H:i:s');
+			$mlogo = M('log_orders');
+			$mlogo->add($data);
 			
+			//建立订单提醒
+			$sql ="SELECT userId,shopId,shopName FROM __PREFIX__shops WHERE shopId=$shopId AND shopFlag=1  ";
+			$users = $this->query($sql);
+			$morm = M('order_reminds');
+			for($i=0;$i<count($users);$i++){
+				$data = array();
+				$data["orderId"] = $orderId;
+				$data["shopId"] = $shopId;
+				$data["userId"] = $users[$i]["userId"];
+				$data["userType"] = 0;
+				$data["remindType"] = 0;
+				$data["createTime"] = date("Y-m-d H:i:s");
+				$morm->add($data);
+			}
+		}
 		return array('status'=>1);
 	}
 	
@@ -1288,8 +1423,6 @@ class OrdersModel extends BaseModel {
 			}else{
 				$data["status"] = 1;
 			}
-			
-			
 		}else{
 			$data["status"] = -1;
 		}

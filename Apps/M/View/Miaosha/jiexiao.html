@@ -6,35 +6,38 @@
 		<i class="iconfont icon-dropdown"></i>
 	</a>
 	<div class="ms-radio-group mui-table">
+		<input id="laveSortRadio" type="radio" name="ms-sort" value="6"/><label for="laveSortRadio" class="mui-table-cell mui-text-center">即将</label>
 		<input id="popSortRadio" type="radio" name="ms-sort" value="1"/><label for="popSortRadio" class="mui-table-cell mui-text-center">人气</label>
 		<input id="newestSortRadio" type="radio" name="ms-sort" value="2"/><label for="newestSortRadio" class="mui-table-cell mui-text-center">最新</label>
-		<input id="laveSortRadio" type="radio" name="ms-sort" value="3"/><label for="laveSortRadio" class="mui-table-cell mui-text-center">剩余人数</label>
 		<input id="priceDESCSortRadio" type="radio" name="ms-sort" value="4"/><label for="priceDESCSortRadio" class="mui-table-cell mui-text-center">价格</label>
-		<input id="priceASCSortRadio" type="radio" name="ms-sort" value="5"/><label for="priceASCcSortRadio" class="mui-table-cell mui-text-center">价格</label>
+		<input id="priceASCSortRadio" type="radio" name="ms-sort" value="5"/><label for="priceASCSortRadio" class="mui-table-cell mui-text-center">价格</label>
 	</div>
 </div>
 <div id="goodsLoading" class="mui-loading">
 	<div class="mui-spinner">
 	</div>
 </div>
-<div class="ms-list" data-bind="foreach: goods">
-	<div class="ms-list-item">
+<div class="mui-table-view jx-list" data-bind="foreach: goods">
+	<div class="mui-table-view-cell mui-media">
 		<a data-bind="attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId }">
-			<div class="ms-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
-			<div class="ms-title cky-ellipsis font14" data-bind="text: '(第'+qishu+'期) ' + goodsName"></div>
-			<div class="ms-progressbar">
-				<div class="ms-progressbar-item" data-bind="style: { width: 100 * Number(canyurenshu) / Number(zongrenshu) + '%'}"></div>
+			<div class="mui-media-object mui-pull-left">
+				<div class="jx-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+				<div class="jx-qishu mui-text-center" data-bind="text: '第' + qishu + '期'"></div>
 			</div>
-			<div class="ms-price font-gray">
-				<span class="font17">¥</span><r class="font17" data-bind="text: shopPrice"></r>
-				<span class="ms-origin-price font13" data-bind="text: '¥' + marketPrice"></span>
+			<div class="mui-media-body">
+				<span class="cky-ellipsis" data-bind="text: goodsName"></span>
+				<h5 class="font10" data-bind="text: '价值：¥' + marketPrice"></h5>
+				<div class="jx-countdown">
+					<i class="iconfont icon-time"></i>揭晓倒计时
+					<span data-bind="attr: { countdown: (Number(timestamp) + Number(jishijiexiao) * 3600) * 1000 }"></span>
+				</div>
 			</div>
-			<div class="ms-to-buy"><i></i>去抢购</div>
 		</a>
 	</div>
 </div>
 
 <script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/countdown.js"></script>
 <script>
 	$(function() {
 		var goods = [];
@@ -52,6 +55,7 @@
 				pageNo = 1;
 			}
 			$.getJSON("{:U('Miaosha/ms')}", {
+				type: 1,
 				pageNo: pageNo,
 				sortType: sortType,
 			}, function(list) {
@@ -60,6 +64,7 @@
 					pageNo++;
 					goods = goods.concat(list);
 					vm.goods(goods);
+					countdown();
 				}
 			});
 		}

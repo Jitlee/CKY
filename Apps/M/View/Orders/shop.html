@@ -230,8 +230,8 @@
 					}, function(result) {
 						layer.close(ll);
 						var status = result.status;
-						if(status == 0) {
-							var data = result.data;
+						if(status == 1) {
+							var data = result;
 							if(data && data.orderIds && data.orderIds.length > 0) {
 								// 删除临时数据和购物车
 								cky.storage.removeItem(subKey);

@@ -80,14 +80,26 @@ class MiaoshaAction extends BaseAction{
 	public function edit(){
 		$this->isLogin();
 		$m = D('Admin/Miaosha');
-    	$rs = array('status'=>-1);
-    	if((int)I('id',0)>0){
-    		$rs = $m->edit();
-    	}
-    	else{
-    		$rs = $m->insert();
-    	}
-    	$this->ajaxReturn($rs);
+	    	$rs = array('status'=>-1);
+	    	if((int)I('id',0)>0){
+	    		$rs = $m->edit();
+	    	}
+	    	else{
+	    		$m->startTrans();
+	    		$rs = $m->insert();
+			if($rs['status'] == 1) {
+				// 创建云购码
+				$mc = D('Admin/MiaoshaCode');
+				$rs['status'] = $mc->createCodes($rs['data']['miaoshaId'], $rs['data']['qishu'], $rs['data']['count']);
+			}
+			if($rs['status'] == 1) {
+				$m->commit();
+			} else {
+				$m->rollback();
+			}
+	    	}
+//		echo dump($rs['data']);
+	    	$this->ajaxReturn($rs);
 	}
 	/**
 	 * 删除商品
@@ -95,7 +107,18 @@ class MiaoshaAction extends BaseAction{
 	public function del(){
 		$this->isLogin();
 		$m = D('Home/Miaosha');
-		$rs = $m->del();
+		$m->startTrans();
+		$rs = $m->del($miaoshaId);
+		$miaoshaId = I('id');
+		if($rs['status'] == 1) {
+			$mc = D('Admin/MiaoshaCode');
+			$rs['status'] = $mc->del($miaoshaId, 1);
+		}
+		if($rs['status'] == 1) {
+			$m->commit();
+		} else {
+			$m->rollback();
+		}
 		$this->ajaxReturn($rs);
 	}
 }

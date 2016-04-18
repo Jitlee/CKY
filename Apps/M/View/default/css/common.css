@@ -40,6 +40,21 @@ r {
 	display: block;
 }
 
+.cky-footer.cky-button-footer {
+	background-color: #fff;
+	height: 54px;
+	padding: 10px 42px 0 42px;
+}
+
+.cky-footer.cky-button-footer .mui-table-cell {
+	padding: 0px 2px;
+}
+
+.cky-footer.cky-button-footer .mui-table-cell .mui-btn {
+	font-size: 16px;
+	padding: 7px 6px;
+}
+
 .cky-hidden {
 	display: none;
 }
@@ -287,7 +302,6 @@ r {
 .cky-ellipsis {
 	overflow : hidden;
 	text-overflow: ellipsis;
-	display: -webkit-box;
 	white-space: nowrap;
 	word-break: keep-all;
 }
@@ -461,16 +475,31 @@ a.cky-segmented-item {
 	line-height: 40px;
 	text-align: center;
 	background-color: #fff;
-	border-bottom: solid 1px #ccc;
 	display: table;
 	table-layout: fixed;
 	width: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.cky-tab-item {
+	text-align: center;
+	display: table-cell;
+	font-size: 15px;
+	padding: 0;
+	margin: 0;
+	border-bottom: 2px solid #d5d5d5;
+}
+.cky-tab-item, .cky-tab a {
+	color: #333;
 }
 
-.cky-tab-item {
-	display: table-cell;
-	color: #999;
-	font-size: 15px;
+.cky-tab .cky-active {
+	border-bottom-color:#FF5053;
+}
+
+.cky-tab .cky-active a{
+	color:#FF5053;
 }
 
 .cky-tab-content {
@@ -479,22 +508,6 @@ a.cky-segmented-item {
 
 .cky-tab-content.cky-active {
 	display: block;
-}
-
-.cky-tab .cky-active {
-	color: #FF2200;
-	position: relative;
-}
-
-.cky-tab .cky-active::after {
-	position: absolute;
-	content: " ";
-	display: block;
-	left:10px;
-	right: 10px;
-	bottom: 0px;
-	height: 2px;
-	background-color: #F20;
 }
 
 .cky-valid-count {
@@ -656,7 +669,7 @@ a.cky-segmented-item {
 }
 
 .font-blue {
-	color: #FF4040; 
+	color: #2af; 
 }
 
 .height30 {
@@ -869,3 +882,10 @@ p.cky-update {
 	color: #FF4040;
 }
 .mui-content-empty {margin: 10px;text-align: center;  font-size: 16px;}
+
+.cky-content-padded {
+	padding: 10px;
+}
+.cky-bg-white {
+	background-color: #fff;
+}

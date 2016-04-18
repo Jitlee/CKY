@@ -136,7 +136,7 @@ function FastCart(shopId, shopName, startMoney, freeMoney, fastMoney, costTime, 
 		
 		if(cart.total >= startMoney) {
 			vm.startMoney("选好了");
-			vm.ready(true);
+			vm.ready(cart.count > 0);
 		} else {
 			vm.startMoney("还差 ¥ " +  (startMoney - cart.total) + "起送");
 			vm.ready(false);

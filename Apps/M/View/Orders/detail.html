@@ -86,7 +86,7 @@
 			} else {
 				// 倒计时结束
 				var ll = cky.loadding();
-				$.post("{:U('close')}", { id: {:I('id')} }, function(ret) {
+				$.post("{:U('close')}", { id: {:I('id')}, type: -2 }, function(ret) {
 					cky.close(ll);
 					if(ret.status == 0) {
 						switchCloseStatus(-2); // 切换到关闭
@@ -104,7 +104,7 @@
 			    shadeClose: false,
 			    yes: function(){
 					var ll = cky.loadding();
-					$.post("{:U('cancel')}", { orderId: {:I('id')}}, function(result) {
+					$.post("{:U('cancel')}", { orderId: {:I('id')}, type: -1 }, function(result) {
 						cky.close(ll);
 						if(result.status > 0) {
 							cky.toast("订单已取消");

@@ -81,5 +81,17 @@ class GoodsModel extends BaseModel {
 			->join('g inner join __SHOPS__ s on s.shopId = g.shopId')
 			->where($map)->order('g.createTime')->page($pageNo, $pageSize)->select();
 	}
+	
+	public function reduceStock($goodsId, $count) {
+		$data = array(
+			'goodsStock'	 	=> array('exp', '`goodsStock` - '.$count)
+		);
+		$map = array(
+			'goodsId'		=> $goodsId
+		);
+		$rst = $this->where($map)->save($data);
+		echo $this->getLastSql();
+		return $rst;
+	}
 };
 ?>

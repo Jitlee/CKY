@@ -30,7 +30,7 @@ class MiaoshaModel extends BaseModel {
 	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
-			inner join __PREFIX__miaosha ms on ms.miaoshaid=g.miaoshaid 
+			inner join __PREFIX__miaosha ms on ms.miaoshaId=g.miaoshaId 
 			where goodsFlag=1  ";
 
 	 	if($goodsCatId1>0)$sql.=" and g.goodsCatId1=".$goodsCatId1;
@@ -49,7 +49,7 @@ class MiaoshaModel extends BaseModel {
 	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu,ms.subtitle,ms.xiangou
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
-			inner join __PREFIX__miaosha ms on ms.miaoshaid=g.miaoshaid 
+			inner join __PREFIX__miaosha ms on ms.miaoshaId=g.miaoshaId 
 			where goodsId=$id  order by goodsId desc";   
 		$goods = $m->query($sql)[0]; 
 		
@@ -72,15 +72,16 @@ class MiaoshaModel extends BaseModel {
 //			return $rd;
 //		}
 	    
+	    $shopId = -1; // 粗卡云平台
 		$data = array();
 		$data["goodsSn"] = I("goodsSn");
 		$data["goodsName"] = I("goodsName");
 		$data["goodsImg"] = I("goodsImg");
 		$data["goodsThums"] = I("goodsThumbs");
-		$data["shopId"] = 0;//session('RTC_USER.shopId');
+		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("goodsStock");
+		$data["goodsStock"] = (int)I("marketPrice");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
@@ -113,32 +114,38 @@ class MiaoshaModel extends BaseModel {
 		$data["goodsFlag"] = 1;
 		$data["createTime"] = date('Y-m-d H:i:s');
 		 
-		$miaoshaid= newid();
-		$data["miaoshaid"] = $miaoshaid;
+		$miaoshaId= newid();
+		$data["miaoshaId"] = $miaoshaId;
 		
 		//子表
 		$miaosha = array();
-		$miaosha["miaoshaid"] = $data["miaoshaid"];
+		$miaosha["miaoshaId"] = $data["miaoshaId"];
 		$miaosha["subtitle"] = I("subtitle");;
 		$miaosha["maxqishu"] = (int)I("maxqishu");		//最大期数
 		$miaosha["xiangou"] = (int)I("xiangou");
 		
-		$miaosha["miaoshastatus"] = (int)I("marketPrice");		//
+		$miaosha["miaoshaStatus"] = 0;		//
 		$miaosha["qishu"] = 1;		//期数',		 
 		$miaosha["zongrenshu"] = (int)I("marketPrice");			//'总人数',
-		$miaosha["canyurenshu"] = (int)I("marketPrice");		//'总需份数',
+		$miaosha["canyurenshu"] = 0;		//'参与人数',
 		$miaosha["shengyurenshu"] = (int)I("marketPrice");		// '剩余数',		
 		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");		// '即时揭晓',
+		
+		
+		$rd['data'] = array(
+			'miaoshaId'		=> $miaoshaId,
+			'qishu'			=> $miaosha["qishu"],
+			'count'			=> $miaosha["zongrenshu"],
+		);
 
 		if($this->checkEmpty($data,true)){
 			$data["brandId"] = (int)I("brandId");
 			$data["goodsSpec"] = I("goodsSpec");
 			$data["goodsKeywords"] = I("goodsKeywords");
 			$m = M('goods');
-			$mMiaosha = M('miaosha');
 			$goodsId = $m->add($data);
 			if(false !== $goodsId){
-				$mMiaosha->add($miaosha);
+				$this->add($miaosha);
 				$rd['status']= 1;				
 				 
 				//保存相册
@@ -149,7 +156,7 @@ class MiaoshaModel extends BaseModel {
 						if($v=='')continue;
 						$str1 = explode('@',$v);
 						$data = array();
-						$data['shopId'] =0;// session('RTC_USER.shopId');
+						$data['shopId'] = $shopId;// session('RTC_USER.shopId');
 						$data['goodsId'] = $goodsId;
 						$data['goodsImg'] = $str1[0];
 						$data['goodsThumbs'] = $str1[1];
@@ -215,16 +222,16 @@ class MiaoshaModel extends BaseModel {
 		$data["goodsStatus"] = ($GLOBALS['CONFIG']['isGoodsVerify']['fieldValue']==1)?0:1;
 		$data["attrCatId"] = (int)I("attrCatId");
 		
-		$data["miaoshaid"] = I("miaoshaid");
+		$data["miaoshaId"] = I("miaoshaId");
 		
 		//子表
 		$miaosha = array();
-//		$miaosha["miaoshaid"] = I("miaoshaid");
+//		$miaosha["miaoshaId"] = I("miaoshaId");
 		$miaosha["subtitle"] = I("subtitle");;
 		$miaosha["maxqishu"] = (int)I("maxqishu");		//最大期数
 		$miaosha["xiangou"] = (int)I("xiangou");
 		
-		$miaosha["miaoshastatus"] = (int)I("marketPrice");		//
+		$miaosha["miaoshaStatus"] = (int)I("marketPrice");		//
 //		$miaosha["qishu"] = 1;		//期数',		 
 		$miaosha["zongrenshu"] = (int)I("marketPrice");		//'总人数',
 		$miaosha["canyurenshu"] = (int)I("marketPrice");		//'总需份数',
@@ -240,8 +247,8 @@ class MiaoshaModel extends BaseModel {
 			$rs = $m->where('goodsId='.$goods['goodsId'])->save($data);
 			//秒杀明细
 			$mMiaosha = M('miaosha');
-			$maioshaid=$miaosha['miaoshaid'];
-			$filter="miaoshaid='$maioshaid'";
+			$maioshaid=$miaosha['miaoshaId'];
+			$filter="miaoshaId='$maioshaid'";
 			$rs = $mMiaosha->where($filter)->save($miaosha);
 			if(false !== $rs){
 				 $rd['status']= 1;
@@ -268,6 +275,17 @@ class MiaoshaModel extends BaseModel {
 		}
 		return $rd;
 	}
-		
+	
+	public function del($miaoshaId) {
+		$rst['status'] = -7;
+		$data = $this->field('miaoshaStatus,qishu')->find($miaoshaId);
+		if(!empty($data) && (int)$data['qishu'] == 1 && (int)$data['miaoshaStatus'] == 0) {
+			$rst['status'] = -1;
+			if($this->delete($miaoshaId) !== FALSE) {
+				$rst['status'] = 1;
+			}
+		}
+		return $rst;
+	}
 	
 }

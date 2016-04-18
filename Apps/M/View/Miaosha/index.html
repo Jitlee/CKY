@@ -19,7 +19,7 @@
 </div>
 <div class="ms-list" data-bind="foreach: goods">
 	<div class="ms-list-item">
-		<a>
+		<a data-bind="attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId }">
 			<div class="ms-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
 			<div class="ms-title cky-ellipsis font14" data-bind="text: '(第'+qishu+'期) ' + goodsName"></div>
 			<div class="ms-progressbar">

@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('miaosha.css')}" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('goods-picker.css')}" />
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">第{$data.qishu}期</h1>
+	<a class="mui-btn mui-btn-link mui-pull-right" ><i class="mui-icon mui-icon-bars"></i></a>
+</header>
+
+<div class="mui-content mui-content-bottom">
+	<div class="cky-bg-white">
+		<!-- Slider main container -->
+		<div class="swiper-container ms-swiper">
+		    <!-- Additional required wrapper -->
+		    <div class="swiper-wrapper">
+		        <!-- Slides -->
+		        <foreach name="galleries" item="item">
+	        			<div class="swiper-slide"><a class="swiper-img" style="background-image: url('/{$item.goodsImg}');"></a></div>
+		        </foreach>
+		    </div>
+		    <!-- If we need pagination -->
+		    <div class="swiper-pagination"></div>
+		</div>
+		<div class="mui-content-padded">
+			<h4 class="ms-title mui-ellipsis-2">(第{$data.qishu}期) {$data.goodsName}<r>{$data.subTitle}</r></h4>
+			<h5>价值：<r class="font10">¥</r> <r class="font24">{$data.marketPrice}</r></h5>
+			<div class="ms-progressbar">
+				<div class="ms-progressbar-item" style="width: {$data['canyurenshu']*100/$data['zongrenshu']}%"></div>
+			</div>
+			<div class="mui-table">
+				<div class="mui-table-cell mui-text-left">
+					<h5 class="font10 font-red">{$data.canyurenshu}</h5>
+					<h5 class="font10">已参与</h5>
+				</div>
+				<div class="mui-table-cell mui-text-center">
+					<h5 class="font10">{$data.zongrenshu}</h5>
+					<h5 class="font10">总需</h5>
+				</div>
+				<div class="mui-table-cell mui-text-right">
+					<h5 class="font10 font-blue">{$data.shengyurenshu}</h5>
+					<h5 class="font10">剩余</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right">
+				参与纪录<span class="font13 font-gray">({$data.goumaicishu})</span>
+			</a>
+		</li>
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right">
+				图文详情<span class="font13 font-gray">(建议WIFI下使用)</span>
+			</a>
+		</li>
+		<li class="mui-table-view-cell">
+			<a class="mui-navigate-right">
+				商品晒单
+			</a>
+		</li>
+	</ul>
+</div>
+<footer class="cky-footer cky-button-footer">
+	<div class="mui-table">
+		<div class="mui-table-cell"><a ctype="direct" class="mui-btn mui-btn-block mui-btn-danger">立即一元秒杀</a></div>
+		<div class="mui-table-cell"><a ctype="add" class="mui-btn mui-btn-block mui-btn-primary">加入购物车</a></div>
+	</div>
+</footer>
+
+<div id="goodsPicker" class="cky-goods-picker cky-hidden" data-bind="css: activeCss">
+	<div class="cky-goods-picker-body">
+		<div class="cky-goods-picker-thums" style="background-image: url(/{$data.goodsThums});"></div>
+		<div class="cky-goods-picker-media">
+			<r class="font20">¥ {$data.shopPrice}</r>
+			<h5>剩余{$data.shengyurenshu}次</h5>
+			<h5></h5>
+		</div>
+		<div class="cky-goods-picker-content">
+		<hr />
+		<div class="mui-content-padded">
+			<div class="cky-col-view">
+				<div class="cky-col-view-cell">购买数量</div>
+				<div class="cky-col-view-cell cky-num-pick">
+					<span class="jian"><i class="iconfont icon-jian"></i></span>
+					<span class="num">1</span>
+					<span class="jia"><i class="iconfont icon-jia"></i></span>
+				</div>
+			</div>
+		</div>
+		</div>
+		<a id="submit" class="cky-btn cky-btn-block cky-btn-red">确定</a>
+	</div>
+</div>
+<script src="__KO__"></script>
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+
+<script>
+	$(function() {
+		var mySwiper = new Swiper ('.swiper-container', {
+	      	// Optional parameters
+	      	direction: 'horizontal',
+	      	pagination: '.swiper-pagination',
+	      	autoplay: 3000,
+	      	loop: true
+	   	});
+	   	
+	   	// 购物车
+	   	var shopCart = new ShopCart("goodsPicker", {
+			shopId: "{$data.shopId}",
+			shopName: "粗卡平台",
+			deliveryFreeMoney: 0,
+			deliveryMoney: 0,
+		}, {
+			goodsId: {$data.goodsId},
+			goodsName: "{$data.goodsName}",
+			goodsThums: "{$data.goodsThums}",
+			shopPrice: {$data.shopPrice},
+			goodsStock: {$data.shengyurenshu},
+			goodsUnit: "次"
+		});
+		
+		// 加入购物车，立即购买
+		$("a[ctype]").click(function() {
+			var $this = $(this);
+			var ctype = $this.attr("ctype");
+			shopCart.open(ctype);
+		});
+		$("#submit").click(shopCart.ok);
+	});
+</script>

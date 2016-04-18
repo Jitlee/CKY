@@ -47,7 +47,7 @@ class MiaoshaModel extends BaseModel {
 		}
 		
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
-				m.miaoshaid, m.qishu, m.zongrenshu, m.canyurenshu, m.shengyurenshu, m.jishijiexiao, m.xiangou,
+				m.miaoshaId, m.qishu, m.zongrenshu, m.canyurenshu, m.shengyurenshu, m.jishijiexiao, m.xiangou,
 				m.miaoshaStatus, m.subTitle, m.createTime';
 				
 		if($type == 1) {
@@ -61,6 +61,7 @@ class MiaoshaModel extends BaseModel {
 			->order($order)
 			->page($pageNum, $pageSize)
 			->select();
+//		echo $this->getLastSql();
 		return $list;
 	}
 
@@ -73,8 +74,8 @@ class MiaoshaModel extends BaseModel {
 		$order = "endTime desc"; // 最新
 		
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
-				h.miaoshaid, h.qishu, h.subTitle, h.endTime, h.prizeCode,h.prizeCount, 
-				u.uid, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName';
+				h.miaoshaId, h.qishu, h.subTitle, h.endTime, h.prizeCode,h.prizeCount, 
+				h.prizeUid, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName';
 		
 		$list = $this
 			->field($field)
@@ -86,6 +87,32 @@ class MiaoshaModel extends BaseModel {
 			->page($pageNum, $pageSize)
 			->select();
 		return $list;
+	}
+	
+	public function get($miaoshaId = null, $qishu = 0) {
+		$miaoshaId = I('id', $miaoshaId);
+		$qishu = I('qishu', $qishu);
+		$map = array('m.miaoshaId'	 => $miaoshaId);
+		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, miaoshaStatus,'.
+			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu';
+		$join = 'inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';
+		$m = $this;
+		
+		$list = null;
+		if($qishu > 0) { // 查看历史
+			$field .= ', prizeCount, prizeCode, prizeUid, endTime, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName';
+			$map['qishu'] = $qishu;
+			$m = M('MiaoshaHistory');
+			$m->join('m left join __MEMBER__ u on u.uid = m.prizeUid');
+		} else { // 查看主表纪录
+			$join = 'm '.$join;
+		}
+		$data = $m->join($join)->field($field)->where($map)->find();
+//		echo $m->getLastSql();
+		if((int)$data['miaoshaStatus'] == 3) {
+			return $this->get($data['miaoshaId'], (int)$data['qishu']);
+		}
+		return $data;
 	}
 }	
 ?>

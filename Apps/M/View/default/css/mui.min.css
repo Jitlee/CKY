@@ -101,3 +101,14 @@ textarea {
 .mui-btn, button, input[type=button], input[type=reset], input[type=submit] {
 	padding: 3px 12px;
 }
+
+.mui-btn-danger, .mui-btn-negative, .mui-btn-red {
+    border: 1px solid #FF002B;
+    background-color: #FF002B;
+}
+
+.mui-btn-blue, .mui-btn-primary, input[type=submit] {
+    color: #fff;
+    border: 1px solid #2af;
+    background-color: #2af;
+}

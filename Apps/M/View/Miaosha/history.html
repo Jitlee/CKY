@@ -16,7 +16,7 @@
 </div>
 <div class="mui-table-view" data-bind="foreach: goods">
 	<div class="mui-table-view-cell mui-media">
-		<a>
+		<a data-bind="attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId + '&qishu=' + qishu }">
 			<div class="mui-media-object mui-pull-left">
 				<div class="jx-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
 				<div class="jx-qishu mui-text-center" data-bind="text: '第' + qishu + '期'"></div>
@@ -26,6 +26,7 @@
 				<h5 class="font10" data-bind="text: '价值：¥' + marketPrice"></h5>
 				<div class="jx-user">获得者:<span data-bind="text: userName"></span></div>
 				<h5 class="font10">获得者本期参与：<r data-bind="text: prizeCount"></r>人次</h5>
+				<h5 class="font10">揭晓时间：<span data-bind="text: endTime"></span></h5>
 			</div>
 		</a>
 	</div>
@@ -40,7 +41,7 @@
 		};
 		ko.applyBindings(vm);
 		
-		var sortType = {:I('sortType', 1)};
+		var sortType = {:I('sortType', 2)};
 		
 		var pageNo = 1;
 		function page(clear) {

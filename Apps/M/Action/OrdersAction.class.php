@@ -352,12 +352,18 @@ class OrdersAction extends BaseUserAction {
 	 * 取消订单
 	 */
     public function cancel(){
-    	$morders = D('M/Orders');
-    	$obj["userId"] = getuid();
-    	$obj["orderId"] = I("orderId");
-		$rs = $morders->orderCancel($obj);
-		$this->ajaxReturn($rs);
-	} 
+    		$db = D('M/Orders');
+	    	$uid = getuid();
+	    	$orderId = (int)I("orderId");
+	    	$orderStatus = (int)I("type", 0);
+		$rst = null;
+		if($orderStatus == -1 || $orderStatus == -2) {
+			$rst = $db->orderCancel($uid, $orderId, $orderStatus);
+		} else {
+			$rst = array('status' => -100, 'data' => '取消订单的操作类型错误');
+		}
+		$this->ajaxReturn($rst, 'status');
+	}
 	
 	/**
 	 * 用户确认收货订单
@@ -508,7 +514,7 @@ class OrdersAction extends BaseUserAction {
 		}
 //		echo dump($ticket);
 //		return;
-		$result = array('status' => 0);
+		$result = array('status' => 1);
 		
 //		echo '-----';
 //		echo dump(I('goods'));
@@ -521,14 +527,21 @@ class OrdersAction extends BaseUserAction {
 		// 整理及核对购物车
 		foreach($cartGoods as $key => $cg) {
 			$goodsId = $cg->goodsId;
-			$count = $cg->count;
+			$count = (int)$cg->count;
 			$goods = $mgoods->info($goodsId,$goodsAttrId);
 			if(empty($goods)) {
 				$result['status']  = -1;
-				$result['data'] = '对不起，商品'.$goods['goodsName'].'不存在!';
+				$result['data'] = '对不起，商品['.$goodsId.']不存在!';
 				break;
 			}
-			if(intval($goods['goodsStock']) <= 0) {
+			
+			if(!empty($goods['miaoshaId']) && intval($goods['goodsStock']) < $count) {
+				$result['status']  = -8;
+				$result['data'] = '对不起，商品'.$goods['goodsName'].'剩余人次不足!';
+				break;
+			}
+			
+			if(intval($goods['goodsStock']) < $count) {
 				$result['status']  = -2;
 				$result['data'] = '对不起，商品'.$goods['goodsName'].'库存不足!';
 				break;
@@ -547,6 +560,11 @@ class OrdersAction extends BaseUserAction {
 			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
 			$shopGoods[$goods["shopId"]]['ticketId'] = $ticketId;
 			$shopGoods[$goods["shopId"]]['deductible'] = 0;
+			
+			$shopGoods[$goods["shopId"]]['orderType'] = 0; // 0普通商品、1快餐、2一元购
+			if((int)$goods['goodsCatId1'] < 3) {
+				$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1'];
+			}
 		}
 		
 		// 核对优惠券信息
@@ -604,8 +622,8 @@ class OrdersAction extends BaseUserAction {
 				$result['data'] = '对不起，请在优惠券的有效期内使用!';
 			}
 		}
-		if($result['status'] == 0) {
-			$result['data'] = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket);
+		if($result['status'] == 1) {
+			$result = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket);
 		}
 		
 		$this->ajaxReturn($result, 'JSON');
@@ -781,6 +799,13 @@ class OrdersAction extends BaseUserAction {
 //		$obj["userId"] = (int)$USER['userId'];
 //		$statusList = $morders->getShopOrderStatusCount($obj);
 //		$this->ajaxReturn($statusList);
+//	}
+
+//	public function test() {
+//		$orderId = (int)I('id');
+//		$db = D('M/Orders');
+//		$rst = $db->OrderPay($orderId);
+//		$this->ajaxReturn($rst, 'JSON');
 //	}
 	
 }

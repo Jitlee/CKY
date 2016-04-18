@@ -32,7 +32,7 @@
 	top:0;
 	left:0;
 	z-index: 1;
-	border-left: solid 1px #D5D5D5;
+	border-right: solid 1px #D5D5D5;
 }
 
 /** 单选按钮 **/
@@ -191,4 +191,23 @@
 	font-size: 17px;
 	color: #fff;
 	background-color: rgba(50,50,50, 0.3);
+}
+
+/* 详情页面开始 */
+
+.ms-swiper {
+	background-color: #fff;
+	border-bottom: solid 1px #d5d5d5;
+}
+
+.ms-swiper .swiper-img {
+	background-size: contain;
+}
+
+.ms-title {
+	font-weight: normal;
+	font-size: 20px;
+	color: #666;
+	line-height: 1.5;
+	margin-bottom: 8px;
 }

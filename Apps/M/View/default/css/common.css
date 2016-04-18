@@ -40,6 +40,21 @@ r {
 	display: block;
 }
 
+.cky-footer.cky-button-footer {
+	background-color: #fff;
+	height: 54px;
+	padding: 10px 42px 0 42px;
+}
+
+.cky-footer.cky-button-footer .mui-table-cell {
+	padding: 0px 2px;
+}
+
+.cky-footer.cky-button-footer .mui-table-cell .mui-btn {
+	font-size: 16px;
+	padding: 7px 6px;
+}
+
 .cky-hidden {
 	display: none;
 }
@@ -654,7 +669,7 @@ a.cky-segmented-item {
 }
 
 .font-blue {
-	color: #FF4040; 
+	color: #2af; 
 }
 
 .height30 {
@@ -870,4 +885,7 @@ p.cky-update {
 
 .cky-content-padded {
 	padding: 10px;
+}
+.cky-bg-white {
+	background-color: #fff;
 }

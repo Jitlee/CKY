@@ -235,7 +235,7 @@ function getCatListForEdit(objId,parentId,t,id){
 function editGoods(menuId){		
 	   var params = {};
 	   params.id = $('#id').val();
-	   params.miaoshaid = $('#miaoshaid').val();
+	   params.miaoshaId = $('#miaoshaId').val();
 	   
 	   params.goodsSn = $('#goodsSn').val();
 	   params.goodsName = $('#goodsName').val();

@@ -70,7 +70,7 @@
                <th width='40'>排序</th>
                
                <th width='80'>状态</th>
-               <th width='290'>操作</th>
+               <th width='190'>操作</th>
              </tr>
            </thead>
            <tbody>
@@ -103,8 +103,6 @@
 	               </div>
                </td> 
                <td>
-               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/MallActivitym/index',array('mactid'=>$vo['mactid']))}">活动分类</a>&nbsp;
-               		
                		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/MallActivity/toEdit',array('id'=>$vo['mactid']))}">修改</a>&nbsp;               
                		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['mactid']})"">刪除</a>
                </td>

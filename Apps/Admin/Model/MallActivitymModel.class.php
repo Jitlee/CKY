@@ -6,9 +6,9 @@
   
  * 联系方式:
  * ============================================================================
- * 文章服务类
+ * 活动，类别
  */
-class MallActivityModel extends BaseModel {
+class MallActivitymModel extends BaseModel {
      /**
 	  * 新增
 	  */
@@ -35,7 +35,7 @@ class MallActivityModel extends BaseModel {
 		$data["createtime"] = date('Y-m-d H:i:s');
 		$data["createuser"] = session('RTC_STAFF')["staffId"];
 	    //if($this->checkEmpty($data,true)){
-			$m = M('mall_activity');
+			$m = M('mall_activitym');
 			$rs = $m->add($data);
 		    if(false !== $rs){
 				$rd['status']= 1;
@@ -65,7 +65,7 @@ class MallActivityModel extends BaseModel {
 		$data["status"] = (int)I("status",0);
 		$data["sort"] = (int)I("sort",0);
 	    //if($this->checkEmpty($data,true)){	
-			$m = M('mall_activity');
+			$m = M('mall_activitym');
 		    $rs = $m->where("mactid=".$mactid)->save($data);
 			if(false !== $rs){
 				$rd['status']= 1;
@@ -77,22 +77,22 @@ class MallActivityModel extends BaseModel {
 	  * 获取指定对象
 	  */
      public function get(){
-	 	$m = M('mall_activity');
+	 	$m = M('mall_activitym');
 		return $m->where("mactid=".(int)I('id'))->find();
 	 }
 	 /**
 	  * 分页列表
 	  */
-     public function queryByPage(){
-        $m = M('mall_activity');
+     public function queryByPage($mactid){
+        $m = M('mall_activitym');
 	 	$sql = "
 	 	select 
 	 		a.*
-	 	from __PREFIX__mall_activity a
+	 	from __PREFIX__mall_activitym a
 	 	where 
-	 		 1=1
+	 		 mactid=$mactid
 	 	";
-	 	if(I('mactname')!='')$sql.=" and mactname like '%".I('mactname')."%'";
+	 	
 	 	$sql.=' order by sort desc';
 		return $m->pageQuery($sql);
 	 }
@@ -101,7 +101,7 @@ class MallActivityModel extends BaseModel {
 	  */
 	  public function queryByList(){
 	     $m = M('mall_activity');
-	     $sql = "select * from __PREFIX__mall_activity   order by mactid desc";
+	     $sql = "select * from __PREFIX__mall_activitym   order by mactid desc";
 		 $rs = $m->query($sql);
 
 		 return $rs;
@@ -112,7 +112,7 @@ class MallActivityModel extends BaseModel {
 	  */
 	 public function del(){
 	 	$rd = array('status'=>-1);
-	    $m = M('mall_activity');
+	    $m = M('mall_activitym');
 	    $rs = $m->delete((int)I('id'));
 		if(false !== $rs){
 		   $rd['status']= 1;
@@ -125,7 +125,7 @@ class MallActivityModel extends BaseModel {
 	 public function editStatus(){
 	 	$rd = array('status'=>-1);
 	 	if(I('id',0)==0)return $rd;
-	 	$m = M('mall_activity');
+	 	$m = M('mall_activitym');
 	 	$m->isShow = ((int)I('isShow')==1)?1:0;
 	 	$rs = $m->where("mactid=".(int)I('id',0))->save();
 	    if(false !== $rs){

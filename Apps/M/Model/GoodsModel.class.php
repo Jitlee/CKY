@@ -90,7 +90,7 @@ class GoodsModel extends BaseModel {
 			'goodsId'		=> $goodsId
 		);
 		$rst = $this->where($map)->save($data);
-		echo $this->getLastSql();
+//		echo $this->getLastSql();
 		return $rst;
 	}
 };

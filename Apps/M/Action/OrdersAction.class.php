@@ -801,11 +801,17 @@ class OrdersAction extends BaseUserAction {
 //		$this->ajaxReturn($statusList);
 //	}
 
-//	public function test() {
-//		$orderId = (int)I('id');
-//		$db = D('M/Orders');
-//		$rst = $db->OrderPay($orderId);
-//		$this->ajaxReturn($rst, 'JSON');
-//	}
+	public function test() {
+		$orderId = (int)I('id');
+		$db = D('M/Orders');
+		$db->startTrans();
+		$rst = $db->payOrder($orderId);
+		if($rst['status'] == 1) {
+			$db->commit();
+		} else {
+			$db->rollback();
+		}
+		$this->ajaxReturn($rst, 'JSON');
+	}
 	
 }

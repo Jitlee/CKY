@@ -11,7 +11,7 @@
 class GoodsAttributesModel extends BaseModel {
 	public function reduceStock($attributeId, $count) {
 		$data = array(
-			'goodsStock'	 	=> array('exp', '`goodsStock` - '.$count)
+			'attrStock'	 	=> array('exp', '`attrStock` - '.$count)
 		);
 		$map = array(
 			'id'				=> $attributeId

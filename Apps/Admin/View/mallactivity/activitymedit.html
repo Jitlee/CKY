@@ -57,29 +57,86 @@
 		$('#efficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
 		
 	   $("#mactname").formValidator({onFocus:"请输入标题"}).inputValidator({min:1,max:100,onError:"请输入100字以内标题"});
-	   $("#mode").formValidator({onFocus:"请选择模式"}).inputValidator({min:1,onError: "请选择模式"});
-	   $("#desc").formValidator({onFocus:"请输入描述"}).inputValidator({min:1,max:80,onError:"请输入描述"});
-	   $("#logo").formValidator({onFocus:"请选择logo图片"}).inputValidator({min:1,max:80,onError:"选择logo图片"});
-	   $("#adpath").formValidator({onFocus:"请选择广告图片"}).inputValidator({min:1,max:80,onError:"选择广告图片"});
+	 
+	   
+	   $("#pricemode").change(function(){
+	   		clearchange();
+	   		setpricemode();
+	   });
+	   setpricemode();
    });
+   function clearchange()
+   {
+		$("amount").val(""); 
+		$("consamount1").val("");
+		$("discount1").val("");
+		$("consamount2").val("");
+		$("discount2").val("");
+   }
+   
+   function setpricemode()
+   {
+   		var pricemode=$("#pricemode").val();              		 
+  		var pricemode2=$("#pricemode2");
+  		var pricemode3=$("#pricemode3");
+  		if(pricemode =="noprice")
+  		{
+  			pricemode2.hide();
+  			pricemode3.hide();
+  		}
+  		else if(pricemode =="oneprice" || pricemode =="m2mustless")
+  		{
+  			pricemode2.show();
+  			pricemode3.hide();
+  		}
+  		else if(pricemode =="mxdiscount" || pricemode =="mxlessxmxlessx")
+  		{
+  			pricemode2.hide();
+  			pricemode3.show();
+  			if(pricemode =="mxdiscount")
+		   	{
+		   		$("#spancon10").html("满");             		 
+				$("#spancon11").html("元");             			
+				$("#spancon1010").html("立减");             			
+				$("#spancon1011").html("元");             			
+				$("#spancon20").html("满");             			
+				$("#spancon21").html("元");
+				$("#spancon2020").html("立减");             			
+				$("#spancon2021").html("元");
+		   	}
+		   	else
+		   	{
+		   		$("#spancon10").html("第");             		 
+				$("#spancon11").html("件");             			
+				$("#spancon1010").html("");             			
+				$("#spancon1011").html("折");             			
+				$("#spancon20").html("第");             			
+				$("#spancon21").html("件");
+				$("#spancon2020").html("");             			
+				$("#spancon2021").html("折");
+		   	}
+  		}
+   }
    function edit(){
 	   var params = {};
+	   params.mactmid = $('#mactmid').val();	//当前id
 	   params.mactid = $('#mactid').val();
 	   params.mactname = $('#mactname').val();
-	   params.logo = $('#logo').val();
-	   params.logothums = $('#logothums').val();
-	   params.adpath = $('#adpath').val();
-	   params.adpaththums = $('#adpaththums').val();
-	  
-	   var date = $('#efficacyDateRange').val().split(' 至 ');
-	   params.starttime = date[0];
-	   params.endtime = date[1]; 
-	   params.mode = $('#mode').val();
-	   params.modecolor = $('#modecolor').val();
-	   params.desc = $('#desc').val();
-	   params.status = $("input[name='status']:checked").val();
-	   params.sort = $('#sort').val();
 	   
+	   params.mlogo = $('#mlogo').val();
+	   params.mlogothums = $('#goodsThumbs').val(); 
+	  
+	   params.pricemode = $('#pricemode').val();
+	   params.amount = $('#amount').val();
+	   
+	   params.consamount1 = $('#consamount1').val();
+	   params.discount1 = $('#discount1').val();
+	    params.consamount2 = $('#consamount2').val();
+	   params.discount2 = $('#discount2').val();
+	   
+	   params.lineshownum = $("#lineshownum").val();
+	   params.sort = $('#sort').val();
+	    
 	   if(params.mactname==''){
 		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入标题!',timeout:1000});
 		   return;
@@ -109,54 +166,36 @@
 		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:45px;left:120px;z-index:10; padding-left: 5px;" 
 			enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 				<div style="position:relative;">
-				<input id="logo" name="logoFile" class="form-control rtc-ipt" type="text" value="{$object.logo}" readonly 
+				<input id="mlogo" name="logoFile" class="form-control rtc-ipt" type="text" value="{$object.mlogo}" readonly 
 					style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
 				<div class="div1">
 					<div class="div2">浏览</div>
 					<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
 				</div>
 				<div style="clear:both;"></div>
-				<div >&nbsp;&nbsp;图片大小:200 x 200 (px)(格式为 gif, jpg, jpeg, png)</div>
+				<div >&nbsp;&nbsp;图片大小:200 x 50 (px)(格式为 gif, jpg, jpeg, png),活动为自定义必须选择图片。</div>
 				<input type="hidden" name="dir" value="mallactivity">
 				<input type="hidden" name="width" value="400">
 				<input type="hidden" name="folder" value="Filedata">
 				<input type="hidden" name="sfilename" value="Filedata">
-				<input type="hidden" name="fname" value="logo">
+				<input type="hidden" name="fname" value="mlogo">
 				<input type="hidden" id="s_Filedata" name="s_Filedata" value="">
 				
 				</div>
 		</form>
-		<iframe name="uploadad" style="display:none"></iframe>
-		<form id="uploadform_ad" autocomplete="off" style="position:absolute;top:175px;left:120px;z-index:10;" 
-			enctype="multipart/form-data" method="POST" target="uploadad" action="{:U('Home/Shops/uploadPic')}" >
-				<div style="position:relative;">
-				<input id="adpath" name="adpath" class="form-control rtc-ipt" type="text" value="{$object.adpath}" readonly  
-					style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
-				<div class="div1">
-					<div class="div2">浏览</div>
-					<input type="file" class="inputstyle" id="ad" name="ad" onchange="updfile('ad');" >
-				</div>
-				<div style="clear:both;"></div>
-				<div >&nbsp;&nbsp;图片大小:600 x 300 (px)(格式为 gif, jpg, jpeg, png)</div>
-				<input type="hidden" name="dir" value="mallactivity">
-				<input type="hidden" name="width" value="400">
-				<input type="hidden" name="folder" value="ad">
-				<input type="hidden" name="sfilename" value="ad">
-				<input type="hidden" name="fname" value="adpath">
-				<input type="hidden" id="s_ad" name="s_ad" value="">
-				
-				</div>
-		</form>
+		 
 		
        <form name="myform" method="post" id="myform" autocomplete="off">
+			<input type='hidden' id='mactmid' value='{$object.mactmid}'/>
 			<input type='hidden' id='mactid' value='{$object.mactid}'/>
 			<input type='hidden' id='goodsThumbs' value='{$object.logothums}'/>
-			<input type='hidden' id='malladThumbs' value='{$object.adpaththums}'/> 
+			 
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th width='120' align='right'>标题<font color='red'>*</font>：</th>
              <td>
              	<input type='text' id='mactname' class="form-control rtc-ipt" value='{$object.mactname}' maxLength='25'/>
+             	{$mactid}
              </td>
            </tr>
           
@@ -172,67 +211,58 @@
                </div>
              </td>
            </tr>
-           <tr style="height:60px;">
-             <th align='right'>广告图片<font color='red'>*</font>：</th>
-             <td></td>
-           </tr>
            <tr>
-             <th align='right'>广告预览：</th>
-             <td height='40'>
-             	<div id="preview_ad">
-               		<img id='preview' src='__ROOT__/{$object.adpath}' height='152' <if condition="$object['adpath'] =='' ">style='display:none'</if>/>
-               </div>
+             <th align='right'>价格模式<font color='red'>*</font>：</th>
+             <td>	 
+             	<select id='pricemode'   style="width: 150px;">
+	                <option value='noprice' <if condition="$object['pricemode'] == 'noprice'">selected</if>>普通(爆款、低致)</option>
+	                <option value='oneprice' <if condition="$object['pricemode'] == 'oneprice'">selected</if>>统一价格</option>
+	                <option value='m2mustless' <if condition="$object['pricemode'] == 'm2mustless'">selected</if>>第二件立减</option>
+	                <option value='m2f1' <if condition="$object['pricemode'] == 'm2f1'">selected</if>>买二付一</option>
+	                <option value='mxdiscount' <if condition="$object['pricemode'] == 'mxdiscount'">selected</if>>x件x折x件x折</option>
+	                <option value='mxlessxmxlessx' <if condition="$object['pricemode'] == 'mxlessxmxlessx'">selected</if>>满x减x满x减x</option>
+	             </select> 
              </td>
            </tr>
            <tr>
-             <th align='right'>状态<font color='red'>*</font>：</th>
+             <th align='right'>折扣<font color='red'>*</font>：</th>
              <td>
-	             <label>
-		             <input type='radio' id='status0' name='status' value='0' <if condition="$object['status'] ==0 ">checked</if> />准备中&nbsp;&nbsp;
-	             </label>
-	             <label>
-	             	<input type='radio' id='status1' name='status' value='1' <if condition="$object['status'] ==1 ">checked</if> />进行中
-	             </label>
-	             <label>
-	             	<input type='radio' id='status2' name='status' value='2' <if condition="$object['status'] ==2 ">checked</if> />停止
-	             </label>
-	             <label>
-	             	<input type='radio' id='status99' name='status' value='99' <if condition="$object['status'] ==99 ">checked</if> />结束
-	             </label>
+             		<div id="pricemode2">
+             			<input type='text' id='amount' class="form-control rtc-ipt" value='{$object.amount}' style='width:60px' maxLength='5'/>元
+             		</div>
+             		<div id="pricemode3">
+             			<span id="spancon10">满</span>
+             			<input type='text' id='consamount1' class="form-control rtc-ipt" value='{$object.consamount1}' style='width:60px' maxLength='5'/>
+             			<span id="spancon11">元</span>
+             			
+             			<span id="spancon1010">立减</span>
+             			<input type='text' id='discount1' class="form-control rtc-ipt" value='{$object.discount1}' style='width:60px' maxLength='5'/>
+             			<span id="spancon1011">元</span>
+             			
+             			<span id="spancon20">满</span>             			
+             			<input type='text' id='consamount2' class="form-control rtc-ipt" value='{$object.consamount2}' style='width:60px' maxLength='5'/>
+             			<span id="spancon21">元</span>
+             			<span id="spancon2020">立减</span>
+             			<input type='text' id='discount2' class="form-control rtc-ipt" value='{$object.discount2}' style='width:60px' maxLength='5'/>
+             			<span id="spancon2021">元</span>
+             		</div>
+             </td>
+           </tr>           
+           <tr>
+             <th align='right'>每行显示数量<font color='red'>*</font>：</th>
+             <td>
+             	<select id='lineshownum'  style="width: 150px;">
+	                <option value='normal' <if condition="$object['lineshownum'] == 1">selected</if>>1</option>
+	                <option value='definition' <if condition="$object['lineshownum'] == 1">selected</if>>2</option>
+	            </select>
              </td>
            </tr>
-           <tr>
-             <th align='right'>活动日期<font color='red'>*</font>：</th>
-             <td>
-             	<input type='text' id='efficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$object.starttime} 至 {$object.endtime}'/>
-             </td>
-           </tr>   
-           <tr>
-             <th align='right'>活动模式<font color='red'>*</font>：</th>
-             <td>
-             	<select id='mode'>
-	                <option value=''>请选择</option>
-	                <option value='normal' <if condition="$object['mode'] == 'normal'">selected</if>>普通</option>
-	                <option value='definition' <if condition="$object['mode'] == 'definition'">selected</if>>自定义</option>
-	             </select>
-             </td>
-           </tr>
-           <tr>
-             <th align='right'>自定义颜色<font color='red'>*</font>：</th>
-             <td><input type='text' id='modecolor' class="form-control rtc-ipt" value='{$object.modecolor}' style='width:300px' maxLength='10'/></td>
-             
-           </tr> 
            <tr>
              <th align='right'>排序<font color='red'>*</font>：</th>
              <td><input type='text' id='sort' class="form-control rtc-ipt" value='{$object.sort}' style='width:300px' maxLength='5'/></td>
            </tr> 
         
-           <tr>
-             <th align='right'>活动描述<font color='red'>*</font>：</th>
-             <td>
-             <textarea id='desc' name='desc' style='width:80%;height:400px;'>{$object.desc}</textarea>
-             </td>
-           </tr>
+            
            <tr>
              <td colspan='2' style='padding-left:250px;'>
                  <button type="submit" class="btn btn-success">保&nbsp;存</button>

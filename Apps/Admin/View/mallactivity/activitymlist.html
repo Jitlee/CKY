@@ -52,10 +52,10 @@
    <body class='rtc-page'>
        <form method='post' action='{:U("Admin/MallActivity/index")}'>
        <div class='rtc-tbar' style='height:25px;'>
-                    活动标题：<input type='text' id='activityTitle' name='activityTitle' class='form-control rtc-ipt-15' value='{$activityTitle}'/> 
+                    名称：<input type='text' id='activityTitle' name='activityTitle' class='form-control rtc-ipt-15' value='{$activityTitle}'/> 
        <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>             
        
-       <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivity/toEdit')}" style='float:right'>新增</a>
+       <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivitym/toEdit',array('mactid'=>$mactid))}" style='float:right'>新增</a>
        
        </div>
        </form>
@@ -65,7 +65,7 @@
              <tr>
                <th width='40'>序号</th>
                <th>标题</th>
-               <th width='190'>活动日期</th>
+               
                <th width='150'>模式</th>
                <th width='40'>排序</th>
                
@@ -77,29 +77,23 @@
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
-               <td>{$vo['mactname']}</td>
-               <td>{$vo['starttime']}至{$vo['endtime']}</td>
-               <td> <if condition="$vo['mode']=='normal' "> 普通 <else/> 自定义</if></td>
+               <td>{$vo['mactmname']}</td>
+              
+               <td> <if condition="$vo['pricemode']=='normal' "> 普通 <else/> 自定义</if></td>
                <td>{$vo['sort']}</td>
                <td>
 	               <div class="dropdown">
 		               <if condition="$vo['status']==0 ">
-		                   <button class="btn btn-warning dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">准备中<span class="caret"></span></button>
+		                   <button class="btn btn-warning dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">停用<span class="caret"></span></button>
 		               <elseif condition="$vo['status']==1 "/>
-		                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">进行中<span class="caret"></span></button>
-		                <elseif condition="$vo['status']==2 "/>
-		                   <button class="btn btn-danger dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">停止<span class="caret"></span></button>
-		                <elseif condition="$vo['status']==99 "/>
-		                   <button class="btn btn-warning dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">结束<span class="caret"></span></button>
+		                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">正常<span class="caret"></span></button>
 		               </if>
-		               <if condition="$vo['status'] lt 99 ">
-		                   <ul class="dropdown-menu" role="menu">
-							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['mactid']})">准备中</a></li>
-							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['mactid']})">进行中</a></li>
-							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(2,{$vo['mactid']})">停止</a></li>
-							  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(99,{$vo['mactid']})">结束</a></li>
-						   </ul>
-					   </if>
+		               
+	                   <ul class="dropdown-menu" role="menu">
+						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['mactid']})">停用</a></li>
+						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['mactid']})">正常</a></li>
+					   </ul>
+					   
 	               </div>
                </td> 
                <td>

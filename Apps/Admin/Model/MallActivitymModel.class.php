@@ -14,23 +14,23 @@ class MallActivitymModel extends BaseModel {
 	  */
 	 public function insert(){
 	 	$rd = array('status'=>-1);
-	 	$id = (int)I("mactid",0);
+	 	$mactmid = (int)I("mactmid",0);
 		$data = array();
 		 
-		$data["mactname"] = I("mactname");		
-		$data["logo"] =  I("logo");
-		$data["logothums"] = I("logothums");
-		$data["adpath"] = I("adpath");
-		$data["adpaththums"] = I("adpaththums");
-		$data["starttime"] = I("starttime");
-		$data["endtime"] = I("endtime");
+		$data["mactid"] = I("mactid");
+		$data["mactname"] = I("mactname");			
+		$data["mlogo"] =  I("mlogo");
+		$data["mlogothums"] = I("mlogothums");
+		$data["pricemode"] = I("pricemode");
+		$data["amount"] = I("amount");
+		$data["consamount1"] = I("consamount1");
+		$data["discount1"] = I("discount1");
+		$data["consamount2"] = I("consamount2");
+		$data["discount2"] = I("discount2");
 		
-
-		$data["mode"] = I("mode","");
-		$data["modecolor"] = I("modecolor","");
-		$data["desc"] = I("desc","");
-		$data["status"] = (int)I("status",0);
+		$data["lineshownum"] = (int)I("lineshownum");
 		$data["sort"] = (int)I("sort",0);
+		$data["mstatus"] = 1; 
 		
 		$data["createtime"] = date('Y-m-d H:i:s');
 		$data["createuser"] = session('RTC_STAFF')["staffId"];
@@ -50,20 +50,23 @@ class MallActivitymModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 	 	$mactid = (int)I("mactid",0);
 		$data = array();
-		$data["mactname"] = I("mactname");		
-		$data["logo"] =  I("logo");
-		$data["logothums"] = I("logothums");
-		$data["adpath"] = I("adpath");
-		$data["adpaththums"] = I("adpaththums");
-		$data["starttime"] = I("starttime");
-		$data["endtime"] = I("endtime");
+		$data["mactid"] = I("mactid");
+		$data["mactname"] = I("mactname");			
+		$data["mlogo"] =  I("mlogo");
+		$data["mlogothums"] = I("mlogothums");
+		$data["pricemode"] = I("pricemode");
+		$data["amount"] = I("amount");
+		$data["consamount1"] = I("consamount1");
+		$data["discount1"] = I("discount1");
+		$data["consamount2"] = I("consamount2");
+		$data["discount2"] = I("discount2");
 		
-
-		$data["mode"] = I("mode","");
-		$data["modecolor"] = I("modecolor","");
-		$data["desc"] = I("desc","");
-		$data["status"] = (int)I("status",0);
+		$data["lineshownum"] = (int)I("lineshownum");
 		$data["sort"] = (int)I("sort",0);
+		$data["mstatus"] = 1; 
+		
+		$data["createtime"] = date('Y-m-d H:i:s');
+		$data["createuser"] = session('RTC_STAFF')["staffId"];
 	    //if($this->checkEmpty($data,true)){	
 			$m = M('mall_activitym');
 		    $rs = $m->where("mactid=".$mactid)->save($data);
@@ -78,7 +81,7 @@ class MallActivitymModel extends BaseModel {
 	  */
      public function get(){
 	 	$m = M('mall_activitym');
-		return $m->where("mactid=".(int)I('id'))->find();
+		return $m->where("mactid=".(int)I('mactid'))->find();
 	 }
 	 /**
 	  * 分页列表

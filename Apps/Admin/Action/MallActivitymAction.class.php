@@ -26,6 +26,8 @@ class MallActivitymAction extends BaseAction{
 			$object["endtime"] = date("Y-m-d",strtotime("+1 month"));
 			$object["sort"] =0;
     	}		
+		
+		$this->assign('mactid',I("mactid"));
     	$this->assign('object',$object);
 		$this->view->display('/mallactivity/activitymedit');
 	}
@@ -84,6 +86,7 @@ class MallActivitymAction extends BaseAction{
 //  	$page['pager'] = $pager->show();
     	$this->assign('Page',$page);
     	$this->assign('mactname',I('mactname'));
+		$this->assign('mactid',I("mactid"));
         $this->display("/mallactivity/activitymlist");
 	}
 	/**

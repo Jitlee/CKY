@@ -56,19 +56,22 @@ class MiaoshaAction extends BaseAction {
 	}
 	
 	public function view() {
-		$db = D('M/Miaosha');
-		$data = $db->get();
-		$this->assign('data', $data);
-		
-		$db = D('M/GoodsGallery');
-		$galleries = $db->query();
-		if(empty($galleries)) {
-			$galleries[] = array('goodsImg'	=> $data['goodsImg']);
-		}
-//		echo dump($gallerys);
-		$this->assign('galleries', $galleries);
-		
 		$this->assign('title', '商品详情');
 		$this->display();
+	}
+	
+	public function m() {
+		$db = D('M/Miaosha');
+		$data = $db->get();
+		
+		if((int)$data['miaoshaStatus'] < 2) {
+			$db = D('M/GoodsGallery');
+			$galleries = $db->query();
+			if(empty($galleries)) {
+				$galleries[] = array('goodsImg'	=> $data['goodsImg']);
+			}
+			$data['galleries'] = $galleries;
+		}
+		$this->ajaxReturn($data, 'JSON');
 	}
 }

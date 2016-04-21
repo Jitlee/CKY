@@ -211,3 +211,66 @@
 	line-height: 1.5;
 	margin-bottom: 8px;
 }
+
+/** 中奖人信息窗 **/
+.ms-prize {
+    border: 1px solid #FF002B;
+    border-radius: 5px;
+    background-color: #FDF5E6;
+}
+
+.ms-prize .mui-table, .ms-goods-detail.mui-table {
+	table-layout: auto;
+	padding: 8px 0px;
+	min-height: 80px;
+}
+
+.ms-prize .mui-table-cell:first-child, .ms-goods-detail .mui-table-cell:first-child {
+	width: 90px;
+	position: relative;
+}
+
+.ms-prize .mui-table h5, .ms-prize .mui-table a, .ms-goods-detail h5 {
+	line-height: 20px;
+}
+
+.cky-bg-white {
+	padding: 8px;
+}
+
+.ms-prize-img {
+	position: absolute;
+	width: 72px;
+	height: 72px;
+	background-image: url(../images/user.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+}
+
+.ms-prize-footer {
+	border-top: solid 1px rgba(255,0, 43, 0.2);
+    line-height: 30px;
+}
+
+.ms-prize-empty {
+	padding: 20px 0px;
+}
+
+.ms-prize-empty .iconfont {
+	line-height: 100%;
+	font-size: 80px;
+}
+
+.ms-prize-countdown {
+	font-size: 24px;
+	color: #f20;
+	display: inline-block;
+	padding: 10px;
+	border:solid 1px #f60;
+	background-color: #fff;
+	margin: 10px;
+}

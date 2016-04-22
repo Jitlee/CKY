@@ -204,6 +204,13 @@ var cky = {
 		$("<a>").attr("href", url).text(title).appendTo(mask);
 		$(document.body).append(mask);
 	},
+	
+	/**
+	 * 关闭页面加载等待视图 
+	 */
+	closeLoading: function() {
+		$(".cky-loading").remove();
+	},
 };
 
 // 下拉框设定

@@ -59,7 +59,7 @@ class MiaoshaModel extends BaseModel {
 			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId')
 			->where($filter)
 			->order($order)
-			->page($pageNum, $pageSize)
+			->page($pageNo, $pageSize)
 			->select();
 //		echo $this->getLastSql();
 		return $list;
@@ -80,18 +80,20 @@ class MiaoshaModel extends BaseModel {
 		$list = $this
 			->field($field)
 			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId')
-			->join('inner join __MIAOSHA_HISTORY__ h on m.miaoshaId = h.miaoshaId and ((h.qishu = m.qishu-1 and m.miaoshaStatus < 2) or (h.qishu = m.qishu and m.miaoshaStatus = 2))')
+			->join('inner join __MIAOSHA_HISTORY__ h on m.miaoshaId = h.miaoshaId')
 			->join('inner join __MEMBER__ u on u.uid = h.prizeUid')
 			->where($filter)
 			->order($order)
-			->page($pageNum, $pageSize)
+			->page($pageNo, $pageSize)
 			->select();
 		return $list;
 	}
 	
-	public function get($miaoshaId = null, $qishu = 0) {
+	public function get($miaoshaId = null, $qishu = -1) {
 		$miaoshaId = I('id', $miaoshaId);
-		$qishu = I('qishu', $qishu);
+		if($qishu < 0) {
+			$qishu = I('qishu', 0);
+		}
 		$map = array('m.miaoshaId'	 => $miaoshaId);
 		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, miaoshaStatus,'.
 			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu, UNIX_TIMESTAMP() time,

@@ -49,6 +49,10 @@
 					records = records.concat(list);
 					vm.records(records);
 				}
+				
+				if((!list || list.length == 0) && pageNo == 1) {
+					$(".mui-content").nodata();
+				}
 			});
 		}
 		util.onScrollEnd(page);

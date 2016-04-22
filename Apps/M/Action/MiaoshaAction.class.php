@@ -57,17 +57,9 @@ class MiaoshaAction extends BaseAction {
 	
 	public function view() {
 		
-		$db = M('Miaosha');
-		$data = $db->field('qishu, miaoshaStatus')->find(I('id'));
-		$this->assign('data', $data);
-		
-		$this->assign('title', '商品详情');
-		$this->display();
-	}
-	
-	public function m() {
 		$db = D('M/Miaosha');
-		$data = $db->get();
+		$data = $db->get(null, 0);
+		
 		if((int)$data['miaoshaStatus'] < 2) {
 			$db = D('M/GoodsGallery');
 			$galleries = $db->query();
@@ -76,6 +68,19 @@ class MiaoshaAction extends BaseAction {
 			}
 			$data['galleries'] = $galleries;
 		}
+		
+		$this->assign('data', $data);
+		
+		$this->assign('seed',  time() + mt_rand(0, 1000));
+		
+		$this->assign('title', '商品详情');
+		$this->display();
+	}
+	
+	public function m() {
+		$db = D('M/Miaosha');
+		$data = $db->get();
+		
 		$this->ajaxReturn($data, 'JSON');
 	}
 	
@@ -135,6 +140,21 @@ class MiaoshaAction extends BaseAction {
 	public function pmc() {
 		$mcdb = D('M/MiaoshaCode');
 		$list = $mcdb->lst();
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	// 我的秒杀纪录
+	public function me() {
+		test_login();
+		$this->assign('title', '秒杀纪录');
+		$this->display();
+	}
+	
+	public function pme() {
+		test_login();
+		$uid = getuid();
+		$mmdb = D('M/MemberMiaosha');
+		$list = $mmdb->me($uid);
 		$this->ajaxReturn($list, 'JSON');
 	}
 }

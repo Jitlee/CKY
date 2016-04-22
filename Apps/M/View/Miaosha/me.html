@@ -1,0 +1,104 @@
+<style>
+	.cky-free-reserve::before {
+		content: "正在进行";
+		font-size: 12px;
+	}
+	
+	.hit.cky-free-reserve::before {
+		content: "幸运";
+		font-size: 12px;
+		background: #2af;
+	}
+</style>
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+</header>
+
+<div class="mui-content">
+	<ul class="cky-tab">
+		<li class="cky-tab-item cky-active" tab-id="0" data-bind="css: { 'cky-active': tabId() == 0 }"><a>购买纪录</a></li>
+		<li class="cky-tab-item" tab-id="1" data-bind="css: { 'cky-active': tabId() == 1 }"><a>中奖纪录</a></li>
+	</ul>
+		
+	<ul class="mui-table-view" data-bind="foreach: goods">
+		<li class="mui-table-view-cell mui-media">
+			<a data-bind="css: { 'cky-free-reserve': miaoshaStatus < 2, 'hit cky-free-reserve': $parent.tabId() == 0 && isPrized == 1 }, attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId + '&qishu=' + qishu }">
+				<img class="mui-media-object mui-pull-left" data-bind="attr: { src: '/' + goodsThums }">
+				<div class="mui-media-body">
+					<div class='mui-ellipsis'>
+						第(<span data-bind="text: qishu"></span>)期
+						<span data-bind="text: goodsName"></span>
+						<span data-bind="text: subTitle"></span>
+					</div>
+					<!-- ko if: $parent.tabId() == 0 -->
+					<div class="mui-table font12" style="table-layout: auto;">
+						<p class="mui-table-cell" data-bind="click: $parent.clickCodes"><r data-bind="text: miaoshaCount"></r>人次</p>
+						<p class="mui-table-cell mui-text-right"><span data-bind="text: createTime"></span></p>	
+					</div>
+					<!-- /ko-->
+					<!-- ko if: $parent.tabId() == 1 && prizeCode -->
+					<h5>幸运云购码：<r data-bind="text: {:C('PRIZE_CODE')} + Number(prizeCode)"></r></h5>
+					<h5>揭晓时间：<span data-bind="text: endTime"></span></h5>
+					<!-- /ko-->
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<div class="cky-loading"></div>
+
+<script src="__KO__"></script>
+<script>
+	$(function() {
+		var pageNo = 1;
+		var goods = [];
+		var vm = {
+			tabId: ko.observable(0),
+			goods: ko.observableArray(goods),
+			clickCodes: onclickcodes, // 查看云购码
+		}
+		ko.applyBindings(vm);
+		
+		util.onScrollEnd(page);
+		
+		function page(clear) {
+			if(clear) {
+				pageNo = 1;
+				vm.goods.removeAll();
+			}
+			$.getJSON("{:U('Miaosha/pme')}", {
+				pageNo: pageNo,
+				type: vm.tabId()
+			}, function(list) {
+				cky.closeLoading();
+				if(list && list.length > 0) {
+					pageNo++;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				}
+				if((!list || list.length == 0) && pageNo == 1) {
+					$(".mui-table-view").nodata();
+				}
+			});
+		}
+		
+		$(".cky-tab").on("click", ".cky-tab-item", function() {
+			var $this = $(this);
+			vm.tabId(Number($this.attr("tab-id")));
+			page(true);
+		});
+		
+		// 云购码
+		function onclickcodes(obj, evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+			window.location.href = "{:U('Miaosha/mc')}?mmid=" + obj.mmid;
+		}
+		
+		page();
+	});
+</script>

@@ -13,10 +13,12 @@
 	<div class="cky-bg-white ms-padding" >
 		<!-- ko if: status() <= 1 -->
 		<!-- Slider main container -->
-		<div class="swiper-container ms-swiper">
+		<div class="swiper-container ms-swiper" style="display: none;">
 		    <!-- Additional required wrapper -->
-		    <div class="swiper-wrapper" data-bind="foreach: goods().galleries">
-        			<div class="swiper-slide"><a class="swiper-img" data-bind="style: { backgroundImage: 'url(/' + goodsImg + ')' }"></a></div>
+		    <div class="swiper-wrapper">
+		    		<foreach name="data.galleries" item="item">
+        			<div class="swiper-slide"><a class="swiper-img" style="background-image: url(/{$item.goodsImg});"></a></div>
+        			</foreach>
 		    </div>
 		    <!-- If we need pagination -->
 		    <div class="swiper-pagination"></div>
@@ -185,6 +187,7 @@
 		</for>
 	</div>
 </div>
+<div class="cky-loading"></div>
 
 <script src="__KO__"></script>
 <script src="__JS__/swiper.jquery.min.js"></script>
@@ -197,6 +200,14 @@
 	var qishu = Number("{:I('qishu')}");
 	var nextTimeHandler = 0;
 	qishu = qishu > 0 ? qishu : 0;
+	
+	//获取缓存中的期数，以备返回页面时跳转到正确的期数
+	var seed = "{$seed}";
+	var SEED_KEY = "MIAOSHA_VIEW_QISHU";
+	var seedData = cky.storage.getItem(SEED_KEY);
+	if(seedData && seedData[0] == seed) {
+		qishu = seedData[1];	
+	}
 	
 	var vm = {
 		status: ko.observable(1), // 是否正在进行
@@ -226,16 +237,16 @@
 	   	});
 	   	
 	   	function query() {
-	   		cky.loadding();
 	   		$.getJSON("{:U('Miaosha/m')}", {
 				id: miaoshaId,
-				qishu: qishu
+				qishu: qishu == Number("{$data.qishu}") ? 0 : qishu
 			}, function(goods) {
-				cky.closeAll();
+				cky.closeLoading();
 				if(!goods) {
 					return;
 				}
 				qishu = Number(goods.qishu);
+				cky.storage.setItem(SEED_KEY, [seed, qishu]); // 保存到缓存中，以备返回页面时跳转到正确的期数
 				
 				$("#qishuBlock a.cky-active").removeClass("cky-active");
 				$("#qishuBlock a[qishu=" + qishu + "]").addClass("cky-active");

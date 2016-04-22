@@ -9,6 +9,10 @@
 		font-size: 12px;
 		background: #2af;
 	}
+	
+	.link {
+		text-decoration: underline;
+	}
 </style>
 <header class="mui-bar mui-bar-nav">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
@@ -35,7 +39,7 @@
 					</div>
 					<!-- ko if: $parent.tabId() == 0 -->
 					<div class="mui-table font12" style="table-layout: auto;">
-						<p class="mui-table-cell" data-bind="click: $parent.clickCodes"><r data-bind="text: miaoshaCount"></r>人次</p>
+						<p class="mui-table-cell link" data-bind="click: $parent.clickCodes"><r data-bind="text: miaoshaCount"></r>人次</p>
 						<p class="mui-table-cell mui-text-right"><span data-bind="text: createTime"></span></p>	
 					</div>
 					<!-- /ko-->

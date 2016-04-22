@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('miaosha.css')}" />
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+</header>
+<div class="mui-content cky-bg-white">
+	<div class="mui-table ms-code ms-goods-detail">
+		<div class="mui-table-cell">
+			<div class="ms-prize-img" style="background-image: url({$member.userImg})"></div>
+		</div>
+		<div class="mui-table-cell">
+			<a class="mui-ellipsis-2 font15">{$member.userName}</a>
+			<h5 class="font12">本<if condition="(int)I('mmid', 0) eq 0">次<else/>期</if>购买：<r>{$count}</r> 人次</h5>
+			<h5 class="font12">本期幸运码：<r>{$code}</r></h5>
+		</div>
+	</div>
+	<div id="codeLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<div class="ms-code-table" data-bind="foreach: codes">
+		<div class="ms-code-table-cell">
+			<a data-bind="text: {:C('PRIZE_CODE')} + Number(miaoshaCode)"></a>
+		</div>
+	</div>
+</div>
+<script src="__KO__"></script>
+<script>
+	$(function() {
+		var codes = [];
+		var vm = {
+			codes: ko.observableArray(codes),
+		};
+		ko.applyBindings(vm);
+		
+		var pageNo = 1;
+		function page() {
+			$.getJSON("{:U('Miaosha/pmc')}", {
+				pageNo: pageNo,
+				mmid: "{:I('mmid')}",
+				uid: "{:I('uid')}",
+				id: "{:I('id')}",
+				qishu: "{:I('qishu')}"
+			}, function(list) {
+				$("#codeLoading").hide();
+				if(list && list.length > 0) {
+					pageNo++;
+					codes = codes.concat(list);
+					vm.codes(codes);
+				}
+			});
+		}
+		util.onScrollEnd(page);
+		page();
+	});
+</script>

@@ -101,7 +101,7 @@ class MiaoshaModel extends BaseModel {
 		
 		$list = null;
 		if($qishu > 0) { // 查看历史
-			$field .= ', prizeCount, prizeCode, prizeUid, endTime, u.imagePath userImg, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') username';
+			$field .= ', prizeCount, prizeCode, prizeUid, endTime, replace(concat(\'/\', u.ImagePath), \'/http://\', \'http://\') userImg, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') username';
 			$map['qishu'] = $qishu;
 			$m = M('MiaoshaHistory');
 			$m->join('m left join __MEMBER__ u on u.uid = m.prizeUid');

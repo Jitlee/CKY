@@ -1,0 +1,57 @@
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+</header>
+<div class="mui-content">
+	<div id="recordLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<div class="mui-table-view" data-bind="foreach: records">
+		<div class="mui-table-view-cell">
+			<a data-bind="attr: { href: '{:U('Miaosha/mc')}?code={:I('code')}&mmid=' + mmid }">
+				<span class="mui-table-cell" data-bind="text: userName"></span>
+				<h5 data-bind="text: createTime"></h5>
+				<div class="cky-update cky-update-center">
+					<r data-bind="text: miaoshaCount"></r>人次
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+<script src="__KO__"></script>
+<script>
+	$(function() {
+		var records = [];
+		var vm = {
+			records: ko.observableArray(records),
+		};
+		ko.applyBindings(vm);
+		
+		var sortType = {:I('sortType', 1)};
+		
+		var pageNo = 1;
+		function page(clear) {
+			if(clear) {
+				records.length = 0;
+				pageNo = 1;
+			}
+			$.getJSON("{:U('Miaosha/pmm')}", {
+				pageNo: pageNo,
+				id: "{:I('id')}",
+				qishu: "{:I('qishu')}"
+			}, function(list) {
+				$("#recordLoading").hide();
+				if(list && list.length > 0) {
+					pageNo++;
+					records = records.concat(list);
+					vm.records(records);
+				}
+			});
+		}
+		util.onScrollEnd(page);
+		page();
+	});
+</script>

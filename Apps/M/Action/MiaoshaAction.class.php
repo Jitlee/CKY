@@ -56,6 +56,11 @@ class MiaoshaAction extends BaseAction {
 	}
 	
 	public function view() {
+		
+		$db = M('Miaosha');
+		$data = $db->field('qishu, miaoshaStatus')->find(I('id'));
+		$this->assign('data', $data);
+		
 		$this->assign('title', '商品详情');
 		$this->display();
 	}
@@ -63,7 +68,6 @@ class MiaoshaAction extends BaseAction {
 	public function m() {
 		$db = D('M/Miaosha');
 		$data = $db->get();
-		
 		if((int)$data['miaoshaStatus'] < 2) {
 			$db = D('M/GoodsGallery');
 			$galleries = $db->query();
@@ -73,5 +77,64 @@ class MiaoshaAction extends BaseAction {
 			$data['galleries'] = $galleries;
 		}
 		$this->ajaxReturn($data, 'JSON');
+	}
+	
+	public function detail() {
+		$this->assign('title', '商品图文详情');
+		
+		$miaoshaId = I('id');
+		$db = M('goods');
+		$data = $db->field('goodsDesc')->where(array('miaoshaId' => $miaoshaId))->find();
+		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
+		$this->assign('data', $data);
+		
+		$this->display();
+	}
+	
+	// 显示参与纪录
+	public function mm() {
+		$this->assign('title', '参与纪录');
+		$this->display("Miaosha/member_miaosha");
+	}
+	
+	// 分页参与纪录
+	public function pmm() {
+		$mmdb = D('M/MemberMiaosha');
+		$list = $mmdb->lst();
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	// 显示购买云购码纪录
+	public function mc() {
+		$uid = (int)I('uid', 0);
+		$user = null;
+		if($uid > 0) { // 中奖用户购本期所有的云购码
+			$db = D('M/Member');
+			$user = $db->findByUid($uid);
+		} else { // 当前纪录的云购码
+			$db = D('M/MemberMiaosha');
+			$user = $db->findUserByMmid($mmid);
+		}
+		
+		$prizeCode = C('PRIZE_CODE') + (int)I('code');
+		$this->assign('code', $prizeCode);
+		$this->assign('member', $user);
+		
+//		echo $db->getLastSql();
+//		echo dump($user);
+		
+		$mcdb = D('M/MiaoshaCode');
+		$cnt = $mcdb->cnt();
+		$this->assign('count', $cnt);
+		
+		$this->assign('title', '购买云购码');
+		$this->display("Miaosha/miaosha_code");
+	}
+	
+	// 分页云购码
+	public function pmc() {
+		$mcdb = D('M/MiaoshaCode');
+		$list = $mcdb->lst();
+		$this->ajaxReturn($list, 'JSON');
 	}
 }

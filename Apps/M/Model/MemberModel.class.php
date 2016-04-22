@@ -9,6 +9,11 @@
  * 广告服务类
  */
 class MemberModel extends BaseModel {
+	
+	// 根据UID获取用户的头像，名称
+	public function findByUid($uid = 0) {
+		return $this->field("uid, replace(concat('/', ImagePath), '/http://', 'http://') userImg, INSERT(trueName,ROUND(CHAR_LENGTH(trueName) / 2),ROUND(CHAR_LENGTH(trueName) / 4),'****') userName")->find($uid);
+	} 
 	 
 	public function Insert($dataInfo)
 	{ 

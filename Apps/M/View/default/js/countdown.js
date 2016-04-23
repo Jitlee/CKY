@@ -2,10 +2,14 @@
 	var countdowns = [];
 	var scrollHandler = null;
 	var countHandler = null;
+	var offset = 0;
 	window.addEventListener("scroll", onscroll);
 	window.countdown = onscroll;
 	
-	function onscroll() {
+	function onscroll(serverTime) {
+		if(serverTime > 0) {
+			offset = serverTime - new Date().getTime();
+		}
 		window.clearTimeout(scrollHandler);
 		window.clearInterval(countHandler);
 		scrollHandler = window.setTimeout(function() {
@@ -31,7 +35,8 @@
 	}
 	
 	function oncount() {
-		var now = new Date().getTime();
+		var now = new Date().getTime() + offset;
+		
 		$.each(countdowns, function(){
 			var time = this.countdown - now;
 			if(time > 0) {

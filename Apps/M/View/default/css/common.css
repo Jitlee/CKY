@@ -889,3 +889,39 @@ p.cky-update {
 .cky-bg-white {
 	background-color: #fff;
 }
+
+.cky-loading{
+	position: fixed;
+	z-index: 9;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #EFEFF7;
+}
+
+.cky-loading::before {
+	content: "粗卡";
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 0px;
+	right: 0px;
+	-webkit-transform: translateY(-15px);
+	text-align: center;
+	color: #D5D5D5;
+	font-style: italic;
+	font-size: 20px;
+	font-family:"楷体";
+}
+
+.cky-loading:after{
+	position: absolute;
+	display: block;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, 15px) scale(0.7);
+	width: 24px;
+	height: 24px;
+	content: url(../images/loading.gif);
+}

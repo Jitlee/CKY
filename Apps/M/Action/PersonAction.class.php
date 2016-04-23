@@ -13,7 +13,7 @@ class PersonAction extends BaseUserAction {
 	
 	 
 	public function index() {
-		$openid=$this->GetUserOpenID();
+		$openid = get_user_open_id();
 		$openid=''.$openid;	
 		
 		$mMember = D('M/Member');

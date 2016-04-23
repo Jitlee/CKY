@@ -5,55 +5,122 @@
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
-	<h1 id="title" class="mui-title">第{$data.qishu}期</h1>
-	<a class="mui-btn mui-btn-link mui-pull-right" ><i class="mui-icon mui-icon-bars"></i></a>
+	<h1 id="title" class="mui-title" data-bind="if:goods">第<span data-bind="text: goods().qishu"></span>期</h1>
+	<a id="moreButton" class="mui-btn mui-btn-link mui-pull-right" ><i class="mui-icon mui-icon-bars"></i></a>
 </header>
 
-<div class="mui-content mui-content-bottom">
-	<div class="cky-bg-white">
+<div class="mui-content mui-content-bottom" data-bind="if: goods">
+	<div class="cky-bg-white ms-padding" >
+		<!-- ko if: status() <= 1 -->
 		<!-- Slider main container -->
-		<div class="swiper-container ms-swiper">
+		<div class="swiper-container ms-swiper" style="display: none;">
 		    <!-- Additional required wrapper -->
 		    <div class="swiper-wrapper">
-		        <!-- Slides -->
-		        <foreach name="galleries" item="item">
-	        			<div class="swiper-slide"><a class="swiper-img" style="background-image: url('/{$item.goodsImg}');"></a></div>
-		        </foreach>
+		    		<foreach name="data.galleries" item="item">
+        			<div class="swiper-slide"><a class="swiper-img" style="background-image: url(/{$item.goodsImg});"></a></div>
+        			</foreach>
 		    </div>
 		    <!-- If we need pagination -->
 		    <div class="swiper-pagination"></div>
 		</div>
 		<div class="mui-content-padded">
-			<h4 class="ms-title mui-ellipsis-2">(第{$data.qishu}期) {$data.goodsName}<r>{$data.subTitle}</r></h4>
-			<h5>价值：<r class="font10">¥</r> <r class="font24">{$data.marketPrice}</r></h5>
+			<h4 class="ms-title mui-ellipsis-2">(第<span data-bind="text: goods().qishu"></span>期) <span data-bind="text: goods().goodsName"></span><r><span data-bind="text: goods().subTitle"></span></r></h4>
+			<h5>价值：<r class="font10">¥</r> <r class="font24"><span data-bind="text: goods().marketPrice"></span></r></h5>
 			<div class="ms-progressbar">
-				<div class="ms-progressbar-item" style="width: {$data['canyurenshu']*100/$data['zongrenshu']}%"></div>
+				<div class="ms-progressbar-item" data-bind="style:{ width: Number(goods().canyurenshu) * 100/ Number(goods().zongrenshu) + '%' }"></div>
 			</div>
 			<div class="mui-table">
 				<div class="mui-table-cell mui-text-left">
-					<h5 class="font10 font-red">{$data.canyurenshu}</h5>
+					<h5 class="font10 font-red" data-bind="text: goods().canyurenshu"></h5>
 					<h5 class="font10">已参与</h5>
 				</div>
 				<div class="mui-table-cell mui-text-center">
-					<h5 class="font10">{$data.zongrenshu}</h5>
+					<h5 class="font10" data-bind="text: goods().zongrenshu"></h5>
 					<h5 class="font10">总需</h5>
 				</div>
 				<div class="mui-table-cell mui-text-right">
-					<h5 class="font10 font-blue">{$data.shengyurenshu}</h5>
+					<h5 class="font10 font-blue" data-bind="text: goods().shengyurenshu"></h5>
 					<h5 class="font10">剩余</h5>
 				</div>
 			</div>
 		</div>
+		<!-- /ko -->
+		
+		
+		<!-- ko if: status() == 2 -->
+		<div class="ms-prize">
+			<div class="mui-text-center ms-prize-empty">
+				<span class="ms-prize-countdown" data-bind="attr: { countdown: goods().nextTime }"></span>
+				<div class="font-black1 font16">正在计算开奖结果中</div>
+			</div>
+		</div>
+		<!-- /ko -->
+		
+		<!-- ko if: status() == 3 -->
+		<div class="ms-prize">
+			<!-- ko ifnot: goods().goumaicishu == 0 -->
+			<div class="mui-table">
+				<div class="mui-table-cell mui-text-center">
+					<!-- ko if: goods().prizeUid > 0 -->
+					<div class="ms-prize-img" data-bind="style: { backgroundImage: 'url(' + goods().userImg + ')' }"></div>
+					<!-- /ko -->
+					<!-- ko ifnot: goods().prizeUid > 0 -->
+					<div class="ms-prize-img" style="background-image: url(__IMG__/nobody.png);"></div>
+					<!-- /ko -->
+				</div>
+				<div class="mui-table-cell">
+					<!-- ko if: goods().prizeUid > 0 -->
+					<a data-bind="text: goods().username"></a>
+					<h5>中奖人本次购买：<r data-bind="text: goods().prizeCount"></r>人次</h5>
+					<!-- /ko -->
+					<!-- ko ifnot: goods().prizeUid > 0 -->
+					<h5><r>本期没有幸运获得者</r></h5>
+					<h5>本期销量：<span data-bind="text: goods().canyurenshu"></span> &frasl; <span data-bind="text: goods().zongrenshu"></span></h5>
+					<!-- /ko -->
+					
+					<h5>幸运云购码：<r data-bind="text: {:C('PRIZE_CODE')} + Number(goods().prizeCode)"></r></h5>
+					<h5>揭晓时间：<span data-bind="text: goods().endTime"></span></h5>
+				</div>
+			</div>
+			<!-- ko if: goods().prizeUid > 0 -->
+			<a data-bind="click: clickPrizeCodes" class="ms-prize-footer mui-text-center font16 font-gray">
+				获得者本期所有购物码 &gt;
+			</a>
+			<!-- /ko -->
+			<!-- /ko -->
+			<!-- ko if: goods().goumaicishu == 0 -->
+			<div class="mui-text-center ms-prize-empty">
+				<i class="iconfont icon-yihan font-black1"></i>
+				<div class="font-black1 font16">很遗憾，本期没有人参与</div>
+			</div>
+			<!-- /ko -->
+		</div>
+		<!-- /ko -->
+	
+		<!-- ko if: status() > 1 -->
+		<div class="mui-table ms-goods-detail">
+			<div class="mui-table-cell">
+				<div class="ms-prize-img" data-bind="style: { backgroundImage: 'url(/' + goods().goodsThums + ')' }"></div>
+			</div>
+			<div class="mui-table-cell">
+				<p class="mui-ellipsis-2 font15">
+					(第<span data-bind="text: goods().qishu"></span>期) <span data-bind="text: goods().goodsName"></span>
+					<r><span data-bind="text: goods().subTitle"></span></r>
+				</p>
+				<h5 class="font12">价值：¥<span data-bind="text: goods().marketPrice"></span></h5>
+			</div>
+		</div>
+		<!-- /ko -->
 	</div>
 	
-	<ul class="mui-table-view">
+	<ul class="mui-table-view cky-mtop-10">
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right">
-				参与纪录<span class="font13 font-gray">({$data.goumaicishu})</span>
+			<a id="memberRecord" class="mui-navigate-right">
+				参与纪录<span class="font13 font-gray">(<span data-bind="text: goods().goumaicishu"></span>)</span>
 			</a>
 		</li>
 		<li class="mui-table-view-cell">
-			<a class="mui-navigate-right">
+			<a class="mui-navigate-right" href="{:U('Miaosha/detail')}?id={:I('id')}">
 				图文详情<span class="font13 font-gray">(建议WIFI下使用)</span>
 			</a>
 		</li>
@@ -64,19 +131,21 @@
 		</li>
 	</ul>
 </div>
+<!-- ko if: status() <= 1 -->
 <footer class="cky-footer cky-button-footer">
 	<div class="mui-table">
 		<div class="mui-table-cell"><a ctype="direct" class="mui-btn mui-btn-block mui-btn-danger">立即一元秒杀</a></div>
 		<div class="mui-table-cell"><a ctype="add" class="mui-btn mui-btn-block mui-btn-primary">加入购物车</a></div>
 	</div>
 </footer>
+<!-- /ko -->
 
-<div id="goodsPicker" class="cky-goods-picker cky-hidden" data-bind="css: activeCss">
+<div id="goodsPicker" class="cky-goods-picker cky-hidden" data-bind="if: goods() && status() <= 1">
 	<div class="cky-goods-picker-body">
-		<div class="cky-goods-picker-thums" style="background-image: url(/{$data.goodsThums});"></div>
+		<div class="cky-goods-picker-thums" data-bind="style:{ backgroundImage: 'url(/' + goods().goodsThums + ')' }"></div>
 		<div class="cky-goods-picker-media">
-			<r class="font20">¥ {$data.shopPrice}</r>
-			<h5>剩余{$data.shengyurenshu}次</h5>
+			<r class="font20">¥ <span data-bind="text: goods().shopPrice"></span></r>
+			<h5>剩余<span data-bind="text: goods().shengyurenshu"></span>次</h5>
 			<h5></h5>
 		</div>
 		<div class="cky-goods-picker-content">
@@ -95,12 +164,70 @@
 		<a id="submit" class="cky-btn cky-btn-block cky-btn-red">确定</a>
 	</div>
 </div>
+
+<div id="qishuBlock" class="mui-content ms-qishu">
+	<div class="ms-code-table">
+		<div class="ms-code-table-cell">
+			<if condition="$data.miaoshaStatus lt 2">
+			<a qishu="0" class="ms-qishu-ing">
+				第{$data.qishu}期
+				<img src="__IMG__/doing.gif"/>
+			</a>
+			<else/>
+			<a qishu="0">
+				第{$data.qishu}期
+				<img src="__IMG__/doing.gif"/>
+			</a>
+			</if>
+		</div>
+		<for start="intval($data['qishu']) - 1" comparison="egt" end="1" step="-1">
+		<div class="ms-code-table-cell">
+			<a qishu="{$i}">第 {$i} 期</a>
+		</div>
+		</for>
+	</div>
+</div>
+<div class="cky-loading"></div>
+
 <script src="__KO__"></script>
 <script src="__JS__/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+<script type="text/javascript" src="__JS__/countdown.js"></script>
 
 <script>
+	var shopCart = null;
+	var miaoshaId = "{:I('id')}";
+	var qishu = Number("{:I('qishu')}");
+	var nextTimeHandler = 0;
+	qishu = qishu > 0 ? qishu : 0;
+	
+	//获取缓存中的期数，以备返回页面时跳转到正确的期数
+	var seed = "{$seed}";
+	var SEED_KEY = "MIAOSHA_VIEW_QISHU";
+	var seedData = cky.storage.getItem(SEED_KEY);
+	if(seedData && seedData[0] == seed) {
+		qishu = seedData[1];	
+	}
+	
+	var vm = {
+		status: ko.observable(1), // 是否正在进行
+		goods: ko.observable(null),
+		clickPrizeCodes: onprizecodes,
+	};
+	ko.applyBindings(vm);
+	
+	// 本期云购码
+	function onprizecodes() {
+		window.location.href = "{:U('Miaosha/mc')}?id={:I('id')}&qishu=" + qishu + "&uid=" + vm.goods().prizeUid + "&code=" + vm.goods().prizeCode;
+	};
 	$(function() {
+	   	
+		cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
+			if(vm.status() < 3) {
+				query();	
+			}
+		});
+			
 		var mySwiper = new Swiper ('.swiper-container', {
 	      	// Optional parameters
 	      	direction: 'horizontal',
@@ -109,27 +236,92 @@
 	      	loop: true
 	   	});
 	   	
+	   	function query() {
+	   		$.getJSON("{:U('Miaosha/m')}", {
+				id: miaoshaId,
+				qishu: qishu == Number("{$data.qishu}") ? 0 : qishu
+			}, function(goods) {
+				cky.closeLoading();
+				if(!goods) {
+					return;
+				}
+				qishu = Number(goods.qishu);
+				cky.storage.setItem(SEED_KEY, [seed, qishu]); // 保存到缓存中，以备返回页面时跳转到正确的期数
+				
+				$("#qishuBlock a.cky-active").removeClass("cky-active");
+				$("#qishuBlock a[qishu=" + qishu + "]").addClass("cky-active");
+				
+				window.clearTimeout(nextTimeHandler);
+				var status = goods.jiexiao == "1" ? 2 : Number(goods.miaoshaStatus);
+				if(status == 2) {
+					var nextTime = Number(goods.time);
+					// 下一个整点三分钟
+					goods.nextTime = Math.ceil(nextTime / 180) * 180 * 1000;
+					nextTimeHandler = window.setTimeout(query, 5000); // 向开奖结果推迟3秒
+				}
+				
+				vm.goods(goods);
+				vm.status(status);
+				countdown(Number(goods.time) * 1000);
+				if(!shopCart) {
+					initshopCart(goods);
+				}
+			});
+	   	}
+	   	
+	   	function initshopCart(goods) {
 	   	// 购物车
-	   	var shopCart = new ShopCart("goodsPicker", {
-			shopId: "{$data.shopId}",
-			shopName: "粗卡平台",
-			deliveryFreeMoney: 0,
-			deliveryMoney: 0,
-		}, {
-			goodsId: {$data.goodsId},
-			goodsName: "{$data.goodsName}",
-			goodsThums: "{$data.goodsThums}",
-			shopPrice: {$data.shopPrice},
-			goodsStock: {$data.shengyurenshu},
-			goodsUnit: "次"
-		});
+		   	shopCart = new ShopCart("goodsPicker", {
+				shopId: goods.shopId,
+				shopName: "粗卡平台",
+				deliveryFreeMoney: 0,
+				deliveryMoney: 0,
+			}, {
+				goodsId: goods.goodsId,
+				goodsName: goods.goodsName,
+				goodsThums: goods.goodsThums,
+				shopPrice: goods.shopPrice,
+				goodsStock: goods.shengyurenshu,
+				goodsUnit: "次"
+			});
 		
-		// 加入购物车，立即购买
-		$("a[ctype]").click(function() {
-			var $this = $(this);
-			var ctype = $this.attr("ctype");
-			shopCart.open(ctype);
-		});
-		$("#submit").click(shopCart.ok);
+			// 加入购物车，立即购买
+			$("a[ctype]").click(function() {
+				var $this = $(this);
+				var ctype = $this.attr("ctype");
+				shopCart.open(ctype);
+			});
+			$("#submit").click(function() {
+				shopCart.ok();
+			});
+			
+			// 购买纪录
+			$("#memberRecord").click(function() {
+				window.location.href = "{:U('Miaosha/mm')}?id={:I('id')}&qishu=" + qishu  + "&code=" + vm.goods().prizeCode;
+			});
+			
+			$("#moreButton").click(onmoreclick);
+		}
+	   	
+	   	var qishuBlock = $("#qishuBlock");
+	   	$("#qishuBlock").on("click", "a", function() {
+	   		var $this = $(this);
+	   		if(!$this.hasClass("cky-active")) {
+		   		qishu = Number($this.attr("qishu"));
+		   		$("#qishuBlock a.cky-active").removeClass("cky-active");
+		   		$this.addClass("cky-active");
+		   		onmoreclick();
+		   		query();
+	   		}
+	   	});
+	   	
+	   	function onmoreclick() {
+	   		if(qishuBlock.hasClass("cky-active")) {
+	   			qishuBlock.fadeOut();
+	   		} else {
+	   			qishuBlock.fadeIn();
+	   		}
+	   		qishuBlock.toggleClass("cky-active");
+		}
 	});
 </script>

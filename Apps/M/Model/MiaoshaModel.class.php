@@ -59,7 +59,7 @@ class MiaoshaModel extends BaseModel {
 			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId')
 			->where($filter)
 			->order($order)
-			->page($pageNum, $pageSize)
+			->page($pageNo, $pageSize)
 			->select();
 //		echo $this->getLastSql();
 		return $list;
@@ -80,27 +80,30 @@ class MiaoshaModel extends BaseModel {
 		$list = $this
 			->field($field)
 			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId')
-			->join('inner join __MIAOSHA_HISTORY__ h on m.miaoshaId = h.miaoshaId and ((h.qishu = m.qishu-1 and m.miaoshaStatus < 2) or (h.qishu = m.qishu and m.miaoshaStatus = 2))')
+			->join('inner join __MIAOSHA_HISTORY__ h on m.miaoshaId = h.miaoshaId')
 			->join('inner join __MEMBER__ u on u.uid = h.prizeUid')
 			->where($filter)
 			->order($order)
-			->page($pageNum, $pageSize)
+			->page($pageNo, $pageSize)
 			->select();
 		return $list;
 	}
 	
-	public function get($miaoshaId = null, $qishu = 0) {
+	public function get($miaoshaId = null, $qishu = -1) {
 		$miaoshaId = I('id', $miaoshaId);
-		$qishu = I('qishu', $qishu);
+		if($qishu < 0) {
+			$qishu = I('qishu', 0);
+		}
 		$map = array('m.miaoshaId'	 => $miaoshaId);
 		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, miaoshaStatus,'.
-			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu';
+			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu, UNIX_TIMESTAMP() time,
+			(jishijiexiao > 0 and miaoshaStatus < 2 and now() > adddate(m.createTime,interval jishijiexiao HOUR)) jiexiao';
 		$join = 'inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';
 		$m = $this;
 		
 		$list = null;
 		if($qishu > 0) { // 查看历史
-			$field .= ', prizeCount, prizeCode, prizeUid, endTime, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName';
+			$field .= ', prizeCount, prizeCode, prizeUid, endTime, replace(concat(\'/\', u.ImagePath), \'/http://\', \'http://\') userImg, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') username';
 			$map['qishu'] = $qishu;
 			$m = M('MiaoshaHistory');
 			$m->join('m left join __MEMBER__ u on u.uid = m.prizeUid');
@@ -109,7 +112,7 @@ class MiaoshaModel extends BaseModel {
 		}
 		$data = $m->join($join)->field($field)->where($map)->find();
 //		echo $m->getLastSql();
-		if((int)$data['miaoshaStatus'] == 3) {
+		if($qishu == 0 && (int)$data['miaoshaStatus'] == 3) {
 			return $this->get($data['miaoshaId'], (int)$data['qishu']);
 		}
 		return $data;

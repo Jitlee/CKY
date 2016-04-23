@@ -8,7 +8,7 @@
 			'__JQ__'				=> '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js',
 			'__KO__'				=> '/Apps/M/View/default/js/knockout-3.4.0.js',
 
-			'__FONT__'				=> '//at.alicdn.com/t/font_1460303475_4112234.css',
+			'__FONT__'				=> '//at.alicdn.com/t/font_1461336644_495359.css',
 			'__IMG__'				=> '/Apps/M/View/default/images',
 
 			'__JS__'				=> '/Apps/M/View/default/js',

@@ -118,7 +118,7 @@ class GoodsCatsModel extends BaseModel {
 	  public function getCatAndChild(){
 	  	  $m = M('goods_cats');
 	  	  //获取第一级分类
-	  	  $sql = "select * from __PREFIX__goods_cats where catFlag=1 and parentId =0 order by catSort asc";
+	  	  $sql = "select * from __PREFIX__goods_cats where catFlag=1 and parentId =0  and  (catkey is null or catkey!='mall') order by catSort asc";
 	  	  $rs1 = $m->query($sql);
 	  	  if(count($rs1)>0){
 	  	  	 $ids = array();
@@ -160,6 +160,56 @@ class GoodsCatsModel extends BaseModel {
 	  	  }
 	  	  return $rs1;
 	  }
+
+	   /**
+	   * 获取树形分类
+	   */
+	  public function getCatAndChildBykey($key){
+	  	  $m = M('goods_cats');
+	  	  //获取第一级分类
+	  	  $sql = "select * from __PREFIX__goods_cats gp where gp.catFlag=1 and gp.parentId =0   and  gp.catkey='$key' order by gp.catSort asc";
+	  	  $rs1 = $m->query($sql);
+	  	  if(count($rs1)>0){
+	  	  	 $ids = array();
+	  	  	 foreach ($rs1 as $key =>$v){
+	  	  	 	$ids[] = $v['catId'];
+	  	  	 }
+	  	  	 //获取第二级分类
+	  	     $sql = "select * from __PREFIX__goods_cats where catFlag=1 and parentId in (".implode(',',$ids).")  order by catSort asc";
+	  	     $rs2 = $m->query($sql);
+	  	     if(count($rs2)>0){
+	  	     	 $ids = array();
+		  	  	 foreach ($rs2 as $key =>$v){
+		  	  	 	$ids[] = $v['catId'];
+		  	  	 }
+		  	  	 //获取第三级分类
+		  	     $sql = "select * from __PREFIX__goods_cats where catFlag=1 and parentId in (".implode(',',$ids).")  order by catSort asc";
+		  	     $rs3 = $m->query($sql);
+		  	     $tmpArr = array();
+		  	     if(count($rs3)>0){
+			  	     foreach ($rs3 as $key =>$v){
+			  	  	 	$tmpArr[$v['parentId']][] = $v;
+			  	  	 }
+		  	     }
+		  	     //把第三级归类到第二级下
+		  	     foreach ($rs2 as $key =>$v){
+		  	     	$rs2[$key]['child'] = $tmpArr[$v['catId']];
+		  	     	$rs2[$key]['childNum'] = count($tmpArr[$v['catId']]);
+		  	     }
+		  	     $tmpArr = array();
+	  	         foreach ($rs2 as $key =>$v){
+			  	  	 $tmpArr[$v['parentId']][] = $v;
+			  	 }
+		  	 }
+		  	 //把二季归类到第一级下
+	  	     foreach ($rs1 as $key =>$v){
+	  	  	 	$rs1[$key]['child'] = $tmpArr[$v['catId']];
+	  	  	 	$rs1[$key]['childNum'] = count($tmpArr[$v['catId']]);
+	  	  	 }
+	  	  }
+	  	  return $rs1;
+	  }
+
 	 /**
 	  * 迭代获取下级
 	  */

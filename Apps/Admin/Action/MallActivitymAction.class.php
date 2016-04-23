@@ -16,7 +16,7 @@ class MallActivitymAction extends BaseAction{
 		$this->isLogin();
 	    $m = D('Admin/MallActivitym');
     	$object = array();
-    	if(I('id',0)>0){
+    	if(I('mactmid',0)>0){
     		$this->checkPrivelege('wzlb_02');
     		$object = $m->get();
     	}else{
@@ -39,14 +39,15 @@ class MallActivitymAction extends BaseAction{
 		$rs = array('status'=>-1);
 		try {
 			$m = D('Admin/MallActivitym');		    
-	    	if(I('mactid',0)>0){
+	    	if(I('mactmid',0)>0){
 	    		$this->checkAjaxPrivelege('wzlb_02');
 	    		$rs = $m->edit();
 	    	}else{
 	    		$this->checkAjaxPrivelege('wzlb_01');
 	    		$rs = $m->insert();
 	    	}
-		}catch (Exception $e){
+		}
+		catch (Exception $e){
             $rs["msg"]=$e;
         }
 	    $this->ajaxReturn($rs);
@@ -82,8 +83,7 @@ class MallActivitymAction extends BaseAction{
 		$this->checkPrivelege('wzlb_00');
 		$m = D('Admin/MallActivitym');
     	$page = $m->queryByPage($mactid);
-//  	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
-//  	$page['pager'] = $pager->show();
+
     	$this->assign('Page',$page);
     	$this->assign('mactname',I('mactname'));
 		$this->assign('mactid',I("mactid"));

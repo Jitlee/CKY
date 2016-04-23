@@ -30,34 +30,16 @@
 	}
    var filetypes = ["gif","jpg","png","jpeg"];
    $(function () {
-	   KindEditor.ready(function(K) {
-			editor1 = K.create('textarea[name="desc"]', {
-				height:'350px',
-				allowFileManager : false,
-				allowImageUpload : true,
-				items:[
-				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-				        'anchor', 'link', 'unlink', '|', 'about'
-				],
-				afterBlur: function(){ this.sync(); }
-			});
-		});
-		
 	   $.formValidator.initConfig({
 		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
 				   edit();
 			       return false;
 			},onError:function(msg){
 		}});
-		$('#efficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
+		 
 		
 	   $("#mactname").formValidator({onFocus:"请输入标题"}).inputValidator({min:1,max:100,onError:"请输入100字以内标题"});
-	 
+	   $("#sort").formValidator({onFocus:"请输入排序"}).inputValidator({min:1,max:5,onError:"请输入排序"});
 	   
 	   $("#pricemode").change(function(){
 	   		clearchange();
@@ -65,6 +47,40 @@
 	   });
 	   setpricemode();
    });
+   
+   function edit(){
+	   var params = {};
+	   params.mactmid = $('#mactmid').val();	//当前id
+	   params.mactid = $('#mactid').val();
+	   params.mactmname = $('#mactmname').val();
+	   
+	   params.mlogo = $('#mlogo').val();
+	   params.mlogothums = $('#goodsThumbs').val();	  
+	   params.pricemode = $('#pricemode').val();
+	   params.amount = $('#amount').val();	   
+	   params.consamount1 = $('#consamount1').val();
+	   params.discount1 = $('#discount1').val();
+	   params.consamount2 = $('#consamount2').val();
+	   params.discount2 = $('#discount2').val();	   
+	   params.lineshownum = $("#lineshownum").val();
+	   params.sort = $('#sort').val();
+	   
+	   //alert(params.efficacyEData);
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/MallActivitym/edit')}",params,function(data,textStatus){
+	   	
+			var json = RTC.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				  location.href="{:U('Admin/MallActivitym/index',array('mactid'=>$mactid))}";
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+		});
+   }
+   
    function clearchange()
    {
 		$("amount").val(""); 
@@ -117,49 +133,7 @@
 		   	}
   		}
    }
-   function edit(){
-	   var params = {};
-	   params.mactmid = $('#mactmid').val();	//当前id
-	   params.mactid = $('#mactid').val();
-	   params.mactname = $('#mactname').val();
-	   
-	   params.mlogo = $('#mlogo').val();
-	   params.mlogothums = $('#goodsThumbs').val(); 
-	  
-	   params.pricemode = $('#pricemode').val();
-	   params.amount = $('#amount').val();
-	   
-	   params.consamount1 = $('#consamount1').val();
-	   params.discount1 = $('#discount1').val();
-	    params.consamount2 = $('#consamount2').val();
-	   params.discount2 = $('#discount2').val();
-	   
-	   params.lineshownum = $("#lineshownum").val();
-	   params.sort = $('#sort').val();
-	    
-	   if(params.mactname==''){
-		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入标题!',timeout:1000});
-		   return;
-	   }
-	   if(params.desc.length <1){
-		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入描述!',timeout:1000});
-		   return;
-	   }
-	   //alert(params.efficacyEData);
-	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
-	   $.post("{:U('Admin/MallActivity/edit')}",params,function(data,textStatus){
-	   	
-			var json = RTC.toJson(data);
-			if(json.status=='1'){
-				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
-				   location.href="{:U('Admin/MallActivity/index')}";
-				}});
-			}else{
-				Plugins.closeWindow();
-				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
-			}
-		});
-   }
+   
    </script>
    <body class="rtc-page">
    		<iframe name="upload" style="display:none"></iframe>
@@ -187,15 +161,15 @@
 		
        <form name="myform" method="post" id="myform" autocomplete="off">
 			<input type='hidden' id='mactmid' value='{$object.mactmid}'/>
-			<input type='hidden' id='mactid' value='{$object.mactid}'/>
-			<input type='hidden' id='goodsThumbs' value='{$object.logothums}'/>
+			<input type='hidden' id='mactid' value='{$mactid}'/>
+			<input type='hidden' id='goodsThumbs' value='{$object.mlogothums}'/>
 			 
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
-             <th width='120' align='right'>标题<font color='red'>*</font>：</th>
+             <th width='120' align='right'>分类名称<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='mactname' class="form-control rtc-ipt" value='{$object.mactname}' maxLength='25'/>
-             	{$mactid}
+             	<input type='text' id='mactmname' class="form-control rtc-ipt" value='{$object.mactmname}' maxLength='25'/>
+             	
              </td>
            </tr>
           
@@ -207,7 +181,7 @@
              <th align='right'>logo预览：</th>
              <td height='70px'>
              	<div id="preview_Filedata">
-               		<img id='preview' src='__ROOT__/{$object.logo}' height='70px' <if condition="$object['logo'] =='' ">style='display:none'</if>/>
+               		<img id='preview' src='__ROOT__/{$object.mlogothums}' height='70px' <if condition="$object['mlogothums'] =='' ">style='display:none'</if>/>
                </div>
              </td>
            </tr>
@@ -265,8 +239,8 @@
             
            <tr>
              <td colspan='2' style='padding-left:250px;'>
-                 <button type="submit" class="btn btn-success">保&nbsp;存</button>
-                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/MallActivity/index')}"'>返&nbsp;回</button>
+                 <button type="submit" class="btn btn-success">保&nbsp;存</button>   
+                 <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/MallActivitym/index',array('mactid'=>$mactid))}"'>返&nbsp;回</button>
              </td>
            </tr>
         </table>

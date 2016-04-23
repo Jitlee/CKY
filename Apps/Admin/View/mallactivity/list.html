@@ -53,9 +53,8 @@
        <form method='post' action='{:U("Admin/MallActivity/index")}'>
        <div class='rtc-tbar' style='height:25px;'>
                     活动标题：<input type='text' id='activityTitle' name='activityTitle' class='form-control rtc-ipt-15' value='{$activityTitle}'/> 
-       <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>             
-       
-       <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivity/toEdit')}" style='float:right'>新增</a>
+       		<button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>
+       		<a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivity/toEdit')}" style='float:right'>新增</a>
        
        </div>
        </form>
@@ -70,14 +69,17 @@
                <th width='40'>排序</th>
                
                <th width='80'>状态</th>
-               <th width='290'>操作</th>
+               <th width='240'>操作</th>
              </tr>
            </thead>
            <tbody>
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
-               <td>{$vo['mactname']}</td>
+                <td img='{$vo['logothums']}' class='imgPreview'>
+               		<img src='__ROOT__/{$vo['logothums']}' height='50px'/>
+               		{$vo['mactname']}
+               </td>
                <td>{$vo['starttime']}至{$vo['endtime']}</td>
                <td> <if condition="$vo['mode']=='normal' "> 普通 <else/> 自定义</if></td>
                <td>{$vo['sort']}</td>

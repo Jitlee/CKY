@@ -19,7 +19,7 @@
    <script>
    function toggleIsShow(t,v){
 	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
-	   $.post("{:U('Admin/MallActivity/editStatus')}",{id:v,isShow:t},function(data,textStatus){
+	   $.post("{:U('Admin/MallActivitym/editStatus')}",{id:v,mstatus:t},function(data,textStatus){
 			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
@@ -32,10 +32,10 @@
 	   });
    }
    function del(id){
-	   Plugins.confirm({title:'信息提示',content:'您确定要删除该活动吗?',okText:'确定',cancelText:'取消',okFun:function(){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该分类吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
-		   $.post("{:U('Admin/MallActivity/del')}",{id:id},function(data,textStatus){
+		   $.post("{:U('Admin/MallActivitym/del')}",{id:id},function(data,textStatus){
 					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
@@ -50,12 +50,12 @@
    }
    </script>
    <body class='rtc-page'>
-       <form method='post' action='{:U("Admin/MallActivity/index")}'>
+       <form method='post' action="{:U('Admin/MallActivitym/index',array('mactid'=>$mactid))}">
        <div class='rtc-tbar' style='height:25px;'>
-                    名称：<input type='text' id='activityTitle' name='activityTitle' class='form-control rtc-ipt-15' value='{$activityTitle}'/> 
-       <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>             
+                  
+           
        
-       <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivitym/toEdit',array('mactid'=>$mactid))}" style='float:right'>新增</a>
+       <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivitym/toEdit',array('mactid'=>$mactid))}" style='float:left'>新增</a>
        
        </div>
        </form>
@@ -63,47 +63,72 @@
         <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
-               <th width='40'>序号</th>
-               <th>标题</th>
-               
-               <th width='150'>模式</th>
-               <th width='40'>排序</th>
-               
-               <th width='80'>状态</th>
-               <th width='190'>操作</th>
+			   <th width='40'>序号</th>
+			   <th>分类名称</th>
+			   <th>logo</th>
+			   <th width='150'>模式</th>
+				<th width='60'>价格/折扣</th>
+				
+				<th width='60'>满1</th>
+				<th width='60'>减/折1</th>
+				<th width='60'>满2</th>
+				<th width='60'>减/折2</th>
+			   <th width='60'>排序</th>
+			   <th width='70'>状态</th>
+			   <th width='140'>操作</th>
              </tr>
            </thead>
            <tbody>
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
-               <td>{$vo['mactmname']}</td>
-              
-               <td> <if condition="$vo['pricemode']=='normal' "> 普通 <else/> 自定义</if></td>
+               <td img='{$vo['goodsThums']}' class='imgPreview'>
+               	
+               		{$vo['mactmname']}
+               </td>
+               <td>
+               		<img src='__ROOT__/{$vo['mlogothums']}' height='50px'/>               	
+               </td>
+               <td>
+               		<if condition="$vo['pricemode']=='noprice' "> 普通(爆款、低致) 
+               		<elseif condition="$vo['pricemode']=='oneprice' "/> 统一价格
+               		<elseif condition="$vo['pricemode']=='m2mustless' "/> 第二件立减
+               		<elseif condition="$vo['pricemode']=='m2f1' "/> 买二付一
+               		<elseif condition="$vo['pricemode']=='mxdiscount' "/> x件x折x件x折
+               		<else condition="$vo['pricemode']=='mxlessxmxlessx' "/> 满x减x满x减x
+               		</if>   
+ 
+               </td>
+               <td>{$vo['amount']}</td>
+               <td>{$vo['consamount1']}</td>
+               <td>{$vo['discount1']}</td>
+               <td>{$vo['consamount2']}</td>
+               <td>{$vo['discount2']}</td>
+               
                <td>{$vo['sort']}</td>
                <td>
 	               <div class="dropdown">
-		               <if condition="$vo['status']==0 ">
+		               <if condition="$vo['mstatus']==0 ">
 		                   <button class="btn btn-warning dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">停用<span class="caret"></span></button>
-		               <elseif condition="$vo['status']==1 "/>
+		               <elseif condition="$vo['mstatus']==1 "/>
 		                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">正常<span class="caret"></span></button>
 		               </if>
 		               
 	                   <ul class="dropdown-menu" role="menu">
-						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['mactid']})">停用</a></li>
-						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['mactid']})">正常</a></li>
+						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['mactmid']})">正常</a></li>
+						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['mactmid']})">停用</a></li>
 					   </ul>
 					   
 	               </div>
                </td> 
                <td>
-               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/MallActivity/toEdit',array('id'=>$vo['mactid']))}">修改</a>&nbsp;               
-               		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['mactid']})"">刪除</a>
+               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/MallActivitym/toEdit',array('mactmid'=>$vo['mactmid'],'mactid'=>$mactid))}">修改</a>&nbsp;               
+               		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['mactmid']})"">刪除</a>
                </td>
              </tr>
              </volist>
              <tr>
-                <td colspan='7' align='center'>{$Page['pager']}</td>
+                <td colspan='12' align='center'>{$Page['pager']}</td>
              </tr>
            </tbody>
         </table>

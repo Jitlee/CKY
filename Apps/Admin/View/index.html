@@ -222,6 +222,9 @@
 							</a>
 							<ul class="treeview-menu">
 								<php>if(in_array('spfl_00',$RTC_STAFF['grant'])){</php>
+								<li><a href="{:U('Admin/Mall/mallcatindex')}" target='pageContent'>商城商品分类</a></li>
+								<php>}</php>
+								<php>if(in_array('spfl_00',$RTC_STAFF['grant'])){</php>
 								<li><a href="{:U('Admin/Malllife/typeIndex')}" target='pageContent'>惠生活分类管理</a></li>
 								<php>}</php>
 								<php>if(in_array('ppgl_00',$RTC_STAFF['grant'])){</php>
@@ -230,7 +233,6 @@
 								<php>if(in_array('ppgl_00',$RTC_STAFF['grant'])){</php>
 								<li><a href="{:U('Admin/MallActivity/Index')}" target='pageContent'>商场活动管理</a></li>
 								<php>}</php>
-								
 							</ul>
 						</li>
 						<php>}</php>

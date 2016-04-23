@@ -314,8 +314,6 @@ function submitOrder(){
 				RTC.msg("您选的商品不在配送区域内！", {icon: 5});
 				return ;
 			}
-			
-			
 			var orderunique = new Date().getTime();
 			location.href= Think.U('Home/Orders/submitOrder','consigneeId='+consigneeId+"&payway="+payway+"&isself="+isself+"&invoiceClient="+invoiceClient+"&needreceipt="+needreceipt+"&remarks="+remarks+"&requireTime="+requireTime+"&orderunique="+orderunique);
 		}else{
@@ -326,9 +324,7 @@ function submitOrder(){
 			}
 		}
 		
-	});
-	
-	
+	});	
 }
 
 

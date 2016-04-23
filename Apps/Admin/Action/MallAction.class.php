@@ -37,4 +37,41 @@ class MallAction extends BaseAction{
 		}
 		$this->ajaxReturn($rst, 'JSON');
 	}
+	
+	/**
+	 * 分页查询
+	 */
+	public function mallcatindex(){
+		$this->isLogin();
+		$this->checkPrivelege('spfl_00');
+		$m = D('Admin/GoodsCats');
+    	$list = $m->getCatAndChildBykey('mall');
+    	$this->assign('List',$list);
+        $this->display("/mall/mallcatlist");
+	}
+	
+	public function mallcatToEdit(){
+		$this->isLogin();
+	    $m = D('Admin/GoodsCats');
+    	$object = array();
+    	if(I('id',0)>0){
+    		$this->checkPrivelege('spfl_02');
+    		$object = $m->get(I('id',0));
+    	}else{
+    		$this->checkPrivelege('spfl_01');
+    		if(I('parentId',0)>0){
+    		   $object = $m->get(I('parentId',0));
+    		   $object['parentId'] = $object['catId'];
+    		   $object['catName'] = '';
+			   $object['catIcon'] = '';
+    		   $object['catSort'] = 0;
+    		   $object['catId'] = 0;
+    		}else{
+    		   $object = $m->getModel();
+    		}
+    	}
+    	$this->assign('object',$object);
+		$this->view->display('/mall/mallcatedit');
+	}
+	
 }

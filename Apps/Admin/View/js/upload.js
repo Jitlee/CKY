@@ -5,7 +5,7 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
 	if(srcpath!="fail"){
 		$("#s_"+sfilename).val(srcpath);
 		$("#"+fname).val(srcpath);
-		if(fname=="goodsImg" || fname=="logo"){
+		if(fname=="goodsImg" || fname=="logo" || fname=="mlogo"){
 			$("#goodsThumbs").val(thumbpath);
 		}
 		else if(fname=="adpath")
@@ -16,6 +16,10 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
         if(fname=="logo")
         {
         	$("#preview_"+sfilename).html("<img width='70' height='70' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
+        }
+        else if(fname=="mlogo") //商场活动-分类
+        {
+        	$("#preview_"+sfilename).html("<img   height='70' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
         }
         else
         {

@@ -113,6 +113,16 @@
 		<!-- /ko -->
 	</div>
 	
+	<!-- ko if: status() < 2 && goods() && goods().jishijiexiao > 0 && goods().jiexiao == "0" -->
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a id="memberRecord" class="font20">
+				剩余时间：<span data-bind="attr: { countdown: (Number(goods().timestamp) + Number(goods().jishijiexiao) * 3600) * 1000 }"></span>
+			</a>
+		</li>
+	</ul>
+	<!-- /ko -->
+	
 	<ul class="mui-table-view cky-mtop-10">
 		<li class="mui-table-view-cell">
 			<a id="memberRecord" class="mui-navigate-right">
@@ -171,12 +181,10 @@
 			<if condition="$data.miaoshaStatus lt 2">
 			<a qishu="0" class="ms-qishu-ing">
 				第{$data.qishu}期
-				<img src="__IMG__/doing.gif"/>
 			</a>
 			<else/>
 			<a qishu="0">
 				第{$data.qishu}期
-				<img src="__IMG__/doing.gif"/>
 			</a>
 			</if>
 		</div>
@@ -227,14 +235,6 @@
 				query();	
 			}
 		});
-			
-		var mySwiper = new Swiper ('.swiper-container', {
-	      	// Optional parameters
-	      	direction: 'horizontal',
-	      	pagination: '.swiper-pagination',
-	      	autoplay: 3000,
-	      	loop: true
-	   	});
 	   	
 	   	function query() {
 	   		$.getJSON("{:U('Miaosha/m')}", {
@@ -245,6 +245,7 @@
 				if(!goods) {
 					return;
 				}
+				
 				qishu = Number(goods.qishu);
 				cky.storage.setItem(SEED_KEY, [seed, qishu]); // 保存到缓存中，以备返回页面时跳转到正确的期数
 				
@@ -301,6 +302,16 @@
 			});
 			
 			$("#moreButton").click(onmoreclick);
+			
+			var mySwiper = new Swiper ('.swiper-container', {
+		      	// Optional parameters
+		      	direction: 'horizontal',
+		      	pagination: '.swiper-pagination',
+		      	autoplay: 3000,
+		      	loop: true
+		   	});
+		   	
+		   	$(".swiper-container").show();
 		}
 	   	
 	   	var qishuBlock = $("#qishuBlock");

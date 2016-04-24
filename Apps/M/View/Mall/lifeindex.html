@@ -1,0 +1,115 @@
+<style>
+	.activity-categroy .cky-col-view-cell {
+		padding: 5px;	
+	}
+	
+	.activity-categroy .cky-col-view-cell a {
+		padding: 5px 0;
+		font-size: 17px;
+		color: #ED7D31;
+		background-color: #fff;
+		display: block;
+		height: 100%;
+		text-align: center;
+		border: solid 1px #fff;
+		position: relative;
+	}
+	
+	.activity-categroy .cky-col-view-cell.cky-active a {
+		border-color: #ED7D31;
+	}
+	
+	.activity-categroy .cky-col-view-cell.cky-active a::after {
+		font-family:"iconfont" !important;
+		font-size:16px;
+		font-style:normal;
+		-webkit-font-smoothing: antialiased;
+		-webkit-text-stroke-width: 0.2px;
+		-moz-osx-font-smoothing: grayscale;
+		  
+		content: " ";
+		position: absolute;
+		right: -1px;
+		bottom: -5px;
+		content: "\e62e";
+	}
+	
+	.cky-activity-cell {
+		margin: 10px 0;
+	}
+	
+	.cky-activity-cell img {
+		width: 100%;
+	}
+</style>
+<header class="mui-bar mui-bar-nav mui-nav-white">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+</header>
+<div class="mui-content mui-content-bottom">
+	<div id="activitiesLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<div id="lifeList" class="cky-hidden">
+		<!-- ko foreach: $data -->
+		<a class="cky-activity-cell" data-bind="attr: { href: '{:U('Malllife/lifeDetail')}?id=' + lifeid }">
+			<img data-bind="attr: { alt: lifetitle, src: '/' + logothums }"/>
+		</a>
+		<!-- /ko -->
+	</div>  
+</div>
+<include file="Public:tab"/>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	
+	$(function(){
+		var lifes = [];
+		var catId = 0;
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var vm = ko.observableArray(lifes);
+		ko.applyBindings(vm, document.getElementById("lifeList"));
+		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				lifes.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			if(!isEOF) {
+				$.getJSON("{:U('Malllife/lifePage')}", {
+					pageNo: _pageNo,
+					catId: catId,
+				}, function(list) {
+					if(_pageNo == 1) {
+						lifes.length = 0;
+						$("#activitiesLoading").hide();
+						$("#lifeList").removeClass("cky-hidden");
+					}
+					if(list && list.length > 0) {
+						pageNo = ++_pageNo;
+						$.each(list, function() {
+							lifes.push(this);
+						});
+					} else if(pageNo == 0) {
+						$(".mui-content").nodata("～暂无惠生活～");
+					}
+					vm(lifes);
+					
+					if(list && list.length < 5) {
+						isEOF = true;
+					}
+				});
+			}
+		}
+		queryByPage();
+		util.onScrollEnd(queryByPage);
+		 
+	});
+</script>

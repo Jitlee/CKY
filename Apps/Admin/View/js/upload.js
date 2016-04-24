@@ -15,7 +15,7 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
 		//显示图片
         if(fname=="logo")
         {
-        	$("#preview_"+sfilename).html("<img width='70' height='70' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
+        	$("#preview_"+sfilename).html("<img  height='70' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
         }
         else if(fname=="mlogo") //商场活动-分类
         {
@@ -23,7 +23,7 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
         }
         else
         {
-        	$("#preview_"+sfilename).html("<img width='152' height='152' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
+        	$("#preview_"+sfilename).html("<img  height='152' src='"+ThinkPHP.ROOT+"/"+thumbpath+"'/>");	
         }
 	}else{
 		$("#s_"+sfilename).val("");

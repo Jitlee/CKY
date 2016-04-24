@@ -1,0 +1,67 @@
+<style>
+</style>
+<header class="mui-bar mui-bar-nav" style="background-color: #EFEFEF;">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
+	</button>
+	<h1 id="title" class="mui-title" style="color: #ED7D31;">{$title}</h1>
+</header>
+<div class="mui-content mui-content-bottom scene-talent">
+	<article class="scene-talent">
+		<div class="source">
+				<h2 class="title">{$data.lifetitle}</h2>
+		</div>
+		<div class="content">
+			
+			<p class="text">{$data.content}</p>
+			<volist name="childitems" id="vo" key='i'>
+				<p class="text">{$vo['lifetitle']}</p>
+				<p class="text">{$vo['lifecontent']}</p>
+				<div class="media" style="padding-top:100%;">					
+					<a href="{:U('Fast/detail')}?id={$vo['goodsid']}" class="item">
+						<img src="/{$vo['goodsthums']}" class="img-ks-lazyload">
+						<div class="pricebox">
+							<span class="price-now">
+								<span class="ui-yen">¥</span>
+								<span class="price">{$vo['shopprice']}</span>
+							</span>
+						</div>
+					</a>
+				</div>
+			</volist>		
+		</div>
+		<footer data-spm="d3">
+			<div class="social-bar">
+				<ul class="social-list">
+					<!--<li>
+						<a href="javascript:void(0)" class="social-link favor-link">
+							<span class="favor-inner">
+								<i class="favor-icon"></i>
+								<i class="favor-plus">+1</i>
+								<span class="favor-count">{$data.favor}</span>
+							</span>
+						</a>
+					</li>-->
+					<li>   
+						<a href="javascript:void(0)" class="social-link share-link"><i class="icon-share"></i>分享</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tags">
+				<span>&nbsp; </span>	
+				<!--<span>标签: </span>		-->		
+				<!--<a href="/scene.htm?tagId=195" class="foot-tag">天猫超市</a>				
+				<a href="/scene.htm?tagId=241" class="foot-tag">华南</a>-->
+			</div>
+		</footer>
+	</article>
+</div>
+ <link rel="stylesheet" href="__CSS__/{:autoVer('malllife.css')}" />
+ 
+ <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+ 
+<script type="text/javascript"> 
+	$(function(){
+		 
+	});
+</script>

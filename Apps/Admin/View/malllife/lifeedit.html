@@ -30,23 +30,23 @@
 	}
    var filetypes = ["gif","jpg","png","jpeg"];
    $(function () {
-	   KindEditor.ready(function(K) {
-			editor1 = K.create('textarea[name="content"]', {
-				height:'350px',
-				allowFileManager : false,
-				allowImageUpload : true,
-				items:[
-				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-				        'anchor', 'link', 'unlink', '|', 'about'
-				],
-				afterBlur: function(){ this.sync(); }
-			});
-		});
+//	   KindEditor.ready(function(K) {
+//			editor1 = K.create('textarea[name="content"]', {
+//				height:'350px',
+//				allowFileManager : false,
+//				allowImageUpload : true,
+//				items:[
+//				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+//				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+//				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+//				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+//				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+//				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+//				        'anchor', 'link', 'unlink', '|', 'about'
+//				],
+//				afterBlur: function(){ this.sync(); }
+//			});
+//		});
 		
 	   $.formValidator.initConfig({
 		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
@@ -76,11 +76,11 @@
 	   params.content = $('#content').val();
 	  
 	   
-	   if(params.content==''){
-		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入内容!',timeout:1000});
-		   return;
-	   }
-	   alert(params.lifeid);
+//	   if(params.content==''){
+//		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入内容!',timeout:1000});
+//		   return;
+//	   }
+	   
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
 	   $.post("{:U('Admin/Malllife/lifeEdit')}",params,function(data,textStatus){
 			var json = RTC.toJson(data);
@@ -178,7 +178,7 @@
            <tr>
              <th align='right'>内容<font color='red'>*</font>：</th>
              <td>
-             <textarea id='content' name='content' style='width:80%;height:500px;'>{$object.content}</textarea>
+             <textarea id='content' name='content' style='width:50%;height:200px;'>{$object.content}</textarea>
              </td>
            </tr>
            <tr>

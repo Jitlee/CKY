@@ -58,4 +58,19 @@ class WxUserInfo
 	    return $access_token;
 	} 
 	
+	
+	
+	/******
+	 * 下面用于，微信分享
+	 * ******/
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 } 

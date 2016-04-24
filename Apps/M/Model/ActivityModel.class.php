@@ -10,7 +10,7 @@
  */
 class ActivityModel extends BaseModel {
     public function queryByCatId() {
-    		$pageSize = 12;
+    	$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
 		
    	 	$catId = I('catId', 0);

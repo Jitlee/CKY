@@ -72,6 +72,7 @@
                
                <th width='40'>排序</th>
                <th width='150'>创建时间</th>
+               <th width='80'>商品管理</th>
                <th width='170'>操作</th>
              </tr>
            </thead>
@@ -106,13 +107,16 @@
                <td>{$vo['sort']}</td> 
                <td>{$vo['createtime']}</td>
                <td>
+                	<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Malllife/lifegoods',array('lifeid'=>$vo['lifeid']))}">商品管理</a>
+                </td>                
+               <td>
                		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/Malllife/lifeToEdit',array('id'=>$vo['lifeid']))}">修改</a>&nbsp;               
                		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['lifeid']})"">刪除</a>
                </td>
              </tr>
              </volist>
              <tr>
-                <td colspan='8' align='center'>{$Page['pager']}</td>
+                <td colspan='10' align='center'>{$Page['pager']}</td>
              </tr>
            </tbody>
         </table>

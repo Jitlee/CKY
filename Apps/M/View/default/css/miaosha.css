@@ -48,6 +48,27 @@
 	color: #FF5053;
 }
 
+.ms-radio-group label span {
+	position: relative;
+	display: inline-block;
+}
+
+.ms-radio-group .iconfont {
+	font-size: 9px;
+	color: #999;
+}
+
+.ms-radio-group .iconfont.icon-desc {
+	position: absolute;
+	top:0px;
+	right: 0px;
+}
+
+.ms-radio-group input[type='radio'][value='4'] + label.cky-active .icon-desc,
+.ms-radio-group input[type='radio'][value='5'] + label.cky-active .icon-asc {
+	color: #FF5053;
+}
+
 /** 商品列表 **/
 
 .ms-list {
@@ -316,10 +337,6 @@
 	border: #999 solid 1px;
 	background-color: #999;
 	color: #fff;
-}
-
-.ms-code-table-cell a.ms-qishu-ing img{
-	vertical-align: sub;
 }
 
 .ms-code.ms-goods-detail {

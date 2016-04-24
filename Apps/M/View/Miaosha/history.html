@@ -32,6 +32,7 @@
 	</div>
 </div>
 
+<script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script type="text/javascript" src="__KO__"></script>
 <script>
 	$(function() {
@@ -42,10 +43,11 @@
 		ko.applyBindings(vm);
 		
 		var sortType = {:I('sortType', 2)};
-		
+		var catId = 0;
 		var pageNo = 1;
 		function page(clear) {
 			if(clear) {
+				vm.goods.removeAll();
 				goods.length = 0;
 				pageNo = 1;
 			}
@@ -53,6 +55,7 @@
 				type: 1,
 				pageNo: pageNo,
 				sortType: sortType,
+				catId: catId,
 			}, function(list) {
 				$("#goodsLoading").hide();
 				if(list && list.length > 0) {
@@ -72,6 +75,19 @@
 			var $this = $(this);
 			sortType = this.value;
 			page(true);
+		});
+		
+		// 一元购分类
+		$(".ms-dropbtn").dropMenu({
+			api: "{:U('GoodsCats/query')}",
+			idProperty: "catId",
+			nameProperty: "catName",
+			parentIdproperty: "parentId",
+			parentId: 2,
+			callback: function(evt) {
+				catId = evt.catId;
+				page(true);
+			}
 		});
 		
 	});

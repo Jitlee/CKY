@@ -68,6 +68,7 @@ class MiaoshaAction extends BaseAction {
 			}
 			$data['galleries'] = $galleries;
 		}
+//		echo dump($data);
 		
 		$this->assign('data', $data);
 		

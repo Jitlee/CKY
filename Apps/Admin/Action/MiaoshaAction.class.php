@@ -14,12 +14,7 @@ class MiaoshaAction extends BaseAction{
 	 */
 	public function index(){
 		$this->isLogin();
-		//$this->checkPrivelege('splb_00');
-		//获取地区信息
-//		$m = D('Admin/Areas');
-//		$this->assign('areaList',$m->queryShowByList(0));
-		//获取商品分类信息
-		
+		//获取商品分类信息		
 		$m = D('Admin/GoodsCats');
 		$cats=$m->queryBykey('yyg');		
 		$this->assign('goodsCatsList',$cats);
@@ -41,11 +36,7 @@ class MiaoshaAction extends BaseAction{
     	$this->assign('areaId2',I('areaId2',0));
     	$this->assign('goodsCatId1',$goodsCatId1);
     	$this->assign('goodsCatId2',I('goodsCatId2',0));
-//  	$this->assign('goodsCatId3',I('goodsCatId3',0));
-//  	$this->assign('isAdminBest',I('isAdminBest',-1));
-//  	$this->assign('isAdminRecom',I('isAdminRecom',-1));
         
-		//echo dump($page);
    		$this->display('list');
 	}
 	/**
@@ -57,7 +48,6 @@ class MiaoshaAction extends BaseAction{
 		//获取商品分类信息
 		$m = D('Admin/GoodsCats');
 		$this->assign('goodsCatsList',$m->queryBykey('yyg'));
-		//获取商家商品分类
 
 		//获取商品类型
 		$m = D('Admin/Miaosha');

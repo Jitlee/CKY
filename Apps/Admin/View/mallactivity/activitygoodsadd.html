@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <style type="text/css">
+		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+	  </style>
+   </head>
+   <script>
+   
+  function checkAll(v){
+	   $('.chk').each(function(){
+		   $(this).prop('checked',v);
+	   })
+   }
+   function addgoods(){
+	   var ids = [];
+	   $('.chk').each(function(){
+		   if($(this).prop('checked'))ids.push($(this).val());
+	   })
+	   if(ids.length==0){Plugins.Tips({title:'信息提示',icon:'error',content:'请选择需要添加的商品!',timeout:2000}); return;}
+	   if($("#mactmid").val()==""){Plugins.Tips({title:'信息提示',icon:'error',content:'请选择活动分类!',timeout:2000}); return;}
+	   var params={};
+	   params.id=ids.join(',');
+	   params.mactid=$("#mactid").val();
+	   params.mactmid=$("#mactmid").val();
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/MallActivity/activityGoodsAdd')}",params,function(data,textStatus){
+				var json = RTC.toJson(data);
+				if(json.status=='1'){
+					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+					    location.reload();
+					}});
+				}else{
+					Plugins.closeWindow();
+					Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				
+				}
+	   });
+   } 
+ 
+
+   $(document).ready(function(){
+	   $("#btnaddGoods").click(function(e){
+	   		addgoods();
+	   });
+   });
+   </script>
+   <body class='rtc-page'>
+   	
+    <form method='post' action='{:U("Admin/MallActivity/activitygoods")}' autocomplete="off">
+    	<input type='hidden' id='mactid' name='mactid' value='{$mactid}'/>
+       <div class='rtc-tbar'> 
+     
+  				商品平台分类：
+  				<select id='goodsCatId2' name='goodsCatId2'>
+	                <volist name="goodsCatsList2" id="vo">
+		                <option value='0'>请选择</option>
+		                <option value='{$vo['catId']}' <if condition="$goodsCatId1 == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
+	                </volist>
+	             </select>
+	             
+			       所属商家：<input type='text' id='shopName' name='shopName' value='{$shopName}'/>            
+			       商品：<input type='text' id='goodsName' name='goodsName' value='{$goodsName}'/> 
+    
+ 
+  <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
+       </div>
+       </form>
+       <div class='rtc-body'>
+	        <div class='rtc-tbar'>
+				活动分类<font color='red'>*</font>：
+				<select id='mactmid' name='mactmid'>
+					<option value=''>请选择</option>
+		            <volist name="mActimPage" id="vo">
+		            	<option value='{$vo['mactmid']}' <if condition="$mactmid == $vo['mactmid'] ">selected</if>>{$vo['mactmname']}</option>
+		            </volist>
+		         </select> 
+	   	
+	        <php>if(in_array('splb_04',$RTC_STAFF['grant'])){</php>        	
+	        <button type="button" class="btn btn-primary glyphicon"  id="btnaddGoods">添加到活动</button>
+	        <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/MallActivity/activityGoods',array('mactid'=>$mactid))}"'>返&nbsp;回</button>
+	        <php>}</php>  
+        </div>
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+              <th width='2'><input type='checkbox' name='chk' onclick='javascript:checkAll(this.checked)'/></th>
+               <th width='180'>商品名称</th>
+               <th width='60'>商品编号</th>
+               <th width='40'>价格</th>
+               <th width='100'>商家</th>
+               <th width='100'>平台分类</th>                
+               <th width='25'>销量</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+	             <tr>
+		               <td><input type='checkbox' class='chk' name='chk_{$vo['goodsId']}' value='{$vo['goodsId']}'/></td>
+		               <td>{$vo['goodsName']}</td>
+		               <td>{$vo['goodsSn']}&nbsp;</td>
+		               <td>{$vo['shopPrice']}&nbsp;</td>
+		               <td>{$vo['shopName']}&nbsp;</td>
+		               <td>{$vo['catName']}&nbsp;</td>
+		               <td>{$vo['saleCount']}</td>
+	             </tr>
+             </volist>
+             <tr>
+                <td colspan='10' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

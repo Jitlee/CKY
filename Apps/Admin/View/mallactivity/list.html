@@ -55,7 +55,6 @@
                     活动标题：<input type='text' id='activityTitle' name='activityTitle' class='form-control rtc-ipt-15' value='{$activityTitle}'/> 
        		<button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>
        		<a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivity/toEdit')}" style='float:right'>新增</a>
-       
        </div>
        </form>
        <div class="rtc-body"> 
@@ -69,6 +68,7 @@
                <th width='40'>排序</th>
                
                <th width='80'>状态</th>
+               <th width='80'>商品管理</th>
                <th width='240'>操作</th>
              </tr>
            </thead>
@@ -104,6 +104,9 @@
 					   </if>
 	               </div>
                </td> 
+                <td>
+                	<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/MallActivity/activitygoods',array('mactid'=>$vo['mactid']))}">商品管理</a>
+                </td>
                <td>
                		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/MallActivitym/index',array('mactid'=>$vo['mactid']))}">活动分类</a>&nbsp;
                		
@@ -113,7 +116,7 @@
              </tr>
              </volist>
              <tr>
-                <td colspan='7' align='center'>{$Page['pager']}</td>
+                <td colspan='9' align='center'>{$Page['pager']}</td>
              </tr>
            </tbody>
         </table>

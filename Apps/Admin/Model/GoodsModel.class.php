@@ -118,6 +118,9 @@ class GoodsModel extends BaseModel {
 	 	$sql.="  order by goodsId desc";   
 		return $m->pageQuery($sql);
 	 }
+	 
+	 
+	 
 	 /**
 	  * 获取列表
 	  */

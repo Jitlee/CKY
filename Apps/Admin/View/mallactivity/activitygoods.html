@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <style type="text/css">
+		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+	  </style>
+   </head>
+   <script>
+    
+   function checkAll(v){
+	   $('.chk').each(function(){
+		   $(this).prop('checked',v);
+	   })
+   }
+   
+    
+    function del(id){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该活动商品吗?',okText:'确定',cancelText:'取消',okFun:function(){
+		   Plugins.closeWindow();
+		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+		   $.post("{:U('Admin/MallActivity/activityGoodsDel')}",{id:id},function(data,textStatus){
+					var json = RTC.toJson(data);
+					if(json.status=='1'){
+						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+						location.reload();
+						}});
+					}else{
+						Plugins.closeWindow();
+						Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+					}
+				});
+	   }});
+   }
+   $(document).ready(function(){
+	    
+   });
+   </script>
+   <body class='rtc-page'>	 
+    <form method='post' action='{:U("Admin/MallActivity/activitygoods")}' autocomplete="off">
+    	<input type='hidden' id='mactid' name='mactid' value='{$mactid}'/>	 
+	   <div class='rtc-tbar'>            
+		       所属商家：<input type='text' id='shopName' name='shopName' value='{$shopName}'/>            
+		       商品：<input type='text' id='goodsName' name='goodsName' value='{$goodsName}'/>
+		   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>
+		   <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/MallActivity/index')}"'>返&nbsp;回</button>
+		   
+		   <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/MallActivity/addgoodsList',array('mactid'=>$mactid))}" style='float:right'>新增</a>
+       </div>
+    </form>
+       <div class='rtc-body'>
+       
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+               <th width='2'><input type='checkbox' name='chk' onclick='javascript:checkAll(this.checked)'/></th>
+               <th width='180'>商品名称</th>
+               <th width='100'>活动</th>
+               <th width='100'>活动分类</th>
+               <th width='60'>商品编号</th>
+               <th width='40'>价格</th>
+               <th width='100'>商家</th>
+               <th width='100'>平台分类</th>
+               <th width='25'>推荐</th>
+               <th width='25'>精品</th>
+               <th width='25'>销量</th>
+               <th width='40'>操作</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+             <tr >
+               <td><input type='checkbox' class='chk' name='chk_{$vo['goodsId']}' value='{$vo['goodsId']}'/></td>
+               <td   class='imgPreview'>{$vo['goodsName']}</td>
+                <td>{$vo['mactname']}&nbsp;</td>
+                 <td>{$vo['mactmname']}&nbsp;</td>
+               <td>{$vo['goodsSn']}&nbsp;</td>
+               <td>{$vo['shopPrice']}&nbsp;</td> 
+               <td>{$vo['shopName']}&nbsp;</td>
+               <td>{$vo['catName']}&nbsp;</td>
+               <td><if condition="$vo['isAdminRecom']==1 "><span class='label label-success'>推荐</span></if></td>
+               <td><if condition="$vo['isAdminBest']==1 "><span class='label label-success'>精品</span></if></td>
+               <td>{$vo['saleCount']}</td>
+               <td>
+               		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['actgoodsid']})"">刪除</a>
+               </td>
+             </tr>
+             </volist>
+             <tr>
+                <td colspan='12' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

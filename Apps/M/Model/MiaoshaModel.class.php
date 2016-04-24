@@ -74,9 +74,14 @@ class MiaoshaModel extends BaseModel {
 		$pageSize = (int)I('pageSize', 20);
 		$pageNo = (int)I('pageNo', 1);
 		$sortType = (int)I('sortType', 0);
+		$catId = (int)I('catId', 0);
 		
 		$filter = array();
 		$order = "endTime desc"; // 最新
+		
+		if($catId > 0) {
+			$filter['goodsCatId2'] = $catId;
+		}
 		
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
 				h.miaoshaId, h.qishu, h.subTitle, h.endTime, h.prizeCode,h.prizeCount, 
@@ -91,6 +96,7 @@ class MiaoshaModel extends BaseModel {
 			->order($order)
 			->page($pageNo, $pageSize)
 			->select();
+//		echo $this->getLastSql();
 		return $list;
 	}
 	

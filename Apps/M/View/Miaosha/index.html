@@ -90,7 +90,7 @@
 		$("input[type='radio'][name='ms-sort']", sortGroup).change(function() {
 			var $this = $(this);
 			sortType = Number(this.value);
-			if(sortType > 3) {
+			if(sortType == 4 || sortType == 5) {
 				$("label[for='priceASCSortRadio'],label[for='priceDESCSortRadio']", sortGroup).addClass("cky-active");
 			} else {
 				$("label[for='priceASCSortRadio'],label[for='priceDESCSortRadio']", sortGroup).removeClass("cky-active");

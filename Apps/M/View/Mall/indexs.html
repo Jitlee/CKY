@@ -25,6 +25,9 @@
       </ul>
     </div>
     <div class="lbox_close wxapi_form">
+       <h3>
+       	<button class="btn btn_primary"  onclick="btnselfShare();" id="btnselfShare">分享</button>
+       </h3>
       <h3 id="menu-basic">基础接口</h3>
       <span class="desc">判断当前客户端是否支持指定JS接口</span>
       <button class="btn btn_primary" id="checkJsApi">checkJsApi</button>
@@ -116,15 +119,22 @@
       <span class="desc">发起一个微信支付请求</span>
       <button class="btn btn_primary" id="chooseWXPay">chooseWXPay</button>
     </div>
+      
+      appId: '{$signPackage.appId}',
+      timestamp: {$signPackage.timestamp},
+      nonceStr: '{$signPackage.nonceStr}',
+      signature: '{$signPackage.signature}',
   </div>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
-<script>
+<script> 
+	
+
   wx.config({
-      debug: true,
-      appId: 'wx06dcafb051f5e21f',
-      timestamp: 1420774989,
-      nonceStr: '2nDgiWM7gCxhL8v0',
-      signature: '0408887ca15441398695ddd0b70b9ff4',
+      debug: false,
+      appId: '{$signPackage.appId}',
+      timestamp: {$signPackage.timestamp},
+      nonceStr: '{$signPackage.nonceStr}',
+      signature: '{$signPackage.signature}',
       jsApiList: [
         'checkJsApi',
         'onMenuShareTimeline',
@@ -163,7 +173,20 @@
       ]
   });
   
-  
+  function btnselfShare() { 
+	 	 alert("请先通过微信搜索");
+//		 if (typeof WeixinJSBridge == "undefined") { 
+//		 	alert("请先通过微信搜索 wow36kr 添加36氪为好友，通过微信分享文章 "); 
+//		 } 
+//		 else {
+			WeixinJSBridge.invoke('shareTimeline',{ 
+				"title": "36氪",
+				"link": "http://www.36kr.com", 
+				"desc": "关注互联网创业",
+				"img_url": "http://www.36kr.com/assets/images/apple-touch-icon.png"
+			 }); 
+//		 } 
+	 }
   wx.ready(function () {
   // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
   document.querySelector('#checkJsApi').onclick = function () {
@@ -177,7 +200,8 @@
       }
     });
   };
-
+  
+	 
   // 2. 分享接口
   // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
   document.querySelector('#onMenuShareAppMessage').onclick = function () {
@@ -276,7 +300,20 @@
     alert('已注册获取“分享到微博”状态事件');
   };
 
-
+//获取位置
+document.querySelector('#getLocation').onclick = function () {
+	    wx.getLocation({
+		    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+		    success: function (res) {
+		        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+		        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
+		        var speed = res.speed; // 速度，以米/每秒计
+		        var accuracy = res.accuracy; // 位置精度
+		        alert(latitude+',longitude='+longitude);
+		    }
+		});
+  };
+  
   // 3 智能接口
   var voice = {
     localId: '',

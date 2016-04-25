@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<style>
+</style>
+
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
 		<span id="cityLabel">深圳</span>
@@ -5,14 +10,17 @@
 	<h1 id="title" class="mui-title">{$title}</h1>
 	<button class="mui-btn mui-btn-link mui-pull-right">我的</button>
 </header>
+<nav class="mall-search-bar">
+	<a class="mall-search-bar-item"><i class="iconfont icon-list"></i></a>
+	<div class="mall-search-bar-item">
+		<i class="iconfont icon-sousuo"></i>
+		<input id="searchInput" placeholder="搜索超市商品"/>
+	</div>
+	<a id="cartButton" class="mall-search-bar-item"><i class="iconfont icon-gouwuche"></i></a>
+	<a id="cardButton" class="mall-search-bar-item"><i class="iconfont icon-ka"></i></a>
+	<a id="ticketButton" class="mall-search-bar-item"><i class="iconfont icon-daijinquan"></i></a>
+</nav>
 
-<link rel="stylesheet" href="__CSS__/swiper.min.css" />
-<style>
-	.swiper-img {
-		height: 30vw;
-		margin-bottom: 10px;
-	}
-</style>
 <div class="mui-content mui-content-bottom">
 	<!-- Slider main container -->
 	<div class="swiper-container">
@@ -25,6 +33,43 @@
 	    </div>
 	    <!-- If we need pagination -->
 	    <div class="swiper-pagination"></div>
+	</div>
+	
+	<div class="mall-yyg-nav mui-table">
+		<a class="mui-table-cell mui-text-center" href="{:U('Miaosha/jiexiao')}">
+			<div class="mall-yyg-nav-icon"></div>
+			<span class="font-gray2 font13"><span id="yygNextHourSpan">12</span>场剩余时间</span>
+			<div class="mall-yyg-nav-count">
+				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+				<div class="mall-yyg-nav-count-d mui-table-cell">:</div>
+				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+				<div class="mall-yyg-nav-count-d mui-table-cell">:</div>
+				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+			</div>
+		</a>
+		<a class="mui-table-cell mall-yyg-nav-ads" href="{$yygAds.adURL}" style="background-image: url(/{$yygAds.adFile});"></a>
+	</div>
+	
+	<div class="mall-mod-title mui-table mall-mod-activity">
+		<div class="mui-table-cell mui-text-left">促销活动</div>
+		<div class="mui-table-cell mui-text-right">更多</div>
+	</div>
+	<div class="mall-mod mall-mod-activity">
+		<foreach name="activites" item="item">
+			<div class="mall-mod-cell" style="background-image: url(/{$item.adpath});"></div>
+		</foreach>
+	</div>
+	
+	<div class="mall-mod-title mui-table mall-mod-market">
+		<div class="mui-table-cell mui-text-left">热门市场</div>
+		<div class="mui-table-cell mui-text-right">更多</div>
+	</div>
+	<div class="mall-mod-title mui-table mall-mod-life">
+		<div class="mui-table-cell mui-text-left">惠生活</div>
+		<div class="mui-table-cell mui-text-right">更多</div>
 	</div>
 </div>
 <include file="Public:tab"/>
@@ -46,11 +91,66 @@
 		
 		// 轮播广告
 		var mySwiper = new Swiper ('.swiper-container', {
-	      // Optional parameters
-	      direction: 'horizontal',
-	      pagination: '.swiper-pagination',
-	      autoplay: 3000,
-	      loop: true
-	   });
+	      	// Optional parameters
+	      	direction: 'horizontal',
+	      	pagination: '.swiper-pagination',
+	      	autoplay: 3000,
+	      	loop: true
+	   	});
+	   	
+	   	var cartButton = $("#cartButton");
+	   	var cardButton = $("#cardButton");
+	   	var ticketButton = $("#ticketButton");
+	   	// 搜索框
+	  	var searchInput = $("#searchInput").focus(function() {
+	  	 	searchInput.parent()[0].style.width = $(window).width() - 50 + "px";
+	   	}).blur(function() {
+	   		searchInput.parent()[0].style.width = "";
+	   	});
+	   	
+	   	// 倒计时
+	   	(function() {
+		   	var digtails = $(".mall-yyg-nav-count-t");
+		   	var now = new Date();
+		   	var handler = null;
+		   	var time = 0;
+		   	var hours = now.getHours();
+		   	var timeBegin = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+		   	var yygNextHourSpan = $("#yygNextHourSpan");
+		   	var leftTime = 0;
+		   	var nextHours = [
+		   		{ name: "上午10点", value: 10 },
+		   		{ name: "中午12点", value: 12 },
+		   		{ name: "下午3点", value: 15 },
+		   		{ name: "晚上8点", value: 20 },
+		   	];
+		   	if(hours < 11 || hours > 8) {
+		   		handler = window.setInterval(countdown, 1000);	
+		   	}
+		   	function countdown() {
+		   		now = new Date();
+		   		time = now.getTime();
+		   		hours = now.getHours();
+		   		if(hours < 11 || hours > 8) {
+		   			window.clearInterval(handler);
+		   			return;
+		   		}
+		   		
+		   		for(var i = 0, len = nextHours.length; i < len; i++) {
+		   			if(hours < nextHours[i].value) {
+		   				leftTime = nextHours[i].value * 3600 * 1000 + timeBegin - time;
+		   				var times = ("00" + String(Math.floor(leftTime / 1000 / 3600 % 24))).match(/\d{2}$/)[0]
+		   					+ ("00" + String(Math.floor(leftTime / 1000 / 60 % 60))).match(/\d{2}$/)[0]
+		   					+ ("00" + String(Math.floor(leftTime / 1000 % 60))).match(/\d{2}$/)[0];
+		   				for(var j = 0; j < 8; j++) {
+		   					digtails.eq(j).text(times[j]);
+		   				}
+		   				yygNextHourSpan.text(nextHours[i].name);
+		   				break;
+		   			}
+		   		}
+		   	}
+	   		
+	   	})();
 	});
 </script>

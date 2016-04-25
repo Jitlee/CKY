@@ -1,0 +1,196 @@
+
+.swiper-container {
+	height: 30vw;
+}
+
+.mall-yyg-nav {
+	height: 25vw	
+}
+
+.swiper-container-horizontal>.swiper-pagination {
+	bottom: 0px;
+}
+
+/** 搜索框样式 **/
+.mall-search-bar {
+	position: fixed;
+	height: 44px;
+	left: 0px;
+	top: 44px;
+	right: 0px;
+	z-index: 9;
+	display: table;
+	table-layout:fixed;
+	width: 100%;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+.mall-search-bar + .mui-content {
+	padding-top: 88px;
+}
+
+.mall-search-bar .mall-search-bar-item {
+	display: table-cell;
+}
+
+.mall-search-bar a.mall-search-bar-item {
+	width: 44px;
+	text-align: center;
+	color: #333;
+	padding-top: 13px;
+}
+
+.mall-search-bar a.mall-search-bar-item .iconfont {
+	font-size: 24px;
+}
+
+.mall-search-bar div.mall-search-bar-item {
+	position: relative;
+	color: #999;
+	-webkit-transition: width 0.5s ease-in-out;
+}
+
+.mall-search-bar div.mall-search-bar-item input {
+	position: absolute;
+	left: 0px;
+	top: 8px;
+	width: 100%;
+	outline-style: none;
+	border: 0px;
+	padding: 0px;
+	background-color: #EEEEEE;
+	padding: 6px 6px 6px 34px;
+	border-radius: 5px;
+	font-size: 16px;
+	color: #333;
+}
+
+.mall-search-bar div.mall-search-bar-item input::-webkit-input-placeholder  {
+	color: #ccc;
+}
+
+.mall-search-bar div.mall-search-bar-item .iconfont {
+	position: absolute;
+	left: 6px;
+	top: 13px;
+	font-size: 18px;
+	z-index: 2;
+}
+
+/** 今日夺宝 **/
+.mall-yyg-nav {
+	background-color: #fff;
+}
+
+.mall-yyg-nav-icon {
+	background-image: url(../images/jinriduobao.png);
+	background-repeat: no-repeat;
+	background-size: 80% 80%;
+	background-position: 50% 50%;
+	height: 10vw;
+}
+
+.mall-yyg-ads {
+	background-repeat: no-repeat;
+	background-size: 80% 80%;
+	background-position: 50% 50%;
+}
+
+.mall-yyg-nav-count {
+	
+}
+
+.mall-yyg-nav-count-d {
+	display: inline-block;
+	padding: 0;
+	margin: 0px;
+	color: #333;
+}
+
+.mall-yyg-nav-count-t {
+	display: inline-block;
+	background-color: #333;
+	color: #fff;
+	padding: 0px 2px;
+	border-radius: 2px;
+}
+
+.mall-yyg-nav-ads {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+	position: relative;
+}
+
+/** 模块标题 **/
+.mall-mod-title {
+	margin: 5px 0 0px 0;
+	background-color: #fff;
+	padding: 5px 0;
+}
+
+.mall-mod-title .mui-text-left {
+	padding-left: 10px;	
+}
+
+.mall-mod-title .mui-text-left::before {
+	display: inline-block;
+	content: "";
+	width: 5px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.mall-mod-title.mall-mod-activity .mui-text-left::before {
+	background-color: #C41E04;
+}
+
+.mall-mod-title.mall-mod-market .mui-text-left::before {
+	background-color: #24B300;
+}
+
+.mall-mod-title.mall-mod-life .mui-text-left::before {
+	background-color: #6C15AB;
+}
+
+.mall-mod-title .mui-text-right {
+	padding-right: 6px;
+}
+
+.mall-mod-title .mui-text-right::after {
+	font-size: 17px;
+	display: inline-block;
+	content: "\e63d";
+	font-family:"iconfont" !important;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	margin-left: 3px;
+	color: #FF4040;
+}
+
+/** 促销活动 **/
+.mall-mod::after {
+	display: block;
+	height: 1px;
+	content: "";
+	clear: all;
+	visibility: hidden;
+}
+
+.mall-mod .mall-mod-cell {
+	float: left;
+	display: block;
+}
+
+.mall-mod.mall-mod-activity .mall-mod-cell{
+	width: 33.3333%;
+	height: 30vw;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+}

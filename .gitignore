@@ -1,6 +1,5 @@
 *.log
 Apps/Runtime/Temp/*
 Apps/Runtime/Cache/*
-Upload/*
 ThinkPHP/Library/Vendor/Weixinpay/*
 Apps/Common/Conf/config.php

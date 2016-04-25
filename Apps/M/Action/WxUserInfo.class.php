@@ -64,24 +64,14 @@ class WxUserInfo
 	 * 下面用于，微信分享
 	 * ******/
  private function getJsApiTicket() {
-    // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode(file_get_contents("./jsapi_ticket.json"));
-    if ($data->expire_time < time()) {
+	$ticket=S("jsapiticket");
+    if (!$ticket) {
       $accessToken = $this->accessToken();
       $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
       $res = json_decode($this->httpGet($url));
       $ticket = $res->ticket;
-      if ($ticket) {
-        $data->expire_time = time() + 7000;
-        $data->jsapi_ticket = $ticket;
-        $fp = fopen("./jsapi_ticket.json", "w");
-        fwrite($fp, json_encode($data));
-        fclose($fp);
-      }
-    } else {
-      $ticket = $data->jsapi_ticket;
-    }
-
+	  S("jsapiticket",$ticket,3600);
+    } 
     return $ticket;
   }
 

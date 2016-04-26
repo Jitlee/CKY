@@ -45,13 +45,13 @@ class MallActivityGoodsModel extends BaseModel {
         $m = M('goods');
         $shopName = I('shopName');
      	$goodsName = I('goodsName');
-     	$areaId1 = (int)I('areaId1',0);
-     	$areaId2 = (int)I('areaId2',0);
+//   	$areaId1 = (int)I('areaId1',0);
+//   	$areaId2 = (int)I('areaId2',0);
      	$goodsCatId1 = (int)I('goodsCatId1',0);
      	$goodsCatId2 = (int)I('goodsCatId2',0);
-     	$goodsCatId3 = (int)I('goodsCatId3',0);
-     	$isAdminBest = (int)I('isAdminBest',-1);
-     	$isAdminRecom = (int)I('isAdminRecom',-1);
+//   	$goodsCatId3 = (int)I('goodsCatId3',0);
+//   	$isAdminBest = (int)I('isAdminBest',-1);
+//   	$isAdminRecom = (int)I('isAdminRecom',-1);
 	 	$sql = "select g.*,gc.catName,sc.catName shopCatName,p.shopName from __PREFIX__goods g 
 	 	left join cky_mall_activitygoods ag on ag.goodsid=g.goodsid  and ag.mactid=$mactid
 	 	      left join __PREFIX__goods_cats gc on g.goodsCatId3=gc.catId 

@@ -59,7 +59,9 @@
 	</div>
 	<div class="mall-mod mall-mod-activity">
 		<foreach name="activites" item="item">
+				<a href="{:U('activitydetail','','')}/mactid/{$item.mactid}">
 			<div class="mall-mod-cell" style="background-image: url(/{$item.adpath});"></div>
+			</a>
 		</foreach>
 	</div>
 	

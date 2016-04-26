@@ -39,5 +39,25 @@ class MallAction extends BaseAction {
 		$this->assign('title', '商城');
 		$this->display();
 	}
+	public function activitydetail() {
+		$madb = D('MallActivity');
+		
+		$object = $madb->getActivity();
+		$this->assign('object', $object);
+		
+		$activityms = $madb->getActivityClass();
+		$this->assign('activityms', $activities);
+		echo dump($activities);
+		
+		$goods = $madb->getActivityGoods();
+		$this->assign('goods', $goods);
+		
+		$this->assign('title', '商城-'.$object["mactname"]);
+		$this->display();
+	} 
+
+
+	
+	
 	
 }

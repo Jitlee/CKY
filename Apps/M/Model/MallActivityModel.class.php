@@ -12,5 +12,50 @@ class MallActivityModel extends BaseModel {
     public function queryTop6() {
     		return $this->field("mactid, adpath")->where('now() between `starttime` and `endtime`')->order('sort desc, createTime')->page(1, 6)->select();
     }
+	
+	/**
+	  * 获取指定对象
+	  */
+     public function getActivity(){
+	 	$m = M('mall_activity');
+		return $m->where("mactid=".(int)I('mactid'))->find();
+	 }
+	 
+	 /**
+	  * 分页列表
+	  */
+     public function getActivityClass(){
+        $mactid	= I('mactid',0);
+		$m = M('mall_activitym');
+		$map = array(
+			'mactid' => $mactid
+		);
+		echo '$mactid=';
+		echo '$mactid=';
+		echo '$mactid=';
+		echo $mactid;
+		return $m->order('sort')->where($map)->select();
+	 }
+	 
+	  /**
+	  * 分页列表[获取已审核列表]
+	  */
+     public function getActivityGoods(){
+     	$mactid	= I('mactid',0);
+        $m = M('mall_activitygoods');
+	 	$sql = "
+select 
+	ag.mactid,ag.mactmid,ag.actgoodsid,mam.mactmname,mam.mlogothums,mam.lineshownum
+	,g.* 
+from cky_goods g 
+inner join cky_mall_activitygoods ag on ag.goodsid=g.goodsid  
+inner join cky_mall_activitym mam on ag.mactmid = mam.mactmid
+where goodsStatus=1 and goodsFlag=1  and g.isSale=1 
+			and ag.mactid=$mactid
+order by mam.sort desc,ag.mactmid";    
+		 
+		return $m->pageQuery($sql);
+	 }
+	
 };
 ?>

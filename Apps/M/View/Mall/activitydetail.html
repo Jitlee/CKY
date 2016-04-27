@@ -56,14 +56,26 @@
 	</div>  
 	
 </div>
-<div>         aaa:
+<div>       
 	<volist name="activityms" id="vo" key='i'>
-		aaa:
+		 
 		<a class="cky-activity-cell" >
-			<img src='/{$vo["mlogothums"]}'/>
+			<img src='/{$vo["mlogothums"]}' height="30px"/>
 			{$vo['mactmname']}
 		</a>
 	 </volist>
+	 
+	 <volist name="goods" id="vo" key='i'>		
+	 	<div><img src='/{$vo["goodsThums"]}' height="80px" width="80px"/>
+		<a class="cky-activity-cell" >
+			
+			
+			{$vo['goodsName']}
+		</a>
+		</div>
+	 </volist>
+	 
+	 
 	
 </div>
 <include file="Public:tab"/>

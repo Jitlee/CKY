@@ -40,9 +40,10 @@ class MallActivityModel extends BaseModel {
 	  /**
 	  * 分页列表[获取已审核列表]
 	  */
-     public function getActivityGoods(){
+     public function getActivityGoods($pageSize,$pageNum){
      	$mactid	= I('mactid',0);
-        $m = M('mall_activitygoods');
+        $m = M('goods');
+		 
 	 	$sql = "
 select 
 	ag.mactid,ag.mactmid,ag.actgoodsid,mam.mactmname,mam.mlogothums,mam.lineshownum
@@ -50,11 +51,10 @@ select
 from cky_goods g 
 inner join cky_mall_activitygoods ag on ag.goodsid=g.goodsid  
 inner join cky_mall_activitym mam on ag.mactmid = mam.mactmid
-where goodsStatus=1 and goodsFlag=1  and g.isSale=1 
-			and ag.mactid=$mactid
-order by mam.sort desc,ag.mactmid";    
+where goodsStatus=1 and goodsFlag=1  and g.isSale=1  and ag.mactid=$mactid
+order by mam.sort desc,ag.mactmid limit $pageSize,$pageNum";    
 		 
-		return $m->pageQuery($sql);
+		return $m->query($sql);
 	 }
 	
 };

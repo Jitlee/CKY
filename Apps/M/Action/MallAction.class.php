@@ -46,17 +46,35 @@ class MallAction extends BaseAction {
 		$this->assign('object', $object);
 		
 		$activityms = $madb->getActivityClass();
-		$this->assign('activityms', $activities);
-		echo dump($activities);
+		$this->assign('activityms', $activityms);
+		//echo dump($activityms);
 		
-		$goods = $madb->getActivityGoods();
+		$goods = $this->activityGoodsPageLoad();
 		$this->assign('goods', $goods);
-		
+		//echo dump($goods);
 		$this->assign('title', '商城-'.$object["mactname"]);
 		$this->display();
 	} 
-
-
+	
+	public function activityGoodsPage()
+	{
+		$pageSize = I("pageSize");
+		$pageNum =  I("pageNum");
+//		$content="$pageSize=".$pageSize;
+//		$content=$content.',$pageNum='.$pageNum.',$type='.$type;
+//		logger($content);
+		
+		$result=$this->activityGoodsPageLoad($pageSize,$pageNum);
+		$this->ajaxReturn($result, "JSON");
+	}
+	public function activityGoodsPageLoad($pageSize = 10, $pageNum = 1)
+	{
+			$s=($pageNum-1)*$pageSize;
+			$e=($pageNum)*$pageSize;
+		$mMember = D('MallActivity');
+		$result=$mMember->getActivityGoods($s,$e);
+		return $result;
+	}
 	
 	
 	

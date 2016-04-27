@@ -31,7 +31,7 @@ class HomeAction extends BaseAction {
 			$this->redirect('Person/index');
 			exit;
 		}
-		$this->assign('data', $userlogin); 
+		$this->assign('data', $userlogin);
 		$this->display();
 	}
 	/*申请新卡车*/

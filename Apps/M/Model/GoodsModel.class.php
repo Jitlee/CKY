@@ -93,5 +93,19 @@ class GoodsModel extends BaseModel {
 //		echo $this->getLastSql();
 		return $rst;
 	}
+	
+	public function pageTop() {
+		$pageSize = (int)I('pageSize', 20);
+		$pageNo = (int)I('pageNo', 1);
+		$field = "goodsName, marketPrice, shopPrice, goodsThums, isHot";
+		$filter = array(
+			'shopId'			=> array('gt', 0),
+			'isSale'			=> 1,
+			'goodsFlag'		=> 1,
+		);
+		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
+		$list = $this->field($field)->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+		return $list;
+	}
 };
 ?>

@@ -43,5 +43,24 @@ class GoodsCatsModel extends BaseModel {
 	  	$rs1 = $this->query($sql);
 		return $rs1;
 	}
+	
+	// 热门市场
+	public function queryMallCats() {
+		$pageNo = (int)I('pageNo', 1);
+		$pageSize = (int)I('pageSize', 8);
+		$catId = (int)I('catId', 0);
+		$filter = array('c1.isShow'=>1);
+		if($catId > 0) {
+			$filter['c2.catId'] = $catId;
+		}
+		
+		return $this->field('c1.catId, c1.catName, replace(c1.catIcon, \'.\', \'_thumb.\') catIcon')
+			->join('c1 inner join __GOODS_CATS__ c2 on c1.parentId = c2.catid')
+			->join('inner join __GOODS_CATS__ c3 on c2.parentId = c3.catid and c3.catkey = \'mall\'')
+			->where($filter)
+			->order('c1.catSort desc, c1.catId desc')
+			->page($pageNo, $pageSize)
+			->select();
+	}
 };
 ?>

@@ -13,9 +13,11 @@ class MalllifeModel extends BaseModel {
 	 /**
 	  * 获取指定对象
 	  */
-     public function get(){
-	 	$m = M('mall_life');
-		return $m->where("lifeid=".(int)I('id'))->find();
+     public function get($id = 0){
+     	if($id == 0) {
+     		$id = (int)I('id');
+     	}
+		return $this->where(array('lifeid' => $id))->find();
 	 }
 	 /**
 	  * 分页列表
@@ -40,6 +42,12 @@ class MalllifeModel extends BaseModel {
  	      where  ag.lifeid=$id";			  
 		return $m->query($sql);
 	 }
+	 
+	public function getTopOne() {
+		return $this->field('lifeId, lifeTitle, logo')
+			->where('now() between efficacysdate and efficacyedate')
+			->order('sort desc, lifeId desc')->find();
+	}
 	 
 };
 ?>

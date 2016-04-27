@@ -1217,7 +1217,7 @@ class OrdersModel extends BaseModel {
 		}
 		if($orderType == 2) {
 			// 完成一元购流程
-			$this->_payMiaosha($uid, $orderId);	
+			return $this->_payMiaosha($uid, $orderId);
 		} else { // 一元购商品 不需要纪录和提醒，中奖后才会提醒
 			//建立订单记录
 			$data = array();
@@ -1284,6 +1284,7 @@ class OrdersModel extends BaseModel {
 		if(empty($codes)) {
 			$rst['status'] = -201;
 			$rst['data'] = '生成云购码失败';
+//			$rst['sql'] = $mcdb->getLastSql();
 			return $rst;
 		}
 		
@@ -1302,23 +1303,29 @@ class OrdersModel extends BaseModel {
 		
 		$mdb = M('miaosha');
 		// 判断是否该标记结束
-		$sql = "select 0 from cky_miaosha m WHERE miaoshaId='$miaoshaId' shengyurenshu=0 and not EXISTS(select 0 from cky_member_miaosha mm,cky_orders o where mm.miaoshaId=m.miaoshaId and mm.qishu=m.qishu and o.orderId = mm.orderId and o.isPay=0 and o.orderStatus = 0)";
+		$sql = "select 1 from cky_miaosha m WHERE miaoshaId='$miaoshaId' and shengyurenshu=0 and not EXISTS(select 0 from cky_member_miaosha mm,cky_orders o where mm.miaoshaId=m.miaoshaId and mm.qishu=m.qishu and o.orderId = mm.orderId and o.isPay=0 and o.orderStatus = 0)";
 		$isEnd = $mdb->query($sql);
 		
-		if($isEnd === FALSE) {
+		if(!$isEnd) {
 			$rst['status'] = -207;
 			$rst['data'] = '获取秒杀商品状态失败';
 			return $rst;
 		}
 		
+		
+		
+			$rst['data0'] = 'is end = false';
 		if(!empty($isEnd)) {
 			// 结束商品
+			$rst['data1'] = 'is end = true';
 			$mddata = array('miaoshaStatus'	=> 2);
-			if($mdb->where(array('miaoshaId'=>$sgoods['miaoshaId']))->save($mddata) === FALSE) {
+			if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
 				$rst['status'] = -204;
 				$rst['data'] = '修改秒杀购买次数失败';
 				return $rst;
 			}	
+			
+//			$rst['data'] = $mdb->getLastSql();
 		}
 		
 		return $rst;

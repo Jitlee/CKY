@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<nav class="mall-search-bar">
+	<a class="mall-search-bar-item cky-back"><i class="mui-icon mui-icon-left-nav"></i></a>
+	<div class="mall-search-bar-item">
+		<i class="iconfont icon-sousuo"></i>
+		<input id="searchInput" placeholder="春到换新 一见倾心"/>
+	</div>
+	<a id="ticketButton" class="mall-search-bar-item"><i class="mui-icon mui-icon-more"></i></a>
+</nav>
+<div id="categoriesList" class="mall-category-left mui-text-center" data-bind="foreach: categories">
+	<div class="mall-category-left-cell" data-bind="text: catName, click: $parent.catClick"></div>
+</div>
+
+<div class="mui-content">
+	<h5 class="mui-content-padded">类目</h5>
+	<div class="mall-category-right" data-bind="foreach: cats">
+		<div class="mall-category-right-cell mui-text-center">
+			<div class="mall-category-right-thumb" data-bind="style: { backgroundImage: 'url(/' + catIcon + ')' }"></div>
+			<h5 data-bind="text: catName"></h5>
+		</div>
+	</div>
+</div>
+<div class="cky-loading"></div>
+<script src="__KO__"></script>
+<script>
+	$(function() {
+		var loadingFlag = 2;
+		var categoriesList = $("#categoriesList");
+		var vm = {
+			categories: ko.observableArray([]),
+			catClick: oncatclick,
+			cats: ko.observableArray(cats),
+		}
+		ko.applyBindings(vm);
+		
+		// 加载商城分类
+		$.getJSON("{:U('GoodsCats/query')}", {
+			parentId: 349
+		}, function(list) {
+			if(list && list.length >0) {
+				list.unshift({ catId: 0, catName: "热门推荐" });
+				vm.categories(list);
+				$(".mall-category-left-cell:first-child", categoriesList).addClass("cky-active");
+				if(--loadingFlag == 0) {
+					cky.closeLoading();
+				}
+			}
+		});
+		
+		function oncatclick(obj, evt) {
+			var $this = $(evt.delegateTarget);
+			if(!$this.hasClass("cky-active")) {
+				$(".cky-active", categoriesList).removeClass("cky-active");
+				$this.addClass("cky-active");
+				catId = obj.catId;
+				page(true);
+			}
+		}
+		
+		// 商品
+	   	var cats = [];
+		var pageNo = 1;
+		var pageSize = 7;
+		var catId = 0;
+		function page(clear) {
+			if(clear) {
+				pageNo = 0;
+			}
+			$.getJSON("{:U('Mall/cc')}", {
+				pageNo: pageNo,
+				pageSize: pageSize,
+				catId: catId
+			}, function(list) {
+				if(clear) {
+					cats.length = 0;
+					vm.cats.removeAll();
+				}
+				
+				if(list && list.length > 0) {
+					pageNo++;
+					cats = cats.concat(list);
+					vm.cats(cats);	
+				}
+				if(--loadingFlag == 0) {
+					cky.closeLoading();
+				}
+			});
+		}
+		util.onScrollEnd(page);
+		page();
+	});
+</script>

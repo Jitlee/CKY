@@ -11,7 +11,7 @@
 	<button class="mui-btn mui-btn-link mui-pull-right">我的</button>
 </header>
 <nav class="mall-search-bar">
-	<a class="mall-search-bar-item"><i class="iconfont icon-list"></i></a>
+	<a class="mall-search-bar-item" href="{:U('Mall/category')}"><i class="iconfont icon-list"></i></a>
 	<div class="mall-search-bar-item">
 		<i class="iconfont icon-sousuo"></i>
 		<input id="searchInput" placeholder="搜索超市商品"/>
@@ -69,13 +69,53 @@
 		<div class="mui-table-cell mui-text-left">热门市场</div>
 		<div class="mui-table-cell mui-text-right">更多</div>
 	</div>
+	<div class="mall-mod mall-mod-market">
+		<div class="mui-table">
+			<a class="mui-table-cell mall-mod-market-cell1">
+				<span>{$markets[0].catName}</span>
+				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[0].catIcon});"></div>
+			</a>
+			<a class="mui-table-cell mall-mod-market-cell1">
+				<span>{$markets[1].catName}</span>
+				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[1].catIcon});"></div>
+			</a>
+		</div>
+		<div class="mui-table">
+			<for start="2" end="6">
+			<a class="mui-table-cell mall-mod-market-cell2">
+				<span>{$markets[$i].catName}</span>
+				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
+			</a>
+			</for>
+		</div>
+		<div class="mui-table">
+			<for start="6" end="10">
+			<a class="mui-table-cell mall-mod-market-cell2">
+				<span>{$markets[$i].catName}</span>
+				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
+			</a>
+			</for>
+		</div>
+	</div>
+	
 	<div class="mall-mod-title mui-table mall-mod-life">
-		<div class="mui-table-cell mui-text-left">惠生活</div>
+		<div class="mui-table-cell mui-text-left">惠生活 <span class="font10 font-gray2">{$life.lifeTitle}</span></div>
 		<div class="mui-table-cell mui-text-right">更多</div>
+	</div>
+	<div class="mall-mod mall-mod-life" style="background-image: url(/{$life.logo});"></div>
+	
+	<div class="mall-mod-title mall-mod-hot">热销推荐</div>
+	<div class="mall-mod mall-mod-hot" data-bind="foreach: goods">
+		<div class="mall-mod-hot-cell">
+			<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+			<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
+			<p class="font15" data-bind="css: { hot: Number(isHot) == 1 }"><r>¥</r> <r class="font20" data-bind="text: shopPrice"></r></p>
+		</div>
 	</div>
 </div>
 <include file="Public:tab"/>
 <script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
 <script>
 	$(function() {
 		var currentCity = $("#cityLabel").text();
@@ -154,5 +194,29 @@
 		   	}
 	   		
 	   	})();
+	   	
+	   	// 商品
+	   	var goods = [];
+		var vm = {
+			goods: ko.observableArray(goods),
+		};
+		ko.applyBindings(vm);
+		
+		var sortType = {:I('sortType', 1)};
+		
+		var pageNo = 1;
+		function page() {
+			$.getJSON("{:U('Mall/ptg')}", {
+				pageNo: pageNo,
+				sortType: sortType
+			}, function(list) {
+				if(list && list.length > 0) {
+					pageNo++;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				}
+			});
+		}
+		util.onScrollEnd(page);
 	});
 </script>

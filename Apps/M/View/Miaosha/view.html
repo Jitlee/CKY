@@ -254,17 +254,20 @@
 				
 				window.clearTimeout(nextTimeHandler);
 				var status = goods.jiexiao == "1" ? 2 : Number(goods.miaoshaStatus);
+				
 				if(status == 2) {
 					var nextTime = Number(goods.time);
 					// 下一个整点三分钟
 					goods.nextTime = Math.ceil(nextTime / 180) * 180 * 1000;
 					nextTimeHandler = window.setTimeout(query, 5000); // 向开奖结果推迟3秒
+					
 				}
+				countdown(Number(goods.time) * 1000);
 				
 				vm.goods(goods);
 				vm.status(status);
-				countdown(Number(goods.time) * 1000);
-				if(!shopCart) {
+				
+				if(status < 2) {
 					initshopCart(goods);
 				}
 			});

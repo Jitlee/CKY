@@ -4,6 +4,7 @@
 		evt.preventDefault();
 		$(".cky-drop-body.cky-active").removeClass("cky-active");
 		$(".cky-drop-content.cky-active").removeClass("cky-active");
+		$(window).unbind("click", onblurclick);
 	}
 	$.fn.extend({
 		/**

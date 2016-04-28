@@ -14,7 +14,7 @@
 	<div class="mui-spinner">
 	</div>
 </div>
-<div class="mui-table-view" data-bind="foreach: goods">
+<div id="goodsList" class="mui-table-view" data-bind="foreach: goods">
 	<div class="mui-table-view-cell mui-media">
 		<a data-bind="attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId + '&qishu=' + qishu }">
 			<div class="mui-media-object mui-pull-left">
@@ -40,7 +40,7 @@
 		var vm = {
 			goods: ko.observableArray(goods),
 		};
-		ko.applyBindings(vm);
+		ko.applyBindings(vm, document.getElementById("goodsList"));
 		
 		var sortType = {:I('sortType', 2)};
 		var catId = 0;

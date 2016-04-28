@@ -166,14 +166,14 @@
 		   		{ name: "下午3点", value: 15 },
 		   		{ name: "晚上8点", value: 20 },
 		   	];
-		   	if(hours < 11 || hours > 8) {
+		   	if(hours < 23 || hours > 8) {
 		   		handler = window.setInterval(countdown, 1000);	
 		   	}
 		   	function countdown() {
 		   		now = new Date();
 		   		time = now.getTime();
 		   		hours = now.getHours();
-		   		if(hours < 11 || hours > 8) {
+		   		if(hours >= 23 || hours <= 8) {
 		   			window.clearInterval(handler);
 		   			return;
 		   		}

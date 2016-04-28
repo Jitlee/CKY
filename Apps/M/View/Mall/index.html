@@ -100,9 +100,13 @@
 	
 	<div class="mall-mod-title mui-table mall-mod-life">
 		<div class="mui-table-cell mui-text-left">惠生活 <span class="font10 font-gray2">{$life.lifeTitle}</span></div>
-		<div class="mui-table-cell mui-text-right">更多</div>
+		<div class="mui-table-cell mui-text-right"><a href="{:U('Mall/lifeindex')}">更多</a></div>
 	</div>
-	<div class="mall-mod mall-mod-life" style="background-image: url(/{$life.logo});"></div>
+	<div class="mall-mod mall-mod-life" style="background-image: url(/{$life.logothums});">
+		<a class="cky-activity-cell" href="{:U('Malllife/lifeDetail')}?id={$life.lifeid }'">
+			<img src="/{$life.logothums }" data-bind="attr: { alt: lifetitle, src: '/' + logothums }"/>
+		</a>
+	</div>
 	
 	<div class="mall-mod-title mall-mod-hot">热销推荐</div>
 	<div class="mall-mod mall-mod-hot" data-bind="foreach: goods">

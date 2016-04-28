@@ -44,7 +44,8 @@ class MalllifeModel extends BaseModel {
 	 }
 	 
 	public function getTopOne() {
-		return $this->field('lifeId, lifeTitle, logo')
+		$m = M('mall_life');
+		return $m->field('lifeId, lifeTitle, logothums')
 			->where('now() between efficacysdate and efficacyedate')
 			->order('sort desc, lifeId desc')->find();
 	}

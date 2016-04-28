@@ -41,7 +41,59 @@
 	.cky-activity-cell img {
 		width: 100%;
 	}
+	#content{ padding-top: 30px;}
+	
+	#J_3933518853 .nav .links a{color:#a9a9a9;}
+	.mui-sidebar{font-size:14px;}
 </style>
+<style>
+#J_6683314627 .chaoshi-act-bottom-nav{background-color:#dd2727}
+#J_6683314627 .chaoshi-act-bottom-nav .nav-item{color:#fff}
+#J_6683314627 .chaoshi-act-bottom-nav .nav-item i{color:#fff}
+#J_3321326089 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}
+#J_9919199335 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
+#J_6174270560 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}
+#J_1910248302 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
+#J_6717951166 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}
+#J_2866010042 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
+#J_3933518853 .nav{background:#fafafa}#J_3933518853 .nav .links{height:42px}
+#J_3933518853 .nav .links a{color:#a9a9a9}
+#J_3933518853 .nav .links a.current{color:#1189f8}#J_3933518853 .nav .more{background:#fafafa;border-left:1px solid #eee}
+#J_3933518853 .nav .more::before{color:#1189f8}#J_3933518853 .mui-sidebar-title{background-color:#eee;color:#a9a9a9}
+#J_3933518853 .links .scroller a{color:#a9a9a9}#J_3933518853 .links .scroller a.current{color:#1189f8}
+#J_3933518853 .links .scroller a::after{background-color:#eee}</style>
+    <style>.mui-zebra-page{background:#c9edeb}</style>
+
+    <style>
+        #content {
+            background: transparent;
+            padding-bottom: 9px;
+        }
+        #m-smsc .content {
+            margin: 0;
+            font-size: inherit;
+        }
+
+        /*覆盖根字体*/
+        html {
+            font-size: initial;
+        }
+
+        /*重写页头的z-index*/
+        #header {
+            z-index: 998 !important;
+        }
+    </style>    
+    <!--chaoshi aid header-->
+<style>
+  #chaoshi-bfhb-entrance .content {
+    margin: 0;
+  }
+  .mui-nav-tab .tab-container{
+    display: block;
+  }
+</style>
+
 <header class="mui-bar mui-bar-nav mui-nav-white">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
@@ -49,35 +101,53 @@
 	<h1 id="title" class="mui-title">{$title}</h1>
 </header>
 <div id="content">
-	
-</div>
-<div class="mui-content mui-content-bottom">
- 	<div id="lifeList">		
-		<a class="cky-activity-cell">
-			<img src='/{$object.adpaththums}'/>
-		</a>
-	</div>  
-	
-</div>
-<div>       
-	<volist name="activityms" id="vo" key='i'>
-		 
-		<a class="cky-activity-cell" >
-			<img src='/{$vo["mlogothums"]}' height="30px"/>
-			{$vo['mactmname']}
-		</a>
-	 </volist>
-	 
-	 <volist name="goods" id="vo" key='i'>		
-	 	<div><img src='/{$vo["goodsThums"]}' height="80px" width="80px"/>
-		<a class="cky-activity-cell" >
-			{$vo['goodsName']}
-		</a>
+	  	<div class="mui-zebra-page">
+		    <nav class="mui-sidebar chaoshi-act-nav mui-sidebar-nobtn" id="J_3933518853" style="height: 42px;">
+		        <div class="nav" style="overflow: hidden;">
+		            <div class="links" style="transition-property: -webkit-transform; transform-origin: 0px 0px 0px; transform: translate3d(0px, 0px, 0px);">
+		            	<volist name="activityms" id="vo" key='i'>	
+								 <a href="#">{$vo['mactmname']}</a>
+						 </volist>
+		            </div>
+		        	<i class="more" style="display: none;"></i></div>
+		    </nav>	    
 		</div>
-	 </volist>
-	 
-	 
-	
+	<div>
+		
+		<!--<volist name="activityms" id="vo" key='i'>			 
+			  <a href="#">aaaaaa{$vo['mactmname']}</a>
+				{$vo['mactmname']}
+			 
+		 </volist>-->
+		 
+	</div>
+	<div class="mui-content mui-content-bottom">
+	 	<div id="lifeList">		
+			<a class="cky-activity-cell">
+				<img src='/{$object.adpaththums}'/>
+			</a>
+		</div>  
+		
+	</div>
+	<div>       
+		<volist name="activityms" id="vo" key='i'>			 
+			<a class="cky-activity-cell" >
+				<img src='/{$vo["mlogothums"]}' height="30px"/>
+				{$vo['mactmname']}
+			</a>
+		 </volist>
+		 
+		 <volist name="goods" id="vo" key='i'>		
+		 	<div><img src='/{$vo["goodsThums"]}' height="80px" width="80px"/>
+			<a class="cky-activity-cell" >
+				{$vo['goodsName']}
+			</a>
+			</div>
+		 </volist>
+		 
+		 
+		
+	</div>
 </div>
 <include file="Public:tab"/>
 <script type="text/javascript" src="__KO__"></script>

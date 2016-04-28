@@ -85,20 +85,16 @@ class MallAction extends BaseAction {
 	} 
 	
 	public function activityGoodsPage()
-	{
-		$pageSize = I("pageSize");
-		$pageNum =  I("pageNum");
-//		$content="$pageSize=".$pageSize;
-//		$content=$content.',$pageNum='.$pageNum.',$type='.$type;
-//		logger($content);
-		
-		$result=$this->activityGoodsPageLoad($pageSize,$pageNum);
+	{		 
+		$pageNum =  I("pageNo");
+		$result=$this->activityGoodsPageLoad($pageNum);
 		$this->ajaxReturn($result, "JSON");
 	}
-	public function activityGoodsPageLoad($pageSize = 10, $pageNum = 1)
+	public function activityGoodsPageLoad($pageNum = 1)
 	{
-			$s=($pageNum-1)*$pageSize;
-			$e=($pageNum)*$pageSize;
+		$pageSize = 10;
+		$s=($pageNum-1)*$pageSize;
+		$e=($pageNum)*$pageSize;
 		$mMember = D('MallActivity');
 		$result=$mMember->getActivityGoods($s,$e);
 		return $result;

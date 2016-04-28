@@ -48,6 +48,9 @@
 	</button>
 	<h1 id="title" class="mui-title">{$title}</h1>
 </header>
+<div id="content">
+	
+</div>
 <div class="mui-content mui-content-bottom">
  	<div id="lifeList">		
 		<a class="cky-activity-cell">
@@ -68,8 +71,6 @@
 	 <volist name="goods" id="vo" key='i'>		
 	 	<div><img src='/{$vo["goodsThums"]}' height="80px" width="80px"/>
 		<a class="cky-activity-cell" >
-			
-			
 			{$vo['goodsName']}
 		</a>
 		</div>
@@ -94,13 +95,13 @@
 			if(force) {
 				vm.removeAll();
 				lifes.length = 0;
-				pageNo = 1;
+				pageNo = 2;
 				isEOF = false;
 				force = false;
 			}
 			var _pageNo = pageNo;
 			if(!isEOF) {
-				$.getJSON("{:U('Malllife/lifePage')}", {
+				$.getJSON("{:U('Mall/activityGoodsPage')}", {
 					pageNo: _pageNo,
 					catId: catId,
 				}, function(list) {

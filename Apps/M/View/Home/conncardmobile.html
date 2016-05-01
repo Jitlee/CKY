@@ -24,7 +24,6 @@
 					<li class="userline land-cell cell-center" data-bind="visible: isLogin" id="loginUser">					 
 						<span class="cell-right">
 							&nbsp;<br/>
-							
 							<p style="font-size: 16px; padding:5px;">请填写办卡时所预留的手机号码。</p>
 						</span>					
 					</li>
@@ -32,8 +31,8 @@
 		<form>
 				<div class="mui-input-group">
 					<div class="mui-input-row">
-						<label>手机号码</label>
-						<input id='mobile' type="text" name="mobile" class="mui-input-clear mui-input" maxlength="11" required placeholder="请输入您预留的手机号码">
+						<label>手机号</label>
+						<input id='mobile' type="text" name="mobile" class="mui-input-clear mui-input" maxlength="11" required placeholder="请输入您预留的手机号">
 					</div>
 					<div class="mui-input-row">
 							<label>验证码</label>
@@ -81,7 +80,8 @@
 			//alert(self.serialize());
 			$.post('{:U('Home/conncardmobile','','')}?'+Math.round()*100, self.serialize(), success, "json");
 			return false;
-			function success(data) {				 
+			function success(data) {	
+			
 				if (data && data.status==1000) {
 					util.msg(data.msg);
 					setTimeout(function() {

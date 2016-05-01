@@ -33,7 +33,7 @@ class MalllifeAction extends BaseAction{
 		$m = D('M/Malllife');
 		$data = $m->get();
 		$goods=$m->getgoods();
-		$data['content'] = htmlspecialchars_decode(html_entity_decode($data['content']));
+
 		$this->assign('data', $data);
 		$this->assign('childitems', $goods);
 		//echo dump($goods);

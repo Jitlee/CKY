@@ -25,7 +25,7 @@ class MemberOneCardSyncModel extends BaseModel {
 		{			
 			$moc = D('M/OneCard');
 			$userid=$cardid;
-			$onecard=$moc->GetUserInfoObj($userid);			 
+			$onecard=$moc->GetUserInfoObj($userid);
 			if($onecard)
 			{
 				$ischange=FALSE;						

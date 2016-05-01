@@ -30,10 +30,6 @@ class MallActivityModel extends BaseModel {
 		$map = array(
 			'mactid' => $mactid
 		);
-		echo '$mactid=';
-		echo '$mactid=';
-		echo '$mactid=';
-		echo $mactid;
 		return $m->order('sort')->where($map)->select();
 	 }
 	 

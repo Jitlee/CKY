@@ -254,6 +254,8 @@ class HomeAction extends BaseAction {
 						$mMember = D('M/Member');
 						$data["OpenID"]=$openid;
 						$result=$mMember->Insert($data);
+//						$result["status"]=-10;
+//						$result["msg"]=$data[""]; 
 						if($result["status"]==-1)
 						{
 							$result["msg"]="绑定失败-add database。";
@@ -272,7 +274,8 @@ class HomeAction extends BaseAction {
 				}
 				else
 				{
-					$result["msg"]= $res["message"].$Mobile;
+					$result["status"]=-10;
+					$result["msg"]= $res["msg"].$Mobile;
 				}
 			}
 			$this->ajaxReturn($result, "JSON");
@@ -354,13 +357,84 @@ public function create_guid($namespace = '') {
 //		$list = $m->GetMemberGroup();
 //		echo dump($list);		
 
-		$m = D('M/OneCardTick');
-		$list = $m->GetTick();
-		echo dump($list);		
+//		$m = D('M/OneCardTick');
+//		$list = $m->GetTick();
+//		echo dump($list);		
 //		$list = $m->GetTickMList("18620554231","");
 //		echo dump($list);
-		
- 
+
+
+			$Mobile='18617097726';
+			$password='123456';
+			$result["status"]=0;
+			
+			$result["msg"]="注册成功。";			
+			$openid="o4CBRwomQ7m-RYpa5LecuS9xtyRs";//$this->GetOpenid();
+			if(empty($openid))
+			{
+				$result["msg"]="获取参数失败。";	
+				$this->ajaxReturn($result, "JSON");
+				exit;
+			}
+			
+			$password= $_POST['password'];
+			$CardId = $_POST['cardid'];
+						
+			$mMember = D('M/Member');
+			$user=$mMember->GetByCardID($CardId);	//根据手机查询	
+			$userOpenkey=$mMember->GetByOpenid($openid);	//根据手机查询
+			
+			if($userOpenkey && $userOpenkey["OpenID"]==$openid) {
+				$result["status"]=1000;
+				$result["msg"]='您已绑定不需要重复。';
+			}
+			else if($user && $user["CardId"]==$CardId) 
+			{
+				$result["msg"]="会员卡：".$CardId." 已经绑定。";
+			}
+			else
+			{
+				$mOnecard = D('M/OneCard');
+				$res=$mOnecard->MemberLogin($CardId,$password);
+				echo dump($res);	
+				$status= $res["status"];
+				echo $res["status"];
+				if($status == 0)//查询结果并写入到数据库
+				{
+					$res=$mOnecard->GetUserInfo($CardId);		
+					echo dump($res);	
+//					$status= $res["status"];
+//					if($status == 0)
+//					{
+						$data=$res["data"][0];
+						echo dump($data);
+//						session("cardid",$data["CardId"]);
+//						$mMember = D('M/Member');
+//						$data["OpenID"]=$openid;
+//						$result=$mMember->Insert($data);
+//						if($result["status"]==-1)
+//						{
+//							$result["msg"]="绑定失败-add database。";
+//						}
+//						else
+//						{
+//							$mMember = D('M/MemberOneCardSync');
+//							$result=$mMember->DataSync($data["CardId"]);
+//							$result["status"]=1;
+//						}
+//					}
+//					else
+//					{
+//						$result["msg"]= $res["message"]." E:003";						
+//					}
+				}
+				else
+				{
+					$result["msg"]= $res["message"].$Mobile;
+				}
+			}
+			
+			echo dump($result);
  
 //		$this->assign('res', $list);	
 //		echo dump($list);
@@ -370,8 +444,8 @@ public function create_guid($namespace = '') {
 //		$tickid="086bd212-62e8-e511-b098-001018640e2a";		
 //		$list = $m->GetTickMList($mobile);
 		 //echo date('Y-m-d H:i:s',strtotime('+10 year'));
-		 $time =17.5;
-		 $this->assign('time', $time);
+//		 $time =17.5;
+//		 $this->assign('time', $time);
 		 
 		$this->display();
 //		

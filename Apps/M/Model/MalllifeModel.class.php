@@ -14,10 +14,11 @@ class MalllifeModel extends BaseModel {
 	  * 获取指定对象
 	  */
      public function get($id = 0){
+     	$m = M('mall_life');
      	if($id == 0) {
      		$id = (int)I('id');
      	}
-		return $this->where(array('lifeid' => $id))->find();
+		return $m->find($id);
 	 }
 	 /**
 	  * 分页列表
@@ -45,9 +46,8 @@ class MalllifeModel extends BaseModel {
 	 
 	public function getTopOne() {
 		$m = M('mall_life');
-		return $m->field('lifeId, lifeTitle, logothums')
-			->where('now() between efficacysdate and efficacyedate')
-			->order('sort desc, lifeId desc')->find();
+		$sql = "select lifeid, lifeTitle, logothums from cky_mall_life where now() between efficacysdate and efficacyedate order by sort desc, lifeId desc limit 0,2";			  
+		return $m->query($sql);
 	}
 	 
 };

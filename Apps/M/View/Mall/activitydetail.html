@@ -1,90 +1,26 @@
 <style>
-	.activity-categroy .cky-col-view-cell {
-		padding: 5px;	
-	}
-	
-	.activity-categroy .cky-col-view-cell a {
-		padding: 5px 0;
-		font-size: 17px;
-		color: #ED7D31;
-		background-color: #fff;
-		display: block;
-		height: 100%;
-		text-align: center;
-		border: solid 1px #fff;
-		position: relative;
-	}
-	
-	.activity-categroy .cky-col-view-cell.cky-active a {
-		border-color: #ED7D31;
-	}
-	
-	.activity-categroy .cky-col-view-cell.cky-active a::after {
-		font-family:"iconfont" !important;
-		font-size:16px;
-		font-style:normal;
-		-webkit-font-smoothing: antialiased;
-		-webkit-text-stroke-width: 0.2px;
-		-moz-osx-font-smoothing: grayscale;
-		  
-		content: " ";
-		position: absolute;
-		right: -1px;
-		bottom: -5px;
-		content: "\e62e";
-	}
-	
-	.cky-activity-cell {
-		margin: 10px 0;
-	}
-	
-	.cky-activity-cell img {
-		width: 100%;
-	}
-	#content{ padding-top: 30px;}
-	
-	#J_3933518853 .nav .links a{color:#a9a9a9;}
-	.mui-sidebar{font-size:14px;}
-</style>
-<style>
-#J_6683314627 .chaoshi-act-bottom-nav{background-color:#dd2727}
-#J_6683314627 .chaoshi-act-bottom-nav .nav-item{color:#fff}
-#J_6683314627 .chaoshi-act-bottom-nav .nav-item i{color:#fff}
-#J_3321326089 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}
-#J_9919199335 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
-#J_6174270560 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}
-#J_1910248302 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
-#J_6717951166 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}
-#J_2866010042 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
+#J_6683314627 .chaoshi-act-bottom-nav{background-color:#dd2727}#J_6683314627 .chaoshi-act-bottom-nav .nav-item{color:#fff}#J_6683314627 .chaoshi-act-bottom-nav .nav-item i{color:#fff}#J_3321326089 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}#J_9919199335 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}#J_6174270560 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}#J_1910248302 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}#J_6717951166 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}#J_2866010042 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
 #J_3933518853 .nav{background:#fafafa}#J_3933518853 .nav .links{height:42px}
-#J_3933518853 .nav .links a{color:#a9a9a9}
-#J_3933518853 .nav .links a.current{color:#1189f8}#J_3933518853 .nav .more{background:#fafafa;border-left:1px solid #eee}
-#J_3933518853 .nav .more::before{color:#1189f8}#J_3933518853 .mui-sidebar-title{background-color:#eee;color:#a9a9a9}
-#J_3933518853 .links .scroller a{color:#a9a9a9}#J_3933518853 .links .scroller a.current{color:#1189f8}
-#J_3933518853 .links .scroller a::after{background-color:#eee}</style>
-    <style>.mui-zebra-page{background:#c9edeb}</style>
+#J_3933518853 .nav .links a{color:#a9a9a9}#J_3933518853 .nav .links a.current{color:#1189f8}#J_3933518853 .nav .more{background:#fafafa;border-left:1px solid #eee}
+#J_3933518853 .nav .more::before{color:#1189f8}#J_3933518853 .mui-sidebar-title{background-color:#eee;color:#a9a9a9}#J_3933518853 .links .scroller a{color:#a9a9a9}#J_3933518853 .links .scroller a.current{color:#1189f8}#J_3933518853 .links .scroller a::after{background-color:#eee}</style>
+<style>.mui-zebra-page{background:#c9edeb}</style>
 
-    <style>
-        #content {
-            background: transparent;
-            padding-bottom: 9px;
-        }
-        #m-smsc .content {
-            margin: 0;
-            font-size: inherit;
-        }
+<style>
+    #content {
+        background: transparent;
+        padding-bottom: 9px;
+    }
+    #m-smsc .content {
+        margin: 0;
+        font-size: inherit;
+    }
+    /*覆盖根字体*/
+    html {font-size: initial;}
 
-        /*覆盖根字体*/
-        html {
-            font-size: initial;
-        }
-
-        /*重写页头的z-index*/
-        #header {
-            z-index: 998 !important;
-        }
-    </style>    
-    <!--chaoshi aid header-->
+    /*重写页头的z-index*/
+    #header {z-index: 998 !important;}
+</style>
+<!--chaoshi aid header-->
 <style>
   #chaoshi-bfhb-entrance .content {
     margin: 0;
@@ -94,62 +30,97 @@
   }
 </style>
 
+ 
 <header class="mui-bar mui-bar-nav mui-nav-white">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
 	<h1 id="title" class="mui-title">{$title}</h1>
 </header>
-<div id="content">
+	<div id="content">
+		<div id="activitiesLoading" class="mui-loading">
+			<div class="mui-spinner">
+			</div>
+		</div>
 	  	<div class="mui-zebra-page">
 		    <nav class="mui-sidebar chaoshi-act-nav mui-sidebar-nobtn" id="J_3933518853" style="height: 42px;">
 		        <div class="nav" style="overflow: hidden;">
 		            <div class="links" style="transition-property: -webkit-transform; transform-origin: 0px 0px 0px; transform: translate3d(0px, 0px, 0px);">
 		            	<volist name="activityms" id="vo" key='i'>	
-								 <a href="#">{$vo['mactmname']}</a>
-						 </volist>
+								 <a href="#" <eq name="key" value="0"> class="current"</eq>>{$vo['mactmname']}</a>
+						 </volist> 
 		            </div>
-		        	<i class="more" style="display: none;"></i></div>
-		    </nav>	    
-		</div>
-	<div>
-		
-		<!--<volist name="activityms" id="vo" key='i'>			 
-			  <a href="#">aaaaaa{$vo['mactmname']}</a>
-				{$vo['mactmname']}
-			 
-		 </volist>-->
-		 
-	</div>
-	<div class="mui-content mui-content-bottom">
-	 	<div id="lifeList">		
-			<a class="cky-activity-cell">
-				<img src='/{$object.adpaththums}'/>
-			</a>
-		</div>  
-		
-	</div>
-	<div>       
-		<volist name="activityms" id="vo" key='i'>			 
-			<a class="cky-activity-cell" >
-				<img src='/{$vo["mlogothums"]}' height="30px"/>
-				{$vo['mactmname']}
-			</a>
-		 </volist>
-		 
-		 <volist name="goods" id="vo" key='i'>		
-		 	<div><img src='/{$vo["goodsThums"]}' height="80px" width="80px"/>
-			<a class="cky-activity-cell" >
-				{$vo['goodsName']}
-			</a>
+		        <i class="more" style="display: none;"></i></div>
+		    </nav>
+			<div class="mui-zebra-module" id="J_3933518853" data-module-id="3933518853" data-rmc-id="3933518853" data-id="48585" data-version="3.1.5" data-spm="3933518853">
+				<div class="" data-mod-name="mui/chaoshi-act-nav/index" data-config="{}">
+				</div>
+			 </div>
+		 	<div class="mui-zebra-module" id="J_1257170825">
+				<div class="chaoshi-act-pageHead" data-mod-name="mui/chaoshi-act-pageHead/index" data-config="{}"> 
+				    <div class="act-banner" data-tag="mainPic">
+				        <img src="/{$object.adpaththums}">
+				    </div>
+				</div>
+		 	</div>
+		 	<volist name="activityms" id="vo" key='i'>
+			 	<div class="mui-zebra-module" id="J_2866010042">
+					<div class='chaoshi-act-imgTitle chaoshi-act-floorTitle J_act_floor  <gt name="key" value="0"> miui-hide </gt>' data-config="{}">    
+					    <div class="imgCon" data-tag="customImgTitle">
+					        <img class="floor-img" src="/{$vo["mlogothums"]}">
+					    </div>
+					</div>
+			 	</div>
+			 	
+			 	<div class='chaoshi-act-item-1x2 <gt name="key" value="0"> miui-hide </gt>'  data-config="{}" style="padding-top: 0px;">
+				    <div class="chaoshi-act-item-1x2-items J_dynamic">
+				        <div class="mui-chaoshi-item-columns" id="goodscolumns{$vo["mactmid"]}">
+				        	<!--<volist name="goods" id="vo" key='i'>		
+					        	
+							</volist>-->
+					 	</div>
+					</div>
+				</div>
+		 	</volist>
+		</div><!-- <div class="mui-zebra-page"> -->
+	</div> <!-- content -->
+	
+	 
+	 <div>
+	 	<br/><br/><br/><br/><br/>
+	 </div>
+	 
+	 <div class="mui-chaoshi-item-column" >
+		<a class="mui-chaoshi-item-column-inner" href="">
+			<div class="img-wrapper">
+				<img class="item-img img-ks-lazyload" src="/{$vo["goodsThums"]}" alt="">			 
 			</div>
-		 </volist>
-		 
-		 
-		
+			<div class="item-main">
+				<div class="item-info">				
+					<div class="item-desc"><span class="label-text">满88送赠品</span></div>
+					<div class="item-title">{$vo['goodsName']}</div>				
+					<div class="item-desc"><span class="plain-text">销量{$vo['saleCount']}件</span></div>				
+				</div>
+				<div class="item-imp">
+					<div class="price-box">
+						<div class="promotion-price no-referPrice">
+								<span class="mui-price normal red"><i class="mui-price-rmb">¥</i>
+								    <span class="mui-price-integer">{$vo['shopPrice']}</span>
+								</span>
+						</div>
+					</div>            	
+					<div class="cart j_AddCart" data-itemid="42174710183" ></div>
+	            </div>
+			</div>
+		</a>	
 	</div>
+								
 </div>
+<style>
+	.miui-hide{ display: none;}
+</style>
 <include file="Public:tab"/>
+<link rel="stylesheet" href="__CSS__/{:autoVer('activitydetail.css')}" />
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
 	
@@ -165,7 +136,7 @@
 			if(force) {
 				vm.removeAll();
 				lifes.length = 0;
-				pageNo = 2;
+				pageNo = 1;
 				isEOF = false;
 				force = false;
 			}
@@ -175,6 +146,7 @@
 					pageNo: _pageNo,
 					catId: catId,
 				}, function(list) {
+						alert(list.length);
 					if(_pageNo == 1) {
 						lifes.length = 0;
 						$("#activitiesLoading").hide();
@@ -185,10 +157,11 @@
 						$.each(list, function() {
 							lifes.push(this);
 						});
-					} else if(pageNo == 0) {
-						$(".mui-content").nodata("～暂无惠生活～");
-					}
-					vm(lifes);
+					} 
+//					else if(pageNo == 0) {
+//						$(".mui-content").nodata("～暂无惠生活～");
+//					}
+					//vm(lifes);
 					
 					if(list && list.length < 5) {
 						isEOF = true;
@@ -196,7 +169,7 @@
 				});
 			}
 		}
-		//queryByPage();
+		queryByPage();
 		util.onScrollEnd(queryByPage);
 		 
 	});

@@ -73,7 +73,8 @@
 				var self = $("form");
 				$.post('{:U('Home/conncardbycardid','','')}?'+Math.round()*100, self.serialize(), success, "json");
 				return false;
-				function success(data) {				 
+				function success(data) {	
+//						alert(data.status);
 						if (data && data.status==1000) {
 							util.msg(data.msg);
 							setTimeout(function() {

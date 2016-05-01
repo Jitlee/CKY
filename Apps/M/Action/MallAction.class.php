@@ -31,7 +31,7 @@ class MallAction extends BaseAction {
 		$this->assign('markets', $markets);
 		
 		// 惠生活
-		$mldb = D('Malllife');
+		$mldb = D('M/Malllife');
 		$life = $mldb->getTopOne();
 		$this->assign('life', $life);
 		 
@@ -81,9 +81,7 @@ class MallAction extends BaseAction {
 		$goods = $this->activityGoodsPageLoad();
 		$this->assign('goods', $goods);
 		//echo dump($goods);
-		
-		
-		
+		 
 		
 		$this->assign('title', '商城-'.$object["mactname"]);
 		$this->display();
@@ -104,7 +102,7 @@ class MallAction extends BaseAction {
 		$result=$mMember->getActivityGoods($s,$e);
 		return $result;
 	}
-	
-	
-	
+	public function t() {	
+		$this->display();
+	}
 }

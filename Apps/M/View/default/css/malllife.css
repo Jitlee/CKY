@@ -2,9 +2,9 @@
 .scene-talent .top-tag{background-color:#eee;color:#999;display:inline-block;font-size:14px;padding:5px 6px}
 .scene-talent .report-link{display:none;color:#999;font-size:12px;-webkit-transform-origin:0 50%;transform-origin:0 50%;
 -webkit-transform:scale(0.83333333);transform:scale(0.83333333);position:absolute;top:7px;right:0}
-.scene-talent .source{margin-top:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scene-talent .source{margin-top:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .scene-talent .source .head{float:left;width:32px;height:32px}
-.scene-talent .source .title{margin-left:40px;color:#333;font-size:16px;font-weight:700}
+.scene-talent .source .title{margin-left:5px;color:#333;font-size:16px;font-weight:700}
 .scene-talent .source .info{margin-left:40px;color:#999;font-size:12px;-webkit-transform-origin:0 50%;transform-origin:0 50%;
 -webkit-transform:scale(0.83333333);transform:scale(0.83333333)}
 .scene-talent .content{color:#999;font-size:15px;margin:20px 0}

@@ -68,22 +68,22 @@
 		
 		<div class="mall-mod-title mui-table mall-mod-market">
 			<div class="mui-table-cell mui-text-left">热门市场</div>
-			<div class="mui-table-cell mui-text-right">更多</div>
+			<!--<div class="mui-table-cell mui-text-right">更多</div>-->
 		</div>
 		<div class="mall-mod mall-mod-market">
 			<div class="mui-table">
-				<a class="mui-table-cell mall-mod-market-cell1">
+				<a class="mui-table-cell mall-mod-market-cell1" href="{:U('Mall/cd')}?catId={$markets[0].catId}">
 					<span>{$markets[0].catName}</span>
 					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[0].catIcon});"></div>
 				</a>
-				<a class="mui-table-cell mall-mod-market-cell1">
+				<a class="mui-table-cell mall-mod-market-cell1" href="{:U('Mall/cd')}?catId={$markets[1].catId}">
 					<span>{$markets[1].catName}</span>
 					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[1].catIcon});"></div>
 				</a>
 			</div>
 			<div class="mui-table">
 				<for start="2" end="6">
-				<a class="mui-table-cell mall-mod-market-cell2">
+				<a class="mui-table-cell mall-mod-market-cell2" href="{:U('Mall/cd')}?catId={$markets[$i].catId}">
 					<span>{$markets[$i].catName}</span>
 					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
 				</a>
@@ -91,7 +91,7 @@
 			</div>
 			<div class="mui-table">
 				<for start="6" end="10">
-				<a class="mui-table-cell mall-mod-market-cell2">
+				<a class="mui-table-cell mall-mod-market-cell2" href="{:U('Mall/cd')}?catId={$markets[$i].catId}">
 					<span>{$markets[$i].catName}</span>
 					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
 				</a>

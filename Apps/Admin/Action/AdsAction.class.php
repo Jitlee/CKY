@@ -29,7 +29,7 @@ class AdsAction extends BaseAction{
     		$this->checkPrivelege('gggl_01');
     		$object = $m->getModel();
     		$object['adStartDate'] = date('Y-m-d');
-    		$object['adEndDate'] = date('Y-m-d');
+    		$object['adEndDate'] = date('Y-m-d',strtotime("+1 month"));
     	}
     	$this->assign('object',$object);
 		$this->view->display('/ads/edit');

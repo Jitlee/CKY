@@ -54,6 +54,7 @@
 		</button>
 		<h1 id="title" class="mui-title">{$title}</h1>
 		</div>
+		<a id="cart" class="mmui-btn mui-btn-link mui-pull-right " href="{:U('Cart/index')}"><i class="iconfont icon-gouwuche"></i></a>
 	</header>
 	<!--<nav class="mui-sidebar chaoshi-act-nav mui-sidebar-nobtn" id="J_3933518853" style="height: 42px;">
 	    <div class="nav" style="overflow: hidden;">
@@ -139,7 +140,7 @@
 </style>
  
 <link rel="stylesheet" href="__CSS__/{:autoVer('activitydetail.css')}" />
-<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
 <script type="text/javascript">
 	
 	$(function(){
@@ -182,7 +183,20 @@
 			       			$(".item-title", item).text(this.goodsName);
 			       			$(".mui-price-integer", item).text(this.shopPrice);
 			       			$(".plain-text", item).text("销量"+this.saleCount+"件");
-			       			$(".item-img", item).attr("src",'/'+this.goodsThums); 
+			       			$(".item-img", item).attr("src",'/'+this.goodsThums);
+			       			$(".mui-chaoshi-item-column-inner", item).attr("href",'{:U('Goods/detail')}?id='+this.goodsId);			       			
+			       			 
+			       			 //$(".j_AddCart").data("item",    $(".j_AddCart", item));
+			       			 var itemdata=[]; 
+			       			 itemdata.shopId=this.shopId;
+			       			 itemdata.shopName="shopName";
+			       			 itemdata.goodsId=this.goodsId;
+			       			 itemdata.goodsName=this.goodsName;
+			       			 itemdata.goodsThums=this.goodsThums;
+			       			 itemdata.shopPrice=this.shopPrice;
+
+ 							 $(".j_AddCart").data("item", itemdata); 
+			       			
 			       			recrodList.append(item);
 						});
 					} 
@@ -194,5 +208,20 @@
 		}
 		queryByPage();
 		util.onScrollEnd(queryByPage); 
+		
+		// 添加到购物车
+		var cartButton = $("#cart");
+		function onaddcartclick(obj, evt) {
+			obj.flyTo(cartButton);
+			//cky.addToShopCart(obj);
+		}
+		
+		$(window).click("click", ".j_AddCart", function() {
+			var $obj = $(this)  
+			$obj.flyTo(cartButton);
+			alert("");
+			return false;
+		});
+
 	});
 </script>

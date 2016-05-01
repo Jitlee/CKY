@@ -64,20 +64,94 @@
 				</div>
 		 	</div>
 		 	<volist name="activityms" id="vo" key='i'>
-			 	<div class="mui-zebra-module" id="J_2866010042">
-					<div class='chaoshi-act-imgTitle chaoshi-act-floorTitle J_act_floor  <gt name="key" value="0"> miui-hide </gt>' data-config="{}">    
+			 	<div class="mui-zebra-module  <gt name="key" value="0"> miui-hide </gt>" id="J_{$vo["mactmid"]}">
+					<div class='chaoshi-act-imgTitle chaoshi-act-floorTitle J_act_floor' data-config="{}">    
 					    <div class="imgCon" data-tag="customImgTitle">
 					        <img class="floor-img" src="/{$vo["mlogothums"]}">
 					    </div>
 					</div>
 			 	</div>
 			 	
-			 	<div class='chaoshi-act-item-1x2 <gt name="key" value="0"> miui-hide </gt>'  data-config="{}" style="padding-top: 0px;">
+			 	<div class='chaoshi-act-item-1x2 <gt name="key" value="0"> miui-hide </gt>'   id="JG_{$vo["mactmid"]}" style="padding-top: 0px;">
 				    <div class="chaoshi-act-item-1x2-items J_dynamic">
 				        <div class="mui-chaoshi-item-columns" id="goodscolumns{$vo["mactmid"]}">
 				        	<!--<volist name="goods" id="vo" key='i'>		
-					        	
+						        <div class="mui-chaoshi-item-column"  style="display: none;">
+									<a class="mui-chaoshi-item-column-inner" href="">
+										<div class="img-wrapper">
+											<img class="item-img img-ks-lazyload" src="/{$vo["goodsThums"]}" alt="">			 
+										</div>
+										<div class="item-main">
+											<div class="item-info">				
+												<div class="item-desc"><span class="label-text">满88送赠品</span></div>
+												<div class="item-title">{$vo["goodsName"]}</div>				
+												<div class="item-desc"><span class="plain-text">销量0件</span></div>				
+											</div>
+											<div class="item-imp">
+												<div class="price-box">
+													<div class="promotion-price no-referPrice">
+															<span class="mui-price normal red"><i class="mui-price-rmb">¥</i>
+															    <span class="mui-price-integer">{$vo["shopPrice"]}</span>
+															</span>
+													</div>
+												</div>            	
+												<div class="cart j_AddCart" data-itemid="42174710183" ></div>
+								            </div>
+										</div>
+									</a>	
+								</div>	
 							</volist>-->
+							<div class="mui-chaoshi-item-column  " data-tag="item" data-itemid="42174710183">
+								<a class="mui-chaoshi-item-column-inner" href="//detail.tmall.com/item.htm?id=42174710183&amp;acm=lb-zebra-15808-689692.1003.4.701652&amp;scm=1003.4.lb-zebra-15808-689692.ITEM_42174710183_701652">
+									<div class="img-wrapper">
+										<img class="item-img img-ks-lazyload" src="//img.alicdn.com/imgextra/i4/TB1suvDKpXXXXbUXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp" alt="清风原木纯品金装3层150抽*20包中规抽取面纸巾箱装">			 
+									</div>
+									<div class="item-main">
+										<div class="item-info">				
+											<div class="item-desc"><span class="label-text">满88送赠品</span></div>
+											<div class="item-title">清风原木纯品金装3层150抽*20包中规抽取面纸巾箱装</div>				
+											<div class="item-desc"><span class="plain-text">月销2788件</span></div>				
+										</div>
+										<div class="item-imp">
+											<div class="price-box">
+												<div class="promotion-price no-referPrice">
+														<span class="mui-price normal red"><i class="mui-price-rmb">¥</i>
+														    <span class="mui-price-integer">59</span>
+														    <span class="mui-price-decimal">.9</span>							    
+														</span>
+												</div>
+											</div>            	
+											<div class="cart j_AddCart" data-itemid="42174710183" data-pic="//img.alicdn.com/imgextra/i4/TB1suvDKpXXXXbUXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp"></div>
+							            </div>
+									</div>
+								</a>	
+							</div>
+							<div class="mui-chaoshi-item-column  " data-tag="item" data-itemid="522191209781">
+								<a class="mui-chaoshi-item-column-inner" href="//detail.tmall.com/item.htm?id=522191209781&amp;acm=lb-zebra-15808-689692.1003.4.701652&amp;scm=1003.4.lb-zebra-15808-689692.ITEM_522191209781_701652">
+									<div class="img-wrapper">
+										<img class="item-img img-ks-lazyload" src="//img.alicdn.com/imgextra/i4/TB166ohJVXXXXbZXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp" alt="清风 原木纯品金装4层140克*32卷卷筒卫生纸巾 整箱">
+									</div>
+									<div class="item-main">
+										<div class="item-info">
+											<div class="item-desc"><span class="label-text">满88送赠品</span></div>
+											<div class="item-title">清风 原木纯品金装4层140克*32卷卷筒卫生纸巾 整箱</div>				
+											<div class="item-desc"><span class="plain-text">月销2425件</span></div>				
+										</div>
+										<div class="item-imp">
+											<div class="price-box">
+												<div class="promotion-price no-referPrice">
+														<span class="mui-price normal red">
+														    <i class="mui-price-rmb">¥</i>
+														    <span class="mui-price-integer">59</span>
+														    <span class="mui-price-decimal">.9</span>
+														</span>						
+												</div>
+											</div>            	
+											<div class="cart j_AddCart" data-itemid="522191209781" data-pic="//img.alicdn.com/imgextra/i4/TB166ohJVXXXXbZXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp"></div>
+							            </div>
+									</div>
+								</a>	
+							</div>
 					 	</div>
 					</div>
 				</div>
@@ -90,22 +164,22 @@
 	 	<br/><br/><br/><br/><br/>
 	 </div>
 	 
-	 <div class="mui-chaoshi-item-column" >
+	 <div class="mui-chaoshi-item-column"  style="display: none;">
 		<a class="mui-chaoshi-item-column-inner" href="">
 			<div class="img-wrapper">
-				<img class="item-img img-ks-lazyload" src="/{$vo["goodsThums"]}" alt="">			 
+				<img class="item-img img-ks-lazyload" src="" alt="">			 
 			</div>
 			<div class="item-main">
 				<div class="item-info">				
 					<div class="item-desc"><span class="label-text">满88送赠品</span></div>
-					<div class="item-title">{$vo['goodsName']}</div>				
-					<div class="item-desc"><span class="plain-text">销量{$vo['saleCount']}件</span></div>				
+					<div class="item-title">goodsName</div>				
+					<div class="item-desc"><span class="plain-text">销量0件</span></div>				
 				</div>
 				<div class="item-imp">
 					<div class="price-box">
 						<div class="promotion-price no-referPrice">
 								<span class="mui-price normal red"><i class="mui-price-rmb">¥</i>
-								    <span class="mui-price-integer">{$vo['shopPrice']}</span>
+								    <span class="mui-price-integer">shopPrice</span>
 								</span>
 						</div>
 					</div>            	
@@ -125,17 +199,14 @@
 <script type="text/javascript">
 	
 	$(function(){
-		var lifes = [];
-		var catId = 0;
+	 
+		var _mactid={$object.mactid};
 		var isEOF = false;
 		var force = true;
-		var pageNo = 1;
-		var vm = ko.observableArray(lifes);
-		ko.applyBindings(vm, document.getElementById("lifeList"));
+		var pageNo = 1; 
+		var template = $(".mui-chaoshi-item-column");		
 		function queryByPage() {
-			if(force) {
-				vm.removeAll();
-				lifes.length = 0;
+			if(force) { 
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -144,33 +215,35 @@
 			if(!isEOF) {
 				$.getJSON("{:U('Mall/activityGoodsPage')}", {
 					pageNo: _pageNo,
-					catId: catId,
-				}, function(list) {
-						alert(list.length);
-					if(_pageNo == 1) {
-						lifes.length = 0;
-						$("#activitiesLoading").hide();
-						$("#lifeList").removeClass("cky-hidden");
+					mactid: _mactid,
+				}, function(list) { 
+					if(_pageNo == 1) { 
+						$("#activitiesLoading").hide(); 
 					}
 					if(list && list.length > 0) {
 						pageNo = ++_pageNo;
 						$.each(list, function() {
-							lifes.push(this);
+							//lifes.push(this);
+							var recrodList=$("#goodscolumns"+this.mactmid);
+							$("#J_"+this.mactmid).show();
+							$("#JG_"+this.mactmid).show();
+							
+							var item = template.clone();
+							item.show();
+			       			$(".item-title", item).text(this.goodsName);
+			       			$(".mui-price-integer", item).text(this.shopPrice);
+			       			$(".plain-text", item).text("销量"+this.shopPrice+"件");
+			       			$(".item-img", item).attr("src",'/'+this.goodsThums); 
+			       			recrodList.append(item);
 						});
 					} 
-//					else if(pageNo == 0) {
-//						$(".mui-content").nodata("～暂无惠生活～");
-//					}
-					//vm(lifes);
-					
-					if(list && list.length < 5) {
+					if(list && list.length < 10) {
 						isEOF = true;
 					}
 				});
 			}
 		}
 		queryByPage();
-		util.onScrollEnd(queryByPage);
-		 
+		util.onScrollEnd(queryByPage); 
 	});
 </script>

@@ -1,0 +1,257 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<nav class="mall-search-bar">
+	<a class="mall-search-bar-item cky-back"><i class="mui-icon mui-icon-left-nav"></i></a>
+	<div class="mall-search-bar-item">
+		<i class="iconfont icon-sousuo"></i>
+		<input id="searchInput" placeholder="搜索粗卡超市商品"/>
+	</div>
+	<a id="cart" href="{:U('Cart/index')}" class="mall-search-bar-item"><i class="iconfont icon-gouwuche"></i></a>
+	<a href="{:U('Mall/category')}" class="mall-search-bar-item mall-search-bar-text-item">
+		<i class="iconfont icon-list"></i>
+		<div>类目</div>
+	</a>
+</nav>
+<div class="mall-menu mui-table">
+	<input id="defaultSortRadio" name="mall-sort" type="radio" checked="checked" value="1"/><label for="defaultSortRadio" class="mui-table-cell">综合</label>
+	<input id="saleSortRadio" name="mall-sort" type="radio" value="2"/><label for="saleSortRadio" class="mui-table-cell">销量</label>
+	<input id="priceDESCSortRadio" name="mall-sort" type="radio" value="3"/>
+	<label class="mui-table-cell" for="priceDESCSortRadio" style="display: none;">
+		价格
+		<span>
+			<i class="iconfont icon-asc"></i>
+			<i class="iconfont icon-desc"></i>
+		</span>
+	</label>
+	<input id="priceASCSortRadio" name="mall-sort" type="radio" value="4"/>
+	<label for="priceASCSortRadio" class="mui-table-cell">
+		价格
+		<span>
+			<i class="iconfont icon-asc"></i>
+			<i class="iconfont icon-desc"></i>
+		</span>
+	</label>
+	<a id="filterButton" class="mall-filter-btn mui-table-cell">筛选</a>
+</div>
+<div class="mui-content" id="content">
+	<div class="mall-brands mall-top-brands">
+		<foreach name="topBrands" item="item">
+			<div class="mall-brands-cell" brandId="{$item.brandId}">
+				<a>
+					{$item.brandName}
+				</a>
+			</div>
+		</foreach>
+	</div>
+	<ul class="mall-goods-table cky-bg-white" data-bind="foreach: goods">
+		<li class="mall-goods-table-cell">
+			<div class="mui-table">
+				<a class="mall-goods-thumb mui-table-cell" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }"></a>
+				<div class="mall-goods-content mui-table-cell">
+					<a data-bind="text: goodsName, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }" class="mui-ellipsis-2 font14 font-black"></a>
+					<h5 class="font12">销量：<span data-bind="text: saleCount > 9999 ? (Math.round(sale/1000) / 10 + 万笔) : saleCount"></span>笔</h5>
+					<div class="mui-table mall-goods-prices-table">
+						<div class="mui-table-cell">
+							<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
+						</div>
+						<div class="mui-table-cell mui-text-right">
+							<a data-bind="click: $parent.addCartClick" class="cky-add-cart-btn"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="mall-right-side" style="display: none;">
+	<div class="mall-right-side-content">
+		<div class="mall-right-side-top">
+			<h5>品牌</h5>
+			<div class="mall-brands mall-side-brands">
+				<foreach name="brands" item="item">
+					<div class="mall-brands-cell" brandId="{$item.brandId}">
+						<a style="background-image: url(/{$item.brandIcon})"></a>
+					</div>
+				</foreach>
+			</div>
+		</div>
+		<div class="mall-right-side-bottom mui-table">
+			<div class="mui-table-cell">
+				<span class="font12 font-black1">有<r data-bind="text: goodsCount"></r>件商品</span>
+			</div>
+			<div class="mui-table-cell mui-text-right">
+				<button id="filterSubmitButton">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="cky-loading"></div>
+<script src="__KO__"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('jquery.touchSwipe.min.js')}"></script>
+<script>
+	$(function() {
+		var goods = [];
+		var vm = {
+			goodsCount: ko.observable(0),
+			goods: ko.observableArray(goods),
+			addCartClick: onaddcartclick
+		};
+		ko.applyBindings(vm);
+		
+		var pageNo = 1;
+		var sortType = 1;
+		var brands = [];
+		function page(clear) {
+			if(clear) {
+				pageNo = 0;
+			}
+			$.getJSON("{:U('Mall/ptg')}", {
+				pageNo: pageNo,
+				catId: 3,
+				catId3: "{:I('catId', 0)}",
+				brands: brands.join(","),
+				sortType: sortType,
+			}, function(list) {
+				if(clear) {
+					vm.goods.removeAll();
+				}
+				
+				if(list && list.length > 0) {
+					pageNo++;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				}
+				cky.closeLoading();
+			});
+		}
+		util.onScrollEnd(page);
+		page();
+		
+		// 添加到购物车
+		var cartButton = $("#cart");
+		function onaddcartclick(obj, evt) {
+			$(evt.delegateTarget).flyTo(cartButton);
+			cky.addToShopCart(obj);
+		}
+		
+		// 排序单选
+		var sortGroup = $(".mall-menu");
+		$("input[type=radio][name=mall-sort][value=" + sortType + "]", sortGroup).attr("checked", true);
+		$("input[type='radio'][name='mall-sort']", sortGroup).change(function() {
+			var $this = $(this);
+			sortType = Number(this.value);
+			if(sortType == 3 || sortType == 4) {
+				$("label[for='priceASCSortRadio'],label[for='priceDESCSortRadio']", sortGroup).addClass("cky-active");
+			} else {
+				$("label[for='priceASCSortRadio'],label[for='priceDESCSortRadio']", sortGroup).removeClass("cky-active");
+			}
+			if(sortType == 4){
+				$("label[for='priceASCSortRadio']", sortGroup).hide();
+				$("label[for='priceDESCSortRadio']", sortGroup).show();
+			} else {
+				$("label[for='priceDESCSortRadio']", sortGroup).hide();
+				$("label[for='priceASCSortRadio']", sortGroup).show();
+			}
+			page(true);
+		});
+		
+		// 侧滑按钮
+		var side = $(".mall-right-side").click(function(evt) {
+			if(evt.originalEvent.srcElement == this) {
+				hideSide();
+			}
+		});
+		$("#filterButton").click(function() {
+			side.show();
+			window.setTimeout(function() {
+				side.addClass("cky-active");
+			}, 0);
+			
+			// 恢复品牌选中状态
+			sideBrandCells.each(function() {
+				var $this = $(this);
+				var brandId = Number($this.attr("brandId"));
+				if(brands.indexOf(brandId) > -1) {
+					$this.addClass("cky-active");
+				} else {
+					$this.removeClass("cky-active");
+				}
+			});
+			countGoods(brands);
+		});
+		
+		function hideSide() {
+			side.removeClass("cky-active");
+			window.setTimeout(function() {
+				side.hide();
+			}, 300);
+		}
+		
+		// 品牌事件
+		var brandCells = $(".mall-top-brands .mall-brands-cell").each(function() {
+			$(this).click(function() {
+				var $this = $(this);
+				$this.toggleClass("cky-active");
+				var brandId = Number($this.attr("brandId"));
+				var index = brands.indexOf(brandId);
+				if(index > -1) {
+					brands.splice(index, 1);
+				} else {
+					brands.push(brandId);
+				}
+				page(true);
+				countGoods(brands);
+			});
+		});
+		
+		// 侧栏品牌事件
+		var sideBrandCells = $(".mall-side-brands .mall-brands-cell").each(function() {
+			$(this).click(function() {
+				var $this = $(this);
+				$this.toggleClass("cky-active");
+				
+				var brands = getSideBrands();
+				countGoods(brands);
+			});
+		});
+		
+		// 统计商品数量
+		function countGoods(brands) {
+			$.getJSON("{:U('Mall/ctg')}", {
+				catId: 3,
+				catId3: "{:I('catId', 0)}",
+				brands: brands.join(","),
+			}, function(count) {
+				if(count > 0) {
+					vm.goodsCount(count);
+				}
+			});
+		}
+		
+		// 筛选确定按钮
+		$("#filterSubmitButton").click(function() {
+			brands = getSideBrands();
+			brandCells.each(function() {
+				var $this = $(this);
+				var brandId = Number($this.attr("brandId"));
+				if(brands.indexOf(brandId) > -1) {
+					$this.addClass("cky-active");
+				} else {
+					$this.removeClass("cky-active");
+				}
+			});
+			page(true);
+			hideSide();
+		});
+		
+		function getSideBrands() {
+			var brands = [];
+			$(".mall-side-brands .mall-brands-cell.cky-active").each(function() {
+				var $this = $(this);
+				var brandId = Number($this.attr("brandId"));
+				brands.push(brandId);
+			});
+			return brands;
+		}
+	});
+</script>

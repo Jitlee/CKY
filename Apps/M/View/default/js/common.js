@@ -310,3 +310,29 @@ $.fn.nodata = function(title, content) {
 	return emptyBlock;
 }
 
+// 飞行
+$.fn.flyTo = function(target) {
+	var targetOffset = target.offset();
+	var offset = this.offset();
+	var cloneElement = this.clone();
+	cloneElement.css("position", "fixed");
+	cloneElement.css("left", offset.left);
+	cloneElement.css("top", offset.top);
+	cloneElement.css("z-index", 999);
+	cloneElement.addClass("cky-fly-animation");
+	$(document.body).append(cloneElement);
+	var scale = target.height() / this.height();
+	window.setTimeout(function() {
+		cloneElement.css("left", targetOffset.left);
+		cloneElement.css("top", targetOffset.top);
+		cloneElement.css("transform", "scale(" + scale + ")");
+		cloneElement.css("opacity", 0.5);
+		
+		window.setTimeout(function() {
+			cloneElement.remove();
+		}, 300);
+	}, 0);
+	return this;
+	
+}
+

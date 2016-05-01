@@ -209,13 +209,11 @@
 		};
 		ko.applyBindings(vm);
 		
-		var sortType = {:I('sortType', 1)};
-		
 		var pageNo = 1;
 		function page() {
 			$.getJSON("{:U('Mall/ptg')}", {
 				pageNo: pageNo,
-				sortType: sortType
+				catId: 3
 			}, function(list) {
 				if(list && list.length > 0) {
 					pageNo++;

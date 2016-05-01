@@ -46,15 +46,45 @@ class MallAction extends BaseAction {
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
+	// 获取所有商品的数量
+	public function ctg() {
+		$db = D('Goods');
+		$count = $db->countTop();
+		$this->ajaxReturn($count, 'JSON');
+	}
+	
+	// 商品类目
 	public function category() {
 		$this->assign('title', '商品分类');
 		$this->display();
 	}
 	
+	// 类目分页
 	public function cc() {
 		$gcdb = D('GoodsCats');
 		$cats = $gcdb->queryMallCats();
 		$this->ajaxReturn($cats, 'JSON');
+	}
+	
+	// 商品类目明细
+	public function cd() {
+		$bdb = D('Brands');
+		$brands = $bdb->queryByCatId3();
+		$topBrands = array_slice($brands, 0, 8);
+		$this->assign('brands', $brands);
+		$this->assign('topBrands', $topBrands);
+		$this->assign('title', '类目明细');
+		$this->display("Mall/category_detail");
+	}
+	
+	// 热门市场
+	public function market() {
+		
+		$db = D('Goods');
+		$list = $db->pageTop(1, 5, 0);
+		
+		$this->assign('title', '商品分类');
+		$this->display();
 	}
 	
 	public function indexs() {
@@ -81,8 +111,6 @@ class MallAction extends BaseAction {
 		$goods = $this->activityGoodsPageLoad();
 		$this->assign('goods', $goods);
 		//echo dump($goods);
-		 
-		
 		$this->assign('title', '商城-'.$object["mactname"]);
 		$this->display();
 	} 

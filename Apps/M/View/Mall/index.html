@@ -103,12 +103,9 @@
 		<div class="mui-table-cell mui-text-right"><a href="{:U('Mall/lifeindex')}">更多</a></div>
 	</div>
 	<div class="mall-mod mall-mod-life">
-		<volist name="life" id="vo" key='i'>	
-				<a class="cky-activity-cell" href='{:U("Malllife/lifeDetail","","")}/id/{$vo["lifeid"]}'>								 
-					<img src="/{$vo['logothums']}" style="height: 150px;" alt="{$vo['lifeTitle']}"/>
-				</a>
-		</volist>
-		
+		<foreach name="lifes" item="item">
+			<a class="mall-mod-life-cell" href="{:U('Malllife/lifeDetail','','')}/id/{$item.lifeId}" style="background-image: url(/{$item.logoThums})"></a>
+		</foreach>
 	</div>
 	
 	<div class="mall-mod-title mall-mod-hot">热销推荐</div>

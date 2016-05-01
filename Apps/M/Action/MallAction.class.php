@@ -32,8 +32,8 @@ class MallAction extends BaseAction {
 		
 		// 惠生活
 		$mldb = D('M/Malllife');
-		$life = $mldb->getTopOne();
-		$this->assign('life', $life);
+		$lifes = $mldb->getTop();
+		$this->assign('lifes', $lifes);
 		 
 		$this->assign('title', '商城');
 		$this->display();
@@ -79,10 +79,8 @@ class MallAction extends BaseAction {
 	
 	// 热门市场
 	public function market() {
-		
 		$db = D('Goods');
 		$list = $db->pageTop(1, 5, 0);
-		
 		$this->assign('title', '商品分类');
 		$this->display();
 	}

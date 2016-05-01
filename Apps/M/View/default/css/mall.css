@@ -294,8 +294,19 @@ header.mui-bar + .mall-search-bar + .mui-content {
 }
 
 .mall-mod.mall-mod-life {
-	height: 30vw;
+	height: 37.5vw;
+	background-color: #fff;
+	white-space:nowrap;
+    overflow-x:auto;
+    overflow-y: hidden;
+}
+
+.mall-mod.mall-mod-life .mall-mod-life-cell {
+	height: 37.5vw;
+	display: inline-block;
+	width: 75vw;
 	background-repeat: no-repeat;
+	background-position: center center;
 	background-size: cover;
 }
 

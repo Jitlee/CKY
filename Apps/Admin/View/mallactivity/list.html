@@ -64,7 +64,7 @@
                <th width='40'>序号</th>
                <th>标题</th>
                <th width='190'>活动日期</th>
-               <th width='150'>模式</th>
+               <th width='40'>背景颜色</th>
                <th width='40'>排序</th>
                
                <th width='80'>状态</th>
@@ -81,7 +81,7 @@
                		{$vo['mactname']}
                </td>
                <td>{$vo['starttime']}至{$vo['endtime']}</td>
-               <td> <if condition="$vo['mode']=='normal' "> 普通 <else/> 自定义</if></td>
+               <td style="background-color:{$vo['modecolor']};"> &nbsp;</td>
                <td>{$vo['sort']}</td>
                <td>
 	               <div class="dropdown">

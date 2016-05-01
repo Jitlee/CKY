@@ -1,0 +1,77 @@
+<style>
+	 
+</style>
+<header class="mui-bar mui-bar-nav mui-nav-white">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+</header>
+<div class="mui-content mui-content-bottom">
+	<div id="activitiesLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<div id="lifeList" class="cky-hidden">
+		<!-- ko foreach: $data -->
+		<a class="cky-activity-cell" data-bind="attr: { href: '{:U('activitydetail','','')}/mactid/' + mactid }">
+			<img data-bind="attr: { alt: mactname, src: '/' + adpaththums }"/>
+		</a>  
+		<!-- /ko -->
+	</div>  
+</div>
+<include file="Public:tab"/>
+<style>
+	.cky-activity-cell img{ min-width:400px;}
+</style>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+	
+	$(function(){
+		var lifes = [];
+		var catId = 0;
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var vm = ko.observableArray(lifes);
+		ko.applyBindings(vm, document.getElementById("lifeList"));
+		function queryByPage() {
+			if(force) {
+				vm.removeAll();
+				lifes.length = 0;
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			if(!isEOF) {
+				$.getJSON("{:U('Mall/activityPage')}", {
+					pageNo: _pageNo,
+					catId: catId,
+				}, function(list) {
+					if(_pageNo == 1) {
+						lifes.length = 0;
+						$("#activitiesLoading").hide();
+						$("#lifeList").removeClass("cky-hidden");
+					}
+					if(list && list.length > 0) {
+						pageNo = ++_pageNo;
+						$.each(list, function() {
+							lifes.push(this);
+						});
+					} else if(pageNo == 0) {
+						$(".mui-content").nodata("～暂无惠生活～");
+					}
+					vm(lifes);
+					
+					if(list && list.length < 5) {
+						isEOF = true;
+					}
+				});
+			}
+		}
+		queryByPage();
+		util.onScrollEnd(queryByPage);
+		 
+	});
+</script>

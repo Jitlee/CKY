@@ -57,7 +57,7 @@
 		$('#efficacyDateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
 		
 	   $("#mactname").formValidator({onFocus:"请输入标题"}).inputValidator({min:1,max:100,onError:"请输入100字以内标题"});
-	   $("#mode").formValidator({onFocus:"请选择模式"}).inputValidator({min:1,onError: "请选择模式"});
+	   //$("#mode").formValidator({onFocus:"请选择模式"}).inputValidator({min:1,onError: "请选择模式"});
 	   $("#desc").formValidator({onFocus:"请输入描述"}).inputValidator({min:1,max:80,onError:"请输入描述"});
 	   $("#logo").formValidator({onFocus:"请选择logo图片"}).inputValidator({min:1,max:80,onError:"选择logo图片"});
 	   $("#adpath").formValidator({onFocus:"请选择广告图片"}).inputValidator({min:1,max:80,onError:"选择广告图片"});
@@ -74,7 +74,7 @@
 	   var date = $('#efficacyDateRange').val().split(' 至 ');
 	   params.starttime = date[0];
 	   params.endtime = date[1]; 
-	   params.mode = $('#mode').val();
+	   params.mode ="definition";// $('#mode').val();
 	   params.modecolor = $('#modecolor').val();
 	   params.desc = $('#desc').val();
 	   params.status = $("input[name='status']:checked").val();
@@ -207,7 +207,7 @@
              	<input type='text' id='efficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$object.starttime} 至 {$object.endtime}'/>
              </td>
            </tr>   
-           <tr>
+           <!--<tr>
              <th align='right'>活动模式<font color='red'>*</font>：</th>
              <td>
              	<select id='mode'>
@@ -216,9 +216,9 @@
 	                <option value='definition' <if condition="$object['mode'] == 'definition'">selected</if>>自定义</option>
 	             </select>
              </td>
-           </tr>
+           </tr>-->
            <tr>
-             <th align='right'>自定义颜色<font color='red'>*</font>：</th>
+             <th align='right'>背景颜色<font color='red'>*</font>：</th>
              <td><input type='text' id='modecolor' class="form-control rtc-ipt" value='{$object.modecolor}' style='width:300px' maxLength='10'/></td>
              
            </tr> 

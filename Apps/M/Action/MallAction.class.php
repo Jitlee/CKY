@@ -113,6 +113,17 @@ class MallAction extends BaseAction {
 		$this->display();
 	} 
 	
+	public function activitylist(){
+		$this->assign('title', '促销活动');
+		$this->display();
+	}
+	
+	public function activityPage(){
+		$m = D('M/MallActivity');
+		$list = $m->activityPage(); 
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
 	public function activityGoodsPage()
 	{		 
 		$pageNum =  I("pageNo");

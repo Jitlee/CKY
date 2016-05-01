@@ -44,10 +44,9 @@ class MalllifeModel extends BaseModel {
 		return $m->query($sql);
 	 }
 	 
-	public function getTopOne() {
-		$m = M('mall_life');
-		$sql = "select lifeid, lifeTitle, logothums from cky_mall_life where now() between efficacysdate and efficacyedate order by sort desc, lifeId desc limit 0,2";			  
-		return $m->query($sql);
+	public function getTop() {
+		$sql = "select lifeId, lifeTitle, logoThums from cky_mall_life where now() between efficacysdate and efficacyedate order by sort desc, lifeId desc limit 0,3";			  
+		return $this->query($sql);
 	}
 	 
 };

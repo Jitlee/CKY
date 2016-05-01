@@ -54,7 +54,7 @@
 		</button>
 		<h1 id="title" class="mui-title">{$title}</h1>
 		</div>
-		<a id="cart" class="mmui-btn mui-btn-link mui-pull-right " href="{:U('Cart/index')}"><i class="iconfont icon-gouwuche"></i></a>
+		<a id="cart" class="mmui-btn mui-btn-link mui-pull-right " href="{:U('Cart/index')}"><i class="iconfont icon-gouwuche" style="font-size: 24px;"></i></a>
 	</header>
 	<!--<nav class="mui-sidebar chaoshi-act-nav mui-sidebar-nobtn" id="J_3933518853" style="height: 42px;">
 	    <div class="nav" style="overflow: hidden;">
@@ -66,7 +66,7 @@
 	    <i class="more" style="display: none;"></i></div>
 	</nav>			   -->
 	 
-	<div id="content mui-content">
+	<div class="content mui-content">
 		
 		<div id="activitiesLoading" class="mui-loading">
 			<div class="mui-spinner">
@@ -110,7 +110,7 @@
 	 </div>
 	 
 	 <div class="mui-chaoshi-item-column goodsitemstemplate miui-hide">
-		<a class="mui-chaoshi-item-column-inner" href="">
+		<a class="mui-chaoshi-item-column-inner">
 			<div class="img-wrapper">
 				<img class="item-img img-ks-lazyload" src="" alt="">			 
 			</div>
@@ -128,7 +128,7 @@
 								</span>
 						</div>
 					</div>            	
-					<div class="cart j_AddCart" data-itemid="42174710183" ></div>
+					<div class="cky-add-cart-btn" data-itemid="42174710183" ></div>
 	            </div>
 			</div>
 		</a>	
@@ -184,18 +184,8 @@
 			       			$(".mui-price-integer", item).text(this.shopPrice);
 			       			$(".plain-text", item).text("销量"+this.saleCount+"件");
 			       			$(".item-img", item).attr("src",'/'+this.goodsThums);
-			       			$(".mui-chaoshi-item-column-inner", item).attr("href",'{:U('Goods/detail')}?id='+this.goodsId);			       			
-			       			 
-			       			 //$(".j_AddCart").data("item",    $(".j_AddCart", item));
-			       			 var itemdata=[]; 
-			       			 itemdata.shopId=this.shopId;
-			       			 itemdata.shopName="shopName";
-			       			 itemdata.goodsId=this.goodsId;
-			       			 itemdata.goodsName=this.goodsName;
-			       			 itemdata.goodsThums=this.goodsThums;
-			       			 itemdata.shopPrice=this.shopPrice;
-
- 							 $(".j_AddCart").data("item", itemdata); 
+			       			$(".mui-chaoshi-item-column-inner", item).attr("href",'{:U('Goods/detail')}?id='+this.goodsId);
+   							 $(".cky-add-cart-btn", item).data("item", this); 
 			       			
 			       			recrodList.append(item);
 						});
@@ -211,16 +201,16 @@
 		
 		// 添加到购物车
 		var cartButton = $("#cart");
-		function onaddcartclick(obj, evt) {
-			obj.flyTo(cartButton);
-			//cky.addToShopCart(obj);
-		}
-		
-		$(window).click("click", ".j_AddCart", function() {
+		$(".mui-zebra-page").on("click", ".cky-add-cart-btn", function(evt) {
 			var $obj = $(this)  
 			$obj.flyTo(cartButton);
-			alert("");
-			return false;
+			var json = $obj.data("item");
+			if(!json.shopName) {
+				json.shopName = "[商城]";
+			}
+			cky.addToShopCart(json);
+			evt.stopPropagation();
+			evt.preventDefault();
 		});
 
 	});

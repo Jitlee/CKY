@@ -340,8 +340,8 @@ $.fn.nodata = function(title, content) {
 
 // 飞行
 $.fn.flyTo = function(target) {
-	var targetOffset = target.offset();
-	var offset = this.offset();
+	var targetOffset = target[0].getBoundingClientRect();
+	var offset = this[0].getBoundingClientRect();
 	var cloneElement = this.clone();
 	cloneElement.css("position", "fixed");
 	cloneElement.css("left", offset.left);
@@ -354,7 +354,7 @@ $.fn.flyTo = function(target) {
 		cloneElement.css("left", targetOffset.left);
 		cloneElement.css("top", targetOffset.top);
 		cloneElement.css("transform", "scale(" + scale + ")");
-		cloneElement.css("opacity", 0.5);
+		cloneElement.css("opacity", 0.8);
 		
 		window.setTimeout(function() {
 			cloneElement.remove();

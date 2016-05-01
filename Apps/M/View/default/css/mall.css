@@ -480,10 +480,9 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	font-size: 14px;
 	color: #666;
 	position: relative;
-}
-
-.mall-brands.mall-top-brands .mall-brands-cell>a:active {
-	background-color: #EEEEEE;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .mall-brands.mall-top-brands .mall-brands-cell.cky-active>a {
@@ -559,10 +558,6 @@ nav.mall-search-bar + .mall-menu + .mui-content {
 	text-align: center;
 	font-size: 14px;
 	color: #999;
-}
-
-.mall-menu > .mui-table-cell:active {
-	background-color: #EEEEEE;
 }
 
 .mall-menu input {
@@ -714,10 +709,6 @@ nav.mall-search-bar + .mall-menu + .mui-content {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
-}
-
-.mall-brands.mall-side-brands .mall-brands-cell>a:active {
-	background-color: #EEEEEE;
 }
 
 .mall-brands.mall-side-brands .mall-brands-cell.cky-active>a {

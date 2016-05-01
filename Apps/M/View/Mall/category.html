@@ -3,11 +3,11 @@
 	<a class="mall-search-bar-item cky-back"><i class="mui-icon mui-icon-left-nav"></i></a>
 	<div class="mall-search-bar-item">
 		<i class="iconfont icon-sousuo"></i>
-		<input id="searchInput" placeholder="春到换新 一见倾心"/>
+		<input class="mall-need-search" placeholder="春到换新 一见倾心"/>
 	</div>
 	<a id="ticketButton" class="mall-search-bar-item"><i class="mui-icon mui-icon-more"></i></a>
 </nav>
-<div class="mui-content">
+<div id="body" class="mui-content">
 	<h5 class="mall-category-right-title">类目</h5>
 	<div class="mall-category-right" data-bind="foreach: cats">
 		<a data-bind="attr: { href: '{:U('Mall/cd')}?catId=' + catId }" class="mall-category-right-cell mui-text-center">
@@ -15,11 +15,12 @@
 			<h5 data-bind="text: catName"></h5>
 		</a>
 	</div>
+	
+	<div id="categoriesList" class="mall-category-left mui-text-center" data-bind="foreach: categories">
+		<div class="mall-category-left-cell" data-bind="text: catName, click: $parent.catClick"></div>
+	</div>
 </div>
-
-<div id="categoriesList" class="mall-category-left mui-text-center" data-bind="foreach: categories">
-	<div class="mall-category-left-cell" data-bind="text: catName, click: $parent.catClick"></div>
-</div>
+<include file="search"/>
 <div class="cky-loading"></div>
 <script src="__KO__"></script>
 <script>
@@ -31,7 +32,7 @@
 			catClick: oncatclick,
 			cats: ko.observableArray(cats),
 		}
-		ko.applyBindings(vm);
+		ko.applyBindings(vm, document.getElementById("body"));
 		
 		// 加载商城分类
 		$.getJSON("{:U('GoodsCats/query')}", {

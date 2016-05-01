@@ -17,6 +17,33 @@ $(function() {
 		var maxlen = Number($this.attr("maxlength"));
 		this.__tips.text(len + " / " + maxlen);
 	});
+	
+	// 清除文本
+	$(".cky-input-clear").each(function() {
+		var clear = $("<i class=\"cky-input-clear-btn iconfont icon-qingchu\">").mousedown(function(evt) {
+			$this.val("");
+			clear.hide();
+			$this.focus();
+			evt.stopPropagation();
+			evt.preventDefault();
+			$this.trigger("change");
+		});
+		var $this = $(this).after(clear).focus(function() {
+			if($this.val().length > 0) {
+				clear.show();
+			} else {
+				clear.hide();
+			}
+		}).blur(function() {
+			clear.hide();
+		}).bind("input change", function() {
+			if($this.val().length > 0) {
+				clear.show();
+			} else {
+				clear.hide();
+			}
+		});
+	});
 });
 
 // cky扩展js
@@ -306,6 +333,7 @@ $.fn.nodata = function(title, content) {
 	if(content) {
 		emptyBlock.append("<h6>"+ content +"</h6>");
 	}
+	$this.html("");
 	$this.append(emptyBlock);
 	return emptyBlock;
 }
@@ -318,7 +346,7 @@ $.fn.flyTo = function(target) {
 	cloneElement.css("position", "fixed");
 	cloneElement.css("left", offset.left);
 	cloneElement.css("top", offset.top);
-	cloneElement.css("z-index", 999);
+	cloneElement.css("z-index", 9999);
 	cloneElement.addClass("cky-fly-animation");
 	$(document.body).append(cloneElement);
 	var scale = target.height() / this.height();
@@ -333,6 +361,5 @@ $.fn.flyTo = function(target) {
 		}, 300);
 	}, 0);
 	return this;
-	
 }
 

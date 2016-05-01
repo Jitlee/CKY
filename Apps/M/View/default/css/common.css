@@ -958,3 +958,14 @@ p.cky-update {
 	-webkit-transition-duration: 0.3s;
 	-webkit-transition-timing-function: ease-in;
 }
+
+.cky-input-clear + .cky-input-clear-btn {
+	display: none;
+	position: absolute;
+	left: initial!important;
+	right: 8px;
+	top: 50px;
+	font-size: 24px
+	-webkit-transform: translateY(-50%);
+	color: #666;
+}

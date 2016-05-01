@@ -14,112 +14,116 @@
 	<a class="mall-search-bar-item" href="{:U('Mall/category')}"><i class="iconfont icon-list"></i></a>
 	<div class="mall-search-bar-item">
 		<i class="iconfont icon-sousuo"></i>
-		<input id="searchInput" placeholder="搜索超市商品"/>
+		<input class="mall-need-search" placeholder="搜索超市商品"/>
 	</div>
 	<a id="cartButton" class="mall-search-bar-item" href="{:U('Cart/index')}"><i class="iconfont icon-gouwuche"></i></a>
 	<a id="cardButton" class="mall-search-bar-item" href="{:U('Persion/countlist')}"><i class="iconfont icon-ka"></i></a>
 	<a id="ticketButton" class="mall-search-bar-item" href="{:U('Person/coupon')}"><i class="iconfont icon-daijinquan"></i></a>
 </nav>
 
-<div class="mui-content mui-content-bottom">
-	<!-- Slider main container -->
-	<div class="swiper-container">
-	    <!-- Additional required wrapper -->
-	    <div class="swiper-wrapper">
-	        <!-- Slides -->
-	        <foreach name="ads" item="item">
-        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
-	        </foreach>
-	    </div>
-	    <!-- If we need pagination -->
-	    <div class="swiper-pagination"></div>
-	</div>
-	
-	<div class="mall-yyg-nav mui-table">
-		<a class="mui-table-cell mui-text-center" href="{:U('Miaosha/jiexiao')}">
-			<div class="mall-yyg-nav-icon"></div>
-			<span class="font-gray2 font13"><span id="yygNextHourSpan">12</span>场剩余时间</span>
-			<div class="mall-yyg-nav-count">
-				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
-				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
-				<div class="mall-yyg-nav-count-d mui-table-cell">:</div>
-				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
-				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
-				<div class="mall-yyg-nav-count-d mui-table-cell">:</div>
-				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
-				<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+<div id="body" class="mui-content mui-content-bottom">
+	<div>
+		<!-- Slider main container -->
+		<div class="swiper-container">
+		    <!-- Additional required wrapper -->
+		    <div class="swiper-wrapper">
+		        <!-- Slides -->
+		        <foreach name="ads" item="item">
+	        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
+		        </foreach>
+		    </div>
+		    <!-- If we need pagination -->
+		    <div class="swiper-pagination"></div>
+		</div>
+		
+		<div class="mall-yyg-nav mui-table">
+			<a class="mui-table-cell mui-text-center" href="{:U('Miaosha/jiexiao')}">
+				<div class="mall-yyg-nav-icon"></div>
+				<span class="font-gray2 font13"><span id="yygNextHourSpan">12</span>场剩余时间</span>
+				<div class="mall-yyg-nav-count">
+					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+					<div class="mall-yyg-nav-count-d mui-table-cell">:</div>
+					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+					<div class="mall-yyg-nav-count-d mui-table-cell">:</div>
+					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
+				</div>
+			</a>
+			<a class="mui-table-cell mall-yyg-nav-ads" href="{$yygAds.adURL}" style="background-image: url(/{$yygAds.adFile});"></a>
+		</div>
+		
+		<div class="mall-mod-title mui-table mall-mod-activity">
+			<div class="mui-table-cell mui-text-left">促销活动</div>
+			<div class="mui-table-cell mui-text-right">更多</div>
+		</div>
+		<div class="mall-mod mall-mod-activity">
+			<foreach name="activites" item="item">
+					<a href="{:U('activitydetail','','')}/mactid/{$item.mactid}">
+				<div class="mall-mod-cell" style="background-image: url(/{$item.adpath});"></div>
+				</a>
+			</foreach>
+		</div>
+		
+		<div class="mall-mod-title mui-table mall-mod-market">
+			<div class="mui-table-cell mui-text-left">热门市场</div>
+			<div class="mui-table-cell mui-text-right">更多</div>
+		</div>
+		<div class="mall-mod mall-mod-market">
+			<div class="mui-table">
+				<a class="mui-table-cell mall-mod-market-cell1">
+					<span>{$markets[0].catName}</span>
+					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[0].catIcon});"></div>
+				</a>
+				<a class="mui-table-cell mall-mod-market-cell1">
+					<span>{$markets[1].catName}</span>
+					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[1].catIcon});"></div>
+				</a>
 			</div>
-		</a>
-		<a class="mui-table-cell mall-yyg-nav-ads" href="{$yygAds.adURL}" style="background-image: url(/{$yygAds.adFile});"></a>
-	</div>
-	
-	<div class="mall-mod-title mui-table mall-mod-activity">
-		<div class="mui-table-cell mui-text-left">促销活动</div>
-		<div class="mui-table-cell mui-text-right">更多</div>
-	</div>
-	<div class="mall-mod mall-mod-activity">
-		<foreach name="activites" item="item">
-				<a href="{:U('activitydetail','','')}/mactid/{$item.mactid}">
-			<div class="mall-mod-cell" style="background-image: url(/{$item.adpath});"></div>
-			</a>
-		</foreach>
-	</div>
-	
-	<div class="mall-mod-title mui-table mall-mod-market">
-		<div class="mui-table-cell mui-text-left">热门市场</div>
-		<div class="mui-table-cell mui-text-right">更多</div>
-	</div>
-	<div class="mall-mod mall-mod-market">
-		<div class="mui-table">
-			<a class="mui-table-cell mall-mod-market-cell1">
-				<span>{$markets[0].catName}</span>
-				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[0].catIcon});"></div>
-			</a>
-			<a class="mui-table-cell mall-mod-market-cell1">
-				<span>{$markets[1].catName}</span>
-				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[1].catIcon});"></div>
-			</a>
+			<div class="mui-table">
+				<for start="2" end="6">
+				<a class="mui-table-cell mall-mod-market-cell2">
+					<span>{$markets[$i].catName}</span>
+					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
+				</a>
+				</for>
+			</div>
+			<div class="mui-table">
+				<for start="6" end="10">
+				<a class="mui-table-cell mall-mod-market-cell2">
+					<span>{$markets[$i].catName}</span>
+					<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
+				</a>
+				</for>
+			</div>
 		</div>
-		<div class="mui-table">
-			<for start="2" end="6">
-			<a class="mui-table-cell mall-mod-market-cell2">
-				<span>{$markets[$i].catName}</span>
-				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
-			</a>
-			</for>
+		
+		<div class="mall-mod-title mui-table mall-mod-life">
+			<div class="mui-table-cell mui-text-left">惠生活 <span class="font10 font-gray2">{$life.lifeTitle}</span></div>
+			<div class="mui-table-cell mui-text-right"><a href="{:U('Mall/lifeindex')}">更多</a></div>
 		</div>
-		<div class="mui-table">
-			<for start="6" end="10">
-			<a class="mui-table-cell mall-mod-market-cell2">
-				<span>{$markets[$i].catName}</span>
-				<div class="mall-mod-market-thumb" style="background-image: url(/{$markets[$i].catIcon});"></div>
-			</a>
-			</for>
+		<div class="mall-mod mall-mod-life">
+			<foreach name="lifes" item="item">
+				<a class="mall-mod-life-cell" href="{:U('Malllife/lifeDetail','','')}/id/{$item.lifeId}" style="background-image: url(/{$item.logoThums})"></a>
+			</foreach>
 		</div>
-	</div>
-	
-	<div class="mall-mod-title mui-table mall-mod-life">
-		<div class="mui-table-cell mui-text-left">惠生活 <span class="font10 font-gray2">{$life.lifeTitle}</span></div>
-		<div class="mui-table-cell mui-text-right"><a href="{:U('Mall/lifeindex')}">更多</a></div>
-	</div>
-	<div class="mall-mod mall-mod-life">
-		<foreach name="lifes" item="item">
-			<a class="mall-mod-life-cell" href="{:U('Malllife/lifeDetail','','')}/id/{$item.lifeId}" style="background-image: url(/{$item.logoThums})"></a>
-		</foreach>
-	</div>
-	
-	<div class="mall-mod-title mall-mod-hot">热销推荐</div>
-	<div class="mall-mod mall-mod-hot" data-bind="foreach: goods">
-		<div class="mall-mod-hot-cell">
-			<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
-			<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
-			<p class="font15" data-bind="css: { hot: Number(isHot) == 1 }"><r>¥</r> <r class="font20" data-bind="text: shopPrice"></r></p>
+		
+		<div class="mall-mod-title mall-mod-hot">热销推荐</div>
+		<div class="mall-mod mall-mod-hot" data-bind="foreach: goods">
+			<a class="mall-mod-hot-cell" data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+				<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+				<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
+				<p class="font15" data-bind="css: { hot: Number(isHot) == 1 }"><r>¥</r> <r class="font20" data-bind="text: shopPrice"></r></p>
+			</a>
 		</div>
 	</div>
 </div>
 <include file="Public:tab"/>
+<include file="search"/>
 <script src="__JS__/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
 <script>
 	$(function() {
 		var currentCity = $("#cityLabel").text();
@@ -147,12 +151,6 @@
 	   	var cartButton = $("#cartButton");
 	   	var cardButton = $("#cardButton");
 	   	var ticketButton = $("#ticketButton");
-	   	// 搜索框
-	  	var searchInput = $("#searchInput").focus(function() {
-	  	 	searchInput.parent()[0].style.width = $(window).width() - 50 + "px";
-	   	}).blur(function() {
-	   		searchInput.parent()[0].style.width = "";
-	   	});
 	   	
 	   	// 倒计时
 	   	(function() {
@@ -204,7 +202,7 @@
 		var vm = {
 			goods: ko.observableArray(goods),
 		};
-		ko.applyBindings(vm);
+		ko.applyBindings(vm, document.getElementById("body"));
 		
 		var pageNo = 1;
 		function page() {

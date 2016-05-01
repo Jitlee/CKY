@@ -116,6 +116,16 @@ class GoodsModel extends BaseModel {
 		if($catId3 > 0) {
 			$filter['g.goodsCatId3'] = $catId3;
 		}
+
+		$keywords = I('keywords', '-');
+		if($keywords != '-') {
+			$keywordsArray = preg_split('/[\s,]+/', I('keywords'));
+			$likeArray = array();
+			foreach($keywordsArray as $key) {
+				array_push($likeArray, '%'.$key.'%');
+			}
+			$filter['goodsName'] = array('like', $likeArray, 'or');
+		}
 		
 		$join = $join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
 
@@ -153,7 +163,9 @@ class GoodsModel extends BaseModel {
 			'goodsFlag'		=> 1,
 			'goodsCatId1'	=> $catId
 		);
-		if(!empty($brandId)) {
+		
+		
+		if(!empty($brands)) {
 			$filter['brandId'] = array('in', $brands);
 		}
 		if($catId3 > 0) {

@@ -3,7 +3,7 @@
 	<a class="mall-search-bar-item cky-back"><i class="mui-icon mui-icon-left-nav"></i></a>
 	<div class="mall-search-bar-item">
 		<i class="iconfont icon-sousuo"></i>
-		<input id="searchInput" placeholder="搜索粗卡超市商品"/>
+		<input class="mall-need-search" placeholder="搜索粗卡超市商品"/>
 	</div>
 	<a id="cart" href="{:U('Cart/index')}" class="mall-search-bar-item"><i class="iconfont icon-gouwuche"></i></a>
 	<a href="{:U('Mall/category')}" class="mall-search-bar-item mall-search-bar-text-item">
@@ -32,7 +32,7 @@
 	</label>
 	<a id="filterButton" class="mall-filter-btn mui-table-cell">筛选</a>
 </div>
-<div class="mui-content" id="content">
+<div class="mui-content" id="body">
 	<div class="mall-brands mall-top-brands">
 		<foreach name="topBrands" item="item">
 			<div class="mall-brands-cell" brandId="{$item.brandId}">
@@ -61,29 +61,31 @@
 			</div>
 		</li>
 	</ul>
-</div>
-<div class="mall-right-side" style="display: none;">
-	<div class="mall-right-side-content">
-		<div class="mall-right-side-top">
-			<h5>品牌</h5>
-			<div class="mall-brands mall-side-brands">
-				<foreach name="brands" item="item">
-					<div class="mall-brands-cell" brandId="{$item.brandId}">
-						<a style="background-image: url(/{$item.brandIcon})"></a>
-					</div>
-				</foreach>
+	
+	<div class="mall-right-side" style="display: none;">
+		<div class="mall-right-side-content">
+			<div class="mall-right-side-top">
+				<h5>品牌</h5>
+				<div class="mall-brands mall-side-brands">
+					<foreach name="brands" item="item">
+						<div class="mall-brands-cell" brandId="{$item.brandId}">
+							<a style="background-image: url(/{$item.brandIcon})"></a>
+						</div>
+					</foreach>
+				</div>
 			</div>
-		</div>
-		<div class="mall-right-side-bottom mui-table">
-			<div class="mui-table-cell">
-				<span class="font12 font-black1">有<r data-bind="text: goodsCount"></r>件商品</span>
-			</div>
-			<div class="mui-table-cell mui-text-right">
-				<button id="filterSubmitButton">确定</button>
+			<div class="mall-right-side-bottom mui-table">
+				<div class="mui-table-cell">
+					<span class="font12 font-black1">有<r data-bind="text: goodsCount"></r>件商品</span>
+				</div>
+				<div class="mui-table-cell mui-text-right">
+					<button id="filterSubmitButton">确定</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<include file="search"/>
 <div class="cky-loading"></div>
 <script src="__KO__"></script>
 <script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
@@ -96,7 +98,7 @@
 			goods: ko.observableArray(goods),
 			addCartClick: onaddcartclick
 		};
-		ko.applyBindings(vm);
+		ko.applyBindings(vm, document.getElementById("body"));
 		
 		var pageNo = 1;
 		var sortType = 1;

@@ -24,7 +24,9 @@ class MallActivityAction extends BaseAction{
     		$this->checkPrivelege('wzlb_01');
     		$object = $m->getModel();
 			$object["starttime"] = date('Y-m-d');
+			$object["modecolor"] = '#c9edeb';
 			$object["endtime"] = date("Y-m-d",strtotime("+1 month"));
+			
 			$object["sort"] =0;
     	}		
     	$this->assign('object',$object);

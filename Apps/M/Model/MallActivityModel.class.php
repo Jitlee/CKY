@@ -21,6 +21,19 @@ class MallActivityModel extends BaseModel {
 		return $m->where("mactid=".(int)I('mactid'))->find();
 	 }
 	 
+	 public function activityPage(){
+        $pageSize = 8;
+		$pageNo = intval(I('pageNo', 1));
+		$time= strftime("%Y-%m-%d");
+		$map = array(
+			'status'				=> 1,
+			'starttime'		=> array('ELT', $time),
+			'endtime'		=> array('EGT', $time),
+		);
+		$m = M('mall_activity');
+		return $m->field('mactid, mactname, adpaththums') ->order('createtime desc') ->where($map)->page($pageNo, $pageSize)->select();
+	 }
+	 
 	 /**
 	  * 分页列表
 	  */
@@ -30,7 +43,7 @@ class MallActivityModel extends BaseModel {
 		$map = array(
 			'mactid' => $mactid
 		);
-		return $m->order('sort')->where($map)->select();
+		return $m->order('sort desc')->where($map)->select();
 	 }
 	 
 	  /**

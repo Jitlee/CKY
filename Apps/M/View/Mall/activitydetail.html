@@ -1,9 +1,19 @@
 <style>
-#J_6683314627 .chaoshi-act-bottom-nav{background-color:#dd2727}#J_6683314627 .chaoshi-act-bottom-nav .nav-item{color:#fff}#J_6683314627 .chaoshi-act-bottom-nav .nav-item i{color:#fff}#J_3321326089 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}#J_9919199335 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}#J_6174270560 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}#J_1910248302 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}#J_6717951166 .chaoshi-act-item-1x2{margin-top:0;margin-bottom:0}#J_2866010042 .chaoshi-act-imgTitle{margin-top:9px;margin-bottom:9px;margin-left:0;margin-right:0}
-#J_3933518853 .nav{background:#fafafa}#J_3933518853 .nav .links{height:42px}
-#J_3933518853 .nav .links a{color:#a9a9a9}#J_3933518853 .nav .links a.current{color:#1189f8}#J_3933518853 .nav .more{background:#fafafa;border-left:1px solid #eee}
-#J_3933518853 .nav .more::before{color:#1189f8}#J_3933518853 .mui-sidebar-title{background-color:#eee;color:#a9a9a9}#J_3933518853 .links .scroller a{color:#a9a9a9}#J_3933518853 .links .scroller a.current{color:#1189f8}#J_3933518853 .links .scroller a::after{background-color:#eee}</style>
-<style>.mui-zebra-page{background:#c9edeb}</style>
+#J_3933518853 .nav{background:#fafafa}
+#J_3933518853 .nav .links{height:42px}
+#J_3933518853 .nav .links a{color:#a9a9a9}
+#J_3933518853 .nav .links a.current{color:#1189f8}
+#J_3933518853 .nav .more{background:#fafafa;border-left:1px solid #eee}
+#J_3933518853 .nav .more::before{color:#1189f8}
+#J_3933518853 .mui-sidebar-title{background-color:#eee;color:#a9a9a9}
+#J_3933518853 .links .scroller a{color:#a9a9a9}
+#J_3933518853 .links .scroller a.current{color:#1189f8}
+#J_3933518853 .links .scroller a::after{background-color:#eee}
+</style>
+<style>.mui-zebra-page{
+	background:{$object.modecolor};
+	}
+</style>
 
 <style>
     #content {
@@ -28,34 +38,42 @@
   .mui-nav-tab .tab-container{
     display: block;
   }
+  .mui-sidebar{
+  	position: fixed;
+  	top:43px;	
+  }
+  
+
 </style>
 
  
-<header class="mui-bar mui-bar-nav mui-nav-white">
-	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
-		<i class="mui-icon mui-icon-left-nav"></i>
-	</button>
-	<h1 id="title" class="mui-title">{$title}</h1>
-</header>
-	<div id="content">
+	<header class="mui-bar mui-bar-nav mui-nav-white">
+		<div>
+		<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+			<i class="mui-icon mui-icon-left-nav"></i>
+		</button>
+		<h1 id="title" class="mui-title">{$title}</h1>
+		</div>
+	</header>
+	<!--<nav class="mui-sidebar chaoshi-act-nav mui-sidebar-nobtn" id="J_3933518853" style="height: 42px;">
+	    <div class="nav" style="overflow: hidden;">
+	        <div class="links" style="transition-property: -webkit-transform; transform-origin: 0px 0px 0px; transform: translate3d(0px, 0px, 0px);">
+	        	<volist name="activityms" id="vo" key='i'>	
+						 <a href="#" class='activitymitem{$vo["mactmid"]} <eq name="key" value="0"> current</eq>' >{$vo['mactmname']} {$vo["mactmid"]} </a>
+				 </volist> 
+	        </div>  
+	    <i class="more" style="display: none;"></i></div>
+	</nav>			   -->
+	 
+	<div id="content mui-content">
+		
 		<div id="activitiesLoading" class="mui-loading">
 			<div class="mui-spinner">
 			</div>
 		</div>
 	  	<div class="mui-zebra-page">
-		    <nav class="mui-sidebar chaoshi-act-nav mui-sidebar-nobtn" id="J_3933518853" style="height: 42px;">
-		        <div class="nav" style="overflow: hidden;">
-		            <div class="links" style="transition-property: -webkit-transform; transform-origin: 0px 0px 0px; transform: translate3d(0px, 0px, 0px);">
-		            	<volist name="activityms" id="vo" key='i'>	
-								 <a href="#" <eq name="key" value="0"> class="current"</eq>>{$vo['mactmname']}</a>
-						 </volist> 
-		            </div>
-		        <i class="more" style="display: none;"></i></div>
-		    </nav>
-			<div class="mui-zebra-module" id="J_3933518853" data-module-id="3933518853" data-rmc-id="3933518853" data-id="48585" data-version="3.1.5" data-spm="3933518853">
-				<div class="" data-mod-name="mui/chaoshi-act-nav/index" data-config="{}">
-				</div>
-			 </div>
+		    
+			 
 		 	<div class="mui-zebra-module" id="J_1257170825">
 				<div class="chaoshi-act-pageHead" data-mod-name="mui/chaoshi-act-pageHead/index" data-config="{}"> 
 				    <div class="act-banner" data-tag="mainPic">
@@ -67,7 +85,7 @@
 			 	<div class="mui-zebra-module  <gt name="key" value="0"> miui-hide </gt>" id="J_{$vo["mactmid"]}">
 					<div class='chaoshi-act-imgTitle chaoshi-act-floorTitle J_act_floor' data-config="{}">    
 					    <div class="imgCon" data-tag="customImgTitle">
-					        <img class="floor-img" src="/{$vo["mlogothums"]}">
+					        <img class="floor-img" src="/{$vo["mlogo"]}">
 					    </div>
 					</div>
 			 	</div>
@@ -76,82 +94,8 @@
 				    <div class="chaoshi-act-item-1x2-items J_dynamic">
 				        <div class="mui-chaoshi-item-columns" id="goodscolumns{$vo["mactmid"]}">
 				        	<!--<volist name="goods" id="vo" key='i'>		
-						        <div class="mui-chaoshi-item-column"  style="display: none;">
-									<a class="mui-chaoshi-item-column-inner" href="">
-										<div class="img-wrapper">
-											<img class="item-img img-ks-lazyload" src="/{$vo["goodsThums"]}" alt="">			 
-										</div>
-										<div class="item-main">
-											<div class="item-info">				
-												<div class="item-desc"><span class="label-text">满88送赠品</span></div>
-												<div class="item-title">{$vo["goodsName"]}</div>				
-												<div class="item-desc"><span class="plain-text">销量0件</span></div>				
-											</div>
-											<div class="item-imp">
-												<div class="price-box">
-													<div class="promotion-price no-referPrice">
-															<span class="mui-price normal red"><i class="mui-price-rmb">¥</i>
-															    <span class="mui-price-integer">{$vo["shopPrice"]}</span>
-															</span>
-													</div>
-												</div>            	
-												<div class="cart j_AddCart" data-itemid="42174710183" ></div>
-								            </div>
-										</div>
-									</a>	
-								</div>	
-							</volist>-->
-							<div class="mui-chaoshi-item-column  " data-tag="item" data-itemid="42174710183">
-								<a class="mui-chaoshi-item-column-inner" href="//detail.tmall.com/item.htm?id=42174710183&amp;acm=lb-zebra-15808-689692.1003.4.701652&amp;scm=1003.4.lb-zebra-15808-689692.ITEM_42174710183_701652">
-									<div class="img-wrapper">
-										<img class="item-img img-ks-lazyload" src="//img.alicdn.com/imgextra/i4/TB1suvDKpXXXXbUXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp" alt="清风原木纯品金装3层150抽*20包中规抽取面纸巾箱装">			 
-									</div>
-									<div class="item-main">
-										<div class="item-info">				
-											<div class="item-desc"><span class="label-text">满88送赠品</span></div>
-											<div class="item-title">清风原木纯品金装3层150抽*20包中规抽取面纸巾箱装</div>				
-											<div class="item-desc"><span class="plain-text">月销2788件</span></div>				
-										</div>
-										<div class="item-imp">
-											<div class="price-box">
-												<div class="promotion-price no-referPrice">
-														<span class="mui-price normal red"><i class="mui-price-rmb">¥</i>
-														    <span class="mui-price-integer">59</span>
-														    <span class="mui-price-decimal">.9</span>							    
-														</span>
-												</div>
-											</div>            	
-											<div class="cart j_AddCart" data-itemid="42174710183" data-pic="//img.alicdn.com/imgextra/i4/TB1suvDKpXXXXbUXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp"></div>
-							            </div>
-									</div>
-								</a>	
-							</div>
-							<div class="mui-chaoshi-item-column  " data-tag="item" data-itemid="522191209781">
-								<a class="mui-chaoshi-item-column-inner" href="//detail.tmall.com/item.htm?id=522191209781&amp;acm=lb-zebra-15808-689692.1003.4.701652&amp;scm=1003.4.lb-zebra-15808-689692.ITEM_522191209781_701652">
-									<div class="img-wrapper">
-										<img class="item-img img-ks-lazyload" src="//img.alicdn.com/imgextra/i4/TB166ohJVXXXXbZXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp" alt="清风 原木纯品金装4层140克*32卷卷筒卫生纸巾 整箱">
-									</div>
-									<div class="item-main">
-										<div class="item-info">
-											<div class="item-desc"><span class="label-text">满88送赠品</span></div>
-											<div class="item-title">清风 原木纯品金装4层140克*32卷卷筒卫生纸巾 整箱</div>				
-											<div class="item-desc"><span class="plain-text">月销2425件</span></div>				
-										</div>
-										<div class="item-imp">
-											<div class="price-box">
-												<div class="promotion-price no-referPrice">
-														<span class="mui-price normal red">
-														    <i class="mui-price-rmb">¥</i>
-														    <span class="mui-price-integer">59</span>
-														    <span class="mui-price-decimal">.9</span>
-														</span>						
-												</div>
-											</div>            	
-											<div class="cart j_AddCart" data-itemid="522191209781" data-pic="//img.alicdn.com/imgextra/i4/TB166ohJVXXXXbZXVXXXXXXXXXX_!!0-item_pic.jpg_490x330Q30s150.jpg_.webp"></div>
-							            </div>
-									</div>
-								</a>	
-							</div>
+						         
+							</volist>--> 
 					 	</div>
 					</div>
 				</div>
@@ -161,10 +105,10 @@
 	
 	 
 	 <div>
-	 	<br/><br/><br/><br/><br/>
+	 	<br/><br/> 
 	 </div>
 	 
-	 <div class="mui-chaoshi-item-column"  style="display: none;">
+	 <div class="mui-chaoshi-item-column goodsitemstemplate miui-hide">
 		<a class="mui-chaoshi-item-column-inner" href="">
 			<div class="img-wrapper">
 				<img class="item-img img-ks-lazyload" src="" alt="">			 
@@ -193,18 +137,18 @@
 <style>
 	.miui-hide{ display: none;}
 </style>
-<include file="Public:tab"/>
+ 
 <link rel="stylesheet" href="__CSS__/{:autoVer('activitydetail.css')}" />
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
 	
 	$(function(){
-	 
 		var _mactid={$object.mactid};
 		var isEOF = false;
 		var force = true;
 		var pageNo = 1; 
-		var template = $(".mui-chaoshi-item-column");		
+		var curent="0";
+		var template = $(".goodsitemstemplate");		
 		function queryByPage() {
 			if(force) { 
 				pageNo = 1;
@@ -224,15 +168,20 @@
 						pageNo = ++_pageNo;
 						$.each(list, function() {
 							//lifes.push(this);
+							if(curent !="0" && curent !=this.mactmid)
+							{
+								curent=this.mactmid;
+							}
 							var recrodList=$("#goodscolumns"+this.mactmid);
 							$("#J_"+this.mactmid).show();
 							$("#JG_"+this.mactmid).show();
 							
 							var item = template.clone();
-							item.show();
+							item.removeClass("goodsitemstemplate miui-hide");
+							//item.show();
 			       			$(".item-title", item).text(this.goodsName);
 			       			$(".mui-price-integer", item).text(this.shopPrice);
-			       			$(".plain-text", item).text("销量"+this.shopPrice+"件");
+			       			$(".plain-text", item).text("销量"+this.saleCount+"件");
 			       			$(".item-img", item).attr("src",'/'+this.goodsThums); 
 			       			recrodList.append(item);
 						});

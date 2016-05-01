@@ -105,3 +105,25 @@ function ShopCart(pickerId, shop, goods) {
 	shopCart.open = onopen;
 	shopCart.ok = onok;
 }
+
+cky.addToShopCart = function(goods) {
+	var CACHE_KEY = "cky-shop-cart";
+	var cart = cky.storage.getItem(CACHE_KEY) || { shops: {} };
+	var shopId = goods.shopId;
+	var shopName = goods.shopName;
+	var goodsId = goods.goodsId;
+	if(!cart.shops[shopId]) {
+		cart.shops[shopId] = {
+			shopId: shopId,
+			shopName: shopName,
+			goods: {}
+		};
+	}
+	
+	if(!cart.shops[shopId].goods[goodsId]) {
+		cart.shops[shopId].goods[goodsId] = goods;
+		cart.shops[shopId].goods[goodsId].count = 0;
+	}
+	cart.shops[shopId].goods[goodsId].count++;
+	cky.storage.setItem(CACHE_KEY, cart);
+}

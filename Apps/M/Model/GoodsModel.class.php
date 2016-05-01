@@ -94,18 +94,75 @@ class GoodsModel extends BaseModel {
 		return $rst;
 	}
 	
-	public function pageTop() {
-		$pageSize = (int)I('pageSize', 20);
-		$pageNo = (int)I('pageNo', 1);
-		$field = "goodsName, marketPrice, shopPrice, goodsThums, isHot";
+	public function pageTop($pageNo = 0, $pageSize = 0, $catId = 0) {
+		if($pageNo == 0) {
+			$pageSize = (int)I('pageSize', 20);
+			$pageNo = (int)I('pageNo', 1);
+			$catId = (int)I('catId');
+		}
+		$catId3 = (int)I('catId3', 0);
+		$brands = I('brands');
+		
+		$field = "goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums";
+		$filter = array(
+			'g.shopId'			=> array('gt', 0),
+			'isSale'			=> 1,
+			'goodsFlag'		=> 1,
+			'g.goodsCatId1'	=> $catId
+		);
+		if(!empty($brands)) {
+			$filter['brandId'] = array('in', $brands);
+		}
+		if($catId3 > 0) {
+			$filter['g.goodsCatId3'] = $catId3;
+		}
+		
+		$join = $join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
+
+		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
+		
+		$sortType = (int)I('sortType', 0);
+		
+		switch($sortType) {
+			case 1:
+				$order = 'isBest desc, isHot desc, goodsId desc';
+				break;
+			case 2:
+				break;
+			case 3:
+				$order = 'shopPrice asc,'.$order;
+				break;
+			case 4:
+				$order = 'shopPrice desc,'.$order;
+				break;
+		}
+		
+		$list = $this->field($field)->join($join)->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
+	}
+	
+	public function countTop() {
+		$catId = (int)I('catId');
+		$catId3 = (int)I('catId3', 0);
+		$brands = I('brands');
+		
 		$filter = array(
 			'shopId'			=> array('gt', 0),
 			'isSale'			=> 1,
 			'goodsFlag'		=> 1,
+			'goodsCatId1'	=> $catId
 		);
-		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
-		$list = $this->field($field)->where($filter)->order($order)->page($pageNo, $pageSize)->select();
-		return $list;
+		if(!empty($brandId)) {
+			$filter['brandId'] = array('in', $brands);
+		}
+		if($catId3 > 0) {
+			$filter['goodsCatId3'] = $catId3;
+		}
+		
+		$count = $this->where($filter)->count();
+//		echo $this->getLastSql();
+		return $count;
 	}
 };
 ?>

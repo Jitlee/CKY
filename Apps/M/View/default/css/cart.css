@@ -155,13 +155,22 @@
 }
 
 .cky-cart-media h5 {
-	font-size: 10px;
+/*	font-size: 10px;*/
 }
 
 .cky-cart-table-cell-goods .cky-cart-sum {
 	text-align: right;
 	min-width: 100px;
 }
+
+.cky-cart-media .mui-table {
+	table-layout: auto;
+}
+
+.cky-cart-media .mui-table .mui-table-cell {
+	padding: 0 6px;
+}
+
 .cky-cart-table-cell-goods .cky-cart-sum h4 {
 	font-style: normal;
 }

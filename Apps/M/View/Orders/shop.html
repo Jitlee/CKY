@@ -249,18 +249,18 @@
 										for(var goodsId in selectedCart.shops[shopId]) {
 											delete cart.shops[shopId].goods[goodsId];
 										}
-										if(!cky.isEmpty(selectedCart.shops[shopId])) {
-											delete selectedCart.shops[shopId];
+										if(cky.isEmpty(cart.shops[shopId])) {
+											delete cart.shops[shopId];
 										}
 									}
-									if(cky.isEmpty(selectedCart.shops)) {
+									if(cky.isEmpty(cart.shops)) {
 										cky.storage.removeItem(CACHE_KEY);
 									} else {
-										cky.storage.setKey(CACHE_KEY, cart);
+										cky.storage.setItem(CACHE_KEY, cart);
 									}
 								}
 								
-								if(data.orderIds.length == 0 && data.orderInfos[0].orderStatus == 0) {
+								if(data.orderIds.length == 1 && data.orderInfos[0].orderStatus == 0) {
 									window.location.replace("{:U('pay')}?orderId=" + data.orderIds[0]);
 								} else {
 									window.location.replace("{:U('Orders/lst')}");

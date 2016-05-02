@@ -10,7 +10,6 @@
 	bottom: 0px;
 }
 
-
 /** 搜索框样式 **/
 
 .mall-search-bar {
@@ -366,6 +365,14 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	line-height: 15px;
 }
 
+.mall-mod-hot-cell .mall-goods-prices-table .mui-table-cell:first-child {
+	padding-left: 10px;
+}
+
+.mall-mod-hot-cell .mall-goods-prices-table .mui-table-cell:last-child {
+	padding-right: 10px;
+}
+
 .mall-mod.mall-mod-hot .mall-mod-hot-cell:nth-child(odd) {
 	border-right: 2px solid #efeff4;
 }
@@ -528,6 +535,12 @@ header.mui-bar + .mall-search-bar + .mui-content {
 
 .mall-goods-prices-table {
 	padding: 10px 0;
+	width: 100%;
+	table-layout: auto;
+}
+
+.mall-goods-prices-table .mui-table-cell {
+	white-space: nowrap;
 }
 
 .mall-goods-table-cell .mall-goods-thumb {

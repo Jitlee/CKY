@@ -111,11 +111,21 @@
 		
 		<div class="mall-mod-title mall-mod-hot">热销推荐</div>
 		<div class="mall-mod mall-mod-hot" data-bind="foreach: goods">
-			<a class="mall-mod-hot-cell" data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
-				<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
-				<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
-				<p class="font15" data-bind="css: { hot: Number(isHot) == 1 }"><r>¥</r> <r class="font20" data-bind="text: shopPrice"></r></p>
-			</a>
+			<div class="mall-mod-hot-cell" data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+				<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+					<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+					<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
+					<p class="font12" data-bind="css: { hot: Number(isHot) == 1 }">销量<span data-bind="text: saleCount"></span>件</p>
+				<a/>
+				<div class="mui-table mall-goods-prices-table">
+					<div class="mui-table-cell">
+						<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
+					</div>
+					<div class="mui-table-cell mui-text-right">
+						<a data-bind="click: $parent.addCartClick" class="cky-add-cart-btn"></a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -201,6 +211,7 @@
 	   	var goods = [];
 		var vm = {
 			goods: ko.observableArray(goods),
+			addCartClick: onaddcartclick
 		};
 		ko.applyBindings(vm, document.getElementById("body"));
 		
@@ -218,5 +229,11 @@
 			});
 		}
 		util.onScrollEnd(page);
+		
+		// 购物车
+		function onaddcartclick(obj, evt) {
+			$(evt.delegateTarget).flyTo(cartButton);
+			cky.addToShopCart(obj);
+		}
 	});
 </script>

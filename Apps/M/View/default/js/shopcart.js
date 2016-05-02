@@ -129,6 +129,7 @@ cky.addToShopCart = function(goods) {
 	if(!cart.shops[shopId].goods[goodsId]) {
 		cart.shops[shopId].goods[goodsId] = goods;
 		cart.shops[shopId].goods[goodsId].count = 0;
+		_goods = goods;
 	} else {
 		_goods.activeId = goods.activeId;
 		_goods.activeType = goods.activeType;

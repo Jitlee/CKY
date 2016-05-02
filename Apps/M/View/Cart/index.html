@@ -36,14 +36,19 @@
 					<div class="cky-cart-thums" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')'}"></div>
 				</div>
 				<div class="cky-cart-media">
-					<p class="cky-ellipsis2" data-bind="text: goodsName"></p>
-					<h5><r class="font12" data-bind="text: freeTitle, visible: freeTitle"></r></h5>
-					<h5></h5>
-				</div>
-				<div class="cky-cart-sum">
-					<r data-bind="text: '¥' + shopPrice"></r>
-					<div><r class="font12" data-bind="text: '¥' + freeMoney, visible: freeTitle"></r></div>
-					<h4 data-bind="text: 'x' + count"></h4>
+					<div class="mui-table">
+						<p class="cky-ellipsis2 mui-table-cell" data-bind="text: goodsName"></p>
+						<p class="mui-table-cell mui-text-right">
+							<r data-bind="text: '¥' + shopPrice"></r>
+						</p>
+					</div>
+					<div class="mui-table font10" data-bind="visible: freeTitle">
+						<r class="mui-table-cell mui-ellipsis" data-bind="text: freeTitle"></r>
+						<p class="mui-table-cell mui-text-right">
+							<r data-bind="text: '¥' + freeMoney"></r>
+						</p>
+					</div>
+					<h4 class="mui-text-right" data-bind="text: 'x' + count"></h4>
 				</div>
 				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.shopId, goodsId: goodsId }">删除</a>
 			</div>

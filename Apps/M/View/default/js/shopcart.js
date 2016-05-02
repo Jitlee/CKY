@@ -19,6 +19,9 @@ function ShopCart(pickerId, shop, goods) {
 		shops: {}
 	};
 	
+	goods.shopPrice = Number(goods.shopPrice);
+	goods.count = Number(goods.count);
+	
 	var hasCart = cart.shops[shopId] && cart.shops[shopId].goods[goods.goodsId];
 	if(hasCart) {
 		goodsCount = cart.shops[shopId].goods[goods.goodsId].count;
@@ -73,15 +76,14 @@ function ShopCart(pickerId, shop, goods) {
 		var _shop = $.extend({}, shop);
 		var _goods = $.extend({}, goods);
 		_goods.count =  Number(num.text());
+		calcFreeMoney(_goods);
 		if(cartType == "add") {
 			// 添加到购物车
-			if(!hasCart) {
-				if(!cart.shops[shopId]) {
-					cart.shops[shopId] = _shop;
-					cart.shops[shopId].goods = {};
-				}
-				cart.shops[shopId].goods[goods.goodsId] = _goods;
+			if(!cart.shops[shopId]) {
+				cart.shops[shopId] = _shop;
+				cart.shops[shopId].goods = {};
 			}
+			cart.shops[shopId].goods[goods.goodsId] = _goods;
 			
 			// 保存购物车
 			cky.storage.setItem(CACHE_KEY, cart);
@@ -112,6 +114,9 @@ cky.addToShopCart = function(goods) {
 	var shopId = goods.shopId;
 	var shopName = goods.shopName;
 	var goodsId = goods.goodsId;
+	
+	goods.shopPrice = Number(goods.shopPrice);
+	
 	if(!cart.shops[shopId]) {
 		cart.shops[shopId] = {
 			shopId: shopId,
@@ -120,10 +125,43 @@ cky.addToShopCart = function(goods) {
 		};
 	}
 	
+	var _goods = cart.shops[shopId].goods[goodsId];
 	if(!cart.shops[shopId].goods[goodsId]) {
 		cart.shops[shopId].goods[goodsId] = goods;
 		cart.shops[shopId].goods[goodsId].count = 0;
+	} else {
+		_goods.activeId = goods.activeId;
+		_goods.activeType = goods.activeType;
+		_goods.activeAmount = Number(goods.activeAmount);
 	}
-	cart.shops[shopId].goods[goodsId].count++;
+	_goods.count++;
+	calcFreeMoney(_goods);
 	cky.storage.setItem(CACHE_KEY, cart);
+}
+	
+function calcFreeMoney(goods) {
+	var freeMoney = 0;
+	var freeTitle = "";
+	if(goods.activeId) {
+		switch(goods.activeType) {
+			case "m2f1": // 买二付一
+				freeMoney = Math.floor(goods.count / 2.0) * goods.shopPrice;
+				freeTitle = "买二付一";
+				if(goods.count%2 == 1) {
+					freeTitle += "(还差一件)";
+				}
+				break;
+			case "m2mustless": // 第二件立减
+				if(goods.activeAmount > 0) {
+					freeMoney = goods.count > 1 ? goods.activeAmount : 0;
+					freeTitle = "第二件立减" + goods.activeAmount;
+					if(goods.count < 2) {
+						freeTitle += "(还差一件)";
+					}
+				}
+				break;
+		}
+	}
+	goods.freeMoney = freeMoney;
+	goods.freeTitle = freeTitle;
 }

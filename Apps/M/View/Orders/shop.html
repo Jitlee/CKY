@@ -50,6 +50,14 @@
 							<span data-bind="text: shopPrice + '元'"></span>
 						</div>
 					</div>
+						<!-- ko if: freeTitle -->
+						<div class="cky-order-item cky-relative font12">
+							<r class="cky-order-title" data-bind="text: freeTitle"></r>
+							<r class="cky-update">
+								<r data-bind="text: freeMoney + '元'"></r>
+							</r>
+						</div>
+						<!-- /ko -->
 					<!-- /ko -->
 					
 					
@@ -136,8 +144,9 @@
 					shop.fastMoney = 0;
 					for(var goodsId in selectedCart.shops[shopId]) {
 						var _goods = cart.shops[shopId].goods[goodsId];
+						
 						shop.goods.push(_goods);
-						_total += _goods.count * _goods.shopPrice;
+						_total += _goods.count * _goods.shopPrice - _goods.freeMoney;
 						vm.goods.push(_goods);
 					}
 					vm.total += _total;
@@ -159,7 +168,7 @@
 					for(var goodsId in selectedCart.shops[shopId].goods) {
 						var _goods = selectedCart.shops[shopId].goods[goodsId];
 						shop.goods.push(_goods);
-						_total += _goods.count * _goods.shopPrice;
+						_total += _goods.count * _goods.shopPrice - _goods.freeMoney;
 						vm.goods.push(_goods);
 					}
 					vm.total += _total;
@@ -267,7 +276,7 @@
 					});
 				});
 			});
-		} else {
+		} else { // end if(selectedCart) {
 			if(from == "direct") { // 直接购买
 				// 空的
 				cky.autoDirect(

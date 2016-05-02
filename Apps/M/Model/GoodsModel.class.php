@@ -41,16 +41,25 @@ class GoodsModel extends BaseModel {
 	
 	public function detail($queryType = 0) {
 		$goodsId = I('id');
-		$field = 'goodsId, g.shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime';
+		$field = 'g.goodsId, g.shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime'
+			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
 		$join = 'g inner join __SHOPS__ s on s.shopId = g.shopId';
-		return $this->field($field)->join($join)->find($goodsId);
+		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';
+		$leftJoin2 = 'left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid';
+		$data = $this->field($field)->join($join)->join($leftJoin1)->join($leftJoin2)->where(array('g.goodsId'=> $goodsId))->find();
+	
+		return $data;
 	}
 	
 	public function info($goodsId, $goodsAttrId) {
-		$sql = "SELECT g.*,sp.shopId,sp.shopName,sp.deliveryFreeMoney,sp.deliveryMoney,sp.deliveryStartMoney,sp.isInvoice,sp.serviceStartTime startTime,sp.serviceEndTime endTime,sp.deliveryType 
-				FROM __PREFIX__goods g, __PREFIX__shops sp 
-				WHERE g.shopId = sp.shopId AND g.goodsId = $goodsId AND g.isSale=1 AND g.goodsFlag = 1 AND g.goodsStatus = 1";
+		$sql = "SELECT g.*,sp.shopId,sp.shopName,sp.deliveryFreeMoney,sp.deliveryMoney,sp.deliveryStartMoney,sp.isInvoice,sp.serviceStartTime startTime,sp.serviceEndTime endTime,sp.deliveryType
+					,mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount
+				FROM __PREFIX__goods g inner join __PREFIX__shops sp on g.shopId = sp.shopId
+					left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId
+					left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid
+				WHERE g.goodsId = $goodsId AND g.isSale=1 AND g.goodsFlag = 1 AND g.goodsStatus = 1";
 		$rs = $this->queryRow($sql);
+//		echo $this->getLastSql();
 	    if(!empty($rs) && $rs['attrCatId']>0){
         	$sql = "select ga.id,ga.attrPrice,ga.attrStock,a.attrName,ga.attrVal,ga.attrId from __PREFIX__attributes a,__PREFIX__goods_attributes ga
 			        where a.attrId=ga.attrId and a.catId=".$rs['attrCatId']." 
@@ -103,7 +112,8 @@ class GoodsModel extends BaseModel {
 		$catId3 = (int)I('catId3', 0);
 		$brands = I('brands');
 		
-		$field = "goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums";
+		$field = "g.goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums"
+			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
 		$filter = array(
 			'g.shopId'			=> array('gt', 0),
 			'isSale'			=> 1,
@@ -127,7 +137,9 @@ class GoodsModel extends BaseModel {
 			$filter['goodsName'] = array('like', $likeArray, 'or');
 		}
 		
-		$join = $join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
+		$join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
+		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';
+		$leftJoin2 = 'left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid';
 
 		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
 		
@@ -147,7 +159,10 @@ class GoodsModel extends BaseModel {
 				break;
 		}
 		
-		$list = $this->field($field)->join($join)->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+		$list = $this->field($field)->join($join)
+			->join($leftJoin1)
+			->join($leftJoin2)
+			->where($filter)->order($order)->page($pageNo, $pageSize)->select();
 //		echo $this->getLastSql();
 		return $list;
 	}

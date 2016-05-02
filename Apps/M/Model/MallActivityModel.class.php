@@ -55,11 +55,12 @@ class MallActivityModel extends BaseModel {
 		 
 	 	$sql = "
 select 
-	ag.mactid,ag.mactmid,ag.actgoodsid,mam.mactmname,mam.mlogothums,mam.lineshownum
-	,g.* 
+	ag.mactid,ag.mactmid,ag.actgoodsid,mam.mactmname,mam.mlogothums,mam.lineshownum,p.shopName
+	,g.*,mam.mactId activeId, mam.priceMode activeType,mam.amount activeAmount
 from cky_goods g 
 inner join cky_mall_activitygoods ag on ag.goodsid=g.goodsid  
 inner join cky_mall_activitym mam on ag.mactmid = mam.mactmid
+left join  cky_shops p on p.shopId=g.shopId 
 where goodsStatus=1 and goodsFlag=1  and g.isSale=1  and ag.mactid=$mactid
 order by mam.sort desc,ag.mactmid limit $pageSize,$pageNum";    
 		 

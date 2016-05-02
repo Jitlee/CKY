@@ -42,7 +42,7 @@
 
  <h3>
  	
- 	<input id="sing"  type="text"/>
+ 	<input id="sing"  width="200px" type="text"/>
  </h3>
 
       <h3 id="menu-pay">微信支付接口</h3>
@@ -53,26 +53,28 @@
       timestamp:= {$signPackage.timestamp}<br/>
       nonceStr: ='{$signPackage.nonceStr}'<br/>
       signature: ='{$signPackage.signature}'<br/>
-      <div>
-      rawString: = '{$signPackage.rawString}'
+       
 		</div>
  </div>
-  <script src="__JQ__"></script>
-  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+  
+  
 <script>  
-	var shareData = {
+var shareData = {
     title: '粗卡分享',
     desc: '粗卡分享粗卡分享粗卡分享粗卡分享',
     link: window.location.href,
     imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0'
-  };
+};
   
-//	var signPackage=new Object(); 
-//signPackage.appId='{$signPackage.appId}';
-//signPackage.timestamp={$signPackage.timestamp};
-//signPackage.nonceStr='{$signPackage.nonceStr}';
-//signPackage.signature='{$signPackage.signature}';
+var signPackage=new Object(); 
+signPackage.appId='{$signPackage.appId}';
+signPackage.timestamp={$signPackage.timestamp};
+signPackage.nonceStr='{$signPackage.nonceStr}';
+signPackage.signature='{$signPackage.signature}';
 </script>
-<script type="text/javascript" src="__JS__/wxjsapi.js?v=1123e1"></script>
+<script src="__JQ__"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}"></script>
+<!--<script type="text/javascript" src="__JS__/wxjsapi.js?v=1123e1"></script>-->
 </body>
 </html>

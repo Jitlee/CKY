@@ -33,6 +33,11 @@ class MalllifeAction extends BaseAction{
 		$m = D('M/Malllife');
 		$data = $m->get();
 		$goods=$m->getgoods();
+		
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
 
 		$this->assign('data', $data);
 		$this->assign('childitems', $goods);

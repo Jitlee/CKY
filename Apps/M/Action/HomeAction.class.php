@@ -14,7 +14,7 @@ class HomeAction extends BaseAction {
 		$openid=$this->GetOpenid();
 		if(empty($openid))			 
 		{
-			echo dump($userlogin);
+			//echo dump($userlogin);
 			$this->display("getwxerror");
 			exit;
 		}

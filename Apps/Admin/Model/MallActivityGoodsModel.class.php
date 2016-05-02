@@ -29,7 +29,7 @@ class MallActivityGoodsModel extends BaseModel {
 	 		  inner join __PREFIX__mall_activitym mam on ag.mactmid = mam.mactmid
 	 	      left join  __PREFIX__goods_cats gc on g.goodsCatId3=gc.catId 
 	 	      left join  __PREFIX__shops_cats sc on sc.catId=g.shopCatId2,__PREFIX__shops p 
-	 	      where goodsStatus=1 and goodsFlag=1 and p.shopId=g.shopId and g.isSale=1";
+	 	      where goodsStatus=1 and goodsFlag=1 and p.shopId=g.shopId and g.isSale=1  and g.goodsCatId1=3 ";
 
 	 	if($shopName!='')$sql.=" and (p.shopName like '%".$shopName."%' or p.shopSn like '%".$shopName."%')";
 	 	if($goodsName!='')$sql.=" and (g.goodsName like '%".$goodsName."%' or g.goodsSn like '%".$goodsName."%')";
@@ -56,7 +56,7 @@ class MallActivityGoodsModel extends BaseModel {
 	 	left join cky_mall_activitygoods ag on ag.goodsid=g.goodsid  and ag.mactid=$mactid
 	 	      left join __PREFIX__goods_cats gc on g.goodsCatId3=gc.catId 
 	 	      left join __PREFIX__shops_cats sc on sc.catId=g.shopCatId2,__PREFIX__shops p 
-	 	      where goodsStatus=1 and goodsFlag=1 and p.shopId=g.shopId and g.isSale=1 and ISNULL(ag.actgoodsid)";
+	 	      where goodsStatus=1 and goodsFlag=1   and g.goodsCatId1=3 and p.shopId=g.shopId and g.isSale=1 and ISNULL(ag.actgoodsid)";
 	 	
 
 //	 	if($goodsCatId2>0)$sql.=" and g.goodsCatId2=".$goodsCatId2;
@@ -85,7 +85,7 @@ class MallActivityGoodsModel extends BaseModel {
 	from 
 		cky_goods g 
 	where 
-		g.goodsStatus=1 and g.goodsFlag=1  and g.isSale=1
+		g.goodsStatus=1 and g.goodsFlag=1  and g.isSale=1  and g.goodsCatId1=3
 		and g.goodsid in($id)  
 		and goodsid not in(select img.goodsid from cky_mall_activitygoods img where  img.mactid=$mactid)
 ";

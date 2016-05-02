@@ -1,12 +1,13 @@
-function initconfig(signPackage)
+//var signPackage=new Object(); 
+function initconfig()
 {
 	
 	wx.config({
-	      debug: true,
-	      appId: signPackage.appId,
-	      timestamp: signPackage.timestamp,
-	      nonceStr: signPackage.nonceStr,
-	      signature: signPackage.signature,
+	      debug: false,
+	      appId: 		signPackage.appId,
+	      timestamp: 	signPackage.timestamp,
+	      nonceStr: 	signPackage.nonceStr,
+	      signature: 	signPackage.signature,
 	      jsApiList: [
 	        'checkJsApi',
 	        'onMenuShareTimeline',
@@ -28,16 +29,17 @@ function initconfig(signPackage)
 	      ]
  	});
 }
+
 $(document).ready(function(){
 
-	$.getJSON("/index.php/M/Wx/getsharekey", {v:1.100100}, function(data) {
-		alert(data.appId);
-		  alert(data.timestamp);
-		  alert(data.nonceStr);
-		  $("#sing").val(data.signature);
-		  alert(data.signature);
-		initconfig(data);
-	});
+//	$.getJSON("/index.php/M/Wx/getsharekey", {v:1.100100}, function(data) {
+//		signPackage=new Object(); 
+//		signPackage.appId=data.appId;
+//		signPackage.timestamp=data.timestamp;
+//		signPackage.nonceStr=data.nonceStr;
+//		signPackage.signature=data.signature; 
+		initconfig();
+//	});
 	
  
 wx.ready(function () {	
@@ -152,10 +154,14 @@ wx.ready(function () {
 //		    }
 //		});
 //}; 
-  
+  var defultimg='http://cky.ritacc.net/Public/images/cuka.jpg?ee20160502';
+  if(shareData.imgUrl=='')
+  {
+  	shareData.imgUrl=defultimg;
+  }
   wx.onMenuShareAppMessage(shareData);
   wx.onMenuShareQQ(shareData);
-  	wx.onMenuShareWeibo(shareData);
+  wx.onMenuShareWeibo(shareData);
   wx.onMenuShareTimeline(shareData);
   
 });

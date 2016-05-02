@@ -62,7 +62,7 @@
 	   params.discount1 = $('#discount1').val();
 	   params.consamount2 = $('#consamount2').val();
 	   params.discount2 = $('#discount2').val();	   
-	   params.lineshownum = $("#lineshownum").val();
+	   params.lineshownum =1;// $("#lineshownum").val();
 	   params.sort = $('#sort').val();
 	   
 	   //alert(params.efficacyEData);
@@ -111,17 +111,6 @@
   			pricemode3.show();
   			if(pricemode =="mxdiscount")
 		   	{
-		   		$("#spancon10").html("满");             		 
-				$("#spancon11").html("元");             			
-				$("#spancon1010").html("立减");             			
-				$("#spancon1011").html("元");             			
-				$("#spancon20").html("满");             			
-				$("#spancon21").html("元");
-				$("#spancon2020").html("立减");             			
-				$("#spancon2021").html("元");
-		   	}
-		   	else
-		   	{
 		   		$("#spancon10").html("第");             		 
 				$("#spancon11").html("件");             			
 				$("#spancon1010").html("");             			
@@ -130,6 +119,17 @@
 				$("#spancon21").html("件");
 				$("#spancon2020").html("");             			
 				$("#spancon2021").html("折");
+		   	}
+		   	else if(pricemode =="mxlessxmxlessx") //满xx减xx ...
+		   	{	
+		   		$("#spancon10").html("满");             		 
+				$("#spancon11").html("元");             			
+				$("#spancon1010").html("立减");             			
+				$("#spancon1011").html("元");             			
+				$("#spancon20").html("满");             			
+				$("#spancon21").html("元");
+				$("#spancon2020").html("立减");             			
+				$("#spancon2021").html("元");
 		   	}
   		}
    }
@@ -147,7 +147,7 @@
 					<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
 				</div>
 				<div style="clear:both;"></div>
-				<div >&nbsp;&nbsp;图片大小:200 x 50 (px)(格式为 gif, jpg, jpeg, png),活动为自定义必须选择图片。</div>
+				<div >&nbsp;&nbsp;图片大小:200 x 50 (px)(格式为 gif, jpg, jpeg, png),图片显示在商城活动明细分类。</div>
 				<input type="hidden" name="dir" value="mallactivity">
 				<input type="hidden" name="width" value="400">
 				<input type="hidden" name="folder" value="Filedata">
@@ -190,11 +190,11 @@
              <td>	 
              	<select id='pricemode'   style="width: 150px;">
 	                <option value='noprice' <if condition="$object['pricemode'] == 'noprice'">selected</if>>普通(爆款、低致)</option>
-	                <option value='oneprice' <if condition="$object['pricemode'] == 'oneprice'">selected</if>>统一价格</option>
+	                <!--<option value='oneprice' <if condition="$object['pricemode'] == 'oneprice'">selected</if>>统一价格</option>-->
 	                <option value='m2mustless' <if condition="$object['pricemode'] == 'm2mustless'">selected</if>>第二件立减</option>
 	                <option value='m2f1' <if condition="$object['pricemode'] == 'm2f1'">selected</if>>买二付一</option>
 	                <option value='mxdiscount' <if condition="$object['pricemode'] == 'mxdiscount'">selected</if>>x件x折x件x折</option>
-	                <option value='mxlessxmxlessx' <if condition="$object['pricemode'] == 'mxlessxmxlessx'">selected</if>>满x减x满x减x</option>
+	                <!--<option value='mxlessxmxlessx' <if condition="$object['pricemode'] == 'mxlessxmxlessx'">selected</if>>满x减x满x减x</option>-->
 	             </select> 
              </td>
            </tr>
@@ -222,7 +222,7 @@
              		</div>
              </td>
            </tr>           
-           <tr>
+           <!--<tr>
              <th align='right'>每行显示数量<font color='red'>*</font>：</th>
              <td>
              	<select id='lineshownum'  style="width: 150px;">
@@ -230,7 +230,7 @@
 	                <option value='definition' <if condition="$object['lineshownum'] == 1">selected</if>>2</option>
 	            </select>
              </td>
-           </tr>
+           </tr>-->
            <tr>
              <th align='right'>排序<font color='red'>*</font>：</th>
              <td><input type='text' id='sort' class="form-control rtc-ipt" value='{$object.sort}' style='width:300px' maxLength='5'/></td>

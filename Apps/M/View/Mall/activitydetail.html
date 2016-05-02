@@ -83,7 +83,7 @@
 				</div>
 		 	</div>
 		 	<volist name="activityms" id="vo" key='i'>
-			 	<div class="mui-zebra-module  <gt name="key" value="0"> miui-hide </gt>" id="J_{$vo["mactmid"]}">
+			 	<div class="mui-zebra-module  miui-hide" id="J_{$vo["mactmid"]}">
 					<div class='chaoshi-act-imgTitle chaoshi-act-floorTitle J_act_floor' data-config="{}">    
 					    <div class="imgCon" data-tag="customImgTitle">
 					        <img class="floor-img" src="/{$vo["mlogo"]}">
@@ -91,7 +91,7 @@
 					</div>
 			 	</div>
 			 	
-			 	<div class='chaoshi-act-item-1x2 <gt name="key" value="0"> miui-hide </gt>'   id="JG_{$vo["mactmid"]}" style="padding-top: 0px;">
+			 	<div class='chaoshi-act-item-1x2 miui-hide'   id="JG_{$vo["mactmid"]}" style="padding-top: 0px;">
 				    <div class="chaoshi-act-item-1x2-items J_dynamic">
 				        <div class="mui-chaoshi-item-columns" id="goodscolumns{$vo["mactmid"]}">
 				        	<!--<volist name="goods" id="vo" key='i'>		
@@ -184,6 +184,7 @@
 			       			$(".mui-price-integer", item).text(this.shopPrice);
 			       			$(".plain-text", item).text("销量"+this.saleCount+"件");
 			       			$(".item-img", item).attr("src",'/'+this.goodsThums);
+			       			$(".label-text", item).text(this.mactmname);
 			       			$(".mui-chaoshi-item-column-inner", item).attr("href",'{:U('Goods/detail')}?id='+this.goodsId);
    							 $(".cky-add-cart-btn", item).data("item", this); 
 			       			
@@ -206,7 +207,7 @@
 			$obj.flyTo(cartButton);
 			var json = $obj.data("item");
 			if(!json.shopName) {
-				json.shopName = "[商城]";
+				json.shopName =  "[商城]";
 			}
 			cky.addToShopCart(json);
 			evt.stopPropagation();

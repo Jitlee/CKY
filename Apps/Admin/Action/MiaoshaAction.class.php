@@ -39,6 +39,29 @@ class MiaoshaAction extends BaseAction{
         
    		$this->display('list');
 	}
+	public function history(){
+		$this->isLogin(); 
+		
+		$m = D('Admin/Miaosha');		 
+    	$page = $m->queryHistoryByPage();
+    	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
+    	$page['pager'] = $pager->show();
+    	$this->assign('Page',$page); 
+        
+   		$this->display('history');
+	}
+
+	public function order(){
+		$this->isLogin(); 		
+		$m = D('Admin/Miaosha');		 
+    	$page = $m->queryOrderByPage();
+    	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
+    	$page['pager'] = $pager->show();
+    	$this->assign('Page',$page); 
+        
+   		$this->display('history');
+	}
+	
 	/**
 	 * 跳到新增/编辑页面
 	 */

@@ -24,9 +24,8 @@ class MiaoshaModel extends BaseModel {
 		}
      	$goodsCatId2 = (int)I('goodsCatId2',0);
      	$goodsCatId3 = (int)I('goodsCatId3',0);
-     	$isAdminBest = (int)I('isAdminBest',-1);
-     	$isAdminRecom = (int)I('isAdminRecom',-1);
-	 	$sql = "select g.*,gc.catName,ms.jishijiexiao
+     	 
+	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
 	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
@@ -40,6 +39,55 @@ class MiaoshaModel extends BaseModel {
 	 	$sql.="  order by goodsId desc";   
 		return $m->pageQuery($sql);
 	 }
+
+	public function queryHistoryByPage($goodsCatId1=0){
+        $m = M('goods');
+     	$goodsId = I('goodsId');
+	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
+	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
+		 	from __PREFIX__goods g 
+			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
+			inner join __PREFIX__miaosha_history ms on ms.miaoshaId=g.miaoshaId 
+			where goodsFlag=1  and goodsId=$goodsId"; 
+
+	 	$sql.="  order by ms.qishu desc";   
+		return $m->pageQuery($sql);
+	} 
+	
+	public function queryOrderByPage($goodsCatId1=0){
+        $m = M('goods');
+     	$goodsId = I('goodsId');
+     	$qishu = I('qishu');
+	 	$sql = "
+select 
+	mm.mmid, mm.createTime, mm.miaoshaCount, mm.uid,mm.qishu,  u.trueName userName,g.*
+from  
+cky_member_miaosha mm
+inner join cky_member  u on mm.uid = u.uid
+left join cky_miaosha_history g on g.miaoshaId=mm.miaoshaId and mm.qishu=g.qishu
+where goodsFlag=1  and goodsId=$goodsId";
+ 
+
+	 	$sql.="  order by ms.qishu desc";   
+		return $m->pageQuery($sql);
+	}
+	
+//public function lst() {
+//$m = M('goods');
+//   	$goodsId = I('goodsId');
+//	 	$sql = "
+//select 
+//	mm.mmid, mm.createTime, mm.miaoshaCount, mm.uid,mm.qishu,  u.trueName userName,g.*
+//from  
+//cky_member_miaosha mm
+//inner join cky_member  u on mm.uid = u.uid
+//left join cky_miaosha_history g on g.miaoshaId=mm.miaoshaId and mm.qishu=g.qishu
+//where goodsFlag=1  and goodsId=$goodsId";
+// 
+//
+//	 	$sql.="  order by ms.qishu desc";   
+//		return $m->pageQuery($sql);
+//	}
 	 
 	 public function get(){
 	 	$m = M('goods');

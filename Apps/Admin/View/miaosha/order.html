@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <style type="text/css">
+		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+	  </style>
+   </head>
+   <script>
+    
+   </script>
+   <body class='rtc-page'>
+    <form method='post'   autocomplete="off">
+        
+       </form>
+       <div class='rtc-body'>
+       
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+               <th width='50'>序号</th>
+               <th>名称</th>
+               <th  >时间</th>
+               <th >数量</th>
+               
+               <th>客户名</th>
+               <th>期数</th>
+               
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+             <tr >
+               <td> {$i}</td>
+               <td>
+	               {$vo['subtitle']}
+               </td>
+               <td>{$vo['createtime']}&nbsp;</td>
+               
+               <td>{$vo['miaoshaCount']}&nbsp;</td>
+               <td>{$vo['userName']}&nbsp;</td>
+               
+               <td>{$vo['qishu']}&nbsp;</td> 
+             </tr>
+             </volist>
+             <tr>
+                <td colspan='13' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

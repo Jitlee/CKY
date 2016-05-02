@@ -178,7 +178,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	<!-- 商品基础信息 -->
 	<div class='rtc-tab-item' style="position: relative;style='display:none'">
 		<iframe name="upload" style="display:none"></iframe>
-		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:155px;left:517px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
+		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:150px;left:517px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 			<div style="position:relative;">
 			<input id="goodsImg" name="goodsImg" type="text" value="{$object.goodsImg}" readonly style="margin-right:4px;float:left;margin-left:8px;width:140px;"/>
 			<div class="div1">
@@ -239,19 +239,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              	
              </td>
            </tr>-->
-          
-           <tr>
-             <th width='120' align='right'>限购数量<font color='red'>*</font>：</th>
-             <td><input type='text' id='xiangou' name='xiangou' class="form-control rtc-ipt" value='{$object.xiangou}'  maxLength='25'/></td>
-           </tr>
-            <tr>
-             <th width='120' align='right'>最大期数<font color='red'>*</font>：</th>
-             <td colspan='3'><input type='text' id='maxqishu' name='maxqishu' class="form-control rtc-ipt" value='{$object.maxqishu}'  maxLength='25'/>             	
-             	期，期数上限为65535期,每期揭晓后会根据此值自动添加新一期商品！
-             </td>
-           </tr>
-            
-           <tr class="form-inline">
+          <tr class="form-inline">
 				<th width='120' align='right'>
 					<label for="jishijiexiao" class="control-label">即时揭晓<font color='red'>*</font>：</label>
 				</th>
@@ -274,6 +262,18 @@ var filetypes = ["gif","jpg","png","jpeg"];
 					</script>
 				</td>
 			</tr>
+           <tr>
+             <th width='120' align='right'>限购数量<font color='red'>*</font>：</th>
+             <td><input type='text' id='xiangou' name='xiangou' class="form-control rtc-ipt" value='{$object.xiangou}'  maxLength='25'/></td>
+           </tr>
+            <tr>
+             <th width='120' align='right'>最大期数<font color='red'>*</font>：</th>
+             <td colspan='3'><input type='text' id='maxqishu' name='maxqishu' class="form-control rtc-ipt" value='{$object.maxqishu}'  maxLength='25'/>             	
+             	期，期数上限为65535期,每期揭晓后会根据此值自动添加新一期商品！
+             </td>
+           </tr>
+            
+           
            <tr>
              <th width='120'>商品信息：</th>
              <td colspan='3'>
@@ -356,9 +356,9 @@ var filetypes = ["gif","jpg","png","jpeg"];
            <tr>
              <td colspan='3' style='padding-left:320px;'>
                  <button class='rtc-btn-query' type="submit">保&nbsp;存</button>
-                 <if condition="$umark !='toEdit' ">
-                 <button class='rtc-btn-query' type="button" onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
-                 </if>
+                 
+                 <button class='rtc-btn-query' type="button" onclick='javascript:location.href="{:U('Admin/Miaosha/index')}"'>返&nbsp;回</button>
+                 
              </td>
            </tr>
           

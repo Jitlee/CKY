@@ -168,13 +168,12 @@
              <!--<select id='areaId2' name='areaId2'>
                <option value='0'>请选择</option>
              </select>-->
-  平台分类：<select id='goodsCatId1' name='goodsCatId1' onchange='javascript:getCatList("goodsCatId2",this.value,0)'>
-	                <option value='0'>请选择</option>
+  平台分类：<select id='goodsCatId1' name='goodsCatId1' onchange='javascript:getCatList("goodsCatId2",this.value,0)'>	                
 	                <volist name="goodsCatsList" id="vo">
 	                <option value='{$vo['catId']}' <if condition="$goodsCatId1 == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
 	                </volist>
 	             </select>
-	             <select id='goodsCatId2' name='goodsCatId2' onchange='javascript:getCatList("goodsCatId3",this.value,1);'>
+	             <select id='goodsCatId2' name='goodsCatId2'>
 	                <option value='0'>请选择</option>
 	             </select>
 	             <!--<select id='goodsCatId3' name='goodsCatId3'>
@@ -218,12 +217,16 @@
                <th width='60'>平台分类</th>
                <th width='25'>禁售</th>
                
+               
+               <th width='40'>最大期数</th>
+               <th width='40'>当前期数</th>
                <th width='40'>总需份数</th>               
                <th width='40'>剩余数</th>
-               <th width='40'>最大期数</th>
+               
+               
                <th width='40'>即时揭晓</th>
                
-               <th width='45'>销量</th>
+              <!-- <th width='45'>销量</th>-->
                <th width='80'>操作</th>
              </tr>
            </thead>
@@ -246,25 +249,28 @@
 	               		<span class="btn btn-danger glyphicon ">禁售</span>&nbsp;
 	               </if>
                </td>
-               
-               <td>{$vo['canyurenshu']}&nbsp;</td>
-               <td>{$vo['shengyurenshu']}&nbsp;</td>
                <td>{$vo['maxqishu']}&nbsp;</td>
-               
+               <td>{$vo['qishu']}&nbsp;</td>
+               <td>{$vo['zongrenshu']}&nbsp;</td>
+               <td>{$vo['shengyurenshu']}&nbsp;</td>
                <td>
                		<if condition="$vo['jishijiexiao']==0 ">不参与<else/><span class='label btn-danger glyphicon glyphicon-pencil'>{$vo['jishijiexiao']}小时</span></if>
                </td>
-               
-               
- 
-               <td>{$vo['saleCount']}</td>
+               <!--<td>{$vo['saleCount']}</td>-->
                <td>
-               <a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/toEdit",array("id"=>$vo["goodsId"]))}'>编辑</a> 
+               	<if condition="$vo['goodsStatus'] lt 2 ">
+               		<a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/toEdit",array("id"=>$vo["goodsId"]))}'>编辑</a>
+               </if>
                <php>if(in_array('splb_04',$RTC_STAFF['grant'])){</php>
 	               	<if condition="$vo['goodsStatus']==1 ">
 	               		<button type="button" class="btn btn-danger glyphicon glyphicon-pencil" onclick="javascript:changeStatus({$vo['goodsId']},0)">禁售</button>&nbsp;
 	               </if>
                <php>}</php>
+               
+               	<if condition="$vo['qishu'] gt  1 ">
+           			<a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/history",array("goodsId"=>$vo["goodsId"]))}'>查看往期</a>
+           		</if>
+               
                </td>
              </tr>
              </volist>

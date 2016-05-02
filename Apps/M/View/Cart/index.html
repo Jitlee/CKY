@@ -37,10 +37,12 @@
 				</div>
 				<div class="cky-cart-media">
 					<p class="cky-ellipsis2" data-bind="text: goodsName"></p>
+					<h5><r class="font12" data-bind="text: freeTitle, visible: freeTitle"></r></h5>
 					<h5></h5>
 				</div>
 				<div class="cky-cart-sum">
 					<r data-bind="text: '¥' + shopPrice"></r>
+					<div><r class="font12" data-bind="text: '¥' + freeMoney, visible: freeTitle"></r></div>
 					<h4 data-bind="text: 'x' + count"></h4>
 				</div>
 				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.shopId, goodsId: goodsId }">删除</a>
@@ -135,7 +137,7 @@
 							var goodsId = $(this).val();
 							var goods = shop.goods[goodsId];
 							count += goods.count;
-							_totalMoney += goods.count * goods.shopPrice;
+							_totalMoney += goods.count * goods.shopPrice - goods.freeMoney;
 							if(!selectedCard.shops[shopId]) {
 								selectedCard.shops[shopId] = {};
 							}

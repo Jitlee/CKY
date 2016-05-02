@@ -557,7 +557,7 @@ class OrdersAction extends BaseUserAction {
 			$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//商家免运费最低金额
 			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//商家免运费最低金额
 			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
-			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]);
+			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]) - $this->_calcFreeMoney($goods);
 			$shopGoods[$goods["shopId"]]['ticketId'] = $ticketId;
 			$shopGoods[$goods["shopId"]]['deductible'] = 0;
 			
@@ -627,6 +627,23 @@ class OrdersAction extends BaseUserAction {
 		}
 		
 		$this->ajaxReturn($result, 'JSON');
+	}
+
+	function _calcFreeMoney($goods) {
+		$freeMoney = 0;
+		if(!empty($goods['activeId'])) {
+			switch($goods["activeType"]) {
+				case "m2f1": // 买二付一
+					$freeMoney = floor($goods["cnt"] / 2.0) * $goods["shopPrice"];
+					break;
+				case "m2mustless": // 第二件立减
+					if($goods["activeAmount"] > 0) {
+						$freeMoney = $goods["cnt"] > 1 ? $goods["activeAmount"] : 0;
+					}
+					break;
+			}
+		}
+		return $freeMoney;
 	}
 	
 	/**

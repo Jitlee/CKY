@@ -17,6 +17,19 @@ class GoodsCatsModel extends BaseModel {
 	    $rs = $m->where('catFlag=1 and parentId='.$pid)->select(); 
 		return $rs;
 	}
+	
+	/**
+	* 获取列表
+	*/
+	public function queryShopByList($shopid){
+		$sql = "select gc.catId,gc.catName from cky_shop_plates sp
+inner join cky_goods_cats gc on sp.plateId1=gc.catId
+where shopid=$shopid";
+		$cats = $this->query($sql);
+		 
+		return $cats;
+	}
+	
     /**
      * 获取商品分类及商品
      */

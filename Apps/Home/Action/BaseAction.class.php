@@ -224,6 +224,9 @@ class BaseAction extends Controller {
 	 * 
 	 */
 	public function getVerify(){
+		header('Content-Type: image/png');
+		ob_clean();		
+		 	 	
 		// 导入Image类库
     	$Verify = new \Think\Verify();
     	$Verify->entry();

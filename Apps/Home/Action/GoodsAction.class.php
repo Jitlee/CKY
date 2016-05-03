@@ -259,7 +259,7 @@ class GoodsAction extends BaseAction {
 		$USER = session('RTC_USER');
 		//获取商品分类信息
 		$m = D('Home/GoodsCats');
-		$this->assign('goodsCatsList',$m->queryByList());
+		$this->assign('goodsCatsList',$m->queryShopByList($USER['shopId']));
 		//获取商家商品分类
 		$m = D('Home/ShopsCats');
 		$this->assign('shopCatsList',$m->queryByList($USER['shopId'],0));

@@ -33,7 +33,8 @@ class MallActivityModel extends BaseModel {
 		$data["sort"] = (int)I("sort",0);
 		
 		$data["createtime"] = date('Y-m-d H:i:s');
-		$data["createuser"] = session('RTC_STAFF')["staffId"];
+		$staff = session('RTC_STAFF');
+		$data["createuser"] = $staff["staffId"];
 	    //if($this->checkEmpty($data,true)){
 			$m = M('mall_activity');
 			$rs = $m->add($data);
@@ -84,6 +85,7 @@ class MallActivityModel extends BaseModel {
 	  * 分页列表
 	  */
      public function queryByPage(){
+		
         $m = M('mall_activity');
 	 	$sql = "
 	 	select 

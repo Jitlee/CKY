@@ -37,7 +37,7 @@ class MiaoshaAction extends BaseAction{
     	$this->assign('goodsCatId1',$goodsCatId1);
     	$this->assign('goodsCatId2',I('goodsCatId2',0));
         
-   		$this->display('list');
+   		$this->display('miaosha/list');
 	}
 	public function history(){
 		$this->isLogin(); 
@@ -48,7 +48,7 @@ class MiaoshaAction extends BaseAction{
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page); 
         
-   		$this->display('history');
+   		$this->display('miaosha/history');
 	}
 
 	public function order(){
@@ -59,7 +59,7 @@ class MiaoshaAction extends BaseAction{
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page); 
         
-   		$this->display('history');
+   		$this->display('miaosha/history');
 	}
 	
 	/**

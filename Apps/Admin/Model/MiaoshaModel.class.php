@@ -99,7 +99,8 @@ where goodsFlag=1  and goodsId=$goodsId";
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
 			inner join __PREFIX__miaosha ms on ms.miaoshaId=g.miaoshaId 
 			where goodsId=$id  order by goodsId desc";   
-		$goods = $m->query($sql)[0]; 
+		$list = $m->query($sql);
+		$goods = $list[0]; 
 		
 		$m = M('goods_gallerys');
 		$goods['gallery'] = $m->where('goodsId='.$id)->select();

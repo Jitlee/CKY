@@ -143,6 +143,8 @@ class BaseAction extends Controller {
 	 */
 	public function checkVerify($type){
 		if(stripos($GLOBALS['CONFIG']['captcha_model'],$type) !==false) {
+			header('Content-Type: image/png');
+			ob_clean();
 			$verify = new \Think\Verify();
 			return $verify->check(I('verify'));
 		}else{

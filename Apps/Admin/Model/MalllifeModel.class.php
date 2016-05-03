@@ -30,7 +30,8 @@ class MalllifeModel extends BaseModel {
 		$data["sort"] = (int)I("sort");
 
 		$data["createtime"] = date('Y-m-d H:i:s');
-		$data["createuser"] = session('RTC_STAFF')["staffId"];
+		$staff = session('RTC_STAFF');
+		$data["createuser"] = $staff["staffId"];
 		
 	    //if($this->checkEmpty($data)){
 			$m = M('mall_life');
@@ -62,7 +63,8 @@ class MalllifeModel extends BaseModel {
 		$data["sort"] = (int)I("sort");
 
 		$data["createtime"] = date('Y-m-d H:i:s');
-		$data["createuser"] = session('RTC_STAFF')["staffId"];
+		$staff = session('RTC_STAFF');
+		$data["createuser"] = $staff["staffId"];
 		
     	$m = M('mall_life');
 	    $rs = $m->where("lifeid=".(int)I('lifeid',0))->save($data);

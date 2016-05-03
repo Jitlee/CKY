@@ -76,7 +76,8 @@ class MallLifeGoodsModel extends BaseModel {
 		$data["lifetitle"] = I("lifetitle");
 		
 		$data["createtime"] = date('Y-m-d H:i:s');
-		$data["createuser"] = session('RTC_STAFF')["staffId"];
+		$staff = session('RTC_STAFF');
+		$data["createuser"] = $staff["staffId"];
 		 
 		$m = M('mall_lifegoods');
 		$rs = $m->add($data);

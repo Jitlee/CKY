@@ -49,7 +49,9 @@ class GoodsCatsModel extends BaseModel {
 		$pageNo = (int)I('pageNo', 1);
 		$pageSize = (int)I('pageSize', 8);
 		$catId = (int)I('catId', 0);
-		$filter = array('c1.isShow'=>1);
+		$filter = array('c1.isShow'=>1,
+			'c1.catFlag'=>1
+		);
 		if($catId > 0) {
 			$filter['c2.catId'] = $catId;
 		}

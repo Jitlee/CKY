@@ -116,7 +116,7 @@
 	<!-- ko if: status() < 2 && goods() && goods().jishijiexiao > 0 && goods().jiexiao == "0" -->
 	<ul class="mui-table-view cky-mtop-10">
 		<li class="mui-table-view-cell">
-			<a id="memberRecord" class="font20">
+			<a class="font20">
 				剩余时间：<span data-bind="attr: { countdown: (Number(goods().timestamp) + Number(goods().jishijiexiao) * 3600) * 1000 }"></span>
 			</a>
 		</li>

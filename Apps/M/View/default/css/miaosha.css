@@ -214,6 +214,15 @@
 	background-color: rgba(50,50,50, 0.3);
 }
 
+.jx-user {
+	color: #666;
+	font-size: 10px;
+}
+
+.jx-user span {
+	color: #2af;
+}
+
 /* 详情页面开始 */
 
 .ms-swiper {

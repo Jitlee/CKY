@@ -18,7 +18,7 @@ class MiaoshaModel extends BaseModel {
 		
 		$filter = array();
 		$filter['isSale'] = 1;
-		$filter['miaoshaStatus'] = array('lt', 2);
+		$filter['miaoshaStatus'] = array('lt', 3);
 		
 		if($type == 0) {
 			$filter['jishijiexiao'] = 0;
@@ -84,14 +84,14 @@ class MiaoshaModel extends BaseModel {
 		}
 		
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
-				h.miaoshaId, h.qishu, h.subTitle, h.endTime, h.prizeCode,h.prizeCount, 
+				h.miaoshaId, h.qishu, h.subTitle, h.endTime, h.prizeCode,h.prizeCount, h.shengyurenshu,
 				h.prizeUid, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName';
 		
 		$list = $this
 			->field($field)
 			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId')
 			->join('inner join __MIAOSHA_HISTORY__ h on m.miaoshaId = h.miaoshaId')
-			->join('inner join __MEMBER__ u on u.uid = h.prizeUid')
+			->join('left join __MEMBER__ u on u.uid = h.prizeUid')
 			->where($filter)
 			->order($order)
 			->page($pageNo, $pageSize)

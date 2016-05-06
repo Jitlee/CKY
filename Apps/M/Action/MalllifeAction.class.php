@@ -15,8 +15,7 @@ class MalllifeAction extends BaseAction{
 	 * 分页查询
 	 */
 	public function lifeIndex(){	
-		$this->assign('title', '惠生活');
-		 
+		$this->assign('title', '惠生活');		 
         $this->display("/Mall/lifeindex");
 	}
 	

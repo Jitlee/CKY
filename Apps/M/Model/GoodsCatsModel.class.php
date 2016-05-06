@@ -17,7 +17,7 @@ class GoodsCatsModel extends BaseModel {
 			$shopId = I('shopId', 0);
 		}
 		
-		$sql = 'select * from __GOODS_CATS__ gc where isShow = 1 and parentId = '.$parentId;
+		$sql = 'select * from __GOODS_CATS__ gc where isShow = 1 and catFlag=1  and parentId = '.$parentId;
 		if($shopId > 0) {
 			$sql .= ' and exists(select 0 from __SHOP_PLATES__ sp where sp.shopId = '.$shopId.' and sp.plateId1 = gc.catId)';
 		}

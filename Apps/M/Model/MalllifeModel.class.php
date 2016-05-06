@@ -40,7 +40,7 @@ class MalllifeModel extends BaseModel {
 	 	$m = M('mall_lifegoods');
 		$id=(int)I('id');
 		$sql = "select  ag.*,g.goodsthums,g.shopprice,g.goodsname from __PREFIX__goods g inner join __PREFIX__mall_lifegoods ag on ag.goodsid=g.goodsid 
- 	      where  ag.lifeid=$id";			  
+ 	      where  goodsStatus=1 and goodsFlag=1 and ag.lifeid=$id";			  
 		return $m->query($sql);
 	 }
 	 

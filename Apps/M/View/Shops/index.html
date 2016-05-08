@@ -80,7 +80,9 @@
 		var distance = 0;
 		var vm = ko.observableArray(shops);
 		ko.applyBindings(vm, document.getElementById("shopsList"));
-//		cky.loadding();
+		
+		util.onScrollEnd(queryByPage);
+		
 		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
 			currentLongitude = lng;
 			currentLatitude = lat;
@@ -90,11 +92,9 @@
 			}
 			force = true;
 			queryByPage();
-//			cky.closeAll();
 		});
 		function queryByPage() {
 			if(force) {
-				vm.removeAll();
 				shops.length = 0;
 				pageNo = 1;
 				isEOF = false;
@@ -111,18 +111,19 @@
 					lat: currentLatitude
 				}, function(list) {
 					util.endScroll();
+					if(force) {
+						vm.removeAll();
+					}
 					if(_pageNo == 1) {
 						shops.length = 0;
 						$("#shopsLoading").hide();
 						$("#shopsList").removeClass("mui-hidden");
 					}
-					pageNo = ++_pageNo;
 					if(list && list.length > 0) {
-						$.each(list, function() {
-							shops.push(this);
-						});
+						pageNo = ++_pageNo;
+						shops = shops.concat(list);
+						vm(shops);	
 					}
-					vm(shops);
 					
 					if(list && list.length < 12) {
 						isEOF = true;
@@ -131,8 +132,6 @@
 			}
 		}
 //		queryByPage();
-		
-		util.onScrollEnd(queryByPage);
 		
 		// 加载行业
 		$("#catsButton").dropMenu({

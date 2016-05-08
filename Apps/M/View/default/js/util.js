@@ -66,10 +66,10 @@ util = {
 					callback();
 					
 					util.__scrollHandler = window.setTimeout(function() {
-						if(util.isScrollInBuzy) {
-							util.endScroll();
+						if(parent.data("isScrollInBuzy")) {
+							util.endScroll(selector);
 						}
-					}, 5000);
+					}, 3000);
 				}
 			}
 		}

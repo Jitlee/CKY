@@ -1,0 +1,103 @@
+<header class="mui-bar mui-bar-nav">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+</header>
+
+<div id="body" class="mui-content">
+	<div id="tab" class="cky-tab">
+		<div class="cky-tab-item cky-active" tab-type="1">收藏商品(<span data-bind="text: goodsCount">{$counts.goodsCount}</span>)</div>
+		<div class="cky-tab-item" tab-type="2">收藏商家(<span data-bind="text: shopsCount">{$counts.shopsCount}</span>)</div>
+	</div>
+	<ul class="mui-table-view" data-bind="foreach: favs">
+		<li class="mui-table-view-cell mui-media">
+			<!-- ko if: favoriteType == 1 -->
+			<a class="mui-navigate-right" data-bind="attr: { href: '{:U('Goods/detail')}?id=' + targetId }">
+				<img data-bind="attr: { src: '/' + goodsThums }" class="mui-media-object mui-pull-left" />
+				<div class="mui-media-body">
+					<div class="mui-ellipsis-2 font15" data-bind="text: goodsName"></div>
+					<div class="mui-table">
+						<div class="mui-table-cell">
+							<r class="font12">¥</r><r class="font16" data-bind="text: shopPrice"></r>
+						</div>
+					</div>
+				</div>
+			</a>
+			<!-- /ko -->
+			<!-- ko if: favoriteType == 2 -->
+			<a class="mui-navigate-right" data-bind="attr: { href: '{:U('Shops/detail')}?id=' + targetId + '&catId=' + targetType }">
+				<img data-bind="attr: { src: '/' + shopImg }" class="mui-media-object mui-pull-left"  />
+				<div class="mui-media-body">
+					<div class="font15" data-bind="text: shopName"></div>
+					<!-- ko if: targetType == 1 -->
+					<span class="cky-label">美食外卖</span>
+					<!-- /ko -->
+				</div>
+			</a>
+			<!-- /ko -->
+		</li>
+	</ul>
+</div>
+<div class="cky-loading"></div>
+
+<script src="__KO__"></script>
+<script>
+	$(function() {
+		cky.pageShow(function() {
+			var goodsPageNo = 1;
+			var shopsPageNo = 1;
+			var favoriteType = 1;
+			var goods = [];
+			var shops = [];
+			var vm = {
+				goodsCount: ko.observable({$counts.goodsCount}),
+				shopsCount: ko.observable({$counts.shopsCount}),
+				favs: ko.observableArray(goods)
+			};
+			ko.applyBindings(vm, document.getElementById("body"));
+			
+			function page() {
+				$.getJSON("{:U('Favorites/pf')}", {
+					pageNo: favoriteType == 1 ? goodsPageNo : shopsPageNo,
+					favoriteType: favoriteType
+				}, function(list) {
+					if(list && list.length >0) {
+						if(favoriteType == 1) {
+							goodsPageNo++;
+							goods = goods.concat(list);
+							vm.favs(goods.slice());
+						} else {
+							shopsPageNo++;
+							shops = shops.concat(list);
+							vm.favs(shops.slice());
+						}
+					}
+					cky.closeLoading();
+				});
+			}
+			
+			page();
+			
+			// tab页切换
+			$(".cky-tab-item", tab).click(function() {
+			var $this = $(this);
+			if(!$this.hasClass("cky-active")) {
+				$(".cky-active", tab).removeClass("cky-active");
+				$this.addClass("cky-active");
+				favoriteType = Number($this.attr("tab-type"));
+				vm.favs.removeAll();
+				if(favoriteType == 1) {
+					vm.favs(goods.slice());
+				} else if(favoriteType == 2){
+					if(shops.length == 0) {
+						page();
+					} else {
+						vm.favs(shops.slice());
+					}
+				}
+			}
+		});
+		});
+	})
+</script>

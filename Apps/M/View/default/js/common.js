@@ -77,6 +77,51 @@ $(function() {
 	}
 	refreshCartCount();
 	$.refreshCartCount = refreshCartCount;
+	
+	// 收藏
+	var favs = $(".cky-fav");
+	if(favs.length > 0) {
+		var targetId = Number(favs.attr("fav-target-id"));
+		var targetType = Number(favs.attr("fav-target-type"));
+		var favoriteType = Number(favs.attr("fav-type"));
+		var params = {
+			favoriteType: favoriteType,
+			targetId: targetId,
+			targetType: targetType
+		};
+		$.getJSON("../Favorites/check.html", params, function(result) {
+			if(result === true) {
+				favs.addClass("cky-active");
+			}
+		});
+		
+		var isBuzy = false;
+		favs.click(function() {
+			isBuzy = true;
+			if(favs.hasClass("cky-active")) {
+				$.post("../Favorites/cancel.html", params, function(result) {
+					isBuzy = false;
+					if(result === true) {
+						favs.removeClass("cky-active");
+					} else {
+						cky.toast("取消失败");
+					}
+				});
+			} else {
+				$.post("../Favorites/add.html", params, function(result) {
+					isBuzy = false;
+					if(result == -2) {
+						// 重新登陆
+						window.location.href="../Person/trylogin?url="+encodeURI(window.location.href);
+					} else if(result == -1) {
+						cky.toast("收藏失败")
+					} else if(result == 1) {
+						favs.addClass("cky-active");
+					}
+				});
+			}
+		});
+	}
 });
 
 // cky扩展js

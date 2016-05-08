@@ -4,7 +4,9 @@
 	<div class="cky-header-nav">
 		<div class="cky-header-nav-bg"></div>
 		<button class="cky-back mui-btn mui-btn-link mui-pull-left"><i class="mui-icon mui-icon-left-nav"></i></button>
-		<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-love"></i></button>
+		<button class="mui-btn mui-btn-link mui-pull-right">
+			<a class="cky-fav iconfont icon-love" fav-target-id="{$data.shopId}" fav-target-type="1" fav-type="2"></a>
+		</button>
 		<div class="cky-clearfix"></div>
 	</div>
 	<div class="cky-shop-header">
@@ -151,9 +153,11 @@
 		// 分类
 		var catsList = $("#catsList");
 		$.getJSON("{:U('Fast/cats')}", { shopId: "{:I('id')}" }, function(list) {
-			list.unshift({  catName: "畅销排行", catId: 0 });
-			vm.cats(list);
-			$("li:first-child", catsList).addClass("cky-active");
+			if(list) {
+				list.unshift({  catName: "畅销排行", catId: 0 });
+				vm.cats(list);
+				$("li:first-child", catsList).addClass("cky-active");
+			}
 			done();
 		});
 		catsList.height($(window).height() - 209);

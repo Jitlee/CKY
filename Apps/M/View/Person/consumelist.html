@@ -26,24 +26,10 @@
 </div>
 <include file="Public:tab"/>
 <link rel="stylesheet" href="__CSS__/{:autoVer('person-comm.css')}" />
-<script src="__JS__/jquery.touchSwipe.min.js"></script>
 <script>
 	$(function() {
 		var pageNum = 1;
-		var goodList = $("#recrodList").swipe({
-			swipeUp: onscrollend,
-			threshold: 100,
-			allowPageScroll: "vertical"
-		});
-		
-		$(window).bind("scroll", onscrollend);
-		
-		function onscrollend() {
-			if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-       			console.info("滚动到底了");
-       			page();
-			}
-		}
+		cky.onScrollEnd(page);
 		
 		var recrodList = $("#recrodList");
 		var template = $("li:first-child", recrodList);		
@@ -53,6 +39,7 @@
 				var murl="{:U('consumelistPage', '', '')}";
 				pageNum=pageNum+1;
 				$.get(murl, {pageSize:10 ,pageNum: pageNum }, function(list) {
+					cky.endScroll();
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {

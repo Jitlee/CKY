@@ -41,7 +41,7 @@ class GoodsModel extends BaseModel {
 	
 	public function detail() {
 		$goodsId = I('id');
-		$field = 'g.goodsId, g.shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime'
+		$field = 'g.goodsId, g.shopId, goodsSn, goodsName, shopCatId1, g.goodsCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime'
 			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
 		$join = 'g inner join __SHOPS__ s on s.shopId = g.shopId';
 		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';

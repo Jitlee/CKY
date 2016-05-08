@@ -37,7 +37,7 @@ class GoodsAction extends BaseAction {
 		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['goodsName']);
-		if($data['goodsCatId1'] == 1) {
+		if((int)$data['goodsCatId1'] == 1) {
 			$this->display('fast');
 		} else {
 			$this->display();	

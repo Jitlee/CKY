@@ -1000,3 +1000,21 @@ i.iconfont.cky-cart {
 	color: #fff;
 	white-space: nowrap;
 }
+
+.cky-fav.icon-love.cky-active::before {
+	content: "\e643";
+}
+
+.cky-fav.icon-favor.cky-active::before {
+	content: "\e609";
+}
+
+.cky-label {
+	display: inline-block;
+	line-height: initial!important;
+	padding: 3px;
+	background-color: #02AAF1;
+	color: #fff;
+	font-size: 10px;
+	border-radius: 3px;
+}

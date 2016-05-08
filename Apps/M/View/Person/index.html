@@ -1,17 +1,6 @@
 	<link rel="stylesheet" href="__CSS__/{:autoVer('me.css')}">
-	<script src="__JS__/jquery.touchSwipe.min.js"></script>
-	<script src="__JS__/layer/layer.js"></script>
 	<script type="text/javascript">
-   		$(function() {   			 
-			$(".mui-content").swipe({
-				swipeUp: onscrollend,
-				threshold: 100,
-				allowPageScroll: "vertical"
-			});			
-			$(window).bind("scroll", onscrollend);			
-			function onscrollend() {
-				if ($(window).scrollTop() + $(window).height() == $(document).height()) {}
-			}
+   		$(function() { 
 		
    			$("#userscore").click(function() {
 				window.location.href="{:U('Person/scorelist', '', '')}";
@@ -59,7 +48,7 @@
 				});
 				//我的收藏
 				$("#favor").click(function() {
-					window.location.href="{:U('Person/favor', '', '')}";
+					window.location.href="{:U('Favorites/index', '', '')}";
 				});
 				//绑定手机
 				$("#bindmobile").click(function() {	

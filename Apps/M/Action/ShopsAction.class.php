@@ -56,7 +56,13 @@ class ShopsAction extends BaseAction {
 		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
-		$this->display();
+		
+		$catId = I('catId', 0);
+		if($catId == 1) {
+			$this->display("Fast/Detail");
+		} else {
+			$this->display();
+		}
 	}
 	
 	public function map() {

@@ -9,7 +9,7 @@
 		</div>
 	</h1>
 	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
-		<i class="iconfont icon-gouwuche font24"></i>
+		<i class="cky-cart iconfont icon-gouwuche font24"><span class="cky-cart-count cky-hidden"></span></i>
 	</a>
 	<button class="mui-btn mui-btn-link mui-pull-right">
 		<i class="iconfont icon-sousuo font24"></i>
@@ -110,6 +110,7 @@
 					lng: currentLongitude,
 					lat: currentLatitude
 				}, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						shops.length = 0;
 						$("#shopsLoading").hide();
@@ -139,7 +140,7 @@
 			idProperty: "catId",
 			nameProperty: "catName",
 			parentIdproperty: "parentId",
-			parentId: 336,
+			parentId: 4,
 			callback: function(evt) {
 				catId = evt.catId;
 				force = true;

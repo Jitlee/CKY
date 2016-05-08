@@ -213,8 +213,10 @@
 					$.get("{:U('Orders/countcoupon')}", {
 						_t: _t.join(",")
 					}, function(result) {
-						couponsCount = result;
-						$("#validCouponCount").text(result + "张可用");
+						if(result > 0) {
+							couponsCount = result;
+							$("#validCouponCount").text(result + "张可用");
+						}
 					});
 				}
 				$("#couponButton").attr("href", "{:U('Orders/coupon')}?submit={:I('submit')}&_t=" + _t.join(","));

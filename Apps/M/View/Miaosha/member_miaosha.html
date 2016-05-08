@@ -43,6 +43,7 @@
 				id: "{:I('id')}",
 				qishu: "{:I('qishu')}"
 			}, function(list) {
+				util.endScroll();
 				$("#recordLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;

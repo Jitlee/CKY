@@ -77,6 +77,7 @@
 				sortType: sortType,
 				catId: catId
 			}, function(list) {
+				util.endScroll();
 				$("#goodsLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;

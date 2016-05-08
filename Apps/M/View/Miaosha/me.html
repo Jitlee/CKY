@@ -78,6 +78,7 @@
 				pageNo: pageNo,
 				type: vm.tabId()
 			}, function(list) {
+				util.endScroll();
 				cky.closeLoading();
 				if(list && list.length > 0) {
 					pageNo++;

@@ -44,23 +44,56 @@ util = {
 	 * @param {Number} threshold 阀值，默认为200
 	 * @return {Object} 句柄
 	 */
-	onScrollEnd: function(callback, threshold) {
+	onScrollEnd: function(callback, selector, threshold) {
 		var threshold = threshold || 200;
-		var timeHandler = null;
+		var handler = 0;
+		var parent = $(".mui-content").length == 0 ? $(document.body) : $(".mui-content");
+		if(selector) {
+			parent = $(selector);
+		}
+		
 		var onscrollend = function() {
-			if ($(window).scrollTop() + $(window).height() + threshold > $(document).height()) {
-				console.info("滚动到了底部");
-				window.clearTimeout(timeHandler);
-       			timeHandler = window.setTimeout(callback, 300);
+			if(!parent.data("isScrollInBuzy")) {
+				if ($(window).scrollTop() + $(window).height() + threshold > $(document).height()) {
+					parent.data("isScrollInBuzy", true);
+					console.info("滚动到了底部");
+					
+					if($(".cky-up-refresh", selector).length == 0) {
+						$("<div class=\"cky-up-refresh\" stytle=\"display:none\"></div>").appendTo(parent);
+					}
+					
+					$(".cky-up-refresh", selector).fadeIn();
+					callback();
+					
+					util.__scrollHandler = window.setTimeout(function() {
+						if(util.isScrollInBuzy) {
+							util.endScroll();
+						}
+					}, 5000);
+				}
 			}
 		}
-		$(document).bind("scroll", onscrollend);
-		return {
-			destory: function() {
-				$(document).unbind("scroll", onscrollend);
-			}
-		};
+		$(document).bind("scroll", function() {
+			window.clearTimeout(handler);
+			handler = window.setTimeout(onscrollend, 300);
+		});
+		return this;
 	},
+	
+	endScroll: function(selector) {
+		var parent = $(".mui-content").length == 0 ? $(document.body) : $(".mui-content");
+		if(selector) {
+			parent = $(selector);
+		}
+		
+		if(util.__scrollHandler > 0) {
+			window.clearTimeout(util.__scrollHandler);
+			util.__scrollHandler = 0;
+		}
+		parent.data("isScrollInBuzy", false);
+		$(".cky-up-refresh", selector).fadeOut();
+	},
+	
 	
 	/**
 	 * 获取url参数

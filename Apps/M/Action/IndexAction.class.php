@@ -10,8 +10,10 @@ namespace M\Action;
  */
 use Think\Controller;
 class IndexAction extends Controller {
-	public function index() {
-		//try_login();
+	public function index() { 
+		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
+			try_login();
+		}
 		
 		$this->assign('title', "粗卡");
 		$this->assign('tabid', 'home');

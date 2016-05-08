@@ -72,6 +72,7 @@
 				pageSize: pageSize,
 				catId: catId
 			}, function(list) {
+				util.endScroll();
 				if(clear) {
 					cats.length = 0;
 					vm.cats.removeAll();

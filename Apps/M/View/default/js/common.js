@@ -44,6 +44,39 @@ $(function() {
 			}
 		});
 	});
+	
+	// 加载购物车数量
+	function refreshCartCount() {
+		if($(".cky-cart-count").length == 0) {
+			return;
+		}
+		
+		var CACHE_KEY = "cky-shop-cart";
+		var cart = cky.storage.getItem(CACHE_KEY);
+		if(cart) {
+			var money = 0;
+			if(cart.shops)
+			for(var shopId in cart.shops) {
+				var shop = cart.shops[shopId];
+				if(shop && shop.goods) {
+					for(var goodsId in shop.goods) {
+						var goods = shop.goods[goodsId];
+						money = goods.count * Number(goods.shopPrice);
+					}
+				}
+			}
+			if(money > 0) {
+				if(money > 1000) {
+					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+Math.round(money/1000)/10 + "万");
+				} else {
+					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+money);
+				}
+			}
+		}
+		$(".cky-cart-count").addClass("cky-hidden");
+	}
+	refreshCartCount();
+	$.refreshCartCount = refreshCartCount;
 });
 
 // cky扩展js

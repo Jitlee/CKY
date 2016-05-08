@@ -44,7 +44,7 @@ class RecommendModel extends BaseModel {
 				break;
 		}
 		
-		$field = 'cky_shops.shopId,shopSn,shopName,shopImg,shopTel,
+		$field = 'cky_shops.shopId,shopSn,shopName,replace(shopImg, \'.\', \'_thumb.\') shopImg,shopTel,
 			deliveryStartMoney, deliveryCostTime, serviceStartTime, serviceEndTime, deliveryMoney, deliveryFreeMoney,
 			totalScore, totalUsers,latitude,longitude,deliveryOff,shopAddress,GROUP_CONCAT(gc.catName ORDER BY gc.catSort, gc.catId) shoptypes';
 		if($lng > 0 && $lat > 0) {

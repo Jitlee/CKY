@@ -949,6 +949,17 @@ p.cky-update {
 	content: url(../images/loading.gif);
 }
 
+.cky-up-refresh {
+	height: 60px;
+	line-height: 60px;
+	position: relative;
+	text-align: center;
+}
+
+.cky-up-refresh::after{
+	content: "正在加载..";
+}
+
 /** 飞行动画 **/
 .cky-fly-animation {
 	transition-property: left, top, opacity, transform;
@@ -968,4 +979,24 @@ p.cky-update {
 	font-size: 24px
 	-webkit-transform: translateY(-50%);
 	color: #666;
+}
+
+i.iconfont.cky-cart {
+	position: relative;
+}
+
+.cky-cart-count {
+	text-align: center;
+	font-size: 10px;
+	padding:0 3px;
+	line-height: initial!important;
+	border-radius: 13px;
+	background-color: #FF0000;
+	display: inline-block;
+	position: absolute;
+	right: 0px;
+	top: -5px;
+	-webkit-transform: translateX(50%);
+	color: #fff;
+	white-space: nowrap;
 }

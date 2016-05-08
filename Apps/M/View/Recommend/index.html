@@ -167,6 +167,7 @@
 					lng: currentLongitude,
 					lat: currentLatitude
 				}, function(list) {
+					util.endScroll();
 					//alert(list);
 					if(_pageNo == 1) {
 						shops.length = 0;

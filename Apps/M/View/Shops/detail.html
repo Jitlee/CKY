@@ -134,8 +134,9 @@
 			var _pageNo = pageNo;
 			
 			if(!isEOF) {
-				var api = "{:U('Goods/page', '', '')}";
-				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo }, function(list) {
+				var api = "{:U('Goods/ptg', '', '')}";
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 4 }, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						$("#goodsLoading").hide();
 						$("#goodsList").show();

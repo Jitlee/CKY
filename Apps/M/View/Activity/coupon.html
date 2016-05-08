@@ -379,6 +379,7 @@
 				$.post("{:U('pick')}", { ticketId: this.ticketID }, function(result) {
 					cky.close(ll);
 					console.log(result);
+					util.endScroll();
 					if(result == 1) {
 						var $this = $(evt.delegateTarget);
 						cky.toast("领券成功");

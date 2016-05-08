@@ -304,6 +304,7 @@
 					pageNo: _pageNo,
 					type: type
 				}, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						coupons.length = 0;
 						$("#couponsLoading").hide();

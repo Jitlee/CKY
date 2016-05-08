@@ -162,6 +162,7 @@
 					pageNo: _pageNo,
 					mactid: _mactid,
 				}, function(list) { 
+					util.endScroll();
 					if(_pageNo == 1) { 
 						$("#activitiesLoading").hide(); 
 					}

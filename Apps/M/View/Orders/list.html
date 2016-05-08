@@ -84,6 +84,7 @@
 			$.getJSON("{:U('page')}", {
 				pageNo: _pageNo
 			}, function(list) {
+				util.endScroll();
 				if(_pageNo == 1) {
 					orders.length = 0;
 					$("#orderLoading").hide();

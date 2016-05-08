@@ -99,7 +99,7 @@
 <script>
 	$(function() {
 		var shopCatId = 0;
-		var sortType = 1;
+		var sortType = 101;
 		var fastCart = null;
 		var vm = {
 			catClick: oncatclick,
@@ -110,9 +110,10 @@
 		ko.applyBindings(vm, document.getElementById("goods"));
 		// 点菜
 		function queryGoods() {
-			$.getJSON("{:U('Goods/page')}", {
+			$.getJSON("{:U('Goods/ptg')}", {
 				pageSize: 2000,
 				shopId: {:I('id')},
+				catId: 1,
 				shopCatId: shopCatId,
 				sortType: sortType
 			}, function(list) {
@@ -164,14 +165,14 @@
 			$("li.cky-active", catsList).removeClass("cky-active");
 			$this.addClass("cky-active");
 			shopCatId = cat.catId;
-			sortType = cat.catId == 0 ? 1 : 0;
+			sortType = cat.catId == 0 ? 101 : 0;
 			queryGoods();
 		}
 		
 		function ongoodsclick(obj, evt){
 			var $this = $(evt.originalEvent.srcElement);
 			if(!$this.hasClass("cky-fast-add") && $this.closest(".cky-fast-add").length == 0) {
-				window.location.href = "{:U('Goods/fast')}?id=" + obj.goodsId;
+				window.location.href = "{:U('Goods/detail')}?id=" + obj.goodsId;
 			}
 		}
 		

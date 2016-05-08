@@ -58,6 +58,7 @@
 					pageNo: _pageNo,
 					goodsId: "{:I('goodsId')}"
 				}, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						records.length = 0;
 						$("#recordsLoading").hide();

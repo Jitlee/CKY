@@ -44,6 +44,7 @@
 				id: "{:I('id')}",
 				qishu: "{:I('qishu')}"
 			}, function(list) {
+				util.endScroll();
 				$("#codeLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;

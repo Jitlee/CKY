@@ -71,6 +71,12 @@
 	text-align: right;
 }
 
+@media only screen and (max-width: 330px) {
+	.cky-detail-table {
+		font-size: 12px;
+	}
+}
+
 /** 产品购买按钮 **/
 .cky-detail-buy-button {
 	display: block;

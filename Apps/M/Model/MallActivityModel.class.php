@@ -10,7 +10,7 @@
  */
 class MallActivityModel extends BaseModel {
     public function queryTop6() {
-    		return $this->field("mactid, adpath")->where('now() between `starttime` and `endtime`')->order('sort desc, createTime')->page(1, 6)->select();
+    		return $this->field("mactid, logothums")->where('now() between `starttime` and `endtime`')->order('sort desc, createTime')->page(1, 6)->select();
     }
 	
 	/**

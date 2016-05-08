@@ -75,6 +75,7 @@
 	   params.adSort = $('#adSort').val();
 	   params.adName = $.trim($('#adName').val());
 	   params.adFile = $.trim($('#adFile').val());
+	   params.adFileThumb= $.trim($('#goodsThumbs').val());
 	   params.adURL = $.trim($('#adURL').val());
 	   var date = $('#adDateRange').val().split(' 至 ');
 	   params.adStartDate = date[0];
@@ -108,7 +109,7 @@
 				</div>
 				<div style="clear:both;"></div>
 				<div >&nbsp;图片大小:600 x 300 (px)(格式为 gif, jpg, jpeg, png)
-					商城:600 x 180(px)
+					商城:600 x 180&nbsp;&nbsp;商城－一元购广告 ：300 x 150
 				</div>
 				<input type="hidden" name="dir" value="ads">
 				<input type="hidden" name="width" value="1400">
@@ -121,6 +122,8 @@
 		</form>
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.adId}'/>
+        <input type='text' id='goodsThumbs' value='{$object.adFileThumb}'/>
+        
         <table class="table table-hover table-striped table-bordered rtc-form">
            <tr>
              <th align='right'>广告城市：</th>

@@ -87,7 +87,7 @@ class MallActivityGoodsModel extends BaseModel {
 	where 
 		g.goodsStatus=1 and g.goodsFlag=1  and g.isSale=1  and g.goodsCatId1=3
 		and g.goodsid in($id)  
-		and goodsid not in(select img.goodsid from cky_mall_activitygoods img where  img.mactid=$mactid)
+		and goodsid not in(select img.goodsid from cky_mall_activitygoods img )
 ";
 		
 		$rs = $m->execute($sql);

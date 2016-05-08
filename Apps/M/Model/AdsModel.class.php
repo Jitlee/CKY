@@ -10,7 +10,7 @@
  */
 class AdsModel extends BaseModel {
     public function queryByType($type) {
-		return $this->field('adId, adFile,adURL')->where('SYSDATE() BETWEEN adStartDate AND adEndDate AND adPositionId='.$type)->order('adSort')->select();
+		return $this->field('adId, adFile,adFileThumb,adURL')->where('SYSDATE() BETWEEN adStartDate AND adEndDate AND adPositionId='.$type)->order('adSort')->select();
     }
 };
 ?>

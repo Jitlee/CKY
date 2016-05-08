@@ -29,7 +29,7 @@
 		    <div class="swiper-wrapper">
 		        <!-- Slides -->
 		        <foreach name="ads" item="item">
-	        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFile}');"></a></div>
+	        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
 		        </foreach>
 		    </div>
 		    <!-- If we need pagination -->
@@ -51,7 +51,7 @@
 					<div class="mall-yyg-nav-count-t mui-table-cell">0</div>
 				</div>
 			</a>
-			<a class="mui-table-cell mall-yyg-nav-ads" href="{$yygAds.adURL}" style="background-image: url(/{$yygAds.adFile});"></a>
+			<a class="mui-table-cell mall-yyg-nav-ads" href="{$yygAds.adURL}" style="background-image: url(/{$yygAds.adFileThumb});"></a>
 		</div>
 		
 		<div class="mall-mod-title mui-table mall-mod-activity">
@@ -61,7 +61,7 @@
 		<div class="mall-mod mall-mod-activity">
 			<foreach name="activites" item="item">
 					<a href="{:U('activitydetail','','')}/mactid/{$item.mactid}">
-				<div class="mall-mod-cell" style="background-image: url(/{$item.adpath});"></div>
+				<div class="mall-mod-cell" style="background-image: url(/{$item.logothums});"></div>
 				</a>
 			</foreach>
 		</div>

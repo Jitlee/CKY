@@ -5,7 +5,7 @@ function getUploadFilename(sfilename,srcpath,thumbpath,fname){
 	if(srcpath!="fail"){
 		$("#s_"+sfilename).val(srcpath);
 		$("#"+fname).val(srcpath);
-		if(fname=="goodsImg" || fname=="logo" || fname=="mlogo"){
+		if(fname=="goodsImg" || fname=="logo" || fname=="mlogo" || fname=="adFile"){
 			$("#goodsThumbs").val(thumbpath);
 		}
 		else if(fname=="adpath")

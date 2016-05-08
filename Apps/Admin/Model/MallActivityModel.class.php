@@ -114,6 +114,11 @@ class MallActivityModel extends BaseModel {
 	  */
 	 public function del(){
 	 	$rd = array('status'=>-1);
+	   	
+	   	$mactid=I('id');
+	    $mm = M('mall_activitym');
+	    $rs = $mm->where("mactid=$mactid")->delete();
+				
 	    $m = M('mall_activity');
 	    $rs = $m->delete((int)I('id'));
 		if(false !== $rs){

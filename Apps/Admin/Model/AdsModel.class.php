@@ -18,6 +18,7 @@ class AdsModel extends BaseModel {
 		$data = array();
 		$data["adPositionId"] = (int)I("adPositionId");
 		$data["adFile"] = I("adFile");
+		$data["adFileThumb"] = I("adFileThumb");		
 		$data["adStartDate"] = I("adStartDate");
 		$data["adEndDate"] = I("adEndDate");
 		$data["adSort"] = I("adSort",0);
@@ -42,6 +43,7 @@ class AdsModel extends BaseModel {
 	 	$id = (int)I("id",0);
 		$data["adPositionId"] = (int)I("adPositionId");
 		$data["adFile"] = I("adFile");
+		$data["adFileThumb"] = I("adFileThumb");
 		$data["adStartDate"] = I("adStartDate");
 		$data["adEndDate"] = I("adEndDate");
 		$data["adSort"] = (int)I("adSort",0);

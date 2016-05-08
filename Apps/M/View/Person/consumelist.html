@@ -29,7 +29,7 @@
 <script>
 	$(function() {
 		var pageNum = 1;
-		cky.onScrollEnd(page);
+		util.onScrollEnd(page);
 		
 		var recrodList = $("#recrodList");
 		var template = $("li:first-child", recrodList);		
@@ -39,7 +39,7 @@
 				var murl="{:U('consumelistPage', '', '')}";
 				pageNum=pageNum+1;
 				$.get(murl, {pageSize:10 ,pageNum: pageNum }, function(list) {
-					cky.endScroll();
+					util.endScroll();
 						if(list && list.length > 0) 
 						{
 				       		$.each(list, function() {

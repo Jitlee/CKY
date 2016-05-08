@@ -41,7 +41,7 @@
 	$(function() {
 		var pageNum = 1;
 		
-		cky.onScrollEnd(page);
+		util.onScrollEnd(page);
 		
 		var recrodList = $("#apprList");
 		var template = $("ul:first-child", recrodList);		
@@ -53,7 +53,7 @@
 			var vshopId={$shopId};
 			var vgoodsid={$goodsId};
 			$.get(murl, {pageSize:15 ,pageNum: pageNum ,shopId: vshopId,goodsId:vgoodsid}, function(list) {	
-				cky.endScroll();
+				util.endScroll();
 				//console.info(list.length); 
 				if(list && list.length > 0) 
 				{

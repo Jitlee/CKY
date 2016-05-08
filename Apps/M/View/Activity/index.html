@@ -126,6 +126,7 @@
 					pageNo: _pageNo,
 					catId: catId,
 				}, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						activities.length = 0;
 						$("#activitiesLoading").hide();
@@ -145,6 +146,8 @@
 						isEOF = true;
 					}
 				});
+			} else {
+				util.endScroll();
 			}
 		}
 		queryByPage();

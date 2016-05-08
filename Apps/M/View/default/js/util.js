@@ -62,7 +62,7 @@ util = {
 						$("<div class=\"cky-up-refresh\" stytle=\"display:none\"></div>").appendTo(parent);
 					}
 					
-					$(".cky-up-refresh", selector).fadeIn();
+					$(".cky-up-refresh", selector).show();
 					callback();
 					
 					util.__scrollHandler = window.setTimeout(function() {
@@ -73,10 +73,62 @@ util = {
 				}
 			}
 		}
-		$(document).bind("scroll", function() {
-			window.clearTimeout(handler);
-			handler = window.setTimeout(onscrollend, 300);
+//		$(document).bind("scroll", function() {
+//			window.clearTimeout(handler);
+//			handler = window.setTimeout(onscrollend, 300);
+//		});
+		
+		var x1 = 0, y1 = 0;
+		var moveHandler = 0;
+		parent.bind("touchstart",function(evt) {
+			window.clearTimeout(moveHandler);
+			if (parent.scrollTop() + parent.height() + threshold > parent.height()) {
+				x2 = x1 = evt.originalEvent.touches[0].pageX;
+				y2 = y1 = evt.originalEvent.touches[0].pageY;
+//				console.info("x1: " + x1 + ", y1: " + y1);
+				parent.bind("touchmove", ontouchmove);
+				parent.bind("touchend", ontouchend);
+//				moveHandler = window.setTimeout(function() {
+//					if(y2 - y1 > 80 && Math.abs(x1 - x2) < 60) {
+//						onscrollend();
+//					}
+//				}, 300);
+			}
 		});
+		
+		function ontouchmove(evt) {
+			x2 = evt.originalEvent.touches[0].pageX;
+			y2 = evt.originalEvent.touches[0].pageY;
+//			console.info("x2: " + (x2 - x1) + ", y2: " + (y2 - y1));
+			if(y2 - y1 < -80 && Math.abs(x1 - x2) < 60) {
+//				evt.stopPropagation();
+//				evt.preventDefault();
+//				window.clearTimeout(moveHandler);
+				onscrollend();
+				ontouchend();
+			}
+		}
+		
+		function ontouchend() {
+			parent.unbind("touchmove", ontouchmove);
+			parent.unbind("touchend", ontouchend);
+		}
+		
+		
+		
+		
+//		//Keep track of how many swipes
+//		var count=0;
+//		//Enable swiping...
+//		parent.swipe( {
+//			//Single swipe handler for left swipes
+//			swipeUp:function(event, direction, distance, duration, fingerCount) {
+//				 onscrollend();
+//			},
+//			//Default is 75px, set to 0 for demo so any distance triggers swipe
+//			threshold:0
+//		});
+		
 		return this;
 	},
 	
@@ -91,7 +143,7 @@ util = {
 			util.__scrollHandler = 0;
 		}
 		parent.data("isScrollInBuzy", false);
-		$(".cky-up-refresh", selector).fadeOut();
+		$(".cky-up-refresh", selector).hide();
 	},
 	
 	

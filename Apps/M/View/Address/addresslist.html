@@ -151,7 +151,7 @@
 			$.getJSON("{:U('Address/loadList')}", {
 				pageNo: _pageNo					
 			}, function(list) {
-				
+				util.endScroll();
 				if(_pageNo == 1) {
 					addrees.length = 0;
 					$("#addressList").removeClass("mui-hidden");
@@ -167,6 +167,8 @@
 					isEOF = true;
 				}
 			});
+		} else {
+			util.endScroll();
 		}
 	}
 

@@ -341,6 +341,7 @@
 				$.getJSON("{:U('Activity/pageCoupons')}", {
 					pageNo: _pageNo
 				}, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						coupons.length = 0;
 						$("#couponsLoading").hide();
@@ -364,6 +365,8 @@
 						isEOF = true;
 					}
 				});
+			} else {
+				util.endScroll();
 			}
 		}
 		

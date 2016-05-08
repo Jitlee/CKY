@@ -133,6 +133,13 @@ class HomeAction extends BaseAction {
 		}
 		
 	}
+
+	public function trylogin()
+	{
+		
+	}
+
+
 	/*关联根据手机号码*/
 	public function conncardmobile() {
 		if(IS_POST) {

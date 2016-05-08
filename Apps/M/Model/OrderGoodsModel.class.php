@@ -27,8 +27,8 @@ class OrderGoodsModel extends BaseModel {
 		 
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
-		$map = "og.goodsId='$goodsId'";
-		return $this->where($map)->field('o.createTime, , og.goodsNums as count,INSERT(userName,ROUND(CHAR_LENGTH(o.userName) / 2),ROUND(CHAR_LENGTH(o.userName) / 4),\'****\') userName')
+		$map = "og.goodsId='$goodsId' and o.orderStatus >0";
+		return $this->where($map)->field('o.createTime, og.goodsNums as count,INSERT(userName,ROUND(CHAR_LENGTH(o.userName) / 2),ROUND(CHAR_LENGTH(o.userName) / 4),\'****\') userName')
 			->join('og INNER JOIN __ORDERS__ o on og.orderId = o.orderId')->page($pageNo, $pageSize)->select();
 			//->having('count(og.id) > 0')
 	}

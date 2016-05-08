@@ -124,7 +124,8 @@ class MallAction extends BaseAction {
 		$result=$mMember->getActivityGoods($s,$e);
 		return $result;
 	}
-	public function t() {	
+	public function lifeindex() {
+		$this->assign('title', '惠生活');	
 		$this->display();
 	}
 }

@@ -112,6 +112,7 @@
 		var vm = ko.observableArray(activities);
 		ko.applyBindings(vm, document.getElementById("activityList"));
 		function queryByPage() {
+			util.endScroll();
 			if(force) {
 				vm.removeAll();
 				activities.length = 0;

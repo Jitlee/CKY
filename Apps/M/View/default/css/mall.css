@@ -192,6 +192,10 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	padding-right: 6px;
 }
 
+.mall-mod-title .mui-text-right a {
+	color: #666;
+}
+
 .mall-mod-title .mui-text-right::after {
 	font-size: 17px;
 	display: inline-block;
@@ -202,7 +206,7 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 	margin-left: 3px;
-	color: #FF4040;
+	color: #999;
 }
 
 

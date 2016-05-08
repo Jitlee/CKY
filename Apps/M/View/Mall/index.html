@@ -16,7 +16,7 @@
 		<i class="iconfont icon-sousuo"></i>
 		<input class="mall-need-search" placeholder="搜索超市商品"/>
 	</div>
-	<a id="cartButton" class="mall-search-bar-item" href="{:U('Cart/index')}"><i class="iconfont icon-gouwuche"></i></a>
+	<a id="cartButton" class="mall-search-bar-item" href="{:U('Cart/index')}"><i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i></a>
 	<a id="cardButton" class="mall-search-bar-item" href="{:U('Person/countlist')}"><i class="iconfont icon-ka"></i></a>
 	<a id="ticketButton" class="mall-search-bar-item" href="{:U('Person/coupon')}"><i class="iconfont icon-daijinquan"></i></a>
 </nav>
@@ -217,10 +217,11 @@
 		
 		var pageNo = 1;
 		function page() {
-			$.getJSON("{:U('Mall/ptg')}", {
+			$.getJSON("{:U('Goods/ptg')}", {
 				pageNo: pageNo,
 				catId: 3
 			}, function(list) {
+				util.endScroll("#body");
 				if(list && list.length > 0) {
 					pageNo++;
 					goods = goods.concat(list);
@@ -228,7 +229,8 @@
 				}
 			});
 		}
-		util.onScrollEnd(page);
+		util.onScrollEnd(page, "#body");
+		page();
 		
 		// 购物车
 		function onaddcartclick(obj, evt) {

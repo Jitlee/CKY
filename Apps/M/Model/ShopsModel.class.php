@@ -26,7 +26,7 @@ class ShopsModel extends BaseModel {
 		if($catId > 0) {
 			$filter = $filter.' and plateId2='.$catId;
 		} else {
-			$filter = $filter.' and plateId1=336';
+			$filter = $filter.' and plateId1=4';
 		}
 		if($areaId > 0) {
 			$filter = $filter.' and areaId3='.$areaId;
@@ -37,19 +37,21 @@ class ShopsModel extends BaseModel {
 			$order = 'distance';
 		}
 		
-		$field = array('s.shopId','shopSn','shopName','shopImg','shopTel',
-			'latitude','longitude','deliveryOff','shopAddress','gc.catName');
+		$field = "s.shopId,shopSn,shopName,replace(shopImg, '.', '_thumb.') shopImg,shopTel,
+			latitude,longitude,deliveryOff,shopAddress,gc.catName";
 		if($lng > 0 && $lat > 0) {
-			$field[sprintf('SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
-				$lat, $lng)] = 'distance';
+			$field .= sprintf(',SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
+				$lat, $lng).' distance';
 		} else {
-			$field['(0)'] = 'distance';
+			$field .= ',0 distance';
 		}
 		
-		return $this->field($field)
-	 				->join('s INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
-					->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
-					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+		$list = $this->field($field)
+			->join('s INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
+			->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
+			->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
 	 }
 	 
 	 /**
@@ -59,7 +61,7 @@ class ShopsModel extends BaseModel {
 	 	if($shopId == 0) {
 	 		$shopId = I('id');
 		}
-		$field = 's.shopId, shopSn, shopName, shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc, shopWishes, shopProfile, ROUND(`totalScore`/3/`totalUsers`, 1) score';
+		$field = "s.shopId, shopSn, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc, shopWishes, shopProfile, ROUND(`totalScore`/3/`totalUsers`, 1) score";
 		$join = 's left join __SHOP_SCORES__ ss on s.shopId = ss.shopId';
 		$map = array('s.shopId' => $shopId);
 		return $this->field($field)->join($join)->where($map)->find();
@@ -98,23 +100,24 @@ class ShopsModel extends BaseModel {
 				break;
 		}
 		
-		$field = array('s.shopId','shopSn','shopName','shopImg','shopTel',
-			'deliveryStartMoney', 'deliveryCostTime', 'serviceStartTime', 'serviceEndTime', 'deliveryMoney', 'deliveryFreeMoney',
-			'totalScore', 'totalUsers',
-			'latitude','longitude','deliveryOff','shopAddress');
+		$field = "s.shopId,shopSn,shopName,replace(s.shopImg, '.', '_thumb.') shopImg,shopTel,
+			deliveryStartMoney, deliveryCostTime, serviceStartTime, serviceEndTime, deliveryMoney, deliveryFreeMoney,
+			totalScore, totalUsers,
+			latitude,longitude,deliveryOff,shopAddress";
 		if($lng > 0 && $lat > 0) {
-			$field[sprintf('SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
-				$lat, $lng)] = 'distance';
+			$field .= sprintf(',SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
+				$lat, $lng).' distance';
 		} else {
-			$field['(0)'] = 'distance';
+			$field .= ',0 distance';
 		}
 		
-		return $this->field($field)
-					->join('s INNER JOIN __SHOP_SCORES__ ss on ss.shopId = s.shopId')
-	 				->join('INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
-					->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
-					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
-//					->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+		$list = $this->field($field)
+			->join('s INNER JOIN __SHOP_SCORES__ ss on ss.shopId = s.shopId')
+			->join('INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
+			->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
+			->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
 	}
 };
 ?>

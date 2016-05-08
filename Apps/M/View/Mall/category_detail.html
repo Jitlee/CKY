@@ -5,7 +5,9 @@
 		<i class="iconfont icon-sousuo"></i>
 		<input class="mall-need-search" placeholder="搜索粗卡超市商品"/>
 	</div>
-	<a id="cart" href="{:U('Cart/index')}" class="mall-search-bar-item"><i class="iconfont icon-gouwuche"></i></a>
+	<a id="cart" href="{:U('Cart/index')}" class="mall-search-bar-item">
+		<i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i>
+	</a>
 	<a href="{:U('Mall/category')}" class="mall-search-bar-item mall-search-bar-text-item">
 		<i class="iconfont icon-list"></i>
 		<div>类目</div>
@@ -107,13 +109,14 @@
 			if(clear) {
 				pageNo = 0;
 			}
-			$.getJSON("{:U('Mall/ptg')}", {
+			$.getJSON("{:U('Goods/ptg')}", {
 				pageNo: pageNo,
 				catId: 3,
 				catId3: "{:I('catId', 0)}",
 				brands: brands.join(","),
 				sortType: sortType,
 			}, function(list) {
+				util.endScroll();
 				if(clear) {
 					vm.goods.removeAll();
 				}
@@ -219,7 +222,7 @@
 		
 		// 统计商品数量
 		function countGoods(brands) {
-			$.getJSON("{:U('Mall/ctg')}", {
+			$.getJSON("{:U('Goods/ctg')}", {
 				catId: 3,
 				catId3: "{:I('catId', 0)}",
 				brands: brands.join(","),

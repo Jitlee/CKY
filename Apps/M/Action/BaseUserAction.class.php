@@ -6,7 +6,9 @@ use Think\Controller;
 class BaseUserAction extends BaseAction {
 	
 	protected function _initialize() {
- 		$this->must_login();
+		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
+ 			$this->must_login();
+		}
 	}
 	
 	function must_login() {

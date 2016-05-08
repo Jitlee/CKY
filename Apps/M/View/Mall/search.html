@@ -89,7 +89,9 @@
 			<i class="iconfont icon-sousuo"></i>
 			<input class="cky-input-clear" placeholder="搜索超市商品"/>
 		</div>
-		<a class="mall-search-bar-item mall-search-window-cart" style="display:none" href="{:U('Cart/index')}"><i class="iconfont icon-gouwuche"></i></a>
+		<a class="mall-search-bar-item mall-search-window-cart" style="display:none" href="{:U('Cart/index')}">
+			<i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i>
+		</a>
 		<a class="mall-search-bar-item mall-search-bar-button">搜索</a>
 	</nav>
 	<div class="mui-content">
@@ -233,7 +235,7 @@
 				pageNo = 1;
 				vm.goods.removeAll();
 			}
-			$.getJSON("{:U('Mall/ptg')}", {
+			$.getJSON("{:U('Goods/ptg')}", {
 				pageNo: pageNo,
 				catId: MOD,
 				keywords: currentKeywords, 
@@ -257,10 +259,12 @@
 			searchWindow.removeClass("cky-active");
 			window.setTimeout(function() {
 				searchWindow.hide();
+				$(document.body).css("overflow", "auto");
 			}, 300);
 		});
 		
 		$(".mall-need-search").click(function(){
+			$(document.body).css("overflow", "hidden");
 			searchWindow.show();
 			window.setTimeout(function() {
 				searchWindow.addClass("cky-active");

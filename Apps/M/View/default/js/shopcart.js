@@ -87,6 +87,7 @@ function ShopCart(pickerId, shop, goods) {
 			
 			// 保存购物车
 			cky.storage.setItem(CACHE_KEY, cart);
+			$.refreshCartCount();
 			close();
 		} else if(cartType == "direct") {
 			// 直接购买，跳转到下单页面
@@ -138,6 +139,8 @@ cky.addToShopCart = function(goods) {
 	_goods.count++;
 	calcFreeMoney(_goods);
 	cky.storage.setItem(CACHE_KEY, cart);
+	
+	$.refreshCartCount();
 }
 	
 function calcFreeMoney(goods) {

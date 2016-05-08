@@ -39,7 +39,7 @@ class GoodsModel extends BaseModel {
 			->where($map)->order($order)->page($pageNo, $pageSize)->select();
 	}
 	
-	public function detail($queryType = 0) {
+	public function detail() {
 		$goodsId = I('id');
 		$field = 'g.goodsId, g.shopId, goodsSn, goodsName, shopCatId1, goodsImg, goodsThums, shopPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime'
 			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
@@ -113,6 +113,7 @@ class GoodsModel extends BaseModel {
 		$brands = I('brands');
 		
 		$field = "g.goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums"
+			.", g.goodsStock,goodsUnit, g.shopCatId1"
 			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
 		$filter = array(
 			'g.shopId'			=> array('gt', 0),
@@ -137,6 +138,16 @@ class GoodsModel extends BaseModel {
 			$filter['goodsName'] = array('like', $likeArray, 'or');
 		}
 		
+		$shopId = (int)I('shopId', 0);
+		if($shopId > 0) {
+			$filter['g.shopId'] = $shopId;
+		}
+		
+		$shopCatId = intval(I('shopCatId', 0));
+		if($shopCatId > 0) {
+			$filter['g.shopCatId1'] = $shopCatId;
+		}
+		
 		$join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
 		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';
 		$leftJoin2 = 'left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid';
@@ -155,6 +166,9 @@ class GoodsModel extends BaseModel {
 				$order = 'shopPrice asc,'.$order;
 				break;
 			case 4:
+				$order = 'shopPrice desc,'.$order;
+				break;
+			case 101:
 				$order = 'shopPrice desc,'.$order;
 				break;
 		}

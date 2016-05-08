@@ -92,6 +92,7 @@
 					lng: currentLongitude,
 					lat: currentLatitude
 				}, function(list) {
+					util.endScroll();
 					if(_pageNo == 1) {
 						shops.length = 0;
 						$("#shopsLoading").hide();
@@ -111,8 +112,8 @@
 				});
 			}
 		}
-		queryByPage();
 		util.onScrollEnd(queryByPage);
+		queryByPage();
 		
 		// 商家分类
 		$("#catsButton").dropMenu({

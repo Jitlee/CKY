@@ -39,20 +39,6 @@ class MallAction extends BaseAction {
 		$this->display();
 	}
 	
-	// 获取所有商品
-	public function ptg() {
-		$db = D('Goods');
-		$list = $db->pageTop();
-		$this->ajaxReturn($list, 'JSON');
-	}
-	
-	// 获取所有商品的数量
-	public function ctg() {
-		$db = D('Goods');
-		$count = $db->countTop();
-		$this->ajaxReturn($count, 'JSON');
-	}
-	
 	// 商品类目
 	public function category() {
 		$this->assign('title', '商品分类');

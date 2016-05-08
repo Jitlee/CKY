@@ -14,6 +14,13 @@ class IndexAction extends Controller {
 		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
 			try_login();
 		}
+		else
+		{
+			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
+			session('openid',$openid);
+			try_login();			
+		}
+		
 		
 		$this->assign('title', "粗卡");
 		$this->assign('tabid', 'home');

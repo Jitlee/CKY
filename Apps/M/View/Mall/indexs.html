@@ -12,9 +12,9 @@
     <div class="lbox_close wxapi_form">
        <h3>分享接口</h3>
        
-       	<button class="btn btn_primary"  onclick="btnselfShare();" id="btnselfShare">分享</button>
+      <!-- 	<button class="btn btn_primary"  onclick="btnselfShare();" id="btnselfShare">分享</button>-->
        
-      <h3 id="menu-basic">基础接口</h3>
+      <!--<h3 id="menu-basic">基础接口</h3>
       <span class="desc">判断当前客户端是否支持指定JS接口</span>
       <button class="btn btn_primary" id="checkJsApi">checkJsApi</button>
 
@@ -26,28 +26,27 @@
       <span class="desc">获取“分享到QQ”按钮点击状态及自定义分享内容接口</span>
       <button class="btn btn_primary" id="onMenuShareQQ">onMenuShareQQ</button>
       <span class="desc">获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口</span>
-      <button class="btn btn_primary" id="onMenuShareWeibo">onMenuShareWeibo</button>
+      <button class="btn btn_primary" id="onMenuShareWeibo">onMenuShareWeibo</button>-->
 
     
 
-      <h3 id="menu-device">设备信息接口</h3>
+      <!--<h3 id="menu-device">设备信息接口</h3>
       <span class="desc">获取网络状态接口</span>
-      <button class="btn btn_primary" id="getNetworkType">getNetworkType</button>
+      <button class="btn btn_primary" id="getNetworkType">getNetworkType</button>-->
 
       <h3 id="menu-location">地理位置接口</h3>
       <span class="desc">使用微信内置地图查看位置接口</span>
       <button class="btn btn_primary" id="openLocation">openLocation</button>
       <span class="desc">获取地理位置接口</span>
       <button class="btn btn_primary" id="getLocation">getLocation</button>
-
+<!--
  <h3>
- 	
  	<input id="sing"  width="200px" type="text"/>
  </h3>
 
       <h3 id="menu-pay">微信支付接口</h3>
       <span class="desc">发起一个微信支付请求</span>
-      <button class="btn btn_primary" id="chooseWXPay">chooseWXPay</button>
+      <button class="btn btn_primary" id="chooseWXPay">chooseWXPay</button>-->
     </div>
        appId: ='{$signPackage.appId}'<br/>
       timestamp:= {$signPackage.timestamp}<br/>
@@ -66,15 +65,15 @@ var shareData = {
     imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0'
 };
   
-var signPackage=new Object(); 
-signPackage.appId='{$signPackage.appId}';
-signPackage.timestamp={$signPackage.timestamp};
-signPackage.nonceStr='{$signPackage.nonceStr}';
-signPackage.signature='{$signPackage.signature}';
+//var signPackage=new Object(); 
+//signPackage.appId='{$signPackage.appId}';
+//signPackage.timestamp={$signPackage.timestamp};
+//signPackage.nonceStr='{$signPackage.nonceStr}';
+//signPackage.signature='{$signPackage.signature}';
 </script>
 <script src="__JQ__"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
-<script src="__JS__/{:autoVer('wxjsapi.js')}"></script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?122lu"></script>
 <!--<script type="text/javascript" src="__JS__/wxjsapi.js?v=1123e1"></script>-->
 </body>
 </html>

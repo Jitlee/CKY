@@ -239,8 +239,10 @@ where goodsFlag=1  and goodsId=$goodsId";
 //		}
 	 	//加载商品信息
 	 	$m = M('goods');
-	 	$goods = $m->where('goodsId='.$goodsId." and shopId=".$shopId)->find();
+	 	$goods = $m->where('goodsId='.$goodsId)->find();
 	 	if(empty($goods))return array();
+		 
+		
 		$data = array();
 		
 		$data["goodsSn"] = I("goodsSn");

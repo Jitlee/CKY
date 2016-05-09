@@ -1,9 +1,9 @@
-//var signPackage=new Object(); 
+var signPackage=new Object(); 
 function initconfig()
 {
 	
 	wx.config({
-	      debug: false,
+	      debug: true,
 	      appId: 		signPackage.appId,
 	      timestamp: 	signPackage.timestamp,
 	      nonceStr: 	signPackage.nonceStr,
@@ -32,14 +32,20 @@ function initconfig()
 
 $(document).ready(function(){
 
-//	$.getJSON("/index.php/M/Wx/getsharekey", {v:1.100100}, function(data) {
-//		signPackage=new Object(); 
-//		signPackage.appId=data.appId;
-//		signPackage.timestamp=data.timestamp;
-//		signPackage.nonceStr=data.nonceStr;
-//		signPackage.signature=data.signature; 
+	$.getJSON("http://cky.ritacc.net/index.php/M/Wx/getsharekey", {v: '1.100100'}, function(data) {
+		//var signPackage=new Object(); 
+		//signPackage.appId='{$signPackage.appId}';
+		//signPackage.timestamp={$signPackage.timestamp};
+		//signPackage.nonceStr='{$signPackage.nonceStr}';
+		//signPackage.signature='{$signPackage.signature}';
+		alert(data.signature.length);
+		signPackage=new Object();
+		signPackage.appId=data.appId;
+		signPackage.timestamp=data.timestamp;
+		signPackage.nonceStr=data.nonceStr;
+		signPackage.signature=data.signature; 
 		initconfig();
-//	});
+	});
 	
  
 wx.ready(function () {	
@@ -142,18 +148,22 @@ wx.ready(function () {
 //};
 
 	//获取位置
-//	document.querySelector('#getLocation').onclick = function () {
-//	    wx.getLocation({
-//		    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-//		    success: function (res) {
-//		        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-//		        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
-//		        var speed = res.speed; // 速度，以米/每秒计
-//		        var accuracy = res.accuracy; // 位置精度
-//		        alert(latitude+',longitude='+longitude);
-//		    }
-//		});
-//}; 
+	document.querySelector('#getLocation').onclick = function () {		
+	    wx.getLocation({
+		    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+		    success: function (res) {
+		        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+		        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
+		        var speed = res.speed; // 速度，以米/每秒计
+		        var accuracy = res.accuracy; // 位置精度
+		        alert('latitude='+latitude+',longitude='+longitude);
+		    },
+		    cancel: function (res) {
+                 alert('用户拒绝授权获取地理位置');
+            }
+		});
+	}; 
+	
   var defultimg='http://cky.ritacc.net/Public/images/cuka.jpg?ee20160502';
   if(shareData.imgUrl=='')
   {

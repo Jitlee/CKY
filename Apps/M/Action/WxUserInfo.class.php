@@ -78,7 +78,8 @@ class WxUserInfo
 	 
 	public function getSignPackage() {
 	    $jsapiTicket = $this->getJsApiTicket();
-	    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	    //$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	    $url = "http://http://cky.ritacc.net/index.php/M/Mall/indexs";
 	    $timestamp = time();
 	    $nonceStr = $this->createNonceStr();
 	

@@ -61,12 +61,12 @@ $(function() {
 				if(shop && shop.goods) {
 					for(var goodsId in shop.goods) {
 						var goods = shop.goods[goodsId];
-						money = goods.count * Number(goods.shopPrice);
+						money += goods.count * Number(goods.shopPrice);
 					}
 				}
 			}
 			if(money > 0) {
-				if(money > 1000) {
+				if(money > 10000) {
 					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+Math.round(money/1000)/10 + "万");
 				} else {
 					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+money);
@@ -242,7 +242,7 @@ var cky = {
 	},
 	
 	/**
-	 * 判断是否为{} 空对象
+	 * 判断购物车内的数量
 	 * @param {Object} obj
 	 */
 	isEmpty: function(obj) {

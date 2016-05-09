@@ -251,7 +251,7 @@
 										for(var goodsId in selectedCart.shops[shopId]) {
 											delete cart.shops[shopId].goods[goodsId];
 										}
-										if(cky.isEmpty(cart.shops[shopId])) {
+										if(cky.isEmpty(cart.shops[shopId].goods)) {
 											delete cart.shops[shopId];
 										}
 									}

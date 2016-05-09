@@ -107,10 +107,10 @@ function formatOrderStatus($orderStatus) {
  * @return string
  */
 function autoVer($filename){
-//	$ext = substr(strrchr($filename, '.'), 1);
-//	$path = $_SERVER['DOCUMENT_ROOT'].'/Apps/M/View/Default/'.$ext.'/'.$filename;
-//  $ver = filemtime($path);
-	$ver='0415';
+	$ext = substr(strrchr($filename, '.'), 1);
+	$path = $_SERVER['DOCUMENT_ROOT'].'/Apps/M/View/default/'.$ext.'/'.$filename;
+    $ver = filemtime($path);
+//	$ver='0415';
     echo $filename.'?v='.$ver;
 }
 

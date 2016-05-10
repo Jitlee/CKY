@@ -73,12 +73,13 @@ class MallAction extends BaseAction {
 	
 	public function indexs() {
 		// 获取广告
-//		$wxm= new WxUserInfo();
-//		$signPackage=$wxm->getSignPackage();			 
-//		$this->assign('signPackage', $signPackage);
-		
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+			 		
 		$this->assign('title', '商城-微信API测试');
 		$this->display();
+	 
 	}
 	
 	public function activitydetail() {

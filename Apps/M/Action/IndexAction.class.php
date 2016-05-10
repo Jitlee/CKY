@@ -20,7 +20,10 @@ class IndexAction extends Controller {
 			session('openid',$openid);
 			try_login();			
 		}
-		
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
 		
 		$this->assign('title', "粗卡");
 		$this->assign('tabid', 'home');

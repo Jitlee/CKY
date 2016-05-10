@@ -85,23 +85,56 @@
 </div>
 
 <include file="Public:tab"/>
-<script type="text/javascript" src="__KO__"></script>
+<script>  
+var currentCity = $("#cityLabel").text();
+var currentLongitude = 0;
+var currentLatitude = 0;
 
+var shareData = {
+    title: '粗卡',
+    desc: '粗卡云管理',
+    link: window.location.href,
+    imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0'
+};
+
+wxext = function(){
+	getlocation=null;
+};
+var signPackage=new Object(); 
+signPackage.appId='{$signPackage.appId}';
+signPackage.timestamp={$signPackage.timestamp};
+signPackage.nonceStr='{$signPackage.nonceStr}';
+signPackage.signature='{$signPackage.signature}';
+signPackage.Location=1;//调用
+signPackage.ak="{$CONF['bmapAK']}";
+
+wxext.getlocation= function(lng, lat, city, areaId) {
+	currentLongitude = lng;
+	currentLatitude = lat;			
+	if(city) {
+		$("#cityLabel").text(city.replace(/市$/, ""));
+		currentCity = city.replace(/市$/, "");
+	}
+};
+</script>
+
+<script type="text/javascript" src="__KO__"></script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?b11"></script>
 <script>
 	$(function() {
 		
-		var currentCity = $("#cityLabel").text();
-		var currentLongitude = 0;
-		var currentLatitude = 0;
+//		var currentCity = $("#cityLabel").text();
+//		var currentLongitude = 0;
+//		var currentLatitude = 0;
 		
-		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
-			currentLongitude = lng;
-			currentLatitude = lat;
-			if(city) {
-				$("#cityLabel").text(city.replace(/市$/, ""));
-				currentCity = city.replace(/市$/, "");
-			}
-		});
+//		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+//			currentLongitude = lng;
+//			currentLatitude = lat;
+//			if(city) {
+//				$("#cityLabel").text(city.replace(/市$/, ""));
+//				currentCity = city.replace(/市$/, "");
+//			}
+//		});
 		
 		var mySwiper = new Swiper ('.swiper-container', {
 	      // Optional parameters

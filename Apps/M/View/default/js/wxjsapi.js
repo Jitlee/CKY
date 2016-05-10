@@ -1,9 +1,11 @@
-var signPackage=new Object(); 
+
+ 
+
+
 function initconfig()
-{
-	
+{	
 	wx.config({
-	      debug: true,
+	      debug: false,
 	      appId: 		signPackage.appId,
 	      timestamp: 	signPackage.timestamp,
 	      nonceStr: 	signPackage.nonceStr,
@@ -29,140 +31,75 @@ function initconfig()
 	      ]
  	});
 }
+function geocoder(ak, lat, lng, callback) {
+		var api = "http://api.map.baidu.com/geocoder/v2/?ak={1}&location={2},{3}&output=json&pois=0";
+		api = util.format(api, ak, lat, lng);
+		$.post(api, null, function(evt) {
+			//alert(evt.result.addressComponent.city);
+			if(evt && evt.status == 0) {
+				console.info("百度定位成功");
+				callback(lat,lng, evt.result.addressComponent.city );
+//				$.getJSON('../Areas/getCityCode.html', {
+//					areaName: evt.result.addressComponent.city
+//				}, function(areaId) {
+//					evt.result.areaId = areaId;
+//					callback(evt.result);	
+//				})
+			} else {
+				console.error("百度定位API失败");
+				callback({ location: { lat: lat, lng: lng } });
+			}
+		}, "jsonp");
+}
 
 $(document).ready(function(){
 
-	$.getJSON("http://cky.ritacc.net/index.php/M/Wx/getsharekey", {v: '1.100100'}, function(data) {
-		//var signPackage=new Object(); 
-		//signPackage.appId='{$signPackage.appId}';
-		//signPackage.timestamp={$signPackage.timestamp};
-		//signPackage.nonceStr='{$signPackage.nonceStr}';
-		//signPackage.signature='{$signPackage.signature}';
-		alert(data.signature.length);
-		signPackage=new Object();
-		signPackage.appId=data.appId;
-		signPackage.timestamp=data.timestamp;
-		signPackage.nonceStr=data.nonceStr;
-		signPackage.signature=data.signature; 
+//	$.getJSON("http://cky.ritacc.net/index.php/M/Wx/getsharekey", {v: '1.100100'}, function(data) {
+//		signPackage=new Object();
+//		signPackage.appId=data.appId;
+//		signPackage.timestamp=data.timestamp;
+//		signPackage.nonceStr=data.nonceStr;
+//		signPackage.signature=data.signature; 
 		initconfig();
-	});
+//	});
 	
  
-wx.ready(function () {	
-  // 2. 分享接口
-  // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-//document.querySelector('#onMenuShareAppMessage').onclick = function () {
-//  wx.onMenuShareAppMessage({
-//    title: '移动互联网交流学习',
-//    desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-//    link: 'http://bbs.weiwangvip.com/',
-//    imgUrl: 'http://bbs.weiwangvip.com/data/attachment/forum/201501/09/135516s99ll77cl5p86p0o.jpg',
-//    trigger: function (res) {
-//      alert('用户点击发送给朋友');
-//    },
-//    success: function (res) {
-//      alert('已分享');
-//    },
-//    cancel: function (res) {
-//      alert('已取消');
-//    },
-//    fail: function (res) {
-//      alert(JSON.stringify(res));
-//    }
-//  });
-//  alert('已注册获取“发送给朋友”状态事件');
-//};
-
-  // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-//document.querySelector('#onMenuShareTimeline').onclick = function () {
-//  wx.onMenuShareTimeline({
-//    title: '移动互联网交流学习',
-//    link: 'http://bbs.weiwangvip.com/',
-//    imgUrl: 'http://bbs.weiwangvip.com/data/attachment/forum/201501/09/135516s99ll77cl5p86p0o.jpg',
-//    trigger: function (res) {
-//      alert('用户点击分享到朋友圈');
-//    },
-//    success: function (res) {
-//      alert('已分享');
-//    },
-//    cancel: function (res) {
-//      alert('已取消');
-//    },
-//    fail: function (res) {
-//      alert(JSON.stringify(res));
-//    }
-//  });
-//  alert('已注册获取“分享到朋友圈”状态事件');
-//};
-
-  // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-//document.querySelector('#onMenuShareQQ').onclick = function () {
-//  wx.onMenuShareQQ({
-//    title: '移动互联网交流学习',
-//    desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-//    link: 'http://bbs.weiwangvip.com/',
-//    imgUrl: 'http://bbs.weiwangvip.com/data/attachment/forum/201501/09/135516s99ll77cl5p86p0o.jpg',
-//    trigger: function (res) {
-//      alert('用户点击分享到QQ');
-//    },
-//    complete: function (res) {
-//      alert(JSON.stringify(res));
-//    },
-//    success: function (res) {
-//      alert('已分享');
-//    },
-//    cancel: function (res) {
-//      alert('已取消');
-//    },
-//    fail: function (res) {
-//      alert(JSON.stringify(res));
-//    }
-//  });
-//  alert('已注册获取“分享到 QQ”状态事件');
-//};
-  
-  // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
-//document.querySelector('#onMenuShareWeibo').onclick = function () {
-//  wx.onMenuShareWeibo({
-//    title: '移动互联网交流学习',
-//    desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-//    link: 'http://bbs.weiwangvip.com/',
-//    imgUrl: 'http://bbs.weiwangvip.com/data/attachment/forum/201501/09/135516s99ll77cl5p86p0o.jpg',
-//    trigger: function (res) {
-//      alert('用户点击分享到微博');
-//    },
-//    complete: function (res) {
-//      alert(JSON.stringify(res));
-//    },
-//    success: function (res) {
-//      alert('已分享');
-//    },
-//    cancel: function (res) {
-//      alert('已取消');
-//    },
-//    fail: function (res) {
-//      alert(JSON.stringify(res));
-//    }
-//  });
-//  alert('已注册获取“分享到微博”状态事件');
-//};
-
-	//获取位置
-	document.querySelector('#getLocation').onclick = function () {		
-	    wx.getLocation({
-		    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-		    success: function (res) {
-		        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-		        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
-		        var speed = res.speed; // 速度，以米/每秒计
-		        var accuracy = res.accuracy; // 位置精度
-		        alert('latitude='+latitude+',longitude='+longitude);
-		    },
-		    cancel: function (res) {
-                 alert('用户拒绝授权获取地理位置');
-            }
-		});
-	}; 
+wx.ready(function () {
+	 
+		//获取位置
+		//document.querySelector('#getLocation').onclick = function () {
+//			alert(signPackage.ak);
+		if(signPackage.Location && signPackage.Location==1)
+		{
+		     wx.getLocation({
+			    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+			    success: function (res) {
+//			        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+//			        var longitude = res.longitude ; // 经度，浮点数，范围为180 ~ -180。
+//			        var speed = res.speed; // 速度，以米/每秒计
+//			        var accuracy = res.accuracy; // 位置精度
+			       
+//			        var  Location =new Object();
+//			        Location.x=res.latitude;
+//			        Location.y=res.longitude;
+			        //获取详细地址
+			        geocoder(signPackage.ak, res.latitude, res.longitude, wxext.getlocation);
+//			        if(wxext.getlocation)
+//			        {
+//			        	// alert('bbbb=latitude1='+latitude+',longitude='+longitude);
+//			        	//wxext.getlocation(Location);
+//			        }
+			    },
+			    cancel: function (res) {
+			         alert('用户拒绝授权获取地理位置');
+			    }
+			});
+		}
+		//}; 
+	 
+	
+	
+	
 	
   var defultimg='http://cky.ritacc.net/Public/images/cuka.jpg?ee20160502';
   if(shareData.imgUrl=='')
@@ -179,6 +116,8 @@ wx.ready(function () {
 wx.error(function (res) {
   alert("wx.error:"+res.errMsg);
 });
+
+ 
 
  
 });

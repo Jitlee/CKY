@@ -71,7 +71,7 @@ class OrdersAction extends BaseUserAction {
 	public function page() {
 		$m = D('M/Orders');
 		$map = array('userId' => getuid());
-		$list = $m->query($map);
+		$list = $m->lst($map);
 		$time = time();
 		foreach($list as $idx => $order) {
 			if((int)$order['orderStatus'] == 0

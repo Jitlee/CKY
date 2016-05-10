@@ -13,7 +13,7 @@ class OrdersModel extends BaseModel {
 	/*
 	 *  获取订单列表
 	 */
-	public function query($obj) {
+	public function lst($obj) {
 		$userId = $obj["userId"];
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
@@ -21,8 +21,10 @@ class OrdersModel extends BaseModel {
 		$field = "o.orderId, orderNo, o.createTime, o.shopId, o.isAppraises, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
 		$group = 'o.orderId';
-		return $this->field($field)->join($join)->where($map)
+		$list = $this->field($field)->join($join)->where($map)
 			->order('createTime desc')->group($group)->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
 	}
 	
 	/**
@@ -1249,86 +1251,96 @@ class OrdersModel extends BaseModel {
 
 	// 处理秒杀商品
 	function _payMiaosha($uid, $orderId) {
-		
 		$rst = array('status' => 1);
-		// 获取云购纪录码
-		$mmdb = M('MemberMiaosha');
-		$mmmap = array(
-			'orderId'	=> $orderId,
-		);
-		$memberMiaosha = $mmdb->field('mmid, miaoshaId, qishu, miaoshaCount')->where($mmmap)->find();
-		if(empty($memberMiaosha)) {
+		$status = $this->query("select f_pay_miaosha($uid, $orderId) rst");
+		if((int)$status['rst'] < 0) {
 			$rst['status'] = -206;
 			$rst['data'] = '获取云购纪录失败';
-			return $rst;
 		}
-		$mmid = (int)$memberMiaosha['mmid'];
-		$qishu = (int)$memberMiaosha['qishu'];
-		$miaoshaId = $memberMiaosha['miaoshaId'];
-		$goodsCount = (int)$memberMiaosha['miaoshaCount'];
-		
-		// 获取云购码
-		$mcdb = M('MiaoshaCode');
-		$mcmap = array(
-			'mc.miaoshaId'		=> $miaoshaId,
-			'mc.uid'				=> 0,
-			'mc.mmid'			=> 0,
-			'm.miaoshaStatus'	=> array('lt', 2), 
-		);
-		$codes = $mcdb->field('mc.mcid, mc.qishu,mc.miaoshaCode,mc.miaoshaCode,rand() factor')
-			->join('mc  inner join __GOODS__ g on mc.miaoshaId = g.miaoshaId')
-			->join('inner join __MIAOSHA__ m on mc.miaoshaId = m.miaoshaId and mc.qishu=m.qishu')
-			->where($mcmap)
-			->order('factor asc')->page(1, $goodsCount)->select();
-		
-		if(empty($codes)) {
-			$rst['status'] = -201;
-			$rst['data'] = '生成云购码失败';
-//			$rst['sql'] = $mcdb->getLastSql();
-			return $rst;
-		}
-		
-		// 标记云购码
-		$mcids = array();
-		foreach($codes as $code) {
-			array_push($mcids, $code['mcid']);
-		}
-		
-		if($mcdb->where('mcid in('.join(',', $mcids).')')
-			->save(array( 'uid'=>$uid, 'mmid' => $mmid)) === FALSE) {
-			$rst['status'] = -203;
-			$rst['data'] = '获取云购码失败';
-			return $rst;
-		}
-		
-		$mdb = M('miaosha');
-		// 判断是否该标记结束
-		$sql = "select 1 from cky_miaosha m WHERE miaoshaId='$miaoshaId' and shengyurenshu=0 and not EXISTS(select 0 from cky_member_miaosha mm,cky_orders o where mm.miaoshaId=m.miaoshaId and mm.qishu=m.qishu and o.orderId = mm.orderId and o.isPay=0 and o.orderStatus = 0)";
-		$isEnd = $mdb->query($sql);
-		
-		if(!$isEnd) {
-			$rst['status'] = -207;
-			$rst['data'] = '获取秒杀商品状态失败';
-			return $rst;
-		}
-		
-		
-		
-			$rst['data0'] = 'is end = false';
-		if(!empty($isEnd)) {
-			// 结束商品
-			$rst['data1'] = 'is end = true';
-			$mddata = array('miaoshaStatus'	=> 2);
-			if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
-				$rst['status'] = -204;
-				$rst['data'] = '修改秒杀购买次数失败';
-				return $rst;
-			}	
-			
-//			$rst['data'] = $mdb->getLastSql();
-		}
-		
+		$rst['uid'] = $uid;
+		$rst['orderId'] = $orderId;
+		$rst['result'] = $status;
 		return $rst;
+		
+//		$rst = array('status' => 1);
+//		// 获取云购纪录码
+//		$mmdb = M('MemberMiaosha');
+//		$mmmap = array(
+//			'orderId'	=> $orderId,
+//		);
+//		$memberMiaosha = $mmdb->field('mmid, miaoshaId, qishu, miaoshaCount')->where($mmmap)->find();
+//		if(empty($memberMiaosha)) {
+//			$rst['status'] = -206;
+//			$rst['data'] = '获取云购纪录失败';
+//			return $rst;
+//		}
+//		$mmid = (int)$memberMiaosha['mmid'];
+//		$qishu = (int)$memberMiaosha['qishu'];
+//		$miaoshaId = $memberMiaosha['miaoshaId'];
+//		$goodsCount = (int)$memberMiaosha['miaoshaCount'];
+//		
+//		// 获取云购码
+//		$mcdb = M('MiaoshaCode');
+//		$mcmap = array(
+//			'mc.miaoshaId'		=> $miaoshaId,
+//			'mc.uid'				=> 0,
+//			'mc.mmid'			=> 0,
+//			'm.miaoshaStatus'	=> array('lt', 2), 
+//		);
+//		$codes = $mcdb->field('mc.mcid, mc.qishu,mc.miaoshaCode,mc.miaoshaCode,rand() factor')
+//			->join('mc  inner join __GOODS__ g on mc.miaoshaId = g.miaoshaId')
+//			->join('inner join __MIAOSHA__ m on mc.miaoshaId = m.miaoshaId and mc.qishu=m.qishu')
+//			->where($mcmap)
+//			->order('factor asc')->page(1, $goodsCount)->select();
+//		
+//		if(empty($codes)) {
+//			$rst['status'] = -201;
+//			$rst['data'] = '生成云购码失败';
+////			$rst['sql'] = $mcdb->getLastSql();
+//			return $rst;
+//		}
+//		
+//		// 标记云购码
+//		$mcids = array();
+//		foreach($codes as $code) {
+//			array_push($mcids, $code['mcid']);
+//		}
+//		
+//		if($mcdb->where('mcid in('.join(',', $mcids).')')
+//			->save(array( 'uid'=>$uid, 'mmid' => $mmid)) === FALSE) {
+//			$rst['status'] = -203;
+//			$rst['data'] = '获取云购码失败';
+//			return $rst;
+//		}
+//		
+//		$mdb = M('miaosha');
+//		// 判断是否该标记结束
+//		$sql = "select 1 from cky_miaosha m WHERE miaoshaId='$miaoshaId' and shengyurenshu=0 and not EXISTS(select 0 from cky_member_miaosha mm,cky_orders o where mm.miaoshaId=m.miaoshaId and mm.qishu=m.qishu and o.orderId = mm.orderId and o.isPay=0 and o.orderStatus = 0)";
+//		$isEnd = $mdb->query($sql);
+//		
+//		if(!$isEnd) {
+//			$rst['status'] = -207;
+//			$rst['data'] = '获取秒杀商品状态失败';
+//			return $rst;
+//		}
+//		
+//		
+//		
+//			$rst['data0'] = 'is end = false';
+//		if(!empty($isEnd)) {
+//			// 结束商品
+//			$rst['data1'] = 'is end = true';
+//			$mddata = array('miaoshaStatus'	=> 2);
+//			if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
+//				$rst['status'] = -204;
+//				$rst['data'] = '修改秒杀购买次数失败';
+//				return $rst;
+//			}	
+//			
+////			$rst['data'] = $mdb->getLastSql();
+//		}
+//		
+//		return $rst;
 	}
 	
 	/**

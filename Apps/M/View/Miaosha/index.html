@@ -1,5 +1,5 @@
-<include file="tab"/>
 <link rel="stylesheet" href="__CSS__/{:autoVer('miaosha.css')}" />
+<include file="tab"/>
 <div class="ms-menu">
 	<a class="ms-dropbtn">
 		商品分类
@@ -27,10 +27,6 @@
 		</label>
 	</div>
 </div>
-<div id="goodsLoading" class="mui-loading">
-	<div class="mui-spinner">
-	</div>
-</div>
 <div id="goodsList" class="ms-list" data-bind="foreach: goods">
 	<div class="ms-list-item">
 		<a data-bind="attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId }">
@@ -48,6 +44,7 @@
 	</div>
 </div>
 <include file="Public:tab"/>
+<div class="cky-loading"></div>
 <script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script type="text/javascript" src="__KO__"></script>
 <script>
@@ -74,12 +71,12 @@
 				catId: catId
 			}, function(list) {
 				util.endScroll();
-				$("#goodsLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;
 					goods = goods.concat(list);
 					vm.goods(goods);
 				}
+				cky.closeLoading();
 			});
 		}
 		util.onScrollEnd(page);

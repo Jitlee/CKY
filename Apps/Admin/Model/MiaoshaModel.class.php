@@ -173,12 +173,17 @@ where goodsFlag=1  and goodsId=$goodsId";
 		$miaosha["maxqishu"] = (int)I("maxqishu");		//最大期数
 		$miaosha["xiangou"] = (int)I("xiangou");
 		
+		$zongrenshu =(int)I("marketPrice");
 		$miaosha["miaoshaStatus"] = 0;		//
 		$miaosha["qishu"] = 1;		//期数',		 
-		$miaosha["zongrenshu"] = (int)I("marketPrice");			//'总人数',
+		$miaosha["zongrenshu"] = $zongrenshu;			//'总人数',
 		$miaosha["canyurenshu"] = 0;		//'参与人数',
-		$miaosha["shengyurenshu"] = (int)I("marketPrice");		// '剩余数',		
+		$miaosha["shengyurenshu"] = $zongrenshu;		// '剩余数',		
 		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");		// '即时揭晓',
+		
+		if($zongrenshu > 100000) {
+			$rd['status']= -2000;
+		}
 		
 		
 		$rd['data'] = array(
@@ -282,12 +287,17 @@ where goodsFlag=1  and goodsId=$goodsId";
 		$miaosha["maxqishu"] = (int)I("maxqishu");		//最大期数
 		$miaosha["xiangou"] = (int)I("xiangou");
 		
-		$miaosha["miaoshaStatus"] = (int)I("marketPrice");		//
+		$zongrenshu = (int)I("marketPrice");
+		$miaosha["miaoshaStatus"] = $zongrenshu;		//
 //		$miaosha["qishu"] = 1;		//期数',		 
-		$miaosha["zongrenshu"] = (int)I("marketPrice");		//'总人数',
-		$miaosha["canyurenshu"] = (int)I("marketPrice");		//'总需份数',
-		$miaosha["shengyurenshu"] = (int)I("marketPrice");		// '剩余数',		
+		$miaosha["zongrenshu"] = $zongrenshu;		//'总人数',
+		$miaosha["canyurenshu"] = 0;		//'总需份数',
+		$miaosha["shengyurenshu"] = $zongrenshu;		// '剩余数',		
 		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");	// '即时揭晓',
+		
+		if($zongrenshu > 100000) {
+			$rd['status']= -2000;
+		}
 		
 		if($this->checkEmpty($data,true)){
 			$data["goodsKeywords"] =  I("goodsKeywords");

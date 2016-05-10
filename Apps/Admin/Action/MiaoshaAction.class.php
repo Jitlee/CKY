@@ -98,18 +98,18 @@ class MiaoshaAction extends BaseAction{
 	    		$rs = $m->edit();
 	    	}
 	    	else{
-	    		$m->startTrans();
+//	    		$m->startTrans();
 	    		$rs = $m->insert();
-			if($rs['status'] == 1) {
-				// 创建云购码
-				$mc = D('Admin/MiaoshaCode');
-				$rs['status'] = $mc->createCodes($rs['data']['miaoshaId'], $rs['data']['qishu'], $rs['data']['count']);
-			}
-			if($rs['status'] == 1) {
-				$m->commit();
-			} else {
-				$m->rollback();
-			}
+//			if($rs['status'] == 1) {
+//				// 创建云购码
+//				$mc = D('Admin/MiaoshaCode');
+//				$rs['status'] = $mc->createCodes($rs['data']['miaoshaId'], $rs['data']['qishu'], $rs['data']['count']);
+//			}
+//			if($rs['status'] == 1) {
+//				$m->commit();
+//			} else {
+//				$m->rollback();
+//			}
 	    	}
 //		echo dump($rs['data']);
 	    	$this->ajaxReturn($rs);

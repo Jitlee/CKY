@@ -1,5 +1,18 @@
 /* 顶部菜单部分开始 */
+.cky-tab {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 9;
+}
+
+#goodsList {
+	padding-bottom: 50px;
+}
+
 .ms-menu {
+	margin-top: 43px;
     line-height: 40px;
     height: 40px;
     text-align: center;

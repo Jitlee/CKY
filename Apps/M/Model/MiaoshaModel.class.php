@@ -108,6 +108,7 @@ class MiaoshaModel extends BaseModel {
 		$map = array('m.miaoshaId'	 => $miaoshaId);
 		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, miaoshaStatus,jishijiexiao,'.
 			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu, UNIX_TIMESTAMP() time,  unix_timestamp(m.createTime) timestamp,
+			,
 			(jishijiexiao > 0 and miaoshaStatus < 2 and now() > adddate(m.createTime,interval jishijiexiao HOUR)) jiexiao';
 		$join = 'inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';
 		$m = $this;

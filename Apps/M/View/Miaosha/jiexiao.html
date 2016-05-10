@@ -27,10 +27,6 @@
 		</label>
 	</div>
 </div>
-<div id="goodsLoading" class="mui-loading">
-	<div class="mui-spinner">
-	</div>
-</div>
 <div id="goodsList" class="mui-table-view jx-list" data-bind="foreach: goods">
 	<div class="mui-table-view-cell mui-media">
 		<a data-bind="attr: { href: '{:U('Miaosha/view')}?id=' + miaoshaId }">
@@ -42,14 +38,20 @@
 				<span class="cky-ellipsis" data-bind="text: goodsName"></span>
 				<h5 class="font10" data-bind="text: '价值：¥' + marketPrice"></h5>
 				<div class="jx-countdown">
+					<!-- ko if: miaoshaStatus == 2 -->
+					正在计算结果中，请稍后...
+					<!-- /ko -->
+					<!-- ko if: miaoshaStatus < 2 -->
 					<i class="iconfont icon-time"></i>揭晓倒计时
 					<span data-bind="attr: { countdown: (Number(timestamp) + Number(jishijiexiao) * 3600) * 1000 }"></span>
+					<!-- /ko -->
 				</div>
 			</div>
 		</a>
 	</div>
 </div>
 <include file="Public:tab"/>
+<div class="cky-loading"></div>
 <script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript" src="__JS__/countdown.js"></script>
@@ -78,13 +80,13 @@
 				catId: catId
 			}, function(list) {
 				util.endScroll();
-				$("#goodsLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;
 					goods = goods.concat(list);
 					vm.goods(goods);
 					countdown();
 				}
+				cky.closeLoading();
 			});
 		}
 		util.onScrollEnd(page);

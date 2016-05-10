@@ -5,10 +5,6 @@
 	<h1 id="title" class="mui-title">{$title}</h1>
 </header>
 <div class="mui-content">
-	<div id="recordLoading" class="mui-loading">
-		<div class="mui-spinner">
-		</div>
-	</div>
 	<div class="mui-table-view" data-bind="foreach: records">
 		<div class="mui-table-view-cell">
 			<a data-bind="attr: { href: '{:U('Miaosha/mc')}?code={:I('code')}&mmid=' + mmid }">
@@ -21,6 +17,7 @@
 		</div>
 	</div>
 </div>
+<div class="cky-loading"></div>
 <script src="__KO__"></script>
 <script>
 	$(function() {
@@ -44,12 +41,12 @@
 				qishu: "{:I('qishu')}"
 			}, function(list) {
 				util.endScroll();
-				$("#recordLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;
 					records = records.concat(list);
 					vm.records(records);
 				}
+				cky.closeLoading();
 				
 				if((!list || list.length == 0) && pageNo == 1) {
 					$(".mui-content").nodata();

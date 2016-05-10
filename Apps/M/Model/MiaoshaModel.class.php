@@ -45,7 +45,7 @@ class MiaoshaModel extends BaseModel {
 				$order = " marketPrice asc, ".$order;
 				break;
 			case 6: // 剩余时间
-				$order = "(timestamp + jishijiexiao * 3600) asc, ".$order;
+				$order = "(now + jishijiexiao * 3600) asc, ".$order;
 				break;
 			default: 
 				break;
@@ -53,15 +53,15 @@ class MiaoshaModel extends BaseModel {
 		
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
 				m.miaoshaId, m.qishu, m.zongrenshu, m.canyurenshu, m.shengyurenshu, m.jishijiexiao, m.xiangou,
-				m.miaoshaStatus, m.subTitle, m.createTime';
+				if(m.miaoshaStatus < 2 and m.shengyurenshu = 0, 2, miaoshaStatus) miaoshaStatus, m.subTitle, m.createTime, unix_timestamp() now,  unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 lasttime';
 				
 		if($type == 1) {
-			$field .= ', unix_timestamp(m.createTime) timestamp';
+			$field .= ', unix_timestamp(date_add(m.createTime, interval jishijiexiao hour))*1000 end';
 		}
 		
 		$list = $this
 			->field($field)
-			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId')
+			->join('m inner join __GOODS__ g on m.miaoshaId = g.miaoshaId and g.goodsStatus=1 and g.goodsFlag=1')
 			->where($filter)
 			->order($order)
 			->page($pageNo, $pageSize)
@@ -106,10 +106,9 @@ class MiaoshaModel extends BaseModel {
 			$qishu = I('qishu', 0);
 		}
 		$map = array('m.miaoshaId'	 => $miaoshaId);
-		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, miaoshaStatus,jishijiexiao,'.
-			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu, UNIX_TIMESTAMP() time,  unix_timestamp(m.createTime) timestamp,
-			,
-			(jishijiexiao > 0 and miaoshaStatus < 2 and now() > adddate(m.createTime,interval jishijiexiao HOUR)) jiexiao';
+		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, if(miaoshaStatus < 2 and shengyurenshu = 0, 2, miaoshaStatus) miaoshaStatus,jishijiexiao,'.
+			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu
+			, unix_timestamp()*1000 now,  unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 lasttime, unix_timestamp(date_add(m.createTime, interval jishijiexiao hour))*1000 end';
 		$join = 'inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';
 		$m = $this;
 		

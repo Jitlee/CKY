@@ -28,7 +28,7 @@ class MiaoshaModel extends BaseModel {
 	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
 	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
 		 	from __PREFIX__goods g 
-			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
+			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId			
 			inner join __PREFIX__miaosha ms on ms.miaoshaId=g.miaoshaId 
 			where goodsFlag=1  ";
 
@@ -183,6 +183,8 @@ where goodsFlag=1  and goodsId=$goodsId";
 		
 		if($zongrenshu > 100000) {
 			$rd['status']= -2000;
+			$rd['key']= "商品秒杀人次不能大于十万次";
+			return $rd;
 		}
 		
 		
@@ -297,6 +299,8 @@ where goodsFlag=1  and goodsId=$goodsId";
 		
 		if($zongrenshu > 100000) {
 			$rd['status']= -2000;
+			$rd['key']= "商品秒杀人次不能大于十万次";
+			return $rd;
 		}
 		
 		if($this->checkEmpty($data,true)){

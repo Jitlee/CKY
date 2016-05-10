@@ -16,16 +16,13 @@
 			<h5 class="font12">本期幸运码：<r>{$code}</r></h5>
 		</div>
 	</div>
-	<div id="codeLoading" class="mui-loading">
-		<div class="mui-spinner">
-		</div>
-	</div>
 	<div class="ms-code-table" data-bind="foreach: codes">
 		<div class="ms-code-table-cell">
 			<a data-bind="text: {:C('PRIZE_CODE')} + Number(miaoshaCode)"></a>
 		</div>
 	</div>
 </div>
+<div class="cky-loading"></div>
 <script src="__KO__"></script>
 <script>
 	$(function() {
@@ -45,12 +42,12 @@
 				qishu: "{:I('qishu')}"
 			}, function(list) {
 				util.endScroll();
-				$("#codeLoading").hide();
 				if(list && list.length > 0) {
 					pageNo++;
 					codes = codes.concat(list);
 					vm.codes(codes);
 				}
+				cky.closeLoading()
 			});
 		}
 		util.onScrollEnd(page);

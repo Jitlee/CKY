@@ -50,8 +50,8 @@
 		<!-- ko if: status() == 2 -->
 		<div class="ms-prize">
 			<div class="mui-text-center ms-prize-empty">
-				<span class="ms-prize-countdown" data-bind="attr: { countdown: goods().nextTime }"></span>
-				<div class="font-black1 font16">正在计算开奖结果中</div>
+				<div class="font-black1 font16">正在开奖：<span data-bind="attr: { countdown: goods().lasttime }"></span></div>
+				<h5>表着急，正在努力计算当中...</h5>
 			</div>
 		</div>
 		<!-- /ko -->
@@ -113,11 +113,11 @@
 		<!-- /ko -->
 	</div>
 	
-	<!-- ko if: status() < 2 && goods() && goods().jishijiexiao > 0 && goods().jiexiao == "0" -->
+	<!-- ko if: status() < 2 && goods() && goods().jishijiexiao > 0 -->
 	<ul class="mui-table-view cky-mtop-10">
 		<li class="mui-table-view-cell">
 			<a class="font20">
-				剩余时间：<span data-bind="attr: { countdown: (Number(goods().timestamp) + Number(goods().jishijiexiao) * 3600) * 1000 }"></span>
+				剩余时间：<span data-bind="attr: { countdown: goods().end }"></span>
 			</a>
 		</li>
 	</ul>
@@ -253,28 +253,26 @@
 				$("#qishuBlock a[qishu=" + qishu + "]").addClass("cky-active");
 				
 				window.clearTimeout(nextTimeHandler);
-				var status = goods.jiexiao == "1" ? 2 : Number(goods.miaoshaStatus);
+				var status = Number(goods.miaoshaStatus);
 				
 				if(status == 2) {
-					var nextTime = Number(goods.time);
-					// 下一个整点三分钟
-					goods.nextTime = Math.ceil(nextTime / 180) * 180 * 1000;
-					nextTimeHandler = window.setTimeout(query, 5000); // 向开奖结果推迟3秒
-					
+					window.setTimeout(query, Math.max(goods.lasttime - goods.now, 3000) + 3000);
+				} else if(status < 2 && Number(goods.jishijiexiao) > 0) {
+					window.setTimeout(query, Math.max(goods.end - goods.now, 3000) + 3000);
 				}
-				countdown(Number(goods.time) * 1000);
 				
+				countdown(Number(goods.now));
 				vm.goods(goods);
 				vm.status(status);
 				
-				if(status < 2) {
+//				if(status < 2) {
 					initshopCart(goods);
-				}
+//				}
 			});
 	   	}
 	   	
 	   	function initshopCart(goods) {
-	   	// 购物车
+	   		// 购物车
 		   	shopCart = new ShopCart("goodsPicker", {
 				shopId: goods.shopId,
 				shopName: "粗卡",

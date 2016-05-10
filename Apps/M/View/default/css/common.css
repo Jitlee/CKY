@@ -556,7 +556,7 @@ a.cky-segmented-item {
 	text-align: center;
 	margin: auto;
 	width: 200px;
-	margin-top: 40px;
+	padding-top: 40px;
 }
 
 .cky-no-data-icon {
@@ -915,7 +915,7 @@ p.cky-update {
 
 .cky-loading{
 	position: fixed;
-	z-index: 9;
+	z-index: 8;
 	left: 0;
 	right: 0;
 	top: 0;

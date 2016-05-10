@@ -11,6 +11,13 @@
 	padding-bottom: 50px;
 }
 
+#goodsList .ms-announces {
+	line-height: 22px;
+	white-space: nowrap;
+	font-size: 15px;
+	color: #f20;
+}
+
 .ms-menu {
 	margin-top: 43px;
     line-height: 40px;

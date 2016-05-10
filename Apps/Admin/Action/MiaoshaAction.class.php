@@ -120,18 +120,7 @@ class MiaoshaAction extends BaseAction{
 	public function del(){
 		$this->isLogin();
 		$m = D('Home/Miaosha');
-		$m->startTrans();
 		$rs = $m->del($miaoshaId);
-		$miaoshaId = I('id');
-		if($rs['status'] == 1) {
-			$mc = D('Admin/MiaoshaCode');
-			$rs['status'] = $mc->del($miaoshaId, 1);
-		}
-		if($rs['status'] == 1) {
-			$m->commit();
-		} else {
-			$m->rollback();
-		}
 		$this->ajaxReturn($rs);
 	}
 }

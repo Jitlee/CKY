@@ -39,11 +39,12 @@
 				<h5 class="font10" data-bind="text: '价值：¥' + marketPrice"></h5>
 				<div class="jx-countdown">
 					<!-- ko if: miaoshaStatus == 2 -->
-					正在计算结果中，请稍后...
+					<i class="iconfont icon-time"></i>正在开奖：
+					<span data-bind="attr: { countdown: lasttime }"></span>
 					<!-- /ko -->
 					<!-- ko if: miaoshaStatus < 2 -->
-					<i class="iconfont icon-time"></i>揭晓倒计时
-					<span data-bind="attr: { countdown: (Number(timestamp) + Number(jishijiexiao) * 3600) * 1000 }"></span>
+					<i class="iconfont icon-time"></i>剩余时间: 
+					<span data-bind="attr: { countdown: end }"></span>
 					<!-- /ko -->
 				</div>
 			</div>
@@ -69,8 +70,6 @@
 		var catId = 0;
 		function page(clear) {
 			if(clear) {
-				vm.goods.removeAll();
-				goods.length = 0;
 				pageNo = 1;
 			}
 			$.getJSON("{:U('Miaosha/ms')}", {
@@ -80,17 +79,28 @@
 				catId: catId
 			}, function(list) {
 				util.endScroll();
+				if(clear) {
+					goods.length = 0;
+					vm.goods.removeAll();
+				}
 				if(list && list.length > 0) {
 					pageNo++;
 					goods = goods.concat(list);
 					vm.goods(goods);
 					countdown();
 				}
+				
+				if((!list || list.length == 0) && pageNo == 1) {
+					$("#goodsList").nodata();
+				}
 				cky.closeLoading();
 			});
 		}
 		util.onScrollEnd(page);
-		page();
+		
+		cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
+			page(true);	
+		});
 		
 		// 排序单选
 		var sortGroup = $(".ms-radio-group");
@@ -125,6 +135,5 @@
 				page(true);
 			}
 		});
-		
 	});
 </script>

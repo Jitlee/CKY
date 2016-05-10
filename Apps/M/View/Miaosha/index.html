@@ -35,11 +35,18 @@
 			<div class="ms-progressbar">
 				<div class="ms-progressbar-item" data-bind="style: { width: 100 * Number(canyurenshu) / Number(zongrenshu) + '%'}"></div>
 			</div>
+			<!-- ko ifnot: miaoshaStatus == 2 -->
 			<div class="ms-price font-gray">
 				<span class="font17">¥</span><r class="font17" data-bind="text: shopPrice"></r>
 				<span class="ms-origin-price font13" data-bind="text: '¥' + marketPrice"></span>
 			</div>
 			<div class="ms-to-buy"><i></i>去抢购</div>
+			<!-- /ko -->
+			<!-- ko if: miaoshaStatus == 2 -->
+			<div class="ms-announces">
+				正在开奖: <span data-bind="attr: { countdown: lasttime }"></span>
+			</div>
+			<!-- /ko -->
 		</a>
 	</div>
 </div>
@@ -47,6 +54,7 @@
 <div class="cky-loading"></div>
 <script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/countdown.js"></script>
 <script>
 	$(function() {
 		var goods = [];
@@ -61,8 +69,6 @@
 		var catId = 0;
 		function page(clear) {
 			if(clear) {
-				vm.goods.removeAll();
-				goods.length = 0;
 				pageNo = 1;
 			}
 			$.getJSON("{:U('Miaosha/ms')}", {
@@ -71,16 +77,30 @@
 				catId: catId
 			}, function(list) {
 				util.endScroll();
+				
+				if(clear) {
+					vm.goods.removeAll();
+					goods.length = 0;
+				}
 				if(list && list.length > 0) {
 					pageNo++;
 					goods = goods.concat(list);
 					vm.goods(goods);
+					countdown();
 				}
+				
+				if((!list || list.length == 0) && pageNo == 1) {
+					$("#goodsList").nodata();
+				}
+				
 				cky.closeLoading();
 			});
 		}
 		util.onScrollEnd(page);
-		page();
+		
+		cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
+			page(true);	
+		});
 		
 		// 排序单选
 		var sortGroup = $(".ms-radio-group");
@@ -115,6 +135,5 @@
 				page(true);
 			}
 		});
-		
 	});
 </script>

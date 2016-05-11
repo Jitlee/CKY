@@ -15,6 +15,13 @@ class RecommendAction extends BaseUserAction {
 	public function index() {
 		$this->assign('title', "推荐餐厅");
 		//$this->assign('data', $result);
+		
+		 
+		//****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
 		$addb = D('ads');
 		$ads = $addb->queryByType(-2);
 		$this->assign('ads', $ads); 

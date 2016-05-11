@@ -1,6 +1,6 @@
 <header class="mui-bar mui-bar-nav">
 	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
-		<span id="cityLabel">深圳</span>
+		<span id="cityLabel">通海</span>
 	</button>
 	<h1 id="title" class="mui-title">{$title}</h1>
 	<a class="mui-btn mui-btn-link mui-pull-right" href="{:U('Person/index', '', '')}">我的</a>
@@ -94,7 +94,7 @@ var shareData = {
     title: '粗卡',
     desc: '粗卡云管理',
     link: window.location.href,
-    imgUrl: 'http://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRt8Qia4lv7k3M9J1SKqKCImxJCt7j9rHYicKDI45jRPBxdzdyREWnk0ia0N5TMnMfth7SdxtzMvVgXg/0'
+    imgUrl: ''
 };
 
 wxext = function(){
@@ -107,10 +107,10 @@ signPackage.nonceStr='{$signPackage.nonceStr}';
 signPackage.signature='{$signPackage.signature}';
 signPackage.Location=1;//调用
 signPackage.ak="{$CONF['bmapAK']}";
-
+ 
 wxext.getlocation= function(lng, lat, city, areaId) {
 	currentLongitude = lng;
-	currentLatitude = lat;			
+	currentLatitude = lat;	
 	if(city) {
 		$("#cityLabel").text(city.replace(/市$/, ""));
 		currentCity = city.replace(/市$/, "");
@@ -119,7 +119,8 @@ wxext.getlocation= function(lng, lat, city, areaId) {
 </script>
 
 <script type="text/javascript" src="__KO__"></script>
-<script src="__JS__/{:autoVer('wxjsapi.js')}?b11"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?b11h2"></script>
 <script>
 	$(function() {
 		

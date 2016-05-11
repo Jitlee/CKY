@@ -10,6 +10,8 @@ namespace M\Action;
  */
 use Think\Controller;
 class IndexAction extends Controller {
+	 
+		
 	public function index() { 
 		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
 			try_login();
@@ -20,10 +22,16 @@ class IndexAction extends Controller {
 			session('openid',$openid);
 			try_login();			
 		}
+		
 		/****分享与定位***/
 		$wxm= new WxUserInfo();
 		$signPackage=$wxm->getSignPackage();			 
 		$this->assign('signPackage', $signPackage);
+		/****地图apk*******/
+		$m = D('Home/System');
+		$GLOBALS['CONFIG'] = $m->loadConfigs();
+		$this->assign('CONF',$GLOBALS['CONFIG']);	
+		
 		
 		$this->assign('title', "粗卡");
 		$this->assign('tabid', 'home');

@@ -55,7 +55,7 @@
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
-
+	var signPackage=new Object();
 	$(function() {
 		var currentLongitude = 0;
 		var currentLatitude = 0;
@@ -69,12 +69,30 @@
 		var vm = ko.observableArray(shops);
 		ko.applyBindings(vm, document.getElementById("shopsList"));
 		
-		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+//		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+//			currentLongitude = lng;
+//			currentLatitude = lat;
+//			force = true;
+//			queryByPage();
+//		});
+
+		wxext = function(){
+			getlocation=null;
+		};		
+		signPackage.appId='{$signPackage.appId}';
+		signPackage.timestamp={$signPackage.timestamp};
+		signPackage.nonceStr='{$signPackage.nonceStr}';
+		signPackage.signature='{$signPackage.signature}';
+		signPackage.Location=1;//调用
+		signPackage.ak="{$CONF['bmapAK']}";
+		
+		wxext.getlocation= function(lng, lat, city, areaId) {
 			currentLongitude = lng;
 			currentLatitude = lat;
 			force = true;
 			queryByPage();
-		});
+		};
+
 		function queryByPage() {
 			if(force) {
 				vm.removeAll();
@@ -152,3 +170,5 @@
 //	   alert(errorMessage);
 //	}
 </script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?1"></script>

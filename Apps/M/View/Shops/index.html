@@ -59,13 +59,8 @@
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
-//window.onerror = function(a,b,c,d,e) {
-//	alert(a);
-//	alert(b);
-//	alert(c);
-//	alert(d);
-//	alert(e);
-//}
+	var signPackage=new Object(); 
+
 	$(function() {
 		var currentCity = $("#cityLabel").text();
 		var currentLongitude = 0;
@@ -83,16 +78,40 @@
 		
 		util.onScrollEnd(queryByPage);
 		
-		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+//		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+//			currentLongitude = lng;
+//			currentLatitude = lat;
+//			if(city) {
+//				$("#cityLabel").text(city.replace(/市$/, ""));
+//				currentCity = city.replace(/市$/, "");
+//			}
+//			force = true;
+//			queryByPage();
+//		});
+
+		 
+		wxext = function(){
+			getlocation=null;
+		};
+		 
+		signPackage.appId='{$signPackage.appId}';
+		signPackage.timestamp={$signPackage.timestamp};
+		signPackage.nonceStr='{$signPackage.nonceStr}';
+		signPackage.signature='{$signPackage.signature}';
+		signPackage.Location=1;//调用
+		signPackage.ak="{$CONF['bmapAK']}";
+		 
+		wxext.getlocation= function(lng, lat, city, areaId) {
 			currentLongitude = lng;
-			currentLatitude = lat;
+			currentLatitude = lat;	
 			if(city) {
 				$("#cityLabel").text(city.replace(/市$/, ""));
 				currentCity = city.replace(/市$/, "");
 			}
 			force = true;
 			queryByPage();
-		});
+		};
+
 		function queryByPage() {
 			if(force) {
 				shops.length = 0;
@@ -187,3 +206,5 @@
 		
 	});
 </script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?1"></script>

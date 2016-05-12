@@ -14,7 +14,20 @@ class FastAction extends BaseAction {
 		$m = D('M/Shops');
 		$list = $m->fast();
 //		echo $m->getLastSql();
+		 
 		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	public function index() {
+		$this->assign('title', "小猴快跑");
+//		$this->assign('tabid', 'shops');
+		
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
+		$this->display();
 	}
 	
 	// 商家详情

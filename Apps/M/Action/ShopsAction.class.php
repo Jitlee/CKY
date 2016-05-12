@@ -38,6 +38,12 @@ class ShopsAction extends BaseAction {
 	public function index() {
 		$this->assign('title', "商家");
 		$this->assign('tabid', 'shops');
+		
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
 		$this->display();
 	}
 	
@@ -57,10 +63,18 @@ class ShopsAction extends BaseAction {
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
 		
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
+		$shopDesc=substr($data['shopDesc'],50);
+		$this->assign('shopDesc', $shopDesc);
+		
 		$catId = I('catId', 0);
 		if($catId == 1) {
 			$this->display("Fast/Detail");
-		} else {
+		} else {			
 			$this->display();
 		}
 	}

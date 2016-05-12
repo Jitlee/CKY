@@ -116,7 +116,7 @@
 <script type="text/javascript" src="__KO__"></script>
 
 <script type="text/javascript">
-
+	var signPackage=new Object(); 
 	$(function() {
 		//广告滚动
 		var mySwiper = new Swiper ('.swiper-container', {
@@ -152,21 +152,20 @@
 
 		wxext = function(){
 			getlocation=null;
-		};
-		var signPackage=new Object(); 
+		};		
 		signPackage.appId='{$signPackage.appId}';
 		signPackage.timestamp={$signPackage.timestamp};
 		signPackage.nonceStr='{$signPackage.nonceStr}';
 		signPackage.signature='{$signPackage.signature}';
 		signPackage.Location=1;//调用
 		signPackage.ak="{$CONF['bmapAK']}";
-		 
+		
 		wxext.getlocation= function(lng, lat, city, areaId) {
 			currentLongitude = lng;
-			currentLatitude = lat;	
+			currentLatitude = lat;
 			if(city) {
-				$("#cityLabel").text(city.replace(/市$/, ""));
-				currentCity = city.replace(/市$/, "");
+				$("#cityLabel").text(city);
+//				currentCity = city.replace(/市$/, "");
 			}
 			force = true;
 			queryByPage();

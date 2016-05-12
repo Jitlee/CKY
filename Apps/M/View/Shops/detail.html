@@ -31,7 +31,7 @@
 				{$data.shopWishes|default=$title}
 				<span class="shop-detail-button">
 					<a class="cky-fav iconfont icon-love" fav-target-id="{$data.shopId}" fav-target-type="0" fav-type="2"></a>
-					<a class="iconfont icon-share"></a>
+					<a id="shopshare" class="iconfont icon-share"></a>
 				</span>
 			</p>
 		</li>
@@ -169,5 +169,27 @@
 				$("#item2mobile").empty();
 			}
 		});
+		
+		$("#shopshare").click(function(){
+			cky.toast("请点击右上角分享菜单分享。");
+		});
+		
 	});
+	
+ 
+	var shareData = {
+	    title: '粗卡-{$title}',
+	    desc:  '{$shopDesc}',
+	    link: window.location.href,
+	    imgUrl: 'http://cukayun.cn/{$data.shopImg}'
+	}; 
+ 
+	var signPackage=new Object(); 
+	signPackage.appId='{$signPackage.appId}';
+	signPackage.timestamp={$signPackage.timestamp};
+	signPackage.nonceStr='{$signPackage.nonceStr}';
+	signPackage.signature='{$signPackage.signature}';
+	
 </script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}"></script>

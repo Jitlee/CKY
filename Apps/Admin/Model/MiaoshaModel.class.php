@@ -246,10 +246,25 @@ where goodsFlag=1  and goodsId=$goodsId";
 //		}
 	 	//加载商品信息
 	 	$m = M('goods');
-	 	$goods = $m->where('goodsId='.$goodsId)->find();
+	 	$goods = $m->field("g.miaoshaId, shopId, goodsId, zongrenshu,canyurenshu,shengyurenshu")->join("g inner join __MIAOSHA__ m on g.miaoshaId=m.miaoshaId")->where("goodsId=$goodsId")->find();
 	 	if(empty($goods))return array();
-		 
 		
+		
+		$zongrenshu = (int)I("marketPrice");
+		$canyurenshu = (int)$goods['canyurenshu'];
+		
+		if($zongrenshu < (int)$goods['canyurenshu']) {
+			$rd['status'] = -3000;
+			$rd['key']= "总需人数不能低于已购买次数<r style='color:red'>$canyurenshu</r>";
+			return $rd;
+		}
+		
+		if($zongrenshu > 100000) {
+			$rd['status']= -2000;
+			$rd['key']= "商品秒杀人次不能大于十万次";
+			return $rd;
+		}
+	
 		$data = array();
 		
 		$data["goodsSn"] = I("goodsSn");
@@ -257,8 +272,8 @@ where goodsFlag=1  and goodsId=$goodsId";
 		$data["goodsImg"] = I("goodsImg");
 		$data["goodsThums"] = I("goodsThumbs");
 		$data["marketPrice"] = (float)I("marketPrice");
-		$data["shopPrice"] = (float)I("shopPrice");
-		$data["goodsStock"] = (int)I("goodsStock");
+//		$data["shopPrice"] = (float)I("shopPrice");
+		$data["goodsStock"] = $zongrenshu - $canyurenshu;
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
@@ -284,58 +299,73 @@ where goodsFlag=1  and goodsId=$goodsId";
 		
 		//子表
 		$miaosha = array();
-//		$miaosha["miaoshaId"] = I("miaoshaId");
 		$miaosha["subtitle"] = I("subtitle");;
 		$miaosha["maxqishu"] = (int)I("maxqishu");		//最大期数
 		$miaosha["xiangou"] = (int)I("xiangou");
 		
-		$zongrenshu = (int)I("marketPrice");
-		$miaosha["miaoshaStatus"] = $zongrenshu;		//
-//		$miaosha["qishu"] = 1;		//期数',		 
 		$miaosha["zongrenshu"] = $zongrenshu;		//'总人数',
-		$miaosha["canyurenshu"] = 0;		//'总需份数',
-		$miaosha["shengyurenshu"] = $zongrenshu;		// '剩余数',		
+		$miaosha["shengyurenshu"] = $zongrenshu - $canyurenshu;		// '剩余数',		
 		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");	// '即时揭晓',
-		
-		if($zongrenshu > 100000) {
-			$rd['status']= -2000;
-			$rd['key']= "商品秒杀人次不能大于十万次";
-			return $rd;
-		}
 		
 		if($this->checkEmpty($data,true)){
 			$data["goodsKeywords"] =  I("goodsKeywords");
 			$data["brandId"] = (int)I("brandId");
 			$data["goodsSpec"] = I("goodsSpec");
 			
+			$m->startTrans();
 			
-			$rs = $m->where('goodsId='.$goods['goodsId'])->save($data);
-			//秒杀明细
-			$mMiaosha = M('miaosha');
-			$maioshaid=$miaosha['miaoshaId'];
-			$filter="miaoshaId='$maioshaid'";
-			$rs = $mMiaosha->where($filter)->save($miaosha);
-			if(false !== $rs){
-				 $rd['status']= 1;
-			    //保存相册
-				$gallery = I("gallery");
-				if($gallery!=''){
-					$str = explode(',',$gallery);
-					$m = M('goods_gallerys');
-					//删除相册信息
-					$m->where('goodsId='.$goods['goodsId'])->delete();
-					//保存相册信息
-					foreach ($str as $k => $v){
-						if($v=='')continue;
-						$str1 = explode('@',$v);
-						$data = array();
-						$data['shopId'] = $goods['shopId'];
-						$data['goodsId'] = $goods['goodsId'];
-						$data['goodsImg'] = $str1[0];
-						$data['goodsThumbs'] = $str1[1];
-						$m->add($data);
+			$rs = $m->where('goodsId='.$goodsId)->save($data);
+			if($rs !== false && $rs !== null) {
+				//秒杀明细
+				$mMiaosha = M('miaosha');
+				$maioshaid=$goods['miaoshaId'];
+				$filter="miaoshaId='$maioshaid'";
+				$rs = $mMiaosha->where($filter)->save($miaosha);
+//				$rt['key'] = $mMiaosha->getLastSql();
+//				$rt['status'] = -5000;
+//				return $rt;
+				if($rs !== false && $rs !== null) {
+				    	//保存相册
+					$gallery = I("gallery");
+					if($gallery!=''){
+						$str = explode(',',$gallery);
+						$m = M('goods_gallerys');
+						//删除相册信息
+						$rs = $m->where('goodsId='.$goodsId)->delete();
+						if($rs === false || $rs === null) {
+							$m->rollback();
+							$rd['key'] = "错误码504";
+							return $rd;
+						}
+						//保存相册信息
+						foreach ($str as $k => $v) {
+							if($v=='')continue;
+							$str1 = explode('@',$v);
+							$data = array();
+							$data['shopId'] = $goods['shopId'];
+							$data['goodsId'] = $goods['goodsId'];
+							$data['goodsImg'] = $str1[0];
+							$data['goodsThumbs'] = $str1[1];
+							$rs = $m->add($data);
+							if($rs === false || $rs === null) {
+								$m->rollback();
+								$rd['key'] = "错误码503";
+								return $rd;
+							}
+						}
 					}
+					
+					 $rd['status']= 1;
+					 $m->commit();
+				} else {
+					$m->rollback();
+					$rd['key'] = "错误码502";
 				}
+			} else {
+				$rd['status'] = -4000;
+				$rd['key'] = "错误码501";
+//				$rd['key'] = $m->getLastSql();
+				$m->rollback();
 			}
 		}
 		return $rd;

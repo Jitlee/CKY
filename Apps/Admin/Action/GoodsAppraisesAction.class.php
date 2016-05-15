@@ -50,8 +50,8 @@ class GoodsAppraisesAction extends BaseAction{
 		$this->isLogin();
 		$this->checkPrivelege('sppl_00');
 		//获取地区信息
-		$m = D('Admin/Areas');
-		$this->assign('areaList',$m->queryShowByList(0));
+//		$m = D('Admin/Areas');
+//		$this->assign('areaList',$m->queryShowByList(0));
 		$m = D('Admin/Goods_appraises');
     	$page = $m->queryByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);

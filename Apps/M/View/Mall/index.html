@@ -5,7 +5,7 @@
 
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
-		<span id="cityLabel">深圳</span>
+		<span id="cityLabel">通海</span>
 	</button>
 	<h1 id="title" class="mui-title">{$title}</h1>
 	<a href="{:U('Person/index')}" class="mui-btn mui-btn-link mui-pull-right">我的</a>
@@ -135,20 +135,7 @@
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
 <script>
-	$(function() {
-//		var currentCity = $("#cityLabel").text();
-//		var currentLongitude = 0;
-//		var currentLatitude = 0;
-		
-//		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
-//			currentLongitude = lng;
-//			currentLatitude = lat;
-//			if(city) {
-//				$("#cityLabel").text(city.replace(/市$/, ""));
-//				currentCity = city.replace(/市$/, "");
-//			}
-//		});
-		
+	$(function() { 
 		// 轮播广告
 		var mySwiper = new Swiper ('.swiper-container', {
 	      	// Optional parameters
@@ -239,3 +226,38 @@
 		}
 	});
 </script>
+<script>  
+	var currentCity = $("#cityLabel").text();
+	var currentLongitude = 0;
+	var currentLatitude = 0;
+	
+	var shareData = {
+	    title: '粗卡',
+	    desc: '粗卡-商城',
+	    link: window.location.href,
+	    imgUrl: ''
+	};
+	
+	wxext = function(){
+		getlocation=null;
+	};
+	var signPackage=new Object(); 
+	signPackage.appId='{$signPackage.appId}';
+	signPackage.timestamp={$signPackage.timestamp};
+	signPackage.nonceStr='{$signPackage.nonceStr}';
+	signPackage.signature='{$signPackage.signature}';
+	signPackage.Location=1;//调用
+	signPackage.ak="{$CONF['bmapAK']}";
+	 
+	wxext.getlocation= function(lng, lat, city, areaId) {
+		currentLongitude = lng;
+		currentLatitude = lat;	
+		if(city) {
+//			$("#cityLabel").text(city.replace(/市$/, ""));
+			currentCity = city.replace(/市$/, "");
+		}
+	};
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?10"></script>
+

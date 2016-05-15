@@ -48,6 +48,7 @@ class PersonAction extends BaseUserAction {
 		}
 		$this->assign('headimgurl', $userimg);
 	
+		$this->assign('tabid', 'member');
 		$this->assign('title', "个人中心");
 		$this->assign('data', $result);
 		$this->display();

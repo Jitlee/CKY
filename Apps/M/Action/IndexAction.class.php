@@ -20,7 +20,7 @@ class IndexAction extends Controller {
 		{
 			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
 			session('openid',$openid);
-			try_login();			
+			//try_login();			
 		}
 		
 		/****分享与定位***/
@@ -35,6 +35,7 @@ class IndexAction extends Controller {
 		
 		$this->assign('title', "粗卡");
 		$this->assign('tabid', 'home');
+		
 		$addb = D('ads');
 		$ads = $addb->queryByType(-1);
 		$this->assign('ads', $ads); 

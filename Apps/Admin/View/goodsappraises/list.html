@@ -56,24 +56,16 @@
 			$('#'+objId).html(html.join(''));
 	   });
    }
-   $(function(){
-	   <notempty name='areaId1'>
-	   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
-	   </notempty>
-   })
+// $(function(){
+//	   <notempty name='areaId1'>
+//	   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+//	   </notempty>
+// })
    </script>
    <body class='rtc-page'>
      <form method='post' action="{:U('Admin/GoodsAppraises/index')}">
        <div class='rtc-tbar' style='height:25px;'>
-   地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
-               <option value=''>请选择</option>
-               <volist name="areaList" id="vo">
-               <option value='{$vo['areaId']}' <if condition="$areaId1 == $vo['areaId'] ">selected</if>>{$vo['areaName']}</option>
-               </volist>
-             </select>
-             <select id='areaId2' name='areaId2'>
-               <option value=''>请选择</option>
-             </select>
+ 
         所属商家：<input type='text' name='shopName' id='shopName' value='{$shopName}'/>
         商品：<input type='text' name='goodsName' id='goodsName' value='{$goodsName}'/>
       <button type='submit' class='btn btn-primary glyphicon glyphicon-search'>查询</button>
@@ -85,6 +77,7 @@
              <tr>
                <th width='40'>序号</th>
                <th colspan='2'>商品</th>
+               <th width='100'>商家</th>
                <th width='60'>状态</th>
                <th>商品评分</th>
                <th>时效评分</th>
@@ -99,8 +92,13 @@
                <td rowspan='2' width='50' style='border-right:0px;'>
                <img src='__ROOT__/{$vo['goodsThums']}' width='50'/>
                </td>
+              
                <td rowspan='2' width='140' style='border-left:0px;'>
-               <span style='font-weight:bold;'>{$vo['goodsName']}</span><br/>订单：{$vo['orderNo']}</td>
+               		<span style='font-weight:bold;'>{$vo['goodsName']}</span><br/>订单：{$vo['orderNo']}
+               </td>
+                <td rowspan='2' width='50' style='border-right:0px;'>
+               	  {$vo['shopname']}
+               </td>
                <td >
                <if condition="$vo['isShow'] == 1 ">
                <span class='label label-success'>显示</span>
@@ -109,33 +107,33 @@
                </if>
                </td>
                <td>
-               <div>
-               	<for start="0" end="$vo['goodsScore']">
-					<img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
-				</for>&nbsp;{$vo['goodsScore']} 分
-				</div>
+	               <div>
+	               	<for start="0" end="$vo['goodsScore']">
+						<img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
+					</for>&nbsp;{$vo['goodsScore']} 分
+					</div>
 				</td>
 				<td>
-				<div>
-               	<for start="0" end="$vo['timeScore']">
-					<img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
-				</for>&nbsp;{$vo['timeScore']} 分
-				</div>
+					<div>
+	               	<for start="0" end="$vo['timeScore']">
+						<img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
+					</for>&nbsp;{$vo['timeScore']} 分
+					</div>
                 </td>
                 <td>
-              	<div>
-               	<for start="0" end="$vo['serviceScore']">
-					<img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
-				</for>&nbsp;{$vo['serviceScore']} 分
-				</div>
+	              	<div>
+	               	<for start="0" end="$vo['serviceScore']">
+						<img src="__ROOT__/Apps/Home/View/default/images/icon_score_yes.png"/>
+					</for>&nbsp;{$vo['serviceScore']} 分
+					</div>
                </td>
                <td rowspan='2'>
-               <php>if(in_array('sppl_04',$RTC_STAFF['grant'])){</php>
-               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/GoodsAppraises/toEdit',array('id'=>$vo['id']))}"">修改</a>&nbsp;
-               <php>}</php>
-               <php>if(in_array('sppl_03',$RTC_STAFF['grant'])){</php>
-               <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['id']})"">刪除</button>
-               <php>}</php>
+	               <php>if(in_array('sppl_04',$RTC_STAFF['grant'])){</php>
+	               <a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/GoodsAppraises/toEdit',array('id'=>$vo['id']))}"">修改</a>&nbsp;
+	               <php>}</php>
+	               <php>if(in_array('sppl_03',$RTC_STAFF['grant'])){</php>
+	               <button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['id']})"">刪除</button>
+	               <php>}</php>
                </td>
              </tr>
              <tr>

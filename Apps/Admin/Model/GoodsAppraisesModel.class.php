@@ -50,17 +50,18 @@ class GoodsAppraisesModel extends BaseModel {
      	$areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
         $m = M('goods_appraises');
-	 	$sql = "select gp.*,g.goodsName,g.goodsThums,o.orderNo,u.truename from __PREFIX__goods_appraises gp
+	 	$sql = "select gp.*,g.goodsName,g.goodsThums,o.orderNo,u.truename,p.shopname from __PREFIX__goods_appraises gp
 	 	         left join __PREFIX__goods g on gp.goodsId=g.goodsId
 		         left join __PREFIX__orders o on gp.orderId=o.orderId 
 		         left join __PREFIX__member  u on u.uid=gp.userId 
 		         left join __PREFIX__shops p on p.shopId=gp.shopId 
-	 	        where p.shopId=g.shopId and gp.goodsId=g.goodsId and o.orderId=gp.orderId ";
-	 	if($areaId1>0)$sql.=" and p.areaId1=".$areaId1;
-	 	if($areaId2>0)$sql.=" and p.areaId2=".$areaId2;
-	 	if($shopName!='')$sql.=" and (p.shopName like '%".$shopName."%' or p.shopSn like '%'".$shopName."%')";
+	 	        where 1=1 ";
+//	 	if($areaId1>0)$sql.=" and p.areaId1=".$areaId1;
+//	 	if($areaId2>0)$sql.=" and p.areaId2=".$areaId2;
+	 	if($shopName!='')$sql.=" and (p.shopname like '%".$shopName."%' or p.shopSn like '%".$shopName."%')";
 	 	if($goodsName!='')$sql.=" and (g.goodsName like '%".$goodsName."%' or g.goodsSn like '%".$goodsName."%')";
 	 	$sql.="  order by id desc";
+	 
 		$rs = $m->pageQuery($sql);
 		return $rs;
 	 }

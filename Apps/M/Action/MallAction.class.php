@@ -35,6 +35,11 @@ class MallAction extends BaseAction {
 		$lifes = $mldb->getTop();
 		$this->assign('lifes', $lifes);
 		 
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
 		$this->assign('title', '商城');
 		$this->display();
 	}

@@ -1,6 +1,6 @@
 <?php
 header("Content-type: text/html; charset=utf-8");
-define("ACCESS_TOKEN", "G-RFbN01ZfnGUao1BSPXUTkO7W724wfTNxneT3lMBzTbTqgUCzKmq040UmfwfyD5xUSHuFC7jThTHh23HJaTu_eli7rCWZOdaklNskhn2_V4N7MFxAzs5ScF8T-RmyvgNAIhAFAANV");
+define("ACCESS_TOKEN", "eLS1He_bTeTIG51Bg5aLK0iwpNPqPijnTV_-MMDwVpi_-FxddpPXbBJY5lGESE6X_qYvMo7SQTh0zdbF4M_UwUM70IHApcg6FgSWYuZP8Kf6QqgZQA5u3d0PPKrC8WgFQXFdADAYFN");
 
 //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx06dcafb051f5e21f&secret=0408887ca15441398695ddd0b70b9ff4
 
@@ -89,20 +89,20 @@ $data = '{
        
             {
             	"type":"view",
-	           "name":" 首页  ",
-	           "url":"http://cukayun.cn/index.php/M"
+	           "name":" 首页-测试22  ",
+	           "url":"http://cky.ritacc.net/index.php/M"
                
             },
             {
                "type":"view",
                "name":"  外卖  ",
-               "url":"http://cukayun.cn/index.php/M/fast/index"
+               "url":"http://cky.ritacc.net/index.php/M/fast/index"
             }
             ,
       {
           "type":"view",
           "name":"个人中心",
-          "url":"http://cukayun.cn/index.php/M/Person/index"
+          "url":"http://cky.ritacc.net/index.php/M/Person/index"
       }]
 }';
 

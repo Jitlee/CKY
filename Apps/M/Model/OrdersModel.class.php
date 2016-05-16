@@ -366,6 +366,7 @@ class OrdersModel extends BaseModel {
 			'uid'			=> $uid,
 			'miaoshaCount'	=> $goodsCount,
 			'orderId'		=> $orderId,
+			'ms'				=> rand(0, 999),
 		);
 		$mmid = $mmdb->add($mmdata);
 		if(!($mmid > 0)) {

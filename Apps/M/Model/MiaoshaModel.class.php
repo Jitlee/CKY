@@ -53,7 +53,9 @@ class MiaoshaModel extends BaseModel {
 		
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
 				m.miaoshaId, m.qishu, m.zongrenshu, m.canyurenshu, m.shengyurenshu, m.jishijiexiao, m.xiangou,
-				if(m.miaoshaStatus < 2 and m.shengyurenshu = 0, 2, miaoshaStatus) miaoshaStatus, m.subTitle, m.createTime, unix_timestamp() now,  unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 lasttime';
+				m.subTitle, m.createTime,
+				if(m.miaoshaStatus < 2 and m.shengyurenshu = 0, 2, m.miaoshaStatus) miaoshaStatus, unix_timestamp() * 1000 now,
+				unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 last';
 				
 		if($type == 1) {
 			$field .= ', unix_timestamp(date_add(m.createTime, interval jishijiexiao hour))*1000 end';
@@ -101,32 +103,44 @@ class MiaoshaModel extends BaseModel {
 	}
 	
 	public function get($miaoshaId = null, $qishu = -1) {
-		$miaoshaId = I('id', $miaoshaId);
-		if($qishu < 0) {
+		if(!$miaoshaId) {
+			$miaoshaId = I('id', $miaoshaId);
+		}
+		if($qishu <= 0) {
 			$qishu = I('qishu', 0);
 		}
-		$map = array('m.miaoshaId'	 => $miaoshaId);
-		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice, if(miaoshaStatus < 2 and shengyurenshu = 0, 2, miaoshaStatus) miaoshaStatus,jishijiexiao,'.
-			'm.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu
-			, unix_timestamp()*1000 now,  unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 lasttime, unix_timestamp(date_add(m.createTime, interval jishijiexiao hour))*1000 end';
-		$join = 'inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';
-		$m = $this;
 		
-		$list = null;
-		if($qishu > 0) { // 查看历史
-			$field .= ', prizeCount, prizeCode, prizeUid, endTime, replace(concat(\'/\', u.ImagePath), \'/http://\', \'http://\') userImg, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') username';
-			$map['qishu'] = $qishu;
-			$m = M('MiaoshaHistory');
-			$m->join('m left join __MEMBER__ u on u.uid = m.prizeUid');
-		} else { // 查看主表纪录
-			$join = 'm '.$join;
+		
+		
+		$filter = array('m.miaoshaId'	 => $miaoshaId);
+		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice,jishijiexiao,
+			m.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu,
+			if(m.miaoshaStatus < 2 and m.shengyurenshu = 0, 2, m.miaoshaStatus) miaoshaStatus, unix_timestamp() * 1000 now,
+			unix_timestamp(date_add(m.createTime, interval m.jishijiexiao hour))*1000 end,
+			unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 last';
+		$join = 'm inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';
+		$data = $this->join($join)->field($field)->where($filter)->find();
+		$current = (int)$data['qishu'];
+		$currentStatus = (int)$data['miaoshaStatus'];
+//		echo dump($data);
+		if(($current == $qishu || $qishu <= 0) && $currentStatus < 3) {
+			$data['current'] = $current;
+			$data['currentStatus'] = $currentStatus;
+			return $data;
 		}
-		$data = $m->join($join)->field($field)->where($map)->find();
-//		echo $m->getLastSql();
-		if($qishu == 0 && (int)$data['miaoshaStatus'] == 3) {
-			return $this->get($data['miaoshaId'], (int)$data['qishu']);
+		
+		$filter = array('m.miaoshaId'	 => $miaoshaId, 'm.qishu' => $qishu <= 0 ? $current : $qishu);
+		$field .= ', prizeCount, prizeCode, prizeUid, prizeNo, endTime, replace(concat(\'/\', u.ImagePath), \'/http://\', \'http://\') userImg, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') username';
+		$db = M('MiaoshaHistory');
+		$history = $db->join($join)->join('left join __MEMBER__ u on u.uid = m.prizeUid')->field($field)->where($filter)->find();
+		$history['current'] = $current;
+		$history['currentStatus'] = $currentStatus;
+//		echo $db->getLastSql();
+		if(empty($history)) {
+			return $data;
 		}
-		return $data;
+		
+		return $history;
 	}
 }	
 ?>

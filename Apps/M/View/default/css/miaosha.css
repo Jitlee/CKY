@@ -383,7 +383,10 @@
 	overflow: auto;
 	display: none;
 	z-index: 9;
+	-webkit-transform: translateX(100%);
+	-webkit-transition: -webkit-transform 0.2s ease-in-out;
 }
 
 .ms-qishu.cky-active {
+	-webkit-transform: translateX(0);
 }

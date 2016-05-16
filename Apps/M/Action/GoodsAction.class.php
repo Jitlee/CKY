@@ -46,7 +46,7 @@ class GoodsAction extends BaseAction {
 	
 	public function gallerys() {
 		$m = D('M/GoodsGallerys');
-		$list = $m->query();
+		$list = $m->lst();
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
 	}

@@ -2,27 +2,28 @@
 <link rel="stylesheet" href="__CSS__/{:autoVer('miaosha.css')}" />
 <link rel="stylesheet" href="__CSS__/{:autoVer('goods-picker.css')}" />
 <header class="mui-bar mui-bar-nav">
-	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+	<button class="mui-btn mui-btn-link mui-pull-left" data-bind="click: backClick">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
 	<h1 id="title" class="mui-title" data-bind="if:goods">第<span data-bind="text: goods().qishu"></span>期</h1>
-	<a id="moreButton" class="mui-btn mui-btn-link mui-pull-right" ><i class="mui-icon mui-icon-bars"></i></a>
+	<a id="moreButton" data-bind="click: moreClick" class="mui-btn mui-btn-link mui-pull-right" ><i class="mui-icon mui-icon-bars"></i></a>
 </header>
 
-<div class="mui-content mui-content-bottom" data-bind="if: goods">
+
+<div class="mui-content mui-content-bottom">
+	<div class="swiper-container ms-swiper">
+	    <div class="swiper-wrapper">
+	    		<foreach name="galleries" item="item">
+				<div class="swiper-slide"><a class="swiper-img" style="background-image: url(/{$item.goodsImg});"></a></div>
+				</foreach>
+	    </div>
+	    <div class="swiper-pagination"></div>
+	</div>
+
+	<!-- ko if: goods() -->
+	
 	<div class="cky-bg-white ms-padding" >
 		<!-- ko if: status() <= 1 -->
-		<!-- Slider main container -->
-		<div class="swiper-container ms-swiper" style="display: none;">
-		    <!-- Additional required wrapper -->
-		    <div class="swiper-wrapper">
-		    		<foreach name="data.galleries" item="item">
-        			<div class="swiper-slide"><a class="swiper-img" style="background-image: url(/{$item.goodsImg});"></a></div>
-        			</foreach>
-		    </div>
-		    <!-- If we need pagination -->
-		    <div class="swiper-pagination"></div>
-		</div>
 		<div class="mui-content-padded">
 			<h4 class="ms-title mui-ellipsis-2">(第<span data-bind="text: goods().qishu"></span>期) <span data-bind="text: goods().goodsName"></span><r><span data-bind="text: goods().subTitle"></span></r></h4>
 			<h5>价值：<r class="font10">¥</r> <r class="font24"><span data-bind="text: goods().marketPrice"></span></r></h5>
@@ -50,7 +51,7 @@
 		<!-- ko if: status() == 2 -->
 		<div class="ms-prize">
 			<div class="mui-text-center ms-prize-empty">
-				<div class="font-black1 font16">正在开奖：<span data-bind="attr: { countdown: goods().lasttime }"></span></div>
+				<div class="font-black1 font16">正在开奖：<span data-bind="attr: { countdown: goods().last }"></span></div>
 				<h5>表着急，正在努力计算当中...</h5>
 			</div>
 		</div>
@@ -124,8 +125,13 @@
 	<!-- /ko -->
 	
 	<ul class="mui-table-view cky-mtop-10">
+		<!-- ko if: status() == 3 && goods().prizeNo > 0 -->
 		<li class="mui-table-view-cell">
-			<a id="memberRecord" class="mui-navigate-right">
+			<a class="mui-navigate-right" data-bind="attr: { href: '{:U('Miaosha/pr','','')}?id=' + goods().miaoshaId + '&qishu=' + goods().qishu }">计算结果</a>
+		</li>
+		<!-- /ko -->
+		<li class="mui-table-view-cell">
+			<a id="memberRecord" class="mui-navigate-right" data-bind="click: recordClick">
 				参与纪录<span class="font13 font-gray">(<span data-bind="text: goods().goumaicishu"></span>)</span>
 			</a>
 		</li>
@@ -140,12 +146,14 @@
 			</a>
 		</li>
 	</ul>
+	
+	<!-- /ko -->
 </div>
 <!-- ko if: status() <= 1 -->
 <footer class="cky-footer cky-button-footer">
 	<div class="mui-table">
-		<div class="mui-table-cell"><a ctype="direct" class="mui-btn mui-btn-block mui-btn-danger">立即一元秒杀</a></div>
-		<div class="mui-table-cell"><a ctype="add" class="mui-btn mui-btn-block mui-btn-primary">加入购物车</a></div>
+		<div class="mui-table-cell"><a ctype="direct" data-bind="click: addCartClick" class="mui-btn mui-btn-block mui-btn-danger">立即一元秒杀</a></div>
+		<div class="mui-table-cell"><a ctype="add" data-bind="click: addCartClick" class="mui-btn mui-btn-block mui-btn-primary">加入购物车</a></div>
 	</div>
 </footer>
 <!-- /ko -->
@@ -171,28 +179,22 @@
 			</div>
 		</div>
 		</div>
-		<a id="submit" class="cky-btn cky-btn-block cky-btn-red">确定</a>
+		<a id="submit" data-bind="click: okClick" class="cky-btn cky-btn-block cky-btn-red">确定</a>
 	</div>
 </div>
 
 <div id="qishuBlock" class="mui-content ms-qishu">
 	<div class="ms-code-table">
 		<div class="ms-code-table-cell">
-			<if condition="$data.miaoshaStatus lt 2">
-			<a qishu="0" class="ms-qishu-ing">
-				第{$data.qishu}期
+			<a qishu="0" data-bind="css: {  'ms-qishu-ing': goods() && goods().currentStatus < 3 }">
+				第<span data-bind="text: goods() && goods().current"></span>期
 			</a>
-			<else/>
-			<a qishu="0">
-				第{$data.qishu}期
-			</a>
-			</if>
 		</div>
-		<for start="intval($data['qishu']) - 1" comparison="egt" end="1" step="-1">
+		<!-- ko foreach: qishus -->
 		<div class="ms-code-table-cell">
-			<a qishu="{$i}">第 {$i} 期</a>
+			<a data-bind="attr: { qishu: $data }">第 <span data-bind="text: $data"></span> 期</a>
 		</div>
-		</for>
+		<!-- /ko -->
 	</div>
 </div>
 <div class="cky-loading"></div>
@@ -203,33 +205,47 @@
 <script type="text/javascript" src="__JS__/countdown.js"></script>
 
 <script>
-	var shopCart = null;
-	var miaoshaId = "{:I('id')}";
-	var qishu = Number("{:I('qishu')}");
-	var nextTimeHandler = 0;
-	qishu = qishu > 0 ? qishu : 0;
-	
-	//获取缓存中的期数，以备返回页面时跳转到正确的期数
-	var seed = "{$seed}";
-	var SEED_KEY = "MIAOSHA_VIEW_QISHU";
-	var seedData = cky.storage.getItem(SEED_KEY);
-	if(seedData && seedData[0] == seed) {
-		qishu = seedData[1];	
-	}
-	
-	var vm = {
-		status: ko.observable(1), // 是否正在进行
-		goods: ko.observable(null),
-		clickPrizeCodes: onprizecodes,
-	};
-	ko.applyBindings(vm);
-	
-	// 本期云购码
-	function onprizecodes() {
-		window.location.href = "{:U('Miaosha/mc')}?id={:I('id')}&qishu=" + qishu + "&uid=" + vm.goods().prizeUid + "&code=" + vm.goods().prizeCode;
-	};
 	$(function() {
-	   	
+		var shopCart = null;
+		var miaoshaId = "{:I('id')}";
+		var qishu = Number("{:I('qishu')}");
+		var nextTimeHandler = 0;
+		qishu = qishu > 0 ? qishu : 0;
+		
+		//获取缓存中的期数，以备返回页面时跳转到正确的期数
+		var seed = "{$seed}";
+		var SEED_KEY = "MIAOSHA_VIEW_QISHU";
+		var seedData = cky.storage.getItem(SEED_KEY);
+		if(seedData && seedData[0] == seed) {
+			qishu = seedData[1];	
+		}
+			
+		var mySwiper = new Swiper ('.swiper-container', {
+	      	// Optional parameters
+	      	direction: 'horizontal',
+	      	pagination: '.swiper-pagination',
+	      	autoplay: 3000,
+	      	loop: true
+	   	});
+		
+		var vm = {
+			status: ko.observable(1), // 是否正在进行
+			goods: ko.observable(null),
+			qishus: ko.observableArray([]),
+			clickPrizeCodes: onprizecodes,
+			moreClick: onmoreclick,
+			addCartClick: onaddcart,
+			okClick: onokclick,
+			recordClick: onrecordclick,
+			backClick: onbackclick,
+		};
+		ko.applyBindings(vm);
+		
+		// 本期云购码
+		function onprizecodes() {
+			window.location.href = "{:U('Miaosha/mc')}?id={:I('id')}&qishu=" + qishu + "&uid=" + vm.goods().prizeUid + "&code=" + vm.goods().prizeCode;
+		};
+		
 		cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
 			if(vm.status() < 3) {
 				query();	
@@ -241,22 +257,22 @@
 				id: miaoshaId,
 				qishu: qishu == Number("{$data.qishu}") ? 0 : qishu
 			}, function(goods) {
-				cky.closeLoading();
 				if(!goods) {
+					cky.closeLoading();
 					return;
 				}
 				
 				qishu = Number(goods.qishu);
 				cky.storage.setItem(SEED_KEY, [seed, qishu]); // 保存到缓存中，以备返回页面时跳转到正确的期数
 				
-				$("#qishuBlock a.cky-active").removeClass("cky-active");
-				$("#qishuBlock a[qishu=" + qishu + "]").addClass("cky-active");
-				
 				window.clearTimeout(nextTimeHandler);
 				var status = Number(goods.miaoshaStatus);
+				goods.prizeNo = Number(goods.prizeNo);
+				goods.current = Number(goods.current);
+				goods.currentStatus = Number(goods.currentStatus);
 				
 				if(status == 2) {
-					window.setTimeout(query, Math.max(goods.lasttime - goods.now, 3000) + 3000);
+					window.setTimeout(query, Math.max(goods.last - goods.now, 3000) + 3000);
 				} else if(status < 2 && Number(goods.jishijiexiao) > 0) {
 					window.setTimeout(query, Math.max(goods.end - goods.now, 3000) + 3000);
 				}
@@ -265,9 +281,26 @@
 				vm.goods(goods);
 				vm.status(status);
 				
-//				if(status < 2) {
+				if(status < 2) {
 					initshopCart(goods);
-//				}
+					$(".swiper-container").show();
+				} else {
+					$(".swiper-container").hide();
+				}
+				
+				if(goods.current > vm.qishus().length) {
+					var qishus = [];
+					vm.qishus.removeAll();
+					for(var i = goods.current - 1; i > 0; i--) {
+						qishus.push(i);
+					}
+					vm.qishus(qishus);
+				}
+				
+				// 期数
+				$("#qishuBlock a.cky-active").removeClass("cky-active");
+				$("#qishuBlock a[qishu=" + qishu + "]").addClass("cky-active");
+				cky.closeLoading();
 			});
 	   	}
 	   	
@@ -286,34 +319,11 @@
 				goodsStock: goods.shengyurenshu,
 				goodsUnit: "次"
 			});
-		
-			// 加入购物车，立即购买
-			$("a[ctype]").click(function() {
-				var $this = $(this);
-				var ctype = $this.attr("ctype");
-				shopCart.open(ctype);
-			});
-			$("#submit").click(function() {
-				shopCart.ok();
-			});
-			
-			// 购买纪录
-			$("#memberRecord").click(function() {
-				window.location.href = "{:U('Miaosha/mm')}?id={:I('id')}&qishu=" + qishu  + "&code=" + vm.goods().prizeCode;
-			});
-			
-			$("#moreButton").click(onmoreclick);
-			
-			var mySwiper = new Swiper ('.swiper-container', {
-		      	// Optional parameters
-		      	direction: 'horizontal',
-		      	pagination: '.swiper-pagination',
-		      	autoplay: 3000,
-		      	loop: true
-		   	});
-		   	
-		   	$(".swiper-container").show();
 		}
+	   	
+	   	function onrecordclick() {
+	   		window.location.href = "{:U('Miaosha/mm')}?id={:I('id')}&qishu=" + qishu  + "&code=" + vm.goods().prizeCode;
+	   	}
 	   	
 	   	var qishuBlock = $("#qishuBlock");
 	   	$("#qishuBlock").on("click", "a", function() {
@@ -327,13 +337,43 @@
 	   		}
 	   	});
 	   	
+	   	function onaddcart(obj, evt) {
+	   		var $this = $(evt.delegateTarget);
+			var ctype = $this.attr("ctype");
+			shopCart.open(ctype);
+	   	}
+	   	
+	   	function onokclick(obj, evt) {
+	   		shopCart.ok();
+	   	}
+	   	
+	   	var qishuHandler = 0;
 	   	function onmoreclick() {
-	   		if(qishuBlock.hasClass("cky-active")) {
-	   			qishuBlock.fadeOut();
-	   		} else {
-	   			qishuBlock.fadeIn();
+	   		if(qishuHandler > 0) {
+	   			window.clearTimeout(qishuHandler);
+	   			qishuHandler = 0;
 	   		}
-	   		qishuBlock.toggleClass("cky-active");
+	   		if(qishuBlock.hasClass("cky-active")) {
+	   			qishuBlock.removeClass("cky-active");
+	   			qishuHandler = window.setTimeout(function() {
+	   				qishuBlock.hide();
+	   				qishuHandler = 0;
+	   			}, 200);
+	   		} else {
+	   			qishuBlock.show();
+	   			qishuHandler = window.setTimeout(function(){
+	   				qishuBlock.addClass("cky-active");
+	   				qishuHandler = 0;
+	   			}, 0)
+	   		}
 		}
+	   	
+	   	function onbackclick() {
+	   		if(qishuBlock.hasClass("cky-active")) {
+	   			onmoreclick();
+	   		} else {
+	   			window.history.back(-1);
+	   		}
+	   	}
 	});
 </script>

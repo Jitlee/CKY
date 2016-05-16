@@ -57,20 +57,21 @@ class MiaoshaAction extends BaseAction {
 	
 	public function view() {
 		
-		$db = D('M/Miaosha');
-		$data = $db->get(null, 0);
-		
-		if((int)$data['miaoshaStatus'] < 2) {
-			$db = D('M/GoodsGallery');
-			$galleries = $db->query();
-			if(empty($galleries)) {
-				$galleries[] = array('goodsImg'	=> $data['goodsImg']);
-			}
-			$data['galleries'] = $galleries;
+//		$db = D('M/Miaosha');
+//		$data = $db->get(null, 0);
+//		
+		$miaoshaId = I('id');
+		$db = D('M/GoodsGallerys');
+		$galleries = $db->lstByMiaoshaId($miaoshaId);
+		if(empty($galleries)) {
+			$galleries = array();
+			$db = D('M/Miaosha');
+			$data = $db->get($miaoshaId, 0);
+			array_push($galleries, array('goodsImg' => $data['goodsImg']));
+//		echo dump($galleries);
 		}
-//		echo dump($data);
-		
-		$this->assign('data', $data);
+		$this->assign('galleries', $galleries);
+//		echo $db->getLastSql();
 		
 		$this->assign('seed',  time() + mt_rand(0, 1000));
 		
@@ -156,6 +157,22 @@ class MiaoshaAction extends BaseAction {
 		$uid = getuid();
 		$mmdb = D('M/MemberMiaosha');
 		$list = $mmdb->me($uid);
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	// 开奖结果
+	public function pr() {
+		$db = D('Miaosha');
+		$data = $db->get();
+		$this->assign('data', $data);
+		
+		$this->assign('title', '开奖结果');
+		$this->display("prize_result");
+	}
+	
+	public function prr() {
+		$db = D('MiaoshaRecord');
+		$list = $db->lst();
 		$this->ajaxReturn($list, 'JSON');
 	}
 }

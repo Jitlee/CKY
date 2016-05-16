@@ -74,7 +74,7 @@
                		<if condition="$vo['jishijiexiao']==0 ">不参与<else/><span class='label btn-danger glyphicon glyphicon-pencil'>{$vo['jishijiexiao']}小时</span></if>
                </td>
                <td>
-               		<a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/order",array("goodsId"=>$vo["goodsId"]))}'>购买记录</a>               	
+               		<a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/order",array("goodsId"=>$vo["goodsId"],"qishu"=>$vo["qishu"]))}'>购买记录</a>               	
                </td>
                 
              </tr>

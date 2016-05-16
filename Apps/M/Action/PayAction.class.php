@@ -105,22 +105,24 @@ class PayAction extends BaseUserAction {
 			//$tfee=1;				//整数单位为分
 			$setattach=$dataInfo["payNo"]; //附加信息原样返回			
 	        //2、统一下单
-	        $input = new \WxPayUnifiedOrder();
-	        $input->SetBody($Body);
-	        $input->SetAttach($setattach);
-	        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
-	        $input->SetTotal_fee($tfee);
-	        $input->SetTime_start(date("YmdHis"));
-	        $input->SetTime_expire(date("YmdHis", time() + 600));
-	        $input->SetGoods_tag("Goods_test");
-	        $input->SetNotify_url("http://cukayun.cn/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
-	        $input->SetTrade_type("JSAPI");
-	        $input->SetOpenid($openId);
-	        $order = \WxPayApi::unifiedOrder($input);
-
-	        $jsApiParameters = $tools->GetJsApiParameters($order);
-	        $this->jsApiParameters=$jsApiParameters;
-			
+//	        if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false && strpos($_SERVER['SERVER_NAME'], 'cky.ritacc.net') === false) {		
+		
+		        $input = new \WxPayUnifiedOrder();
+		        $input->SetBody($Body);
+		        $input->SetAttach($setattach);
+		        $input->SetOut_trade_no(\WxPayConfig::MCHID.date("YmdHis"));
+		        $input->SetTotal_fee($tfee);
+		        $input->SetTime_start(date("YmdHis"));
+		        $input->SetTime_expire(date("YmdHis", time() + 600));
+		        $input->SetGoods_tag("Goods_test");
+		        $input->SetNotify_url("http://cukayun.cn/index.php/M/Pay/notify/");   //支付回调地址，这里改成你自己的回调地址。
+		        $input->SetTrade_type("JSAPI");
+		        $input->SetOpenid($openId);
+		        $order = \WxPayApi::unifiedOrder($input);
+	
+		        $jsApiParameters = $tools->GetJsApiParameters($order);
+		        $this->jsApiParameters=$jsApiParameters;
+//			}
 			if($type=="order")
 			{
 				$usrinfo=session("MemberItem");

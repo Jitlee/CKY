@@ -62,11 +62,14 @@ class WxMsgAction extends Controller{
 				 		$contentStr="您说的是：".$keyword;
 				 	}
 		            //$contentStr=$contentStr.$fromUsername.$toUsername;
-		            
-	                $msgType = "text";
-	                //$contentStr = date("Y-m-d H:i:s",time());
-	                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-	                echo $resultStr;
+		            $strlen=strlen($contentStr);
+		            if(!empty($keyword))
+					{
+		                $msgType = "text";
+		                //$contentStr = date("Y-m-d H:i:s",time());
+		                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+		                echo $resultStr;					
+					}
 		             
 		        }else{
 		            echo "";

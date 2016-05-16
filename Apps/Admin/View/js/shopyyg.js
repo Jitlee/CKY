@@ -252,7 +252,7 @@ function editGoods(menuId){
 	   params.goodsCatId3 =0;// $('#goodsCatId3').val();
 	   params.shopCatId1 =0;// $('#shopCatId1').val();
 	   params.shopCatId2 = 0;//$('#shopCatId2').val();
-	   params.isSale = $('input[name="isSale"]:checked').val();
+//	   params.isSale = $('input[name="isSale"]:checked').val();
 	   params.isNew = $('input[name="isNew"]:checked').val();;
 	   params.isBest = $('input[name="isBest"]:checked').val();;
 	   params.isHot = $('input[name="isHot"]:checked').val();;

@@ -22,9 +22,9 @@ class WxUserInfo
 	}
 
 	function accessToken(){
-		$tokenFile = "./access_tokenkey.txt";//缓存文件名 
-		$data = json_decode(file_get_contents($tokenFile)); 
-		 
+//		$tokenFile = "./access_tokenkey.txt";//缓存文件名 
+//		$data = json_decode(file_get_contents($tokenFile)); 
+		$data=S("accesstokenkey");		 
 		if (!$data or $data->expire_time < time()) {
 			vendor('Weixinpay.WxPayJsApiPay');
 			$appid =  \WxPayConfig::APPID;
@@ -45,9 +45,10 @@ class WxUserInfo
 			{
 		        $data2['expire_time'] = time() + 7000; 
 		        $data2['access_token'] = $access_token; 				 
-		        $fp = fopen($tokenFile, "w+");
-		        fwrite($fp, json_encode($data2));
-		        fclose($fp);  
+//		        $fp = fopen($tokenFile, "w+");
+//		        fwrite($fp, json_encode($data2));
+//		        fclose($fp);  
+				S("accesstokenkey",$data2,3600);
 	      	}
 			return $access_token;
 	    }

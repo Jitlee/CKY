@@ -33,27 +33,25 @@
              <tr>
                <th width='50'>序号</th>
                <th>名称</th>
-               <th  >时间</th>
-               <th >数量</th>
-               
-               <th>客户名</th>
                <th>期数</th>
-               
+               <th>客户名</th>
+               <th>时间</th>
+               <th>数量</th>
              </tr>
            </thead>
            <tbody>
             <volist name="Page['root']" id="vo" key='i'>
              <tr >
                <td> {$i}</td>
-               <td>
-	               {$vo['subtitle']}
-               </td>
-               <td>{$vo['createtime']}&nbsp;</td>
+               <td>{$vo['goodsname']}</td>
+               <td>{$vo['qishu']}&nbsp;</td>
+               <td>{$vo['userName']}&nbsp;</td>
+               <td>{$vo['createTime']}&nbsp;</td>
                
                <td>{$vo['miaoshaCount']}&nbsp;</td>
-               <td>{$vo['userName']}&nbsp;</td>
                
-               <td>{$vo['qishu']}&nbsp;</td> 
+               
+               
              </tr>
              </volist>
              <tr>

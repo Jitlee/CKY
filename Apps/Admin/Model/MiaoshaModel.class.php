@@ -60,15 +60,16 @@ class MiaoshaModel extends BaseModel {
      	$qishu = I('qishu');
 	 	$sql = "
 select 
-	mm.mmid, mm.createTime, mm.miaoshaCount, mm.uid,mm.qishu,  u.trueName userName,g.*
+	mm.mmid, mm.createTime, mm.miaoshaCount,go.goodsname, mm.uid,mm.qishu,  u.trueName userName,g.*
 from  
-cky_member_miaosha mm
+	cky_member_miaosha mm
 inner join cky_member  u on mm.uid = u.uid
 left join cky_miaosha_history g on g.miaoshaId=mm.miaoshaId and mm.qishu=g.qishu
-where goodsFlag=1  and goodsId=$goodsId";
+left join cky_goods go on go.miaoshaId=g.miaoshaId
+where  goodsId=$goodsId";
  
 
-	 	$sql.="  order by ms.qishu desc";   
+	 	$sql.="  order by g.qishu desc";   
 		return $m->pageQuery($sql);
 	}
 	
@@ -112,15 +113,7 @@ where goodsFlag=1  and goodsId=$goodsId";
 	 */
 	public function insert(){
 	 	$rd = array('status'=>-1);
-//		return $rd;
-	 	//查询商家状态
-//		$sql = "select shopStatus from __PREFIX__shops where shopFlag = 1 and shopId=".(int)session('RTC_USER.shopId');
-//		$shopStatus = $this->query($sql);
-//		if(empty($shopStatus)){
-//			$rd['status'] = -2;
-//			return $rd;
-//		}
-	    
+
 	    $shopId = -1; // 粗卡云平台
 		$data = array();
 		$data["goodsSn"] = I("goodsSn");
@@ -146,7 +139,7 @@ where goodsFlag=1  and goodsId=$goodsId";
 //		}else{
 //			$data["isSale"] = 0;
 //		}
-		$data["isSale"] = (int)I("isSale");
+		$data["isSale"] = 1;
 		
 		$data["goodsCatId1"] = (int)I("goodsCatId1");
 		$data["goodsCatId2"] = (int)I("goodsCatId2");
@@ -284,7 +277,7 @@ where goodsFlag=1  and goodsId=$goodsId";
 		$data["isHot"] = (int)I("isHot");
 		
 	    //如果商家状态不是已审核则所有商品只能在仓库中
-		$data["isSale"] = (int)I("isSale");
+		//$data["isSale"] = (int)I("isSale");
 		
 		$data["goodsCatId1"] = (int)I("goodsCatId1");
 		$data["goodsCatId2"] = (int)I("goodsCatId2");

@@ -18,6 +18,7 @@ class HomeAction extends BaseAction {
 			$this->display("getwxerror");
 			exit;
 		}
+		//echo $openid;
 		$this->assign('openid', $openid); 
 		$this->display();
 	}

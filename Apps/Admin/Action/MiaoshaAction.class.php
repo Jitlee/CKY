@@ -25,7 +25,7 @@ class MiaoshaAction extends BaseAction{
 			$goodsCatId1=$cats[0]["catId"];
 		}
 		
-		$m = D('Admin/Miaosha');		 
+		$m = D('Admin/Miaosha');
     	$page = $m->queryByPage($goodsCatId1);
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
@@ -53,13 +53,16 @@ class MiaoshaAction extends BaseAction{
 
 	public function order(){
 		$this->isLogin(); 		
-		$m = D('Admin/Miaosha');		 
+		$m = D('Admin/Miaosha');	
+		$goodsId=I("goodsId");
+		$qishu=I("qishu");
+			 
     	$page = $m->queryOrderByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page); 
         
-   		$this->display('miaosha/history');
+   		$this->display('miaosha/order');
 	}
 	
 	/**

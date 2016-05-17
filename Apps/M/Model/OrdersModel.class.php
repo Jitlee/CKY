@@ -18,7 +18,7 @@ class OrdersModel extends BaseModel {
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
 		$map = array('o.userId'	=> $userId, 'o.orderFlag' => array('neq', -1));
-		$field = "o.orderId, orderNo, o.createTime, o.shopId, o.isAppraises, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
+		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
 		$group = 'o.orderId';
 		$list = $this->field($field)->join($join)->where($map)
@@ -36,6 +36,7 @@ class OrdersModel extends BaseModel {
 		$map = array(
 			'userId'		=> $userId,
 			'orderId'		=> $orderId,
+			'orderType'		=> array("in", "1,2"), // 快餐和一元购的订单才关闭
 			'orderStatus'	=> 0,  // 只有超时的订单才能关闭
 		);
 		
@@ -100,6 +101,7 @@ class OrdersModel extends BaseModel {
 			->join('__SHOPS__ sp on sp.shopId = __ORDERS__.shopId')
 			->where($map)->find();
 	}
+	
 	/**
 	 * 获取订单记录信息
 	 */
@@ -375,18 +377,18 @@ class OrdersModel extends BaseModel {
 			return $rst;
 		}
 		
-		// 修改秒杀商品库存
-		$mddata = array(
-			'goumaicishu'		=> array('exp', '`goumaicishu` + 1'),
-			'canyurenshu'		=> array('exp', '`canyurenshu` + '.$goodsCount),
-			'shengyurenshu'		=> array('exp', ' `shengyurenshu` - '.$goodsCount),
-			'miaoshaStatus'		=> 1
-		);
-		if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
-			$rst['status'] = -204;
-			$rst['data'] = '修改秒杀商品失败';
-			return $rst;
-		}
+//		// 修改秒杀商品库存
+//		$mddata = array(
+//			'goumaicishu'		=> array('exp', '`goumaicishu` + 1'),
+//			'canyurenshu'		=> array('exp', '`canyurenshu` + '.$goodsCount),
+//			'shengyurenshu'		=> array('exp', ' `shengyurenshu` - '.$goodsCount),
+//			'miaoshaStatus'		=> 1
+//		);
+//		if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
+//			$rst['status'] = -204;
+//			$rst['data'] = '修改秒杀商品失败';
+//			return $rst;
+//		}
 		return $rst;
 	}
 	

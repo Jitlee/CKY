@@ -39,19 +39,19 @@
 			$('#'+objId).html(html.join(''));
 	   });
    }
-   $(function(){
-       <PHP>if($areaId1!=0){</PHP>
-	   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
-	   <PHP>}</PHP>  
-	   <PHP>if($areaId2 != 0){</PHP>
-	   getAreaList("areaId3",'{$areaId2}',1,'{$areaId3}');
-	   <PHP>}</PHP>
-	   $('#orderStatus').val({$orderStatus});
-   });
+// $(function(){
+//     <PHP>if($areaId1!=0){</PHP>
+//	   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+//	   <PHP>}</PHP>  
+//	   <PHP>if($areaId2 != 0){</PHP>
+//	   getAreaList("areaId3",'{$areaId2}',1,'{$areaId3}');
+//	   <PHP>}</PHP>
+//	   $('#orderStatus').val({$orderStatus});
+// });
    </script>
    <body class='rtc-page'>
       <form method="post" action='{:U("Admin/Orders/index")}'>
-       <div class='rtc-tbar'>
+       <!--<div class='rtc-tbar'>
                              地区：<select name='areaId1' id='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
              <option value=''>请选择</option>
              <volist name="areaList" id="vo">
@@ -64,7 +64,7 @@
           <select name='areaId3' id='areaId3'>
              <option value=''>请选择</option>
           </select>
-       </div>
+       </div>-->
        <div class='rtc-tbar'>
        商家：<input type='text' name='shopName' id='shopName' value='{$shopName}'/>  
        订单：<input type='text' name='orderNo' id='orderNo' value='{$orderNo}'/>
@@ -76,7 +76,7 @@
              <option value='3'>打包中</option>
              <option value='4'>配送中</option>
              <option value='5'>已到货</option>
-             <option value='6'>系统确认</option>
+             <option value='6'>交易成功</option>
              <option value='-1'>用户取消</option>
              <option value='-2'>超时未支付</option>
           </select>
@@ -103,7 +103,7 @@
                <td>{$vo['userName']}</td>
                <td>
                                              ￥{$vo['totalMoney']+$vo['deliverMoney']}<br/>
-               <if condition="$vo['payType'] ==1 ">在线支付<else/>货到付款</if>
+               <if condition="$vo['payType'] ==1 ">余额支付<else/>在线支付</if>
                </td>
                <td>{$vo['createTime']}</td>
                <td>
@@ -113,7 +113,7 @@
 			   <elseif condition='$vo["orderStatus"] eq 3'/>打包中
 			   <elseif condition='$vo["orderStatus"] eq 4'/>配送中
 			   <elseif condition='$vo["orderStatus"] eq 5'/>已到货
-			   <elseif condition='$vo["orderStatus"] eq 6'/>系统确认
+			   <elseif condition='$vo["orderStatus"] eq 6'/>交易成功
 			   <elseif condition='$vo["orderStatus"] eq -1'/>用户取消
 			   <elseif condition='$vo["orderStatus"] eq -2'/>超时未支付
 			   </if>

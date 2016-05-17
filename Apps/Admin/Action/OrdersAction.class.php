@@ -16,8 +16,8 @@ class OrdersAction extends BaseAction{
 		$this->isLogin();
 		$this->checkAjaxPrivelege('ddlb_00');
 		//获取地区信息
-		$m = D('Admin/Areas');
-		$this->assign('areaList',$m->queryShowByList(0));
+//		$m = D('Admin/Areas');
+//		$this->assign('areaList',$m->queryShowByList(0));
 		
 		$m = D('Admin/Orders');
     	$page = $m->queryByPage();

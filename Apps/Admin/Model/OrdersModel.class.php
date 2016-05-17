@@ -62,9 +62,9 @@ class OrdersModel extends BaseModel {
      	$orderStatus = (int)I('orderStatus',-9999);
 	 	$sql = "select o.orderId,o.orderNo,o.totalMoney,o.orderStatus,o.deliverMoney,o.payType,o.createTime,s.shopName,o.userName from __PREFIX__orders o
 	 	         left join __PREFIX__shops s on o.shopId=s.shopId  where o.orderFlag=1 ";
-	 	if($areaId1>0)$sql.=" and s.areaId1=".$areaId1;
-	 	if($areaId2>0)$sql.=" and s.areaId2=".$areaId2;
-	 	if($areaId3>0)$sql.=" and s.areaId3=".$areaId3;
+//	 	if($areaId1>0)$sql.=" and s.areaId1=".$areaId1;
+//	 	if($areaId2>0)$sql.=" and s.areaId2=".$areaId2;
+//	 	if($areaId3>0)$sql.=" and s.areaId3=".$areaId3;
 	 	if($shopName!='')$sql.=" and (s.shopName like '%".$shopName."%' or s.shopSn like '%".$shopName."%')";
 	 	if($orderNo!='')$sql.=" and o.orderNo like '%".$orderNo."%' ";
 	 	if($orderStatus!=-9999 && $orderStatus!=-100)$sql.=" and o.orderStatus=".$orderStatus;

@@ -29,7 +29,7 @@ class MemberPayModel extends BaseModel {
 		$filter["payNo"]=$key;
 		return $db->where($filter)->find();
 	}
-	/*订单在线支付*/
+	/*储值卡支付*/
 	public function OrderValuePay($dataInfo,$carid)
 	{
 		$mOneCard = D('M/OneCard'); //出错处理
@@ -39,7 +39,7 @@ class MemberPayModel extends BaseModel {
 			//更新订单状态
 			$orderid=$dataInfo["extendid"];
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->payOrder((int)$orderid);
+			$res=$dbOrders->payOrder((int)$orderid ,1);
 			
 			if($res['status'] != 1) {
 				return $res;
@@ -94,7 +94,7 @@ class MemberPayModel extends BaseModel {
 		}
 		$dbMember->save($dataInfo);
 	}
-	/*余额支付*/
+	/*在线支付*/
 	public function UpdatePayOrder($dataInfo)
 	{
 		$orderid=$dataInfo["extendid"].'';
@@ -108,7 +108,7 @@ class MemberPayModel extends BaseModel {
 		{
 			//更新订单状态
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->payOrder((int)$orderid);
+			$res=$dbOrders->payOrder((int)$orderid, 0);
 			
 			if($res["status"] == 1)
 			{

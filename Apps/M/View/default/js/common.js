@@ -148,8 +148,8 @@ var cky = {
 				return "配送中";
 			case 5:
 				return "完成";
-//			case 6:
-//				return "已到货";
+			case 6:
+				return "交易成功";
 			default:
 				return "订单已结束";
 		}

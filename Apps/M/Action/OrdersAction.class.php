@@ -53,10 +53,14 @@ class OrdersAction extends BaseUserAction {
 		
 		$this->assign('title', $data['shopName']);
 		
-//		echo $gdb->getLastSql();
-//		echo dump($goods);
+		$orderType = (int)$data['orderType'];
 		
-		$this->display();
+		if($orderType == 1) {
+			// 快餐
+			$this->display("timeout_detail");
+		} else {
+			$this->display("detail");
+		}
 	}
 	
 	public function lst() {

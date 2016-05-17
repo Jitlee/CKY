@@ -110,8 +110,6 @@ class MiaoshaModel extends BaseModel {
 			$qishu = I('qishu', 0);
 		}
 		
-		
-		
 		$filter = array('m.miaoshaId'	 => $miaoshaId);
 		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice,jishijiexiao,
 			m.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu,

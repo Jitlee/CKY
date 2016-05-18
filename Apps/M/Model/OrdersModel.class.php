@@ -1199,7 +1199,7 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 订单支付状态
 	 */
-	public function payOrder($orderId){
+	public function payOrder($orderId ,$payType=0){
 		$rst = array('status' => 1);
 		$filter = array();
 		$filter['orderId'] = $orderId;
@@ -1218,6 +1218,8 @@ class OrdersModel extends BaseModel {
 		$data = array();
 		$data['orderStatus'] = $orderType == 2 ? 6 : 1; // 一元购直接完结商品
 		$data['isPay'] = 1;
+		$data['payType'] = $payType;
+		 
 		if($this->where($filter)->save($data) === FALSE) {
 			$rst['status'] = -302;
 			return $rst;

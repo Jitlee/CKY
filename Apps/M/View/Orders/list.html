@@ -20,7 +20,7 @@
 		<a class="cky-table-view cky-mtop-10" data-bind="attr: { shopId:shopId, oid: orderId, id: 'order_' + orderId, href: '{:U('detail')}?id=' + orderId }">
 			<div class="cky-table-view-cell order-title">
 				<span class="font14" data-bind="text: shopName"></span>
-				<!-- ko if: orderStatus < 0 || orderStatus == 6 -->
+				<!-- ko if: orderStatus < 0 || orderStatus == 0 -->
 				<button class="remove-btn cky-update cky-update-center mui-btn mui-btn-link"><i class="mui-icon mui-icon-trash"></i></button>
 				<!-- /ko-->
 			</div>

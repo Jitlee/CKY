@@ -61,9 +61,7 @@ class PayAction extends BaseUserAction {
 	}
     Public function index(){
 
-        //1、获取openid
-        $tools = new \JsApiPay();
-        $openId = $tools->GetOpenid();
+       
 
 		$money=session("money");
 		$type=session("type");
@@ -105,8 +103,14 @@ class PayAction extends BaseUserAction {
 			//$tfee=1;				//整数单位为分
 			$setattach=$dataInfo["payNo"]; //附加信息原样返回			
 	        //2、统一下单
-//	        if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false && strpos($_SERVER['SERVER_NAME'], 'cky.ritacc.net') === false) {		
+	        if(strpos($_SERVER['SERVER_NAME'] , 'localhost') === false 
+	        	&& strpos($_SERVER['SERVER_NAME'], '192.168.') === false 
+	        	&& strpos($_SERVER['SERVER_NAME'], 'cky.ritacc.net') === false) {		
 		
+				 //1、获取openid
+		        $tools = new \JsApiPay();
+		        $openId = $tools->GetOpenid();
+				
 		        $input = new \WxPayUnifiedOrder();
 		        $input->SetBody($Body);
 		        $input->SetAttach($setattach);
@@ -122,14 +126,23 @@ class PayAction extends BaseUserAction {
 	
 		        $jsApiParameters = $tools->GetJsApiParameters($order);
 		        $this->jsApiParameters=$jsApiParameters;
-//			}
+			}
 			if($type=="order")
 			{
 				$usrinfo=session("MemberItem");
 				//echo dump($usrinfo);
 				$this->assign('account', $usrinfo);
 				$this->assign('orderno', $setattach);
-				$this->display("orderpay");
+				//本地另外一个页面
+				if(strpos($_SERVER['SERVER_NAME'] , 'localhost') === false 
+	        	&& strpos($_SERVER['SERVER_NAME'], '192.168.') === false 
+	        	&& strpos($_SERVER['SERVER_NAME'], 'cky.ritacc.net') === false) {
+					$this->display("orderpay");	//正式环境
+				}
+				else
+				{
+					$this->display("orderpaytest");	//正式环境
+				}
 			}
 			else
 			{

@@ -54,6 +54,19 @@
 				}
 	   });
    }
+   
+   
+   function like(v){
+	   var id = "";
+	   $('.chk').each(function(){
+		   if($(this).prop('checked'))
+		   {
+		   		id=$(this).val();
+		   		window.location.href="{:U('Admin/GoodsLike/toedit','','')}/id/"+id;
+		   		return false;
+		   }
+	   })
+   }
    function batchRecom(v){
 	   var ids = [];
 	   $('.chk').each(function(){
@@ -160,7 +173,7 @@
    <body class='rtc-page'>
     <form method='post' action='{:U("Admin/Goods/index")}' autocomplete="off">
        <div class='rtc-tbar'> 
-      地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
+      <!--地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
                <option value='0'>请选择</option>
                <volist name="areaList" id="vo">
                <option value='{$vo['areaId']}' <if condition="$areaId1 == $vo['areaId'] ">selected</if>>{$vo['areaName']}</option>
@@ -168,7 +181,7 @@
              </select>
              <select id='areaId2' name='areaId2'>
                <option value='0'>请选择</option>
-             </select>
+             </select>-->
   平台分类：<select id='goodsCatId1' name='goodsCatId1' onchange='javascript:getCatList("goodsCatId2",this.value,0)'>
 	                <option value='0'>请选择</option>
 	                <volist name="goodsCatsList" id="vo">
@@ -205,6 +218,7 @@
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchBest(0)'>取消精品</button>
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchRecom(1)'>设置推荐</button>
         <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchRecom(0)'>取消推荐</button>
+        <button type="button" class="btn btn-primary glyphicon" onclick='javascript:like(0)'>猜你喜欢</button>
         <php>}</php>  
         </div>
         <table class="table table-hover table-striped table-bordered rtc-list">

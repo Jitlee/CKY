@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+   </head>
+   <script>
+   function del(id){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该推荐餐厅吗?',okText:'确定',cancelText:'取消',okFun:function(){
+		   Plugins.closeWindow();
+		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+		   $.post("{:U('Admin/GoodsLike/del')}",{likeid:id},function(data,textStatus){
+					var json = RTC.toJson(data);
+					if(json.status=='1'){
+						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+							location.reload();
+						}});
+					}else{
+						Plugins.closeWindow();
+						parent.showMsg({msg:'操作失败!',status:'danger'});
+					}
+				});
+	      }});
+   }
+// function getAreaList(objId,parentId,t,id){
+//	   var params = {};
+//	   params.parentId = parentId;
+//	   $('#'+objId).empty();
+//	   if(t<1){
+//		   $('#areaId3').empty();
+//		   $('#areaId3').html('<option value="">请选择</option>');
+//	   }
+//	   var html = [];
+//	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
+//		    html.push('<option value="">请选择</option>');
+//			var json = RTC.toJson(data);
+//			if(json.status=='1' && json.list.length>0){
+//				var opts = null;
+//				for(var i=0;i<json.list.length;i++){
+//					opts = json.list[i];
+//					html.push('<option value="'+opts.areaId+'" '+((id==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
+//				}
+//			}
+//			$('#'+objId).html(html.join(''));
+//	   });
+// }
+// $(document).ready(function(){
+//	    <notempty name='areaId1'>
+//		   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+//		</notempty>
+// });
+   
+   </script>
+   <body class='rtc-page'>
+     <form method='post' action="{:U('Admin/GoodsLike/index')}">
+       <div class='rtc-tbar'> 
+    <!--地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
+               <option value=''>请选择</option>
+               <volist name="areaList" id="vo">
+               <option value='{$vo['areaId']}' <if condition="$areaId1 == $vo['areaId'] ">selected</if>>{$vo['areaName']}</option>
+               </volist>
+             </select>
+             <select id='areaId2' name='areaId2'>
+               <option value=''>请选择</option>
+             </select>    -->
+       商家名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='{$shopName}'/> 
+       商家编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='{$shopSn}'/> 
+  <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
+  
+       </div>
+       </form>
+       <div class='rtc-body'>
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+               <th width='30'>序号</th>
+               <th width='80'>商品编号</th>
+               <th width='80'>商品名称</th>
+               <th width='80'>商家价格</th>
+               
+               
+               <th width='100'>有效期</th>
+               <th width='40'>排序</th>
+               <th width='40'>推荐状态</th>
+               <th width='120'>操作</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+             <tr>
+               <td>{$i}</td>               
+               <td>{$vo['goodsSn']}</td>
+               <td>{$vo['goodsName']}&nbsp;</td>              
+               <td>{$vo['shopPrice']}&nbsp;</td>
+               
+               <td>{$vo['efficacysdate']}至{$vo['efficacyedate']}</td>
+               <td>{$vo['sort']}</td>
+               <td>
+	               <if condition="$vo['likestatus']+'' == '1' "><span class='label label-success'>启用</span></if>
+	               <if condition="$vo['likestatus']+'' == '0' "><span class='label label-warning'>停用</span></if>&nbsp;
+               </td>
+               <td>
+	               <!--<php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>-->
+		               	<a class="btn btn-default glyphicon glyphicon-pencil" 
+		               		href="{:U('Admin/GoodsLike/toedit',array('id'=>$vo['goodsId'],'likeid'=>$vo['likeid'],'src'=>'index'))}">编辑</a>
+		               	<button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['likeid']})">刪除</buttona>
+	               <!--<php>}</php> -->
+               </td>
+             </tr>
+             </volist>
+             <tr>
+                <td colspan='11' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

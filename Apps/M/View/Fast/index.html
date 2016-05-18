@@ -95,8 +95,6 @@
 
 		function queryByPage() {
 			if(force) {
-				vm.removeAll();
-				shops.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -112,6 +110,8 @@
 				}, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
+						vm.removeAll();
+						shops.length = 0;
 						shops.length = 0;
 						$("#shopsLoading").hide();
 						$("#shopsList").removeClass("mui-hidden");

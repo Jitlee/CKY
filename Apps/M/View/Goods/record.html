@@ -46,8 +46,6 @@
 		
 		function queryByPage() {
 			if(force) {
-				vm.removeAll();
-				records.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -60,6 +58,7 @@
 				}, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
+						vm.removeAll();
 						records.length = 0;
 						$("#recordsLoading").hide();
 						$("#recordsList").removeClass("cky-hidden");

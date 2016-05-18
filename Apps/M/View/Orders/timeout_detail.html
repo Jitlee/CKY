@@ -16,7 +16,7 @@
 	<h4 class="order-type cky-mtop-10">{:formatOrderStatus($data['orderStatus'])}</h4>
 	<h5 class="order-type">
 		<if condition="$data.orderStatus eq 0">
-		订单将在5分钟内关闭，请竟快付款
+		订单将在3分钟内关闭，请竟快付款
 		</if>
 	</h5>
 	<div class="status-block">
@@ -43,14 +43,14 @@
 				</div>
 				</foreach>
 				
-				
-				<div id="fast" class="cky-order-item cky-relative">
-					<span data-bind="">配送费</span>
-					<div class="cky-update">
-						<span>{$data.deliverMoney} 元</span>
+				<if condition="$data.orderType eq 1">
+					<div id="fast" class="cky-order-item cky-relative">
+						<span data-bind="">配送费</span>
+						<div class="cky-update">
+							<span>{$data.deliverMoney} 元</span>
+						</div>
 					</div>
-				</div>
-				
+				</if>
 				<div class="cky-order-money cky-relative">
 					<span>订单金额</span>
 					<span>{$data.needPay} 元</span>
@@ -64,8 +64,10 @@
 	<if condition="$data.orderStatus eq 0">
 		<a id="cancel">取消订单</a>
 		<a id="pay" href="{:U('pay')}?orderId={:I('id')}">去付款</a>
+	<elseif condition="$data.orderType eq 1"/>
+		<a id="goshop" href="{:U('Shops/fast')}?id={$data.shopId}">还订这家</a>
 	<else/>
-		<a id="goshop" href="{:U('Shops/rdirect')}?id={$data.shopId}">还订这家</a>
+		<a id="goshop" href="{:U('Miaosha/index')}">继续一元购</a>
 	</if>
 </footer>
 <script>
@@ -73,7 +75,7 @@
 		var statusImg = $(".status-block-img");
 		<if condition="$data.orderStatus eq 0">
 		// 等待付款
-		var time = {:strtotime($data['createTime']) + 5 * 60 - time()}; // 5分钟
+		var time = {:strtotime($data['createTime']) + 3 * 60 - time()}; // 3分钟
 		timeout(time);
 		
 		function timeout(time) {

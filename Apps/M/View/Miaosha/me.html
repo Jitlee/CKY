@@ -72,7 +72,6 @@
 		function page(clear) {
 			if(clear) {
 				pageNo = 1;
-				vm.goods.removeAll();
 			}
 			$.getJSON("{:U('Miaosha/pme')}", {
 				pageNo: pageNo,
@@ -80,6 +79,12 @@
 			}, function(list) {
 				util.endScroll();
 				cky.closeLoading();
+				
+				if(clear || pageNo == 1) {
+					goods.length = 0;
+					vm.goods.removeAll();
+				}
+				
 				if(list && list.length > 0) {
 					pageNo++;
 					goods = goods.concat(list);

@@ -78,7 +78,7 @@
 			}, function(list) {
 				util.endScroll();
 				
-				if(clear) {
+				if(clear || pageNo == 1) {
 					vm.goods.removeAll();
 					goods.length = 0;
 				}

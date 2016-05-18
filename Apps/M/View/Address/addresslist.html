@@ -140,13 +140,14 @@
 	}
 	
 	function queryByPage() {
+		var _pageNo = pageNo;
+				
 		if(force) {
-			vm.removeAll();
 			addrees.length = 0;
 			pageNo = 1;				
 			force = false;
 		}
-		var _pageNo = pageNo;
+		
 		if(!isEOF) {
 			$.getJSON("{:U('Address/loadList')}", {
 				pageNo: _pageNo					
@@ -154,6 +155,7 @@
 				util.endScroll();
 				if(_pageNo == 1) {
 					addrees.length = 0;
+					vm.removeAll();
 					$("#addressList").removeClass("mui-hidden");
 				}
 				pageNo = ++_pageNo;

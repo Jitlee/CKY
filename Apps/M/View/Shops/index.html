@@ -114,7 +114,6 @@
 
 		function queryByPage() {
 			if(force) {
-				shops.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -130,10 +129,8 @@
 					lat: currentLatitude
 				}, function(list) {
 					util.endScroll();
-					if(force) {
-						vm.removeAll();
-					}
 					if(_pageNo == 1) {
+						vm.removeAll();
 						shops.length = 0;
 						$("#shopsLoading").hide();
 						$("#shopsList").removeClass("mui-hidden");

@@ -73,7 +73,7 @@
 				catId: catId
 			}, function(list) {
 				util.endScroll();
-				if(clear) {
+				if(clear || pageNo == 1) {
 					cats.length = 0;
 					vm.cats.removeAll();
 				}

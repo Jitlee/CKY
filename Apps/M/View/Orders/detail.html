@@ -8,15 +8,68 @@
 	</h1>
 </header>
 <div class="mui-content">
-	<h5 class="cky-text-center">订单号: {$data.orderNo}</h5>
+	<div class="cky-order-detail-header">
+		{:formatOrderStatus($data['orderStatus'])}
+		<img class="cky-order-detail-logo" src="__IMG__/order-logo.png"/>
+	</div>
 	<ul class="mui-table-view">
-		<li class="mui-table-view-cell">
-			<i class="mui-icon mui-icon-location"></i>
-			<div>
-				收货地址：{$data.userAddress}
-			</div>
+		<li class="mui-table-view-cell font15">
+			<table class="cky-order-detail-table">
+				<tr>
+					<td rowspan="2" class="icon"><i class="mui-icon mui-icon-location"></i></td>
+					<td>收货人：{$data.userName}</td>
+					<td class="mui-text-right">{$data.userPhone}</td>
+				</tr>
+				<tr>
+					<td colspan="2">收货地址：{$data.userAddress}</td>
+				</tr>
+			</table>
+		</li>
+		<li class="mui-table-view-cell font15">
+			<table class="cky-order-detail-table">
+				<tr>
+					<td rowspan="2" class="icon"><i class="mui-icon mui-icon-location"></i></td>
+					<td>买家留言：</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2">{$data.orderRemarks}</td>
+				</tr>
+			</table>
 		</li>
 	</ul>
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell">
+			<a>
+				<foreach name="goods" item="item">
+				<div class="cky-order-item cky-relative">
+					<span>{$item.goodsName}</span>
+					<div class="cky-update">
+						<span>x {$item.ogoodsNums}</span>
+						<span>{$item.ogoodsPrice} 元</span>
+					</div>
+				</div>
+				</foreach>
+				
+				
+				<div id="fast" class="cky-order-item cky-relative">
+					<span data-bind="">快递费</span>
+					<div class="cky-update">
+						<span>{$data.deliverMoney} 元</span>
+					</div>
+				</div>
+				
+				<div class="cky-order-money cky-relative">
+					<span>订单金额</span>
+					<span>{$data.needPay} 元</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+	<div class="mui-content-padded">
+		<h5>订单号: {$data.orderNo}</h5>
+		<h5>创建时间: {$data.createTime}</h5>
+	</div>
 </div>
 
 <footer class="cky-footer">
@@ -24,6 +77,52 @@
 		<a id="cancel">取消订单</a>
 		<a id="pay" href="{:U('pay')}?orderId={:I('id')}">去付款</a>
 	<else/>
-		<a id="goshop" href="{:U('Shops/rdirect')}?id={$data.shopId}">还订这家</a>
+		<if condition="$data.orderType eq -2">
+			<a id="goshop" href="{:U('Miaosha/index')}" title="一元购中奖订单">继续一元购</a>
+		<elseif condition="$data.orderType eq 3">
+			<a id="goshop" href="{:U('Mall/index')}" title="商城订单">去商城看看</a>
+		<else/>
+			<a id="goshop" href="{:U('Shops/index')}" title="商家订单">继续逛逛</a>
+		</if>
 	</if>
 </footer>
+<script>
+	var statusImg = $(".status-block-img");
+	<if condition="$data.orderStatus eq 0">
+	
+	$("#cancel").click(function() {
+		layer.open({
+		    content: '是否确定取消该笔订单？',
+		    btn: ['确定', '不，再等等'],
+		    shadeClose: false,
+		    yes: function(){
+				var ll = cky.loadding();
+				$.post("{:U('cancel')}", { orderId: {:I('id')}, type: -1 }, function(result) {
+					cky.close(ll);
+					if(result.status > 0) {
+						cky.toast("订单已取消");
+						switchCloseStatus(-1);
+					} else {
+						cky.toast("订单取消失败");
+					}
+				});
+		    }, no: function(){
+		        
+		    }
+		});
+	});
+	
+	/**
+	 * 刷新订单状态
+	 */
+	function switchCloseStatus(status) {
+		$("footer").html("<a id=\"goshop\" href=\"{:U('Fast/detail')}?id={$data.shopId}\">还订这家</a>");
+		statusImg.attr("class", "status-block-img status-block-img-close");
+		$("h4.order-type").text(status == -2 ? "订单已关闭" : "订单已取消");
+		$("h5.order-type").empty();
+		
+		statusImg.empty();
+	}
+	
+	</if>
+</script>

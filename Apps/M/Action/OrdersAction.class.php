@@ -55,7 +55,7 @@ class OrdersAction extends BaseUserAction {
 		
 		$orderType = (int)$data['orderType'];
 		
-		if($orderType == 1) {
+		if($orderType == 1 || $orderType == 2) {
 			// 快餐
 			$this->display("timeout_detail");
 		} else {
@@ -366,7 +366,7 @@ class OrdersAction extends BaseUserAction {
 		} else {
 			$rst = array('status' => -100, 'data' => '取消订单的操作类型错误');
 		}
-		$this->ajaxReturn($rst, 'status');
+		$this->ajaxReturn($rst, 'JSON');
 	}
 	
 	/**
@@ -565,10 +565,10 @@ class OrdersAction extends BaseUserAction {
 			$shopGoods[$goods["shopId"]]['ticketId'] = $ticketId;
 			$shopGoods[$goods["shopId"]]['deductible'] = 0;
 			
-			$shopGoods[$goods["shopId"]]['orderType'] = 0; // 0普通商品、1快餐、2一元购
-			if((int)$goods['goodsCatId1'] < 3) {
-				$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1'];
-			}
+			$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1']; // 0普通商品、1快餐、2一元购
+//			if((int)$goods['goodsCatId1'] < 3) {
+//				$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1'];
+//			}
 		}
 		
 		// 核对优惠券信息

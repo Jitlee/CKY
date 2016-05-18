@@ -38,7 +38,7 @@ class MemberMiaoshaModel extends BaseModel {
 			->join('mm inner join __MEMBER__  u on mm.uid = u.uid')
 			->where($filter)
 			->order($order)
-			->page($pageNum, $pageSize)
+			->page($pageNo, $pageSize)
 			->select();
 //		echo $this->getLastSql();
 		return $list;

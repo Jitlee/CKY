@@ -34,8 +34,6 @@
 		ko.applyBindings(vm, document.getElementById("lifeList"));
 		function queryByPage() {
 			if(force) {
-				vm.removeAll();
-				lifes.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -48,6 +46,7 @@
 				}, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
+						vm.removeAll();
 						lifes.length = 0;
 						$("#activitiesLoading").hide();
 						$("#lifeList").removeClass("cky-hidden");

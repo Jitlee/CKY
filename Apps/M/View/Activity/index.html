@@ -114,8 +114,6 @@
 		function queryByPage() {
 			util.endScroll();
 			if(force) {
-				vm.removeAll();
-				activities.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -128,6 +126,8 @@
 				}, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
+						vm.removeAll();
+						activities.length = 0;
 						activities.length = 0;
 						$("#activitiesLoading").hide();
 						$("#activityList").removeClass("cky-hidden");

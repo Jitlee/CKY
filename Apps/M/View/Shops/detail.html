@@ -125,8 +125,6 @@
 		ko.applyBindings(vm, document.getElementById("goodsList"));
 		function queryByPage() {
 			if(force) {
-				vm.removeAll();
-				goods.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -138,6 +136,8 @@
 				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 4 }, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
+						vm.removeAll();
+						goods.length = 0;
 						$("#goodsLoading").hide();
 						$("#goodsList").show();
 					}

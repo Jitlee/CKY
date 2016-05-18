@@ -233,14 +233,13 @@
 		function page(empty) {
 			if(empty) {
 				pageNo = 1;
-				vm.goods.removeAll();
 			}
 			$.getJSON("{:U('Goods/ptg')}", {
 				pageNo: pageNo,
 				catId: MOD,
 				keywords: currentKeywords, 
 			}, function(list) {
-				if(empty) {
+				if(empty || pageNo == 1) {
 					vm.goods.removeAll();
 				}
 				if(list && list.length > 0) {

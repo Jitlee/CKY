@@ -106,7 +106,7 @@
 		var brands = [];
 		function page(clear) {
 			if(clear) {
-				pageNo = 0;
+				pageNo = 1;
 			}
 			$.getJSON("{:U('Goods/ptg')}", {
 				pageNo: pageNo,
@@ -116,7 +116,7 @@
 				sortType: sortType,
 			}, function(list) {
 				util.endScroll();
-				if(clear) {
+				if(clear || pageNo == 1) {
 					vm.goods.removeAll();
 				}
 				

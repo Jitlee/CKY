@@ -33,7 +33,7 @@ class MiaoshaCodeModel extends BaseModel {
 			->field($field)
 			->where($filter)
 			->order($order)
-			->page($pageNum, $pageSize)
+			->page($pageNo, $pageSize)
 			->select();
 //		echo $this->getLastSql();
 		return $list;

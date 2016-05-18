@@ -291,8 +291,6 @@
 		ko.applyBindings(vm, document.getElementById("couponList"));
 		function queryByPage() {
 			if(force) {
-				vm.list.removeAll();
-				coupons.length = 0;
 				pageNo = 1;
 				isEOF = false;
 				force = false;
@@ -305,7 +303,9 @@
 					type: type
 				}, function(list) {
 					util.endScroll();
+					
 					if(_pageNo == 1) {
+						vm.list.removeAll();
 						coupons.length = 0;
 						$("#couponsLoading").hide();
 						$("#couponList").removeClass("cky-hidden");

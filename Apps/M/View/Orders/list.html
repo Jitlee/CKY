@@ -48,8 +48,19 @@
 						<!-- ko if: (orderStatus == 0 && needPay > 0 && payType == 1) -->
 						<button class="mui-btn btn-pay">去付款</button>
 						<!-- /ko -->
-						<!-- ko ifnot: (orderStatus == 0 && needPay > 0 && payType == 1) -->
-						<button class="mui-btn btn-continue">还订这家</button>
+						<!--ko ifnot: orderStatus == 0 && needPay > 0 && payType == 1--> 
+							<!-- ko if: orderType == 1 -->
+							<button class="mui-btn btn-continue" data-bind="attr: { href: '{:U('Mioasha/index')}?id=' + shopId }">还订这家</button>
+							<!-- /ko -->
+							<!-- ko if: orderType == 2 || orderType == -2 -->
+							<button class="mui-btn btn-continue" href="{:U('Miaosha/index')}">继续一元购</button>
+							<!-- /ko -->
+							<!-- ko if: orderType == 3 -->
+							<button class="mui-btn btn-continue" href="{:U('Mall/index')}">去商城逛逛</button>
+							<!-- /ko -->
+							<!-- ko if: orderType > 3 -->
+							<button class="mui-btn btn-continue" href="{:U('Shops/index')}">随便逛逛</button>
+							<!-- /ko -->
 						<!-- /ko -->
 					</div>
 				</div>
@@ -73,8 +84,6 @@
 	
 	function queryByPage() {
 		if(force) {
-			vm.removeAll();
-			orders.length = 0;
 			pageNo = 1;
 			isEOF = false;
 			force = false;
@@ -86,6 +95,7 @@
 			}, function(list) {
 				util.endScroll();
 				if(_pageNo == 1) {
+					vm.removeAll();
 					orders.length = 0;
 					$("#orderLoading").hide();
 					$("#orderList").removeClass("mui-hidden");
@@ -158,14 +168,12 @@
 		var orderId = parent.attr("oid");
 		window.location.href = "{:U('pay')}?orderId=" + orderId;
 	});
-	
+
 	// 继续订这家
 	$("#orderList").on("click", "button.btn-continue", function (evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		var $this = $(this);
-		var parent = $this.closest("a.cky-table-view");
-		var shopId = parent.attr("shopId");
-		window.location.href = "{:U('Fast/detail')}?id=" + shopId;
+		window.location.href = $this.attr("href");
 	});
 </script>

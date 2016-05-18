@@ -162,3 +162,31 @@ h5.order-type {
 .cky-col-view {
 	table-layout: auto;
 }
+
+/* 订单详情 */
+
+.cky-order-detail-header {
+	color: #FFF;
+	font-size: 17px;
+	background-color: #40413e;
+	height: 100px;
+	line-height: 100px;
+	padding-left: 40px;
+	position: relative;
+}
+
+table.cky-order-detail-table {
+	width: 100%;
+}
+
+table.cky-order-detail-table td.icon {
+	width: 25px;
+}
+
+img.cky-order-detail-logo {
+	height: 72px;
+	width: 72px;
+	position: absolute;
+	top: 14px;
+	right: 45px;
+}

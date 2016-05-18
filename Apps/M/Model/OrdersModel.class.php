@@ -377,18 +377,18 @@ class OrdersModel extends BaseModel {
 			return $rst;
 		}
 		
-//		// 修改秒杀商品库存
-//		$mddata = array(
-//			'goumaicishu'		=> array('exp', '`goumaicishu` + 1'),
-//			'canyurenshu'		=> array('exp', '`canyurenshu` + '.$goodsCount),
-//			'shengyurenshu'		=> array('exp', ' `shengyurenshu` - '.$goodsCount),
-//			'miaoshaStatus'		=> 1
-//		);
-//		if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
-//			$rst['status'] = -204;
-//			$rst['data'] = '修改秒杀商品失败';
-//			return $rst;
-//		}
+		// 修改秒杀商品库存
+		$mddata = array(
+			'goumaicishu'		=> array('exp', '`goumaicishu` + 1'),
+			'canyurenshu'		=> array('exp', '`canyurenshu` + '.$goodsCount),
+			'shengyurenshu'		=> array('exp', ' `shengyurenshu` - '.$goodsCount),
+			'miaoshaStatus'		=> 1
+		);
+		if($mdb->where(array('miaoshaId'=>$miaoshaId))->save($mddata) === FALSE) {
+			$rst['status'] = -204;
+			$rst['data'] = '修改秒杀商品失败';
+			return $rst;
+		}
 		return $rst;
 	}
 	
@@ -865,16 +865,18 @@ class OrdersModel extends BaseModel {
 		}
 		return $pages;
 	}
+	
 	/**
 	 * 取消订单
 	 */
 	public function orderCancel($uid, $orderId){
-		$rsdata = array('status' => -1);
-		if($this->query("call auto_cancel_order($orderId, $uid, -1)") !== FALSE) {
+		$rsdata = array('status' => -1, 'message' => '取消订单失败');
+		$rs = $this->execute("call p_cancel_order($orderId, $uid, -1)");
+		$rsdata['aa'] = $rs;
+		if($rs == 1) {
 			$rsData['status'] = 1;
 		}
 		return $rsdata;
-		
 	}
 	/**
 	 * 用户确认收货

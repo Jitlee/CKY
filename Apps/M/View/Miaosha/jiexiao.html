@@ -79,7 +79,7 @@
 				catId: catId
 			}, function(list) {
 				util.endScroll();
-				if(clear) {
+				if(clear || pageNo == 1) {
 					goods.length = 0;
 					vm.goods.removeAll();
 				}

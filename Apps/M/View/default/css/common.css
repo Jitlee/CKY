@@ -276,10 +276,11 @@ r {
 .cky-media-content {
 	margin-top:3px;
 	margin-bottom: 3px;
-	height:45px;
+	height:30px;
 	vertical-align: middle;
 	overflow: hidden;
 	text-align:left;
+	line-height: 15px;
 }
 
 .cky-media-sub {

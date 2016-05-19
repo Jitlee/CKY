@@ -39,7 +39,7 @@ class IndexAction extends Controller {
 		$addb = D('ads');
 		$ads = $addb->queryByType(-1);
 		$this->assign('ads', $ads); 
-		
+		 
 		$this->display();
 	}
 	

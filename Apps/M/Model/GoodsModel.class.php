@@ -83,12 +83,14 @@ class GoodsModel extends BaseModel {
 		$map = array("s.shopFlag"=>1
 			,"g.isSale"=>1
 			,"g.goodsFlag"=>1
+			,"gl.likestatus"=>1
 		);
 		$map['goodsStock']  = array('gt',0);//库存大于0
 		
 		return $this->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
 			->join('g inner join __SHOPS__ s on s.shopId = g.shopId')
-			->where($map)->order('g.createTime')->page($pageNo, $pageSize)->select();
+			->join(' inner join cky_goods_like gl on gl.goodsId = g.goodsId')
+			->where($map)->order('gl.sort desc,g.createTime')->page($pageNo, $pageSize)->select();
 	}
 	
 	public function reduceStock($goodsId, $count) {

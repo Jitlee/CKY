@@ -112,8 +112,8 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
    		
 		
        <form name="myform" method="post" id="myform" autocomplete="off">
-        <input type='hidden' id='shopsid' value='{$object.shopsid}'/>
-		<input type='hidden' id='recommid' value='{$recom.recommid}'/>
+        <input type='hidden' id='goodsId' value='{$object.goodsId}'/>
+		<input type='hidden' id='likeid' value='{$like.likeid}'/>
 
         <table class="table table-hover table-striped table-bordered rtc-form">
           
@@ -130,26 +130,24 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
              <td>{$object.shopPrice}</td>
            </tr>
            
-           
-           
-           <tr>
+           <tr style="display: none;">
              <th align='right'>有效期<font color='red'>*</font>：</th>
              <td>
-             	<input type='text' id='EfficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$object.efficacysdate} 至 {$object.efficacyedate}'/>
+             	<input type='text' id='EfficacyDateRange' class="form-control" readonly='true' style='width:300px' value='{$like.efficacysdate} 至 {$like.efficacyedate}'/>
              </td>
            </tr>
            <tr>
              <th align='right'>排序<font color='red'>*</font>：</th>
-             <td><input type='text' id='sort' class="form-control rtc-ipt" value='{$object.sort}' style='width:300px' maxLength='25'/></td>
+             <td><input type='text' id='sort' class="form-control rtc-ipt" value='{$like.sort}' style='width:300px' maxLength='25'/></td>
            </tr>
             <tr>
              <th align='right'>状态<font color='red'>*</font>：</th>
              <td>
              	<label>
-	             <input type='radio' id='likestatus0' name='likestatus'  value='1' <if condition="$object['likestatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
+	             <input type='radio' id='likestatus0' name='likestatus'  value='1' <if condition="$like['likestatus'] ==1 ">checked</if> />启用&nbsp;&nbsp;
 	             </label>
 	             <label>
-	             <input type='radio' id='likestatus1' name='likestatus' value='0' <if condition="$object['likestatus'] ==0 ">checked</if> />停用
+	             <input type='radio' id='likestatus1' name='likestatus' value='0' <if condition="$like['likestatus'] ==0 ">checked</if> />停用
 	             </label>
              </td>
            </tr>

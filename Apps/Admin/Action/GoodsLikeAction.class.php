@@ -17,28 +17,34 @@ class GoodsLikeAction extends BaseAction{
 	    $m = D('Admin/Goods');
 		$mrec = D('Admin/GoodsLike'); 
 		
-    	$object = array();
-		$object = $m->get();
-		$recom = $mrec->getModel();
+    	$likeobj = array();
+		$goodsobj = $m->get();
+		$likeobj = $mrec->getModel();
 		if(I('likeid',0)>0){
-			$recobject = $mrec->get();
-			$this->assign('recom',$recobject);
-			$object["goodsId"]=I('id');
-    	}else{ 
-    		if(I('id',0)>0)
+			$likeobj = $mrec->get();
+			$this->assign('like',$recobject);
+    	}else{
+    		 
+    		$likeobj = $mrec->getbygoodsid();
+			if($likeobj)
+			{
+				
+			}	
+			else  if(I('id',0)>0)
     		{
-				$object["goodsId"]=I('id');
-				$object["likestatus"]=1;
-				$object["efficacysdate"] = date('Y-m-d');			
-				$object["efficacyedate"] = date("Y-m-d",strtotime("+1 month"));
+				$likeobj["goodsId"]=I('id');
+				$likeobj["likestatus"]=1;
+				$likeobj["sort"]=0;
+				$likeobj["efficacysdate"] = date('Y-m-d');			
+				$likeobj["efficacyedate"] = date("Y-m-d",strtotime("+1 month"));
 	    	}
 	    	else
 	    	{
 	    		$object = $m->getModel();
 	    	}
     	}
-    	
-    	$this->assign('object',$object);
+    	$this->assign('like',$likeobj);
+    	$this->assign('object',$goodsobj);
 		$this->assign('src',I('src','index'));
 		$this->view->display('/goodslike/edit'); 
 	}
@@ -50,7 +56,7 @@ class GoodsLikeAction extends BaseAction{
 		$m = D('Admin/GoodsLike');
 		//$m->startTrans();
     	$rs = array();
-    	if(I('recommid',0)>0){ 
+    	if(I('likeid',0)>0){ 
     		$rs = $m->edit(); 
     	}
     	else
@@ -73,10 +79,10 @@ class GoodsLikeAction extends BaseAction{
     	$page['pager'] = $pager->show();
     	
     	$this->assign('Page',$page);
-    	$this->assign('shopName',I('shopName'));
-    	$this->assign('shopSn',I('shopSn'));
-    	$this->assign('areaId1',I('areaId1',0));
-    	$this->assign('areaId2',I('areaId2',0));
+    	$this->assign('goodsName',I('goodsName'));
+    	$this->assign('goodsSn',I('goodsSn'));
+//  	$this->assign('areaId1',I('areaId1',0));
+//  	$this->assign('areaId2',I('areaId2',0));
         //$this->display("list");
         $this->display('/goodslike/list'); 
 	}

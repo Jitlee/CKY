@@ -121,8 +121,11 @@ class GoodsModel extends BaseModel {
 			'g.shopId'			=> array('gt', 0),
 			'isSale'			=> 1,
 			'goodsFlag'		=> 1,
-			'g.goodsCatId1'	=> $catId
+			//'g.goodsCatId1'	=> $catId
 		);
+		if($catId>0){
+			$filter['g.goodsCatId1'] = $catId;
+		}
 		if(!empty($brands)) {
 			$filter['brandId'] = array('in', $brands);
 		}

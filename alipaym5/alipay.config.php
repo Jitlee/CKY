@@ -15,7 +15,7 @@
  
 //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 //合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
-$alipay_config['partner']		= '';
+$alipay_config['partner']		= '2088221515120177';
 
 //收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
 $alipay_config['seller_id']	= $alipay_config['partner'];
@@ -23,10 +23,10 @@ $alipay_config['seller_id']	= $alipay_config['partner'];
 // MD5密钥，安全检验码，由数字和字母组成的32位字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
 $alipay_config['key']			= '';
 // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-$alipay_config['notify_url'] = "http://商户网关网址/alipay.wap.create.direct.pay.by.user-PHPUTF-8/notify_url.php";
+$alipay_config['notify_url'] = "http://www.cukayun.cn/alipaym5/notify_url.php";
 
 // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-$alipay_config['return_url'] = "http://商户网址/alipay.wap.create.direct.pay.by.user-PHP-UTF-8/return_url.php";
+$alipay_config['return_url'] = "http://www.cukayun.cn/alipaym5/return_url.php";
 
 //签名方式
 $alipay_config['sign_type']    = strtoupper('MD5');

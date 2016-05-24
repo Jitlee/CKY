@@ -19,7 +19,7 @@ class GoodsLikeModel extends BaseModel {
 			if($recCount==0)
 			{
 			 	$id = (int)I("likeid",0);		
-				$data["shopsid"] = (int)I("shopsid");
+				$data["goodsId"] = (int)I("goodsId");
 				$data["sort"] = (int)I("sort");
 				$data["efficacysdate"] = I("efficacysdate");
 				$data["efficacyedate"] = I("efficacyedate");
@@ -51,11 +51,13 @@ class GoodsLikeModel extends BaseModel {
 		try
 		{
 		 	$rd = array('status'=>-1);
-		 	$id = (int)I("recommid",0);
-	
+		 	//$id = (int)I("likeid",0);
+			
+			$data["goodsId"] = (int)I("goodsId");
 			$data["sort"] = (int)I("sort");
 			$data["efficacysdate"] = I("efficacysdate");
-			$data["efficacyedate"] = I("efficacyedate");
+			$data["efficacysdate"] = I("efficacysdate");
+			 
 			$data["likestatus"] = (int)I("likestatus");
 		    if($this->checkEmpty($data,true)){ 
 				$m = M('goods_like');
@@ -82,6 +84,12 @@ class GoodsLikeModel extends BaseModel {
 		return $rs;
 	 } 
 	 
+	 public function getbygoodsid(){
+	 	$m = M('goods_like');
+		$rs = $m->where("goodsId=".(int)I('id'))->find(); 
+		return $rs;
+	 } 
+	 
 	 /**
 	  * 分页列表
 	  */
@@ -89,9 +97,10 @@ class GoodsLikeModel extends BaseModel {
         $m = M('goods_like');
 //      $areaId1 = (int)I('areaId1',0);
 //   	$areaId2 = (int)I('areaId2',0);
-	 	$sql = "select rc.* from __PREFIX__goods g
-	 		inner join __PREFIX__goods_like rc  on s.goodsId=rc.goodsId  
-	 	     where  shopFlag=1 ";
+	 	$sql = "select rc.*,g.goodsSn,g.goodsName,g.shopPrice,s.shopname from __PREFIX__goods g
+	 		inner join __SHOPS__ s on s.shopId = g.shopId
+	 		inner join __PREFIX__goods_like rc  on g.goodsId=rc.goodsId
+	 	     where 1=1 ";
 	 	if(I('goodsName')!='')$sql.=" and goodsName like '%".I('goodsName')."%'";
 	 	if(I('goodsSn')!='')$sql.=" and goodsSn like '%".I('goodsSn')."%'";
 //	 	if($areaId1>0)$sql.=" and areaId1=".$areaId1;

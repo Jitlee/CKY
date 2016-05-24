@@ -133,7 +133,7 @@
 			
 			if(!isEOF) {
 				var api = "{:U('Goods/ptg', '', '')}";
-				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 4 }, function(list) {
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 0 }, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
 						vm.removeAll();

@@ -14,7 +14,7 @@ class IndexAction extends Controller {
 		
 	public function index() { 
 		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
-			try_login();
+			//try_login();
 		}
 		else
 		{
@@ -39,7 +39,7 @@ class IndexAction extends Controller {
 		$addb = D('ads');
 		$ads = $addb->queryByType(-1);
 		$this->assign('ads', $ads); 
-		
+		 
 		$this->display();
 	}
 	

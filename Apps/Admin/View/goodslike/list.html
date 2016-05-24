@@ -18,7 +18,7 @@
    </head>
    <script>
    function del(id){
-	   Plugins.confirm({title:'信息提示',content:'您确定要删除该推荐餐厅吗?',okText:'确定',cancelText:'取消',okFun:function(){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("{:U('Admin/GoodsLike/del')}",{likeid:id},function(data,textStatus){
@@ -75,10 +75,10 @@
              <select id='areaId2' name='areaId2'>
                <option value=''>请选择</option>
              </select>    -->
-       商家名称：<input type='text' id='shopName' name='shopName' class='form-control rtc-ipt-10' value='{$shopName}'/> 
-       商家编号：<input type='text' id='shopSn' name='shopSn' class='form-control rtc-ipt-10' value='{$shopSn}'/> 
-  <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
-  
+	       商品名称：<input type='text' id='goodsName' name='goodsName' class='form-control rtc-ipt-10' value='{$goodsName}'/> 
+	       商品编号：<input type='text' id='goodsSn' name='goodsSn' class='form-control rtc-ipt-10' value='{$goodsSn}'/> 
+	   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
+   
        </div>
        </form>
        <div class='rtc-body'>
@@ -86,15 +86,16 @@
            <thead>
              <tr>
                <th width='30'>序号</th>
-               <th width='80'>商品编号</th>
-               <th width='80'>商品名称</th>
+               <th width='60'>商品编号</th>
+               <th width='120'>商品名称</th>
+                <th width='90'>商家</th>
                <th width='80'>商家价格</th>
                
                
-               <th width='100'>有效期</th>
+              <!-- <th width='100'>有效期</th>-->
                <th width='40'>排序</th>
-               <th width='40'>推荐状态</th>
-               <th width='120'>操作</th>
+               <th width='40'>状态</th>
+               <th width='100'>操作</th>
              </tr>
            </thead>
            <tbody>
@@ -102,10 +103,12 @@
              <tr>
                <td>{$i}</td>               
                <td>{$vo['goodsSn']}</td>
-               <td>{$vo['goodsName']}&nbsp;</td>              
+               <td>{$vo['goodsName']}&nbsp;</td>
+               <td>{$vo['shopname']}&nbsp;</td>
+               
                <td>{$vo['shopPrice']}&nbsp;</td>
                
-               <td>{$vo['efficacysdate']}至{$vo['efficacyedate']}</td>
+               <!--<td>{$vo['efficacysdate']}至{$vo['efficacyedate']}</td>-->
                <td>{$vo['sort']}</td>
                <td>
 	               <if condition="$vo['likestatus']+'' == '1' "><span class='label label-success'>启用</span></if>

@@ -68,7 +68,10 @@ class ShopsAction extends BaseAction {
 		$signPackage=$wxm->getSignPackage();			 
 		$this->assign('signPackage', $signPackage);
 		
-		$shopDesc=substr($data['shopDesc'],50);
+		$shopDesc=substr($data['shopDesc'],0,50);
+		$shopDesc=str_replace("'","‘",$shopDesc);
+		$shopDesc=str_replace("\r\n","",$shopDesc);
+		$shopDesc=str_replace("\n","",$shopDesc);
 		$this->assign('shopDesc', $shopDesc);
 		
 		$catId = I('catId', 0);

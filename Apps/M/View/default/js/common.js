@@ -149,11 +149,7 @@ var cky = {
 			case 5:
 				return "完成";
 			case 6:
-<<<<<<< HEAD
-				return "订单已完成";
-=======
 				return "交易成功";
->>>>>>> origin/master
 			default:
 				return "订单已结束";
 		}

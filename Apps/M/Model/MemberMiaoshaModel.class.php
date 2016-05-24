@@ -29,7 +29,7 @@ class MemberMiaoshaModel extends BaseModel {
 		$filter['qishu'] = $qishu;
 		
 		
-		$order = "mmid asc"; // 最新
+		$order = "mmid desc"; // 最新
 		
 		$field = 'mm.mmid, mm.createTime, mm.miaoshaCount, mm.uid, INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName';
 				

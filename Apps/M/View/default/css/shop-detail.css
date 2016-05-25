@@ -2,10 +2,11 @@
 	height: 35vh;
 	width: 100%;
 	background-repeat: no-repeat;
-	background-size:cover;
+	background-size: cover;
 	background-position: center;
 	color: #fff;
 	position: relative;
+	/*background-color: #fff;*/
 }
 
 .cky-head-img h4 {
@@ -14,16 +15,20 @@
 	left: 8px;
 }
 
-.cky-head-img h5 {
+.cky-head-img a {
 	color: #fff;
-	opacity: 0.9;
+	opacity: 0.8;
 	position: absolute;
 	bottom: 8px;
 	right: 15px;
 	font-size: 14px;
 }
 
-.cky-head-img h5 .iconfont {
+.cky-head-img a * {
+	vertical-align: middle;
+}
+
+.cky-head-img a .iconfont {
 	font-size: 20px;
 	margin-right: 6px;
 }
@@ -80,8 +85,8 @@
 /** 产品购买按钮 **/
 .cky-detail-buy-button {
 	display: block;
-    background-color: #F60;
-    color: #fff;
+    background-color: #fff;
+    color: #666;
     font-size: 13px;
     height: 22px;
     line-height: 22px;
@@ -89,6 +94,10 @@
     text-align: center;
     border-radius: 3px;
     padding: 0;
+}
+
+.mui-slider-item {
+	background-color: #fff;
 }
 
 .cky-media-content {
@@ -106,6 +115,10 @@
 
 .cky-activity-cell {
 	margin: 10px 0;
+}
+
+.cky-table-view-cell .cky-right {
+	-webkit-transform: translateY(-4px);
 }
 	
 .cky-activity-cell img {

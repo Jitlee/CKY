@@ -17,7 +17,9 @@
 <div class="mui-content">
 	<div class="cky-head-img" style="background-image: url(/{$data.shopImg});">
 		<h4>{$data.shopProfile}</h4>
-		<h5><i class="iconfont icon-tupian"></i>5</h5>
+		<if condition="$data.galleryCount gt 0">
+		<a href="{:U('gallery','','')}?id={:I('id')}"><i class="iconfont icon-tupian"></i>{$data.galleryCount}</a>
+		</if>
 	</div>
 	<ul class="mui-table-view">
 		<li class="mui-table-view-cell">
@@ -93,11 +95,11 @@
 								<div class="cky-table-cell-thumb" data-bind="style: { backgroundImage: 'url(/'+ goodsThums +')' }">
 								</div>
 								<div class="cky-media">
-									<span class="font20" data-bind="text: goodsName"></span>
-									<div class="cky-center cky-media-content cky-ellipsis2 font16">
+									<span class="font16" data-bind="text: goodsName"></span>
+									<div class="cky-center cky-media-content cky-ellipsis2 font13">
 										
 									</div>
-									<span class="font15 font-orange">现价￥<span data-bind="text: shopPrice"></span></span>
+									<span class="font13">现价<r>¥</r><r class="font16" data-bind="text: shopPrice"></r></span>
 									<h5 class="cky-right"><button class="cky-detail-buy-button">购买</button></h5>
 							    </div>
 						    </a>

@@ -61,11 +61,24 @@ class ShopsModel extends BaseModel {
 	 	if($shopId == 0) {
 	 		$shopId = I('id');
 		}
-		$field = "s.shopId, shopSn, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, shopDesc, shopWishes, shopProfile, ROUND(`totalScore`/3/`totalUsers`, 1) score";
+		$field = "s.shopId, shopSn, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, shopTel, shopAddress, serviceStartTime, serviceEndTime, deliveryStartMoney, deliveryCostTime, deliveryMoney, deliveryFreeMoney, latitude,longitude, mapLevel, s.shopDesc, shopWishes, shopProfile, ROUND(`totalScore`/3/`totalUsers`, 1) score
+			,ifnull(sc.shopBanner, s.shopImg) headerImg,ifnull(round((length(shopAds )-length(replace(shopAds ,'#@#','')))/3 + 1), 0) galleryCount";
 		$join = 's left join __SHOP_SCORES__ ss on s.shopId = ss.shopId';
+		$join1 = 'left join __SHOP_CONFIGS__ sc on s.shopId = sc.shopId';
+		$map = array('s.shopId' => $shopId);
+		return $this->field($field)->join($join)->join($join1)->where($map)->find();
+	 }
+
+	public function configs($shopId = 0) {
+		if($shopId == 0) {
+	 		$shopId = I('id');
+		}
+		
+		$field = "s.shopId, shopName, shopAds, shopBanner";
+		$join = 's inner join __SHOP_CONFIGS__ sc on s.shopId = sc.shopId';
 		$map = array('s.shopId' => $shopId);
 		return $this->field($field)->join($join)->where($map)->find();
-	 }
+	}
 
 	public function fast() {
 		$pageSize = 200; // 不需要翻页

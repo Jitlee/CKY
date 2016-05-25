@@ -1,0 +1,51 @@
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+
+<style>
+	.cky-gallery-box {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		display: block;
+		padding: 5px 6px;
+	}
+	
+	.cky-gallery-box::after {
+		content: "";
+		height: 1px;
+		display: block;
+		visibility: collapse;
+		clear: both;
+	}
+	
+	.cky-gallery-box-cell {
+		display: block;
+		padding: 0px;
+		margin:5px 10px;
+		width: -webkit-calc(33.3333vw - 24px);
+		height: -webkit-calc(33.3333vw - 24px);
+		float: left;
+		background-color: #fff;
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+</style>
+
+<div class="mui-content">
+	<ul class="cky-gallery-box">
+		<foreach name="shopThumbs" item="item">
+			<li class="cky-gallery-box-cell" style="background-image: url(/{$item});" iv="shops" iv-small="/{$item}" iv-larger="/{:str_replace('_thumb.', '.', $item)}"></li>
+		</foreach>
+	</ul>
+</div>
+<script src="__JS__/imageviewer.js"></script>
+<script>
+	var imageViewer = new ImageViewer();
+</script>

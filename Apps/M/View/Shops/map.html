@@ -5,9 +5,16 @@
 	<h1 id="title" class="mui-title">
 		{$title}
 	</h1>
-	<button class="mui-btn mui-btn-link mui-pull-right">
-		<i class="iconfont icon-favor font24"></i>
-	</button>
+	<!--
+		直接打开百度，正式环境可以试试
+		href="baidumap://map/direction?origin=22.56,114.13&destination={:I('latitude')},{:I('longitude')}&mode=driving&src=粗卡"
+		
+	-->
+	<a class="mui-btn mui-btn-link mui-pull-right"
+		href="http://api.map.baidu.com/direction?origin=latlng:22.56,114.13|name:我&destination=latlng:{:I('latitude')},{:I('longitude')}|name:{:I('shopName')}&mode=driving&region=深圳&output=html&src=粗卡"
+	>
+		到这去
+	</a>
 </header>
 <style>
 	html, body, .mui-content, #map {

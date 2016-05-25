@@ -113,4 +113,14 @@ class ShopsAction extends BaseAction {
 		$this->assign('title', $shop['shopName']);
 		$this->display('redirect');
 	}
+	
+	public function gallery() {
+		$m = D('M/Shops');
+		$configs = $m->configs();
+		$configs["shopThumbs"] = explode("#@#", str_replace(".", "_thumb.", $configs["shopAds"]));
+		$this->assign('shopThumbs', $configs["shopThumbs"]);
+		
+		$this->assign('title', $configs['shopName']);
+		$this->display();
+	}
 }

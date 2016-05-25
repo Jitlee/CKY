@@ -119,11 +119,11 @@ r {
 }
 
 /*.cky-bar-gray .mui-btn-link {
-	color: #F60;
+	color: #f20;
 }*/
 
 .cky-bar-gray .mui-title,.cky-bar-gray .mui-btn-link {
-	/*color: #F60;*/
+	/*color: #f20;*/
 	color: #666;
 }
 
@@ -155,7 +155,7 @@ r {
 .cky-grid .cky-grid-cell{
 	float: left;
 	text-align: center;
-	font-size:15px;
+	font-size:13px;
 	display: block;
 }
 
@@ -168,11 +168,15 @@ r {
 	width: 50%;
 }
 
+.cky-grid4 {
+	margin-top: -10px;
+}
+
 .cky-grid4 .cky-grid-cell img{
-	width:60%;
+	width:45%;
 	max-width: 90px;
 	display: block;
-	margin:5px auto;
+	margin:10px auto 5px auto;
 }
 
 .cky-grid4 .cky-grid-cell.jqqd::before {
@@ -335,6 +339,10 @@ r {
 	padding-left: 94px;
 }
 
+.cky-table-view .cky-media a{
+	color: #333;
+}
+
 .cky-table-view-cell {
 	display: block;
 	position: relative;
@@ -352,6 +360,7 @@ r {
 
 .cky-table-view-cell > a {
 	display: block;
+	color: #333;
 }
 
 .cky-money {
@@ -446,7 +455,7 @@ r {
 	height: 30px;
 	line-height: 30px;
 	vertical-align: middle;
-	border: solid #F60 1px;
+	border: solid #999 1px;
 	border-radius: 3px;
 }
 
@@ -456,7 +465,7 @@ a.cky-segmented-item {
 	display: table-cell;
 	text-align: center;
 	width:80px;
-	border:solid 1px #f60;
+	border:solid 0px #999;
 	color: #333;
 }
 
@@ -465,7 +474,7 @@ a.cky-segmented-item {
 }
 
 .cky-segmented-item.cky-active {
-	background-color: #F60;
+	background-color: #999;
 	color: #fff;
 }
 
@@ -639,7 +648,7 @@ a.cky-segmented-item {
 }
 
 .font16 {
-	font-size: 17px;
+	font-size: 16px;
 }
 
 .font15, .cky-bar-item{
@@ -673,7 +682,7 @@ a.cky-segmented-item {
 }
 
 .font-orange {
-	color: #f60;
+	color: #f20;
 }
 
 .font-gray2 {
@@ -867,7 +876,7 @@ p.cky-update {
 }
 
 .cky-select:active {
-	color: #f60;
+	color: #f20;
 }
 
 .cky-select-list {
@@ -897,7 +906,7 @@ p.cky-update {
 
 .cky-cart-btn {
 	position: absolute!important;
-	top: -2px!important;
+	top: 0px!important;
 	right: 50px;
 }
 .star_c{ color:#FCD410;}

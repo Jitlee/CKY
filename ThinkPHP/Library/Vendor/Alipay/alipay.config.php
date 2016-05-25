@@ -21,7 +21,7 @@ $alipay_config['partner']		= '2088221515120177';
 $alipay_config['seller_id']	= $alipay_config['partner'];
 
 // MD5密钥，安全检验码，由数字和字母组成的32位字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
-$alipay_config['key']			= '';
+$alipay_config['key']			= 'b89bnds1e4bvme8a65go5uyz6h52xnrt';
 // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 $alipay_config['notify_url'] = "http://www.cukayun.cn/alipaym5/notify_url.php";
 

@@ -60,9 +60,6 @@ class PayAction extends BaseUserAction {
 		$this->ajaxReturn($result, "JSON");
 	}
     Public function index(){
-
-       
-
 		$money=session("money");
 		$type=session("type");
 

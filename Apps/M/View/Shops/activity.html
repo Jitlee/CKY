@@ -1,0 +1,76 @@
+<style>
+	.cky-activity-cell {
+		margin: 10px 0;
+	}
+	
+	.cky-activity-cell img {
+		width: 100%;
+	}
+</style>
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
+		<span id="cityLabel">深圳</span>
+	</button>
+	<h1 id="title" class="mui-title">
+		<div class="cky-segmented">
+			<a class="cky-segmented-item" href="{:U('Shops/index')}">全部商家</a>
+			<a class="cky-segmented-item cky-active">商家活动</a>
+		</div>
+	</h1>
+	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
+		<i class="cky-cart iconfont icon-gouwuche font24"><span class="cky-cart-count cky-hidden"></span></i>
+	</a>
+	<button class="mui-btn mui-btn-link mui-pull-right">
+		<i class="iconfont icon-sousuo font24"></i>
+	</button>
+</header>
+
+<div class="mui-content">
+	<!-- ko foreach: activities -->
+	<a class="cky-activity-cell" data-bind="attr: { href: '{:U('Activity/detail')}?id=' + activityId }">
+		<img data-bind="attr: { alt: activityTitle, src: '/' + activityImg }"/>
+	</a>
+	<!-- /ko -->
+</div>
+
+<div class="cky-loading"></div>
+<script type="text/javascript" src="__KO__"></script>
+<script>
+	$(function() {
+		var activities = [];
+		var vm = {
+			activities: ko.observableArray(activities),
+		};
+		ko.applyBindings(vm, document.getElementById("goodsList"));
+		
+		var pageNo = 1;
+		function page(clear) {
+			if(clear) {
+				pageNo = 1;
+			}
+			$.getJSON("{:U('pa')}", {
+				pageNo: pageNo
+			}, function(list) {
+				util.endScroll();
+				
+				if(clear || pageNo == 1) {
+					vm.activities.removeAll();
+					activities.length = 0;
+				}
+				if(list && list.length > 0) {
+					pageNo++;
+					activities = activities.concat(list);
+					vm.activities(activities);
+				}
+				
+				if((!list || list.length == 0) && pageNo == 1) {
+					$(".mui-content").nodata();
+				}
+				
+				cky.closeLoading();
+			});
+		}
+		util.onScrollEnd(page);
+		page();
+	});
+</script>

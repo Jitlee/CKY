@@ -123,4 +123,14 @@ class ShopsAction extends BaseAction {
 		$this->assign('title', $configs['shopName']);
 		$this->display();
 	}
+	
+	public function activity() {
+		$this->display();
+	}
+	
+	public function pa() {
+		$m = D('Activity');
+		$list = $m->shopActivities();
+		$this->ajaxReturn($list, "json");
+	}
 }

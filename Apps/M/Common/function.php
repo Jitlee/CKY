@@ -17,10 +17,9 @@
 //}
 
 function timeToString($time) {
-	$time = floatval($time);
-	$hour = floor($time);
-	$muite = ($time - $hour) * 60;
-	return $hour.':'.str_pad((string)$muite, 2, STR_PAD_LEFT);
+	$hour = floor((float)$time);
+	$muite = ((float)$time - $hour) * 60;
+	return str_pad($hour, 2, "0", STR_PAD_LEFT).':'.str_pad((string)$muite, 2, "0", STR_PAD_LEFT);
 }
 
 

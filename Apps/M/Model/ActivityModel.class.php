@@ -10,7 +10,7 @@
  */
 class ActivityModel extends BaseModel {
     public function queryByCatId() {
-    	$pageSize = 12;
+    		$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
 		
    	 	$catId = I('catId', 0);
@@ -24,7 +24,7 @@ class ActivityModel extends BaseModel {
 			$map['catId']	= $catId;
 		}
 		return $this->field('activityId, activityTitle, activityImg')->where($map)
-			->order('createTime')->page($pageNo, $pageSize)->select();
+			->order('createTime desc')->page($pageNo, $pageSize)->select();
     }
 	
 	public function getById() {
@@ -75,5 +75,21 @@ class ActivityModel extends BaseModel {
 			->order('createTime')->page($pageNo, $pageSize)->select();
 	}
 	
+	public function shopActivities() {
+		$pageSize = 12;
+		$pageNo = intval(I('pageNo', 1));
+		
+		$time= strftime("%Y-%m-%d");
+		$map = array(
+			'isShow'				=> 1,
+			'efficacySDate'		=> array('ELT', $time),
+			'efficacyEDate'		=> array('EGT', $time),
+		);
+		$join = "a inner join __SHOPS__ s on a.limitUseShopID = s.shopId";
+		$list = $this->field('activityId, activityTitle, activityImg')->join($join)->where($map)
+			->order('a.createTime desc')->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
+	}
 };
 ?>

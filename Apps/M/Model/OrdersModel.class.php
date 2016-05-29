@@ -1211,6 +1211,8 @@ class OrdersModel extends BaseModel {
 			return $rst;
 		}
 		
+		//更新支付金额方式
+		
 		$orderType = (int)$order['orderType'];
 		$uid = (int)$order['userId'];
 		
@@ -1225,7 +1227,7 @@ class OrdersModel extends BaseModel {
 			return $rst;
 		}
 		if($orderType == 2) {
-			// 完成一元购流程
+			//完成一元购流程
 			return $this->_payMiaosha($uid, $orderId);
 		} else { // 一元购商品 不需要纪录和提醒，中奖后才会提醒
 			//建立订单记录
@@ -1237,6 +1239,9 @@ class OrdersModel extends BaseModel {
 			$data["logTime"] = date('Y-m-d H:i:s');
 			$mlogo = M('log_orders');
 			$mlogo->add($data);
+			
+			//提醒商品有订单来了
+			
 			
 			//建立订单提醒
 			$sql ="SELECT userId,shopId,shopName FROM __PREFIX__shops WHERE shopId=$shopId AND shopFlag=1  ";

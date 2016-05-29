@@ -32,19 +32,54 @@ class MemberPayModel extends BaseModel {
 	/*储值卡支付*/
 	public function OrderValuePay($dataInfo,$carid)
 	{
+		$dbMemberpay = M('member_pay');
 		$mOneCard = D('M/OneCard'); //出错处理
-		$res=$mOneCard->PayValue($carid,$dataInfo["TotalMoney"]);
-		if($res["status"] == 0)
+		$accountmoney=$dataInfo["accountmoney"];
+		$accountscore=$dataInfo["accountscore"];
+		$paystatus=0;
+		if($accountmoney>0)
 		{
+			$res=$mOneCard->PayValue($carid,$dataInfo["accountmoney"]);
+			if($res["status"] == 0){
+				$dataInfo["accountmoneyStatus"]=99;
+			}
+			else{
+				$dataInfo["accountmoneyStatus"]=-1;
+				$paystatus=-1;
+			}
+		}
+		if($accountscore>0)
+		{
+			$scorerate =(int)C("scorerate");//积分兑换比例
+			$payscore=$accountscore*$scorerate*-1;
+			$res=$mOneCard->PayScore($carid,$payscore);
+			if($res["status"] == 0){
+				$dataInfo["accountscoreStatus"]=99;
+			}
+			else{
+				$dataInfo["accountscoreStatus"]=-1;
+				$paystatus=-1;
+			}
+		}
+		
+		if($paystatus == 0)
+		{
+			$dataInfo["Status"]=99;//主表状态
 			//更新订单状态
 			$orderid=$dataInfo["extendid"];
 			$dbOrders =D('M/Orders');
 			$res=$dbOrders->payOrder((int)$orderid ,1);
 			
 			if($res['status'] != 1) {
+				
+				//重要日志，这是非常严重的错误
+				$content="扣费成功，更新订单状态失败.----extendid=$orderid,accountmoney=$accountmoney,accountscore=$accountscore";
+				ImpoLogger($content);
+				
+				//也需要更新状态，因为它已经扣积分和钱了。
+				$dbMemberpay->save($dataInfo);
 				return $res;
-			}
-			
+			}			 
 			//同步用户记录
 			$mSync = D('M/MemberOneCardSync');
 			$result=$mSync->DataSync($carid);
@@ -61,9 +96,7 @@ class MemberPayModel extends BaseModel {
 			logger($res["message"]);
 		}
 		//保存支付状态
-		$dbMember = M('member_pay');
-		$dbMember->save($dataInfo);
-			
+		$dbMemberpay->save($dataInfo);			
 		return $res;
 	}
 	
@@ -80,19 +113,30 @@ class MemberPayModel extends BaseModel {
 			//同步支付记录
 			$mSync = D('M/MemberOneCardSync');
 			$result=$mSync->DataSync($carid);//同步用户记录
+			$res["status"]=1;
 		}
 		else
 		{
 			$dataInfo["extendMeno"]="充值失败".$res["message"];
 			$dataInfo["Status"]=88;
 			
-			$content="-----------------订单在线支付-充值出错-----------------";
+			$content="-----------------Pay01 在线支付-支付成功，添加值失败-----------------";
 			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
-			$content=$content.',Carid='.$carid;
-			logger($content);
-			logger($res["message"]);
+			$content=$content.',Carid='.$carid."错误信息：".$res["message"];
+			ImpoLogger($content);
+			$res["status"]=-1;
+			return $res;
 		}
-		$dbMember->save($dataInfo);
+		$rs=$dbMember->save($dataInfo);
+		if($rs == FALSE)
+		{
+			$payid=$dataInfo["payid"];
+			$content="-----------------Pay02 在线支付-添加值成功，更新最后记录失败-----------------";
+			$content=$content."carid=$carid,payid=$payid"."错误信息：".$res["message"];
+			ImpoLogger($content);
+			//更新状态失败，可能导致重复向卡里充值.
+		}
+		return $res;
 	}
 	/*在线支付*/
 	public function UpdatePayOrder($dataInfo)
@@ -112,6 +156,7 @@ class MemberPayModel extends BaseModel {
 			
 			if($res["status"] == 1)
 			{
+				$res["status"]=1;
 				$dataInfo["extendMeno"]="在线支付成功";
 			}
 		}
@@ -132,6 +177,21 @@ class MemberPayModel extends BaseModel {
 			logger($content);
 			logger($res["message"] );
 		}
+		return $res;
+	}
+	
+	public function UpdatePay($dataInfo)
+	{
+		$rd = array('status'=>-1);	 
+		$dbMember = M('member_pay');
+//		$rs = $dbMember->save($dataInfo); 
+		$payid=$dataInfo['payid'];
+		echo $payid;
+		$rs = $dbMember->where("payid=".$payid)->save($dataInfo); 
+		if(false !== $rs){
+			$rd['status']= 1;
+		}
+		return $rd;
 	}
 	
 }

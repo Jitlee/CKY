@@ -22,7 +22,7 @@ class IndexAction extends Controller {
 			session('openid',$openid);
 			//try_login();			
 		}
-		
+//		logger("dddddd");
 		/****分享与定位***/
 		$wxm= new WxUserInfo();
 		$signPackage=$wxm->getSignPackage();			 

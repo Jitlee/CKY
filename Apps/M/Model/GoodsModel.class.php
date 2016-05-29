@@ -96,6 +96,7 @@ class GoodsModel extends BaseModel {
 	public function reduceStock($goodsId, $count) {
 		$data = array(
 			'goodsStock'	 	=> array('exp', '`goodsStock` - '.$count)
+			,'saleCount'	 	=> array('exp', '`saleCount` + '.$count)
 		);
 		$map = array(
 			'goodsId'		=> $goodsId

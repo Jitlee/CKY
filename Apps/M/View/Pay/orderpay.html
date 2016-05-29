@@ -25,9 +25,20 @@
 					<label id="yueButton" for="yueCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
 						<div>
 							<img class="circle-img" alt="" src="__IMG__/pay/payck.png">
-							余额支付：<span class="yyg-gray">(余额¥{$account.EnableValue})</span>
+							余额<span class="yyg-gray">(可用余额：¥{$account.EnableValue})</span>
 						</div>
 						<input id="yueCheckBox" type="checkbox">
+					</label>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label id="yueButton" for="jfCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
+						<div>
+							<img class="circle-img" alt="" src="__IMG__/pay/payck.png">
+							积分<span class="font12">1元={$scorerate}积分</span> <span class="yyg-gray">(可用:{$EnablePoint})</span>
+						</div>
+						<input id="jfCheckBox" type="checkbox">
 					</label>
 				</li>
 			</ul>
@@ -37,17 +48,49 @@
 					<label id="wxButton" for="wxCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
 						<div>
 							<img class="circle-img" alt="" src="__IMG__/pay/wxpay.png">
-							微信支付
+							微信
 						</div>
 						<input id="wxCheckBox" type="checkbox">
 					</label>
 				</li>
 			</ul>
-			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label id="aliButton" for="aliCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
+						<div>
+							<img class="circle-img" alt="" src="__IMG__/pay/alipay.png">
+							支付宝
+						</div>
+						<input id="aliCheckBox" type="checkbox">
+					</label>
+				</li>
+			</ul>
+			<div class="cky-order-money cky-right">				
+				<span id="payval" class="font12"></span>
+			</div>
+			 
+			 
+			 
+			<div style="display: none;">
+				<form method="post" action="{:U('Pay/thirdpay', '', '')}" id="payForm">
+						<input type="text" id="amount" name="amount" value="0">	
+						<input type="text" id="accountmoney" name="accountmoney" value="0">
+						<input type="text" id="accountscore" name="accountscore" value="0">
+						<!--<input type="text" id="accountbgid" name="accountbgid" value="0">-->
+						<input type="text" id="orderno" name="orderno" value="{$orderno}">
+							
+						<input type="text" id="goodsName" name="goodsName" value="订单支付">
+						<input type="text" id="remark" name="remark" value=""/>
+						<input type="text" id="paytype" name="paytype" value="wx"/>
+				</form>
+			</div>
 			<footer class="yyg-footer">
 				<div id="zhifuButton" class="yyg-btn yyg-btn-primary">立即支付</div>
 			</footer>
 		</div>
+		<!--描述：第三方支付-->
+		<!--<div style="display: none;">-->
+		
 	</body>
 </html>
 <style>
@@ -57,47 +100,155 @@
 <script type="text/javascript">
 	var yueCheckBox;
 	var wxCheckBox;
+	var jfCheckBox;
+	var aliCheckBox;
+	var scorerate={$scorerate};
+	var money =0;
+	var total =0;
+	var jf = 0;
+	function setpayval()
+	{
+		var content="";
+		var remaind=total;
+		
+		var amount=0;
+		var accountmoney=0;
+		var accountscore=0;
+
+		if(jfCheckBox.prop("checked")){
+			var maxjf= parseInt(total/2);
+			var jfdq=jf/scorerate;
+			if(maxjf> jfdq){accountscore=jfdq;}//不足的情况
+			if(maxjf<= jfdq){accountscore=maxjf;}//全额
+			remaind-=accountscore;
+			content+="积分抵扣："+accountscore+'；';
+		}
+		
+		if(yueCheckBox.prop("checked")){
+			if(money> remaind){accountmoney=remaind;}//不足的情况
+			if(money<= remaind){accountmoney=money;}//全额
+			remaind-=accountmoney;
+			content+="余额：¥"+accountmoney+'元；';
+		}
+		
+		if(wxCheckBox.prop("checked")){ 
+			if(total> remaind){amount=remaind;}//不足的情况
+			if(total<= remaind){amount=total;}//全额
+			remaind-=amount;
+			content+="微信：¥"+amount+'元；';
+		}
+		if(aliCheckBox.prop("checked")){
+			if(total> remaind){amount=remaind;}//不足的情况
+			if(total<= remaind){amount=total;}//全额
+			remaind-=amount;
+			content+="支付宝支付：¥"+amount+'；';
+		} 
+		$("#amount").val(amount);
+		$("#accountmoney").val(accountmoney);
+		$("#accountscore").val(accountscore);
+		  
+		$("#payval").html(content+' &nbsp;');
+	}
 	$(document).ready(function() {
-		var money = parseFloat({$account.EnableValue}) ;	 
-		var total = parseFloat({$money});
+		money = parseFloat({$account.EnableValue});//可用金额
+		total = parseFloat({$money});	//支付金额
+		jf = parseInt({$EnablePoint});	//支付金额
+		//选择支付项
 		yueCheckBox=$("#yueCheckBox");
 		wxCheckBox=$("#wxCheckBox");
-		if(money<total)
+		jfCheckBox=$("#jfCheckBox");
+		aliCheckBox=$("#aliCheckBox");
+		
+		//支付信息  
+		if(money==0)
 		{
 			yueCheckBox.prop("disabled", true);
+		}
+		if(jf <scorerate)
+		{
+			jfCheckBox.prop("disabled", true);			
+		}
+		
+		if(money>0)//可用金额  小于 支付金额
+		{
 			wxCheckBox.prop("checked",true);	
 		}
-		else
-		{
-			yueCheckBox.prop("checked",true);
-		}
-		
+		setpayval();
+		//积分
+		jfCheckBox.click(function() {
+//			if(jfCheckBox.prop("checked")) {
+//				 yueCheckBox.prop("checked",false);
+//			}
+			setpayval();
+		});
+		//余额
 		yueCheckBox.click(function() {
 			if(yueCheckBox.prop("checked")) {
-				wxCheckBox.prop("checked",false);	 
+				if(money>total) //可用金额 >支付金额
+				{
+					wxCheckBox.prop("checked",false);
+					aliCheckBox.prop("checked",false);
+				}
 			}
+			setpayval();
 		});
+		//微信
 		wxCheckBox.click(function() {
 			if(wxCheckBox.prop("checked")) {
-				 yueCheckBox.prop("checked",false);
+				aliCheckBox.prop("checked",false);
+				if(money>total) //可用金额 >支付金额
+				{
+					yueCheckBox.prop("checked",false);
+				}	
 			}
+			setpayval();
 		});
-		
+		//支付宝
+		aliCheckBox.click(function() {
+			if(aliCheckBox.prop("checked")) {
+				wxCheckBox.prop("checked",false);
+				if(money>total) //可用金额 >支付金额
+				{
+					yueCheckBox.prop("checked",false);
+				}	
+			}
+			setpayval();
+		});
 		
 		var zhifuButton = $("#zhifuButton").click(function(){
 			// 无需第三方付款
+			var tamount=	parseFloat($("#amount").val());
+			var taccountmoney=	parseFloat($("#accountmoney").val());
+			var taccountscore=parseFloat($("#accountscore").val());
+			var sumpay=tamount+taccountmoney+taccountscore;
+			var ttotal=parseFloat(total);
+			if(sumpay <ttotal)
+			{
+				util.msg("支付金额不足。");
+				return false;
+			}
+		 	if(sumpay != ttotal)
+			{
+				util.msg("错误的支付金额。");
+				return false;
+			}
 			zhifuButton.prop("disabled", true);
-			if(yueCheckBox.prop("checked")) {
-				cky.loadding();
-				localPay();
-			} else if(wxCheckBox.prop("checked")) {
+			if(wxCheckBox.prop("checked")) {
 				wxdPay();
 			}
+			else if(aliCheckBox.prop("checked")) {
+				aliPay();
+			}
+			else if(yueCheckBox.prop("checked")) {
+				cky.loadding();
+				localPay();
+			} 
 			else
 			{
 				util.msg("请选择支付方式");
 			}
 		});
+		/*
 		//调用微信JS api 支付
         function jsApiCall()
         {
@@ -131,10 +282,23 @@
                 jsApiCall();
             }
         }
+        */
+        function wxdPay()
+        {
+        	$("#paytype").val("wx");
+        	document.getElementById('payForm').submit();
+        }
+        function aliPay()
+        {
+        	$("#paytype").val("ali");
+        	document.getElementById('payForm').submit();	
+        }
         
 		function localPay() {
 			$.post("{:U('Pay/payvalue','','')}", {
-				orderno: "{$orderno}"
+				orderno: 		"{$orderno}",
+				accountmoney:	parseFloat($("#accountmoney").val()),
+				accountscore:	parseFloat($("#accountscore").val())
 			}, function(data) {
 				if (data.status) {
 					 window.location.href ="{:U('success','','')}";
@@ -144,6 +308,8 @@
 				zhifuButton.prop("disabled", false);
 			});
 		}
+		
+			
 		
 	});
 </script>

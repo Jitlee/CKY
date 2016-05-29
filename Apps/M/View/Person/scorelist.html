@@ -15,7 +15,11 @@
 						<li class="mui-table-view-cell mui-media">
 								<a class="top-navigate">
 									<div class="mui-media-body"><span class="meno b">{$item.Meno}</span><p class='mui-ellipsis ctime'>{$item.OperateTime}</p></div>
-									<span  class="cellinfo-right cvalue add-color b"><if condition="($item.Point lt 0)">-<else/>+</if>{$item.Point}</span>
+									<if condition="($item.Type eq 2)">
+											<span  class="cellinfo-right cvalue b">-{$item.Point}</span>
+									<else/>
+											<span  class="cellinfo-right cvalue add-color b">+{$item.Point}</span>
+									</if>
 								</a>
 						</li>
 					</foreach>

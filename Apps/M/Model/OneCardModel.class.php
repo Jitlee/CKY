@@ -130,11 +130,27 @@ class OneCardModel extends BaseModel {
 			,"value"=>$value
 			//,"valuePlus"=>$value
 //			,"paidMoney"=>$value
-			,"meno"=>"平台支付"
+			,"meno"=>"粗卡消费"
 			,"userAccount"=>"10000"
 		);
 		//data={"cardId":"cardidTest","password":"123456","userAccount":"10000","value":999,"meno":"我是备注信息"} 
 		$url='OpenApi/ValueConsume';
+		return $this->GetData($url, $data);		
+	}
+	
+	/*卡内积分支付*/
+	public function PayScore($cardId,$value)
+	{
+		$data = array(
+			"cardId"=>$cardId
+			,"point"=>$value
+			//,"valuePlus"=>$value
+//			,"paidMoney"=>$value
+			,"meno"=>"粗卡平台积分抵扣消费"
+			,"userAccount"=>"10000"
+		);
+		//data={"userAccount":"10000","cardId":"cardidTest","point":999,"meno":"我是备注信息"} 
+		$url='OpenApi/Update_MemberPoint';
 		return $this->GetData($url, $data);		
 	}
 	

@@ -118,7 +118,7 @@ header.mui-bar + .mall-search-bar + .mui-content {
 .mall-yyg-nav-icon {
 	background-image: url(../images/jinriduobao.jpg);
 	background-repeat: no-repeat;
-	background-size: 80% 80%;
+	background-size: contain;
 	background-position: 50% 50%;
 	height: 10vw;
 }

@@ -258,7 +258,7 @@
                </td>
                <!--<td>{$vo['saleCount']}</td>-->
                <td>
-               	<if condition="$vo['miaoshaStatus'] eq 0">
+               	<if condition="($vo['miaoshaStatus'] eq 1) or ($vo['miaoshaStatus'] eq 0)">
                		<a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/toEdit",array("id"=>$vo["goodsId"]))}'>编辑</a>
                </if>
                <php>if(in_array('splb_04',$RTC_STAFF['grant'])){</php>

@@ -69,8 +69,7 @@ class WxMsgAction extends Controller{
 		                //$contentStr = date("Y-m-d H:i:s",time());
 		                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
 		                echo $resultStr;					
-					}
-		             
+					}		             
 		        }else{
 		            echo "";
 		            exit;

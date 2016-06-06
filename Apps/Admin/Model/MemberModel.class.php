@@ -28,7 +28,7 @@ class MemberModel extends BaseModel {
 	 	if(I('userPhone')!='')$sql.=" and Mobile LIKE '%".I('userPhone')."%'";
 	 	if(I('userEmail')!='')$sql.=" and Email LIKE '%".I('userEmail')."%'";
 //	 	if(I('userType',-1)!=-1)$sql.=" and userType=".I('userType',-1);
-	 	$sql.="  order by uid desc";
+	 	$sql.="  order by RegisterTime desc,uid desc";
 		$rs = $m->pageQuery($sql);
 		//计算等级
 		if(count($rs)>0){

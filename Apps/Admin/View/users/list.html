@@ -66,6 +66,7 @@
                <th width='40'>余额</th>
                <th width='60'>备注</th>
                <th width='130'>注册时间</th>
+               <th width='130'>OpenID</th>
                <!--<th width='40'>状态</th>-->
                <!--<th width='130'>操作</th>-->
              </tr>
@@ -88,6 +89,8 @@
                </if>
                &nbsp;</td>
                <td>{$vo['RegisterTime']}&nbsp;</td>
+               <td>{$vo['OpenID']}&nbsp;</td>
+               
                <!--<td>
                <if condition="$vo['userStatus']==0 ">
                  <span class='label label-danger rtc-label'>

@@ -57,8 +57,9 @@
 	ko.applyBindings(gallerysVM, swiperList);
 	
 	$.getJSON("{:U('Goods/gallerys')}", { id: "{:I('id')}" }, function(list) {
-		if(list) {
+		if(list && list.length > 0) {
 			var swiperList = document.getElementById("swiperList");
+			gallerys=[];
 			$.each(list, function() {
 				gallerys.push(this);
 			});

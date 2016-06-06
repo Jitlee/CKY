@@ -20,19 +20,72 @@ class PayAliAction extends BaseUserAction {
 		vendor('Alipay.Submit');    
 		vendor('Alipay.Notify');
 	}
+	
+	function is_weixin(){  
+	    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {  
+	            return true;  
+	    }    
+	    return false;  
+	}
+	
 
-	Public function index(){
-	 	$this->assign('title', "支付成功");
+	Public function index($orderno){
+		if($this->is_weixin())
+		{
+			$this->display("paywx");
+		}
+		else
+		{
+			$mMPay = D('M/MemberPay');
+			$dataInfo=$mMPay->GetByPayNo($orderno);	
+			if(empty($dataInfo))
+			{
+				return;
+			}	
+			$tfee=$dataInfo['amount'];				
+			$accountmoney=$dataInfo['accountmoney'];
+			$accountscore=$dataInfo['accountscore'];
+			$paytype=$dataInfo['thirdpaytype'];	
+			$Body="";
+			
+			
+			$out_trade_no = $orderno;//商户订单号，商户网站订单系统中唯一订单号，必填
+	        $subject =$Body;// $_POST['WIDsubject'];//订单名称，必填        
+	        $total_fee =$tfee;// $_POST['WIDtotal_fee'];//付款金额，必填        
+	        $show_url ="";// $_POST['WIDshow_url'];//收银台页面上，商品展示的超链接，必填        
+	        $body = "";//$_POST['WIDbody'];//商品描述，可空		
+			$alipay_config=C('alipay_config');  
+	        $parameter = array(
+					"service"       => $alipay_config['service'],
+					"partner"       => $alipay_config['partner'],
+					"seller_id"  	=> $alipay_config['seller_id'],
+					"payment_type"	=> $alipay_config['payment_type'],
+					"notify_url"	=> $alipay_config['notify_url'],
+					"return_url"	=> $alipay_config['return_url'],
+					"_input_charset"	=> trim(strtolower($alipay_config['input_charset'])),
+					"out_trade_no"	=> $out_trade_no,
+					"subject"	=> $subject,
+					"total_fee"	=> $total_fee,
+					"show_url"	=> $show_url,
+					"body"	=> $body,
+			);
+			//建立请求
+			//echo $alipay_config['partner'];
+			$alipaySubmit = new \AlipaySubmit($alipay_config);
+			$html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
+			echo $html_text;	
+		}
+//	 	$this->assign('title', "支付成功");
+//		
+//		$ptyno=strftime('%Y%m%d%H%M%S',time());
+//		$WIDtotal_fee="0.01";
+//		$WIDsubject="TP测试";
+//		
+//		$this->assign('WIDout_trade_no', $ptyno);
+//		$this->assign('WIDsubject', $WIDsubject);
+//		$this->assign('WIDtotal_fee', $WIDtotal_fee); 
 		
-		$ptyno=strftime('%Y%m%d%H%M%S',time());
-		$WIDtotal_fee="0.01";
-		$WIDsubject="TP测试";
-		
-		$this->assign('WIDout_trade_no', $ptyno);
-		$this->assign('WIDsubject', $WIDsubject);
-		$this->assign('WIDtotal_fee', $WIDtotal_fee); 
-		
-		$this->display();	
+			
 	}
  
 	 Public function payapi(){

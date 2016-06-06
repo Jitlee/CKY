@@ -154,6 +154,19 @@ class OneCardModel extends BaseModel {
 		return $this->GetData($url, $data);		
 	}
 	
+	/*添加积分*/
+	public function AddScore($cardId,$value,$remark)
+	{
+		$data = array(
+			"cardId"=>$cardId
+			,"point"=>$value
+			,"meno"=>$remark
+			,"userAccount"=>"10000"
+		);		 
+		$url='OpenApi/Update_MemberPoint';
+		return $this->GetData($url, $data);		
+	}
+	
 	/********修改密码*******/
 	public function UpdatePassword($cardId,$oldpwd,$newpwd)
 	{

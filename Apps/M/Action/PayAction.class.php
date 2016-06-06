@@ -140,7 +140,7 @@ class PayAction extends BaseUserAction {
 			$this->display();	
 		}
     }
-
+	
 	public function thirdpay()
 	{
 		$orderno=$_POST['orderno'].'';
@@ -187,8 +187,8 @@ class PayAction extends BaseUserAction {
 				return;
 			}	
 			$tfee=$dataInfo['amount'];				
-			$accountmoney=$dataInfo['accountmoney'];					
-			$accountscore=$dataInfo['accountscore'];					
+			$accountmoney=$dataInfo['accountmoney'];
+			$accountscore=$dataInfo['accountscore'];
 			$paytype=$dataInfo['thirdpaytype'];		
 			
 		} 
@@ -208,10 +208,8 @@ class PayAction extends BaseUserAction {
 			if($uid==104)
 			{
 				$tfee=1;
-			}
- 
-			$this->assign('title', $Body);
-					
+			} 
+			$this->assign('title', $Body); 
  
 //			
 			$Body="订单支付";
@@ -237,36 +235,42 @@ class PayAction extends BaseUserAction {
 		}
 		else	//支付宝支付
 		{
-			vendor('Alipay.Corefunction');
-			vendor('Alipay.Md5function');
-			vendor('Alipay.Submit');    
-			vendor('Alipay.Notify');
-			
-			$out_trade_no = $payid;//商户订单号，商户网站订单系统中唯一订单号，必填
-	        $subject =$Body;// $_POST['WIDsubject'];//订单名称，必填        
-	        $total_fee =$tfee;// $_POST['WIDtotal_fee'];//付款金额，必填        
-	        $show_url ="";// $_POST['WIDshow_url'];//收银台页面上，商品展示的超链接，必填        
-	        $body = "";//$_POST['WIDbody'];//商品描述，可空		
-			$alipay_config=C('alipay_config');  
-	        $parameter = array(
-					"service"       => $alipay_config['service'],
-					"partner"       => $alipay_config['partner'],
-					"seller_id"  	=> $alipay_config['seller_id'],
-					"payment_type"	=> $alipay_config['payment_type'],
-					"notify_url"	=> $alipay_config['notify_url'],
-					"return_url"	=> $alipay_config['return_url'],
-					"_input_charset"	=> trim(strtolower($alipay_config['input_charset'])),
-					"out_trade_no"	=> $out_trade_no,
-					"subject"	=> $subject,
-					"total_fee"	=> $total_fee,
-					"show_url"	=> $show_url,
-					"body"	=> $body,
-			);
-			//建立请求
-			//echo $alipay_config['partner'];
-			$alipaySubmit = new \AlipaySubmit($alipay_config);
-			$html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
-			echo $html_text;
+			 
+				header('Location:'.U('PayAli/index', '','')."/orderno/$orderno");
+				/*
+				vendor('Alipay.Corefunction');
+				vendor('Alipay.Md5function');
+				vendor('Alipay.Submit');    
+				vendor('Alipay.Notify');
+				
+				$out_trade_no = $payid;//商户订单号，商户网站订单系统中唯一订单号，必填
+		        $subject =$Body;// $_POST['WIDsubject'];//订单名称，必填        
+		        $total_fee =$tfee;// $_POST['WIDtotal_fee'];//付款金额，必填        
+		        $show_url ="";// $_POST['WIDshow_url'];//收银台页面上，商品展示的超链接，必填        
+		        $body = "";//$_POST['WIDbody'];//商品描述，可空		
+				$alipay_config=C('alipay_config');  
+		        $parameter = array(
+						"service"       => $alipay_config['service'],
+						"partner"       => $alipay_config['partner'],
+						"seller_id"  	=> $alipay_config['seller_id'],
+						"payment_type"	=> $alipay_config['payment_type'],
+						"notify_url"	=> $alipay_config['notify_url'],
+						"return_url"	=> $alipay_config['return_url'],
+						"_input_charset"	=> trim(strtolower($alipay_config['input_charset'])),
+						"out_trade_no"	=> $out_trade_no,
+						"subject"	=> $subject,
+						"total_fee"	=> $total_fee,
+						"show_url"	=> $show_url,
+						"body"	=> $body,
+				);
+				//建立请求
+				//echo $alipay_config['partner'];
+				$alipaySubmit = new \AlipaySubmit($alipay_config);
+				$html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
+				echo $html_text;
+				 
+				 */
+//			}
 		}
 	}
 
@@ -333,14 +337,17 @@ class PayAction extends BaseUserAction {
 			$accountmoney=$dataInfo['accountmoney'];					
 			$accountscore=$dataInfo['accountscore'];
 			//扣余额
+			$orderid=$dataInfo["extendid"]; 
 			if($accountmoney >0 || $accountscore>0)
 			{
 				$cardid=$dataInfo["cardid"];
 				$res=$mMPay->OrderValuePay($dataInfo,$cardid);
 				 //更新订单状态
-//				$orderid=$dataInfo["extendid"]; 
+				
 				if($res["status"] == 0)//返回状态
 				{
+					$wxm= new WxNotify();
+					$wxm->SendOrderNotifyToShops($orderid);
 					echo 'SUCCESS';
 					return;			 
 				}
@@ -351,10 +358,17 @@ class PayAction extends BaseUserAction {
 			 	$result=$mMPay->UpdatePayOrder($dataInfo);	
 				if($result["status"] == 1)//订单支付状态
 				{
+					$wxm= new WxNotify();
+					$wxm->SendOrderNotifyToShops($orderid);
 					echo 'SUCCESS';
 					return;			 
 				} 
 			}
+		}
+		else if($dataInfo  && $dataInfo["Status"]==99)
+		{
+			echo 'SUCCESS';
+			return;
 		}
 		else
 		{

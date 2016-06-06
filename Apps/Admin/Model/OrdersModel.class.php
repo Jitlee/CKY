@@ -69,6 +69,8 @@ class OrdersModel extends BaseModel {
 	 	if($orderNo!='')$sql.=" and o.orderNo like '%".$orderNo."%' ";
 	 	if($orderStatus!=-9999 && $orderStatus!=-100)$sql.=" and o.orderStatus=".$orderStatus;
 	 	if($orderStatus==-100)$sql.=" and o.orderStatus in(-6,-7)";
+		if($orderStatus!=-2) $sql.=" and o.orderStatus not in (-2)";
+		 
 	 	$sql.=" order by orderId desc";   
 		$page = $m->pageQuery($sql);
 		//获取涉及的订单及商品

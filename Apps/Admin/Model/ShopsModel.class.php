@@ -57,6 +57,8 @@ class ShopsModel extends BaseModel {
 		$sdata["serviceStartTime"] = I("serviceStartTime");
 		$sdata["serviceEndTime"] = I("serviceEndTime");
 		$sdata["shopTel"] = I("shopTel");
+		$sdata["wxopenid"] = I("wxopenid");
+		
 		//$sdata["sort"] = I("sort");
 		
 		if($this->checkEmpty($data,true) && $this->checkEmpty($sdata,true)){ 
@@ -217,7 +219,7 @@ class ShopsModel extends BaseModel {
 			$data["shopAtive"] = (int)I("shopAtive",1);
 			$data["shopTel"] = I("shopTel");
 			$data["shopDesc"] = I("shopDesc");
-		 
+		 	$data["wxopenid"] = I("wxopenid");
 			
 			if($this->checkEmpty($data,true)){
 				$data['qqNo'] = I('qqNo');

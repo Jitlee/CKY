@@ -61,7 +61,15 @@ class MemberPayModel extends BaseModel {
 				$paystatus=-1;
 			}
 		}
-		
+			//消费，给帐户添加积分
+						
+		$payamount=(int)$dataInfo["amount"];
+		if($payamount>0)
+		{
+			$remark='粗卡管理平台消费';
+			$mOneCard->AddScore($carid,$payamount,$remark);//出错也忽略	
+		}
+			
 		if($paystatus == 0)
 		{
 			$dataInfo["Status"]=99;//主表状态
@@ -142,6 +150,7 @@ class MemberPayModel extends BaseModel {
 	public function UpdatePayOrder($dataInfo)
 	{
 		$orderid=$dataInfo["extendid"].'';
+		$cardid=$dataInfo["cardid"];
 		//如果有错误，更改其它状态或备注
 		$res["status"]=-1;
 		if(strlen($orderid)<1)
@@ -152,12 +161,23 @@ class MemberPayModel extends BaseModel {
 		{
 			//更新订单状态
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->payOrder((int)$orderid, 0);
-			
+			$res=$dbOrders->payOrder((int)$orderid, 0);			
 			if($res["status"] == 1)
 			{
 				$res["status"]=1;
 				$dataInfo["extendMeno"]="在线支付成功";
+			}
+			//消费，给帐户添加积分
+			$mOneCard = D('M/OneCard');
+			$payamount=(int)$dataInfo["amount"];
+			if($payamount >0)
+			{
+				$remark='粗卡管理平台消费';
+				$mOneCard->AddScore($cardid,$payamount,$remark);//出错也忽略
+				
+				//同步用户记录
+				$mSync = D('M/MemberOneCardSync');
+				$result=$mSync->DataSync($carid);	
 			}
 		}
 		$dbMember = M('member_pay');
@@ -173,7 +193,7 @@ class MemberPayModel extends BaseModel {
 		{
 			$content="-----------------UpdatePayOrder-----------------";
 			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
-			$content=$content.',Carid='.$carid;
+			$content=$content.',Carid='.$cardid;
 			logger($content);
 			logger($res["message"] );
 		}

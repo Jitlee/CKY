@@ -42,12 +42,14 @@
 							<r data-bind="text: '¥' + shopPrice"></r>
 						</p>
 					</div>
+					<!-- ko if: freeTitle -->
 					<div class="mui-table font10" data-bind="visible: freeTitle">
 						<r class="mui-table-cell mui-ellipsis" data-bind="text: freeTitle"></r>
 						<p class="mui-table-cell mui-text-right">
 							<r data-bind="text: '¥' + freeMoney"></r>
 						</p>
 					</div>
+					<!-- /ko -->
 					<h4 class="mui-text-right" data-bind="text: 'x' + count"></h4>
 				</div>
 				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.shopId, goodsId: goodsId }">删除</a>

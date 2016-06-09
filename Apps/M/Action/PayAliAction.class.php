@@ -6,10 +6,10 @@ namespace M\Action;
   
  * 联系方式:
  * ============================================================================
- * 首页（默认）控制器
+ * 支付宝支付控件类
  */
 use Think\Controller;
-class PayAliAction extends BaseUserAction {
+class PayAliAction extends PayBaseAction{
 	
 //	public function _initialize() {
 //      vendor('Alipay.alipay_submit');
@@ -46,16 +46,21 @@ class PayAliAction extends BaseUserAction {
 			$accountmoney=$dataInfo['accountmoney'];
 			$accountscore=$dataInfo['accountscore'];
 			$paytype=$dataInfo['thirdpaytype'];	
-			$Body="";
+			 
 			
+			$uid=$dataInfo["uid"];			
+			if($uid==104 || $uid==72)
+			{
+				$tfee=0.02;
+			} 
 			
 			$out_trade_no = $orderno;//商户订单号，商户网站订单系统中唯一订单号，必填
-	        $subject =$Body;// $_POST['WIDsubject'];//订单名称，必填        
-	        $total_fee =$tfee;// $_POST['WIDtotal_fee'];//付款金额，必填        
-	        $show_url ="";// $_POST['WIDshow_url'];//收银台页面上，商品展示的超链接，必填        
-	        $body = "";//$_POST['WIDbody'];//商品描述，可空		
+			$subject ='粗卡订单';// $_POST['WIDsubject'];//订单名称，必填        
+			$total_fee =$tfee;// $_POST['WIDtotal_fee'];//付款金额，必填        
+			$show_url ="";// $_POST['WIDshow_url'];//收银台页面上，商品展示的超链接，必填        
+			$body = "粗卡订单";//$_POST['WIDbody'];//商品描述，可空		
 			$alipay_config=C('alipay_config');  
-	        $parameter = array(
+	       $parameter = array(
 					"service"       => $alipay_config['service'],
 					"partner"       => $alipay_config['partner'],
 					"seller_id"  	=> $alipay_config['seller_id'],
@@ -69,23 +74,24 @@ class PayAliAction extends BaseUserAction {
 					"show_url"	=> $show_url,
 					"body"	=> $body,
 			);
-			//建立请求
-			//echo $alipay_config['partner'];
 			$alipaySubmit = new \AlipaySubmit($alipay_config);
 			$html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
 			echo $html_text;	
-		}
-//	 	$this->assign('title', "支付成功");
-//		
-//		$ptyno=strftime('%Y%m%d%H%M%S',time());
-//		$WIDtotal_fee="0.01";
-//		$WIDsubject="TP测试";
-//		
-//		$this->assign('WIDout_trade_no', $ptyno);
-//		$this->assign('WIDsubject', $WIDsubject);
-//		$this->assign('WIDtotal_fee', $WIDtotal_fee); 
+	
+		}		
+	}
+
+	public function indextest()
+	{
+	 	$this->assign('title', "支付成功");
 		
-			
+		$ptyno=strftime('%Y%m%d%H%M%S',time());
+		$WIDtotal_fee="0.01";
+		$WIDsubject="TP测试";		
+		$this->assign('WIDout_trade_no', $ptyno);
+		$this->assign('WIDsubject', $WIDsubject);
+		$this->assign('WIDtotal_fee', $WIDtotal_fee); 
+		$this->display("index");
 	}
  
 	 Public function payapi(){
@@ -119,24 +125,12 @@ class PayAliAction extends BaseUserAction {
 		echo $html_text;
 	 }
 
-	 Public function notify(){
-	 	/*同理去掉以下两句代码；*/ 
-        //require_once("alipay.config.php");
-        //require_once("lib/alipay_notify.class.php");
-                
+	 Public function notify(){        
         //这里还是通过C函数来读取配置项，赋值给$alipay_config
         $alipay_config=C('alipay_config');
-
-		$content="/************接收到通知信息*************/";
-		logger($content);
-        //计算得出通知验证结果
        
         $alipayNotify = new \AlipayNotify($alipay_config);
-        $verify_result = $alipayNotify->verifyNotify();
-		
-		$content='*********$verify_result='.$verify_result;
-		logger($content);
-		logger($GLOBALS['HTTP_RAW_POST_DATA']);
+        $verify_result = $alipayNotify->verifyNotify(); 
 		
         if($verify_result) {
            //验证成功
@@ -148,66 +142,40 @@ class PayAliAction extends BaseUserAction {
 			$notify_id      = $_POST['notify_id'];         //通知校验ID。
 			$notify_time    = $_POST['notify_time'];       //通知的发送时间。格式为yyyy-MM-dd HH:mm:ss。
 			$buyer_email    = $_POST['buyer_email'];       //买家支付宝帐号；
-			$parameter = array(
-				"out_trade_no"     => $out_trade_no, //商户订单编号；
-				"trade_no"     => $trade_no,     //支付宝交易号；
-				"total_fee"     => $total_fee,    //交易金额；
-				"trade_status"     => $trade_status, //交易状态
-				"notify_id"     => $notify_id,    //通知校验ID。
-				"notify_time"   => $notify_time,  //通知的发送时间。
-				"buyer_email"   => $buyer_email,  //买家支付宝帐号；
-			);  
-			
+
+			$cash_fee=$total_fee*100;
 			if($_POST['trade_status'] == 'TRADE_FINISHED') {
-                        //
+                $content="-----------------处理失败-----------------";
+				$content=$content."attach=$out_trade_no==trade_no=$trade_no";
+				logger($content);
             }
             else if ($_POST['trade_status'] == 'TRADE_SUCCESS') {
-					$attach=$out_trade_no.'';
-					$result_code=$trade_no.'';
-					//echo $attach;
-					$mMPay = D('M/MemberPay');
-					$dataInfo=$mMPay->GetByPayNo($attach);
-					
-					if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0)	
-					{
-						 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
-						 $dataInfo["result_code"]=$result_code.'';
-						 $dataInfo["fee_type"]='';
-						 $dataInfo["transaction_id"]=$notify_id.'';
-						 $dataInfo["cash_fee"]=$total_fee.'';
-						 $dataInfo["Status"]=99;
-						 
-						 $cardid=$dataInfo["cardid"];
-						 $result=$mMPay->UpdateRechange($dataInfo,$cardid);
-					}
-					else if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0)	
-					{
-						 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
-						 $dataInfo["result_code"]=$result_code.'';
-						 $dataInfo["fee_type"]='';
-						 $dataInfo["transaction_id"]=$notify_id.'';
-						 $dataInfo["cash_fee"]=$total_fee.'';
-						 $dataInfo["Status"]=99;
-						 
-						 //$cardid=$dataInfo["cardid"];
-						 $result=$mMPay->UpdatePayOrder($dataInfo);
-					}
-					else
-					{
-						$content="-----------------出错啦-----------------";
-						$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
-						logger($content);
-						logger($GLOBALS['HTTP_RAW_POST_DATA']);
-					}
-
-            }
+				$parameter = array(
+					"OrderNo"     => $out_trade_no, //商户订单编号；
+					"transaction_id"     => $trade_no,     //支付宝交易号；
+					"cash_fee"     => $cash_fee,    //交易金额；
+//					"trade_status"     => $trade_status, //交易状态
+//					"notify_id"     => $notify_id,    //通知校验ID。
+//					"notify_time"   => $notify_time,  //通知的发送时间。
+//					"buyer_email"   => $buyer_email,  //买家支付宝帐号；
+				); 
+				$res=$this->PayNotify($parameter);
+				if($res["status"]==1)
+				{
+					$content="--支付宝支付成功--订单号：$out_trade_no , 交易号:$trade_no----";
+					logger($content);
+					echo 'success';
+					return;
+				}
+			}
 			
-			$content=$content.',$out_trade_no='.$out_trade_no.',$trade_status='.$trade_status;
+			$content="-----------------支付成功，但是处理出错啦-----------------";
+			$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
 			logger($content);
 			logger($GLOBALS['HTTP_RAW_POST_DATA']);
-			
-            echo "success";        //请不要修改或删除
-        }else {
+			echo 'Fail';
+        }
+        else {
              //验证失败
              echo "fail";
         }  

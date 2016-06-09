@@ -3,7 +3,7 @@
 	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>订单支付
 	</button>
-	<i class="mui-icon mui-icon-refreshempty mui-pull-right font24"></i>
+	<i id="iref" class="mui-icon mui-icon-refreshempty mui-pull-right font24"></i>
 </header>
 <div class="mui-content">
 	<ul id="shopsList" class="cky-table-view">
@@ -15,7 +15,7 @@
 					<div class="cky-media">
 						<span class="cky-media-title font24" >支付信息加载成功</span>
 						<div class="cky-media-sub font13 font-gray2">
-							<span class="cky-score c">因微信无法处理支付请求，</span>
+							<span class="cky-score c">因微信无法处理支付宝请求，</span>
 						</div>
 						<span class=" font13 font-gray c" >请您按照以下步骤继续完成支付</span>
 				    </div>
@@ -23,12 +23,22 @@
 			</li>
 	</ul>
 
-	<div>一、 点击微信客户端右上角（三个小点）</div>
-	<div>点周查看如何操作</div>
-	<div>二、选择在其它浏览器中打开。苹果系统选择“在Safari中打开”，安卓系统选择“在浏览器中打开”即可</div>
-	<div>三、在外部浏览器打开后继续完成支付，然后支付成功返回此页面刷新，即可看到订单状态。</div>
+	<h4>一、 点击微信客户端右上角（三个小点）</h4>
+	<div class="cky-oprate c">点击查看如何操作</div>
+	<h4>二、选择在其它浏览器中打开。苹果系统选择<span>“在Safari中打开”</span>，安卓系统选择<span>“在浏览器中打开”</span>即可</h4>
+	<h4>三、在外部浏览器打开后继续完成支付，然后支付成功返回此页面刷新，即可看到订单状态。</h4>
 
 </div>
 <style  type="text/css">
 	.c{ color: red;}
+	h4{color: #000000; text-align: left; line-height: 30px; padding: 5px 10px;font-size: 14px;}
+	h4 span{ color:#00B7EE;}
+	.cky-oprate{ padding-left: 30px }
 </style>
+<script>
+	$(document).ready(function() {
+		$("#iref").click(function(){
+			window.location.href=window.location.href;
+		});
+	});
+</script>

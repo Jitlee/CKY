@@ -67,8 +67,22 @@ class OrdersAction extends BaseAction{
 			$this->assign('object',$object);
 		}
 		$this->assign('referer',$_SERVER['HTTP_REFERER']);
+		$this->assign('orderid',I('id'));
 		$this->display("/orders/view");
 	}
+	public function viewprint(){
+		$this->isLogin();
+		$this->checkPrivelege('ddlb_00');
+		$m = D('Admin/Orders');
+		if(I('id')>0){
+			$object = $m->getDetail();
+			$this->assign('object',$object);
+		}
+		$this->assign('referer',$_SERVER['HTTP_REFERER']);
+		$this->assign('orderid',I('id'));
+		$this->display("/orders/viewprint");
+	}
+	
     /**
 	 * 查看订单详情
 	 */

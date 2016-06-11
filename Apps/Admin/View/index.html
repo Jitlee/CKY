@@ -34,6 +34,7 @@
 	</head>
 	<script>
 	 	var ordersTips, goodsTips, shopsTips;
+	 	var ordersNum=0;
 		$(function() {
 			$('#pageContent').height(RTC.pageHeight() - 98);
 			goodsTips = $('#goodsTips');
@@ -63,7 +64,12 @@
 				}
 			});
 		}
-
+ 
+		function playorderpay()
+		{
+			var html='<embed id="bgsound" loop="0" autostart="fale"    src="http://www.cukayun.cn/orderpay.mp3"></embed>';
+			 $("#divOrderpay").html(html);
+		} 
 		function getTask() {
 			$.post("{:U('Admin/Index/getTask')}", {}, function(data, textStatus) {
 				var json = RTC.toJson(data);
@@ -80,6 +86,11 @@
 					}
 					if (json.ordersNum > 0) {
 						ordersTips.html(json.ordersNum).show();
+						if(ordersNum <json.ordersNum)
+						{
+							ordersNum =json.ordersNum;
+							playorderpay();
+						}
 					} else {
 						ordersTips.hide();
 					}
@@ -104,6 +115,9 @@
 	</script>
 
 	<body class="skin-blue">
+		<div id="divOrderpay" style=" position: absolute; top: -300px;" >
+			
+		</div>
 		<!-- header logo: style can be found in header.less -->
 		<header class="header">
 			<a href="#" class="logo">

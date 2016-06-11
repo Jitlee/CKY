@@ -52,7 +52,6 @@ $(document).ready(function(){
 			    success: function (res) {
 			        //获取详细地址
 			        geocoder(signPackage.ak, res.latitude, res.longitude, wxext.getlocation);
-		
 			    },
 			    cancel: function (res) {
 			         alert('用户拒绝授权获取地理位置');
@@ -60,7 +59,7 @@ $(document).ready(function(){
 			});
 		}
 			
-		var defultimg='http://cukayun.cn/Public/images/cuka.jpg?ee20160502';
+		var defultimg='http://www.cukayun.cn/Public/images/cuka.jpg?ee20160502';
 		if(shareData.imgUrl=='')
 		{
 		 	shareData.imgUrl=defultimg;
@@ -73,7 +72,7 @@ $(document).ready(function(){
 	});
 	
 	wx.error(function (res) {
-	  alert("wx.error:"+res.errMsg);
+	  //alert("wx.error:"+res.errMsg);
 	});
 
  

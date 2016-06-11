@@ -131,6 +131,7 @@ class PayAction extends PayBaseAction {
 			}
 			else//index页面
 			{
+				$this->assign('orderno', $setattach);
 				$this->display();
 			}
 		}
@@ -177,6 +178,7 @@ class PayAction extends PayBaseAction {
 			$orderno=session("orderno");			
 			if(empty($orderno))
 			{
+				$this->display("Pay/error");
 				return;
 			}
 			
@@ -192,6 +194,11 @@ class PayAction extends PayBaseAction {
 			$paytype=$dataInfo['thirdpaytype'];		
 			
 		} 
+		if($dataInfo["Status"]==99)
+		{
+			$this->display("Pay/success");
+			return;
+		}
 //		//更新各支付金额		
 		if($paytype =="wx")
 		{
@@ -213,6 +220,11 @@ class PayAction extends PayBaseAction {
  
 //			
 			$Body="订单支付";
+			if($dataInfo["PayType"]=="recharge")	
+			{
+				$subject='粗卡充值';
+				$body='粗卡充值';
+			}
 	        $input = new \WxPayUnifiedOrder();
 	        $input->SetBody($Body);
 	        $input->SetAttach($orderno);
@@ -261,113 +273,32 @@ class PayAction extends PayBaseAction {
         $time_end=$xmlObj->time_end;//支付完成时间
         $cash_fee=$xmlObj->cash_fee;
         $return_code=$xmlObj->return_code;
-
-        //下面开始你可以把回调的数据存入数据库，或者和你的支付前生成的订单进行对应了。
+         
 		//更新到订单表
 		$attach=$attach.'';
 		$result_code=$result_code.'';
-		//echo $attach;
 		
 		if($result_code=='SUCCESS')
 		{
-				$parameter = array(
-					"OrderNo"			=> $attach, //商户订单编号；
-					"transaction_id"	=> $transaction_id,     //支付宝交易号；
-					"cash_fee"			=> $total_fee,    //交易金额；
-				); 
-				$res=$this->PayNotify($parameter);
-				if($res["status"]==1)
-				{
-					$content="--微信支付成功--订单号：$attach , 交易号:$transaction_id----";
-					logger($content);
-					echo 'SUCCESS';
-					return;
-				}
-				
-//			$mMPay = D('M/MemberPay');
-//			$dataInfo=$mMPay->GetByPayNo($attach);
-//			if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0)	
-//			{
-//				 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
-//				 $dataInfo["result_code"]=$result_code.'';
-//				 $dataInfo["fee_type"]=$fee_type.'';
-//				 $dataInfo["transaction_id"]=$transaction_id.'';
-//				 $dataInfo["cash_fee"]=$cash_fee.'';
-//				 $dataInfo["Status"]=99;
-//				 
-//				 $cardid=$dataInfo["cardid"];
-//				 $result=$mMPay->UpdateRechange($dataInfo,$cardid);
-//				 
-//				if($result["status"] == 1)//订单支付状态
-//				{
-//					echo 'SUCCESS';
-//					return;			 
-//				} 
-//			}
-//			else if($dataInfo && $dataInfo["PayType"]=="order" && $dataInfo["Status"]==0)	
-//			{
-//				 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
-//				 $dataInfo["result_code"]=$result_code.'';
-//				 $dataInfo["fee_type"]=$fee_type.'';
-//				 $dataInfo["transaction_id"]=$transaction_id.'';
-//				 $dataInfo["cash_fee"]=$cash_fee.'';
-//				 $dataInfo["Status"]=99;
-//				 
-//				 
-//				$tfee=$dataInfo['amount'];
-//				$accountmoney=$dataInfo['accountmoney'];					
-//				$accountscore=$dataInfo['accountscore'];
-//				//扣余额
-//				$orderid=$dataInfo["extendid"]; 
-//				if($accountmoney >0 || $accountscore>0)
-//				{
-//					$cardid=$dataInfo["cardid"];
-//					$res=$mMPay->OrderValuePay($dataInfo,$cardid);
-//					 //更新订单状态
-//					
-//					if($res["status"] == 0)//返回状态
-//					{
-//						$wxm= new WxNotify();
-//						$wxm->SendOrderNotifyToShops($orderid);
-//						echo 'SUCCESS';
-//						return;			 
-//					}
-//				}
-//				else //直接在线支付
-//				{
-//					$cardid=$dataInfo["cardid"];
-//				 	$result=$mMPay->UpdatePayOrder($dataInfo);	
-//					if($result["status"] == 1)//订单支付状态
-//					{
-//						$wxm= new WxNotify();
-//						$wxm->SendOrderNotifyToShops($orderid);
-//						echo 'SUCCESS';
-//						return;			 
-//					} 
-//				}
-//			}
-//			else if($dataInfo  && $dataInfo["Status"]==99)
-//			{
-//				echo 'SUCCESS';
-//				return;
-//			}
-//			else
-//			{
-//				$content="-----------------未处理的对象-----------------";
-//				$content=$content."attach=$attach===result_code=$result_code";
-//				logger($content);
-//				echo 'SUCCESS';
-//				return;		
-//			}		
+			$parameter = array(
+				"OrderNo"			=> $attach, //商户订单编号；
+				"transaction_id"	=> $transaction_id,     //支付宝交易号；
+				"cash_fee"			=> $total_fee,    //交易金额；
+			); 
+			$res=$this->PayNotify($parameter);
+			if($res["status"]==1)
+			{
+				$content="--微信支付成功--订单号：$attach , 交易号:$transaction_id----";
+				logger($content);
+				echo 'SUCCESS';
+				return;
+			}
 		} 
 		$content="-----------------出错啦-----------------";
 		$content=$content.',PayType='.$dataInfo["PayType"].',Status='.$dataInfo["Status"];
 		logger($content);
-		logger($GLOBALS['HTTP_RAW_POST_DATA']);
-		 
+		logger($GLOBALS['HTTP_RAW_POST_DATA']);		 
 		echo 'Fail';
-        //需要记住一点，就是最后在输出一个success.要不然微信会一直发送回调包的，只有需出了succcess微信才确认已接收到信息不会再发包.
-        
     }
 
 

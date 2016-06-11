@@ -66,7 +66,7 @@ class OrdersModel extends BaseModel {
 		$map = array(
 			'userId'		=> $userId,
 			'orderId'		=> $orderId,
-			'orderStatus'	=> array('IN', array(-1, -2, 6)),  // 只有完成的订单才能逻辑删除
+			'orderStatus'	=> array('IN', array(-1, -2)),  // 只有完成的订单才能逻辑删除
 		);
 		
 		$this->orderFlag = -1;
@@ -886,9 +886,9 @@ class OrdersModel extends BaseModel {
 		$rsdata = array('status' => -1, 'message' => '取消订单失败');
 		$rs = $this->execute("call p_cancel_order($orderId, $uid, -1)");
 		$rsdata['aa'] = $rs;
-		if($rs == 1) {
+//		if($rs == 1) {
 			$rsData['status'] = 1;
-		}
+//		}
 		return $rsdata;
 	}
 	/**

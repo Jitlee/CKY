@@ -10,17 +10,20 @@
  */
 class ActivityTicketModel extends BaseModel {
     public function queryAll($uid) {
-    		$pageSize = 12;
+		$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
-    		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath, replace(s.shopImg, \'.\', \'_thumb.\') shopImg) imagePath,left(t.imagePath,4) strhttp,t.IsOneCardyTick, t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content,  isnull(tm.uid) isReceived, t.onlyNewUser')
-			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
-    			->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid.'')
-			->where('t.ticketStatus = 1 and t.efficacyEDate >= CURDATE()')
-    			->order('t.createTime desc')->page($pageNo, $pageSize)->select();
+		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath,s.shopImg) imagePath,left(t.imagePath,4) strhttp,t.IsOneCardyTick
+, t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content
+,  isnull(tm.uid) isReceived, t.onlyNewUser')
+		->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
+		->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid)
+		->where('t.ticketStatus = 1 and (t.efficacyEDate >= CURDATE() or  t.efficacyEDate is null)')
+		->order('t.createTime desc')->page($pageNo, $pageSize)
+		->select();
     }
 	
 	public function queryPersonAll($uid) {
-    		$pageSize = 12;
+    	$pageSize = 12;
 		$pageNo = intval(I('pageNo', 1));
 		$type = intval(I('type', 0));
 		if($type == 0) { // 有效
@@ -30,7 +33,7 @@ class ActivityTicketModel extends BaseModel {
 		} else if($type == 2) { //已使用
 			$filter = 'ticketMStatus = 1';
 		}
-    		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath, replace(s.shopImg, \'.\', \'_thumb.\') shopImg) imagePath,left(t.imagePath,4) strhttp,t.IsOneCardyTick,t.onlyNewUser,'
+    		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath,s.shopImg) imagePath,left(t.imagePath,4) strhttp,t.IsOneCardyTick,t.onlyNewUser,'
     			.' t.ticketAmount, tm.efficacySDate, tm.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content,'
     			.$type.' as status')
 			->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
@@ -64,7 +67,7 @@ class ActivityTicketModel extends BaseModel {
 
 	public function getById($id, $uid) {
 		$sql = 'select t.ticketID, t.ticketStatus, t.ticketAmount, t.content, t.limitUseShopID, t.onlyNewUser, t.efficacySDate, '
-			.'s.shopName, t.detail, ifnull(t.imagePath, replace(s.shopImg, \'.\', \'_thumb.\') shopImg) imagePath, t.title, t.typeName, t.onlyNewUser, tm.ticketMStatus, '
+			.'s.shopName, t.detail, ifnull(t.imagePath,s.shopImg) imagePath, t.title, t.typeName, t.onlyNewUser, tm.ticketMStatus, '
 			.'t.efficacyEDate, t.miniConsumption, t.maxiConsumption, UNIX_TIMESTAMP(t.efficacySDate) stime, tm.usekey, '
 			.'UNIX_TIMESTAMP(t.efficacyEDate) etime from __ACTIVITY_TICKET__ t '
 			.'inner join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID '

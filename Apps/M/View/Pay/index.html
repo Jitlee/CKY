@@ -15,53 +15,49 @@
 	<script src="__JS__/{:autoVer('common.js')}"></script>
     <title>{$title}</title>
     <script type="text/javascript">
-        //调用微信JS api 支付
-        function jsApiCall()
-        {
-            WeixinJSBridge.invoke(
-                'getBrandWCPayRequest',
-                {$jsApiParameters},
-		        function(res){
-		            WeixinJSBridge.log(res.err_msg);
-		            //alert(res.err_code+res.err_desc+res.err_msg);
-		            if(res.err_msg == "get_brand_wcpay_request:ok"){  
-		               window.location.href = "{:U('Pay/success', '','')}"; 
-		           }else if(res.err_msg == "get_brand_wcpay_request:cancel"){  
-		               //window.location.href = "{:U('Pay/error', '','')}";  
-		           }else{  
-		              window.location.href = "{:U('Pay/error', '','')}";
-		           }  
-		        }
-        	);
-        }
-
-        function callpay()
-        {
-        	if (typeof WeixinJSBridge == "undefined"){
-                if( document.addEventListener ){
-                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
-                }else if (document.attachEvent){
-                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
-                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
-                }
-            }else{
-                jsApiCall();
-            }
-        }
-        
+        //调用微信JS api 支付 
+        var wxCheckBox;
+		var aliCheckBox;
     	$(document).ready(function() {
-    		$("#zhifuButton").click(function(){
-				var wxCheckBox=$("#wxCheckBox");				
+    		aliCheckBox=$("#aliCheckBox");
+    		wxCheckBox=$("#wxCheckBox");
+    		$("#zhifuButton").click(function(){				 			
 				if(wxCheckBox.prop("checked")) {
-					callpay();
+					wxdPay();
+				}
+				else if(aliCheckBox.prop("checked")) {
+					aliPay();
 				}
 				else
 				{
 					util.msg("请选择支付方式");
 				}
 			});
+			//微信
+			wxCheckBox.click(function() {
+				if(wxCheckBox.prop("checked")) {
+					aliCheckBox.prop("checked",false);
+				}
+			});
+			//支付宝
+			aliCheckBox.click(function() {
+				if(aliCheckBox.prop("checked")) {
+					wxCheckBox.prop("checked",false);					
+				}
+			});
+		
 			$("#wxCheckBox").prop("checked",true);
     	});
+    	function wxdPay()
+        {
+        	$("#paytype").val("wx");
+        	document.getElementById('payForm').submit();
+        }
+        function aliPay()
+        {
+        	$("#paytype").val("ali");
+        	document.getElementById('payForm').submit();	
+        }
     </script>
 </head>
 	<body>
@@ -78,7 +74,30 @@
 					</label>
 				</li>
 			</ul>
-			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label id="aliButton" for="aliCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
+						<div>
+							<img class="circle-img" alt="" src="__IMG__/pay/alipay.png">
+							支付宝
+						</div>
+						<input id="aliCheckBox" type="checkbox">
+					</label>
+				</li>
+			</ul>
+			<div style="display: none;">
+				<form method="post" action="{:U('Pay/thirdpay', '', '')}" id="payForm">
+						<input type="text" id="amount" name="amount" value="{$money}">	
+						<input type="text" id="accountmoney" name="accountmoney" value="0">
+						<input type="text" id="accountscore" name="accountscore" value="0">
+						<!--<input type="text" id="accountbgid" name="accountbgid" value="0">-->
+						<input type="text" id="orderno" name="orderno" value="{$orderno}">
+							
+						<input type="text" id="goodsName" name="goodsName" value="粗卡会员卡充值">
+						<input type="text" id="remark" name="remark" value=""/>
+						<input type="text" id="paytype" name="paytype" value="wx"/>
+				</form>
+			</div>
 			<footer class="yyg-footer">
 				<div id="zhifuButton" class="yyg-btn yyg-btn-primary">立即支付</div>
 			</footer>

@@ -20,7 +20,7 @@
 		<a class="cky-table-view cky-mtop-10" data-bind="attr: { shopId:shopId, oid: orderId, id: 'order_' + orderId, href: '{:U('detail')}?id=' + orderId }">
 			<div class="cky-table-view-cell order-title">
 				<span class="font14" data-bind="text: shopName"></span>
-				<!-- ko if: orderStatus < 0 || orderStatus == 0 -->
+				<!-- ko if: orderStatus < 0 -->
 				<button class="remove-btn cky-update cky-update-center mui-btn mui-btn-link"><i class="mui-icon mui-icon-trash"></i></button>
 				<!-- /ko-->
 			</div>
@@ -50,7 +50,7 @@
 						<!-- /ko -->
 						<!--ko ifnot: orderStatus == 0 && needPay > 0 && payType == 1--> 
 							<!-- ko if: orderType == 1 -->
-							<button class="mui-btn btn-continue" data-bind="attr: { href: '{:U('Mioasha/index')}?id=' + shopId }">还订这家</button>
+							<button class="mui-btn btn-continue" data-bind="attr: { href: '{:U('Fast/detail')}?id=' + shopId }">还订这家</button>
 							<!-- /ko -->
 							<!-- ko if: orderType == 2 || orderType == -2 -->
 							<button class="mui-btn btn-continue" href="{:U('Miaosha/index')}">继续一元购</button>

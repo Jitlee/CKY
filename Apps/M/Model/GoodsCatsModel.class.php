@@ -47,7 +47,7 @@ class GoodsCatsModel extends BaseModel {
 	// 热门市场
 	public function queryMallCats() {
 		$pageNo = (int)I('pageNo', 1);
-		$pageSize = (int)I('pageSize', 8);
+		$pageSize = (int)I('pageSize', 10);
 		$catId = (int)I('catId', 0);
 		$filter = array('c1.isShow'=>1,
 			'c1.catFlag'=>1

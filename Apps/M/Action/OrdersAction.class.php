@@ -77,13 +77,13 @@ class OrdersAction extends BaseUserAction {
 		$map = array('userId' => getuid());
 		$list = $m->lst($map);
 		$time = time();
-		foreach($list as $idx => $order) {
-			if((int)$order['orderStatus'] == 0
-				&& $time - strtotime($order['createTime']) > 300) {
-				// 超时5分钟
-				$list[$idx]['orderStatus'] = -2;
-			}
-		}
+//		foreach($list as $idx => $order) {
+//			if((int)$order['orderStatus'] == 0
+//				&& $time - strtotime($order['createTime']) > 300) {
+//				// 超时5分钟
+//				$list[$idx]['orderStatus'] = -2;
+//			}
+//		}
 		$this->ajaxReturn($list, 'JSON');
 	}
 	/* 跳转到支付页面  */
@@ -97,10 +97,10 @@ class OrdersAction extends BaseUserAction {
 		session("money", (float)$data['needPay']);
 		session("type", 'order');
 		session("orderid", $orderId);
-		echo dump($data);
+		//echo dump($data);
 		//payType 是否在线支付 0 货到付款 1在线支付
 		$payType=$data['payType'].'';
-		echo '$payType='.$payType;
+		//echo '$payType='.$payType;
 		if($payType==2)//余额支付
 		{
 			$this->redirect('Pay/payvalue');
@@ -361,8 +361,9 @@ class OrdersAction extends BaseUserAction {
 	    	$orderId = (int)I("orderId");
 	    	$orderStatus = (int)I("type", 0);
 		$rst = null;
-		if($orderStatus == -1 || $orderStatus == -2) {
+		if($orderStatus == -1 || $orderStatus == -2 || $orderStatus == 0) {
 			$rst = $db->orderCancel($uid, $orderId, $orderStatus);
+			$rst["status"]=1;
 		} else {
 			$rst = array('status' => -100, 'data' => '取消订单的操作类型错误');
 		}

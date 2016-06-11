@@ -30,8 +30,9 @@ class ActivityModel extends BaseModel {
 	public function getById() {
 		$activityId = I('id', 0);
 		$uid = getuid();
+		//ifnull(t.imagePath,  replace(s.shopImg, '.', '_thumb.') shopImg) imagePath,
 		return $this
-			->field("a.*, s.shopName, t.ticketID, t.title, ifnull(t.imagePath,  replace(s.shopImg, '.', '_thumb.') shopImg) imagePath,left(t.imagePath,4) strhttp,
+			->field("a.*, s.shopName, t.ticketID, t.title, ifnull(t.imagePath, s.shopImg) imagePath,left(t.imagePath,4) strhttp,
 			t.IsOneCardyTick, t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate,
 			(CURDATE() < t.efficacySDate) tooearly,
 			(CURDATE() > t.efficacyEDate) toolate,

@@ -79,3 +79,52 @@ $(document).ready(function(){
 
  
 });
+
+/******位置相关函数*******/
+$(function() {
+	/**
+	 * 米每经纬度 
+	 */
+	var METERS_PER_DEGREE = 111319.55;
+	var tasks = []; // 缓存任务列表
+	var _geo = null;
+	var isBuzying = false;
+	var geolocation = {
+		distanceBetween:  distanceBetween,
+		distanceToReadability: distanceToReadability,
+		METERS_PER_DEGREE: METERS_PER_DEGREE
+	};
+	 
+	/**
+	 * 求两点之间的距离 
+	 */
+	function distanceBetween(p1, p2) {
+		return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.x - p2.x, 2)) * METERS_PER_DEGREE;
+	}
+	
+	function distanceToReadability(meters) {
+		meters = Math.round(meters);
+		if(meters > 1000 && meters < 10000) {
+			return (meters / 1000).toFixed(1) + "公里";
+		} else if(meters >= 10000 && meters < 1000 * 1000) {
+			return Math.round(meters / 1000) + "公里";
+		} else {
+			return "";
+		}
+		return meters + "米";
+	}
+	
+	function run() {
+		var task = tasks.shift();
+		if(typeof task == "function") {
+			if(_geo) {
+				task.call(_geo, _geo.location.lng, _geo.location.lat, _geo.addressComponent.city, _geo.areaId);
+			} else {
+				task.call();
+			}
+			run();
+		}
+	}
+	
+	window.geolocation = geolocation;
+});

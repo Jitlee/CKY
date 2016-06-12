@@ -101,6 +101,7 @@
 	if(currentCity)
 	{
 		currentLongitude =cky.storage.getItem("currentLongitude");
+		cky.toast(currentLongitude);
 		currentLatitude =cky.storage.getItem("currentLatitude");
 		$("#cityLabel").text(currentCity);
 	}

@@ -265,7 +265,7 @@
 				$("#cityLabel").text(city.replace(/市$/, ""));
 				currentCity = city.replace(/市$/, "");
 				
-				cky.storage.setItem("currentCity", currentCity, 15 * 60);//5分钟
+				cky.storage.setItem("currentCity", currentCity, 15 * 60);//15分钟
 				cky.storage.setItem("currentLongitude", currentLongitude, 15 * 60);
 				cky.storage.setItem("currentLatitude", currentLatitude, 15 * 60);
 			}

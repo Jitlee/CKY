@@ -211,5 +211,38 @@ class GoodsModel extends BaseModel {
 //		echo $this->getLastSql();
 		return $count;
 	}
+	
+	// 商家商品搜索
+	public function searchShopsGoods() {
+		$filter = array(
+			'g.shopId'		=> array('gt', 0),
+			'isSale'			=> 1,
+			'goodsFlag'		=> 1,
+			'g.goodsCatId1'	=> 4
+		);
+		$keywords = I('keywords', '-');
+		if($keywords == '-') {
+			return null;
+		}
+		
+		$pageSize = (int)I('pageSize', 20);
+		$pageNo = (int)I('pageNo', 1);
+		
+		$keywordsArray = preg_split('/[\s,]+/', I('keywords'));
+		$likeArray = array();
+		foreach($keywordsArray as $key) {
+			array_push($likeArray, '%'.$key.'%');
+		}
+		$filter['goodsName'] = array('like', $likeArray, 'or');
+		
+		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
+		
+		$list = $this
+			->field("g.goodsId, goodsSn, shopName, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec, round(totalScore / 3.0 / totalUsers, 2) score")
+			->join("g inner join __SHOPS__ s on s.shopId = g.shopId")
+			->join("LEFT JOIN __GOODS_SCORES__ gc on g.goodsId = gc.goodsId")
+			->where($filter)->order($order)->page($pageNo, $pageSize)->select();;
+		return $list;
+	} 
 };
 ?>

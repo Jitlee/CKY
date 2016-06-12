@@ -33,15 +33,18 @@ class SearchModel extends BaseModel {
     }
 	
 	public function top() {
-		return $this->field('searchKeywords keywords')->order('searchCount desc, updateTime desc')->page(1, 15)->select();
+		$mod = (int)I('mod', 0);
+		return $this->field('searchKeywords keywords')->order('searchCount desc, updateTime desc')->where("searchMod=$mod")->page(1, 15)->select();
 	}
 	
 	public function suggest() {
 		$keywords = I('keywords', "-");
+		$mod = (int)I('mod', 0);
 		if($keywords != '-') {
 			$keywordsArray = preg_split('/[\s,]+/', I('keywords'));
 			$filter = array(
-				'searchKeywords'		=> array('like', $keywordsArray[0].'%')
+				'searchKeywords'		=> array('like', $keywordsArray[0].'%'),
+    				'searchMod'			=> $mod,
 			);
 			return $this->where($filter)->field('searchKeywords keywords')->order('searchCount desc, updateTime desc')->page(1, 30)->select();
 		}

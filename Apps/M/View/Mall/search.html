@@ -154,7 +154,7 @@
 		};
 		ko.applyBindings(vm, document.getElementById("searchWindow"));
 		
-		$.getJSON("{:U('Search/t')}", null, function(list) {
+		$.getJSON("{:U('Search/t')}", { mod: MOD }, function(list) {
 			if(list && list.length > 0) {
 				vm.hots(list);
 			}
@@ -201,7 +201,7 @@
 				keywordsDiv.hide();
 				suggestDiv.show();
 				goodsDiv.hide();
-				$.getJSON("{:U('Search/suggest')}", { keywords: keywords }, function(list) {
+				$.getJSON("{:U('Search/suggest')}", { keywords: keywords, mod: MOD }, function(list) {
 					if(list && list.length > 0) {
 						vm.suggests(list);
 					}

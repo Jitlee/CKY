@@ -70,7 +70,7 @@ class PayAliAction extends PayBaseAction{
 			$total_fee =$tfee;// $_POST['WIDtotal_fee'];//付款金额，必填        
 			$show_url ="";// $_POST['WIDshow_url'];//收银台页面上，商品展示的超链接，必填        
 			$body = "粗卡订单";//$_POST['WIDbody'];//商品描述，可空
-			if$dataInfo["PayType"]=="recharge")	
+			if($dataInfo["PayType"]=="recharge")	
 			{
 				$subject='粗卡充值';
 				$body='粗卡充值';

@@ -98,14 +98,14 @@
 	};
 	
 	currentCity=cky.storage.getItem("currentCity");
-	if(currentCity)
-	{
-		currentLongitude =cky.storage.getItem("currentLongitude");
-		currentLatitude =cky.storage.getItem("currentLatitude");
-		$("#cityLabel").text(currentCity);
-	}
-	else
-	{
+//	if(currentCity)
+//	{
+//		currentLongitude =cky.storage.getItem("currentLongitude");
+//		currentLatitude =cky.storage.getItem("currentLatitude");
+//		$("#cityLabel").html(currentCity);
+//	}
+//	else
+//	{
 		wxext = function(){
 			getlocation=null;
 		};
@@ -129,7 +129,7 @@
 				cky.storage.setItem("currentLatitude", currentLatitude, 15 * 60);
 			}
 		};
-	}
+	//}
 </script>
 
 <script type="text/javascript" src="__KO__"></script>

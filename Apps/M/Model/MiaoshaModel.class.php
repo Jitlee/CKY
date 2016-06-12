@@ -54,7 +54,10 @@ class MiaoshaModel extends BaseModel {
 		$field = 'g.goodsId, g.goodsName, g.goodsImg, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsSpec,
 				m.miaoshaId, m.qishu, m.zongrenshu, m.canyurenshu, m.shengyurenshu, m.jishijiexiao, m.xiangou,
 				m.subTitle, m.createTime,
-				if(m.miaoshaStatus < 2 and m.shengyurenshu = 0, 2, m.miaoshaStatus) miaoshaStatus, unix_timestamp() * 1000 now,
+				if(m.miaoshaStatus < 2 and m.shengyurenshu = 0 and 
+					m.`zongrenshu` = (select count(0) from cky_miaosha_code mc 
+							where mc.miaoshaId=m.miaoshaId and mc.qishu=m.qishu), 2, m.miaoshaStatus) miaoshaStatus,
+				unix_timestamp() * 1000 now,
 				unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 last';
 				
 		if($type == 1) {
@@ -113,7 +116,10 @@ class MiaoshaModel extends BaseModel {
 		$filter = array('m.miaoshaId'	 => $miaoshaId);
 		$field = 'goodsId, shopId, goodsName, marketPrice, goodsImg, goodsThums, shopPrice,jishijiexiao,
 			m.miaoshaId, qishu, subTitle, xiangou, canyurenshu, zongrenshu, shengyurenshu, goumaicishu,
-			if(m.miaoshaStatus < 2 and m.shengyurenshu = 0, 2, m.miaoshaStatus) miaoshaStatus, unix_timestamp() * 1000 now,
+			if(m.miaoshaStatus < 2 and m.shengyurenshu = 0 and 
+					m.`zongrenshu` = (select count(0) from cky_miaosha_code mc 
+							where mc.miaoshaId=m.miaoshaId and mc.qishu=m.qishu), 2, m.miaoshaStatus) miaoshaStatus,
+			unix_timestamp() * 1000 now,
 			unix_timestamp(date_add(m.createTime, interval m.jishijiexiao hour))*1000 end,
 			unix_timestamp(date_add(m.lastTime, interval 3 minute))*1000 last';
 		$join = 'm inner join __GOODS__ g on m.miaoshaId = g.miaoshaId';

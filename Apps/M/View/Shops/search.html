@@ -1,0 +1,244 @@
+<link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<style>
+	.mall-search-bar-button {
+		transform: translateY(-3px);
+		-webkit-transform: translateY(-3px);
+	}
+	
+	/* 搜索关键字 */
+	.mall-search-window-keywords-list {
+		padding: 10px;	
+	}
+	.mall-search-window-keywords h5 {
+		padding: 6px 10px 0 10px;
+	}
+	
+	.mall-search-window-keywords h5,
+	.mall-search-window-keywords-list-cell,
+	.mall-search-window-suggest-cell {
+		font-size: 11px;
+		color: #666;
+	}
+	
+	.mall-search-window-keywords-list::after, .mall-search-window-suggest::after {
+		content: "";
+		background-color: transparent;
+		height: 1px;
+		visibility: hidden;
+		clear: both;
+		display: block;
+	}
+	
+	.mall-search-window-keywords-list-cell {
+		display: inline-block;
+		margin: 2px;
+		padding: 3px 5px;
+		border: solid 1px #ccc;
+		border-radius: 3px;
+		white-space: nowrap;
+		max-width: 100px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.mall-search-window-suggest-cell {
+		border-bottom: solid 1px #999;
+	}
+	
+	.mall-search-window-suggest-cell {
+		display: block;
+		float: left;
+		line-height: 40px;
+		padding: 0 10px;
+		width: 50%;
+	}
+	
+	.mall-search-window-suggest-cell:last-child,
+	.mall-search-window-suggest-cell:nth-last-child(2) {
+		border-bottom: 0;
+	}
+	
+	.mall-search-window-goods, .mall-search-window-suggest {
+		background-color: #fff;
+	}
+</style>
+<div id="searchWindow">
+	<nav class="mall-search-bar">
+		<a class="mall-search-bar-item cky-back"><i class="mui-icon mui-icon-left-nav"></i></a>
+		<div class="mall-search-bar-item">
+			<i class="iconfont icon-sousuo"></i>
+			<input class="cky-input-clear" placeholder="搜索商品"/>
+		</div>
+		<a class="mall-search-bar-item mall-search-window-cart" style="display:none" href="{:U('Cart/index')}">
+			<i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i>
+		</a>
+		<a class="mall-search-bar-item mall-search-bar-button">搜索</a>
+	</nav>
+	<div class="mui-content">
+		<div class="mall-search-window-keywords">
+			<h5><i class="iconfont icon-sousuo1"></i> 最近搜索</h5>
+			<div class="mall-search-window-keywords-list" data-bind="foreach: histories">
+				<a class="mall-search-window-keywords-list-cell" data-bind="text: $data"></a>
+			</div>
+			<h5><i class="iconfont icon-huore"></i> 热门搜索</h5>
+			<div class="mall-search-window-keywords-list" data-bind="foreach: hots">
+				<a class="mall-search-window-keywords-list-cell" data-bind="text: keywords"></a>
+			</div>
+		</div>
+		<div class="mall-search-window-goods mall-goods-table cky-bg-white" data-bind="foreach: goods" style="display: none;">
+			<li class="mall-goods-table-cell">
+				<div class="mui-table">
+					<a class="mall-goods-thumb mui-table-cell" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }"></a>
+					<div class="mall-goods-content mui-table-cell">
+						<a data-bind="text: goodsName, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }" class="mui-ellipsis-2 font14 font-black"></a>
+						<h5 class="font12">销量：<span data-bind="text: saleCount > 9999 ? (Math.round(sale/1000) / 10 + 万笔) : saleCount"></span>笔</h5>
+						<div class="mui-table mall-goods-prices-table">
+							<div class="mui-table-cell">
+								<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
+							</div>
+							<div class="mui-table-cell mui-text-right">
+								<a data-bind="click: $parent.addCartClick" class="cky-add-cart-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+		</div>
+		<div class="mall-search-window-suggest" data-bind="foreach: suggests" style="display: none;">
+			<a class="mall-search-window-suggest-cell" data-bind="text: keywords"></a>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="__KO__"></script>
+<script>
+	$(function() {
+		var SEARCH_CACHE_KEY = "shop_search_cache_key";
+		var MOD = 4; // 商家
+		var keywordsDiv = $("#searchWindow .mall-search-window-keywords");
+		var goodsDiv = $("#searchWindow .mall-search-window-goods");
+		var suggestDiv = $("#searchWindow .mall-search-window-suggest");
+		var searchButton = $("#searchWindow .mall-search-bar-button");
+		var cartButton = $("#searchWindow .mall-search-window-cart");
+		var input = $("#searchWindow input");
+		var currentKeywords = "-";
+		
+		var histories = cky.storage.getItem(SEARCH_CACHE_KEY) || [];
+		var goods = [];
+		var vm = {
+			histories: ko.observableArray(histories),
+			hots: ko.observableArray([]),
+			goods: ko.observableArray(goods),
+			suggests: ko.observableArray([]),
+			addCartClick: onaddcartclick
+		};
+		ko.applyBindings(vm, document.getElementById("searchWindow"));
+		
+		$.getJSON("{:U('Search/t')}", { mod: MOD }, function(list) {
+			if(list && list.length > 0) {
+				vm.hots(list);
+			}
+		});
+		
+		var inputHandler = 0;
+		input.bind("input change", function() {
+			window.clearTimeout(inputHandler);
+			inputHandler = window.setTimeout(suggest, 300);
+		});
+		
+		// 自动完成
+		function suggest() {
+			var keywords = $.trim(input.val());
+			vm.suggests.removeAll();
+			if(keywords.length > 0) {
+				keywordsDiv.hide();
+				suggestDiv.show();
+				goodsDiv.hide();
+				$.getJSON("{:U('Search/suggest')}", {
+					keywords: keywords, mod: MOD
+				}, function(list) {
+					if(list && list.length > 0) {
+						vm.suggests(list);
+					}
+				});
+			} else {
+				keywordsDiv.show();
+				suggestDiv.hide();
+				goodsDiv.hide();
+				cartButton.hide();
+			}
+		}
+		
+		searchButton.click(function() {
+			window.clearTimeout(inputHandler);
+			var keywords = $.trim(input.val());
+			vm.suggests.removeAll();
+			if(keywords.length > 0) {
+				search(keywords);
+			} else {
+				keywordsDiv.show();
+				suggestDiv.hide();
+				goodsDiv.hide();
+				cartButton.hide();
+			}
+		});
+		
+		// 搜索
+		function search(keywords) {
+			keywords = $.trim(keywords);
+			$.post("{:U('Search/s')}", { keywords: keywords, mod: MOD });
+			var index = histories.indexOf(keywords);
+			if(index > -1) {
+				histories.splice(index, 1);
+			}
+			histories.unshift(keywords);
+			goodsDiv.html("");
+			cky.storage.setItem(SEARCH_CACHE_KEY, histories)
+			vm.histories(histories);
+			keywordsDiv.hide();
+			suggestDiv.hide();
+			goodsDiv.show();
+			cartButton.show();
+			currentKeywords = keywords.length == 0 ? "-" : keywords;
+			page(true);
+		}
+		
+		// 后台搜索
+		var pageNo = 1;
+		function page(empty) {
+			if(empty) {
+				pageNo = 1;
+			}
+			$.getJSON("{:U('Goods/ptg')}", {
+				pageNo: pageNo,
+				catId: MOD,
+				keywords: currentKeywords, 
+			}, function(list) {
+				if(empty || pageNo == 1) {
+					vm.goods.removeAll();
+				}
+				if(list && list.length > 0) {
+					pageNo++;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				} else if(pageNo == 1) {
+					goodsDiv.nodata("暂时没有相关商品");
+				}
+			});
+		}
+		
+		$("#searchWindow").on("click", ".mall-search-window-keywords-list-cell,.mall-search-window-suggest-cell", function() {
+			var $this = $(this);
+			var keywords = $this.text();
+			input.val(keywords);
+			search(keywords);
+		});
+		
+		// 购物车
+		function onaddcartclick(obj, evt) {
+			$(evt.delegateTarget).flyTo(cartButton);
+			cky.addToShopCart(obj);
+		}
+	});
+</script>
+	

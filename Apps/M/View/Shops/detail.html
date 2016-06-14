@@ -7,12 +7,9 @@
 	<h1 id="title" class="mui-title">
 		{$title}
 	</h1>
-	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
+	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}" style="right: 8px">
 		<i class="iconfont icon-gouwuche font24"></i>
 	</a>
-	<button class="mui-btn mui-btn-link mui-pull-right">
-		<i class="iconfont icon-sousuo font24"></i>
-	</button>
 </header>
 <div class="mui-content">
 	<div class="cky-head-img" style="background-image: url(/{$data.headerImg});">
@@ -135,7 +132,7 @@
 			
 			if(!isEOF) {
 				var api = "{:U('Goods/ptg', '', '')}";
-				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 0 }, function(list) {
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 4 }, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
 						vm.removeAll();

@@ -80,34 +80,29 @@
 			<div class="mall-search-window-keywords-list" data-bind="foreach: histories">
 				<a class="mall-search-window-keywords-list-cell" data-bind="text: $data"></a>
 			</div>
-			<!--<h5><i class="iconfont icon-huore"></i> 热门搜索</h5>
+			<h5><i class="iconfont icon-huore"></i> 热门搜索</h5>
 			<div class="mall-search-window-keywords-list" data-bind="foreach: hots">
 				<a class="mall-search-window-keywords-list-cell" data-bind="text: keywords"></a>
-			</div>-->
-		</div>
-		<div class="cky-table-view" data-bind="foreach: goods" style="display: none;">
-			<div class="cky-table-view-cell">
-				<a data-bind="attr:{ href: '{:U('Shops/detail')}?id=' + shopId }">
-					<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
-						
-					</div>
-					<div class="cky-media">
-						<span class="cky-media-title shop-media-title font17" data-bind="text: shopName"></span>
-						<!-- ko if:deliveryOff > 0 && deliveryOff < 1 -->
-						<h5 class="cky-right font-red" data-bind="text: (deliveryOff * 10).toFixed(1) + '折'"></h5>
-						<!-- /ko -->
-						<div class="cky-clearfix"></div>
-						<div class="cky-media-sub">
-							<p class="cky-media-address font13" data-bind="text: shopAddress + ' ' + catName "></p>
-							<span class="cky-right font13 font-gray2" data-bind="text: geolocation.distanceToReadability(distance * geolocation.METERS_PER_DEGREE)"></span>
-						</div>
-						<div class="cky-clearfix"></div>
-						<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
-						<h5 class="cky-right"><i class="iconfont icon-phone font20 font-blue"></i></h5>
-				    </div>
-					<div class="cky-clearfix"></div>
-				</a>
 			</div>
+		</div>
+		<div class="mall-search-window-goods mall-goods-table cky-bg-white" data-bind="foreach: goods" style="display: none;">
+			<li class="mall-goods-table-cell">
+				<div class="mui-table">
+					<a class="mall-goods-thumb mui-table-cell" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }"></a>
+					<div class="mall-goods-content mui-table-cell">
+						<a data-bind="text: goodsName, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }" class="mui-ellipsis-2 font14 font-black"></a>
+						<h5 class="font12">销量：<span data-bind="text: saleCount > 9999 ? (Math.round(sale/1000) / 10 + 万笔) : saleCount"></span>笔</h5>
+						<div class="mui-table mall-goods-prices-table">
+							<div class="mui-table-cell">
+								<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
+							</div>
+							<div class="mui-table-cell mui-text-right">
+								<a data-bind="click: $parent.addCartClick" class="cky-add-cart-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
 		</div>
 		<div class="mall-search-window-suggest" data-bind="foreach: suggests" style="display: none;">
 			<a class="mall-search-window-suggest-cell" data-bind="text: keywords"></a>
@@ -118,10 +113,10 @@
 <script type="text/javascript" src="__KO__"></script>
 <script>
 	$(function() {
-		var SEARCH_CACHE_KEY = "shops_search_cache_key";
-		var MOD = 4444; // 商家搜索
+		var SEARCH_CACHE_KEY = "shop_search_cache_key";
+		var MOD = 4; // 商家
 		var keywordsDiv = $("#searchWindow .mall-search-window-keywords");
-		var goodsDiv = $("#searchWindow .cky-table-view");
+		var goodsDiv = $("#searchWindow .mall-search-window-goods");
 		var suggestDiv = $("#searchWindow .mall-search-window-suggest");
 		var searchButton = $("#searchWindow .mall-search-bar-button");
 		var cartButton = $("#searchWindow .mall-search-window-cart");
@@ -139,11 +134,11 @@
 		};
 		ko.applyBindings(vm, document.getElementById("searchWindow"));
 		
-//		$.getJSON("{:U('Search/t')}", { mod: MOD }, function(list) {
-//			if(list && list.length > 0) {
-//				vm.hots(list);
-//			}
-//		});
+		$.getJSON("{:U('Search/t')}", { mod: MOD }, function(list) {
+			if(list && list.length > 0) {
+				vm.hots(list);
+			}
+		});
 		
 		var inputHandler = 0;
 		input.bind("input change", function() {
@@ -214,8 +209,9 @@
 			if(empty) {
 				pageNo = 1;
 			}
-			$.getJSON("{:U('Shops/s')}", {
+			$.getJSON("{:U('Goods/ptg')}", {
 				pageNo: pageNo,
+				catId: MOD,
 				keywords: currentKeywords, 
 			}, function(list) {
 				if(empty || pageNo == 1) {

@@ -132,6 +132,15 @@ r {
 	color: #333;
 }
 
+.shop-media-title {
+	display: block;
+    width: calc(100% - 50px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    float: left;
+}
+
 .cky-media p {
 	color: #666;
 }

@@ -139,8 +139,14 @@ class ShopsAction extends BaseAction {
 	}
 	
 	public function s() {
-		$m = D("Goods");
-		$list = $m->searchShopsGoods();
+		$m = D("Shops");
+		$list = $m->search();
 		$this->ajaxReturn($list, "json");
 	}
+	
+//	public function s() {
+//		$m = D("Goods");
+//		$list = $m->searchShopsGoods();
+//		$this->ajaxReturn($list, "json");
+//	}
 }

@@ -12,10 +12,8 @@ class WxNotify
 		$obj = $m->orderDetailForNotify($orderid);
 		if(!$obj)  return; 
 		$openid = $obj["wxopenid"];
-		//没有设置提醒
-		if(empty($openid))  return; 
-		$ACCESS_TOKEN =$wxm->accessToken();
-		$url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$ACCESS_TOKEN";
+		//没有设置提醒		
+		$ACCESS_TOKEN =$wxm->accessToken();	
 		
 		$createTime = $obj["createTime"];
 		$totalMoney = $obj["totalMoney"];
@@ -26,8 +24,23 @@ class WxNotify
 		else if($orderType=="3"){ $orderTypeName="商城订单"; }
 		else  { $orderTypeName="商家订单"; } 
 		//$orderItemData=$goods;
+		if(!empty($openid)){ 
+			$this->OrderToShops($ACCESS_TOKEN, $openid, $orderid, $orderTypeName, $totalMoney,$orderItemData);
+		}
+		$openid = $obj["wxopenid1"];
+		if(!empty($openid)){ 
+			$this->OrderToShops($ACCESS_TOKEN, $openid, $orderid, $orderTypeName, $totalMoney,$orderItemData);
+		}
+		$openid = $obj["wxopenid2"];
+		if(!empty($openid)){ 
+			$this->OrderToShops($ACCESS_TOKEN, $openid, $orderid, $orderTypeName, $totalMoney,$orderItemData);
+		}
+					
+	}
 
-		$json='
+public function OrderToShops($ACCESS_TOKEN, $openid, $orderid, $orderTypeName, $totalMoney, $orderItemData) {
+	$url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$ACCESS_TOKEN";
+	$json='
 {
 	"touser":"'.$openid.'",
 	"template_id":"JsODEGXf-FzqYgRddUCbgMmTDHG8htzE0uKDFKhC6xA",
@@ -64,8 +77,7 @@ class WxNotify
 		
 		$result=	$this->postData($url, $json);
 		return $result;
-					
-	}
+}
 	
 	function postData($url, $data){
 	    $ch = curl_init();

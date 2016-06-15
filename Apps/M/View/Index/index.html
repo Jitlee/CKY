@@ -37,8 +37,8 @@
 		<div class="cky-grid cky-grid2 cky-special">
 			<a class="cky-grid-cell cky-hotpot-ticket">
 				<div class="cky-media" id="m1">
-					<p style="color: #1558A0;">9.9 火锅券</p>
-					<h5>新用户专享</h5>
+					<p style="color: #1558A0;">客栈 酒店</p>
+					<h5>优惠房型 售完即止</h5>
 				</div>
 			</a>
 			<a class="cky-grid-cell cky-points-edemption">
@@ -135,7 +135,7 @@
 
 <script type="text/javascript" src="__KO__"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
-<script src="__JS__/{:autoVer('wxjsapi.js')}?10"></script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?11"></script>
 <script>
 	$(function() {
 		
@@ -175,7 +175,9 @@
 //		$("#glsc").click(function(){cky.toast('敬请期待...');});
 //		$("#glother").click(function(){cky.toast('敬请期待...');});
 		
-		$("#m1").click(function(){cky.toast('敬请期待...');});
+		$("#m1").click(function(){
+			window.location.href = "{:U('Shops/index')}";
+		});
 		$("#m3").click(function(){
 			window.location.href = "{:U('Miaosha/index')}";
 		});

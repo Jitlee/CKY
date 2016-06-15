@@ -57,11 +57,15 @@ class ShopsModel extends BaseModel {
 		$sdata["serviceStartTime"] = I("serviceStartTime");
 		$sdata["serviceEndTime"] = I("serviceEndTime");
 		$sdata["shopTel"] = I("shopTel");
-		$sdata["wxopenid"] = I("wxopenid");
+		
 		
 		//$sdata["sort"] = I("sort");
 		
-		if($this->checkEmpty($data,true) && $this->checkEmpty($sdata,true)){ 
+		if($this->checkEmpty($data,true) && $this->checkEmpty($sdata,true)){
+			$sdata["wxopenid"] = I("wxopenid");
+			$sdata["wxopenid1"] = I("wxopenid1");
+			$sdata["wxopenid2"] = I("wxopenid2");
+		 
 			$data["userStatus"] = (int)I("userStatus",1);
 			$data["userType"] = (int)I("userType",1);
 			$data["userEmail"] = I("userEmail");
@@ -219,9 +223,14 @@ class ShopsModel extends BaseModel {
 			$data["shopAtive"] = (int)I("shopAtive",1);
 			$data["shopTel"] = I("shopTel");
 			$data["shopDesc"] = I("shopDesc");
-		 	$data["wxopenid"] = I("wxopenid");
+		 	
 			
 			if($this->checkEmpty($data,true)){
+					
+				$data["wxopenid"] = I("wxopenid");
+				$data["wxopenid1"] = I("wxopenid1");
+				$data["wxopenid2"] = I("wxopenid2");
+			
 				$data['qqNo'] = I('qqNo');
 				$data["invoiceRemarks"] = I("invoiceRemarks");
 				$rs = $m->where("shopId=".$shopId)->save($data);

@@ -23,6 +23,23 @@ class ActivityTicketMModel extends BaseModel {
 		if($mtickobj)
 		{
 			$isone=(int)$mtickobj["IsOneCardyTick"];
+			$needPoint=(int)$mtickobj["needPoint"];
+			$data=session("MemberItem");
+			$EnablePoint=(int)$data["EnablePoint"];
+			$CardId=$data["CardId"];
+			if($needPoint>0)
+			{
+				if($EnablePoint<$needPoint)
+				{
+					$rd['status']=-5;
+					return $rd;
+				}
+				$mOneCard = D('M/OneCardTick');
+				$res=$mOneCard->PayScore($CardId,$payscore);
+				if($res["status"] != 0){
+					 return $res;
+				}
+			}
 			if($isone==1)
 			{
 				$m = D('M/OneCardTick');

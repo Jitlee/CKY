@@ -14,7 +14,7 @@ class ActivityTicketModel extends BaseModel {
 		$pageNo = intval(I('pageNo', 1));
 		return $this->field('s.shopName, t.limitUseShopId, t.ticketID, t.title, ifnull(t.imagePath,s.shopImg) imagePath,left(t.imagePath,4) strhttp,t.IsOneCardyTick
 , t.ticketAmount, t.totalCount, t.sendCount, t.efficacySDate, t.efficacyEDate, t.miniConsumption, t.maxiConsumption, t.typeName, t.content
-,  isnull(tm.uid) isReceived, t.onlyNewUser')
+,  isnull(tm.uid) isReceived, t.onlyNewUser, needPoint')
 		->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
 		->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid)
 		->where('t.ticketStatus = 1 and (t.efficacyEDate >= CURDATE() or  t.efficacyEDate is null)')

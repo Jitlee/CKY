@@ -60,6 +60,11 @@ class MemberModel extends BaseModel {
 //		}
 		return $rd;
 	}
+
+	public function getScore($uid) {
+		$data = $this->field("EnablePoint")->find($uid);
+		return (int)$data["EnablePoint"];
+	}
 	
 	public function GetByCardID($key)
 	{

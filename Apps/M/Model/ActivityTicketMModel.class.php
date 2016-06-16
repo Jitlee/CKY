@@ -48,6 +48,8 @@ class ActivityTicketMModel extends BaseModel {
 						//更新认领
 						$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
 						$ret = $this->query($sql);
+						
+						// TODO: 更新积分
 					}
 				}
 				return $ret;	
@@ -97,6 +99,13 @@ class ActivityTicketMModel extends BaseModel {
 		);
 		$data['ticketMStatus'] = $status;
 		return $this->where($map)->save($data);
+	}
+
+	public function isScoreBalance($uid, $ticketId) {
+		$sql = "select (select needPoint from `cky_activity_ticket` where `ticketId` = '$ticketId') need,(select EnablePoint from cky_member where uid=$uid) have";
+		$list = $this->query($sql);
+		$data = $list[0];
+		return (int)$data["need"] <= (int)$data["have"];
 	}
 };
 ?>

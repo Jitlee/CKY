@@ -34,6 +34,11 @@ class ActivityAction extends BaseUserAction {
 	}
 	
 	public function detail() {
+		
+		$mdb = D("Member");
+		$score = $mdb->getScore();
+		$this->assign("score", $score);
+		
 		$m = D('M/Activity');
 		$data = $m->getById();
 //		echo $m->getLastSql();
@@ -49,6 +54,10 @@ class ActivityAction extends BaseUserAction {
 	 */
 	public function coupon() {
 		$this->assign('title', '领券中心');
+		
+		$mdb = D("Member");
+		$score = $mdb->getScore();
+		$this->assign("score", $score);
 		$this->display();
 	}
 	
@@ -73,6 +82,8 @@ class ActivityAction extends BaseUserAction {
 				$status = -2;				
 			} else if(!$mm->isNewUser($uid, $ticketId)) {
 				$status = -3;
+			} if(!$mm->isScoreBalance($uid, $ticketId)) {
+				$status = -5;
 			} else {
 				$mm->startTrans();
 				$rst = $mm->pick($ticketId, $uid);
@@ -81,6 +92,11 @@ class ActivityAction extends BaseUserAction {
 					if($m->updateSendCount($ticketId) !== FALSE) {
 						$status = 1;
 					} 
+				}
+				
+				if($status == 1) {
+					// 扣除积分
+					
 				}
 				
 				if($rst['status'] == -1) {

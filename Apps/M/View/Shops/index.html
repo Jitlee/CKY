@@ -35,8 +35,8 @@
 				</div>
 				<div class="cky-media">
 					<span class="cky-media-title shop-media-title font17" data-bind="text: shopName"></span>
-					<!-- ko if:deliveryOff > 0 && deliveryOff < 1 -->
-					<h5 class="cky-right font-red" data-bind="text: (deliveryOff * 10).toFixed(1) + '折'"></h5>
+					<!-- ko if: deliveryOff > 0 && deliveryOff < 10 -->
+					<h5 class="cky-right font-red" data-bind="text: deliveryOff + '折'"></h5>
 					<!-- /ko -->
 					<div class="cky-clearfix"></div>
 					<div class="cky-media-sub">
@@ -137,6 +137,9 @@
 					}
 					if(list && list.length > 0) {
 						pageNo = ++_pageNo;
+						$.each(list, function(){
+							this.deliveryOff = Number(this.deliveryOff);
+						});
 						shops = shops.concat(list);
 						vm(shops);	
 					}

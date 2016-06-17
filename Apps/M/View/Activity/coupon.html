@@ -234,6 +234,9 @@
 			<div class="cky-relative ticket-title">
 				<div class="cky-ellipsis font14">
 					<span data-bind="text: title"></span>
+					<!-- ko if: needPoint > 0 -->
+					<span class="font-gray"><i class="iconfont icon-jifen"></i><span data-bind="text: needPoint"></span></span>
+					<!-- /ko -->
 				</div>
 				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(sendCount * 100 / totalCount)"></span>%</div>
 			</div>
@@ -362,6 +365,7 @@
 							this.ticketAmount = Number(this.ticketAmount);
 							this.totalCount = Number(this.totalCount);
 							this.sendCount = Number(this.sendCount);
+							this.needPoint = Number(this.needPoint);
 							this.maxiConsumption = Number(this.maxiConsumption);
 							this.miniConsumption = Number(this.miniConsumption);
 							coupons.push(this);
@@ -385,9 +389,8 @@
 		// 领取事件
 		function onclick(obj, evt) {
 			if(!this.isReceived && this.totalCount > this.sendCount) {
-				var need =  Number(this.needPoint);
-				if(need > 0) {
-					if(myScore > need) {
+				if(this.needPoint > 0) {
+					if(myScore > this.needPoint) {
 						layer.open({
 						    content: '领取此卷需要积分' + this.needPoint + "，当前积分："+ myScore,
 						    btn: ['确认', '取消'],
@@ -436,9 +439,8 @@
 					$(".ticket-nav", $this).show();
 					obj.isReceived = true;
 					obj.sendCount++;
-					var need = Number(obj.needPoint);
-					if(need > 0) {
-						myScore -= Number(need)
+					if(obj.needPoint > 0) {
+						myScore -= obj.needPoint;
 					}
 				} else if(result == -2) {
 					cky.toast("做人不能贪心，你已经领取过了^_^")

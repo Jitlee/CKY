@@ -24,7 +24,13 @@
 					<img class="mui-media-object mui-pull-left" src="<if condition="$data.strhttp neq 'http'">/</if>{$data.imagePath}">
 					<div class="mui-media-body">
 						{$data.title}
-						<p class='mui-ellipsis'>{$data.content}</p>
+						<if condition="$data.needPoint gt 0">
+							<span class="font12 font-gray"><i class="iconfont icon-jifen"></i>{$data.needPoint}</span>
+						</if>
+						<p class='mui-ellipsis'>
+							{$data.content}
+							
+						</p>
 					</div>
 					
 					<if condition="$data.isReceived eq 1 and $data.toolate eq 1">

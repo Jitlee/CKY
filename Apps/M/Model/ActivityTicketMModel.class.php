@@ -15,11 +15,14 @@ class ActivityTicketMModel extends BaseModel {
 	 */
 	public function pick($ticketId, $uid) {
 		//查询卡券信息
-		$map = array('ticketID'	=> $ticketId);
+//		$ticketId = I('ticketId');
+		$map = "ticketID='$ticketId'";
 		$mtick= M('activity_ticket');
-		$mtickobj =$mtick->where($map)->find();
-		
+		$mtickobj =$mtick->where($map)->find();		
 		$rd = array('status'=>-1);
+//		$rd["msg"]=$ticketId;
+//		$mtickobj=$mtickobj[0];
+//		return $map;
 		if($mtickobj)
 		{
 			$isone=(int)$mtickobj["IsOneCardyTick"];
@@ -27,6 +30,7 @@ class ActivityTicketMModel extends BaseModel {
 			$data=session("MemberItem");
 			$EnablePoint=(int)$data["EnablePoint"];
 			$CardId=$data["CardId"];
+			 
 			if($needPoint>0)
 			{
 				if($EnablePoint<$needPoint)
@@ -35,7 +39,7 @@ class ActivityTicketMModel extends BaseModel {
 					return $rd;
 				}
 				$mOneCard = D('M/OneCardTick');
-				$res=$mOneCard->PayScore($CardId,$payscore);
+				$res=$mOneCard->PayScore($CardId,$needPoint);
 				if($res["status"] != 0){
 					 return $res;
 				}

@@ -322,7 +322,7 @@
 		}
 		return css;
 	}
-	
+	var ticketID="";
 	$(function(){
 		var myScore = Number("{$score}");
 		var coupons = [];
@@ -387,10 +387,12 @@
 		util.onScrollEnd(queryByPage);
 		
 		// 领取事件
-		function onclick(obj, evt) {
+		
+		function onclick(obj, evt) {	
+			ticketID=obj.ticketID;
 			if(!this.isReceived && this.totalCount > this.sendCount) {
 				if(this.needPoint > 0) {
-					if(myScore > this.needPoint) {
+					if(myScore > this.needPoint) {						 
 						layer.open({
 						    content: '领取此卷需要积分' + this.needPoint + "，当前积分："+ myScore,
 						    btn: ['确认', '取消'],
@@ -423,7 +425,7 @@
 		function pick(obj, evt) {
 			// 待领取
 			var ll = cky.loadding();
-			$.post("{:U('pick')}", { ticketId: this.ticketID }, function(result) {
+			$.post("{:U('pick')}", { ticketId: ticketID }, function(result) {
 				cky.close(ll);
 				console.log(result);
 				util.endScroll();

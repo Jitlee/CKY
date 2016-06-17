@@ -94,11 +94,6 @@ class ActivityAction extends BaseUserAction {
 					} 
 				}
 				
-				if($status == 1) {
-					// 扣除积分
-					
-				}
-				
 				if($rst['status'] == -1) {
 					$status = -4; // 一卡易发送卡券失败
 				}
@@ -108,9 +103,10 @@ class ActivityAction extends BaseUserAction {
 				} else {
 					$mm->rollback();
 				}
-			}
-			
+		}
 			$this->ajaxReturn($status, 'JSON');
+//			$this->ajaxReturn($rst, 'JSON');
+			
 		}
 	}
 	

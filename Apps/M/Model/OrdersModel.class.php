@@ -1212,7 +1212,7 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 订单支付状态
 	 */
-	public function payOrder($orderId ,$payType=0){
+	public function payOrder($orderId ,$netpayamount,$accountmoney,$accountscoremoney,$accountscore,$payType=0){
 		$rst = array('status' => 1);
 		$filter = array();
 		$filter['orderId'] = $orderId;
@@ -1234,6 +1234,11 @@ class OrdersModel extends BaseModel {
 		$data['orderStatus'] = $orderType == 2 ? 6 : 1; // 一元购直接完结商品
 		$data['isPay'] = 1;
 		$data['payType'] = $payType;
+		 
+		$data['netpayamount'] = $netpayamount;
+		$data['accountmoney'] = $accountmoney;
+		$data['accountscoremoney'] = $accountscoremoney;
+		$data['accountscore'] = $accountscore;
 		 
 		if($this->where($filter)->save($data) === FALSE) {
 			$rst['status'] = -302;

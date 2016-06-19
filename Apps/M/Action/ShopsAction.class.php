@@ -39,10 +39,14 @@ class ShopsAction extends BaseAction {
 		$this->assign('title', "商家");
 		$this->assign('tabid', 'shops');
 		
+		$catid=I("catid",0);
+		$catid=$catid.'';
+		 
 		/****分享与定位***/
 		$wxm= new WxUserInfo();
 		$signPackage=$wxm->getSignPackage();			 
 		$this->assign('signPackage', $signPackage);
+		$this->assign('catid', $catid);
 		
 		$this->display();
 	}

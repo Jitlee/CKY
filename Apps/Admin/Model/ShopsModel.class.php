@@ -507,7 +507,14 @@ class ShopsModel extends BaseModel {
         $areaId1 = (int)I('areaId1',0);
      	$areaId2 = (int)I('areaId2',0);
  
-	 	$sql = 'select s.shopName, s.shopSn,count(o.orderId) ordersCount, sum((o.totalMoney + o.deliverMoney)) totalMoney, sum(o.needPay) realPay from cky_shops s inner join cky_orders o on s.shopId = o.shopId where o.isPay = 1 ';
+	 	$sql = 'select 
+s.shopName, s.shopSn,count(o.orderId) ordersCount
+, sum((o.totalMoney + o.deliverMoney)) totalMoney
+, sum(o.needPay) realPay
+, sum(o.netpayamount)  netpayamount
+, sum(o.accountmoney)  accountmoney
+, sum(o.accountscoremoney)  accountscoremoney
+from cky_shops s inner join cky_orders o on s.shopId = o.shopId where o.isPay = 1 ';
  
 	 	if(I('shopName')!='') $sql.=" and s.shopName like '%".I('shopName')."%'";
 	 	if(I('shopSn')!='') $sql.=" and s.shopSn like '%".I('shopSn')."%'";

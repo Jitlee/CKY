@@ -32,6 +32,8 @@ class MemberPayModel extends BaseModel {
 	/*储值卡支付*/
 	public function OrderValuePay($dataInfo,$carid)
 	{
+		$payamount=(int)$dataInfo["amount"];	//支付金额
+			
 		$dbMemberpay = M('member_pay');
 		$mOneCard = D('M/OneCard'); //出错处理
 		$accountmoney=$dataInfo["accountmoney"];
@@ -48,6 +50,7 @@ class MemberPayModel extends BaseModel {
 				$paystatus=-1;
 			}
 		}
+		$payscore=0;
 		if($accountscore>0)
 		{
 			$scorerate =(int)C("scorerate");//积分兑换比例
@@ -61,22 +64,25 @@ class MemberPayModel extends BaseModel {
 				$paystatus=-1;
 			}
 		}
-			//消费，给帐户添加积分
-						
-		$payamount=(int)$dataInfo["amount"];
+		//消费，给帐户添加积分  -- 这里应该包括 在线支付+余额支付金额		
 		if($payamount>0)
 		{
 			$remark='粗卡管理平台消费';
 			$mOneCard->AddScore($carid,$payamount,$remark);//出错也忽略	
 		}
-			
+		/******订单更新相关金额金额*****/
+		$netpayamount=$payamount;		//在线支付金额
+		$accountmoney=$accountmoney;		//帐户余额支付金额
+		$accountscoremoney=$accountscore;	//积分抵扣金额
+		$useaccountscore=$payscore;		//抵扣积分
+		
 		if($paystatus == 0)
 		{
 			$dataInfo["Status"]=99;//主表状态
 			//更新订单状态
 			$orderid=$dataInfo["extendid"];
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->payOrder((int)$orderid ,1);
+			$res=$dbOrders->payOrder((int)$orderid ,$netpayamount,$accountmoney,$accountscoremoney,$useaccountscore,1);
 			
 			if($res['status'] != 1) {
 				
@@ -159,17 +165,23 @@ class MemberPayModel extends BaseModel {
 		}
 		else
 		{
+			$payamount=(int)$dataInfo["amount"];
+			
+			$netpayamount=$payamount;
+			$accountmoney=0;
+			$accountscoremoney=0;
+			$accountscore=0;
+			
 			//更新订单状态
 			$dbOrders =D('M/Orders');
-			$res=$dbOrders->payOrder((int)$orderid, 0);			
+			$res=$dbOrders->payOrder((int)$orderid,$netpayamount,$accountmoney,$accountscoremoney,$accountscore, 0);			
 			if($res["status"] == 1)
 			{
 				$res["status"]=1;
 				$dataInfo["extendMeno"]="在线支付成功";
 			}
 			//消费，给帐户添加积分
-			$mOneCard = D('M/OneCard');
-			$payamount=(int)$dataInfo["amount"];
+			$mOneCard = D('M/OneCard');			
 			if($payamount >0)
 			{
 				$remark='粗卡管理平台消费';

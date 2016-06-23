@@ -39,7 +39,7 @@
 					</div>
 			</li>
 			<li class="mui-table-view-cell">
-					<div class=" mui-navigate-right">
+					<div class=" mui-navigate-right" id="divtruename"> 
 						<span>姓名</span>
 						<div  class="cellinfo-right" >{$data.TrueName}</div>
 					</div>
@@ -51,13 +51,13 @@
 				</div>
 			</li>
 			<li class="mui-table-view-cell">
-				<div class=" mui-navigate-right">
+				<div class=" mui-navigate-right" id="divbirthday">
 						<span>生日</span>
 						<div class="cellinfo-right" ><if condition="($data.IsLunar eq 1)">农历</if>{$data.Birthday}</div>
 				</div>
 			</li>
 			<li class="mui-table-view-cell">
-					<div class=" mui-navigate-right">
+					<div class=" mui-navigate-right" id="divEmail">
 						<span>电子邮件</span>
 						<div  class="cellinfo-right" >{$data.Email}</div>
 					</div>
@@ -81,6 +81,18 @@
 		$("#addresslist").click(function(){
 				window.location.href="{:U('Address/addresslist', '', '')}";
 		});
+		$("#divEmail").click(function(){
+				window.location.href="{:U('Personitem/email', '', '')}";
+		});
+		
+		$("#divtruename").click(function(){
+				window.location.href="{:U('Personitem/truename', '', '')}";
+		});
+		
+		$("#divbirthday").click(function(){
+				window.location.href="{:U('Personitem/birthday', '', '')}";
+		});
+		
 			$("#erweima").click(function(){
 					//window.location.href="{:U('Person/erweima', '', '')}";
 					layer.open({

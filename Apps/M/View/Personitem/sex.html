@@ -10,19 +10,12 @@
 		<div class="mui-input-group">
 			<div class="mui-input-row">
 				<label>原密码</label>
-				<input type="password" id='txtoldpwd'  name="oldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
+				<input type="text" id='txtoldpwd'  name="oldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
 			</div>
-			<div class="mui-input-row">
-				<label>新密码</label>
-				<input type="password" id='txtnewpwd'   name="newpwd"  class="mui-input-clear mui-input" required placeholder="请输入新密码">
-			</div>
-			<div class="mui-input-row">
-				<label>确认密码</label>
-				<input type="password" id='txtconfimpwd'   name="confimpwd" class="mui-input-clear mui-input" required placeholder="请再次输入新密码">
-			</div> 
+			 
 		</div>
 		<div class="mui-content-padded">
-			<button id='btnalertpwd' type="button" class="mui-btn mui-btn-block mui-btn-primary">修改</button>
+			<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
 		</div>
 	</form>	
 </div>
@@ -37,12 +30,8 @@
 	});
 	
 	$(function() {
-		$("#btnalertpwd").click(function() {
-			if($("#txtnewpwd").val() != $("#txtconfimpwd").val())
-			{
-				util.msg("输入两次密码不一致。");
-				return false;
-			}
+		$("#btnsave").click(function() {
+			 
 			var self = $("form");
 			$.post("{:U('Person/changepwd','','')}", self.serialize(), changeSuccess, "json");
 			return false;

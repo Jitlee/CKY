@@ -1,10 +1,20 @@
+<header class="mui-bar mui-bar-nav">
+	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" onclick="history.go(-1)">
+			<span class="mui-icon mui-icon-left-nav" ></span>
+	    	返回
+	  </button>
+	  <h1 class="mui-title">{$title}</h1>
+</header>
 <div class="mui-content">
 	<div class="mui-table-view">
 		<div class="mui-table-view-cell">
 			<a id="pickDateBtn" class="mui-navigate-right" data-options='{"type":"date", "value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}'>
-				请选择日期
+				生日{$Birthday}
 			</a>
 		</div>
+	</div>
+	<div class="mui-content-padded">
+			<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
 	</div>
 </div>
 <link rel="stylesheet" type="text/css" href="__CSS__/mui.picker.min.css" />
@@ -33,7 +43,7 @@
 			 * rs.h 时，用法同年
 			 * rs.i 分（minutes 的第二个字母），用法同年
 			 */
-			self.innerText = '选择结果: ' + rs.text;
+			self.innerText = '生日: ' + rs.text;
 			/* 
 			 * 返回 false 可以阻止选择框的关闭
 			 * return false;

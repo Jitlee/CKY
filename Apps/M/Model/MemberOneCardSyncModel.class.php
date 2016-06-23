@@ -43,6 +43,8 @@ class MemberOneCardSyncModel extends BaseModel {
 				}
 				else
 				{
+					$MemberItem["Email"]=  $onecard["Email"];   //电子邮件 
+					//
 					if($MemberItem["EnablePoint"] != $onecard["EnablePoint"])
 					{
 						//写入历史
@@ -121,6 +123,7 @@ class MemberOneCardSyncModel extends BaseModel {
 					$item["StoreName"]= 	$ctemp["StoreName"];					
 					$item["OperateTime"]=$ctemp["OperateTime"];
 					$item["IsUndo"]= 	$ctemp["IsUndo"];
+					
 					$Model->add($item);
 				}
 			}

@@ -366,17 +366,21 @@ public function create_guid($namespace = '') {
 //		echo dump($list);		
 
 //		$m = D('M/OneCardTick');
-//		$list = $m->GetTick();
-//		echo dump($list);		
-//		$list = $m->GetTickMList("18620554231","");
+//		$list = $m->UpdateMember('18620554231','postCode','518000');
 //		echo dump($list);
 
-		$m = D('M/ActivityTicket');
-		$uid = getuid();
-		
-		$list = $m->queryAll($uid);
-		echo $uid;	
-		echo dump($list);
+//				$uid=session("uid");
+				$uid=72;
+				$mdb = D('M/Member');
+				$email='ritacc@126.comm12';
+				$result=$mdb->UpdateMember($uid,'Email',$email);
+
+//		$m = D('M/ActivityTicket');
+//		$uid = getuid();
+//		
+//		$list = $m->queryAll($uid);
+//		echo $uid;	
+//		echo dump($list);
 		 
 		$this->display();
 //		

@@ -48,7 +48,8 @@ class MemberModel extends BaseModel {
         $user["TotalValue"]=  $dataInfo["TotalValue"];   // 是 历史总储值 
         $user["TotalMoney"]=  $dataInfo["TotalMoney"];   // 是 历史总金额（包括该会员以各种方式付的总金额） 
         $user["EnablePoint"]=  $dataInfo["EnablePoint"];   // 是 可用积分 
-        $user["EnableValue"]=  $dataInfo["EnableValue"];   // 是 可用储值 
+        $user["EnableValue"]=  $dataInfo["EnableValue"];   // 是 可用储值
+        $user["Email"]=  $dataInfo["Email"];   //电子邮件 
         //$user["FreezedValue"]=  $dataInfo["FreezedValue"];   // 是 冻结储值
 		
 //		if($this->checkEmpty($dataInfo,true)){
@@ -71,6 +72,20 @@ class MemberModel extends BaseModel {
 		$db = M('member');
 		$filter["CardId"]=$key;
 		return $db->where($filter)->find();
+	}
+	
+	public function UpdateMember($uid,$mtype,$content)
+	{
+		$rd = array('status'=>-1);
+		$data = array();
+		$data["$mtype"]=$content;
+//		echo $uid;
+		$db = M('member');
+		$rs = $db->where("uid=$uid")->save($data);
+		if(false !== $rs){
+			$rd['status']= 1;
+		}
+		return $rd; 
 	}
 	
 	public function GetByMobile($key)

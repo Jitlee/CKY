@@ -370,11 +370,18 @@ public function create_guid($namespace = '') {
 //		echo dump($list);
 
 //				$uid=session("uid");
-				$uid=72;
+				$key="18620554231";
 				$mdb = D('M/Member');
-				$email='ritacc@126.comm12';
-				$result=$mdb->UpdateMember($uid,'Email',$email);
+				$email='2';
+				$result=$mdb->UpdateMember($key,'TrueName',$email);
 
+//			$mMember = D('M/OneCard');
+//			$key="18620554231";
+//			$Birthday="2";
+//			$result = $mMember->UpdateMember($key,'Sex',$Birthday);
+			
+			echo dump($result);
+			
 //		$m = D('M/ActivityTicket');
 //		$uid = getuid();
 //		

@@ -8,11 +8,22 @@
 <div class="mui-content mui-content-bottom">
 	<form>
 		<div class="mui-input-group">
-			<div class="mui-input-row">
-				<label>原密码</label>
-				<input type="text" id='txtoldpwd'  name="oldpwd" class="mui-input-clear mui-input" maxlength="16" required placeholder="请输入当前密码">
-			</div>
-			 
+					 
+					<div class="mui-input-row">
+							<label>性别</label>
+						 <div class="mui-radio  mui-right">	
+								<label>先生</label>
+								<input type="radio"  <if condition="($Sex eq 1)"> checked="checked" </if> value="1" name="sex"/>
+							</div>
+					</div>
+					 <div class="mui-input-row">
+					 	<label>&nbsp;</label>
+					 		<div class="mui-radio  mui-right">	
+								<label>女士</label>
+								<input type="radio"  <if condition="($Sex eq 2)"> checked="checked" </if>  value="2" name="sex"/>
+							</div>
+					 </div>
+				 
 		</div>
 		<div class="mui-content-padded">
 			<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
@@ -20,7 +31,25 @@
 	</form>	
 </div>
 <include file="Public:tab"/>
-
+<style>
+	.mui-input-row input {
+		width: 50%;padding: 3px 0px;
+	}		
+	.mui-input-row{ margin: 2px;}
+ 
+ 			.mui-input-group {margin-top: 3px;}
+			 
+			.mui-input-group label {
+				width: 28%;
+			}
+			.mui-input-row label{
+				padding: 10px 18px;
+			}
+			.mui-input-row .mui-btn{
+				padding: 3px 3px; min-width: 70px;
+			}
+		 
+ </style>
 <script type="text/javascript">
 	 //表单提交
 	$(document).ajaxStart(function() {
@@ -31,14 +60,19 @@
 	
 	$(function() {
 		$("#btnsave").click(function() {
-			 
+			var _sex  = $('input[name="sex"]:checked').val();
+			if(!_sex)
+			{
+				util.msg("请选择性别。");
+				return false;
+			}
 			var self = $("form");
-			$.post("{:U('Person/changepwd','','')}", self.serialize(), changeSuccess, "json");
+			$.post("{:U('Personitem/sex','','')}", {sex: _sex}, changeSuccess, "json");
 			return false;
 			function changeSuccess(data) {
-				if (data.status==0) {
-					util.msg("密码修改成功。");
-					window.location.href = "{:U('Person/index','','')}";
+				if (data.status==1) {
+					util.msg("保存成功。");
+					window.location.href = "{:U('Person/userinfo','','')}";
 				} else {
 					util.msg(data.message);
 				}

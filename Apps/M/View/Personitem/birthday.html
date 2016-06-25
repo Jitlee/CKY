@@ -8,53 +8,96 @@
 <div class="mui-content">
 	<div class="mui-table-view">
 		<div class="mui-table-view-cell">
-			<a id="pickDateBtn" class="mui-navigate-right" data-options='{"type":"date", "value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}'>
-				生日{$Birthday}
+			<a id="pickDateBtn" class="mui-navigate-right" data-options='{"type":"date", "value":"{$Birthday}","beginYear":1980,"endYear":2050}'>
+				生日:<b id="Birthday"> {$Birthday}</b>
 			</a>
 		</div>
 	</div>
-	<div class="mui-content-padded">
-			<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
+	<div class="cky-back">
+		生日当天进店享受会员生日专属优惠，
+	 
+		<b>生日填写后不能修改哦~~</b>
 	</div>
+	<if condition="($blen neq 10)">
+		<div class="mui-content-padded">
+				<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
+		</div>
+	</if>
 </div>
 <link rel="stylesheet" type="text/css" href="__CSS__/mui.picker.min.css" />
 <script src="__JS__/mui.min.js"></script>
 <script src="__JS__/mui.picker.min.js"></script>
+<style type="text/css">
+.cky-back{ padding: 5px 15px;}
+</style>
+<if condition="($blen neq 10)">
+	<script type="text/javascript">
+		mui.init();
+		
+		document.getElementById("pickDateBtn").addEventListener('tap', function() {
+			var optionsJson = this.getAttribute('data-options') || '{}';
+			var options = JSON.parse(optionsJson);
+			var self = this;
+			/*
+			 * 首次显示时实例化组件
+			 * 示例为了简洁，将 options 放在了按钮的 dom 上
+			 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+			 */
+			var picker = new mui.DtPicker(options);
+			picker.show(function(rs) {
+				/*
+				 * rs.value 拼合后的 value
+				 * rs.text 拼合后的 text
+				 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+				 * rs.m 月，用法同年
+				 * rs.d 日，用法同年
+				 * rs.h 时，用法同年
+				 * rs.i 分（minutes 的第二个字母），用法同年
+				 */
+				$("#Birthday").html(rs.text);
+				/* 
+				 * 返回 false 可以阻止选择框的关闭
+				 * return false;
+				 */
+				/*
+				 * 释放组件资源，释放后将将不能再操作组件
+				 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+				 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+				 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+				 */
+				picker.dispose();
+			});
+		}, false);
+	</script>
+</if>
 <script type="text/javascript">
-	mui.init();
+	 //表单提交
+	$(document).ajaxStart(function() {
+		$("button:submit").attr("disabled", true);
+	}).ajaxStop(function() {
+		$("button:submit").attr("disabled", false);
+	});
 	
-	document.getElementById("pickDateBtn").addEventListener('tap', function() {
-		var optionsJson = this.getAttribute('data-options') || '{}';
-		var options = JSON.parse(optionsJson);
-		var self = this;
-		/*
-		 * 首次显示时实例化组件
-		 * 示例为了简洁，将 options 放在了按钮的 dom 上
-		 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
-		 */
-		var picker = new mui.DtPicker(options);
-		picker.show(function(rs) {
-			/*
-			 * rs.value 拼合后的 value
-			 * rs.text 拼合后的 text
-			 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
-			 * rs.m 月，用法同年
-			 * rs.d 日，用法同年
-			 * rs.h 时，用法同年
-			 * rs.i 分（minutes 的第二个字母），用法同年
-			 */
-			self.innerText = '生日: ' + rs.text;
-			/* 
-			 * 返回 false 可以阻止选择框的关闭
-			 * return false;
-			 */
-			/*
-			 * 释放组件资源，释放后将将不能再操作组件
-			 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
-			 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
-			 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
-			 */
-			picker.dispose();
+	$(function() {
+		$("#btnsave").click(function() {
+			var _birthday=$("#Birthday").html();
+			if(_birthday.length<6)
+			{
+				util.msg("请选择生日日期。");
+				return false;
+			}
+			
+			var self = $("form");
+			$.post("{:U('Personitem/birthday','','')}", {Birthday: _birthday}, changeSuccess, "json");
+			return false;
+			function changeSuccess(data) {
+				if (data.status==1) {
+					util.msg("保存成功。");
+					window.location.href = "{:U('Person/userinfo','','')}";
+				} else {
+					util.msg(data.message);
+				}
+			}
 		});
-	}, false);
+	});
 </script>

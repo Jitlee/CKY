@@ -44,7 +44,7 @@
 			$.post("{:U('Personitem/email','','')}", self.serialize(), changeSuccess, "json");
 			return false;
 			function changeSuccess(data) {
-				if (data.status==0) {
+				if (data.status==1) {
 					util.msg("保存成功。");
 					window.location.href = "{:U('Person/userinfo','','')}";
 				} else {

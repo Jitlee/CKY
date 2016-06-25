@@ -35,16 +35,17 @@
 	
 	$(function() {
 		$("#btnsave").click(function() {
-			if($("#email").val() == '')
+			$TrueName=$("#TrueName").val();
+			if(!$TrueName)
 			{
 				util.msg("请输入姓名。");
 				return false;
 			}
 			var self = $("form");
-			$.post("{:U('Personitem/email','','')}", self.serialize(), changeSuccess, "json");
+			$.post("{:U('Personitem/truename','','')}", self.serialize(), changeSuccess, "json");
 			return false;
 			function changeSuccess(data) {
-				if (data.status==0) {
+				if (data.status==1) {
 					util.msg("保存成功。");
 					window.location.href = "{:U('Person/userinfo','','')}";
 				} else {

@@ -74,14 +74,15 @@ class MemberModel extends BaseModel {
 		return $db->where($filter)->find();
 	}
 	
-	public function UpdateMember($uid,$mtype,$content)
+	public function UpdateMember($CardId,$mtype,$content)
 	{
 		$rd = array('status'=>-1);
 		$data = array();
 		$data["$mtype"]=$content;
-//		echo $uid;
+		
 		$db = M('member');
-		$rs = $db->where("uid=$uid")->save($data);
+		$rs = $db->where("CardId='$CardId'")->save($data);
+		 
 		if(false !== $rs){
 			$rd['status']= 1;
 		}

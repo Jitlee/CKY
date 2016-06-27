@@ -389,6 +389,7 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	height: 50vw;
 	background-repeat: no-repeat;
 	background-size: cover;
+	position: relative;
 }
 
 
@@ -553,6 +554,7 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	background-repeat: no-repeat;
 	background-position: top center;
 	background-size: contain;
+	position: relative;
 }
 
 /** 排序菜单 **/

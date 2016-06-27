@@ -34,7 +34,7 @@ class GoodsModel extends BaseModel {
 				break;
 		}
 		
-		return $this->field('g.goodsId, goodsSn, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec, round(totalScore / 3.0 / totalUsers, 2) score')
+		return $this->field('g.goodsId, goodsSn, goodsName, goodsThums, goodsStock, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec, round(totalScore / 3.0 / totalUsers, 2) score')
 			->join('g LEFT JOIN __GOODS_SCORES__ gc on g.goodsId = gc.goodsId')
 			->where($map)->order($order)->page($pageNo, $pageSize)->select();
 	}
@@ -85,12 +85,15 @@ class GoodsModel extends BaseModel {
 			,"g.goodsFlag"=>1
 			,"gl.likestatus"=>1
 		);
-		$map['goodsStock']  = array('gt',0);//库存大于0
+//		$map['goodsStock']  = array('gt',0);//库存大于0
 		
-		return $this->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
+		$list = $this->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsStock, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
 			->join('g inner join __SHOPS__ s on s.shopId = g.shopId')
 			->join(' inner join cky_goods_like gl on gl.goodsId = g.goodsId')
 			->where($map)->order('gl.sort desc,g.createTime')->page($pageNo, $pageSize)->select();
+			
+//		echo $this->getLastSql();
+		return $list;
 	}
 	
 	public function reduceStock($goodsId, $count) {
@@ -238,7 +241,7 @@ class GoodsModel extends BaseModel {
 		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
 		
 		$list = $this
-			->field("g.goodsId, goodsSn, shopName, goodsName, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec, round(totalScore / 3.0 / totalUsers, 2) score")
+			->field("g.goodsId, goodsSn, shopName, goodsName, goodsStock, goodsThums, shopPrice, goodsUnit, saleCount, shopCatId1, goodsSpec, round(totalScore / 3.0 / totalUsers, 2) score")
 			->join("g inner join __SHOPS__ s on s.shopId = g.shopId")
 			->join("LEFT JOIN __GOODS_SCORES__ gc on g.goodsId = gc.goodsId")
 			->where($filter)->order($order)->page($pageNo, $pageSize)->select();;

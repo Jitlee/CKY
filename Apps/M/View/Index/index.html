@@ -68,7 +68,12 @@
 		<!-- ko foreach: $data -->
 		<a class="cky-table-view-cell" data-bind="attr: { href: '{:U('goods/detail')}?id=' + goodsId }">
 			<div class="cky-table-cell-thumb cky-free-reserve" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }">
-				
+				<!-- ko if: goodsStock == 0 -->
+				<div class="cky-sold-out">
+					<div class="cky-sold-out-title">抢光了</div>
+					<div class="cky-sold-out-sub">SOLD OUT</div>
+				</div>
+				<!-- /ko -->
 			</div>
 			<div class="cky-media">
 				<span class="cky-media-name font15" data-bind="text: goodsName"></span>

@@ -86,10 +86,16 @@
 				<!-- 相关产品 -->
 				<div class="mui-content-padded">
 					<ul id="goodsList" class="cky-table-view" style="display: none;">
-						<!-- ko foreach: $data -->
+						<!-- ko foreach: goods -->
 						<li class="cky-table-view-cell">
-							<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+							<a data-bind="click: $parent.click">
 								<div class="cky-table-cell-thumb" data-bind="style: { backgroundImage: 'url(/'+ goodsThums +')' }">
+									<!-- ko if: goodsStock == 0 -->
+									<div class="cky-sold-out">
+										<div class="cky-sold-out-title">抢光了</div>
+										<div class="cky-sold-out-sub">SOLD OUT</div>
+									</div>
+									<!-- /ko -->
 								</div>
 								<div class="cky-media">
 									<span class="font16" data-bind="text: goodsName"></span>
@@ -97,7 +103,7 @@
 										
 									</div>
 									<span class="font13">现价<r>¥</r><r class="font16" data-bind="text: shopPrice"></r></span>
-									<h5 class="cky-right"><button class="cky-detail-buy-button">购买</button></h5>
+									<h5 class="cky-right"><button class="cky-detail-buy-button" data-bind="css: { 'cky-sold-out-btn': goodsStock == 0 }">购买</button></h5>
 							    </div>
 						    </a>
 						</li>
@@ -121,7 +127,10 @@
 		var force = true;
 		var pageNo = 1;
 		var goods = [];
-		var vm = ko.observableArray(goods);
+		var vm = {
+			goods: ko.observableArray(goods),
+			click: onclick
+		};
 		ko.applyBindings(vm, document.getElementById("goodsList"));
 		function queryByPage() {
 			if(force) {
@@ -133,10 +142,10 @@
 			
 			if(!isEOF) {
 				var api = "{:U('Goods/ptg', '', '')}";
-				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo }, function(list) {
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo,catId: 4 }, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
-						vm.removeAll();
+						vm.goods.removeAll();
 						goods.length = 0;
 						$("#goodsLoading").hide();
 						$("#goodsList").show();
@@ -146,7 +155,7 @@
 						$.each(list, function() {
 							goods.push(this);
 						});
-						vm(goods);
+						vm.goods(goods);
 					}
 					
 					if(list && list.length < 12) {
@@ -169,6 +178,12 @@
 				$("#item2mobile").empty();
 			}
 		});
+		
+		function onclick(obj, evt) {
+			if(obj.goodsStock > 0) {
+				window.location.href= "{:U('Goods/detail')}?id=" + obj.goodsId;
+			}
+		}
 		
 //		$("#shopshare").click(function(){
 //			cky.toast("请点击右上角分享菜单分享。");

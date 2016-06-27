@@ -108,7 +108,14 @@
 		<div class="mall-search-window-goods mall-goods-table cky-bg-white" data-bind="foreach: goods" style="display: none;">
 			<li class="mall-goods-table-cell">
 				<div class="mui-table">
-					<a class="mall-goods-thumb mui-table-cell" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }"></a>
+					<a class="mall-goods-thumb mui-table-cell" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }">
+						<!-- ko if: goodsStock == 0 -->
+						<div class="cky-sold-out">
+							<div class="cky-sold-out-title">抢光了</div>
+							<div class="cky-sold-out-sub">SOLD OUT</div>
+						</div>
+						<!-- /ko -->
+					</a>
 					<div class="mall-goods-content mui-table-cell">
 						<a data-bind="text: goodsName, attr:{ href: '{:U('Goods/detail')}?id=' + goodsId }" class="mui-ellipsis-2 font14 font-black"></a>
 						<h5 class="font12">销量：<span data-bind="text: saleCount > 9999 ? (Math.round(sale/1000) / 10 + 万笔) : saleCount"></span>笔</h5>
@@ -117,7 +124,7 @@
 								<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
 							</div>
 							<div class="mui-table-cell mui-text-right">
-								<a data-bind="click: $parent.addCartClick" class="cky-add-cart-btn"></a>
+								<a data-bind="click: $parent.addCartClick,css: { 'cky-sold-out-btn': goodsStock == 0 }" class="cky-add-cart-btn"></a>
 							</div>
 						</div>
 					</div>
@@ -273,8 +280,10 @@
 		
 		// 购物车
 		function onaddcartclick(obj, evt) {
-			$(evt.delegateTarget).flyTo(cartButton);
-			cky.addToShopCart(obj);
+			if(obj.goodsStock > 0) {
+				$(evt.delegateTarget).flyTo(cartButton);
+				cky.addToShopCart(obj);
+			}
 		}
 	});
 </script>

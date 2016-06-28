@@ -17,7 +17,7 @@ class GoodsModel extends BaseModel {
 			,"g.isSale"=>1
 			,"g.goodsFlag"=>1
 		);
-		$map['goodsStock']  = array('gt',0);//库存大于0
+//		$map['goodsStock']  = array('gt',0);//库存大于0
 		 
 		// 过滤
 		$shopCatId = intval(I('shopCatId', 0));

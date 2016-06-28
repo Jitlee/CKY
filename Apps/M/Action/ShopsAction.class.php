@@ -80,7 +80,7 @@ class ShopsAction extends BaseAction {
 		
 		$catId = I('catId', 0);
 		if($catId == 1) {
-			$this->display("Fast/Detail");
+			$this->display("Fast/detail");
 		} else {			
 			$this->display();
 		}

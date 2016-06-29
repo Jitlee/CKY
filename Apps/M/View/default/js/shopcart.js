@@ -75,7 +75,10 @@ function ShopCart(pickerId, shop, goods) {
 	function onok() {
 		var _shop = $.extend({}, shop);
 		var _goods = $.extend({}, goods);
+		
+		checkeNum();
 		_goods.count =  parseInt(num.val());
+		
 		calcFreeMoney(_goods);
 		if(cartType == "add") {
 			// 添加到购物车
@@ -108,7 +111,11 @@ function ShopCart(pickerId, shop, goods) {
 	shopCart.open = onopen;
 	shopCart.ok = onok;
 	
-	num.bind("input", function() {
+	num.bind("input", checkeNum).focus(function() {
+		num.select();
+	});
+	
+	function checkeNum() {
 		var count = parseInt(num.val());
 		if(isNaN(count) || count < 1) {
 			count = 1;
@@ -116,9 +123,7 @@ function ShopCart(pickerId, shop, goods) {
 			count = goods.goodsStock;
 		}
 		num.val(count);
-	}).focus(function() {
-		num.select();
-	});
+	}
 }
 
 cky.addToShopCart = function(goods) {

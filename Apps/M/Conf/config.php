@@ -3,7 +3,7 @@ return array(
 	    'SESSION_PREFIX'			=> 'user_', // SESSION前缀配置
 		'COOKIE_PREFIX'			=> 'user_', // COOKIE前缀配置
 		'LAYOUT_ON'				=>	true, // 启用布局
-		'scorerate'				=>500,
+		'scorerate'				=>50,
 		
 		'TMPL_PARSE_STRING' 		=> array( // 模板相关的配置
 			'__JQ__'				=> '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js',

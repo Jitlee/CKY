@@ -14,19 +14,18 @@ class PayBaseAction extends BaseUserAction {
 			$fee_type='RMB';//货币类型
 			 
 			$mMPay = D('M/MemberPay');
-			$dataInfo=$mMPay->GetByPayNo($orderNo);
-			
+			$dataInfo=$mMPay->GetByPayNo($orderNo);			
 			if($dataInfo && $dataInfo["PayType"]=="recharge" && $dataInfo["Status"]==0)	
 			{
-				 $dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
-				 $dataInfo["result_code"]=$result_code.'';
-				 $dataInfo["fee_type"]=$fee_type.'';
-				 $dataInfo["transaction_id"]=$transaction_id.'';
-				 $dataInfo["cash_fee"]=$cash_fee.'';
-				 $dataInfo["Status"]=99;
+				$dataInfo["ChangeTime"]=date('Y-m-d H:i:s');
+				$dataInfo["result_code"]=$result_code.'';
+				$dataInfo["fee_type"]=$fee_type.'';
+				$dataInfo["transaction_id"]=$transaction_id.'';
+				$dataInfo["cash_fee"]=$cash_fee.'';
+				$dataInfo["Status"]=99;
 				 
-				 $cardid=$dataInfo["cardid"];
-				 $result=$mMPay->UpdateRechange($dataInfo,$cardid);
+				$cardid=$dataInfo["cardid"];
+				$result=$mMPay->UpdateRechange($dataInfo,$cardid);
 				 
 				if($result["status"] == 1)//订单支付状态
 				{

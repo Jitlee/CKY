@@ -1,0 +1,28 @@
+<div class="shade">
+	<img src="__IMG__/share.png"  class="simg"/>
+    <a href="javascript:close_fx();" class="close"></a>
+</div>
+<style>
+	.shade a{text-decoration:none;}
+	.share_btn{ width:98%; margin:0 1%; text-align:center; margin-bottom:15px;}
+	.share_btn a{ width:45%; padding:10px 0;display:inline-block;color:#333; background:#fff; border:#dedede solid 1px; border-radius:5px; text-align:center;box-shadow:rgba(0,0,0,0.2) 0 0 2px;}
+	
+	.shade{ background:#000;opacity:0.8; height:100%; width:100%; position:fixed; display:none; top:0; left:0; z-index:9999; }
+	.simg{ position:relative; z-index:9999; top:5px; width:100%;}
+	.close{ position:fixed; font-size:28px; color:#fff; z-index:10000; display:block; width:100%; height:100%; left:0; top:0;}
+</style>
+<script>
+$(function(){
+	$(".icon-share").click(function(){
+		$(".shade").fadeToggle(1000);
+	});
+});
+function fenxiang(){
+	$(".shade").fadeToggle();
+}
+
+function close_fx(){
+	$(".shade").fadeToggle();
+}
+</script>
+

@@ -7,12 +7,9 @@
 	<h1 id="title" class="mui-title">
 		{$title}
 	</h1>
-	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
+	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}" style="right: 8px">
 		<i class="iconfont icon-gouwuche font24"></i>
 	</a>
-	<button class="mui-btn mui-btn-link mui-pull-right">
-		<i class="iconfont icon-sousuo font24"></i>
-	</button>
 </header>
 <div class="mui-content">
 	<div class="cky-head-img" style="background-image: url(/{$data.headerImg});">
@@ -89,10 +86,16 @@
 				<!-- 相关产品 -->
 				<div class="mui-content-padded">
 					<ul id="goodsList" class="cky-table-view" style="display: none;">
-						<!-- ko foreach: $data -->
+						<!-- ko foreach: goods -->
 						<li class="cky-table-view-cell">
-							<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+							<a data-bind="click: $parent.click">
 								<div class="cky-table-cell-thumb" data-bind="style: { backgroundImage: 'url(/'+ goodsThums +')' }">
+									<!-- ko if: goodsStock == 0 -->
+									<div class="cky-sold-out">
+										<div class="cky-sold-out-title">抢光了</div>
+										<div class="cky-sold-out-sub">SOLD OUT</div>
+									</div>
+									<!-- /ko -->
 								</div>
 								<div class="cky-media">
 									<span class="font16" data-bind="text: goodsName"></span>
@@ -100,7 +103,7 @@
 										
 									</div>
 									<span class="font13">现价<r>¥</r><r class="font16" data-bind="text: shopPrice"></r></span>
-									<h5 class="cky-right"><button class="cky-detail-buy-button">购买</button></h5>
+									<h5 class="cky-right"><button class="cky-detail-buy-button" data-bind="css: { 'cky-sold-out-btn': goodsStock == 0 }">购买</button></h5>
 							    </div>
 						    </a>
 						</li>
@@ -116,6 +119,7 @@
 		</div>
 	</div>
 </div>
+<include file="Public:share"/>
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript">
 	$(function() {
@@ -123,7 +127,10 @@
 		var force = true;
 		var pageNo = 1;
 		var goods = [];
-		var vm = ko.observableArray(goods);
+		var vm = {
+			goods: ko.observableArray(goods),
+			click: onclick
+		};
 		ko.applyBindings(vm, document.getElementById("goodsList"));
 		function queryByPage() {
 			if(force) {
@@ -135,10 +142,10 @@
 			
 			if(!isEOF) {
 				var api = "{:U('Goods/ptg', '', '')}";
-				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo, catId: 0 }, function(list) {
+				$.getJSON(api, { shopId: "{:I('id')}",pageNo: _pageNo,catId: 4 }, function(list) {
 					util.endScroll();
 					if(_pageNo == 1) {
-						vm.removeAll();
+						vm.goods.removeAll();
 						goods.length = 0;
 						$("#goodsLoading").hide();
 						$("#goodsList").show();
@@ -148,7 +155,7 @@
 						$.each(list, function() {
 							goods.push(this);
 						});
-						vm(goods);
+						vm.goods(goods);
 					}
 					
 					if(list && list.length < 12) {
@@ -172,9 +179,15 @@
 			}
 		});
 		
-		$("#shopshare").click(function(){
-			cky.toast("请点击右上角分享菜单分享。");
-		});
+		function onclick(obj, evt) {
+			if(obj.goodsStock > 0) {
+				window.location.href= "{:U('Goods/detail')}?id=" + obj.goodsId;
+			}
+		}
+		
+//		$("#shopshare").click(function(){
+//			cky.toast("请点击右上角分享菜单分享。");
+//		});
 		
 	});
 	

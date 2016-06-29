@@ -5,13 +5,32 @@
 	  </button>
 	  <h1 class="mui-title">{$title}</h1>
 </header>
-<div class="mui-content">
- 
+<div class="mui-content mui-content-bottom">
+	<form>
+		<ul class="mui-table-view"> 
+				<li class="mui-table-view-cell">
+							<span>手机号</span>
+							<div  class="cellinfo-right" >{$Mobile}</div>
+				</li>
+		</ul>
+		<div class="mui-content-padded">
+			<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">更换手机号</button>
+		</div>
+	</form>	
 </div>
 <include file="Public:tab"/>
 <link rel="stylesheet" href="__CSS__/{:autoVer('person-comm.css')}" />
-<script>
+<script type="text/javascript">
+	 //表单提交
+	$(document).ajaxStart(function() {
+		$("button:submit").attr("disabled", true);
+	}).ajaxStop(function() {
+		$("button:submit").attr("disabled", false);
+	});
+	
 	$(function() {
-				
+		$("#btnsave").click(function() {
+			window.location.href = "{:U('Personitem/mobilenew','','')}";
+		});
 	});
 </script>

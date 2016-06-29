@@ -230,8 +230,14 @@ class PersonAction extends BaseUserAction {
 	}
 	/*绑定手机*/
  	public function bindmobile(){
-		$this->assign('title', "绑定手机");		
-		$this->display();
+		$openid=$this->GetOpenid();
+		$mMember = D('M/Member');
+		$result=$mMember->GetByOpenid($openid); 
+		$Mobile=$result["Mobile"];
+		 
+		$this->assign('Mobile', $Mobile);
+		$this->assign('title', "绑定手机");
+		$this->display();	
 	}
 	/*我的收藏*/
  	public function favor()	{
@@ -290,5 +296,7 @@ class PersonAction extends BaseUserAction {
 		$this->assign('title', '优惠券');
 		$this->display();
 	}
+	
+	 
 	
 }

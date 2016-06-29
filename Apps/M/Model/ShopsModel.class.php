@@ -132,5 +132,44 @@ class ShopsModel extends BaseModel {
 //		echo $this->getLastSql();
 		return $list;
 	}
+
+	public function search(){
+     	$pageSize = 12;
+		$pageNo = intval(I('pageNo', 1));
+		$catId = intval(I('catId', 0));
+		$areaId = intval(I('areaId', 0));
+		$lng = floatval(I('lng', 0));
+		$lat = floatval(I('lat', 0));
+		$distance = floatval(I('distance', 0));
+		$order = "shopId desc";
+		$filter = 'shopStatus = 1 and shopFlag = 1';
+		$keywords = I('keywords', "-");
+		if($keywords == "-") {
+			return null;
+		}
+		
+		$filter = array(
+			"shopStatus"		=> 1,
+			"shopFlag"		=> 1,
+			"plateId1"		=> 4,
+			"shopName"		=> array("like", "%$keywords%")
+		);
+		
+		$field = "s.shopId,shopSn,shopName,replace(shopImg, '.', '_thumb.') shopImg,shopTel,
+			latitude,longitude,deliveryOff,shopAddress,gc.catName";
+		if($lng > 0 && $lat > 0) {
+			$field .= sprintf(',SQRT(POW(%f - latitude, 2) + POW(%f - longitude, 2))',
+				$lat, $lng).' distance';
+		} else {
+			$field .= ',0 distance';
+		}
+		
+		$list = $this->field($field)
+			->join('s INNER JOIN __SHOP_PLATES__ sp on sp.shopId = s.shopId')
+			->join('INNER JOIN __GOODS_CATS__ gc on gc.catId = sp.plateId2')
+			->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
+	 }
 };
 ?>

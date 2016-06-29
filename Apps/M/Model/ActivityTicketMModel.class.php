@@ -15,14 +15,35 @@ class ActivityTicketMModel extends BaseModel {
 	 */
 	public function pick($ticketId, $uid) {
 		//查询卡券信息
-		$map = array('ticketID'	=> $ticketId);
+//		$ticketId = I('ticketId');
+		$map = "ticketID='$ticketId'";
 		$mtick= M('activity_ticket');
-		$mtickobj =$mtick->where($map)->find();
-		
+		$mtickobj =$mtick->where($map)->find();		
 		$rd = array('status'=>-1);
+//		$rd["msg"]=$ticketId;
+//		$mtickobj=$mtickobj[0];
+//		return $map;
 		if($mtickobj)
 		{
 			$isone=(int)$mtickobj["IsOneCardyTick"];
+			$needPoint=(int)$mtickobj["needPoint"];
+			$data=session("MemberItem");
+			$EnablePoint=(int)$data["EnablePoint"];
+			$CardId=$data["CardId"];
+			 
+			if($needPoint>0)
+			{
+				if($EnablePoint<$needPoint)
+				{
+					$rd['status']=-5;
+					return $rd;
+				}
+				$mOneCard = D('M/OneCardTick');
+				$res=$mOneCard->PayScore($CardId,$needPoint);
+				if($res["status"] != 0){
+					 return $res;
+				}
+			}
 			if($isone==1)
 			{
 				$m = D('M/OneCardTick');
@@ -48,6 +69,8 @@ class ActivityTicketMModel extends BaseModel {
 						//更新认领
 						$sql="update cky_activity_ticket set sendCount=sendCount+1 where ticketID = '".$ticketId."' ";	
 						$ret = $this->query($sql);
+						
+						// TODO: 更新积分
 					}
 				}
 				return $ret;	
@@ -97,6 +120,13 @@ class ActivityTicketMModel extends BaseModel {
 		);
 		$data['ticketMStatus'] = $status;
 		return $this->where($map)->save($data);
+	}
+
+	public function isScoreBalance($uid, $ticketId) {
+		$sql = "select (select needPoint from `cky_activity_ticket` where `ticketId` = '$ticketId') need,(select EnablePoint from cky_member where uid=$uid) have";
+		$list = $this->query($sql);
+		$data = $list[0];
+		return (int)$data["need"] <= (int)$data["have"];
 	}
 };
 ?>

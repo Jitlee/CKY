@@ -13,10 +13,11 @@ class IndexAction extends Controller {
 	 
 		
 	public function index() {
-		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') == false) {  
-	        $openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
-			session('openid',$openid);
-	    }    
+//		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') == false) {  
+////	        $openid="orSWIvz7Ot-dIpP1kMSs3tnftz6Q";
+//			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
+//			session('openid',$openid);
+//	    }    
 		  
 		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
 			//try_login();

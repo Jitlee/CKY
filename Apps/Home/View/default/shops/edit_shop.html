@@ -1,14 +1,6 @@
 <extend name="./Apps/Home/View/default/shops/layout.html" />
 <block name="content">
-<style>
-.ATRoot{height:22px;line-height:22px;margin-left:5px;clear:both;cursor:pointer;}
-.ATNode{margin-left:5px;line-height:22px;margin-left:17px;clear:both;cursor:pointer;}
-.Hide{display:none;}
-dl.areaSelect{padding:0 5px; display: inline-block; width:100%; margin-bottom: 0;/*border:1px solid #eee;*/}
-dl.areaSelect:hover{border:1px solid #E5CD29;}
-dl.areaSelect:hover dd{display: block;}
-dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
-</style>
+
 
 <script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
 <script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
@@ -54,7 +46,7 @@ $(function () {
 		KindEditor.ready(function(K) {
 			editor1 = K.create('textarea[name="shopDesc"]', {
 				height:'250px',
-				width:"800px",
+				width:"700px",
 				allowFileManager : false,
 				allowImageUpload : true,
 				items:[
@@ -95,6 +87,16 @@ function ShopMapInit(option){
 }
 var filetypes = ["gif","jpg","png","jpeg"];
 </script>
+<style>
+.ATRoot{height:22px;line-height:22px;margin-left:5px;clear:both;cursor:pointer;}
+.ATNode{margin-left:5px;line-height:22px;margin-left:17px;clear:both;cursor:pointer;}
+.Hide{display:none;}
+dl.areaSelect{padding:0 5px; display: inline-block; width:100%; margin-bottom: 0;/*border:1px solid #eee;*/}
+dl.areaSelect:hover{border:1px solid #E5CD29;}
+dl.areaSelect:hover dd{display: block;}
+dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
+th{ font-size: 14px;}
+</style>
    <div class="rtc-body"> 
        <div class='rtc-page-header'>商家中心 > 商家资料</div>
        <div class='rtc-page-content' style="position:relative;">
@@ -120,10 +122,11 @@ var filetypes = ["gif","jpg","png","jpeg"];
        <form name="myform" method="post" id="myform" autocomplete="off">
         <input type='hidden' id='id' value='{$object.shopId}'/>
        
-        <table class="table table-hover table-striped table-bordered rtc-form">
+        <table class="table table-hover table-striped table-bordered rtc-form" style="width: 970px;">
+        	
            <tr>
              <th width='150px' align='right'>商家名称<font color='red'>*</font>：</th>
-             <td><input type='text' id='shopName' class="form-control rtc-ipt" value='{$object.shopName}' style='width:250px;' maxLength='25'/></td>
+             <td > <input type='text' id='shopName' class="form-control rtc-ipt" value='{$object.shopName}' style='width:250px;' maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>店主姓名<font color='red'>*</font>：</th>
@@ -223,7 +226,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <td><input type='text' id='avgeCostMoney' class="form-control rtc-ipt" value='{$object.avgeCostMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
            </tr>
            <tr>
-             <th align='right'>最低折扣(0~1之间)<font color='red'>*</font>：</th>
+             <th align='right'>最低折扣(0~10之间)<font color='red'>*</font>：</th>
              <td><input type='text' id='deliveryOff' class="form-control rtc-ipt" value='{$object.deliveryOff}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='4'/></td>
            </tr>
            <tr>

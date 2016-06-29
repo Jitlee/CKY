@@ -14,7 +14,7 @@ function ShopCart(pickerId, shop, goods) {
 	var body = $(".cky-goods-picker-body", root);
 	var goodsCount = 1;
 	var cardType = null; // [add|direct]  add是添加到购物车，direct是直接购买
-	var num = $(".num", root).text(goodsCount);
+	var num = $(".num", root).val(goodsCount);
 	var cart = cky.storage.getItem(CACHE_KEY) || {
 		shops: {}
 	};
@@ -25,16 +25,16 @@ function ShopCart(pickerId, shop, goods) {
 	var hasCart = cart.shops[shopId] && cart.shops[shopId].goods[goods.goodsId];
 	if(hasCart) {
 		goodsCount = cart.shops[shopId].goods[goods.goodsId].count;
-		num.text(goodsCount);
+		num.val(goodsCount);
 	}
 	
 	$(".jian", root).click(function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		var $this = $(this);
-		var cnt = Number(num.text()) - 1;
+		var cnt = parseInt(num.val()) - 1;
 		if(cnt > 0) {
-			num.text(cnt);
+			num.val(cnt);
 		}
 	});
 	
@@ -42,9 +42,9 @@ function ShopCart(pickerId, shop, goods) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		var $this = $(this);		
-		var cnt = Number(num.text()) + 1;
+		var cnt = parseInt(num.val()) + 1;
 		if(cnt <= goods.goodsStock) {
-			num.text(cnt);
+			num.val(cnt);
 		}
 	});
 	
@@ -75,7 +75,10 @@ function ShopCart(pickerId, shop, goods) {
 	function onok() {
 		var _shop = $.extend({}, shop);
 		var _goods = $.extend({}, goods);
-		_goods.count =  Number(num.text());
+		
+		checkeNum();
+		_goods.count =  parseInt(num.val());
+		
 		calcFreeMoney(_goods);
 		if(cartType == "add") {
 			// 添加到购物车
@@ -107,6 +110,20 @@ function ShopCart(pickerId, shop, goods) {
 	
 	shopCart.open = onopen;
 	shopCart.ok = onok;
+	
+	num.bind("input", checkeNum).focus(function() {
+		num.select();
+	});
+	
+	function checkeNum() {
+		var count = parseInt(num.val());
+		if(isNaN(count) || count < 1) {
+			count = 1;
+		} else if(count > goods.goodsStock) {
+			count = goods.goodsStock;
+		}
+		num.val(count);
+	}
 }
 
 cky.addToShopCart = function(goods) {

@@ -74,12 +74,16 @@
 				<thead>
 					<tr>
 						<th width='30'>序号</th>
-						<th width='80'>商家名称</th>
-						<th width='80'>商家编号</th>
-						<th width='80'>订单数</th>
-						<th width='80'>总金额</th>
+						<th>商家名称</th>
+						<th>商家编号</th>
+						<th>订单数</th>
+						<th>总金额</th>
 						<th width='80'>实付款</th>
+						<th width='80'>在线支付</th>
+						<th width='80'>余额支付</th>
+						<th width='80'>积分抵扣</th>
 					</tr>
+ 
 				</thead>
 				<tbody>
 					<volist name="Page['root']" id="vo" key='i'>
@@ -90,6 +94,10 @@
 							<td>{$vo['ordersCount']}</td>
 							<td>{$vo['totalMoney']}</td>
 							<td>{$vo['realPay']}</td>
+							
+							<td>{$vo['netpayamount']}</td>
+							<td>{$vo['accountmoney']}</td>
+							<td>{$vo['accountscoremoney']}</td>
 						</tr>
 					</volist>
 					<tr>

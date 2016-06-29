@@ -14,7 +14,7 @@
 		<i class="mui-icon mui-icon-left-nav" style="color: #ED7D31;"></i>
 	</button>
 	<h1 id="title" class="mui-title" style="color: #ED7D31;">{$title}</h1>
-	<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang" style="color: #ED7D31;"></i></button>
+	<!--<button class="mui-btn mui-btn-link mui-pull-right"><i class="iconfont icon-fenxiang" style="color: #ED7D31;"></i></button>-->
 </header>
 <div class="mui-content mui-content-bottom">
 	<if condition="$data['ticketId']">
@@ -24,7 +24,13 @@
 					<img class="mui-media-object mui-pull-left" src="<if condition="$data.strhttp neq 'http'">/</if>{$data.imagePath}">
 					<div class="mui-media-body">
 						{$data.title}
-						<p class='mui-ellipsis'>{$data.content}</p>
+						<if condition="$data.needPoint gt 0">
+							<span class="font12 font-gray"><i class="iconfont icon-jifen"></i>{$data.needPoint}</span>
+						</if>
+						<p class='mui-ellipsis'>
+							{$data.content}
+							
+						</p>
 					</div>
 					
 					<if condition="$data.isReceived eq 1 and $data.toolate eq 1">
@@ -32,7 +38,7 @@
 					<elseif condition="$data.isReceived eq 1 and $data.tooearly eq 1"/>
 						<button id="btnTicket" class="mui-btn" data-picked="false" disabled="disabled" data-tid="{$data.ticketId}">敬请期待</button>
 					<elseif condition="$data.isReceived eq 1 and $data.sendCount lt $data.totalCount and $data.totalCount gt 0"/>
-						<button id="btnTicket" class="mui-btn" data-picked="false" data-tid="{$data.ticketId}">点击领取</button>
+						<button id="btnTicket" class="mui-btn" data-picked="false" data-tid="{$data.ticketId}" data-point="{$data.needPoint}">点击领取</button>
 					<elseif condition="$data.isReceived eq 0"/>
 						<i class="ticket-empty iconfont icon-yilingqu"></i>
 						<button id="btnTicket" class="mui-btn" data-picked="true" data-tid="{$data.ticketId}">查看详情</button>
@@ -51,27 +57,52 @@
 <script type="text/javascript">
 	
 	$(function(){
+		var myScore = Number("{$score}");
 		var btnTicket = $("#btnTicket").click(function() {
 			if(btnTicket.data("picked")) {
 				window.location.href="{:U('Activity/coupondetail')}?id=" + btnTicket.data("tid");
 			} else {
-				var ll = cky.loadding();
-				$.post("{:U('Activity/pick')}", { ticketId: btnTicket.data("tid") }, function(result) {
-					cky.close(ll);
-					console.log(result);
-					if(result == 1) {
-						cky.toast("领券成功");
-						btnTicket.text("查看详情");
-						btnTicket.data("picked", true);
-					} else if(result == -2) {
-						cky.toast("做人不能贪心，你已经领取过了^_^")
-					} else if(result == -3) {
-						cky.toast("此券还是留给新人吧^_^");
+				var need =  Number(btnTicket.data("point"));
+				if(need > 0) {
+					if(myScore > need) {
+						layer.open({
+						    content: '领取此卷需要积分' + need + "，当前积分："+ myScore,
+						    btn: ['确认', '取消'],
+						    shadeClose: false,
+						    yes: function(){
+						        pick();
+						    }, no: function(){
+						        
+						    }
+						});
 					} else {
-						cky.toast("领券失败");
+						cky.toast("积分不足，当前积分: " + myScore);
 					}
-				});
+				} else {
+					pick();
+				}
 			}
 		});
+		
+		function pick() {
+			var ll = cky.loadding();
+			$.post("{:U('Activity/pick')}", { ticketId: btnTicket.data("tid") }, function(result) {
+				cky.close(ll);
+				console.log(result);
+				if(result == 1) {
+					cky.toast("领券成功");
+					btnTicket.text("查看详情");
+					btnTicket.data("picked", true);
+				} else if(result == -2) {
+					cky.toast("做人不能贪心，你已经领取过了^_^")
+				} else if(result == -3) {
+					cky.toast("此券还是留给新人吧^_^");
+				} else if(result == -5) {
+					cky.toast("积分不足");
+				} else {
+					cky.toast("领券失败");
+				}
+			});
+		}
 	});
 </script>

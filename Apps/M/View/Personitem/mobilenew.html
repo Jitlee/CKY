@@ -1,0 +1,124 @@
+<header class="mui-bar mui-bar-nav">
+	  <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-left" onclick="history.go(-1)">
+			<span class="mui-icon mui-icon-left-nav" ></span>
+	    	返回
+	  </button>
+	  <h1 class="mui-title">{$title}</h1>
+</header>
+<div class="mui-content mui-content-bottom">
+	<form>
+		<div class="cky-back">
+			<b>我的手机号：{$Mobile}</b>
+		</div>
+		<div class="mui-input-group">
+				<div class="mui-input-row">
+					<label>新手机号</label>
+					<input id='mobile' type="text" name="mobile" class="mui-input-clear mui-input" maxlength="11" required placeholder="请输入您的新手机号">
+				</div>
+				<div class="mui-input-row">
+						<label>验证码</label>
+						<input id='txtverycode' type="text"  name="verycode"  class=" mui-input"  maxlength="6" required placeholder="请输入验证码">
+						<button id='btngetverycode' type="button" class="verifycode mui-btn">获取</button>
+				</div>
+		</div>
+		<div class="mui-content-padded">
+			<button id='btnsave' type="button" class="mui-btn mui-btn-block mui-btn-primary">保存</button>
+		</div>
+	</form>	
+</div>
+<include file="Public:tab"/>
+<style type="text/css">
+	.mui-input-group {margin-top: 5px;}
+	.mui-input-group:first-child {
+		margin-top: 20px;
+	}
+	.mui-input-group label {
+		width: 28%;
+	}
+	.mui-input-row label~input,
+	.mui-input-row label~select{
+		width: 70%;
+	}		
+	.mui-input-row label{
+		padding: 13px 10px;
+	}
+	.mui-input-row .mui-btn{
+		padding: 10px 3px; min-width: 70px;
+	}
+	.verifycode{  position: absolute; right: 3px; }
+	.cky-back{ 
+		padding: 5px 15px;
+		margin-top: 8px;
+	}
+ </style>
+<script type="text/javascript">
+	 //表单提交
+	$(document).ajaxStart(function() {
+		$("button:submit").attr("disabled", true);
+	}).ajaxStop(function() {
+		$("button:submit").attr("disabled", false);
+	});
+	
+	$(function() {
+		$("#btnsave").click(function() {
+			if($("#mobile").val().length !=11)
+ 			{
+ 				util.msg("请输入正确的手机号码。");
+ 				return false;
+ 			}
+ 			if($("#txtverycode").val().length <4)
+ 			{
+ 				$("#txtverycode").focus();
+ 				util.msg("请输入正确验证码。");
+ 				return false;
+ 			}
+			var self = $("form");
+			$.post("{:U('Personitem/mobilenew','','')}", self.serialize(), changeSuccess, "json");
+			return false;
+			function changeSuccess(data) {
+				if (data.status==1) {
+					util.msg("保存成功。");
+					window.location.href = "{:U('Person/userinfo','','')}";
+				} else {
+					util.msg(data.message);
+				}
+			}
+		});
+		
+		$("#btngetverycode").click(function(){
+			  var mobile=$("#mobile").val();
+			  if(mobile.length <11)
+	 			{
+	 				util.msg("请输入正确的手机号码。");
+	 				return false;
+	 			}
+			  var murl="{:U('Verifycode/Send','','')}?mobile="+mobile+'&v'+ Math.round() * 100;
+				$.post(murl, null, sendverifycode, "json");
+				return false;
+		});
+		
+		function sendverifycode(data) {				 
+				if (data && data.status==1) {
+						util.msg("验证码已发送.");						
+						
+						var i = 60;
+						var senda=$("#btngetverycode");
+						var time1=setInterval(function(){
+							if(i>0){
+								senda.html('重发('+i+")");
+								i--;
+								senda.attr("disabled", "disabled");
+							}
+							else
+							{
+								senda.html('重发');
+								senda.removeAttr("disabled");
+								clearInterval(time1);
+							}
+						},1000);
+						
+				}
+		}//end success
+		
+	});
+</script>

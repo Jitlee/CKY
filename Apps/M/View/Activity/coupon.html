@@ -193,7 +193,7 @@
 	}
 	
 </style>
-<header class="mui-bar mui-bar-nav mui-nav-white">
+<header class="mui-bar mui-bar-nav">
 	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
@@ -232,7 +232,12 @@
 		<!-- ko foreach: list -->
 		<div class="ticket cky-relative">
 			<div class="cky-relative ticket-title">
-				<div class="cky-ellipsis font14" data-bind="text: title"></div>
+				<div class="cky-ellipsis font14">
+					<span data-bind="text: title"></span>
+					<!-- ko if: needPoint > 0 -->
+					<span class="font-gray"><i class="iconfont icon-jifen"></i><span data-bind="text: needPoint"></span></span>
+					<!-- /ko -->
+				</div>
 				<div class="cky-update font12">已领取<span class="ticket-percent" data-bind="text: Math.round(sendCount * 100 / totalCount)"></span>%</div>
 			</div>
 			<div class="ticket-border cky-relative" data-bind="click: $parent.click, css: getTicketClass(totalCount, sendCount, isReceived, onlyNewUser)">
@@ -317,8 +322,9 @@
 		}
 		return css;
 	}
-	
+	var ticketID="";
 	$(function(){
+		var myScore = Number("{$score}");
 		var coupons = [];
 		var isEOF = false;
 		var force = true;
@@ -328,6 +334,11 @@
 			list: ko.observableArray(coupons)
 		};
 		ko.applyBindings(vm, document.getElementById("couponList"));
+		
+		if(!(myScore > 0)) {
+			myScore = 0;
+		}
+		
 		function queryByPage() {
 			if(force) {
 				pageNo = 1;
@@ -354,6 +365,7 @@
 							this.ticketAmount = Number(this.ticketAmount);
 							this.totalCount = Number(this.totalCount);
 							this.sendCount = Number(this.sendCount);
+							this.needPoint = Number(this.needPoint);
 							this.maxiConsumption = Number(this.maxiConsumption);
 							this.miniConsumption = Number(this.miniConsumption);
 							coupons.push(this);
@@ -375,34 +387,28 @@
 		util.onScrollEnd(queryByPage);
 		
 		// 领取事件
-		function onclick(obj, evt) {
+		
+		function onclick(obj, evt) {	
+			ticketID=obj.ticketID;
 			if(!this.isReceived && this.totalCount > this.sendCount) {
-				// 待领取
-				var ll = cky.loadding();
-				$.post("{:U('pick')}", { ticketId: this.ticketID }, function(result) {
-					cky.close(ll);
-					console.log(result);
-					util.endScroll();
-					if(result == 1) {
-						var $this = $(evt.delegateTarget);
-						cky.toast("领券成功");
-						// 重新计算 100%;
-						var percent = Math.round((obj.sendCount + 1) * 100 / obj.totalCount);
-						$(".ticket-percent", $this.parent()).text(percent);
-						$this.prepend("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
-						$this.addClass("ticket-received");
-						$(".ticket-btn", $this).show().text(obj.typeName == "djq" ? "立即使用" : "查看详情");
-						$(".ticket-nav", $this).show();
-						obj.isReceived = true;
-						obj.sendCount++;
-					} else if(result == -2) {
-						cky.toast("做人不能贪心，你已经领取过了^_^")
-					} else if(result == -3) {
-						cky.toast("此券还是留给新人吧^_^");
+				if(this.needPoint > 0) {
+					if(myScore > this.needPoint) {						 
+						layer.open({
+						    content: '领取此卷需要积分' + this.needPoint + "，当前积分："+ myScore,
+						    btn: ['确认', '取消'],
+						    shadeClose: false,
+						    yes: function(){
+						        pick.call(this, obj, evt);
+						    }, no: function(){
+						        
+						    }
+						});
 					} else {
-						cky.toast("领券失败");
+						cky.toast("积分不足，当前积分: " + myScore);
 					}
-				});
+				} else {
+					pick.call(this, obj, evt);
+				}
 			} else if(this.isReceived) {
 				if(this.typeName == "djq") {
 					if(this.limitUseShopId > 0) {
@@ -414,6 +420,40 @@
 					window.location.href = "{:U('Activity/coupondetail')}?id=" + this.ticketID;
 				}
 			}
+		}
+		
+		function pick(obj, evt) {
+			// 待领取
+			var ll = cky.loadding();
+			$.post("{:U('pick')}", { ticketId: ticketID }, function(result) {
+				cky.close(ll);
+				console.log(result);
+				util.endScroll();
+				if(result == 1) {
+					var $this = $(evt.delegateTarget);
+					cky.toast("领券成功");
+					// 重新计算 100%;
+					var percent = Math.round((obj.sendCount + 1) * 100 / obj.totalCount);
+					$(".ticket-percent", $this.parent()).text(percent);
+					$this.prepend("<i class=\"ticket-empty iconfont icon-yilingqu\"></i>");
+					$this.addClass("ticket-received");
+					$(".ticket-btn", $this).show().text(obj.typeName == "djq" ? "立即使用" : "查看详情");
+					$(".ticket-nav", $this).show();
+					obj.isReceived = true;
+					obj.sendCount++;
+					if(obj.needPoint > 0) {
+						myScore -= obj.needPoint;
+					}
+				} else if(result == -2) {
+					cky.toast("做人不能贪心，你已经领取过了^_^")
+				} else if(result == -3) {
+					cky.toast("此券还是留给新人吧^_^");
+				} else if(result == -5) {
+					cky.toast("积分不足，当前积分: " + myScore);
+				} else {
+					cky.toast("领券失败");
+				}
+			});
 		}
 	});
 </script>

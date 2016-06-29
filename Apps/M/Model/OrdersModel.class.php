@@ -31,7 +31,7 @@ class OrdersModel extends BaseModel {
 		$userId = $obj["userId"];
 		 
 		$map = array('o.orderId'	=> $orderid);
-		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, shopName,s.wxopenid, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
+		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, shopName,s.wxopenid,s.wxopenid1,s.wxopenid2, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
 		$group = 'o.orderId';
 		$list = $this->field($field)->join($join)->where($map)
@@ -1212,7 +1212,7 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 订单支付状态
 	 */
-	public function payOrder($orderId ,$payType=0){
+	public function payOrder($orderId ,$netpayamount,$accountmoney,$accountscoremoney,$accountscore,$payType=0){
 		$rst = array('status' => 1);
 		$filter = array();
 		$filter['orderId'] = $orderId;
@@ -1234,6 +1234,11 @@ class OrdersModel extends BaseModel {
 		$data['orderStatus'] = $orderType == 2 ? 6 : 1; // 一元购直接完结商品
 		$data['isPay'] = 1;
 		$data['payType'] = $payType;
+		 
+		$data['netpayamount'] = $netpayamount;
+		$data['accountmoney'] = $accountmoney;
+		$data['accountscoremoney'] = $accountscoremoney;
+		$data['accountscore'] = $accountscore;
 		 
 		if($this->where($filter)->save($data) === FALSE) {
 			$rst['status'] = -302;

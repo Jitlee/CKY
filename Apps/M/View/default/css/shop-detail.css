@@ -109,6 +109,11 @@
 	opacity: 0.8;
 }
 
+
+.cky-sold-out-btn.cky-detail-buy-button {
+	 color: lightgray;
+}
+
 .cky-table-view-cell:first-child {
     border-top: none;
 }

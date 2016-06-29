@@ -27,8 +27,10 @@
 				<div  class="cellinfo-right"  id="erweima"><i class="iconfont  icon-fukuanma font24"></i></div>
 			</li>
 			<li class="mui-table-view-cell">
-				<span>手机号</span>
-				<div  class="cellinfo-right" >{$data.Mobile}</div>
+				<div class=" mui-navigate-right" id="divmobilenew">
+						<span>手机号</span>
+						<div  class="cellinfo-right" >{$data.Mobile}</div>
+				</div>
 			</li>
 	</ul>
 	<ul class="mui-table-view"> 
@@ -39,25 +41,27 @@
 					</div>
 			</li>
 			<li class="mui-table-view-cell">
-					<div class=" mui-navigate-right">
+					<div class=" mui-navigate-right" id="divtruename"> 
 						<span>姓名</span>
 						<div  class="cellinfo-right" >{$data.TrueName}</div>
 					</div>
 			</li>
 			<li class="mui-table-view-cell">
-				<div class=" mui-navigate-right">
+				<div class=" mui-navigate-right" id="divsex">
 						<span>性别</span>						
 						<div class="cellinfo-right" ><if condition="($data.Sex eq 1)">先生<else/>女士</if></div>
 				</div>
 			</li>
 			<li class="mui-table-view-cell">
-				<div class=" mui-navigate-right">
+				<div class=" mui-navigate-right" id="divbirthday">
 						<span>生日</span>
-						<div class="cellinfo-right" ><if condition="($data.IsLunar eq 1)">农历</if>{$data.Birthday}</div>
+						<div class="cellinfo-right" >
+							<!--<if condition="($data.IsLunar eq 1)">农历</if>-->
+							{$data.Birthday}</div>
 				</div>
 			</li>
 			<li class="mui-table-view-cell">
-					<div class=" mui-navigate-right">
+					<div class=" mui-navigate-right" id="divEmail">
 						<span>电子邮件</span>
 						<div  class="cellinfo-right" >{$data.Email}</div>
 					</div>
@@ -81,6 +85,24 @@
 		$("#addresslist").click(function(){
 				window.location.href="{:U('Address/addresslist', '', '')}";
 		});
+		$("#divEmail").click(function(){
+				window.location.href="{:U('Personitem/email', '', '')}";
+		});
+		
+		$("#divtruename").click(function(){
+				window.location.href="{:U('Personitem/truename', '', '')}";
+		});
+		
+		$("#divbirthday").click(function(){
+				window.location.href="{:U('Personitem/birthday', '', '')}";
+		});
+		$("#divsex").click(function(){
+				window.location.href="{:U('Personitem/sex', '', '')}";
+		});
+		$("#divmobilenew").click(function(){
+				window.location.href="{:U('Personitem/mobilenew', '', '')}";
+		});
+		
 			$("#erweima").click(function(){
 					//window.location.href="{:U('Person/erweima', '', '')}";
 					layer.open({

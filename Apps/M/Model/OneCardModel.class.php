@@ -214,6 +214,19 @@ class OneCardModel extends BaseModel {
 		return $this->GetData($url, $data);
 	}
 	
+	/***
+	 * 修改用户信息
+	 * **/
+	public function UpdateMember($carid,$mtype,$content)
+	{
+		$data = array(
+			"cardId"=>$carid
+			,"$mtype"=>$content
+		);
+		
+		$url='OpenApi/Update_Member';		
+		return $this->GetData($url, $data);
+	}
 	
 	function GetData($url,$data)
 	{

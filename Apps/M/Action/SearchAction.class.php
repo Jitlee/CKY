@@ -21,7 +21,7 @@ class SearchAction extends Controller {
 				$msdb = D('MemberSearch');
 				foreach($keywordsArray as $keywords) {
 					$searchId = $sdb->insert(substr($keywords, 0, 20), $mod);
-					echo $sdb->getLastSql();
+//					echo $sdb->getLastSql();
 					$msdb->insert($searchId, $mod, $uid);
 				}
 			}

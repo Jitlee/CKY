@@ -46,7 +46,9 @@ class SearchModel extends BaseModel {
 				'searchKeywords'		=> array('like', $keywordsArray[0].'%'),
     				'searchMod'			=> $mod,
 			);
-			return $this->where($filter)->field('searchKeywords keywords')->order('searchCount desc, updateTime desc')->page(1, 30)->select();
+			$list = $this->where($filter)->field('searchKeywords keywords')->order('searchCount desc, updateTime desc')->page(1, 30)->select();
+//			echo $this->getLastSql();
+			return $list;
 		}
 		return null;
 	}

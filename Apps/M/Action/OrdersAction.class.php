@@ -533,6 +533,12 @@ class OrdersAction extends BaseUserAction {
 		foreach($cartGoods as $key => $cg) {
 			$goodsId = $cg->goodsId;
 			$count = (int)$cg->count;
+			if($count==0) {
+				$result['status']  = -1;
+				$result['data'] = '商品数量错误!';
+				break;
+			}
+			
 			$goods = $mgoods->info($goodsId,$goodsAttrId);
 			if(empty($goods)) {
 				$result['status']  = -1;
@@ -540,20 +546,20 @@ class OrdersAction extends BaseUserAction {
 				break;
 			}
 			
-			if(!empty($goods['miaoshaId']) && intval($goods['goodsStock']) < $count) {
+			if(!empty($goods['miaoshaId']) && intval($goods['shengyurenshu']) < $count) {
 				$result['status']  = -8;
-				$result['data'] = '对不起，商品'.$goods['goodsName'].'剩余人次不足!';
+				$result['data'] = '对不起，商品【'.$goods['goodsName'].'】剩余人次不足!';
 				break;
 			}
 			
-			if(intval($goods['goodsStock']) < $count) {
+			if(empty($goods['miaoshaId']) && intval($goods['goodsStock']) < $count) {
 				$result['status']  = -2;
-				$result['data'] = '对不起，商品'.$goods['goodsName'].'库存不足!';
+				$result['data'] = '对不起，商品【'.$goods['goodsName'].'】库存不足!';
 				break;
 			}
 			if(intval($goods['isSale']) != 1){
 				$result['status']  = -3;
-				$result['data'] = '对不起，商品库'.$goods['goodsName'].'已下架!';
+				$result['data'] = '对不起，商品库【'.$goods['goodsName'].'】已下架!';
 				break;
 			}
 			

@@ -34,13 +34,20 @@
 		}, 100);
 	}
 	
+ 
+
+
 	function oncount() {
 		var now = new Date().getTime() + offset;
 		
 		$.each(countdowns, function(){
+			 
 			var time = this.countdown - now;
+			  
 			if(time > 0) {
+				//alert(time);
 				var _days = Math.floor(time / 24 / 1000 / 3600);
+				 
 				var _hours = Math.floor(time / 1000 / 3600) % 24;
 				var _muintes = Math.floor(time /1000 / 60) % 60;
 				var _seconds = Math.floor(time/1000)%60;

@@ -53,10 +53,11 @@ class GoodsModel extends BaseModel {
 	
 	public function info($goodsId, $goodsAttrId) {
 		$sql = "SELECT g.*,sp.shopId,sp.shopName,sp.deliveryFreeMoney,sp.deliveryMoney,sp.deliveryStartMoney,sp.isInvoice,sp.serviceStartTime startTime,sp.serviceEndTime endTime,sp.deliveryType
-					,mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount
+					,mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount,mi.shengyurenshu
 				FROM __PREFIX__goods g inner join __PREFIX__shops sp on g.shopId = sp.shopId
 					left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId
 					left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid
+					left join cky_miaosha mi on mi.miaoshaId=g.miaoshaId
 				WHERE g.goodsId = $goodsId AND g.isSale=1 AND g.goodsFlag = 1 AND g.goodsStatus = 1";
 		$rs = $this->queryRow($sql);
 //		echo $this->getLastSql();

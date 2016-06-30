@@ -173,7 +173,11 @@ where  goodsId=$goodsId";
 		$miaosha["canyurenshu"] = 0;		//'参与人数',
 		$miaosha["shengyurenshu"] = $zongrenshu;		// '剩余数',		
 		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");		// '即时揭晓',
-		
+		if($miaosha["jishijiexiao"] >0)
+		{
+			$addTime=(int)$miaosha["jishijiexiao"];
+			$miaosha["lastTime"] = date('Y-m-d H:i:s',strtotime("+$addTime hour"));
+		}
 		if($zongrenshu > 100000) {
 			$rd['status']= -2000;
 			$rd['key']= "商品秒杀人次不能大于十万次";
@@ -299,6 +303,12 @@ where  goodsId=$goodsId";
 		$miaosha["zongrenshu"] = $zongrenshu;		//'总人数',
 		$miaosha["shengyurenshu"] = $zongrenshu - $canyurenshu;		// '剩余数',		
 		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");	// '即时揭晓',
+		if($miaosha["jishijiexiao"] >0)
+		{
+			$addTime=(int)$miaosha["jishijiexiao"];
+			$miaosha["lastTime"] = date('Y-m-d H:i:s',strtotime("+$addTime hour"));
+			$miaosha["createTime"] = date('Y-m-d H:i:s');
+		}
 		
 		if($this->checkEmpty($data,true)){
 			$data["goodsKeywords"] =  I("goodsKeywords");

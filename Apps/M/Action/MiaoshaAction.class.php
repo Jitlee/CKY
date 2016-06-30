@@ -100,7 +100,7 @@ class MiaoshaAction extends BaseAction {
 	
 	// 显示参与纪录
 	public function mm() {
-		$this->assign('title', '参与纪录');
+		$this->assign('title', '参与记录');
 		$this->display("Miaosha/member_miaosha");
 	}
 	
@@ -122,8 +122,12 @@ class MiaoshaAction extends BaseAction {
 			$db = D('M/MemberMiaosha');
 			$user = $db->findUserByMmid($mmid);
 		}
+		$prizeCode='';
+		if((int)I('code')>0)
+		{
+			$prizeCode = (C('PRIZE_CODE') + (int)I('code')).'';	
+		}
 		
-		$prizeCode = C('PRIZE_CODE') + (int)I('code');
 		$this->assign('code', $prizeCode);
 		$this->assign('member', $user);
 		
@@ -134,7 +138,7 @@ class MiaoshaAction extends BaseAction {
 		$cnt = $mcdb->cnt();
 		$this->assign('count', $cnt);
 		
-		$this->assign('title', '购买云购码');
+		$this->assign('title', '幸运抽奖码');
 		$this->display("Miaosha/miaosha_code");
 	}
 	
@@ -148,7 +152,7 @@ class MiaoshaAction extends BaseAction {
 	// 我的秒杀纪录
 	public function me() {
 		test_login();
-		$this->assign('title', '秒杀纪录');
+		$this->assign('title', '秒杀记录');
 		$this->display();
 	}
 	

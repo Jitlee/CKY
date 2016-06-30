@@ -69,7 +69,7 @@ $(function() {
 				if(money > 10000) {
 					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+Math.round(money/1000)/10 + "万");
 				} else {
-					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+money);
+					$(".cky-cart-count").removeClass("cky-hidden").text("¥"+Math.round(money * 100) / 100);
 				}
 			}
 		}

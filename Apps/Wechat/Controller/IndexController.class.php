@@ -1,20 +1,22 @@
 <?php
-namespace M\Action;
+namespace Wechat\Controller;
 use Think\Controller;
 use Com\Wechat;
 use Com\WechatAuth;
 
-class WxMsgAction extends Controller{//define("TOKEN", "weixin");
-	public	$WebRoot="http://cky.ritacc.net";
-    public function index()
-    {
-    	$WebRoot="http://cky.ritacc.net";
+class IndexController extends CommonController{
+    /**
+     * 微信消息接口入口
+     * 所有发送到微信的消息都会推送到该操作
+     * 所以，微信公众平台后台填写的api地址则为该操作的访问地址
+     */
+    public function index($id = ''){
         define('APP_DEBUG', false);
         define('ENGINE_NAME','sae');
         //调试
         try{
             $appid = 'wx1b4f89570d3f4976'; //AppID(应用ID)
-            $token = 'weixin'; //微信后台填写的TOKEN
+            $token = 'kenkenken'; //微信后台填写的TOKEN
             $crypt = 'vYJqlXzY8sWgw8QfiIVECnYSpCLI4Y0nRnSogB9fYP2'; //消息加密KEY（EncodingAESKey）
             
             /* 加载微信SDK */
@@ -72,90 +74,10 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         } catch(\Exception $e){
             file_put_contents('./error.json', json_encode($e->getMessage()));
         }
+        
     }
-				
-	    public function valid()
-	    {
-	        $echoStr = $_GET["echostr"];
-	        if($this->checkSignature()){
-	            echo $echoStr;
-	            exit;
-	        }
-	    }
-		
-        public function responseMsg()
-        {
-        		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
-		        if (!empty($postStr)){
-		        	logger($postStr);
-		            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-		            $fromUsername = $postObj->FromUserName;
-		            $toUsername = $postObj->ToUserName;
-		            $keyword = trim($postObj->Content);
-					$EventKey= trim($postObj->EventKey);
-		            $time = time();
-		            $textTpl = "<xml>
-		                        <ToUserName><![CDATA[%s]]></ToUserName>
-		                        <FromUserName><![CDATA[%s]]></FromUserName>
-		                        <CreateTime>%s</CreateTime>
-		                        <MsgType><![CDATA[%s]]></MsgType>
-		                        <Content><![CDATA[%s]]></Content>
-		                        <FuncFlag>0</FuncFlag>
-		                        </xml>";
-					$contentStr=" ";
-					if (!empty($EventKey)){
-						switch($EventKey)
-						{
-							case "introduct": //简介
-								$contentStr="关于简介，它。。。。";
-								break;
-							case "MGOOD":
-								$contentStr="感谢您的支持，我们一定会做得更好。";
-								break;
-							default:
-								$contentStr="需然不知道你说的是什么，相信它一定是对的。\n";
-						}
-					}
-					else
-				 	{
-				 		$contentStr="您说的是：".$keyword;
-				 	}
-		            //$contentStr=$contentStr.$fromUsername.$toUsername;
-		            $strlen=strlen($contentStr);
-		            if(!empty($keyword))
-					{
-		                $msgType = "text";
-		                //$contentStr = date("Y-m-d H:i:s",time());
-		                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-		                echo $resultStr;					
-					}		             
-		        }else{
-		            echo "";
-		            exit;
-		        }
-        }
-
-        private function checkSignature()
-        {
-           $signature = $_GET["signature"];
-	        $timestamp = $_GET["timestamp"];
-	        $nonce = $_GET["nonce"];
-			//define("TOKEN", "weixin");
-	        $token = "weixin";
-	        $tmpArr = array($token, $timestamp, $nonce);
-	        sort($tmpArr);
-	        $tmpStr = implode( $tmpArr );
-	        $tmpStr = sha1( $tmpStr );
-	
-	        if( $tmpStr == $signature ){
-	            return true;
-	        }else{
-	            return false;
-	        }
-        }
-		
-		/**
+    /**
      * DEMO
      * @param  Object $wechat Wechat对象
      * @param  array  $data   接受到微信推送的消息
@@ -188,7 +110,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             $wechat->replyNewsOnce(
                                                 "点击注册送福气！",
                                                 "只需几步即可完成注册", 
-                                                // "$WebRoot/index.php/Home/Public/reg",
+                                                // "http://www.eyuanduobao.com/index.php/Home/Public/reg",
                                                 "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                                 "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                             );  
@@ -200,9 +122,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>1))->getField('kj_id')){
                                             $wechat->replyNewsOnce(
                                                 "[有人@你]您有一台Iphone6S尚未领取",
-                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                                "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                                "$WebRoot/Public/images/kj.png"
+                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                                "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                                "http://www.eyuanduobao.com/Public/images/kj.png"
                                             );
                                             exit();
                                         }
@@ -243,9 +165,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         if($kj_id){
                                               $wechat->replyNewsOnce(
                                                 "[有人@你]您有一台Iphone6S尚未领取",
-                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                                "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                                "$WebRoot/Public/images/kj.png"
+                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                                "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                                "http://www.eyuanduobao.com/Public/images/kj.png"
                                             );   
                                         }
                                         else{
@@ -266,7 +188,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             $wechat->replyNewsOnce(
                                                 "点击注册送福气！",
                                                 "只需几步即可完成注册", 
-                                                // "$WebRoot/index.php/Home/Public/reg",
+                                                // "http://www.eyuanduobao.com/index.php/Home/Public/reg",
                                                 "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                                 "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                             );  
@@ -278,9 +200,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>2))->getField('kj_id')){
                                             $wechat->replyNewsOnce(
                                                 "[有人@你]5万积分等你来拿！!",
-                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                                "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                                "$WebRoot/Public/images/kj2.png"
+                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                                "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                                "http://www.eyuanduobao.com/Public/images/kj2.png"
                                             );
                                             exit();
                                         }
@@ -321,9 +243,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         if($kj_id){
                                               $wechat->replyNewsOnce(
                                                 "[有人@你]5万积分等你来拿！!",
-                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                                "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                                "$WebRoot/Public/images/kj2.png"
+                                                "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                                "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                                "http://www.eyuanduobao.com/Public/images/kj2.png"
                                             );
                                         }
                                         else{
@@ -484,7 +406,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                             $wechat->replyText("您刚刚帮助您的好友[".$rs['nickname']."]砍了".$add_money."元");
                         }
                         $wechat->replyText('哟呵~主子终于等到你，还好我没放屁啊！/示爱/示爱/示爱
-欢迎来到【粗卡】王国游戏王国待会就更新啦，更多消息，请留意我们的微信公众号和新浪微博
+欢迎来到【壹圆购物】王国游戏王国待会就更新啦，更多消息，请留意我们的微信公众号和新浪微博
 请直接点击底部菜单，尽情购物吧！/玫瑰/玫瑰/玫瑰');
                         break;
 
@@ -505,7 +427,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         $wechat->replyNewsOnce(
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
-                                            // "$WebRoot/index.php/Home/Public/reg",
+                                            // "http://www.eyuanduobao.com/index.php/Home/Public/reg",
                                             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
@@ -517,9 +439,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>1))->getField('kj_id')){
                                         $wechat->replyNewsOnce(
                                             "[有人@你]您有一台Iphone6S尚未领取",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj.png"
                                         );
                                         exit();
                                     }
@@ -560,9 +482,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id){
                                           $wechat->replyNewsOnce(
                                             "[有人@你]您有一台Iphone6S尚未领取",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj.png"
                                         );   
                                     }
                                     else{
@@ -583,7 +505,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         $wechat->replyNewsOnce(
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
-                                            // "$WebRoot/index.php/Home/Public/reg",
+                                            // "http://www.eyuanduobao.com/index.php/Home/Public/reg",
                                             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
@@ -595,9 +517,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>2))->getField('kj_id')){
                                         $wechat->replyNewsOnce(
                                             "[有人@你]5万积分等你来拿！!",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj2.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj2.png"
                                         );
                                         exit();
                                     }
@@ -638,9 +560,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id){
                                           $wechat->replyNewsOnce(
                                             "[有人@你]5万积分等你来拿！!",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj2.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj2.png"
                                         ); 
                                     }
                                     else{
@@ -830,7 +752,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         $wechat->replyNewsOnce(
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
-                                            // "$WebRoot/index.php/Home/Public/reg",
+                                            // "http://www.eyuanduobao.com/index.php/Home/Public/reg",
                                             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
@@ -842,9 +764,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>1))->getField('kj_id')){
                                         $wechat->replyNewsOnce(
                                             "[有人@你]您有一台Iphone6S尚未领取",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj.png"
                                         );
                                         exit();
                                     }
@@ -885,9 +807,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id){
                                           $wechat->replyNewsOnce(
                                             "[有人@你]您有一台Iphone6S尚未领取",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj.png"
                                         );   
                                     }
                                     else{
@@ -909,7 +831,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         $wechat->replyNewsOnce(
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
-                                            // "$WebRoot/index.php/Home/Public/reg",
+                                            // "http://www.eyuanduobao.com/index.php/Home/Public/reg",
                                             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
@@ -921,9 +843,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>2))->getField('kj_id')){
                                         $wechat->replyNewsOnce(
                                             "[有人@你]5万积分等你来拿！！",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj2.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj2.png"
                                         );
                                         exit();
                                     }
@@ -964,9 +886,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     if($kj_id){
                                           $wechat->replyNewsOnce(
                                             "[有人@你]5万积分等你来拿！！",
-                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝", 
-                                            "$WebRoot/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
-                                            "$WebRoot/Public/images/kj2.png"
+                                            "此链接是您的专属链接，请分享让朋友帮您砍价，由“壹圆购物”助力夺宝", 
+                                            "http://www.eyuanduobao.com/index.php/Wechat/Kanjia/index?kj_id=".$kj_id,
+                                            "http://www.eyuanduobao.com/Public/images/kj2.png"
                                         );
                                     }
                                     else{
@@ -977,7 +899,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                             }
                             break;
                     default:
-                        // $wechat->replyText("欢迎访问[粗卡]公众平台！您的事件类型：{$data['Event']}，EventKey：{$data['EventKey']}");
+                        // $wechat->replyText("欢迎访问[壹圆购物]公众平台！您的事件类型：{$data['Event']}，EventKey：{$data['EventKey']}");
                         $wechat->replyText("亲，想参与最新0元砍价活动。请点击下方菜单");
                         break;
                 }
@@ -1051,11 +973,10 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
      * @param  string $type 上传的资源类型
      * @return string       媒体资源ID
      */
-    private function upload($type){ 
-		vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
-		$appsecret = \WxPayConfig::APPSECRET;
-		
+    private function upload($type){
+        $appid     = 'wx58aebef2023e68cd';
+        $appsecret = 'bf818ec2fb49c20a478bbefe9dc88c60';
+
         $token = session("token");
 
         if($token){
@@ -1108,27 +1029,27 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         //post
         //数据结构
         $array['button'][0]=array(
-            'name'=>'粗卡',
+            'name'=>'壹圆购物',
             'sub_button'=>array(
                 array(
                         'type' => 'view',
-                        'name' => '粗卡',
-                        'url' => '$WebRoot/index.php/Home?v1=11',
+                        'name' => '壹圆购物',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home?v1=11',
                     ),
                 array(
                         'type' => 'view',
                         'name' => '限时秒杀',
-                        'url' => '$WebRoot/index.php/Home/Jiexiao/index',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home/Jiexiao/index',
                     ),
                 array(
                         'type' => 'view',
                         'name' => '晒单分享',
-                        'url' => '$WebRoot/index.php/Home?v1=11',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home?v1=11',
                     ),
                 array(
                         'type' => 'view',
                         'name' => '最新揭晓',
-                        'url' => '$WebRoot/index.php/Home/Jiexiao/history',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home/Jiexiao/history',
                     ),
                 ),
             );
@@ -1158,17 +1079,17 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 array(
                         'type' => 'view',
                         'name' => '个人中心',
-                        'url' => '$WebRoot/index.php/Home/Person/me',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home/Person/me',
                     ),
                 array(
                         'type' => 'view',
                         'name' => '购物记录',
-                        'url' => '$WebRoot/index.php/Home/Person/me',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home/Person/me',
                     ),
                 array(
                         'type' => 'view',
                         'name' => '新手指导',
-                        'url' => '$WebRoot/index.php/Home/Person/me',
+                        'url' => 'http://www.eyuanduobao.com/index.php/Home/Person/me',
                     ),
                 array(
                         'type' => 'click',
@@ -1215,13 +1136,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 
     //获取菜单
     public function menu(){
-        vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
-		$appsecret = \WxPayConfig::APPSECRET;
-		$wxmsg=new WxUserInfo();
-		$access_token=$wxmsg->accessToken();
-		echo $access_token;
-        $Auth=new WechatAuth($appid,$appsecret,$access_token);
+        $wx_info=C('wx_info');
+        $Auth=new WechatAuth($wx_info['AppID'],$wx_info['Secret'],S('access_token'));
         $rs=$Auth->menuGet();
         print_r($rs);
 
@@ -1329,7 +1245,6 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         // print_r($rs);
     }
 
-		
 
-}
- 
+
+}//end

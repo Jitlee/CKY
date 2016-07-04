@@ -5,7 +5,7 @@ use Com\Wechat;
 use Com\WechatAuth;
 
 class WxMsgAction extends Controller{//define("TOKEN", "weixin");
-	public	$WebRoot="http://cky.ritacc.net";
+	 
     public function index()
     {
     	$WebRoot="http://cky.ritacc.net";
@@ -987,37 +987,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 switch ($data['Content']) {
                     case '联系我们':
                         $wechat->replyText('在这个平台里，你的事就是我的事啦、/得意
-那我将有什么事情还没解决的呢？/可爱 你可以在这里给我们发信息，我们会在工作时间回复您的。/亲亲也可以拨打电话：400-671-6080 /玫瑰/玫瑰/玫瑰');
+那我将有什么事情还没解决的呢？/可爱 你可以在这里给我们发信息，我们会在工作时间回复您的。/亲亲也可以拨打电话：400-680-6180 /玫瑰/玫瑰/玫瑰');
                         break;
-                    // case '图片':
-                    //     //$media_id = $this->upload('image');
-                    //     $media_id = '1J03FqvqN_jWX6xe8F-VJr7QHVTQsJBS6x4uwKuzyLE';
-                    //     $wechat->replyImage($media_id);
-                    //     break;
-
-                    // case '语音':
-                    //     //$media_id = $this->upload('voice');
-                    //     $media_id = '1J03FqvqN_jWX6xe8F-VJgisW3vE28MpNljNnUeD3Pc';
-                    //     $wechat->replyVoice($media_id);
-                    //     break;
-
-                    // case '视频':
-                    //     //$media_id = $this->upload('video');
-                    //     $media_id = '1J03FqvqN_jWX6xe8F-VJn9Qv0O96rcQgITYPxEIXiQ';
-                    //     $wechat->replyVideo($media_id, '视频标题', '视频描述信息。。。');
-                    //     break;
-
-                    // case '音乐':
-                    //     //$thumb_media_id = $this->upload('thumb');
-                    //     $thumb_media_id = '1J03FqvqN_jWX6xe8F-VJrjYzcBAhhglm48EhwNoBLA';
-                    //     $wechat->replyMusic(
-                    //         'Wakawaka!', 
-                    //         'Shakira - Waka Waka, MaxRNB - Your first R/Hiphop source', 
-                    //         'http://wechat.zjzit.cn/Public/music.mp3', 
-                    //         'http://wechat.zjzit.cn/Public/music.mp3', 
-                    //         $thumb_media_id
-                    //     ); //回复音乐消息
-                    //     break;
+                     
 
                     case '图文'://回复单条图文消息
 
@@ -1104,31 +1076,34 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 
     /*构造菜单*/
     public function create_menu(){
-        //https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN
-        //post
+       
+		$wxmsg=new WxUserInfo();
+		$access_token=$wxmsg->accessToken();
+		//echo $access_token;
         //数据结构
+        $WebRoot="http://cky.ritacc.net";
         $array['button'][0]=array(
             'name'=>'粗卡',
             'sub_button'=>array(
                 array(
                         'type' => 'view',
                         'name' => '粗卡',
-                        'url' => '$WebRoot/index.php/Home?v1=11',
+                        'url' => "$WebRoot/index.php/Home?v1=11",
                     ),
                 array(
                         'type' => 'view',
                         'name' => '限时秒杀',
-                        'url' => '$WebRoot/index.php/Home/Jiexiao/index',
+                        'url' => "$WebRoot/index.php/Home/Jiexiao/index",
                     ),
                 array(
                         'type' => 'view',
                         'name' => '晒单分享',
-                        'url' => '$WebRoot/index.php/Home?v1=11',
+                        'url' => "$WebRoot/index.php/Home?v1=11",
                     ),
                 array(
                         'type' => 'view',
                         'name' => '最新揭晓',
-                        'url' => '$WebRoot/index.php/Home/Jiexiao/history',
+                        'url' => "$WebRoot/index.php/Home/Jiexiao/history",
                     ),
                 ),
             );
@@ -1158,17 +1133,17 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 array(
                         'type' => 'view',
                         'name' => '个人中心',
-                        'url' => '$WebRoot/index.php/Home/Person/me',
+                        'url' => "$WebRoot/index.php/Home/Person/me",
                     ),
                 array(
                         'type' => 'view',
                         'name' => '购物记录',
-                        'url' => '$WebRoot/index.php/Home/Person/me',
+                        'url' => "$WebRoot/index.php/Home/Person/me",
                     ),
                 array(
                         'type' => 'view',
                         'name' => '新手指导',
-                        'url' => '$WebRoot/index.php/Home/Person/me',
+                        'url' => "$WebRoot/index.php/Home/Person/me",
                     ),
                 array(
                         'type' => 'click',
@@ -1177,14 +1152,38 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                     ),
                 ),
             );
-        $array=json_encode($array,JSON_UNESCAPED_UNICODE);
+        $data=json_encode($array,JSON_UNESCAPED_UNICODE);
+		 
         // print_r($array);die;
         //创建菜单
-        $rs=post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.S('access_token'),$array);
+        //echo '$array========='. dump( $data);
+		//echo '$array========='.$data;
+        $rs=$this->post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token,$data);
         print_r($rs);
     }
+ 
 
+function post($url, $params) {
+    $ch = curl_init();
+    if(stripos($url, "https://") !== false) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    }
 
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    $content = curl_exec($ch);
+    $status = curl_getinfo($ch);
+    curl_close($ch);
+    if(intval($status["http_code"]) == 200) {
+        return $content;
+    } else {
+        echo $status["http_code"];
+        return false;
+    }
+}
 
     /*创建临时二维码*/
     public function create_qr($openid='',$type=1){
@@ -1220,7 +1219,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$appsecret = \WxPayConfig::APPSECRET;
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
-		echo $access_token;
+		 
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
         $rs=$Auth->menuGet();
         print_r($rs);
@@ -1228,8 +1227,14 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
     }
     //删除菜单
     public function menudel(){
-        $wx_info=C('wx_info');
-        $Auth=new WechatAuth($wx_info['AppID'],$wx_info['Secret'],S('access_token'));
+        vendor('Weixinpay.WxPayJsApiPay');
+		$appid =  \WxPayConfig::APPID;
+		$appsecret = \WxPayConfig::APPSECRET;
+		$wxmsg=new WxUserInfo();
+		$access_token=$wxmsg->accessToken();
+		
+        
+        $Auth=new WechatAuth($appid,$appsecret,$access_token);
         $rs=$Auth->menuDelete();
         print_r($rs);
 

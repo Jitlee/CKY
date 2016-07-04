@@ -230,3 +230,28 @@ function get_user_open_id() {
 	}
 }
 	
+	
+//lib/api.php 里面的方法是：
+function postData($url, $data){
+     
+	$ch = curl_init();
+    if(stripos($url, "https://") !== false) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    }
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    $content = curl_exec($ch);
+    $status = curl_getinfo($ch);
+    curl_close($ch);
+    if(intval($status["http_code"]) == 200) {
+        return $content;
+    } else {
+        echo $status["http_code"];
+        return false;
+    }
+	
+}

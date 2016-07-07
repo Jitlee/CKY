@@ -44,7 +44,7 @@ class WxUserInfo
 		        $data2['access_token'] = $access_token;
 				S("accesstokenkey",$data2,3600);
 	      	}
-			echo $access_token;
+			//echo $access_token;
 			return $access_token;
 	    }
 	    else

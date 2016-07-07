@@ -319,3 +319,71 @@ function newid($length = 36 ) {
 	return $password;
 }
 
+
+
+ /*
+ * HTTP GET Request
+*/
+function get($url, $param = null) {
+    if($param != null) {
+        $query = http_build_query($param);
+        $url = $url . '?' . $query;
+    }   
+    $ch = curl_init();
+    if(stripos($url, "https://") !== false){
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    }   
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+    $content = curl_exec($ch);
+    $status = curl_getinfo($ch);
+    curl_close($ch);
+    if(intval($status["http_code"]) == 200) {
+        return $content;
+    }else{
+        echo $status["http_code"];
+        return false;
+    }   
+}
+
+/*
+ * HTTP POST Request
+*/
+function post($url, $params) {
+    $ch = curl_init();
+    if(stripos($url, "https://") !== false) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    }
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    $content = curl_exec($ch);
+    $status = curl_getinfo($ch);
+    curl_close($ch);
+    if(intval($status["http_code"]) == 200) {
+        return $content;
+    } else {
+        echo $status["http_code"];
+        return false;
+    }
+}
+
+
+/*json stdClass转换处理*/
+function object_array($array){
+      if(is_object($array)){
+        $array = (array)$array;
+      }
+      if(is_array($array)){
+        foreach($array as $key=>$value){
+          $array[$key] = object_array($value);
+        }
+      }
+      return $array;
+}
+

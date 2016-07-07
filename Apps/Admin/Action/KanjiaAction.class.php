@@ -14,7 +14,7 @@ class KanjiaAction extends BaseAction {
 	public function index(){
 		$map['status']=1;
 		$map['type']=1;
-		$list=M('kanjiarule')->where($map)->select();
+		$list=M('kanjiarule')->where($map)->order('kjr_yikan')->select();
 		$this->list=$list;
 		$this->assign('title', '活动金额设置');
 		$this->assign('action', U('index', '', ''));

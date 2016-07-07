@@ -8,161 +8,177 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	 
     public function index()
     {
-    	$WebRoot="http://cky.ritacc.net";
+    	 
         define('APP_DEBUG', false);
         define('ENGINE_NAME','sae');
+		
+		$token = 'weixin'; //微信后台填写的TOKEN
         //调试
         try{
-            $appid = 'wx1b4f89570d3f4976'; //AppID(应用ID)
-            $token = 'weixin'; //微信后台填写的TOKEN
-            $crypt = 'vYJqlXzY8sWgw8QfiIVECnYSpCLI4Y0nRnSogB9fYP2'; //消息加密KEY（EncodingAESKey）
-            
-            /* 加载微信SDK */
-            $wechat = new Wechat($token, $appid, $crypt);
-            
-            /* 获取请求信息 */
-            $data = $wechat->request();
-
-            if($data && is_array($data)){
-                /**
-                 * 你可以在这里分析数据，决定要返回给用户什么样的信息
-                 * 接受到的信息类型有10种，分别使用下面10个常量标识
-                 * Wechat::MSG_TYPE_TEXT       //文本消息
-                 * Wechat::MSG_TYPE_IMAGE      //图片消息
-                 * Wechat::MSG_TYPE_VOICE      //音频消息
-                 * Wechat::MSG_TYPE_VIDEO      //视频消息
-                 * Wechat::MSG_TYPE_SHORTVIDEO //视频消息
-                 * Wechat::MSG_TYPE_MUSIC      //音乐消息
-                 * Wechat::MSG_TYPE_NEWS       //图文消息（推送过来的应该不存在这种类型，但是可以给用户回复该类型消息）
-                 * Wechat::MSG_TYPE_LOCATION   //位置消息
-                 * Wechat::MSG_TYPE_LINK       //连接消息
-                 * Wechat::MSG_TYPE_EVENT      //事件消息
-                 *
-                 * 事件消息又分为下面五种
-                 * Wechat::MSG_EVENT_SUBSCRIBE    //订阅
-                 * Wechat::MSG_EVENT_UNSUBSCRIBE  //取消订阅
-                 * Wechat::MSG_EVENT_SCAN         //二维码扫描
-                 * Wechat::MSG_EVENT_LOCATION     //报告位置
-                 * Wechat::MSG_EVENT_CLICK        //菜单点击
-                 */
-
-                //记录微信推送过来的数据
-                file_put_contents('./data.json', json_encode($data));
-
-                /* 响应当前请求(自动回复) */
-                //$wechat->response($content, $type);
-
-                /**
-                 * 响应当前请求还有以下方法可以使用
-                 * 具体参数格式说明请参考文档
-                 * 
-                 * $wechat->replyText($text); //回复文本消息
-                 * $wechat->replyImage($media_id); //回复图片消息
-                 * $wechat->replyVoice($media_id); //回复音频消息
-                 * $wechat->replyVideo($media_id, $title, $discription); //回复视频消息
-                 * $wechat->replyMusic($title, $discription, $musicurl, $hqmusicurl, $thumb_media_id); //回复音乐消息
-                 * $wechat->replyNews($news, $news1, $news2, $news3); //回复多条图文消息
-                 * $wechat->replyNewsOnce($title, $discription, $url, $picurl); //回复单条图文消息
-                 * 
-                 */
-                
-                //执行Demo
-                $this->demo($wechat, $data);
+            if (isset($_GET['echostr'])) {
+			    $this->valid();
+			}else{ 
+	            
+	            //$this->responseMsg();
+				 
+	            
+	            vendor('Weixinpay.WxPayJsApiPay');
+				$appid =  \WxPayConfig::APPID;
+				$crypt = \WxPayConfig::APPSECRET;
+	            
+	            /* 加载微信SDK */
+	            $wechat = new Wechat($token, $appid, $crypt);
+	            
+	            /* 获取请求信息 */
+	            $data = $wechat->request();
+				
+	            if($data && is_array($data))
+	            {
+	                /**
+	                 * 你可以在这里分析数据，决定要返回给用户什么样的信息
+	                 * 接受到的信息类型有10种，分别使用下面10个常量标识
+	                 * Wechat::MSG_TYPE_TEXT       //文本消息
+	                 * Wechat::MSG_TYPE_IMAGE      //图片消息
+	                 * Wechat::MSG_TYPE_VOICE      //音频消息
+	                 * Wechat::MSG_TYPE_VIDEO      //视频消息
+	                 * Wechat::MSG_TYPE_SHORTVIDEO //视频消息
+	                 * Wechat::MSG_TYPE_MUSIC      //音乐消息
+	                 * Wechat::MSG_TYPE_NEWS       //图文消息（推送过来的应该不存在这种类型，但是可以给用户回复该类型消息）
+	                 * Wechat::MSG_TYPE_LOCATION   //位置消息
+	                 * Wechat::MSG_TYPE_LINK       //连接消息
+	                 * Wechat::MSG_TYPE_EVENT      //事件消息
+	                 *
+	                 * 事件消息又分为下面五种
+	                 * Wechat::MSG_EVENT_SUBSCRIBE    //订阅
+	                 * Wechat::MSG_EVENT_UNSUBSCRIBE  //取消订阅
+	                 * Wechat::MSG_EVENT_SCAN         //二维码扫描
+	                 * Wechat::MSG_EVENT_LOCATION     //报告位置
+	                 * Wechat::MSG_EVENT_CLICK        //菜单点击
+	                 */
+	
+	                //记录微信推送过来的数据
+	                file_put_contents('./data.json', json_encode($data));
+	
+	                /* 响应当前请求(自动回复) */
+	                //$wechat->response($content, $type);
+	
+	                /**
+	                 * 响应当前请求还有以下方法可以使用
+	                 * 具体参数格式说明请参考文档
+	                 * 
+	                 * $wechat->replyText($text); //回复文本消息
+	                 * $wechat->replyImage($media_id); //回复图片消息
+	                 * $wechat->replyVoice($media_id); //回复音频消息
+	                 * $wechat->replyVideo($media_id, $title, $discription); //回复视频消息
+	                 * $wechat->replyMusic($title, $discription, $musicurl, $hqmusicurl, $thumb_media_id); //回复音乐消息
+	                 * $wechat->replyNews($news, $news1, $news2, $news3); //回复多条图文消息
+	                 * $wechat->replyNewsOnce($title, $discription, $url, $picurl); //回复单条图文消息
+	                 * 
+	                 */
+	                
+	                //执行Demo
+	                $this->demo($wechat, $data);
+                }
             }
         } catch(\Exception $e){
             file_put_contents('./error.json', json_encode($e->getMessage()));
         }
     }
 				
-	    public function valid()
-	    {
-	        $echoStr = $_GET["echostr"];
-	        if($this->checkSignature()){
-	            echo $echoStr;
+    public function valid()
+    {
+        $echoStr = $_GET["echostr"];
+        if($this->checkSignature()){
+            echo $echoStr;
+            exit;
+        }
+    }
+		
+    public function responseMsg()
+    {
+    		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+
+	        if (!empty($postStr)){
+	        	logger($postStr);
+	            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+	            $fromUsername = $postObj->FromUserName;
+	            $toUsername = $postObj->ToUserName;
+	            $keyword = trim($postObj->Content);
+				$EventKey= trim($postObj->EventKey);
+	            $time = time();
+	            $textTpl = "<xml>
+	                        <ToUserName><![CDATA[%s]]></ToUserName>
+	                        <FromUserName><![CDATA[%s]]></FromUserName>
+	                        <CreateTime>%s</CreateTime>
+	                        <MsgType><![CDATA[%s]]></MsgType>
+	                        <Content><![CDATA[%s]]></Content>
+	                        <FuncFlag>0</FuncFlag>
+	                        </xml>";
+				$contentStr=" ";
+				if (!empty($EventKey)){
+					switch($EventKey)
+					{
+						case "introduct": //简介
+							$contentStr="关于简介，它。。。。";
+							break;
+						case "MGOOD":
+							$contentStr="感谢您的支持，我们一定会做得更好。";
+							break;
+						default:
+							$contentStr="需然不知道你说的是什么，相信它一定是对的。\n";
+					}
+				}
+				else
+			 	{
+			 		$contentStr="您说的是：".$keyword;
+			 	}
+	            //$contentStr=$contentStr.$fromUsername.$toUsername;
+	            $strlen=strlen($contentStr);
+	            if(!empty($keyword))
+				{
+	                $msgType = "text";
+	                //$contentStr = date("Y-m-d H:i:s",time());
+	                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+	                echo $resultStr;					
+				}		             
+	        }else{
+	            echo "";
 	            exit;
 	        }
-	    }
-		
-        public function responseMsg()
-        {
-        		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+    }
 
-		        if (!empty($postStr)){
-		        	logger($postStr);
-		            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-		            $fromUsername = $postObj->FromUserName;
-		            $toUsername = $postObj->ToUserName;
-		            $keyword = trim($postObj->Content);
-					$EventKey= trim($postObj->EventKey);
-		            $time = time();
-		            $textTpl = "<xml>
-		                        <ToUserName><![CDATA[%s]]></ToUserName>
-		                        <FromUserName><![CDATA[%s]]></FromUserName>
-		                        <CreateTime>%s</CreateTime>
-		                        <MsgType><![CDATA[%s]]></MsgType>
-		                        <Content><![CDATA[%s]]></Content>
-		                        <FuncFlag>0</FuncFlag>
-		                        </xml>";
-					$contentStr=" ";
-					if (!empty($EventKey)){
-						switch($EventKey)
-						{
-							case "introduct": //简介
-								$contentStr="关于简介，它。。。。";
-								break;
-							case "MGOOD":
-								$contentStr="感谢您的支持，我们一定会做得更好。";
-								break;
-							default:
-								$contentStr="需然不知道你说的是什么，相信它一定是对的。\n";
-						}
-					}
-					else
-				 	{
-				 		$contentStr="您说的是：".$keyword;
-				 	}
-		            //$contentStr=$contentStr.$fromUsername.$toUsername;
-		            $strlen=strlen($contentStr);
-		            if(!empty($keyword))
-					{
-		                $msgType = "text";
-		                //$contentStr = date("Y-m-d H:i:s",time());
-		                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-		                echo $resultStr;					
-					}		             
-		        }else{
-		            echo "";
-		            exit;
-		        }
+    private function checkSignature()
+    {
+       $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
+		//define("TOKEN", "weixin");
+        $token = "weixin";
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+
+        if( $tmpStr == $signature ){
+            return true;
+        }else{
+            return false;
         }
-
-        private function checkSignature()
-        {
-           $signature = $_GET["signature"];
-	        $timestamp = $_GET["timestamp"];
-	        $nonce = $_GET["nonce"];
-			//define("TOKEN", "weixin");
-	        $token = "weixin";
-	        $tmpArr = array($token, $timestamp, $nonce);
-	        sort($tmpArr);
-	        $tmpStr = implode( $tmpArr );
-	        $tmpStr = sha1( $tmpStr );
+    }
 	
-	        if( $tmpStr == $signature ){
-	            return true;
-	        }else{
-	            return false;
-	        }
-        }
-		
 		/**
      * DEMO
      * @param  Object $wechat Wechat对象
      * @param  array  $data   接受到微信推送的消息
      */
     private function demo($wechat, $data){
-        $wx_info=C('wx_info');
-        $Auth=new WechatAuth($wx_info['AppID'],$wx_info['Secret'],S('access_token'));
+        vendor('Weixinpay.WxPayJsApiPay');
+		$appid =  \WxPayConfig::APPID;
+		$appsecret = \WxPayConfig::APPSECRET;
+		$wxmsg=new WxUserInfo();
+		$access_token=$wxmsg->accessToken();
+		
+        $Auth=new WechatAuth($appid,$appsecret,$access_token);
         switch ($data['MsgType']) {
             case Wechat::MSG_TYPE_EVENT:
                 switch ($data['Event']) {
@@ -172,7 +188,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         //获取来源者信息
                         $form=$Auth->userInfo($form_openid);
                         //保存关注者信息
-                        if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                        if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                             // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                             M('wx_user')->add($form);
                         }
@@ -180,7 +196,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                          if($data['EventKey']=='kj1'){
                                     //判断是否已经注册
                                     $openid=$data['FromUserName'];
-                                    $user_info=M('member')->where(array('openid'=>$openid))->find();
+                                    $user_info=M('member')->where(array('OpenID'=>$openid))->find();
                                     // $Auth->sendText($openid,$openid);
                                     if(empty($user_info)){
                                         $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定");
@@ -189,7 +205,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                                 "点击注册送福气！",
                                                 "只需几步即可完成注册", 
                                                 // "$WebRoot/index.php/Home/Public/reg",
-                                                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
+                                                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                                 "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                             );  
                                         }
@@ -208,13 +224,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         }
                                         /*保存砍主信息*/
                                         //找到砍主id
-                                        $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                        $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                         // 如果没有获取到该砍主的微信信息
                                         if(empty($wx_id)){
                                             //获取来源者信息
                                             $add_info=$Auth->userInfo($openid);
                                             //保存关注者信息
-                                            if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                                            if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                                                 // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                                 if(M('wx_user')->add($add_info)===false){
                                                     $this->replyText("当前参与活动人数太多，请稍后重试");
@@ -258,7 +274,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                          if($data['EventKey']=='kj2'){
                                     //判断是否已经注册
                                     $openid=$data['FromUserName'];
-                                    $user_info=M('member')->where(array('openid'=>$openid))->find();
+                                    $user_info=M('member')->where(array('OpenID'=>$openid))->find();
                                     // $Auth->sendText($openid,$openid);
                                     if(empty($user_info)){
                                         $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定");
@@ -267,7 +283,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                                 "点击注册送福气！",
                                                 "只需几步即可完成注册", 
                                                 // "$WebRoot/index.php/Home/Public/reg",
-                                                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
+                                                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                                 "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                             );  
                                         }
@@ -286,13 +302,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                         }
                                         /*保存砍主信息*/
                                         //找到砍主id
-                                        $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                        $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                         // 如果没有获取到该砍主的微信信息
                                         if(empty($wx_id)){
                                             //获取来源者信息
                                             $add_info=$Auth->userInfo($openid);
                                             //保存关注者信息
-                                            if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                                            if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                                                 // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                                 if(M('wx_user')->add($add_info)===false){
                                                     $this->replyText("当前参与活动人数太多，请稍后重试");
@@ -346,13 +362,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     exit();
                             }
                             //找出此人的wx_id
-                            $wx_id=M('wx_user')->where(array('openid'=>$form_openid))->getField('wx_id');
+                            $wx_id=M('wx_user')->where(array('OpenID'=>$form_openid))->getField('wx_id');
                             //判断是否已经帮砍过了
                             $is_bangkan=M('bangkan')->where(array('wx_id'=>$wx_id,'kj_id'=>$kanjia_info['kj_id']))->find();
                             if($is_bangkan){
                                 //判断是否注册用户
                                 //如果是注册用户可以再砍一次
-                                $is_register=M('member')->where(array('openid'=>$form_openid))->find();
+                                $is_register=M('member')->where(array('OpenID'=>$form_openid))->find();
                                 if(empty($is_register)){
                                     $wechat->replyText("/玫瑰 注册成为会员并通过微信登陆即可帮ta再砍一刀哦！");
                                     exit();
@@ -450,7 +466,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                 exit();
                             }
                             //保存砍价记录
-                            $wx_id=M('wx_user')->where(array('openid'=>$form_openid))->getField('wx_id');
+                            $wx_id=M('wx_user')->where(array('OpenID'=>$form_openid))->getField('wx_id');
                             if(empty($wx_id)){
                                 $wechat->replyText("当前参与活动人数太多，请稍后重试");
                                 exit();
@@ -497,7 +513,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                      if($data['EventKey']=='kj1'){
                                 //判断是否已经注册
                                 $openid=$data['FromUserName'];
-                                $user_info=M('member')->where(array('openid'=>$openid))->find();
+                                $user_info=M('member')->where(array('OpenID'=>$openid))->find();
                                 // $Auth->sendText($openid,$openid);
                                 if(empty($user_info)){
                                     $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定");
@@ -506,7 +522,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
                                             // "$WebRoot/index.php/Home/Public/reg",
-                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
+                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
                                     }
@@ -525,13 +541,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     }
                                     /*保存砍主信息*/
                                     //找到砍主id
-                                    $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                    $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                     // 如果没有获取到该砍主的微信信息
                                     if(empty($wx_id)){
                                         //获取来源者信息
                                         $add_info=$Auth->userInfo($openid);
                                         //保存关注者信息
-                                        if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                                        if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                                             // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                             if(M('wx_user')->add($add_info)===false){
                                                 $this->replyText("当前参与活动人数太多，请稍后重试");
@@ -575,7 +591,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                      if($data['EventKey']=='kj2'){
                                 //判断是否已经注册
                                 $openid=$data['FromUserName'];
-                                $user_info=M('member')->where(array('openid'=>$openid))->find();
+                                $user_info=M('member')->where(array('OpenID'=>$openid))->find();
                                 // $Auth->sendText($openid,$openid);
                                 if(empty($user_info)){
                                     $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定");
@@ -584,7 +600,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
                                             // "$WebRoot/index.php/Home/Public/reg",
-                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
+                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
                                     }
@@ -603,19 +619,19 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     }
                                     /*保存砍主信息*/
                                     //找到砍主id
-                                    $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                    $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                     // 如果没有获取到该砍主的微信信息
                                     if(empty($wx_id)){
                                         //获取来源者信息
                                         $add_info=$Auth->userInfo($openid);
                                         //保存关注者信息
-                                        if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                                        if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                                             // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                             if(M('wx_user')->add($add_info)===false){
                                                 $this->replyText("当前参与活动人数太多，请稍后重试");
                                                 exit();
                                             }
-                                            $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                            $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                         }
                                         
                                     }
@@ -666,13 +682,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     exit();
                             }
                             //找出此人的wx_id
-                            $wx_id=M('wx_user')->where(array('openid'=>$form_openid))->getField('wx_id');
+                            $wx_id=M('wx_user')->where(array('OpenID'=>$form_openid))->getField('wx_id');
                             //判断是否已经帮砍过了
                             $is_bangkan=M('bangkan')->where(array('wx_id'=>$wx_id,'kj_id'=>$kanjia_info['kj_id']))->find();
                             if($is_bangkan){
                                 //判断是否注册用户
                                 //如果是注册用户可以再砍一次
-                                $is_register=M('member')->where(array('openid'=>$form_openid))->find();
+                                $is_register=M('member')->where(array('OpenID'=>$form_openid))->find();
                                 if(empty($is_register)){
                                     $wechat->replyText("/玫瑰 注册成为会员并通过微信登陆即可帮ta再砍一刀哦！");
                                     exit();
@@ -770,19 +786,19 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                 exit();
                             }
                             //保存砍价记录
-                            $wx_id=M('wx_user')->where(array('openid'=>$form_openid))->getField('wx_id');
+                            $wx_id=M('wx_user')->where(array('OpenID'=>$form_openid))->getField('wx_id');
                             // 如果没有获取到该砍主的微信信息
                             if(empty($wx_id)){
                                 //获取来源者信息
                                 $add_info=$Auth->userInfo($form_openid);
                                 //保存关注者信息
-                                if(!M('wx_user')->where(array('openid'=>$form_openid))->Find()){
+                                if(!M('wx_user')->where(array('OpenID'=>$form_openid))->Find()){
                                     // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                     if(M('wx_user')->add($add_info)===false){
                                         $this->replyText("当前参与活动人数太多，请稍后重试");
                                         exit();
                                     }
-                                    $wx_id=M('wx_user')->where(array('openid'=>$form_openid))->getField('wx_id');
+                                    $wx_id=M('wx_user')->where(array('OpenID'=>$form_openid))->getField('wx_id');
                                 }else{
                                     $wechat->replyText("当前参与活动人数太多，请稍后重试");
                                     exit();
@@ -822,7 +838,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                             if($data['EventKey']=="图文"){
                                 //判断是否已经注册
                                 $openid=$data['FromUserName'];
-                                $user_info=M('member')->where(array('openid'=>$openid))->find();
+                                $user_info=M('member')->where(array('OpenID'=>$openid))->find();
                                 // $Auth->sendText($openid,$openid);
                                 if(empty($user_info)){
                                     $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定");
@@ -831,7 +847,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
                                             // "$WebRoot/index.php/Home/Public/reg",
-                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
+                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
                                     }
@@ -850,19 +866,19 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     }
                                     /*保存砍主信息*/
                                     //找到砍主id
-                                    $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                    $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                     // 如果没有获取到该砍主的微信信息
                                     if(empty($wx_id)){
                                         //获取来源者信息
                                         $add_info=$Auth->userInfo($openid);
                                         //保存关注者信息
-                                        if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                                        if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                                             // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                             if(M('wx_user')->add($add_info)===false){
                                                 $this->replyText("当前参与活动人数太多，请稍后重试");
                                                 exit();
                                             }
-                                            $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                            $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                         }
                                         
                                     }
@@ -910,7 +926,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             "点击注册送福气！",
                                             "只需几步即可完成注册", 
                                             // "$WebRoot/index.php/Home/Public/reg",
-                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1b4f89570d3f4976&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
+                                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2Fwww.eyuanduobao.com%2Findex.php%2FHome%2FPerson%2Fme&response_type=code&scope=snsapi_base&state=STATE",
                                             "http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg"
                                         );  
                                     }
@@ -929,13 +945,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                     }
                                     /*保存砍主信息*/
                                     //找到砍主id
-                                    $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
+                                    $wx_id=M('wx_user')->where(array('OpenID'=>$openid))->getField('wx_id');
                                     // 如果没有获取到该砍主的微信信息
                                     if(empty($wx_id)){
                                         //获取来源者信息
                                         $add_info=$Auth->userInfo($openid);
                                         //保存关注者信息
-                                        if(!M('wx_user')->where(array('openid'=>$form['openid']))->Find()){
+                                        if(!M('wx_user')->where(array('OpenID'=>$form['openid']))->Find()){
                                             // M('wx_user')->where(array('openid'=>$form['openid']))->delete();
                                             if(M('wx_user')->add($add_info)===false){
                                                 $this->replyText("当前参与活动人数太多，请稍后重试");
@@ -943,7 +959,6 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                                             }
                                             $wx_id=M('wx_user')->where(array('openid'=>$openid))->getField('wx_id');
                                         }
-                                        
                                     }
 
                                     $uid=$user_info['uid'];
@@ -1079,11 +1094,11 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
        
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
-		//echo $access_token;
+		//echo '$access_token='.$access_token;
         //数据结构
         $WebRoot="http://cky.ritacc.net";
         $array['button'][0]=array(
-            'name'=>'粗卡',
+            'name'=>'粗卡cky',
             'sub_button'=>array(
                 array(
                         'type' => 'view',
@@ -1158,37 +1173,37 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         //创建菜单
         //echo '$array========='. dump( $data);
 		//echo '$array========='.$data;
-        $rs=$this->post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token,$data);
+        $rs=post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token,$data);
         print_r($rs);
     }
  
-
-function post($url, $params) {
-    $ch = curl_init();
-    if(stripos($url, "https://") !== false) {
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    }
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-    $content = curl_exec($ch);
-    $status = curl_getinfo($ch);
-    curl_close($ch);
-    if(intval($status["http_code"]) == 200) {
-        return $content;
-    } else {
-        echo $status["http_code"];
-        return false;
-    }
-}
-
+/*
+	function post($url, $params) {
+	    $ch = curl_init();
+	    if(stripos($url, "https://") !== false) {
+	        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	    }
+	
+	    curl_setopt($ch, CURLOPT_URL, $url);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+	    curl_setopt($ch, CURLOPT_POST, true);
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+	    $content = curl_exec($ch);
+	    $status = curl_getinfo($ch);
+	    curl_close($ch);
+	    if(intval($status["http_code"]) == 200) {
+	        return $content;
+	    } else {
+	        echo $status["http_code"];
+	        return false;
+	    }
+	}
+*/
     /*创建临时二维码*/
     public function create_qr($openid='',$type=1){
         //找到此用户的uid
-        $uid=M('member')->where(array('openid'=>$openid))->limit(1)->getField('uid');
+        $uid=M('member')->where(array('OpenID'=>$openid))->limit(1)->getField('uid');
         $uid=$type.$uid;
         //https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN
         //{"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
@@ -1310,7 +1325,7 @@ function post($url, $params) {
      /*创建临时二维码*/
     public function create_qr111($openid='oyKgswI_fyh9dM5rdw6SAEy0dEUg',$type=1){
         //找到此用户的uid
-        $uid=M('member')->where(array('openid'=>$openid))->limit(1)->getField('uid');
+        $uid=M('member')->where(array('OpenID'=>$openid))->limit(1)->getField('uid');
         $uid=$type.$uid;
         //https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN
         //{"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}

@@ -19,6 +19,7 @@ class IndexAction extends Controller {
 //			session('openid',$openid);
 //	    }    
 		  
+		
 		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
 			//try_login();
 		}

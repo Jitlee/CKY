@@ -20,13 +20,8 @@ return array(
 		'__JS__'				=> __ROOT__ . '/Public/' . MODULE_NAME . '/js',
 		'__KO__'				=> __ROOT__ . '/Public/' . MODULE_NAME . '/js/knockout-3.4.0.js',
 		'__FONT_ICON__'		=> '//at.alicdn.com/t/font_1460524976_6031203.css',
-		'__PING__'		=> 'https://one.pingxx.com/lib/pingpp_one.js',
 	),
-	'wx_info'=>array(
-			'AppID'=>'wx1b4f89570d3f4976',
-			'Secret'=>'5baecf3ae0ccafd7e65fd5dd619f0a46',
-			'token'=>'m4t00gepo2rsj5pkoxje3qyfiroocwvy',
-		),
+	
 	'SHOW_PAGE_TRACE' =>false,
 	
 );

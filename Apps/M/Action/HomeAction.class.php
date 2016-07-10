@@ -370,17 +370,26 @@ public function create_guid($namespace = '') {
 //		echo dump($list);
 
 //				$uid=session("uid");
+/*
 				$key="18620554231";
 				$mdb = D('M/Member');
 				$email='2';
 				$result=$mdb->UpdateMember($key,'TrueName',$email);
+				*/
+				
+		$kj_id=104;    
+        $filter=array('kj_id'=> $kj_id);
+        //$rs=$mdb->where($map)->select(); 
+		$m=M("kanjia");
+		$rs= $m->where("kj_id='$kj_id'")->select();
+		echo dump($rs);
 
 //			$mMember = D('M/OneCard');
 //			$key="18620554231";
 //			$Birthday="2";
 //			$result = $mMember->UpdateMember($key,'Sex',$Birthday);
 			
-			echo dump($result);
+			
 			
 //		$m = D('M/ActivityTicket');
 //		$uid = getuid();

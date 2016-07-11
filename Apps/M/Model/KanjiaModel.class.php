@@ -25,7 +25,7 @@ where kj_id=$kj_id";
 		$money=7888;
 		if($type==2)
 		{
-			$money="5000.00";
+			$money="50000.00";
 		}
 		 
 		$map=array(

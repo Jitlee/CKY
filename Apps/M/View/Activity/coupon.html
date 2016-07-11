@@ -289,8 +289,10 @@
 				
 				<!-- 装饰-->
 				<ul class="ticket-split"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
-				
-				<div class="ticket-btn" data-bind="visble: totalCount > sendCount, text: (!isReceived ? '立即领取' : (typeName == 'djq' ? '立即使用' : '查看详情'))"></div>
+				<!--
+					<div class="ticket-btn" data-bind="visble: totalCount > sendCount, text: (!isReceived ? '立即领取' : (typeName == 'djq' ? '立即使用' : '查看详情'))"></div>
+				-->
+				<div class="ticket-btn" data-bind="visble: totalCount > sendCount, text: (!isReceived ? '立即领取' :'查看详情' )"></div>
 				<div class="ticket-nav" data-bind="visble: totalCount > sendCount"><i class="iconfont icon-jiantou"></i></div>
 			</div>
 			<div class="ticket-ball ticket-ball-top"></div>
@@ -410,6 +412,7 @@
 					pick.call(this, obj, evt);
 				}
 			} else if(this.isReceived) {
+				/*
 				if(this.typeName == "djq") {
 					if(this.limitUseShopId > 0) {
 						window.location.href = "{:U('Fast/detail')}?id=" + this.limitUseShopId;
@@ -417,8 +420,9 @@
 						window.location.href = "{:U('Shops/index')}";
 					}
 				} else {
+					*/
 					window.location.href = "{:U('Activity/coupondetail')}?id=" + this.ticketID;
-				}
+				//}
 			}
 		}
 		

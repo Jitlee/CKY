@@ -121,8 +121,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$appsecret = \WxPayConfig::APPSECRET;
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
-		$WebRoot="http://cky.ritacc.net";
-		$WebDomain="cky.ritacc.net";
+		$WebRoot="http://cukayun.cn";
+		$WebDomain="cukayun.cn";
 		 
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
         switch ($data['MsgType']) {
@@ -139,49 +139,49 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         }
                         //如果是砍价1活动
                          if($data['EventKey']=='kj1'){
-                                    //判断是否已经注册
-                                    $openid=$data['FromUserName'];
-                                    $user_info=M('member')->where(array('OpenID'=>$openid))->find();
-                                    if(empty($user_info)){
-                                        $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定,openid=$openid");
-                                        if($back){
-                                            $mkjp=D('M/Kanjia');
-											$newspara=$mkjp->GetNewsPara('reg', $WebDomain ,$kj_id,$appid);
-	                                        $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
-                                        }
-                                       
-                                    }
-                                    else{
-                                        //判断砍主是否已经曾经参与
-                                        if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>1))->getField('kj_id')){
-                                           $mkjp=D('M/Kanjia');
-											$newspara=$mkjp->GetNewsPara('1', $WebRoot ,$kj_id);
-	                                        $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
-                                            exit();
-                                        }
-                                        //微信信息保存                                       
-										$mdb=D('M/WxUser');
-			                            $wx_id=$mdb->GetWxID($openid, $Auth);
-										if($wx_id==-1)
-										{
-											$this->replyText("当前参与活动人数太多，请稍后重试");
-			                                exit();
-										}
+                            //判断是否已经注册
+                            $openid=$data['FromUserName'];
+                            $user_info=M('member')->where(array('OpenID'=>$openid))->find();
+                            if(empty($user_info)){
+                                $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册/登陆绑定,openid=$openid");
+                                if($back){
+                                    $mkjp=D('M/Kanjia');
+									$newspara=$mkjp->GetNewsPara('reg', $WebDomain ,$kj_id,$appid);
+                                    $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
+                                }
+                               
+                            }
+                            else{
+                                //判断砍主是否已经曾经参与
+                                if($kj_id=M('kanjia')->where(array('uid'=>$user_info['uid'],'type'=>1))->getField('kj_id')){
+                                    $mkjp=D('M/Kanjia');
+									$newspara=$mkjp->GetNewsPara('1', $WebRoot ,$kj_id);
+                                    $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
+                                    exit();
+                                }
+                                //微信信息保存                                       
+								$mdb=D('M/WxUser');
+	                            $wx_id=$mdb->GetWxID($openid, $Auth);
+								if($wx_id==-1)
+								{
+									$this->replyText("当前参与活动人数太多，请稍后重试");
+	                                exit();
+								}
 
-                                        $uid=$user_info['uid'];
-                                        $qr_url=$this->create_qr($openid,1);                                        
-										//保存砍价主信息
-										$mkj=D('M/Kanjia');
-										$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,1);
-                                        if($kj_id){
-                                            $mkjp=D('M/Kanjia');
-											$newspara=$mkjp->GetNewsPara('1', $WebRoot ,$kj_id);
-	                                        $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
-                                        }
-                                        else{
-                                            $Auth->sendText($openid,"当前参与活动人数太多，请稍后重试");
-                                        }
-                                    }  
+                                $uid=$user_info['uid'];
+                                $qr_url=$this->create_qr($openid,1);                                        
+								//保存砍价主信息
+								$mkj=D('M/Kanjia');
+								$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,1);
+                                if($kj_id){
+                                    $mkjp=D('M/Kanjia');
+									$newspara=$mkjp->GetNewsPara('1', $WebRoot ,$kj_id);
+                                    $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
+                                }
+                                else{
+                                    $Auth->sendText($openid,"当前参与活动人数太多，请稍后重试");
+                                }
+                            }  
                             exit();
                          }
                          //如果是砍价2活动
@@ -332,7 +332,6 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 										$newspara=$mkjp->GetNewsPara('reg', $WebDomain ,$kj_id,$appid);
                                         $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动 
                                     }
-                                   
                                 }
                                 else{
                                     //判断砍主是否已经曾经参与
@@ -708,24 +707,19 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$access_token=$wxmsg->accessToken();
 		 
         //数据结构
-        $WebRoot="http://cky.ritacc.net";
+        $WebRoot="http://cukayun.cn";
         $array['button'][0]=array(
-            'name'=>'粗卡cky',
+            'name'=>'粗卡',
             'sub_button'=>array(
                 array(
                         'type' => 'view',
-                        'name' => '粗卡',
-                        'url' => "$WebRoot/index.php/Home?v1=11",
-                    ),
-                array(
-                        'type' => 'view',
-                        'name' => '热门秒杀',
+                        'name' => '首页',
                         'url' => "$WebRoot/index.php/M/Miaosha/index",
                     ),
                 array(
                         'type' => 'view',
-                        'name' => '最新揭晓',
-                        'url' => "$WebRoot/index.php/M/Miaosha/history",
+                        'name' => '商城',
+                        'url' => "$WebRoot/index.php/M/Mall/index.html",
                     ),
                 ),
             );
@@ -738,9 +732,14 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         'key' => '图文',
                     ),
                 array(
-                        'type' => 'click',
-                        'name' => '领取5万积分',
-                        'key' => '图文2',
+                        'type' => 'view',
+                        'name' => '一元中大奖',
+                        'url' => '$WebRoot/index.php/M/Miaosha/index.html',
+                    ),
+                array(
+                        'type' => 'view',
+                        'name' => '卡券大派送',
+                        'url' => '$WebRoot/index.php/M/Activity/coupon.html',
                     ),
                 ),
             );
@@ -754,13 +753,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                     ),
                 array(
                         'type' => 'view',
-                        'name' => '购物记录',
+                        'name' => '消费记录',
                         'url' => "$WebRoot/index.php/M/Person/consumelist",
-                    ),               
-                array(
-                        'type' => 'click',
-                        'name' => '联系我们',
-                        'key' => '联系我们',
                     ),
                 ),
             );
@@ -770,6 +764,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         //创建菜单
         //echo '$array========='. dump( $data);
 		//echo '$array========='.$data;
+		
         $rs=post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token,$data);
         print_r($rs);
     }

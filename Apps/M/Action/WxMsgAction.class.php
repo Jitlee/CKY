@@ -9,12 +9,13 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	 
     public function index()
     {	 
-        define('APP_DEBUG', false);
-        define('ENGINE_NAME','sae');
-		
-		$token = 'weixin'; //微信后台填写的TOKEN
-        //调试
-        try{
+	        //define('APP_DEBUG', false);
+	        //define('ENGINE_NAME','sae');
+			traceHttp();
+			
+			$token = 'token'; //微信后台填写的TOKEN
+	        //调试
+         
             if (isset($_GET['echostr'])) {
 			    $this->valid();
 			}else{
@@ -77,15 +78,14 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	                $this->demo($wechat, $data);
                 }
             }
-        } catch(\Exception $e){
-            file_put_contents('./error.json', json_encode($e->getMessage()));
-        }
+         
     }
 				
     public function valid()
     {
         $echoStr = $_GET["echostr"];
         if($this->checkSignature()){
+        	ob_clean();
             echo $echoStr;
             exit;
         }
@@ -93,20 +93,25 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	 
     private function checkSignature()
     {
-       $signature = $_GET["signature"];
+        $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
-		//define("TOKEN", "weixin");
-        $token = "weixin";
+		 
+        $token = "token";
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr);
         $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
+        $tmpStr = sha1($tmpStr );
 
-        if( $tmpStr == $signature ){
+		logger("/**************$tmpStr******************/");
+		logger("/**************$signature******************/");
+		
+        if( $tmpStr == $signature )
+        {
             return true;
         }else{
-            return false;
+            	echo "$tmpStr == $signature"; 
+            return false;			
         }
     }
 	
@@ -121,13 +126,16 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$appsecret = \WxPayConfig::APPSECRET;
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
-		$WebDomain="cukayun.cn";
-		$WebRoot="http://cukayun.cn";
+		/*		*/
+		$WebDomain=$_SERVER['SERVER_NAME'];
+		$WebRoot="http://$WebDomain";
 		
-		//$WebDomain="cky.ritacc.net";
-		//$WebRoot="http://cky.ritacc.net";
+		/* 
+		$WebDomain="cky.ritacc.net";
+		$WebRoot="http://cky.ritacc.net";
 		
-		 
+		 	*/
+		 	
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
 		
         switch ($data['MsgType']) {
@@ -245,7 +253,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$access_token=$wxmsg->accessToken();
 		 
         //数据结构
-        $WebRoot="http://cukayun.cn";
+        $WebRoot="http://".$_SERVER['SERVER_NAME'];
         $array['button'][0]=array(
             'name'=>'粗卡',
             'sub_button'=>array(
@@ -303,7 +311,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		 
         // print_r($array);die;
         //创建菜单
-        //echo '$array========='. dump( $data);
+        echo '$array========='. dump( $data);
 		//echo '$array========='.$data;
 		
         $rs=post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token,$data);
@@ -322,15 +330,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		 
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
         $rs=$Auth->menuGet();
-        print_r($rs);
-		
-		 
-		
-         
-							 
-        $bk3=new WxMsgKanjia();
-		$bk3->KanjiaClick($data, $Auth);
-
+        print_r($rs); 
     }
     //删除菜单
     public function menudel(){

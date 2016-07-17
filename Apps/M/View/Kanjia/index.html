@@ -16,27 +16,21 @@
 </style>
 <body>
 <header>
-<if condition="$user_info['type'] eq 1">
-	<div><img src="__IMG__/kanjia/header.png" width="100%"></div>
-</if>
-<if condition="$user_info['type'] eq 2">
-	<div><img src="__IMG__/kanjia/header2.png" width="100%"></div>
-</if>
+
+	<div><img src="__IMG__/kanjia/header{$user_info.type}.png" width="100%"></div>
+	
 	<div class="top"><img src="__IMG__/kanjia/active.png" width="100%"></div>
 </header>
 	<div class="small" style="text-align:center;width:100%;">
-	<span>即日起—2016-7.15</span>
+	<span>即日起—2016-7.31</span>
 	</div>
 	<div class="small" style="text-align:center;width:100%; font-size:16px;margin-top:8px;">
 		数量有限,先到先得
 	</div>
 	<div class="shengyutaishu">
-	<if condition="$user_info['type'] eq 1">
-		<span>剩余台数：{$shengyutaishu}台</span>
-	</if>
-	<if condition="$user_info['type'] eq 2">
+	
 		<span>剩余名额：{$shengyutaishu}名</span>
-	</if>
+	
 	</div>
 	<div class="who">
 		<div class="who_img"><img src="{$user_info.headimgurl}"></div>
@@ -50,18 +44,12 @@
 	<div class="jindutiao">
 		<div style="width:{$bl}%;background:#F92F19;height:100%;margin-left:-1px;"></div>
 	</div>
-	<if condition="$user_info['type'] eq 1">
-		<div style="width:220px;margin-right:auto;margin-left:auto;margin-top:5px;">
-			<div class="float_l big">已砍：<span class="red">{$yikan}元</span></div>
-			<div class="float_r big">总金额：<span class="red">{$user_info.money}元</span></div>
-		</div> 
-	</if>
-	<if condition="$user_info['type'] eq 2">
-		<div style="width:220px;margin-right:auto;margin-left:auto;margin-top:5px;">
-			<div class="float_l big">已砍：<span class="red">{$yikan}</span></div>
-			<div class="float_r big">总金额：<span class="red">{$user_info.money}</span></div>
-		</div> 
-	</if>
+	
+	<div style="width:230px;margin-right:auto;margin-left:auto;margin-top:5px;">
+		<div class="float_l big">已砍：<span class="red">{$yikan}元</span></div>
+		<div class="float_r big">总金额：<span class="red">{$user_info.money}元</span></div>
+	</div> 
+	
 	<div class="clear"></div>
 	<div class="rule_div">
 		<div><img src="__IMG__/kanjia/l_hand.png" width="80%"></div>
@@ -126,12 +114,9 @@
 		<div class="under under_kanjia" id="kanjia">
 			<div id="kanjia_close" style="position:fixed;margin-top:-40px;width:40px;height:40px;"><img width="100%" src="__IMG__/kanjia/close.png"></div>
 			<div class="" style="margin-top:10px;">长按图片，关注微信公众号进行砍价</div>
-			<if condition="$user_info['type'] eq 1">
+			 
 					<div style="width:200px;margin:10px auto 0px auto;"><img src="/Public/images/kj1.jpg" width="100%"></div>
-			</if>
-			<if condition="$user_info['type'] eq 2">
-					<div style="width:200px;margin:10px auto 0px auto;"><img src="/Public/images/kj2.jpg" width="100%"></div>
-			</if>
+			 
 		</div>
 		<!-- 底部 二维码-->
 		<div class="under under_bangkan" id="bangkan">
@@ -202,21 +187,14 @@
 </script>
 
 <script>
-<if condition="$user_info['type'] eq 1">
+ 
 	var shareData = {
-	    title: '都来帮我砍价吧，苹果6S就快到手了',
-        desc: '0元抢购苹果6S   128GB 只要砍价的人多,手机免费送,送完即止--粗卡云管理',
+	    title: '{$user_info.share_title}',//'都来帮我砍价吧，苹果6S就快到手了',
+        desc: '{$user_info.share_description}',//'0元抢购苹果6S   128GB 只要砍价的人多,手机免费送,送完即止--粗卡云管理',
         link: '{$signPackage.url}',
-        imgUrl: 'http://{$domainurl}/Public/images/kj.png'
+        imgUrl: '{$user_info.share_imgurl}' //'http://{$domainurl}/Public/images/kj.png'
 	};
-<else/>
-    var shareData = {
-	    title: '都来帮我砍价吧，5万积分就快到手了',
-        desc: '5万积分等你来抢！！快来帮我砍！！！--粗卡云管理',
-        link: '{$signPackage.url}',
-        imgUrl: 'http://{$domainurl}/Public/images/kj2.png',
-	};
-</if>
+ 
 	var signPackage=new Object(); 
 	signPackage.appId='{$signPackage.appId}';
 	signPackage.timestamp={$signPackage.timestamp};

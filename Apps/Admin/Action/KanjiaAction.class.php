@@ -20,13 +20,74 @@ class KanjiaAction extends BaseAction {
 		$this->assign('action', U('index', '', ''));
 		$this->assign('pid', 'activity');
 		$this->assign('mid', 'activitymgr #index');
+		
+		
 		$this->display();
 	}
+	
+	public function paralist()
+	{
+		$this->isLogin();
+		$this->checkAjaxPrivelege('gggl_00');
+		self::RTCAssigns(); 
+		
+		$m = D('Admin/KanjiaPara');
+    	$page = $m->queryByPage();
+		 
+    	$pager = new \Think\Page($page['total'],$page['pageSize']);
+    	$pager->setConfig('header','');
+    	$page['pager'] = $pager->show();
+    	$this->assign('Page',$page);
+		$this->display();
+	}
+	
+	public function paraedit()
+	{
+		$m = D('Admin/KanjiaPara');
+    	$object = array();
+    	if(I('kjid',0)>0){
+    		$this->checkPrivelege('gggl_02');
+    		$object = $m->get();
+    	}else{
+    		$this->checkPrivelege('gggl_01');
+    		$object = $m->getModel(); 
+    	}
+		//卡券加载
+		$mshop = D('Admin/Ticket');
+		$shops=$mshop->queryByList();		
+	    $this->assign('tickets',$shops);
+		
+    	$this->assign('object',$object);
+		$this->display();
+	}
+	public function paraeditsave(){
+		$this->isAjaxLogin();
+		$m = D('Admin/KanjiaPara');
+    	$rs = array();
+    	if(I('kjid',0)>0){
+    		$this->checkAjaxPrivelege('gggl_02');
+    		$rs = $m->edit();
+    	}else{
+    		$this->checkAjaxPrivelege('gggl_01');
+    		$rs = $m->insert();
+    	}
+    	$this->ajaxReturn($rs);
+	}
+	public function paradel(){
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
+		$m = D('Admin/KanjiaPara');
+    	$rs = $m->del();
+    	$this->ajaxReturn($rs);
+	}
+	
+	
 	/* 添加砍价规则*/
 	public function kanjia_add(){
-		if(!IS_AJAX)$this->error('非法操作');
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
 		$data=I('post.');
-		$data['create_time']=date('Y-m-d h:i:s',time());
+		//$data['create_time']=date('Y-m-d h:i:s');
 		$rs=M('kanjiarule')->add($data);
 		if($rs!==false){
 			$this->ajaxReturn(array('status'=>1,'info'=>'添加成功'));
@@ -62,7 +123,7 @@ class KanjiaAction extends BaseAction {
 
 	}
 
-	/*参与活动列表*/
+	/*参与活动列表
     public function canyu(){
     	// 分页
     	$pageSize = 20;
@@ -140,25 +201,26 @@ class KanjiaAction extends BaseAction {
 		}
 
 	}
-
+	*/
 	/*积分砍价规则列表*/
 	public function ffindex(){
 		$map['status']=1;
-		$map['type']=2;
+		$kjcode	=I("kjcode");
+		$map['type']=$kjcode;
 		$list=M('kanjiarule')->where($map)->select();
 		$this->list=$list;
 		$this->assign('title', '积分活动金额设置');
 		$this->assign('action', U('ffindex', '', ''));
-		$this->assign('pid', 'activity');
-		$this->assign('mid', 'activitymgr #ffindex');
+		$this->assign('kjcode', $kjcode);
 		$this->display();
 	}
 		/*积分参与活动列表*/
     public function ffcanyu(){
     	$pageSize = 20;
 		$pageNum = (int)I("p",1);
+		$kjcode	=I("kjcode");
     	// 分页
-    	$map['type']=2;
+    	$map['type']=$kjcode;
 		$db = M('kanjia');
 		$count = $db->where($map)->count();
 		if(!$pageSize) {
@@ -181,19 +243,19 @@ class KanjiaAction extends BaseAction {
 		}
     	$this->list=$list;
     	$this->assign('title','积分参与活动者列表');
-    	$this->assign('pid','activity');
-    	$this->assign('mid','activitymgr #ffcanyu');
+    	$this->assign('kjcode', $kjcode);
     	$this->display();
     }
     /*积分中奖记录*/
     public function ffzhongjiang(){
-    	$map['type']=2;
+    	$kjcode	=I("kjcode");
+    	$map['type']=$kjcode;
     	$list=M('kanzhong')->where($map)->select();
 		$this->list=$list;
-		$this->assign('title', '积分中奖用户');
+		$this->assign('title', '中奖用户');
+		$this->assign('kjcode', $kjcode);
 		$this->assign('action', U('ffzhongjiang', '', ''));
-		$this->assign('pid', 'activity');
-		$this->assign('mid', 'activitymgr #ffzhongjiang');
+	
 		$this->display();
     }
 }

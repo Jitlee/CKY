@@ -12,21 +12,64 @@ class KanjiaModel extends BaseModel {
 	public function GetByid() {
 		$kj_id=I('kj_id',0);		
 		$sql="
-select k.*,wu.* from cky_kanjia k inner join cky_member m on m.uid=k.uid
+select 
+	kp.prizenum,kp.shengyuprizenum,kp.share_title,kp.share_description,kp.share_imgurl
+	,k.*,wu.* 
+from cky_kanjia k 
+inner join cky_member m on m.uid=k.uid
 inner join cky_wx_user wu on wu.openid=m.OpenID
+inner join cky_kanjia_para kp on kp.kjcode=k.type
 where kj_id=$kj_id";
 	$m = M('kanjia');
 	$rsarr= $m->query($sql);
 	return $rsarr[0];		
 	}
+
+	/**传参数**/
+	public function GetByidPara($kj_id) {
+		 
+		$sql="
+select 
+	kp.prizenum,kp.shengyuprizenum,kp.share_title,kp.share_description,kp.share_imgurl
+	,k.*,wu.* 
+from cky_kanjia k 
+inner join cky_member m on m.uid=k.uid
+inner join cky_wx_user wu on wu.openid=m.OpenID
+inner join cky_kanjia_para kp on kp.kjcode=k.type
+where kj_id=$kj_id";
+		$m = M('kanjia');
+		$rsarr= $m->query($sql);
+		return $rsarr[0];		
+	}
+	
+	public function GetByWxid($openid) {
+		$sql="
+select 
+	wu.nickname,headimgurl,m.mobile
+from   cky_member m 
+inner join cky_wx_user wu on wu.openid=m.OpenID
+where
+	m.OpenID=$openid";
+	$m = M('kanjia');
+	$rsarr= $m->query($sql);
+	return $rsarr[0];		
+	}
+	
+
 	
 	public function Insert($uid, $wx_id, $qr_url ,$type)
 	{
-		$money=7888;
-		if($type==2)
+		$object=$this->get($type);
+		if(empty($object))
 		{
-			$money="50000.00";
+			return $rs;
 		}
+		
+		$money=$object["money"];
+//		if($type==2)
+//		{
+//			$money="50000.00";
+//		}
 		 
 		$map=array(
             'uid'=>$uid,
@@ -44,6 +87,20 @@ where kj_id=$kj_id";
 		return $kj_id;
 	}
 	
+	
+	/**中奖**/
+	public function GetZhongPara($type,$openid)
+	{
+	 	$userinfo=$this->GetByWxid($openid);
+		$data = array();
+		$data["nickname"] =$userinfo["nickname"];
+		$data["phone"] =$userinfo["phone"];
+		$data["headimgurl"] =$userinfo["headimgurl"];
+		$data["time"] =time();
+		$data["type"] =$type;
+		
+		return $data;
+	}
 	
 	public function GetAddMoney($type, $money, $shengyumoney)
 	{
@@ -143,35 +200,42 @@ WHERE kj_id=$kj_id";
 		return $rsarr;		
 	}
 	
-	public function GetNewsPara($newstype, $WebRoot ,$kj_id, $appid='')
+	public function GetNewsPara($newstype,$kjcode, $WebRoot ,$kj_id, $appid='')
 	{
 		$title="";
 		$discription="";
 		$url="";
 		$picurl="";
-		if($newstype=="1")
+		$rs=array( 'status'=> -1);
+		$object=$this->get($kjcode);
+		if(empty($object))
 		{
-			$title= "[有人@你]您有一台Iphone6S尚未领取。";
-			$discription="此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝";
-			$url="$WebRoot/index.php/M/Kanjia/index?kj_id=".$kj_id;
-			$picurl="$WebRoot/Public/images/kj.png";                                   
+			return $rs;
 		}
-		else if($newstype=="2")
+		if($newstype=="news")
 		{
-			$title= "[有人@你]5万积分等你来拿！！";
-			$discription="此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝";
+			$title= $object["news_title"];		//"[有人@你]您有一台Iphone6S尚未领取。";
+			$discription= $object["news_description"];		//"此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝";
 			$url="$WebRoot/index.php/M/Kanjia/index?kj_id=".$kj_id;
-			$picurl="$WebRoot/Public/images/kj2.png";                                   
-		} 
+			$picurl= $object["news_imgurl"];		//"$WebRoot/Public/images/kj.png";                                   
+		}
+//		else if($newstype=="2")
+//		{
+//			$title= "[有人@你]5万积分等你来拿！！";
+//			$discription="此链接是您的专属链接，请分享让朋友帮您砍价，由“粗卡”助力夺宝";
+//			$url="$WebRoot/index.php/M/Kanjia/index?kj_id=".$kj_id;
+//			$picurl="$WebRoot/Public/images/kj2.png";                                   
+//		} 
 		else if($newstype=="reg")
 		{
-			$title= "点击注册送福气！";
-			$discription="只需几步即可完成注册";
+			$title= $object["reg_title"];		//"点击注册送福气！";
+			$discription=$object["reg_description"];		//"只需几步即可完成注册";
 			$url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=http%3A%2F%2F$WebRoot%2Findex.php%2FM%2FPerson%2Findex&response_type=code&scope=snsapi_base&state=STATE";
-			$picurl="http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg";                                            
+			$picurl=$object["reg_imgurl"];		//"http://pic.qiantucdn.com/58pic/18/32/60/10c58PICXbP_1024.jpg";                                            
 		} 
                                             
 		$rs=array(
+			'status'=> 0,
 			'title'=>$title,
 			"discription"=>$discription,
 			"url"=>$url,
@@ -179,5 +243,13 @@ WHERE kj_id=$kj_id";
 		);
 		return $rs;
 	}
+
+	 /**	
+	  * 获取指定对象
+	  */
+     public function get($kjcode){
+	 	$m = M('kanjia_para');
+		return $m->where("kjcode=".(int)$kjcode)->find();
+	 }
 	
 }

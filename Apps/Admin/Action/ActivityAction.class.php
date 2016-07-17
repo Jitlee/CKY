@@ -43,6 +43,7 @@ class ActivityAction extends BaseAction{
     	$this->assign('object',$object);
 		$this->view->display('/activity/edit');
 	}
+	
 	/**
 	 * 新增/修改操作
 	 */

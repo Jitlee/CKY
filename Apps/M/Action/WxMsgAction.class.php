@@ -11,7 +11,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
     {	 
 	        //define('APP_DEBUG', false);
 	        //define('ENGINE_NAME','sae');
-			traceHttp();
+			traceHttp(); 
 			
 			$token = 'token'; //微信后台填写的TOKEN
 	        //调试
@@ -129,23 +129,23 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		/*		*/
 		$WebDomain=$_SERVER['SERVER_NAME'];
 		$WebRoot="http://$WebDomain";
-		
-		/* 
-		$WebDomain="cky.ritacc.net";
-		$WebRoot="http://cky.ritacc.net";
-		
-		 	*/
-		 	
+		 
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
 		
+		 $len=strlen($data['EventKey']);
+		 $eventkey="";
+        if(!empty($data['EventKey']) && $len > 4){
+        		$eventkey=substr($data['EventKey'],0,4);
+		}
+        	
         switch ($data['MsgType']) {
             case Wechat::MSG_TYPE_EVENT:
                 switch ($data['Event']) {
                     case Wechat::MSG_EVENT_SUBSCRIBE:
-                        //if($data['EventKey']=='kj1' || $data['EventKey']=='kj2'){
+	    				if($eventkey == '1001'){
 	                        $bk1=new WxMsgKanjia();
 							$bk1->Kanjia($data, $Auth, $wechat, $WebDomain, $WebRoot);
-						//}
+						}
                         break;
 
                     case Wechat::MSG_EVENT_UNSUBSCRIBE:
@@ -153,13 +153,14 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         break;
                     	
                     case 'SCAN'://通过分享出去的扫码事件
-                    	//if($data['EventKey']=='kj1' || $data['EventKey']=='kj2'){
+                    	if($eventkey == '1001'){
 	                        $bk2=new WxMsgKanjia();
 							$bk2->Kanjia($data, $Auth, $wechat, $WebDomain, $WebRoot);
-						//}                    
+						}                    
                         break;
                     case "CLICK":
-							if($data['EventKey']=="图文" || $data['EventKey']=="图文2" ){
+							$posindex=stripos($data['EventKey'],"kj");
+	    					if($posindex >= 0){
 	                            $bk3=new WxMsgKanjia();
 								$bk3->KanjiaClick($data, $Auth, $wechat, $WebDomain, $WebRoot);
 							}
@@ -183,9 +184,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         $wechat->replyText("(●˘◡˘●) 想参与最新活动吗？\n\n /玫瑰 0元得iphone6s\n /玫瑰 领取5万积分\n\n 点击下方菜单\n->[惊喜无限]参与活动吧！");
                         break;
                 }
-                break;            
+                break;
             default:
-                # code...
+                $wechat->replyText("亲，我还不知道你说的啥呢？");
                 break;
         }
     }
@@ -275,7 +276,12 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 	array(
                         'type' => 'click',
                         'name' => '0元砍肾6',
-                        'key' => '图文',
+                        'key' => 'kj91',
+                    ),
+                    array(
+                        'type' => 'click',
+                        'name' => '5万积分等你拿',
+                        'key' => 'kj92',
                     ),
                 	array(
                         'type' => 'view',
@@ -444,15 +450,42 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	
 	public function testc()
 	{
-		 vendor('Weixinpay.WxPayJsApiPay');
-				$appid =  \WxPayConfig::APPID;
-				$crypt = \WxPayConfig::APPSECRET;
-				
-	      $jssdk=new Jssdk($appid,$crypt);
-	      $signPackage=$jssdk->getSignPackage();
-	      
-	      echo dump($signPackage);
-		$this->display("Wx/getcodeurl");
+			$type=91;
+			$form_openid='oKxDRv3qgqwZVsHkOZXvcEgDkQyI';
+			$ZhongPara=null;
+			$add_money=10;
+			$shengyumoney=10;
+			$shengyuprizenum=50;
+			$mkjp=D('M/Kanjia');
+			if($add_money==$shengyumoney){ 
+				$ZhongPara= $mkjp->GetZhongPara($type,$form_openid);
+			}
+			$kanjia_info['kj_id']=583;
+			
+			$kjobject=$mkjp->GetByid(583);
+			
+			echo dump($kjobject);
+//          //开启事务
+//          M()->startTrans();
+//          //保存帮砍信息
+//         
+//			$add_ZhongParaStatus=TRUE;
+//			$save_kanjiaparastatus=TRUE;
+//			if($add_money==$shengyumoney){				
+//				$add_ZhongParaStatus=M('kanzhong')->add($ZhongPara);
+//				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$shengyuprizenum-1);
+//			}
+//			
+//			
+//          
+//          if( $add_ZhongParaStatus && $save_kanjiaparastatus){
+//              M()->commit();
+//				echo "aaaaaaaaaaaaaa";
+//          }
+//          else{
+//              M()->rollback();
+//             echo "EEEEEEEEEEEE";
+//          }
 	}
 		
 

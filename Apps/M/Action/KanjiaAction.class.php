@@ -7,7 +7,7 @@ use Com\Jssdk;
 class KanjiaAction extends BaseAction{
   
    
-		private static $domainurl = 'cky.ritacc.net';
+		
     public function index(){
         // S('access_token',null);
         /*找到页面信息*/
@@ -25,7 +25,7 @@ class KanjiaAction extends BaseAction{
         }
         //剩余台数
         $map['fieldCode']='shengyu'.$rs['type'];
-        $shengyutaishu=M('sys_configs')->where($map)->getField('fieldValue');				
+        $shengyutaishu=$rs["shengyuprizenum"];//M('sys_configs')->where($map)->getField('fieldValue');				
 				
         unset($map);
         $this->shengyutaishu=$shengyutaishu;
@@ -53,8 +53,8 @@ class KanjiaAction extends BaseAction{
         $this->zhongjiang=$zhongjiang;
         // print_r($bangkan_info);
         //$code=I('get.code');
-        
-				$this->assign('domainurl', self::$domainurl);
+        $domainurl=$_SERVER['SERVER_NAME']; 
+				$this->assign('domainurl', $domainurl);
 				/****分享与定位***/
 				$wxm= new WxUserInfo();
 				$signPackage=$wxm->getSignPackage();			 
@@ -64,12 +64,12 @@ class KanjiaAction extends BaseAction{
     }
     /*获取code*/
     public function getcode($kj_id){
-        
+        $domainurl=$_SERVER['SERVER_NAME']; 
         $url="https://open.weixin.qq.com/connect/oauth2/authorize?";
         vendor('Weixinpay.WxPayJsApiPay');
 				$appid =  \WxPayConfig::APPID;
 				
-        $redirect_uri=urlencode("http://".self::$domainurl."/".U('index').'?kj_id='.$kj_id);
+        $redirect_uri=urlencode("http://".$domainurl."/".U('index').'?kj_id='.$kj_id);
         //构造url
         $url=$url."appid=".$appid."&redirect_uri=".$redirect_uri."&response_type=code&scope=snsapi_userinfo&state=1&connect_redirect=1#wechat_redirect";
         //重定向url
@@ -141,31 +141,31 @@ class KanjiaAction extends BaseAction{
     }
     
     /*创建临时二维码*/
-    public function create_qr($openid='oKxDRvyD0gFYNwby4lh7kGrOUcM8'){
-        	
-				$wxmsg=new WxUserInfo();
-				$access_token=$wxmsg->accessToken();
-        //找到此用户的uid
-        $uid=M('member')->where(array('OpenID'=>$openid))->limit(1)->getField('uid');
-        
-        $param=array(
-            'expire_seconds'=>2592000,
-            'action_name'=>'QR_SCENE',
-            'action_info'=>array(
-                'scene'=>array(
-                    'scene_id'=>$uid,
-                    )
-                ),
-            );
-        $param=json_encode($param);
-      
-        $rs=post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$access_token,$param);
-        $rs=json_decode($rs);
-        //处理object
-        $rs=object_array($rs);
-        header('location:https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$rs['ticket']);
-        // print_r($rs);
-    }
+//  public function create_qr($openid='oKxDRvyD0gFYNwby4lh7kGrOUcM8'){
+//      	
+//				$wxmsg=new WxUserInfo();
+//				$access_token=$wxmsg->accessToken();
+//      //找到此用户的uid
+//      $uid=M('member')->where(array('OpenID'=>$openid))->limit(1)->getField('uid');
+//      
+//      $param=array(
+//          'expire_seconds'=>2592000,
+//          'action_name'=>'QR_SCENE',
+//          'action_info'=>array(
+//              'scene'=>array(
+//                  'scene_id'=>$uid,
+//                  )
+//              ),
+//          );
+//      $param=json_encode($param);
+//    
+//      $rs=post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$access_token,$param);
+//      $rs=json_decode($rs);
+//      //处理object
+//      $rs=object_array($rs);
+//      header('location:https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$rs['ticket']);
+//      // print_r($rs);
+//  }
 
     /*创建永久二维码*/
     public function create_fqr(){

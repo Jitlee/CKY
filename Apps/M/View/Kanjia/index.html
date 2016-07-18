@@ -78,7 +78,7 @@
 						<div class="head"><img src="{$list.headimgurl}" style="width:63px;height:63px;border-radius:63px;"></div>
 						<div class="name">
 							<div class="u_name">{$list.nickname}</div>
-							<div class="time">{$list.bk_time|date="Y-m-d h:i",###}</div>
+							<div class="time">{$list.bk_time|date="Y-m-d H:i",###}</div>
 						</div>
 						<div class="money">-{$list.bk_money}元</div>
 						<div class="hr2"></div>
@@ -92,11 +92,11 @@
 			<notempty name="zhongjiang">
 				<volist name="zhongjiang" id="list" key="k">
 					<div>
-						<div class="head2"><img src="__IMG__/kanjia/head{$user_info.type}/h{$k}.jpg" style="width:43px;height:43px;border-radius:43px;"></div>
+						<div class="head2"><img src="{$list.headimgurl}" style="width:43px;height:43px;border-radius:43px;"></div>
 						<div class="name2">
 							{$list.nickname}
 						</div>
-						<div class="time2">{$list.time|date="Y-m-d h:i",###}</div>
+						<div class="time2">{$list.time|date="Y-m-d H:i",###}</div>
 						<div class="hr2"></div>
 					</div>
 				</volist>

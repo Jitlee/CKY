@@ -167,8 +167,12 @@ class KanjiaAction extends BaseAction {
 		$this->assign('mid', 'activitymgr #zhongjiang');
 		$this->display();
     }
-    public function zhongjian_add(){
-		if(!IS_AJAX)$this->error('非法操作');
+   
+	*/
+	
+	 public function zhongjian_add(){
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
 		$data=I('post.');
 		$data['time']=time();
 		$rs=M('kanzhong')->add($data);
@@ -180,7 +184,8 @@ class KanjiaAction extends BaseAction {
 		}
 	}
 	public function zhongjian_edit(){
-		if(!IS_AJAX)$this->error('非法操作');
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
 		$data=I('post.');
 		$rs=M('kanzhong')->where(array('zj_id'=>$data['zj_id']))->save($data);
 		if($rs!==false){
@@ -191,7 +196,8 @@ class KanjiaAction extends BaseAction {
 		}
 	}
 	public function kanzhong_del(){
-		if(!IS_AJAX)$this->error('非法操作');
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
 		$data=I('post.zj_id');
 		if(false!==M('kanzhong')->where(array('zj_id'=>$data))->delete()){
 			$this->ajaxReturn(array('status'=>1,'info'=>'删除成功'));
@@ -201,7 +207,21 @@ class KanjiaAction extends BaseAction {
 		}
 
 	}
-	*/
+	
+	/*积分砍价规则列表*/
+	 public function sendprize(){
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
+		$data=I('post.kj_id');
+		///false!==M('kanzhong')->where(array('zj_id'=>$data))->delete()
+		if(FALSE){
+			$this->ajaxReturn(array('status'=>1,'info'=>'发送奖品成功'));
+		}
+		else{
+			$this->ajaxReturn(array('status'=>0,'info'=>'发送奖品失败，请刷新后重试'.$data));
+		}
+
+	}
 	/*积分砍价规则列表*/
 	public function ffindex(){
 		$map['status']=1;

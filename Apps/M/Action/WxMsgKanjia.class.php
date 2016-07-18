@@ -99,6 +99,7 @@ class WxMsgKanjia
 			$mkjp=D('M/Kanjia');
 			$kjobject=$mkjp->GetByidPara($kanjia_info['kj_id']);
 			$shengyuprizenum=(int)$kjobject["shengyuprizenum"];
+			$prizenum=(int)$kjobject["prizenum"];
 			if($shengyuprizenum<=0)
 			{
 				$wechat->replyText("当前活动已经结束，请留意最新中奖公告。".$shengyuprizenum);
@@ -132,6 +133,11 @@ class WxMsgKanjia
             $mkj=D('M/Kanjia');
 			$add_money=$mkj->GetAddMoney($type, $money, $shengyumoney);
 			
+			if($shengyumoney==0)
+			{
+				$wechat->replyText("您的好友已经获得奖品，您也快去参加吧！！");
+                exit();
+			}
 //          if($shengyumoney<=50){
 //              $wechat->replyText("当前活动已经结束，请留意最新中奖公告");
 //              exit();
@@ -151,13 +157,17 @@ class WxMsgKanjia
                 'kj_id'=>$kanjia_info['kj_id'],
                 'bk_money'=>$add_money,
                 'bk_time'=>time(),
-                );
+            );
 			//砍完了
 			$ZhongPara=null;
+			$ZhongJNum=0;
 			if($add_money==$shengyumoney){
-				$ZhongPara= $mkjp->GetZhongPara($type,$form_openid);
+				$ZhongPara= $mkjp->GetZhongPara($type,$openid);//补充信息				
+				$ZhongPara["kj_id"]=$kanjia_info['kj_id'];				 
+				$ZhongPara["openid"]=$openid;				
+				
+				$ZhongJNum= $mkjp->GetZhongJ($type);
 			}
-			
 				
             //开启事务
             M()->startTrans();
@@ -170,7 +180,7 @@ class WxMsgKanjia
 			$save_kanjiaparastatus=TRUE;
 			if($add_money==$shengyumoney){				
 				$add_ZhongParaStatus=M('kanzhong')->add($ZhongPara);
-				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$shengyuprizenum-1);
+				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$prizenum-$ZhongJNum);				
 			}
 			
 			

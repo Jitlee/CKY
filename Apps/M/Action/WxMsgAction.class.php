@@ -354,56 +354,31 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
     }
 
 
-    public function test($m=7888){
+    public function test($type){
 
         header("Content-type:text/html;charset=utf-8");
         set_time_limit (0);//   //设置程序最大执行时间为无限  0为无限制
         ini_set('max_execution_time', '0');//设置最大执行时间  0为不限时
-        $area=M('kanjiarule')->where()->order('kjr_yikan ASC')->select();
+        $map = array("type"=> $type);
+        $area=M('kanjiarule')->where($map)->order('kjr_yikan ASC')->select();
+		$dbjkp = M('kanjia_para');
+		$kjpara= $dbjkp->where("kjcode='".$type."'")->find();
+		
         //计算已砍比例
-        $kanjia_info['money']=7888;
+        $money=$kjpara["money"];
+		$m=$money;
+		 echo "总砍价金额".$kjpara["money"]."<br>";
         $a=0;
-        while($m>=10){
-            $yikan=$kanjia_info['money']-$m;
-            $yikan_bl=round(($yikan/$kanjia_info['money']*100),2);
+        while($m>=0.1){
+            $yikan=$money-$m;
+            $yikan_bl=round(($yikan/$money*100),2);
             //找到它所在的区间
-            foreach ($area as $key => $value) {
-                if($yikan_bl<=$value['kjr_yikan']){
-                    $min=$value['kjr_min'];
-                    $max=$value['kjr_max'];
-                    if($min>0&&$max>0){
-                        $min=(int)$min;
-                        $max=(int)$max;
-                        $add_money1=mt_rand($min,$max-1);
-                        $add_money2=mt_rand(1,99)/100;
-                        $add_money=$add_money1+$add_money2;
-                    }
-                    elseif($min<=0&&$max>=0){
-                        $min=(int)($min*100);
-                        $max=(int)$max;
-                        $add_money1=mt_rand(0,$max-1);
-                        $add_money2=mt_rand($min,99)/100;
-                        $add_money=$add_money1+$add_money2;
-                    }
-                    elseif($min<=0&&$max<=0){
-                        $min=(int)($min*100);
-                        $max=(int)($max*100);
-                        $add_money1=mt_rand(0,0);
-                        $add_money2=mt_rand($min,$max)/100;
-                        $add_money=$add_money1+$add_money2;
-                    }
-                    else{
-                        $add_money1=mt_rand(0,99);
-                        $add_money2=mt_rand(1,99)/100;
-                        $add_money=$add_money1+$add_money2;
-                    }
-                    break;
-                }
-                else{
-                    $add_money2=mt_rand(1,99)/100;
-                    $add_money=$add_money2;
-                }
-            }
+            $mkj=D('M/Kanjia');
+			$add_money=$mkj->GetAddMoney($type, $money, $m);
+			if($add_money>$m)
+			{
+				$add_money=$m;
+			}
             $a++;
             echo "第 $a 刀<br>";
             echo "当前金额：$m <br>";
@@ -450,21 +425,16 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	
 	public function testc()
 	{
-			$type=91;
-			$form_openid='oKxDRv3qgqwZVsHkOZXvcEgDkQyI';
-			$ZhongPara=null;
-			$add_money=10;
-			$shengyumoney=10;
+			$type=92;
+			$form_openid='oKxDRvyD0gFYNwby4lh7kGrOUcM8';
+			 
 			$shengyuprizenum=50;
-			$mkjp=D('M/Kanjia');
-			if($add_money==$shengyumoney){ 
-				$ZhongPara= $mkjp->GetZhongPara($type,$form_openid);
-			}
-			$kanjia_info['kj_id']=583;
+			 $mkjp=D('M/Kanjia');
+			$ZhongPara= $mkjp->GetZhongJ($type);
+			 
+			 
 			
-			$kjobject=$mkjp->GetByid(583);
-			
-			echo dump($kjobject);
+			echo $ZhongPara;
 //          //开启事务
 //          M()->startTrans();
 //          //保存帮砍信息

@@ -16,6 +16,7 @@
       <script src="__PUBLIC__/js/common.js"></script>
       <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
       <script src="__PUBLIC__/plugins/layer/layer.min.js"></script>
+      
       <style type="text/css">
 		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
 	  
@@ -45,6 +46,7 @@
 					<th width="70px">序号</th>
 					<th>中奖昵称</th>
 					<th>中奖时间</th>
+					<th>奖品</th>
 					<th >操作</th>
 				</tr>
 				<tbody>
@@ -52,8 +54,17 @@
 						<tr>
 						<td>{$k}</td>
 						<td>{$vo.nickname}</td>
-						<td>{$vo.time|date="Y-m-d h:i:s",###}</td>
-						<td width="150px"><a zj_id="{$vo.zj_id}" nickname="{$vo.nickname}" class="btn btn-info edit">编辑</a><a class="btn btn-danger del" zj_id={$vo.zj_id} style="margin-left: 10px;">删除</a></td>
+						<td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+						<td>
+							<if condition="$vo['havesendprize'] == '0' ">
+								<a kj_id="{$vo.kj_id}" nickname="{$vo.nickname}" class="btn btn-info sendprize">发送奖品</a>	
+	               			<else/>已发放</if>
+													
+						</td>
+						<td width="150px">
+							<a zj_id="{$vo.zj_id}" nickname="{$vo.nickname}" class="btn btn-info edit">编辑</a>	
+							<a class="btn btn-danger del" zj_id={$vo.zj_id} style="margin-left: 10px;">删除</a>
+						</td>
 					</tr>
 					</volist>
 				</tbody>
@@ -72,7 +83,7 @@
 			});
 			function add(){
 				var nickname=$('input[name=nickname]').val();
-				var type=$('input[name=type]').val();
+				var type={$kjcode};
 				if(nickname==""){
 					layer.msg('请输入完整信息',{icon:0});
 					return false;
@@ -93,13 +104,14 @@
 				layer.closeAll();
 			}
 			
+			
 			$('.edit').click(function(){
 		
 				var nickname=$(this).attr('nickname');
 				var zj_id=$(this).attr('zj_id');
 				layer.open({
 				  type: 1,
-				  title:"添加等级",
+				  title:"修改中奖用户",
 				  scrollbar: false,
 				  skin: 'layui-layer-rim', //加上边框
 				  area: ['300px', '180px'], //宽高
@@ -125,6 +137,34 @@
 					}
 				});
 			}
+			
+			
+			$('.sendprize').click(function(){
+				var _kj_id=$(this).attr('kj_id');
+				var nickname=$(this).attr('nickname');
+				layer.confirm('您确定要给【'+nickname+'】【<span style="color:red">发送奖品</span>】?',{
+					title:'温馨提醒',
+					btn:['确定','取消'],
+					},function(){
+						layer.load();
+						$.post("{:U('sendprize')}",{kj_id:_kj_id},function(data){
+							layer.closeAll('loading');
+							if(data.status){
+								layer.msg(data.info,{icon:1});
+								setTimeout(function(){
+									window.location.reload(0);
+								},1000);
+							}
+							else{
+								layer.msg(data.info,{icon:0});
+							}
+						});
+					},
+					function(){
+						layer.closeAll();
+					}
+				);
+			});
 		
 			$('.del').click(function(){
 				var zj_id=$(this).attr('zj_id');

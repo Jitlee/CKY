@@ -26,8 +26,7 @@ where kj_id=$kj_id";
 	}
 
 	/**传参数**/
-	public function GetByidPara($kj_id) {
-		 
+	public function GetByidPara($kj_id) { 
 		$sql="
 select 
 	kp.prizenum,kp.shengyuprizenum,kp.share_title,kp.share_description,kp.share_imgurl
@@ -42,20 +41,25 @@ where kj_id=$kj_id";
 		return $rsarr[0];		
 	}
 	
-	public function GetByWxid($openid) {
+	public function GetWxUserByOpenid($openid) {
 		$sql="
 select 
 	wu.nickname,headimgurl,m.mobile
 from   cky_member m 
 inner join cky_wx_user wu on wu.openid=m.OpenID
 where
-	m.OpenID=$openid";
+	m.OpenID='$openid'";
+	
 	$m = M('kanjia');
 	$rsarr= $m->query($sql);
 	return $rsarr[0];		
 	}
-	
-
+	/***获取中奖人数**/
+	public function GetZhongJ($type) {
+		$map=array('type'=>$type);
+		$count= M('kanzhong')->where($map)->count();
+		return $count;
+	}
 	
 	public function Insert($uid, $wx_id, $qr_url ,$type)
 	{
@@ -91,10 +95,11 @@ where
 	/**中奖**/
 	public function GetZhongPara($type,$openid)
 	{
-	 	$userinfo=$this->GetByWxid($openid);
+		 
+	 	$userinfo=$this->GetWxUserByOpenid($openid);
 		$data = array();
 		$data["nickname"] =$userinfo["nickname"];
-		$data["phone"] =$userinfo["phone"];
+		$data["phone"] =$userinfo["mobile"];
 		$data["headimgurl"] =$userinfo["headimgurl"];
 		$data["time"] =time();
 		$data["type"] =$type;

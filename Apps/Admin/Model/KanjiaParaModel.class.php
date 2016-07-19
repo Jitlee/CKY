@@ -89,7 +89,8 @@ class KanjiaParaModel extends BaseModel {
 		
 		
 	    if($this->checkEmpty($data,true)){	
-	    	 
+	    	$data["prizeid"] = I("prizeid");
+			
 			$m = M('kanjia_para');
 		    $rs = $m->where("kjid=".(int)I("kjid"))->save($data);
 			if(false !== $rs){
@@ -98,6 +99,21 @@ class KanjiaParaModel extends BaseModel {
 		}
 		return $rd;
 	 } 
+	public function updatePrizeid($kj_id){
+	 	$rd = array('status'=>-1);
+		$data = array();
+		$data["havesendprize"] = 1;
+		$data["sendprize"] =time();
+					
+		$m = M('kanzhong');
+	    $rs = $m->where("kj_id=".(int)$kj_id)->save($data);
+		if(false !== $rs){
+			$rd['status']= 1;
+		}
+		
+		return $rd;
+	}
+
 	 /**
 	  * 获取指定对象
 	  */
@@ -125,6 +141,8 @@ class KanjiaParaModel extends BaseModel {
 		 return $m->find($sql);
 	  }
 	  
+	  
+	  
 	 /**
 	  * 删除
 	  */
@@ -137,5 +155,22 @@ class KanjiaParaModel extends BaseModel {
 		}
 		return $rd;
 	 }
+	 
+	 public function GetKjParaByKjid($kjid)
+	 {
+	 		$sql="
+select 
+	m.CardId,m.Mobile,kp.prizetype,kp.prizeid,m.uid
+from cky_kanjia k 
+inner join cky_member m on m.uid=k.uid
+inner join cky_wx_user wu on wu.openid=m.OpenID
+inner join cky_kanjia_para kp on kp.kjcode=k.type
+where kj_id=$kjid";
+		$m = M('kanjia');
+		$rsarr= $m->query($sql);
+		return $rsarr[0];
+	 }
+	 
+	 
 };
 ?>

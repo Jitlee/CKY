@@ -115,7 +115,7 @@ class OneCardTickModel extends OneCardModel {
 	
 	/* 发送卡券
 	 */
-	public function SendTick($tickid,$mobile)
+	public function SendTick($tickid,$mobile, $uid='')
 	{
 		$rd = array('status'=>-1);
 				 
@@ -131,11 +131,19 @@ class OneCardTickModel extends OneCardModel {
 			$rd["msg"]=$onecres["message"];
 			return $rd;
 		}		
-		return $this->GetTickMList($mobile);
+		if(empty($uid))
+		{
+			$uid=session("uid");
+		}
+		return $this->GetTickMList($mobile,$uid);
 	}
 	
-	public function GetTickMList($mobile)
+	public function GetTickMList($mobile, $uid='')
 	{
+		if(empty($uid))
+		{
+			$uid=session("uid");
+		}
 		$rd = array('status'=>-1);		
 		$data = array(
 			 "userAccount"=>"10000"
@@ -189,7 +197,7 @@ class OneCardTickModel extends OneCardModel {
 					$data["efficacyEDate"]=$onecitem["EndDate"];
 					$data["usekey"]=$onecitem["CouponCode"]; 
 					$data["ticketMStatus"]=0;
-					$data["uid"]=session("uid");
+					$data["uid"]=$uid;
 					if((int)$onecitem["EnableCount"] ==0)
 					{
 						$data["ticketMStatus"]=1;	

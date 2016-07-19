@@ -123,52 +123,7 @@ class KanjiaAction extends BaseAction {
 
 	}
 
-	/*参与活动列表
-    public function canyu(){
-    	// 分页
-    	$pageSize = 20;
-		$pageNum = (int)I("p",1);
-    	
-		$map['type']=1;
-		$db = M('kanjia');
-		$count = $db->where($map)->count();
-		if(!$pageSize) {
-			$pageSize = 20;
-		}
-		$pageNum = intval($pageNum);
-		$pageCount = ceil($count / $pageSize);
-		if($pageNum > $pageCount) {
-			$pageNum = $pageCount;
-		}
-		
-		$pager = new \Think\Page($count,$pageSize);// 实例化分页类 传入总记录数和每页显示的记录数
-    	$page['pager'] = $pager->show();
-    	$this->assign('Page',$page);
-
-		$list=$db->where($map)->page($pageNum, $pageSize)->select();
-		foreach ($list as $key => $value) {
-			$list[$key]['bangkan_count']=M('bangkan')->where(array('kj_id'=>$vlaue['kj_id']))->count();
-			$list[$key]['shengyubili']=round(($value['shengyumoney']/$value['money'])*100,2);
-		}
-    	$this->list=$list;
-    	$this->assign('title','参与活动者列表');
-    	$this->assign('pid','activity');
-    	$this->assign('mid','activitymgr #canyu');
-    	$this->display();
-    }
-
-    public function zhongjiang(){
-		$map['type']=1;
-    	$list=M('kanzhong')->where($map)->select();
-		$this->list=$list;
-		$this->assign('title', '中奖用户');
-		$this->assign('action', U('index', '', ''));
-		$this->assign('pid', 'activity');
-		$this->assign('mid', 'activitymgr #zhongjiang');
-		$this->display();
-    }
-   
-	*/
+	 
 	
 	 public function zhongjian_add(){
 		$this->isAjaxLogin();
@@ -212,15 +167,32 @@ class KanjiaAction extends BaseAction {
 	 public function sendprize(){
 		$this->isAjaxLogin();
 		$this->checkAjaxPrivelege('gggl_03');
-		$data=I('post.kj_id');
+		$kj_id=I('post.kj_id');
 		///false!==M('kanzhong')->where(array('zj_id'=>$data))->delete()
-		if(FALSE){
+		//获取砍价相关信息
+		$mdbpara = D('Admin/KanjiaPara');
+		$KjPara=$mdbpara->GetKjParaByKjid($kj_id);
+		
+		//更新状态
+		$Mobile=$KjPara["Mobile"];
+		$prizeid=$KjPara["prizeid"];
+		$uid=$KjPara["uid"];
+		if(strlen($prizeid) >10)
+		{
+			//向一卡易申请发送卡券，并同步数据
+			$m = D('M/OneCardTick');
+			$rst  = $m->SendTick($prizeid,$Mobile,$uid);			 
+			if($rst == FALSE)
+			{
+				$this->ajaxReturn(array('status'=>0,'info'=>'发送奖品失败，请刷新后重试..'));
+			}
+		}
+		$rst  = $mdbpara->updatePrizeid($kj_id);
+		if($rst!==false){
 			$this->ajaxReturn(array('status'=>1,'info'=>'发送奖品成功'));
+			exit;
 		}
-		else{
-			$this->ajaxReturn(array('status'=>0,'info'=>'发送奖品失败，请刷新后重试'.$data));
-		}
-
+		$this->ajaxReturn(array('status'=>0,'info'=>'发送奖品失败，请刷新后重试.'));		
 	}
 	/*积分砍价规则列表*/
 	public function ffindex(){

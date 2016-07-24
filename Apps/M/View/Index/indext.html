@@ -123,7 +123,6 @@
 			 
 			if(city) {
 				$("#cityLabel").text(city.replace(/市$/, ""));
-				alert("获取到"+city);
 				currentCity = city.replace(/市$/, "");			
 				cky.storage.setItem("currentCity", currentCity, 5 * 60);//5分钟
 				cky.storage.setItem("currentLongitude", currentLongitude, 5 * 60);

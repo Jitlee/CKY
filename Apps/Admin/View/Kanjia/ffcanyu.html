@@ -41,6 +41,7 @@
 					<th width="70px">序号</th>
 					<th>参与者微信id</th>
 					<th>参与者注册id</th>
+					<th>昵称</th>
 					<th>已砍金额</th>
 					<th>总金额</th>
 					<th>剩余金额</th>
@@ -52,9 +53,10 @@
 					<volist name="list" id="vo" key="k">
 						<tr>
 						<td>{$k}</td>
-						<td>{$vo.wx_id}</td>
+						<td>{$vo.wx_id}</td>						
 						<td style="text-align: center;">{$vo.uid}</td>
-						<td style="text-align: center;">{$vo.yikan}</td>
+						<td>{$vo.nickname}</td>
+						<td style="text-align: center;">{$vo["money"]-$vo["shengyumoney"]}</td>
 						<td>{$vo.money}</td>
 						<td>{$vo.shengyumoney}</td>
 						<td>{$vo.count}</td>

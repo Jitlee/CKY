@@ -228,7 +228,9 @@ class KanjiaAction extends BaseAction {
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page);
 
-		$list=$db->where($map)->page($pageNum, $pageSize)->select();
+		$list=$db
+			->join('kj inner join cky_wx_user u on u.wx_id=kj.wx_id')
+			->where($map)->page($pageNum, $pageSize)->select();
 		foreach ($list as $key => $value) {
 			$list[$key]['bangkan_count']=M('bangkan')->where(array('kj_id'=>$vlaue['kj_id']))->count();
 			$list[$key]['shengyubili']=round(($value['shengyumoney']/$value['money'])*100,2);

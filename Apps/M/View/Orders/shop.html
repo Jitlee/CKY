@@ -223,7 +223,12 @@
 				
 				
 				$("#submit").click(function() {
-					if(!vm.consignee) {
+					var addid=0;
+					if(vm.consignee())
+					{
+						addid=vm.consignee().id;
+					}
+					if(addid ==0) {
 						cky.alert("请选择收货地址");
 						return;
 					}

@@ -1,0 +1,211 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<style>
+</style>
+
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
+		<span id="cityLabel">通海</span>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+	 
+</header>
+<nav class="mall-search-bar">
+	<a class="mall-search-bar-item" href="{:U('Mall/category')}"><i class="iconfont icon-list"></i></a>
+	<div class="mall-search-bar-item">
+		<i class="iconfont icon-sousuo"></i>
+		<input class="mall-need-search" placeholder="搜索超市商品"/>
+	</div>
+	<a id="cartButton" class="mall-search-bar-item" href="{:U('Cart/index')}"><i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i></a>
+	
+</nav>
+
+<div id="body" class="mui-content mui-content-bottom">
+	<div>
+		<!-- Slider main container -->
+		<div class="swiper-container">
+		    <!-- Additional required wrapper -->
+		    <div class="swiper-wrapper">
+		        <!-- Slides -->
+		        <foreach name="ads" item="item">
+	        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+		        </foreach>
+		    </div>
+		    <!-- If we need pagination -->
+		    <div class="swiper-pagination"></div>
+		</div> 
+		 
+		<div class="mall-mod mall-mod-hot" data-bind="foreach: goods">
+			<div class="mall-mod-hot-cell" data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+				<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+					<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }">
+						<!-- ko if: goodsStock == 0 -->
+						<div class="cky-sold-out">
+							<div class="cky-sold-out-title">抢光了</div>
+							<div class="cky-sold-out-sub">SOLD OUT</div>
+						</div>
+						<!-- /ko -->
+					</div>
+					<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
+					<p class="font12" data-bind="css: { hot: Number(isHot) == 1 }">销量<span data-bind="text: saleCount"></span>件</p>
+				<a/>
+				<div class="mui-table mall-goods-prices-table">
+					<div class="mui-table-cell">
+						<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
+					</div>
+					<div class="mui-table-cell mui-text-right">
+						<a data-bind="click: $parent.addCartClick,css: { 'cky-sold-out-btn': goodsStock == 0 }" class="cky-add-cart-btn"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="Public:tab"/>
+<include file="search"/>
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+<script>
+	$(function() { 
+		// 轮播广告
+		var mySwiper = new Swiper ('.swiper-container', {
+	      	// Optional parameters
+	      	direction: 'horizontal',
+	      	pagination: '.swiper-pagination',
+	      	autoplay: 3000,
+	      	loop: true
+	   	});
+	   	
+	   	var cartButton = $("#cartButton");
+	   	var cardButton = $("#cardButton");
+	   	var ticketButton = $("#ticketButton");
+	   	
+	   	// 倒计时
+	   	(function() {
+		   	var digtails = $(".mall-yyg-nav-count-t");
+		   	var now = new Date();
+		   	var handler = null;
+		   	var time = 0;
+		   	var hours = now.getHours();
+		   	var timeBegin = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+		   	var yygNextHourSpan = $("#yygNextHourSpan");
+		   	var leftTime = 0;
+		   	var nextHours = [
+		   		{ name: "上午10点", value: 10 },
+		   		{ name: "中午12点", value: 12 },
+		   		{ name: "下午3点", value: 15 },
+		   		{ name: "晚上8点", value: 20 },
+		   	];
+		   	if(hours < 23 || hours > 8) {
+		   		handler = window.setInterval(countdown, 1000);	
+		   	}
+		   	function countdown() {
+		   		now = new Date();
+		   		time = now.getTime();
+		   		hours = now.getHours();
+		   		if(hours >= 23 || hours <= 8) {
+		   			window.clearInterval(handler);
+		   			return;
+		   		}
+		   		
+		   		for(var i = 0, len = nextHours.length; i < len; i++) {
+		   			if(hours < nextHours[i].value) {
+		   				leftTime = nextHours[i].value * 3600 * 1000 + timeBegin - time;
+		   				var times = ("00" + String(Math.floor(leftTime / 1000 / 3600 % 24))).match(/\d{2}$/)[0]
+		   					+ ("00" + String(Math.floor(leftTime / 1000 / 60 % 60))).match(/\d{2}$/)[0]
+		   					+ ("00" + String(Math.floor(leftTime / 1000 % 60))).match(/\d{2}$/)[0];
+		   				for(var j = 0; j < 8; j++) {
+		   					digtails.eq(j).text(times[j]);
+		   				}
+		   				yygNextHourSpan.text(nextHours[i].name);
+		   				break;
+		   			}
+		   		}
+		   	}
+	   		
+	   	})();
+	   	
+	   	// 商品
+	   	var goods = [];
+		var vm = {
+			goods: ko.observableArray(goods),
+			addCartClick: onaddcartclick
+		};
+		ko.applyBindings(vm, document.getElementById("body"));
+		
+		var pageNo = 1;
+		function page() {
+			$.getJSON("{:U('Goods/ptg')}", {
+				pageNo: pageNo,
+				catId: 3
+			}, function(list) {
+				util.endScroll("#body");
+				if(list && list.length > 0) {
+					pageNo++;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				}
+			});
+		}
+		util.onScrollEnd(page, "#body");
+		page();
+		
+		// 购物车
+		function onaddcartclick(obj, evt) {
+			if(obj.goodsStock > 0) {
+				$(evt.delegateTarget).flyTo(cartButton);
+				cky.addToShopCart(obj);
+			}
+		}
+	});
+</script>
+<script>  
+	var currentCity = $("#cityLabel").text();
+	var currentLongitude = 0;
+	var currentLatitude = 0;
+	
+	var shareData = {
+	    title: '粗卡',
+	    desc: '粗卡-商城',
+	    link: window.location.href,
+	    imgUrl: ''
+	};
+	
+	currentCity=cky.storage.getItem("currentCity");
+	if(currentCity)
+	{
+		currentLongitude =cky.storage.getItem("currentLongitude");
+		currentLatitude =cky.storage.getItem("currentLatitude");
+		$("#cityLabel").text(currentCity);
+	}
+	else
+	{
+		wxext = function(){
+			getlocation=null;
+		};
+		var signPackage=new Object(); 
+		signPackage.appId='{$signPackage.appId}';
+		signPackage.timestamp={$signPackage.timestamp};
+		signPackage.nonceStr='{$signPackage.nonceStr}';
+		signPackage.signature='{$signPackage.signature}';
+		signPackage.Location=1;//调用
+		signPackage.ak="{$CONF['bmapAK']}";
+		 
+		wxext.getlocation= function(lng, lat, city, areaId) {
+			currentLongitude = lng;
+			currentLatitude = lat;	
+			if(city) {
+				$("#cityLabel").text(city.replace(/市$/, ""));
+				currentCity = city.replace(/市$/, "");
+				
+				cky.storage.setItem("currentCity", currentCity, 15 * 60);//15分钟
+				cky.storage.setItem("currentLongitude", currentLongitude, 15 * 60);
+				cky.storage.setItem("currentLatitude", currentLatitude, 15 * 60);
+			}
+		};
+	}// end storage
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?10"></script>
+

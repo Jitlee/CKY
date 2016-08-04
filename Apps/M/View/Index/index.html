@@ -26,9 +26,9 @@
 			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Shops/index')}"><img src="__IMG__/seller.png"/>商家</a>
 			<a class="cky-grid-cell font8 cky-animate-scale"  href="{:U('Recommend/index')}"><img  id="gltjct" src="__IMG__/restaurant.png"/>推荐餐厅</a>
 			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Activity/index')}"><img src="__IMG__/activities.png"/>活动</a>
-			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Fast/index')}"><img src="__IMG__/takeaway.png"/>速达农村配送</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Deliver/index')}"><img src="__IMG__/takeaway.png"/>速达农村配送</a>
 			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glxhkp"><img src="__IMG__/monkey.png"/>小猴快跑</a>
-			<a class="cky-grid-cell font8 cky-animate-scale jqqd" id="glshfw"><img src="__IMG__/life.png"/>生活服务</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" id="glshfw"><img src="__IMG__/life.png"/>生活服务</a>
 			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Mall/index')}" id="glsc"><img src="__IMG__/mall.png"/>商城</a>
 			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Miaosha/index')}" id="glother"><img src="__IMG__/other.png"/>其他</a>
 			
@@ -188,7 +188,10 @@
 		//$('#gltjct').click(function(){cky.toast('敬请期待...');});
 //		$("#glhd").click(function(){cky.toast('敬请期待...');});
 		$("#glxhkp").click(function(){cky.toast('敬请期待...');});
-		$("#glshfw").click(function(){cky.toast('敬请期待...');});
+		$("#glshfw").click(function(){
+//			cky.toast('敬请期待...');
+			window.location.href = "{:U('Shops/index','','')}?catid=413";		
+		});
 //		$("#glsc").click(function(){cky.toast('敬请期待...');});
 //		$("#glother").click(function(){cky.toast('敬请期待...');});
 		

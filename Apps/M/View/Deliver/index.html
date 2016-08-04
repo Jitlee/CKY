@@ -1,0 +1,182 @@
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		速达农村配送
+	</h1>
+</header>
+
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<script src="__JS__/swiper.jquery.min.js"></script>
+<div class="mui-content mui-content-bottom">
+	<!-- Slider main container -->
+	<div class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <foreach name="ads" item="item">
+        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+	        </foreach>
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
+	<div class="mui-content-padded">
+		<div class="cky-grid cky-grid4">
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Deliver/detail')}"><img src="__IMG__/seller.png"/>河西镇</a>
+			<a class="cky-grid-cell font8 cky-animate-scale"  href="{:U('Recommend/index')}"><img  id="gltjct" src="__IMG__/restaurant.png"/>九街镇</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Activity/index')}"><img src="__IMG__/activities.png"/>纳古镇</a>
+			<a class="cky-grid-cell font8 cky-animate-scale" href="{:U('Fast/index')}"><img src="__IMG__/takeaway.png"/>杨广镇</a>
+		</div>
+		
+		<div class="cky-grid cky-grid2 cky-special">
+			<a class="cky-grid-cell cky-hotpot-ticket">
+				<div class="cky-media" id="m1">
+					<p style="color: #1558A0;">客栈 酒店</p>
+					<h5>优惠房型 售完即止</h5>
+				</div>
+			</a>
+			<a class="cky-grid-cell cky-points-edemption">
+				<div class="cky-media" id="m2">
+					<p style="color: #4BA837;">积分抽奖</p>
+					<h5>好运气 快来玩</h5>
+				</div>
+			</a>
+			<a class="cky-grid-cell cky-scratch-off">
+				<div class="cky-media" id="m3">
+					<p style="color: #CA4D82;">一元钱 中大奖</p>
+					<h5>机会不容错过</h5>
+				</div>
+			</a>
+			<a class="cky-grid-cell cky-delivery-free">
+				<div class="cky-media" id="m4">
+					<p style="color: #e0a942;">卡券大派送</p>
+					<h5>商家大让利</h5>
+				</div>
+			</a>
+		</div>
+	</div>
+	
+	 
+</div>
+
+<include file="Public:tab"/>
+<script>  
+	var currentCity = $("#cityLabel").text();
+	var currentLongitude = 0;
+	var currentLatitude = 0;
+	
+	var shareData = {
+	    title: '粗卡',
+	    desc: '粗卡云管理',
+	    link: window.location.href,
+	    imgUrl: ''
+	};
+	
+ 
+
+//	currentCity=cky.storage.getItem("currentCity");
+//	if(currentCity)
+//	{
+//		currentLongitude =cky.storage.getItem("currentLongitude");
+//		//cky.toast(currentLongitude);
+//		currentLatitude =cky.storage.getItem("currentLatitude");
+//		$("#cityLabel").text(currentCity);
+ 
+//	}
+//	else
+//	{
+		wxext = function(){
+			getlocation=null;
+		};
+			
+		try
+		{	
+			var signPackage=new Object(); 
+			signPackage.appId='{$signPackage.appId}';
+			signPackage.timestamp={$signPackage.timestamp};
+			signPackage.nonceStr='{$signPackage.nonceStr}';
+			signPackage.signature='{$signPackage.signature}';
+			signPackage.Location=1;//调用
+			signPackage.ak="{$CONF['bmapAK']}";
+			 
+			wxext.getlocation= function(lng, lat, city, areaId) {
+				currentLongitude = lng;
+				currentLatitude = lat;	
+				 
+				if(city) {
+					$("#cityLabel").text(city.replace(/市$/, ""));
+					currentCity = city.replace(/市$/, "");			
+					cky.storage.setItem("currentCity", currentCity, 15 * 60);//15分钟
+					cky.storage.setItem("currentLongitude", currentLongitude, 15 * 60);
+					cky.storage.setItem("currentLatitude", currentLatitude, 15 * 60);
+				}
+			};
+ 		}catch(e){
+			
+		}
+	//}
+ 
+//	}
+ 
+</script>
+
+<script type="text/javascript" src="__KO__"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?11"></script>
+<script>
+	$(function() {
+		
+//		var currentCity = $("#cityLabel").text();
+//		var currentLongitude = 0;
+//		var currentLatitude = 0;
+		
+//		geolocation.getCurrentPosition("{$CONF['bmapAK']}", function(lng, lat, city, areaId) {
+//			currentLongitude = lng;
+//			currentLatitude = lat;
+//			if(city) {
+//				$("#cityLabel").text(city.replace(/市$/, ""));
+//				currentCity = city.replace(/市$/, "");
+//			}
+//		});
+		
+		var mySwiper = new Swiper ('.swiper-container', {
+	      // Optional parameters
+	      direction: 'horizontal',
+	      pagination: '.swiper-pagination',
+	      autoplay: 3000,
+	      loop: true
+	   });
+	   
+	   // 猜你喜欢的
+	   var guessList = $("#guessList");
+	   $.getJSON("{:U('guess')}", null, function(list) {
+	   		ko.applyBindings(list, guessList[0]);
+	   		guessList.show();
+	   });
+	   
+	   //未开发功能提醒
+		//$('#gltjct').click(function(){cky.toast('敬请期待...');});
+//		$("#glhd").click(function(){cky.toast('敬请期待...');});
+		$("#glxhkp").click(function(){cky.toast('敬请期待...');});
+		$("#glshfw").click(function(){
+//			cky.toast('敬请期待...');
+			window.location.href = "{:U('Shops/index','','')}?catid=413";		
+		});
+//		$("#glsc").click(function(){cky.toast('敬请期待...');});
+//		$("#glother").click(function(){cky.toast('敬请期待...');});
+		
+		$("#m1").click(function(){
+			window.location.href = "{:U('Shops/index','','')}?catid=415";
+		});
+		$("#m3").click(function(){
+			window.location.href = "{:U('Miaosha/index')}";
+		});
+		$("#m2").click(function(){cky.toast('敬请期待...');});
+		$("#m4").click(function(){
+			window.location.href = "{:U('Activity/coupon')}";
+		});
+		
+	});
+</script>

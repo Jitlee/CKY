@@ -191,14 +191,14 @@ class GoodsModel extends BaseModel {
 		return $list;
 	}
 
-	public function pageByShopsId($pageNo = 0, $pageSize = 0, $catId = 0) {
+	public function pageByShopsId($pageNo = 0, $pageSize = 0) {
 		if($pageNo == 0) {
-			$pageSize = (int)I('pageSize', 20);
+			$pageSize = (int)I('pageSize', 10);
 			$pageNo = (int)I('pageNo', 1);
 			$catId = (int)I('catId');
 		}
-		$catId3 = (int)I('catId3', 0);
-		 
+		$catId = (int)I('catId', 0);
+		   
 		
 		$field = "g.goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums"
 			.", g.goodsStock,goodsUnit, g.shopCatId1"
@@ -210,7 +210,7 @@ class GoodsModel extends BaseModel {
 			//'g.goodsCatId1'	=> $catId
 		);
 		if($catId>0){
-			$filter['g.goodsCatId1'] = $catId;
+			$filter['g.shopCatId1'] = $catId;
 		}
 		 
 
@@ -224,15 +224,14 @@ class GoodsModel extends BaseModel {
 			$filter['goodsName'] = array('like', $likeArray, 'or');
 		}
 		
-		$shopId = (int)I('shopId', 0);
-		if($shopId > 0) {
-			$filter['g.shopId'] = $shopId;
-		}
+		$shopId = (int)I('shopId', 0);	
+		$filter['g.shopId'] = $shopId;
+	
 		
-		$shopCatId = intval(I('shopCatId', 0));
-		if($shopCatId > 0) {
-			$filter['g.shopCatId1'] = $shopCatId;
-		}
+//		$shopCatId = intval(I('shopCatId', 0));
+//		if($shopCatId > 0) {
+//			$filter['g.shopCatId1'] = $shopCatId;
+//		}
 		
 		$join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
 		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';

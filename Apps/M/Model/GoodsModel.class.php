@@ -190,6 +190,82 @@ class GoodsModel extends BaseModel {
 //		echo $this->getLastSql();
 		return $list;
 	}
+
+	public function pageByShopsId($pageNo = 0, $pageSize = 0, $catId = 0) {
+		if($pageNo == 0) {
+			$pageSize = (int)I('pageSize', 20);
+			$pageNo = (int)I('pageNo', 1);
+			$catId = (int)I('catId');
+		}
+		$catId3 = (int)I('catId3', 0);
+		 
+		
+		$field = "g.goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums"
+			.", g.goodsStock,goodsUnit, g.shopCatId1"
+			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
+		$filter = array(
+			'g.shopId'			=> array('gt', 0),
+			'isSale'			=> 1,
+			'goodsFlag'		=> 1,
+			//'g.goodsCatId1'	=> $catId
+		);
+		if($catId>0){
+			$filter['g.goodsCatId1'] = $catId;
+		}
+		 
+
+		$keywords = I('keywords', '-');
+		if($keywords != '-') {
+			$keywordsArray = preg_split('/[\s,]+/', I('keywords'));
+			$likeArray = array();
+			foreach($keywordsArray as $key) {
+				array_push($likeArray, '%'.$key.'%');
+			}
+			$filter['goodsName'] = array('like', $likeArray, 'or');
+		}
+		
+		$shopId = (int)I('shopId', 0);
+		if($shopId > 0) {
+			$filter['g.shopId'] = $shopId;
+		}
+		
+		$shopCatId = intval(I('shopCatId', 0));
+		if($shopCatId > 0) {
+			$filter['g.shopCatId1'] = $shopCatId;
+		}
+		
+		$join = 'g inner join __SHOPS__ s on g.shopId = s.shopId';
+		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';
+		$leftJoin2 = 'left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid';
+
+		$order = 'saleCount desc, isBest desc, isHot desc, goodsId desc';
+		
+//		$sortType = (int)I('sortType', 0);
+//		
+//		switch($sortType) {
+//			case 1:
+//				$order = 'isBest desc, isHot desc, goodsId desc';
+//				break;
+//			case 2:
+//				break;
+//			case 3:
+//				$order = 'shopPrice asc,'.$order;
+//				break;
+//			case 4:
+//				$order = 'shopPrice desc,'.$order;
+//				break;
+//			case 101:
+//				$order = 'shopPrice desc,'.$order;
+//				break;
+//		}
+		
+		$list = $this->field($field)->join($join)
+			->join($leftJoin1)
+			->join($leftJoin2)
+			->where($filter)->order($order)->page($pageNo, $pageSize)->select();
+//		echo $this->getLastSql();
+		return $list;
+	}
 	
 	public function countTop() {
 		$catId = (int)I('catId');

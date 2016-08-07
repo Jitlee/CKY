@@ -95,6 +95,7 @@
                
                <th width='60'>营业状态</th>
                <th width='80'>推荐餐厅</th>
+               <th width='80'>配送广告</th>
                <th width='120'>操作</th>
              </tr>
            </thead>
@@ -113,6 +114,10 @@
                </td>
                <td>
                		<if condition="$vo['recommid'] == 0 ">-<else/>推荐</if>&nbsp;
+               </td>
+               <td>
+               		<a class="btn btn-default glyphicon glyphicon-pencil"  
+               			href="{:U('Admin/Ads/index',array('shopId'=>$vo['shopId']))}">配送广告</a>&nbsp;
                </td>
                <td>
                <php>if(in_array('dplb_02',$RTC_STAFF['grant'])){</php>

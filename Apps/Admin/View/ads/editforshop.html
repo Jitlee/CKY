@@ -71,9 +71,8 @@
 	   params.areaId1 = $('#areaId1').val();
 	   params.areaId2 = $('#areaId2').val();
 	   params.areaId3 = $('#areaId3').val();
-	   params.adPositionId = $('#adPositionId').val();
-	   params.shopId = $('#shopId').val();
-	 
+       params.adPositionId = $('#adPositionId').val();
+       params.shopId = $('#shopId').val();
 	   params.adSort = $('#adSort').val();
 	   params.adName = $.trim($('#adName').val());
 	   params.adFile = $.trim($('#adFile').val());
@@ -83,7 +82,7 @@
 	   params.adStartDate = date[0];
 	   params.adEndDate = date[1];
 	   if(params.adFile==''){
-	   Plugins.Tips({title:'信息提示',icon:'error',content:'请上传广告图片!',timeout:1000});
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请上传广告图片!',timeout:1000});
 		   return;
 	   }
 	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
@@ -91,7 +90,7 @@
 			var json = RTC.toJson(data);
 			if(json.status=='1'){
 				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
-				   location.href='{:U("Admin/Ads/index")}';
+				   location.href='{:U("Admin/Ads/index",array('shopId'=>$shopId))}';
 				}});
 			}else{
 				Plugins.closeWindow();
@@ -147,19 +146,8 @@
              <th align='right'>广告位置<font color='red'>*</font>：</th>
              <td>
              <select id='adPositionId'>
-                <option value=''>请选择</option>
-                <option value='-1' <if condition="$object['adPositionId'] == -1 ">selected</if>>首页主广告</option>
-                <option value='-2' <if condition="$object['adPositionId'] == -2 ">selected</if>>推荐餐厅广告</option>
-                <option value='-3' <if condition="$object['adPositionId'] == -3 ">selected</if>>领券中心－今日主打</option>
-                <option value='-4' <if condition="$object['adPositionId'] == -4 ">selected</if>>商城顶端广告</option>
-                <option value='-5' <if condition="$object['adPositionId'] == -5 ">selected</if>>商城－一元购广告</option>
-                <option value='-10' <if condition="$object['adPositionId'] == -10 ">selected</if>>农村配送</option>
-                
-                
-                <!--<option value='-3' <if condition="$object['adPositionId'] == -3 ">selected</if>>商家街广告</option>-->
-                <!--<volist name="goodsCatList" id="vo">
-                <option value='{$vo['catId']}' <if condition="$object['adPositionId'] == $vo['catId'] ">selected</if>>(商品分类){$vo['catName']}</option>
-                </volist>-->
+             	<option value=''>请选择</option>
+                <option value='-20' <if condition="$object['adPositionId'] == -20 ">selected</if>>商家广告</option>
              </select>
              </td>
            </tr>

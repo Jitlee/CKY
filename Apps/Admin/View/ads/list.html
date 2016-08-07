@@ -39,6 +39,7 @@
    	<div style="padding-top: 6px;">
        <div class='rtc-tbar' style='height:25px;'>
        <form method='post' action='{:U("Admin/Ads/index")}' autocomplete="off">
+       	<input type='hidden' name='shopId' value='{$shopId}' autocomplete="off"/>
    		<div style="float:left;width:950px;">      
 		  广告位置：<select name="adPositionId">
                 <option value=''>请选择</option>
@@ -47,6 +48,8 @@
                 <option value='-3' <if condition="$object['adPositionId'] == -3 ">selected</if>>领券中心－今日主打</option>
                 <option value='-4' <if condition="$object['adPositionId'] == -4 ">selected</if>>商城顶端广告</option>
                 <option value='-5' <if condition="$object['adPositionId'] == -5 ">selected</if>>商城－一元购广告</option>
+                <option value='-10' <if condition="$object['adPositionId'] == -10">selected</if>>农村配送</option>
+                <option value='-20' <if condition="$object['adPositionId'] == -20">selected</if>>商家广告</option>
              </select>
                       广告标题：<input type='text' name='adName' value='{$params[adName]}' autocomplete="off"/>  
   		<button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
@@ -54,7 +57,7 @@
        	</div>
 		   <div class='rtc-tbar' style='text-align:right;height:25px;'>
 	       <php>if(in_array('ppgl_01',$RTC_STAFF['grant'])){</php>
-	       <a type="button" class="btn btn-success glyphicon glyphicon-plus" href='{:U("Admin/Ads/toEdit")}' style='float:right'>新增</a>
+	       <a type="button" class="btn btn-success glyphicon glyphicon-plus" href='{:U("Admin/Ads/toEdit",array('shopId'=>$shopId))}' style='float:right'>新增</a>
 	       <php>}</php>
 	       </div>
 	       <div style="clear:both;"></div>
@@ -65,6 +68,7 @@
            <thead>
              <tr>
                <th width='40'>&nbsp;</th>
+               <th width='120'>所属商家</th>
                <th width='120'>广告标题</th>
                <th>广告位置</th>
                <th>广告网址</th>
@@ -79,6 +83,7 @@
             <volist name="Page['root']" id="vo" key='i'>
              <tr>
                <td>{$i}</td>
+               <td>{$vo['shopName']}</td>
                <td>{$vo['adName']}</td>
                <td>
 	               <if condition="$vo['adPositionId'] == -1 ">首页主广告
@@ -86,6 +91,9 @@
 	               <elseif condition="$vo['adPositionId'] == -3 "/>领券中心－今日主打
 	               <elseif condition="$vo['adPositionId'] == -4 "/>商城顶端广告
 	               <elseif condition="$vo['adPositionId'] == -5 "/>商城－一元购广告
+	               <elseif condition="$vo['adPositionId'] == -10 "/>农村配送
+	               <elseif condition="$vo['adPositionId'] == -20 "/>商家广告
+	               
 	               <else/>未定义分类</if>
                </td>  
                <td>{$vo['adURL']}</td>
@@ -94,13 +102,13 @@
                <td><img src='__ROOT__/{$vo['adFile']}' width='60' height='30'></td>
                <td>{$vo['adClickNum']}</td>
                <td>
-               <a class="btn btn-default glyphicon glyphicon-pencil" href='{:U("Admin/Ads/toEdit",array('id'=>$vo['adId']))}'>修改</a>&nbsp;
+               <a class="btn btn-default glyphicon glyphicon-pencil" href='{:U("Admin/Ads/toEdit",array('id'=>$vo['adId'],'shopId'=>$vo['shopId']))}'>修改</a>&nbsp;
                <a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['adId']})">刪除</a>
                </td>
              </tr>
              </volist>
              <tr>
-                <td colspan='9' align='center'>{$Page['pager']}</td>
+                <td colspan='10' align='center'>{$Page['pager']}</td>
              </tr>
            </tbody>
         </table>

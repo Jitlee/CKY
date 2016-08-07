@@ -12,7 +12,7 @@ class AdsAction extends BaseAction{
 	/**
 	 * 跳到新增/编辑页面
 	 */
-	public function toEdit(){
+	public function toEdit($shopId=""){
 		$this->isLogin();
 		//获取地区信息
 		$m = D('Admin/Areas');
@@ -32,7 +32,18 @@ class AdsAction extends BaseAction{
     		$object['adEndDate'] = date('Y-m-d',strtotime("+1 month"));
     	}
     	$this->assign('object',$object);
-		$this->view->display('/ads/edit');
+		$this->assign('shopId',$shopId);
+		//如果不为空显示名称
+		 
+		 
+		if(empty($shopId))
+		{
+			$this->view->display('/ads/edit');
+		}
+		else
+		{
+			$this->view->display('/ads/editforshop');
+		}
 	}
 	/**
 	 * 新增/修改操作
@@ -75,6 +86,8 @@ class AdsAction extends BaseAction{
     	$pager = new \Think\Page($page['total'],$page['pageSize']);
     	$pager->setConfig('header','个会员');
     	$page['pager'] = $pager->show();
+		$shopId=I("shopId","");
+		$this->assign('shopId',$shopId);
     	$this->assign('Page',$page);
         $this->display("/ads/list");
 	}

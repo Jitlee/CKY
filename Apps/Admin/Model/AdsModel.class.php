@@ -22,7 +22,9 @@ class AdsModel extends BaseModel {
 		$data["adStartDate"] = I("adStartDate");
 		$data["adEndDate"] = I("adEndDate");
 		$data["adSort"] = I("adSort",0);
+		
 		if($this->checkEmpty($data,true)){
+			$data["shopId"] = I("shopId","");
 			$data["adName"] = I("adName");
 		    $data["adURL"] = I("adURL");
 			$data["areaId1"] = I("areaId1");
@@ -47,7 +49,7 @@ class AdsModel extends BaseModel {
 		$data["adStartDate"] = I("adStartDate");
 		$data["adEndDate"] = I("adEndDate");
 		$data["adSort"] = (int)I("adSort",0);
-	    if($this->checkEmpty($data,true)){	
+	    if($this->checkEmpty($data,true)){
 	    	$data["adName"] = I("adName");
 			$data["adURL"] = I("adURL");
 	    	$data["areaId1"] = (int)I("areaId1");
@@ -73,17 +75,19 @@ class AdsModel extends BaseModel {
      public function queryByPage(){
      	$adPositionId = (int)I('adPositionId');
      	$adDateRange = I('adDateRange');
+		$shopId=I("shopId","");
      	$adName = I('adName');
         $m = M('ads');
-	 	$sql = "select a.*,a1.areaName areaName1,a2.areaName areaName2
-	 	        from __PREFIX__ads a left join __PREFIX__areas a1 on a.areaId1=a1.areaId 
+	 	$sql = "select a.*,a1.areaName areaName1,a2.areaName areaName2,s.shopName
+	 	        from __PREFIX__ads a 
+	 	        left join __PREFIX__shops s on s.shopId=a.shopId
+	 	        left join __PREFIX__areas a1 on a.areaId1=a1.areaId 
 	 	        left join __PREFIX__areas a2 on a.areaId2 = a2.areaId where 1=1 ";
 	 	if($adPositionId!="")$sql.="  and adPositionId=".$adPositionId;
-	 	if($adName!=""){
-	 		$sql.="  and a.adName like '%$adName%'";
-	 	}
-	 	$sql.=' order by adId desc';
-
+		if($shopId!="")$sql.="  and a.shopId=".$shopId;
+	 	if($adName!="") $sql.="  and a.adName like '%$adName%'";
+	 	$sql.=' order by a.shopId desc,adPositionId,adEndDate desc';
+			 
 		return $m->pageQuery($sql);
 	 }
 	 /**

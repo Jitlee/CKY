@@ -24,7 +24,7 @@ class DeliverAction extends Controller {
 		$this->assign('tabid', 'home');
 		
 		$addb = D('ads');
-		$ads = $addb->queryByType(-1);
+		$ads = $addb->queryByType(-10);
 		$this->assign('ads', $ads); 
 		 
 		$this->display();
@@ -32,8 +32,9 @@ class DeliverAction extends Controller {
 	 
 	public function detail() {
 		// 获取广告
-		$addb = D('ads');
-		$ads = $addb->queryByType(-4);
+		$addb = D('ads');		
+		$shopId=I("shopid",0);
+		$ads = $addb->queryByShopid($shopId);
 		$this->assign('ads', $ads);  
 	 
 		 
@@ -42,7 +43,20 @@ class DeliverAction extends Controller {
 		$signPackage=$wxm->getSignPackage();			 
 		$this->assign('signPackage', $signPackage);
 		
-		$this->assign('title', '商城');
+		$m = D('M/Shops');
+		$data = $m->detail($shopId);
+		
+		$this->assign('shopId', $shopId);
+		$this->assign('title', '速达农村配送-'.$data["shopName"]);
 		$this->display();
 	}
+	
+	public function ptg() { 		
+		$db = D('Goods');
+		$list = $db->pageByShopsId();
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	
+	
 }

@@ -9,7 +9,7 @@ function ShopCart(pickerId, shop, goods) {
 	var shopId = shop.shopId;
 	var shopCart = this;
 	// 获取购物车列表
-	var CACHE_KEY = "cky-shop-cart";
+	var CACHE_KEY = cacheKey || "cky-shop-cart";
 	var root = $("#" + pickerId).click(onclose);
 	var body = $(".cky-goods-picker-body", root);
 	var goodsCount = 1;
@@ -103,7 +103,7 @@ function ShopCart(pickerId, shop, goods) {
 			_shop.goods[goods.goodsId] = _goods;
 			// 保存购物车
 			cky.storage.setItem(directKey, selectedCart);
-			window.location.href = "../Orders/shop.html?from=direct&shopId=" + shopId + "&submit=" + directKey;
+			window.location.href = "../Orders/shop.html?from=direct&cacheKey=" + CACHE_KEY + "&shopId=" + shopId + "&submit=" + directKey;
 			close();
 		}
 	}
@@ -127,7 +127,7 @@ function ShopCart(pickerId, shop, goods) {
 }
 
 cky.addToShopCart = function(goods) {
-	var CACHE_KEY = "cky-shop-cart";
+	var CACHE_KEY = cacheKey || "cky-shop-cart";
 	var cart = cky.storage.getItem(CACHE_KEY) || { shops: {} };
 	var shopId = goods.shopId;
 	var shopName = goods.shopName;

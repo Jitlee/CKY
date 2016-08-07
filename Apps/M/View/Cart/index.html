@@ -73,7 +73,7 @@
 <script>
 	cky.pageShow(function() {
 		$(function() {
-			var CACHE_KEY = "cky-shop-cart";
+			var CACHE_KEY = "{:I('cacheKey', 'cky-shop-cart')}";
 			var cart = cky.storage.getItem(CACHE_KEY);
 			if(cart && cart.shops && !cky.isEmpty(cart.shops)) {
 				var shops = [];
@@ -167,7 +167,7 @@
 					if(!payElement.hasClass("disabled")) {
 						var smtKey = "topay_" + new Date().getTime();
 						cky.storage.setItem(smtKey, selectedCard);
-						window.location.href = "{:U('Orders/shop')}/?submit=" + smtKey;
+						window.location.href = "{:U('Orders/shop')}/?cacheKey=" +  CACHE_KEY + "&submit=" + smtKey;
 					}
 				}
 				

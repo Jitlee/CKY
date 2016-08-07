@@ -1,23 +1,95 @@
 <link rel="stylesheet" href="__CSS__/swiper.min.css" />
 <link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<script>var cacheKey = "driver_cart_{$shopId}"; </script>
+
 <style>
+	
+	.mall-search-bar, header {
+		-webkit-transition: top 0.2s ease-in-out;
+	}
+	
+	.mall-search-bar.searching {
+		top: 0px!important;
+	}
+	
+	header.searching {
+		top: -44px!important;
+	}
+	
+	.mall-search-bar.searching a.searching {
+		width: 8px;
+	}
+	.mall-search-bar.searching a.searching *{
+		display:none;
+	}
+	
+	.mall-search-bar a:last-child {
+		display:none;
+		-webkit-transform: translateY(-2px);
+	}
+	
+	.mall-search-bar.searching a:last-child {
+		display:table-cell;
+	}
+	
+	#body.searching  {
+		display: none;
+	}
+
+	ul.label-list {
+		display: inline-block;
+		position:absolute;
+		top: 8px;
+		left: 34px;
+		list-style: none;
+		padding: 5px 0px;
+		margin: 0px;	
+	}
+	
+	ul.label-list::after: {
+		content: "";
+		height: 1px;
+		visibility: hidden;
+		display:block;
+		clear:both;
+	}
+	
+	ul.label-list li {
+		display: block;
+		float: left;
+		background-color: #666;
+		color: #fff;
+		font-size: 12px;
+		margin-right: 3px;
+		padding: 0px 10px;
+		border-radius: 15px;
+		max-width: 100px;
+		overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	}
+	
+	/*ul.label-list li::after{
+		content: "\00D7";
+		margin-left: 5px;
+	}*/
 </style>
 
 <header class="mui-bar mui-bar-nav cky-bar-gray">
-	<button id="cityButton" class="mui-btn mui-btn-link mui-pull-left cky-drop-btn">
-		<span id="cityLabel">通海</span>
-	</button>
 	<h1 id="title" class="mui-title">{$title}</h1>
-	 
 </header>
 <nav class="mall-search-bar">
-	<a class="mall-search-bar-item" href="{:U('Mall/category')}"><i class="iconfont icon-list"></i></a>
+	<a class="mall-search-bar-item searching" id="catsButton" data-stable="true"><i class="iconfont icon-list"></i></a>
 	<div class="mall-search-bar-item">
 		<i class="iconfont icon-sousuo"></i>
-		<input class="mall-need-search" placeholder="搜索超市商品"/>
+		<input id="searchInput" class="mall-need-search" placeholder="搜索超市商品"/>	
+		<ul id="labelList" class="label-list" style="display:none;">
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
-	<a id="cartButton" class="mall-search-bar-item" href="{:U('Cart/index')}"><i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i></a>
-	
+	<a id="cartButton" class="mall-search-bar-item searching" href="{:U('Cart/index')}?cacheKey=driver_cart_{$shopId}"><i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i></a>
+	<a class="mall-search-bar-item" id="searchButton">搜索</a>
 </nav>
 
 <div id="body" class="mui-content mui-content-bottom">
@@ -66,6 +138,7 @@
 <script src="__JS__/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script>
 	$(function() { 
 		// 轮播广告
@@ -88,10 +161,14 @@
 		ko.applyBindings(vm, document.getElementById("body"));
 		
 		var pageNo = 1;
+		var catId = 0;
+		var keywords = "";
 		function page() {
 			$.getJSON("{:U('Deliver/ptg')}", {
 				pageNo: pageNo,
-				shopId: {$shopId}
+				shopId: {$shopId},
+				catId: catId,
+				keywords: keywords,
 			}, function(list) {
 				util.endScroll("#body");
 				if(list && list.length > 0) {
@@ -111,6 +188,95 @@
 				cky.addToShopCart(obj);
 			}
 		}
+		
+		// 分类
+		
+		$.getJSON("{:U('Fast/cats')}", { shopId: "{$shopId}" }, function(list) {
+			if(list) {
+				$("#catsButton").dropMenu({
+					idProperty: "catId",
+					nameProperty: "catName",
+					menus: list,
+					callback: function(evt) {
+						catId = evt.catId;
+						catName = catId == 0 ? "" : evt.catName;
+						force = true;
+						pageNo = 1;
+						page();
+						updateLabels();
+					}
+				});
+			}
+		});
+		
+		var catName = "";
+		var keywords = "";
+		var labelList = $("#labelList");
+		var categoryLi = $("li:first", labelList);
+		var keywordsLi = $("li:last", labelList);
+		var searchInput = $("#searchInput");
+		function updateLabels() {
+			categoryLi.text(catName);
+			keywordsLi.text(keywords);
+			categoryLi.css("display", catName ? "": "none");
+			keywordsLi.css("display", keywords ? "": "none");
+			labelList.css("display", catName || keywords ? "": "none");
+			
+			if(catName) {
+				searchInput.css("padding-left", categoryLi.outerWidth() + 40);
+			} else {
+				searchInput.css("padding-left", 34);
+			}
+		}
+		
+		searchInput.focus(function() {
+			$("#body").addClass("searching");
+			$(".mall-search-bar").addClass("searching");
+			$("header").addClass("searching");
+			
+			searchInput.val(keywords);
+			keywords = "";
+			updateLabels();
+		}).blur(function() {
+			$("#body").removeClass("searching");
+			$(".mall-search-bar").removeClass("searching");
+			$("header").removeClass("searching");
+			keywords = $.trim(searchInput.val());
+			updateLabels();
+		});
+		
+		keywordsLi.click(function() {
+			searchInput.val(keywords);
+			keywords = "";
+			updateLabels();
+			searchInput.focus();
+		});
+		
+		categoryLi.click(function() {
+			layer.open({
+			    content: '是否取消分类？',
+			    btn: ['是的', '不，我想想'],
+			    shadeClose: false,
+			    yes: function(){
+			        layer.closeAll()
+			        catId = 0;
+			        catName = "";
+			        updateLabels();
+			        pageNo = 1;
+			        page();
+			    }, no: function(){
+			        keywords = searchInput.val();
+					updateLabels();
+			    }
+			});
+		});
+		
+		$("#searchButton").click(function() {
+			keywords = $.trim(searchInput.val());
+			updateLabels();
+			pageNo = 1;
+			page();
+		});
 	});
 </script>
 <script>  

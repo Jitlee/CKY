@@ -51,7 +51,7 @@ $(function() {
 			return;
 		}
 		
-		var CACHE_KEY = "cky-shop-cart";
+		var CACHE_KEY = cacheKey || "cky-shop-cart";
 		var cart = cky.storage.getItem(CACHE_KEY);
 		if(cart) {
 			var money = 0;

@@ -46,11 +46,15 @@
 				if(_list && _list.length > 0 && typeof options.callback == "function") {
 					var item = _list[$this.index()];
 					if(item[options.idProperty] == 0) {
-						ths.text(defaultName);
+						if(!ths.data("stable")) {
+							ths.text(defaultName);
+						}
 						ths.removeClass("cky-active");
 					} else {
 						ths.addClass("cky-active");
-						ths.text(item[options.nameProperty]);
+						if(!ths.data("stable")) {
+							ths.text(item[options.nameProperty]);	
+						}
 					}
 					options.callback.call(ths, item);
 				}
@@ -66,7 +70,7 @@
 					content.removeClass("cky-active");
 				} else {
 					var offset = ths.offset();
-					container.css("top", offset.top + ths.height());
+					container.css("top", offset.top + ths.outerHeight());
 					container.addClass("cky-active");
 					$(".cky-drop-content.cky-active").removeClass("cky-active");
 					content.addClass("cky-active");

@@ -104,7 +104,7 @@
 	cky.pageShow(function(event) { // 页面显示的时候  事件（包含回退）
 	    var subKey = util.i("submit"); // 购物车来的
 	    var from = util.i("from", "cart"); // 来源： cart-购物车   direct-直接购买
-	    var CACHE_KEY = "cky-shop-cart";
+	    var CACHE_KEY = "{:I('cacheKey', 'cky-shop-cart')}";
 		var selectedCart = cky.storage.getItem(subKey);
 		var cart = cky.storage.getItem(CACHE_KEY);
 		if(selectedCart) {

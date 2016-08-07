@@ -184,6 +184,8 @@
 					pageNo++;
 					goods = goods.concat(list);
 					vm.goods(goods);
+				} else {
+					$(".mall-mod-hot").nodata("没有发现相关商品");
 				}
 			});
 		}

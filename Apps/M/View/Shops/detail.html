@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="__CSS__/{:autoVer('shop-detail.css')}" />
-<script type="text/javascript" src="__JS__/mui.min.js"></script>
 <header class="mui-bar mui-bar-nav cky-bar-gray">
-	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
 		<i class="mui-icon mui-icon-left-nav"></i>
 	</button>
 	<h1 id="title" class="mui-title">
@@ -55,68 +54,57 @@
 		</li>
 	</ul>
 	
-	<div id="slider" class="mui-slider">
-		<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-			<a class="mui-control-item mui-active" href="#item1mobile">
-					简介
-				</a>
-			<a class="mui-control-item" href="#item2mobile">
-					活动
-				</a>
-			<a class="mui-control-item" href="#item3mobile">
-					产品
-				</a>
-		</div>
-		<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
-		<div class="mui-slider-group">
-			<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-				<p class="mui-content-padded">{$data.shopDesc}</p>
-			</div>
-			<div id="item2mobile" class="mui-slider-item mui-control-content">
-				<ul class="mui-table-view">
-				<!-- ko foreach: $data -->
-				<a class="cky-activity-cell" data-bind="attr: { href: '{:U('Activity/detail')}?id=' + activityId }">
-					<img data-bind="attr: { alt: activityTitle, src: '/' + activityImg }"/>
-				</a>
-				<!-- /ko -->
-				</ul>
-			</div>
-			<div id="item3mobile" class="mui-slider-item mui-control-content">
-				
-				<!-- 相关产品 -->
-				<div class="mui-content-padded">
-					<ul id="goodsList" class="cky-table-view" style="display: none;">
-						<!-- ko foreach: goods -->
-						<li class="cky-table-view-cell">
-							<a data-bind="click: $parent.click">
-								<div class="cky-table-cell-thumb" data-bind="style: { backgroundImage: 'url(/'+ goodsThums +')' }">
-									<!-- ko if: goodsStock == 0 -->
-									<div class="cky-sold-out">
-										<div class="cky-sold-out-title">抢光了</div>
-										<div class="cky-sold-out-sub">SOLD OUT</div>
-									</div>
-									<!-- /ko -->
-								</div>
-								<div class="cky-media">
-									<span class="font16" data-bind="text: goodsName"></span>
-									<div class="cky-center cky-media-content cky-ellipsis2 font13">
-										
-									</div>
-									<span class="font13">现价<r>¥</r><r class="font16" data-bind="text: shopPrice"></r></span>
-									<h5 class="cky-right"><button class="cky-detail-buy-button" data-bind="css: { 'cky-sold-out-btn': goodsStock == 0 }">购买</button></h5>
-							    </div>
-						    </a>
-						</li>
-						<!-- /ko -->
-					</ul>
-					<div id="goodsLoading" class="mui-loading">
-						<div class="mui-spinner">
+	<div id="tab" class="cky-tab">
+		<a class="cky-tab-item cky-active" tab-id="0" href1="#goods">产品</a>
+		<a class="cky-tab-item" tab-id="1" href1="#activity">活动</a>
+		<a class="cky-tab-item" tab-id="2" href1="#info">简介</a>
+	</div>
+	
+	<div id="goods" class="cky-tab-content cky-active">
+		<!-- 相关产品 -->
+		<div class="mui-content-padded">
+			<ul id="goodsList" class="cky-table-view" style="display: none;">
+				<!-- ko foreach: goods -->
+				<li class="cky-table-view-cell">
+					<a data-bind="click: $parent.click">
+						<div class="cky-table-cell-thumb" data-bind="style: { backgroundImage: 'url(/'+ goodsThums +')' }">
+							<!-- ko if: goodsStock == 0 -->
+							<div class="cky-sold-out">
+								<div class="cky-sold-out-title">抢光了</div>
+								<div class="cky-sold-out-sub">SOLD OUT</div>
+							</div>
+							<!-- /ko -->
 						</div>
-					</div>
+						<div class="cky-media">
+							<span class="font16" data-bind="text: goodsName"></span>
+							<div class="cky-center cky-media-content cky-ellipsis2 font13">
+								
+							</div>
+							<span class="font13">现价<r>¥</r><r class="font16" data-bind="text: shopPrice"></r></span>
+							<h5 class="cky-right"><button class="cky-detail-buy-button" data-bind="css: { 'cky-sold-out-btn': goodsStock == 0 }">购买</button></h5>
+					    </div>
+				    </a>
+				</li>
+				<!-- /ko -->
+			</ul>
+			<div id="goodsLoading" class="mui-loading">
+				<div class="mui-spinner">
 				</div>
-				<!-- 相关产品end -->
 			</div>
 		</div>
+		<!-- 相关产品end -->
+	</div>
+	<div id="activity" class="cky-tab-content">
+		<ul class="mui-table-view">
+			<!-- ko foreach: $data -->
+			<a class="cky-activity-cell" data-bind="attr: { href: '{:U('Activity/detail')}?id=' + activityId }">
+				<img data-bind="attr: { alt: activityTitle, src: '/' + activityImg }"/>
+			</a>
+			<!-- /ko -->
+		</ul>
+	</div>
+	<div id="info" class="cky-tab-content">
+		<p class="mui-content-padded">{$data.shopDesc}</p>
 	</div>
 </div>
 <include file="Public:share"/>
@@ -156,6 +144,8 @@
 							goods.push(this);
 						});
 						vm.goods(goods);
+					} else {
+						$("#goodsList").nodata("暂时没有相关产品")
 					}
 					
 					if(list && list.length < 12) {
@@ -188,6 +178,21 @@
 //		$("#shopshare").click(function(){
 //			cky.toast("请点击右上角分享菜单分享。");
 //		});
+		
+		// tab漂浮事件
+		var tab = $("#tab").on("click", ".cky-tab-item", ontabclick);
+		// tab切换
+		function ontabclick(evt) {
+			evt.preventDefault();
+			var $this = $(this);
+			if(!$this.hasClass("cky-active")) {
+				var prevDivId = $(".cky-active", tab).attr("href1");
+				$(".cky-active", tab).removeClass("cky-active");
+				$this.addClass("cky-active");
+				$(prevDivId).removeClass("cky-active");
+				$($this.attr("href1")).addClass("cky-active");
+			}
+		}
 		
 	});
 	

@@ -167,12 +167,18 @@
 		var catId = 0;
 		var keywords = "";
 		function page() {
+			var _pageNo = pageNo;
 			$.getJSON("{:U('Deliver/ptg')}", {
 				pageNo: pageNo,
 				shopId: {$shopId},
 				catId: catId,
 				keywords: keywords,
 			}, function(list) {
+				if(_pageNo < 2) {
+					goods.length = 0;
+					vm.goods.removeAll();
+				}
+				
 				util.endScroll("#body");
 				if(list && list.length > 0) {
 					pageNo++;
@@ -246,6 +252,9 @@
 			$("header").removeClass("searching");
 			keywords = $.trim(searchInput.val());
 			updateLabels();
+			
+			pageNo = 1;
+			page();
 		});
 		
 		keywordsLi.click(function() {

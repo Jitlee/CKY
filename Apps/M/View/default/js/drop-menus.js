@@ -70,7 +70,8 @@
 					content.removeClass("cky-active");
 				} else {
 					var offset = ths.offset();
-					container.css("top", offset.top + ths.outerHeight());
+					var scrollTop = $(window).scrollTop();
+					container.css("top", offset.top - scrollTop + ths.outerHeight());
 					container.addClass("cky-active");
 					$(".cky-drop-content.cky-active").removeClass("cky-active");
 					content.addClass("cky-active");

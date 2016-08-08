@@ -181,7 +181,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         $wechat->replyNews($news, $news, $news, $news, $news);
                         break;                    
                     default:
-                        $wechat->replyText("(●˘◡˘●) 想参与最新活动吗？\n\n /玫瑰 0元得iphone6s\n /玫瑰 领取5万积分\n\n 点击下方菜单\n->[惊喜无限]参与活动吧！");
+                        $wechat->replyText("(●˘◡˘●) 想参与最新活动吗？\n\n /玫瑰 100M流量\n /玫瑰 领取50000积分\n\n 点击下方菜单\n->[惊喜无限]参与活动吧！");
                         break;
                 }
                 break;
@@ -275,12 +275,12 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
             'sub_button'=>array(                
                 	array(
                         'type' => 'click',
-                        'name' => '0元砍肾6',
+                        'name' => '100M流量',
                         'key' => 'kj91',
                     ),
                     array(
                         'type' => 'click',
-                        'name' => '5万积分等你拿',
+                        'name' => '50000积分等你拿',
                         'key' => 'kj92',
                     ),
                 	array(
@@ -310,15 +310,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         'url' => "$WebRoot/index.php/M/Person/consumelist",
                     ),
                 ),
-            );
-			 
-			//echo dump($array);
-        $data=json_encode($array,JSON_UNESCAPED_UNICODE);
+            ); 
 		 
-        // print_r($array);die;
-        //创建菜单
-        echo '$array========='. dump( $data);
-		//echo '$array========='.$data;
+        $data=json_encode($array,JSON_UNESCAPED_UNICODE); 
 		
         $rs=post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token,$data);
         print_r($rs);
@@ -350,7 +344,6 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
         $rs=$Auth->menuDelete();
         print_r($rs);
-
     }
 
 

@@ -1,3 +1,0 @@
-<?php
-//000031536000a:2:{i:0;a:5:{s:12:"friendlinkId";s:1:"1";s:13:"friendlinkIco";s:44:"Upload/friendlinks/2015-12/56760df749130.jpg";s:14:"friendlinkName";s:9:"润图城";s:13:"friendlinkUrl";s:20:"http://www.ritacc.cn";s:14:"friendlinkSort";s:1:"0";}i:1;a:5:{s:12:"friendlinkId";s:1:"2";s:13:"friendlinkIco";s:44:"Upload/friendlinks/2015-12/56760e361f041.png";s:14:"friendlinkName";s:6:"百度";s:13:"friendlinkUrl";s:20:"http://www.baidu.com";s:14:"friendlinkSort";s:1:"0";}}
-?>

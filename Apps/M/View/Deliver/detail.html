@@ -163,10 +163,19 @@
 		};
 		ko.applyBindings(vm, document.getElementById("body"));
 		
+		var isEOF = false;
+		var force = true;
 		var pageNo = 1;
 		var catId = 0;
 		var keywords = "";
 		function page() {
+			if(force) {
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			
 			var _pageNo = pageNo;
 			$.getJSON("{:U('Deliver/ptg')}", {
 				pageNo: pageNo,
@@ -174,17 +183,23 @@
 				catId: catId,
 				keywords: keywords,
 			}, function(list) {
-				if(_pageNo < 2) {
-					goods.length = 0;
+				util.endScroll();
+				if(_pageNo == 1) {
 					vm.goods.removeAll();
+					goods.length = 0;
+					$("#shopsLoading").hide();
+					$("#shopsList").removeClass("mui-hidden");
 				}
 				
-				util.endScroll("#body");
 				if(list && list.length > 0) {
-					pageNo++;
+					pageNo = ++_pageNo;
 					goods = goods.concat(list);
 					vm.goods(goods);
-				} else {
+				} else if(list && list.length < 12) {
+					isEOF = true;
+				}
+				
+				if(goods.length == 0) {
 					$(".mall-mod-hot").nodata("没有发现相关商品");
 				}
 			});

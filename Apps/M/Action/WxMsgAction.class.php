@@ -254,7 +254,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$access_token=$wxmsg->accessToken();
 		 
         //数据结构
-        $WebRoot="http://".$_SERVER['SERVER_NAME'];
+//      $WebRoot="http://".$_SERVER['SERVER_NAME'];
+		$WebRoot="http://www.cukayun.cn";
         $array['button'][0]=array(
             'name'=>'粗卡',
             'sub_button'=>array(
@@ -267,6 +268,11 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         'type' => 'view',
                         'name' => '  商城  ',
                         'url' => "$WebRoot/index.php/M/Mall/index.html",
+                    ),
+                array(
+                        'type' => 'view',
+                        'name' => '速达农村配送',
+                        'url' => "$WebRoot/index.php/M/Deliver/index.html",
                     ),
                 ),
             );

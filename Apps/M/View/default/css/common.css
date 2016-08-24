@@ -1005,7 +1005,7 @@ i.iconfont.cky-cart {
 	position: relative;
 }
 
-.cky-cart-count {
+.cky-cart-count, .cky-cart-sum {
 	text-align: center;
 	font-size: 10px;
 	padding:0 3px;
@@ -1019,6 +1019,10 @@ i.iconfont.cky-cart {
 	-webkit-transform: translateX(50%);
 	color: #fff;
 	white-space: nowrap;
+}
+
+.cky-cart-sum {
+	-webkit-transform: translateX(0);
 }
 
 .cky-fav.icon-love.cky-active::before {

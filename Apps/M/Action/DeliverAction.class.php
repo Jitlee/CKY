@@ -45,6 +45,7 @@ class DeliverAction extends Controller {
 		
 		$m = D('M/Shops');
 		$data = $m->detail($shopId);
+		$this->assign('shop', $data);
 		
 		$this->assign('shopId', $shopId);
 		$this->assign('title', '速达农村配送-'.$data["shopName"]);

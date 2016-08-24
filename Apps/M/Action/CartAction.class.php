@@ -14,4 +14,9 @@ class CartAction extends BaseAction {
 		$this->assign('title', '购物车');
 		$this->display();
 	}
+	
+	public function lst() {
+		$this->assign('title', '购物车');
+		$this->display("list");
+	}
 }

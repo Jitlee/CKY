@@ -96,6 +96,8 @@ class ShopsModel extends BaseModel {
 				$sdata["isInvoice"] = (int)I("isInvoice",1);
 				$sdata["shopStatus"] = (int)I("shopStatus",1);
 				$sdata["shopAtive"] = (int)I("shopAtive",1);
+				$sdata["provideBox"] = (int)I("provideBox",0);
+				$sdata["boxMoney"] = (float)I("boxMoney",0);
 				$sdata["shopFlag"] = 1;
 				$sdata["createTime"] = date('Y-m-d H:i:s');
 			    $sdata['statusRemarks'] = I('statusRemarks');
@@ -230,6 +232,9 @@ class ShopsModel extends BaseModel {
 				$data["wxopenid"] = I("wxopenid");
 				$data["wxopenid1"] = I("wxopenid1");
 				$data["wxopenid2"] = I("wxopenid2");
+				
+				$data["provideBox"] = (int)I("provideBox",0);
+				$data["boxMoney"] = (float)I("boxMoney",0);
 			
 				$data['qqNo'] = I('qqNo');
 				$data["invoiceRemarks"] = I("invoiceRemarks");

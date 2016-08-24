@@ -169,11 +169,11 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 提交订单
 	 */
-	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket){
+	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $needBox = 0){
 
         $this->startTrans();
         
-        $rst = $this->_addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket);
+        $rst = $this->_addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $needBox);
 		if($rst['status'] == 1){
 			$this->commit();
 		}else{
@@ -183,13 +183,13 @@ class OrdersModel extends BaseModel {
 		
 	}
 	
-	function _addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket) {
+	function _addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $needBox = 0) {
 		$rst = array('status' => 1);
 		$m = M('orderids');
 		$orderInfos = array();
 		$orderIds = array();
 		$orderNos = array();
-		$remarks = I("remarks");
+		$remarks = I("remarks", null);
 		$yadb = D('M/UserAddress');
 		$addressInfo = $yadb->getAddressDetails($consigneeId);
 		$tm = D('M/ActivityTicket');
@@ -240,7 +240,7 @@ class OrdersModel extends BaseModel {
 			$data['orderScore'] = round($data["totalMoney"]+$data["deliverMoney"],0);
 			$data["isInvoice"] = $needreceipt;		
 			$data["orderRemarks"] = $remarks;
-			$data["requireTime"] = I("requireTime");
+			$data["requireTime"] = I("requireTime", null);
 			$data["invoiceClient"] = I("invoiceClient");
 			$data["isAppraises"] = 0;
 			$data["isSelf"] = $isself;
@@ -248,6 +248,12 @@ class OrdersModel extends BaseModel {
 			$data["ticketId"] = $shopgoods["ticketId"]; // 优惠券Id
 			$data["deductible"] = $shopgoods["deductible"]; // 抵扣金额(元)
 			$data["needPay"] = $shopgoods["totalMoney"]+$deliverMoney - $shopgoods["deductible"];
+			$data['needBox'] = $needBox;
+			if($needBox == 1) {
+				$mshop = M('shops');
+				$shop = $mshop->field('boxMoney')->find($shopId);
+				$data['boxMoney'] = $shop['boxMoney'];
+			}
 
 			$data["createTime"] = date("Y-m-d H:i:s");
 			
@@ -262,6 +268,7 @@ class OrdersModel extends BaseModel {
 			$data["orderunique"] = $orderunique;
 			$data["isPay"] = 0;
 			$orderId = $this->add($data);
+//			echo $this->getLastSql();
 			
 			$orderNos[] = $data["orderNo"];
 			$orderInfos[] = array("orderId"=>$orderId,"orderNo"=>$data["orderNo"], "orderStatus"=>$data["orderStatus"]) ;
@@ -345,7 +352,7 @@ class OrdersModel extends BaseModel {
 					$mlogo->add($data);
 				}
 			} else {
-				$rst['status'] = -102;
+				$rst['status'] = -104;
 				$rst['data'] = '创建订单号失败';
 				return $rst;
 			}

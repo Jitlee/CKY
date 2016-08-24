@@ -297,7 +297,7 @@ class OrdersModel extends BaseModel {
 		$pcurr = (int)I("pcurr",0);
 		
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName 
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName,,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp 
 		        WHERE o.userId = $userId AND o.orderStatus =-2 AND o.isPay = 0 AND needPay >0 AND o.payType = 1 AND o.shopId=sp.shopId ";
 		if($orderNo!=""){
@@ -360,7 +360,7 @@ class OrdersModel extends BaseModel {
 		$pcurr = (int)I("pcurr",0);
 
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName 
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp WHERE o.userId = $userId AND o.orderStatus =3 AND o.shopId=sp.shopId ";
 		if($orderNo!=""){
 			$sql .= " AND o.orderNo like '%$orderNo%'";
@@ -419,7 +419,7 @@ class OrdersModel extends BaseModel {
 		$pcurr = (int)I("pcurr",0);
 
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName 
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp 
 		        WHERE o.userId = $userId AND o.orderStatus in ( 0,1,2 ) AND o.shopId=sp.shopId ";
 		if($orderNo!=""){
@@ -481,7 +481,7 @@ class OrdersModel extends BaseModel {
 		//必须是在线支付的才允许退款
 
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName 
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName ,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp 
 		        WHERE o.userId = $userId AND (o.orderStatus in (-3,-4,-5) or (o.orderStatus in (-1,-4,-6,-7) and payType =1 AND o.isPay =1)) AND o.shopId=sp.shopId ";
 		if($orderNo!=""){
@@ -543,7 +543,7 @@ class OrdersModel extends BaseModel {
 		$pcurr = (int)I("pcurr",0);
 
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName 
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName ,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp 
 		        WHERE o.userId = $userId AND o.orderStatus in (-1,-6,-7) AND o.shopId=sp.shopId ";
 		if($orderNo!=""){
@@ -602,7 +602,7 @@ class OrdersModel extends BaseModel {
 		$edate = I("edate");
 		$pcurr = (int)I("pcurr",0);
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName 
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp WHERE o.userId = $userId AND o.shopId=sp.shopId ";	
 		if($orderNo!=""){
 			$sql .= " AND o.orderNo like '%$orderNo%'";
@@ -845,7 +845,7 @@ class OrdersModel extends BaseModel {
 		$userName = I("userName");
 		$userAddress = I("userAddress");
 		$rsdata = array();
-		$sql = "SELECT orderNo,orderId,userId,userName,userAddress,totalMoney,orderStatus,createTime FROM __PREFIX__orders WHERE shopId = $shopId ";
+		$sql = "SELECT orderNo,orderId,userId,userName,userAddress,totalMoney,orderStatus,createTime,requireTime,needBox,orderRemarks FROM __PREFIX__orders WHERE shopId = $shopId ";
 		if($orderStatus==5){
 			$sql.=" AND orderStatus in (5,6)";
 		}else{

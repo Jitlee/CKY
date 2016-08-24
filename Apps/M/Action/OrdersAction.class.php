@@ -25,6 +25,13 @@ class OrdersAction extends BaseUserAction {
 		$this->display();
 	}
 	
+	/**
+	 * 商品提交订单
+	 */
+	public function toPay() {
+		$this->assign('title', '订单确认');
+		$this->display("pay");
+	}
 	
 	/**
 	 * 添加备注
@@ -501,6 +508,7 @@ class OrdersAction extends BaseUserAction {
 		$consigneeId = (int)I("consigneeId");
 		$payway = (int)I("payway"); // 支付途径
 		$isself = (int)I("isself"); // 是否自取
+		$needBox = (int)I("needBox", 0); // 是需要打包盒
 		$cartGoods = (array)json_decode(html_entity_decode(stripslashes(I('goods'))));
 		$needreceipt = (int)I("needreceipt"); // 是否需要票据
 		$orderunique = I("orderunique");
@@ -634,7 +642,7 @@ class OrdersAction extends BaseUserAction {
 			}
 		}
 		if($result['status'] == 1) {
-			$result = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket);
+			$result = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket, $needBox);
 		}
 		
 		$this->ajaxReturn($result, 'JSON');

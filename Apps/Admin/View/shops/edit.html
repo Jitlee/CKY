@@ -344,6 +344,8 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
 	   params.longitude = $('#longitude').val();
 	   params.mapLevel = $('#mapLevel').val();
 	   params.shopDesc = $('#shopDesc').val();
+	   params.provideBox = $("input[name='provideBox']:checked").val();
+	   params.boxMoney = $('#boxMoney').val();
 	   if(params.shopDesc==""){ 
 	   		Plugins.Tips({title:'信息提示',icon:'error',content:'请输入商家描述!',timeout:1000});
 		   return;
@@ -676,6 +678,21 @@ dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
            <tr>
              <th align='right'>平均配送时间(分钟)<font color='red'>*</font>：</th>
              <td><input type='text' id='deliveryCostTime' class="form-control rtc-ipt" value='{$object.deliveryCostTime}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
+           </tr>
+           <tr>
+             <th width='170' align='right'>是否提供打包服务<font color='red'>*</font>：</th>
+             <td>
+             <label>
+             <input type='radio' id='provideBox1' name='provideBox' value='1' <if condition="$object['provideBox'] ==1 ">checked</if> />提供&nbsp;&nbsp;
+             </label>
+             <label>
+             <input type='radio' id='provideBox0' name='provideBox' value='0' <if condition="$object['provideBox'] ==0 ">checked</if> />不提供
+             </label>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>打包费用(0元表示免费提供)：</th>
+             <td><input type='text' id='boxMoney' class="form-control rtc-ipt" value='{$object.boxMoney|default=0.0}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
            </tr>
            <tr>
              <th align='right'>平均消费金额<font color='red'>*</font>：</th>

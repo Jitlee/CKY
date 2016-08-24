@@ -146,6 +146,8 @@ class ShopsModel extends BaseModel {
 		    $s->deliveryMoney = (float)I("deliveryMoney",0);
 		    $s->avgeCostMoney = (float)I("avgeCostMoney",0);
 		    $s->deliveryCostTime = (int)I("deliveryCostTime",0);
+		    $s->provideBox = (int)I("provideBox",0);
+		    $s->boxMoney = (float)I("boxMoney",0);
 		    $s->deliveryOff = (int)I("deliveryOff",1);
 		    $s->invoiceRemarks = I("invoiceRemarks");
 		    $s->shopWishes = I("shopWishes");
@@ -288,6 +290,8 @@ class ShopsModel extends BaseModel {
 			$s->avgeCostMoney = (float)I("avgeCostMoney",0);
 			$s->deliveryCostTime = (int)I("deliveryCostTime",0);
 			$s->deliveryOff = (int)I("deliveryOff",0);
+		    $s->provideBox = (int)I("provideBox",0);
+		    $s->boxMoney = (float)I("boxMoney",0);
 			$s->shopStatus = 0;
 			$s->shopAtive = (int)I("shopAtive",1)?1:0;
 			$s->shopFlag = 1;
@@ -378,6 +382,8 @@ class ShopsModel extends BaseModel {
 			$data["invoiceRemarks"] = I("invoiceRemarks");
 			$data["shopWishes"] = I("shopWishes");
 			$data["shopProfile"] = I("shopProfile");
+		    $data["provideBox"] = (int)I("provideBox",0);
+		    $data["boxMoney"] = (float)I("boxMoney",0);
 			$rs = $m->where("shopId=".$shopId)->save($data);
 		    if(false !== $rs){
 		    	S('RTC_CACHE_RECOMM_SHOP_'.$shops['areaId2'],null);

@@ -258,6 +258,8 @@ function editGoods(menuId){
 	   params.isRecomm = $('input[name="isRecomm"]:checked').val();;
 	   params.goodsDesc = $('#goodsDesc').val();
 	   params.attrCatId = $('#attrCatId').val();
+	   params.provideBox = $("input[name='provideBox']:checked").val();
+	   params.boxMoney = $('#boxMoney').val();
 	   params.goodsKeywords = $('#goodsKeywords').val();
 	   if(params.attrCatId>0){
 		   params.priceAttrId = $('.hiddenPriceAttr').attr('dataId');
@@ -800,6 +802,17 @@ function shopOrderRefund(id,type){
 		});
 	}
 }
+
+function addLineBreak(address) {
+	if(address) {
+		var lastIndex = address.lastIndexOf(" ");
+		if(lastIndex > -1) {
+			return $.trim(address.substr(0, lastIndex)) + "<br/>" + $.trim(address.substr(lastIndex));
+		}
+	}
+	return address;
+}
+
 function queryOrderPager(statusMark,pcurr){
 	var param = {};
 	param.orderNo = $.trim($("#orderNo_"+statusMark).val());
@@ -825,11 +838,14 @@ function queryOrderPager(statusMark,pcurr){
 					if(order.orderStatus<=-3 && order.orderStatus>=-7){
 						html.push("<td width='*' title='"+order.rejectionRemarks+"'>"+RTC.cutStr(order.rejectionRemarks,40)+"</td>");
 					}else{
-						html.push("<td width='*'>"+order.userAddress+"</td>");
+						html.push("<td style='overflow: hidden;width: 100px;white-space: nowrap;text-overflow: ellipsis;' title='"+order.userAddress+"'>"+(addLineBreak(order.userAddress)||"")+"</td>");
 					}
 					html.push("<td width='100'>"+order.totalMoney+"</td>");
 					html.push("<td width='100'><div style='line-height:20px;'>"+order.createTime+"</div></td>");
-					html.push("<td width='100'>");
+					html.push("<td width='100'><div style='line-height:20px;'>"+(order.requireTime || "") +"</div></td>");
+					html.push("<td width='79'><div style='line-height:20px;'>"+(order.needBox == "1" ? "需要": "")+"</div></td>");
+					html.push("<td width='79'><div style='line-height:20px;overflow: hidden;width: 79px;white-space: nowrap;text-overflow: ellipsis;'>"+(order.orderRemarks||"无")+"</div></td>");
+					html.push("<td width='100' style='overflow: hidden;width: 100px;white-space: nowrap;text-overflow: ellipsis;'>");
 					html.push("<a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=showOrder('"+order.orderId+"')>查看</a>");
 					if(order.orderStatus==1){
 						html.push(" | <a href='javascript:;' style='color:"+((order.orderStatus==-6 || order.orderStatus==-3)?"red":"blue")+"' onclick=shopOrderAccept('"+order.orderId+"')>受理</a>");
@@ -970,6 +986,8 @@ function editShop(){
 	   params.shopWishes = $('#shopWishes').val();
 	   params.serviceStartTime = $('#serviceStartTime').val();
 	   params.serviceEndTime = $('#serviceEndTime').val();
+	   params.provideBox = $("input[name='provideBox']:checked").val();
+	   params.boxMoney = $('#boxMoney').val();
 	   
 	   params.latitude = $('#latitude').val();
 	   params.longitude = $('#longitude').val();

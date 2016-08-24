@@ -221,6 +221,22 @@ th{ font-size: 14px;}
              <th align='right'>平均配送时间(分钟)<font color='red'>*</font>：</th>
              <td><input type='text' id='deliveryCostTime' class="form-control rtc-ipt" value='{$object.deliveryCostTime}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6'/></td>
            </tr>
+           
+           <tr>
+             <th width='170' align='right'>是否提供打包服务<font color='red'>*</font>：</th>
+             <td>
+             <label>
+             <input type='radio' id='provideBox1' name='provideBox' value='1' <if condition="$object['provideBox'] ==1 ">checked</if> />提供&nbsp;&nbsp;
+             </label>
+             <label>
+             <input type='radio' id='provideBox0' name='provideBox' value='0' <if condition="$object['provideBox'] ==0 ">checked</if> />不提供
+             </label>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>打包费用(0元表示免费提供)：</th>
+             <td><input type='text' id='boxMoney' class="form-control rtc-ipt" value='{$object.boxMoney|default=0.0}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
+           </tr>
            <tr>
              <th align='right'>平均消费金额(元)<font color='red'>*</font>：</th>
              <td><input type='text' id='avgeCostMoney' class="form-control rtc-ipt" value='{$object.avgeCostMoney}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>

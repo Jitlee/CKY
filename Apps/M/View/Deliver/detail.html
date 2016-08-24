@@ -91,7 +91,7 @@
 			<li></li>
 		</ul>
 	</div>
-	<a id="cartButton" class="mall-search-bar-item searching" href="{:U('Cart/index')}?cacheKey=driver_cart_{$shopId}"><i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-count cky-hidden"></span></i></a>
+	<a id="cartButton" class="mall-search-bar-item searching" href="{:U('Cart/lst')}?cacheKey=shop_{$shopId}"><i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-sum cky-hidden" data-cacheKey="shop_{$shopId}"></span></i></a>
 	<a class="mall-search-bar-item" id="searchButton">搜索</a>
 </nav>
 
@@ -129,21 +129,32 @@
 						<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
 					</div>
 					<div class="mui-table-cell mui-text-right">
-						<a data-bind="click: $parent.addCartClick,css: { 'cky-sold-out-btn': goodsStock == 0 }" class="cky-add-cart-btn"></a>
+						<a href="javascript:void(0);" data-bind="disabled: goodsStock == 0,
+							attr:{ goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopPrice: shopPrice,
+								shopId: shopId, shopName: shopName, shopThums: shopThums, 
+								provideBox: provideBox, boxMoney: boxMoney,
+								activeId: activeId, activeType: activeType, activeAmount: activeAmount,
+								deliveryMoney: deliveryMoney, deliveryFreeMoney: deliveryFreeMoney,
+								serviceStartTime: serviceStartTime, serviceEndTime: serviceEndTime,deliveryCostTime: deliveryCostTime,
+							},
+							css: { 'cky-sold-out-btn': goodsStock == 0 }"
+							class="cky-add-cart-btn cky-cart-fly-btn"
+							data-cacheKey="shop_{$shopId}"></a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
 <include file="Public:tab"/>
 <include file="search"/>
 <script src="__JS__/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="__KO__"></script>
-<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('cart.js')}"></script>
 <script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
 <script>
-	$(function() { 
+	$(function() {
 		// 轮播广告
 		var mySwiper = new Swiper ('.swiper-container', {
 	      	// Optional parameters
@@ -152,6 +163,8 @@
 	      	autoplay: 3000,
 	      	loop: true
 	   	});
+	   	
+	   	var fastCart = null;
 	   	
 	   	var cartButton = $("#cartButton"); 
 	   	

@@ -115,7 +115,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         }
     }
 	
-		/**
+	/**
      * DEMO
      * @param  Object $wechat Wechat对象
      * @param  array  $data   接受到微信推送的消息
@@ -281,13 +281,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
             'sub_button'=>array(                
                 	array(
                         'type' => 'click',
-                        'name' => '100M流量',
+                        'name' => '0元拿10元话费',
                         'key' => 'kj91',
-                    ),
-                    array(
-                        'type' => 'click',
-                        'name' => '50000积分等你拿',
-                        'key' => 'kj92',
                     ),
                 	array(
                         'type' => 'view',

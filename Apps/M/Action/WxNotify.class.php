@@ -44,7 +44,7 @@ public function OrderToShops($ACCESS_TOKEN, $openid, $orderid, $orderTypeName, $
 {
 	"touser":"'.$openid.'",
 	"template_id":"JsODEGXf-FzqYgRddUCbgMmTDHG8htzE0uKDFKhC6xA",
-	"url":"http://cukayun.cn/index.php/M/Orders/detail.html?id='.$orderid.'",
+	"url":"http://www.cukayun.cn/index.php/M/Orders/detail.html?id='.$orderid.'",
 	"topcolor":"#FF0000",
 	"data":{
 		"orderType": {

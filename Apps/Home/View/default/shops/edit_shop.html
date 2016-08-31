@@ -83,7 +83,10 @@ function ShopMapInit(option){
 			toolBar = new AMap.ToolBar();
 			shopMap.addControl(toolBar);		
 	   });
-	   toolBar.show();
+	   if(toolBar){
+	   	toolBar.show();	
+	   }
+	   
 }
 var filetypes = ["gif","jpg","png","jpeg"];
 </script>
@@ -223,7 +226,7 @@ th{ font-size: 14px;}
            </tr>
            
            <tr>
-             <th width='170' align='right'>是否提供打包服务<font color='red'>*</font>：</th>
+             <th width='120'  align='right'>是否提供打包服务<font color='red'>*</font>：</th>
              <td>
              <label>
              <input type='radio' id='provideBox1' name='provideBox' value='1' <if condition="$object['provideBox'] ==1 ">checked</if> />提供&nbsp;&nbsp;
@@ -234,7 +237,7 @@ th{ font-size: 14px;}
              </td>
            </tr>
            <tr>
-             <th align='right'>打包费用(0元表示免费提供)：</th>
+             <th align='right' width='120' >打包费用(0元表示免费提供)：</th>
              <td><input type='text' id='boxMoney' class="form-control rtc-ipt" value='{$object.boxMoney|default=0.0}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='25'/></td>
            </tr>
            <tr>

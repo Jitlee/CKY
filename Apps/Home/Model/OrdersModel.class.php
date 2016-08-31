@@ -297,7 +297,7 @@ class OrdersModel extends BaseModel {
 		$pcurr = (int)I("pcurr",0);
 		
 		$sql = "SELECT o.orderId,o.orderNo,o.shopId,o.orderStatus,o.userName,o.totalMoney,
-		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName,,requireTime,needBox,orderRemarks
+		        o.createTime,o.payType,o.isRefund,o.isAppraises,sp.shopName,requireTime,needBox,orderRemarks
 		        FROM __PREFIX__orders o,__PREFIX__shops sp 
 		        WHERE o.userId = $userId AND o.orderStatus =-2 AND o.isPay = 0 AND needPay >0 AND o.payType = 1 AND o.shopId=sp.shopId ";
 		if($orderNo!=""){

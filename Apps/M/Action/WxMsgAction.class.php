@@ -127,7 +127,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
 		/*		*/
-		$WebDomain=$_SERVER['SERVER_NAME'];
+		//$WebDomain=$_SERVER['SERVER_NAME'];
+		$WebDomain="www.cukayun.cn";
 		$WebRoot="http://$WebDomain";
 		 
         $Auth=new WechatAuth($appid,$appsecret,$access_token);

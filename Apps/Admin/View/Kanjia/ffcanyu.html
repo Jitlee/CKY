@@ -26,6 +26,27 @@
 		.rtc-tab-nav .on{background:#ffffff;color:#000000;border-bottom:0 none;}
    		.rtc-tab-content{padding:5px;width:99%; height:auto; border:1px solid #ddd;}
 	  </style> 
+	  <script type="text/javascript">
+	  	function del(id){
+		   Plugins.confirm({title:'信息提示',content:'您确定要【<span style="color:red">删除</span>】该砍价参与信息吗?',okText:'确定',cancelText:'取消',okFun:function(){
+			   Plugins.closeWindow();
+			   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+			   $.post("{:U('Admin/Kanjia/kanjiaitemdel')}",{kjid:id},function(data,textStatus){
+						var json = RTC.toJson(data);
+						if(json.status=='1'){
+							Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+							   location.reload();
+							}});
+						}else{
+							Plugins.closeWindow();
+							Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+						}
+					});
+		   }});
+	   }
+	  	
+	  	
+	  </script>
    </head>
 	<body class="rtc-page">
 		<div id='tab' class="rtc-tab-box">
@@ -42,12 +63,14 @@
 					<th>参与者微信id</th>
 					<th>参与者注册id</th>
 					<th>昵称</th>
+					<th>手机号码</th>
 					<th>已砍金额</th>
 					<th>总金额</th>
 					<th>剩余金额</th>
 					<th>帮砍次数</th>
 					<th>剩余比例</th>
 					<th>开始时间</th>
+					<th>操作</th>
 				</tr>
 				<tbody>
 					<volist name="list" id="vo" key="k">
@@ -56,12 +79,19 @@
 						<td>{$vo.wx_id}</td>						
 						<td style="text-align: center;">{$vo.uid}</td>
 						<td>{$vo.nickname}</td>
+						<td>{$vo.Mobile}</td>
 						<td style="text-align: center;">{$vo["money"]-$vo["shengyumoney"]}</td>
 						<td>{$vo.money}</td>
 						<td>{$vo.shengyumoney}</td>
 						<td>{$vo.count}</td>
 						<td>{$vo.shengyubili}</td>
-						<td>{$vo.time|date="Y-m-d h:i:s",###}</td>			
+						<td>{$vo.time|date="Y-m-d h:i:s",###}</td>
+						<td> 
+							<if condition="$vo['candel'] == 1 ">
+									<a class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['kj_id']})">刪除</a>
+							</if>							
+						</td>
+						
 					</tr>
 					</volist>
 				</tbody>

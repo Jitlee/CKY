@@ -155,12 +155,34 @@ class KanjiaParaModel extends BaseModel {
 		}
 		return $rd;
 	 }
+	 /*****砍价明细项删除****/
+	  public function kanjiaItemDel(){
+	    $rd = array('status'=>-1);
+	    //找到 $type
+	    $kj_id=(int)I('kjid');
+	    $obj=$this->GetKjParaByKjid($kj_id);
+	    $type=$obj['kjcode'];
+		$prizenum=(int)$obj["prizenum"];
+		
+	    $m = M('kanjia');
+	    $rs = $m->delete($kj_id);
+		if(false !== $rs){
+		   $rd['status']= 1;
+			//重新计算数量
+//			$map=array('type'=>$type);
+//			$count= M('kanjia')->where($map)->count();
+//			$sy=$prizenum-$count;
+//			M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$sy);
+		}
+		return $rd;
+	 }
+	 
 	 
 	 public function GetKjParaByKjid($kjid)
 	 {
 	 		$sql="
 select 
-	m.CardId,m.Mobile,kp.prizetype,kp.prizeid,m.uid
+	m.CardId,m.Mobile,kp.prizetype,kp.prizeid,m.uid,kp.kjcode,kp.prizenum
 from cky_kanjia k 
 inner join cky_member m on m.uid=k.uid
 inner join cky_wx_user wu on wu.openid=m.OpenID

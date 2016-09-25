@@ -45,6 +45,8 @@
 				<tr>
 					<th width="70px">序号</th>
 					<th>中奖昵称</th>
+					<th>手机号</th>
+					
 					<th>中奖时间</th>
 					<th>奖品</th>
 					<th >操作</th>
@@ -54,12 +56,16 @@
 						<tr>
 						<td>{$k}</td>
 						<td>{$vo.nickname}</td>
+						<td>{$vo.phone}</td>
 						<td>{$vo.time|date="Y-m-d H:i:s",###}</td>
 						<td>
-							<if condition="$vo['havesendprize'] == '0' ">
-								<a kj_id="{$vo.kj_id}" nickname="{$vo.nickname}" class="btn btn-info sendprize">发送奖品</a>	
-	               			<else/>已发放</if>
-													
+							<if condition="$vo['havesendprize']+'' eq '0' ">
+								<a kj_id="{$vo.kj_id}" nickname="{$vo.nickname}" class="btn btn-info sendprize">
+									发送奖品</a>	
+							</if>
+							<if condition="$vo['havesendprize']+'' eq '1' ">
+								已发放
+							</if>						
 						</td>
 						<td width="150px">
 							<a zj_id="{$vo.zj_id}" nickname="{$vo.nickname}" class="btn btn-info edit">编辑</a>	

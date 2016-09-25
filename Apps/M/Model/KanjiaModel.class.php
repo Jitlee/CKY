@@ -1,14 +1,9 @@
 <?php
  namespace M\Model;
-/**
- * ============================================================================
- * 粗卡云:
-  
- * 联系方式:
- * ============================================================================
- * 商品服务类
- */
+ 
+ 
 class KanjiaModel extends BaseModel {
+	
 	public function GetByid() {
 		$kj_id=I('kj_id',0);		
 		$sql="
@@ -41,6 +36,13 @@ where kj_id=$kj_id";
 		return $rsarr[0];		
 	}
 	
+	public function GetKJPareBytype($kjcode) { 
+		$sql=" select * from  cky_kanjia_para where kjcode=$kjcode";
+		$m = M('kanjia');
+		$rsarr= $m->query($sql);
+		return $rsarr[0];		
+	}
+	
 	public function GetWxUserByOpenid($openid) {
 		$sql="
 select 
@@ -61,6 +63,13 @@ where
 		return $count;
 	}
 	
+	public function GetCJ($type) {
+		$map=array('type'=>$type);
+		$count= M('kanjia')->where($map)->count();
+		return $count;
+	}
+	
+	
 	public function Insert($uid, $wx_id, $qr_url ,$type)
 	{
 		$object=$this->get($type);
@@ -70,11 +79,17 @@ where
 		}
 		
 		$money=$object["money"];
-//		if($type==2)
-//		{
-//			$money="50000.00";
-//		}
-		 
+
+		
+		$kjobject=$this->GetKJPareBytype($type);
+		$shengyuprizenum=(int)$kjobject["shengyuprizenum"];
+		$prizenum=(int)$kjobject["prizenum"];
+		if($shengyuprizenum<=0)
+		{
+			return -100;
+		}
+				
+				
 		$map=array(
             'uid'=>$uid,
             'wx_id'=>$wx_id,
@@ -87,7 +102,22 @@ where
             'type'=>$type,
         );
         //保存砍主信息
+        
         $kj_id=M('kanjia')->add($map);
+		
+		//扣减数量
+		$ZhongJNum= $this->GetCJ($type);//重新获取中奖人数
+		if(empty($ZhongJNum)){
+			$ZhongJNum=0;
+		}
+		$syrs=(int)$prizenum-(int)$ZhongJNum;		
+		if($syrs  <0)
+		{
+			$syrs=0;
+		}		
+		M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$syrs);			
+				
+		
 		return $kj_id;
 	}
 	

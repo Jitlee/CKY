@@ -129,6 +129,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		/*		*/
 		//$WebDomain=$_SERVER['SERVER_NAME'];
 		$WebDomain="www.cukayun.cn";
+//		$WebDomain="www.yiyigw.cn";
 		$WebRoot="http://$WebDomain";
 		 
         $Auth=new WechatAuth($appid,$appsecret,$access_token);
@@ -137,15 +138,20 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 		 $eventkey="";
         if(!empty($data['EventKey']) && $len > 4){
         		$eventkey=substr($data['EventKey'],0,4);
+			logger("/**************eventkey=$eventkey******************/");
 		}
-        	
+        
+		$bk1=new WxMsgKanjia();
+		
         switch ($data['MsgType']) {
             case Wechat::MSG_TYPE_EVENT:
                 switch ($data['Event']) {
                     case Wechat::MSG_EVENT_SUBSCRIBE:
 	    				if($eventkey == '1001'){
-	                        $bk1=new WxMsgKanjia();
 							$bk1->Kanjia($data, $Auth, $wechat, $WebDomain, $WebRoot);
+						}
+						else if($eventkey == '7777'){
+							$bk1->KanjiaCommin($data, $Auth, $wechat, $WebDomain, $WebRoot);							
 						}
                         break;
 
@@ -155,9 +161,11 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                     	
                     case 'SCAN'://通过分享出去的扫码事件
                     	if($eventkey == '1001'){
-	                        $bk2=new WxMsgKanjia();
-							$bk2->Kanjia($data, $Auth, $wechat, $WebDomain, $WebRoot);
-						}                    
+							$bk1->Kanjia($data, $Auth, $wechat, $WebDomain, $WebRoot);
+						}
+						else if($eventkey == '7777'){
+							$bk1->KanjiaCommin($data, $Auth, $wechat, $WebDomain, $WebRoot);
+						}
                         break;
                     case "CLICK":
 							$posindex=stripos($data['EventKey'],"kj");
@@ -190,6 +198,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 $wechat->replyText("亲，我还不知道你说的啥呢？");
                 break;
         }
+		
     }
 
     /**
@@ -257,6 +266,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         //数据结构
 //      $WebRoot="http://".$_SERVER['SERVER_NAME'];
 		$WebRoot="http://www.cukayun.cn";
+//		$WebRoot="http://www.yiyigw.cn";
         $array['button'][0]=array(
             'name'=>'粗卡',
             'sub_button'=>array(
@@ -285,16 +295,6 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                         'name' => '0元拿10元话费',
                         'key' => 'kj91',
                     ),
-                	array(
-                        'type' => 'view',
-                        'name' => '一元中大奖',
-                        'url' => "$WebRoot/index.php/M/Miaosha/index.html",
-                    ),
-                	array(
-                        'type' => 'view',
-                        'name' => '卡券大派送',
-                        'url' => "$WebRoot/index.php/M/Activity/coupon.html",
-                    ),
                 ),
             );
 			 
@@ -320,7 +320,16 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         print_r($rs);
     }
 
-    
+//              	array(
+//                      'type' => 'view',
+//                      'name' => '一元中大奖',
+//                      'url' => "$WebRoot/index.php/M/Miaosha/index.html",
+//                  ),
+//              	array(
+//                      'type' => 'view',
+//                      'name' => '卡券大派送',
+//                      'url' => "$WebRoot/index.php/M/Activity/coupon.html",
+//                  ),
 
     //获取菜单
     public function menu(){
@@ -350,7 +359,7 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 
 
     public function test($type){
-
+		$bk1=new WxMsgKanjia();
         header("Content-type:text/html;charset=utf-8");
         set_time_limit (0);//   //设置程序最大执行时间为无限  0为无限制
         ini_set('max_execution_time', '0');//设置最大执行时间  0为不限时
@@ -420,16 +429,20 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 	
 	public function testc()
 	{
-			$type=92;
-			$form_openid='oKxDRvyD0gFYNwby4lh7kGrOUcM8';
-			 
-			$shengyuprizenum=50;
-			 $mkjp=D('M/Kanjia');
-			$ZhongPara= $mkjp->GetZhongJ($type);
-			 
-			 
-			
-			echo $ZhongPara;
+//			$type=92;
+//			$form_openid='oKxDRvyD0gFYNwby4lh7kGrOUcM8';
+//			 
+//			$shengyuprizenum=50;
+//			 $mkjp=D('M/Kanjia');
+//			$ZhongPara= $mkjp->GetZhongJ($type);
+//			 
+//			 
+//			
+//			echo $ZhongPara;
+				$openid="olAupxKj09dfzPwt91YeQTDwIjCY";
+				$wxm= new WxNotify();
+				$result=$wxm->KJNotify($form['nickname'],$openid,'','10元话费');
+				echo $result;
 //          //开启事务
 //          M()->startTrans();
 //          //保存帮砍信息

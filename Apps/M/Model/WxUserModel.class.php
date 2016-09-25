@@ -11,8 +11,7 @@ class WxUserModel extends BaseModel {
 		
 		
 	public function Insert($dataInfo)
-	{ 
-		 
+	{
 		  $user = array(); 
 		  $user["openid"]=  $dataInfo["openid"];
 		  $user["nickname"]=  $dataInfo["nickname"];
@@ -30,9 +29,7 @@ class WxUserModel extends BaseModel {
 		  $user["is_share"]=  $dataInfo["is_share"];
  
 		$db = M('wx_user');
-		$rs = $db->add($user);
-			 
- 
+		$rs = $db->add($user); 
 		return $rs;
 	}
 	

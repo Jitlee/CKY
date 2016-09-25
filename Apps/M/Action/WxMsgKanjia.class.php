@@ -18,8 +18,7 @@ class WxMsgKanjia
 		{
 			$Auth->sendText($form_openid,"当前参与活动人数太多，请稍后重试...");
             exit();
-		}
-		
+		}		
            
         $len=strlen($data['EventKey']);
         if(!empty($data['EventKey']) && $len > 5){	
@@ -40,11 +39,11 @@ class WxMsgKanjia
 			$kjobject=$mkjp->GetByidPara($kanjia_info['kj_id']);
 			$shengyuprizenum=(int)$kjobject["shengyuprizenum"];
 			$prizenum=(int)$kjobject["prizenum"];
-			if($shengyuprizenum<=0)
-			{
-				$wechat->replyText("当前活动已经结束，请留意最新中奖公告。".$shengyuprizenum);
-                exit();
-			}
+//			if($shengyuprizenum<=0)
+//			{
+//				$wechat->replyText("当前活动已经结束，请留意最新中奖公告。".$shengyuprizenum);
+//              exit();
+//			}
 			
             //判断是否已经帮砍过了
             $is_bangkan=M('bangkan')->where(array('wx_id'=>$wx_id,'kj_id'=>$kanjia_info['kj_id']))->find();
@@ -104,7 +103,7 @@ class WxMsgKanjia
 				$ZhongPara["kj_id"]=$kanjia_info['kj_id'];				 
 				$ZhongPara["openid"]=$openid;
 			}
-				
+			
             //开启事务
             M()->startTrans();
             //保存帮砍信息
@@ -116,39 +115,136 @@ class WxMsgKanjia
 			$save_kanjiaparastatus=TRUE;
 			if($add_money==$shengyumoney){				
 				$add_ZhongParaStatus=M('kanzhong')->add($ZhongPara);
-				$ZhongJNum= $mkjp->GetZhongJ($type);//add get ZJNum
-				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$prizenum-$ZhongJNum);				
+//				$ZhongJNum= $mkjp->GetZhongJ($type);//重新获取中奖人数
+//				if(empty($ZhongJNum)){
+//					$ZhongJNum=0;
+//				}
+//				$syrs=(int)$prizenum-(int)$ZhongJNum;				
+//				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$syrs);				
 			}
 			
+            M('kanjia')->where(array('kj_id'=>$kanjia_info['kj_id']))->setINC('count',1);		 
 			
-            M('kanjia')->where(array('kj_id'=>$kanjia_info['kj_id']))->setINC('count',1);
-            if($add_status && $save_status && $add_ZhongParaStatus && $save_kanjiaparastatus){
+            if($add_status && $save_status && $add_ZhongParaStatus){
                 M()->commit();
             }
             else{
                 M()->rollback();
-                $wechat->replyText("当前参与活动人数太多，请稍后重试.. ,");
+                $wechat->replyText("当前参与活动人数太多，请稍后重试.. ");
                 exit();
             }
             //获取来源者信息
             $form=$Auth->userInfo($form_openid);
             $rs=$Auth->userInfo($openid);
+			
+            //成功通知
+			if($add_status && $save_status && $add_ZhongParaStatus)
+			{
+				$wxm= new WxNotify();
+				$result=$wxm->KJNotify($form['nickname'],$openid,'','10元话费');
+			} 
             //发送消息给砍主
             $Auth->sendText($openid,'您的好友“'.$form['nickname'].'”\n帮您砍下了'.$add_money.'元，快去答谢他（她）吧/示爱');
             $wechat->replyText("您刚刚帮助您的好友[".$rs['nickname']."]砍了".$add_money."元");
+			
         }
         $wechat->replyText('哟呵~主子终于等到你，还好我没放屁啊！/示爱/示爱/示爱
 欢迎来到【粗卡】王国游戏王国待会就更新啦，更多消息，请留意我们的微信公众号
 请直接点击底部菜单，尽情购物吧！/玫瑰/玫瑰/玫瑰');
 		
 	}
-	
+
+	/******参与活动*****/
+	public function KanjiaCommin($data, $Auth, $wechat, $WebDomain, $WebRoot)
+	{
+		logger("/**************1******************/");		
+        $form_openid=$data['FromUserName'];
+		$openid=$form_openid+'';
+		$mdb=D('M/WxUser');
+        $wx_id=$mdb->GetWxID($form_openid, $Auth);
+		if($wx_id==-1)
+		{
+			$Auth->sendText($form_openid,"当前参与活动人数太多，请稍后重试...");
+            exit();
+		}
+		$EventKey=$data['EventKey'];
+		 
+        $len=strlen($data['EventKey']);
+        if(!empty($data['EventKey']) && $len > 5)
+        {
+        	$type=substr($EventKey,4,2);
+			$kjcode=$type;
+			
+            $uid=M('member')->where(array('OpenID'=>$form_openid))->limit(1)->getField('uid');
+			
+			if(empty($uid))//没有注册
+			{
+				
+//				$back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册或登陆绑定");
+//	            if($back){
+	            	vendor('Weixinpay.WxPayJsApiPay');
+					$appid =  \WxPayConfig::APPID;
+	                $mkjp=D('M/Kanjia');
+					$newspara=$mkjp->GetNewsPara('reg',$kjcode, $WebDomain ,$kj_id,$appid);
+	                $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
+	                exit;
+//	            }
+//				exit;
+			}
+		
+            //找到这个砍价消息
+            $D=M('kanjia');
+            $kanjia_info=$D->where(array('uid'=>$uid,'type'=>$type))->find();
+            if(empty($kanjia_info))
+            {
+                 //添加砍价信息                
+                $qr_url=$this->create_qr($openid,$kjcode);
+				//保存砍价信息
+				$mkj=D('M/Kanjia');
+				$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,$kjcode);
+				if($kj_id==-100)
+				{
+					$wechat->replyText("奖品已经被领完啦，下次早点来吧。。");
+					exit();
+				}
+                if($kj_id){
+                  	$mkjp=D('M/Kanjia');
+					$newspara=$mkjp->GetNewsPara('news',$kjcode, $WebRoot ,$kj_id);
+                    $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
+                }
+                else{
+                    $Auth->sendText($openid,"当前参与活动人数太多，请稍后重试");
+                }
+                exit();
+            }
+			else //发送原来砍价活动
+			{
+				//获取砍价相关信息
+				$mkjp=D('M/Kanjia');
+				$kjobject=$mkjp->GetKJPareBytype($kjcode);
+				$shengyuprizenum=(int)$kjobject["shengyuprizenum"];
+				$prizenum=(int)$kjobject["prizenum"];
+				if($shengyuprizenum<=0)
+				{
+					$Auth->sendText($openid,"奖品已经被领完啦，下次早点来吧。");
+//					$wechat->replyText("当前活动已经结束，请留意最新中奖公告。".$shengyuprizenum);
+	                exit();
+				}
+				$kj_id=$kanjia_info["kj_id"];
+				$newspara=$mkjp->GetNewsPara('news',$kjcode, $WebRoot ,$kj_id);
+                $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);
+                exit();				
+			}
+        }
+       
+		
+	}
+
 	public function KanjiaClick($data, $Auth, $wechat, $WebDomain, $WebRoot)
 	{
 		//判断是否已经注册
         $openid=$data['FromUserName'];
-		//*保存砍主信息
-        //找到砍主id
+		//*保存砍主信息        
         $mdb=D('M/WxUser');
         $wx_id=$mdb->GetWxID($openid, $Auth);
 		if($wx_id==-1)
@@ -163,15 +259,15 @@ class WxMsgKanjia
 	    	$user_info=M('member')->where(array('OpenID'=>$openid))->find();
 	        // $Auth->sendText($openid,$openid);
 	        if(empty($user_info)){
-	            $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册或登陆绑定");
-	            if($back){
+//	            $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册或登陆绑定");
+//	            if($back){
 	            	vendor('Weixinpay.WxPayJsApiPay');
 					$appid =  \WxPayConfig::APPID;
 	                $mkjp=D('M/Kanjia');
 					$newspara=$mkjp->GetNewsPara('reg',$kjcode, $WebDomain ,$kj_id,$appid);
 	                $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
 	                exit;
-	            }
+//	            }
 	        }
 		
 	    	try
@@ -184,16 +280,19 @@ class WxMsgKanjia
 	                    $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);
 	                    exit();
 	                }
-	               
-	                
+					
 	                // 如果没有获取到该砍主的微信信息
 	                $uid=$user_info['uid'];
 	                $qr_url=$this->create_qr($openid,$kjcode);
 					//保存砍价信息
 					$mkj=D('M/Kanjia');
 					$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,$kjcode);
-					 
-	                if($kj_id){
+					if($kj_id==-100)
+					{
+						$wechat->replyText("奖品已经被领完啦，下次早点来吧。。");
+						exit();
+					}
+					else if($kj_id >0){
 	                  	$mkjp=D('M/Kanjia');
 						$newspara=$mkjp->GetNewsPara('news',$kjcode, $WebRoot ,$kj_id);
 	                    $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
@@ -201,11 +300,10 @@ class WxMsgKanjia
 	                else{
 	                    $Auth->sendText($openid,"当前参与活动人数太多，请稍后重试");
 	                }
-			}
-			catch (Exception $e) {
+			}catch (Exception $e) {
 				$Auth->sendText($openid,$e->getMessage());
 			} 
-	    } 
+	    }
  
 	}
 

@@ -49,7 +49,7 @@ class KanjiaAction extends BaseAction{
         $this->bl=$bl*100;
         //中奖信息
         $zhongjiang=M('kanzhong')->where(array('type'=>$rs['type']))->select();
-        $this->shengyutaishu=$shengyutaishu-(count($zhongjiang));
+        //$this->shengyutaishu=$shengyutaishu-(count($zhongjiang));
         $this->zhongjiang=$zhongjiang;
         // print_r($bangkan_info);
         //$code=I('get.code');
@@ -167,37 +167,52 @@ class KanjiaAction extends BaseAction{
 //      // print_r($rs);
 //  }
 
-    /*创建永久二维码*/
-    public function create_fqr(){
+  /*创建永久二维码*/
+	public function create_fqr($type=''){
+        //找到此用户的uid
+        $uid='00';
+//				$type='91'
+				$dotype='7777';
+        $uid=$dotype.$type.$uid;
+        //https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN
+        //{"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
         $param=array(
             'expire_seconds'=>2592000,
-            'action_name'=>'QR_LIMIT_STR_SCENE',
+            'action_name'=>'QR_SCENE',
             'action_info'=>array(
                 'scene'=>array(
-                    'scene_str'=>'kj1',
+                    'scene_id'=>$uid,
                     )
                 ),
-            );
+        );
         $param=json_encode($param);
-       	$wxmsg=new WxUserInfo();
-				$access_token=$wxmsg->accessToken();
-				
+        
+				$wxmsg=new WxUserInfo();
+				$access_token=$wxmsg->accessToken();		
         $rs=post('https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.$access_token,$param);
         $rs=json_decode($rs);
         //处理object
         $rs=object_array($rs);
-        header('location:https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$rs['ticket']);
-        // print_r($rs);
+				header('location:https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$rs['ticket']);
     }
 
     public function test(){
-        vendor('Weixinpay.WxPayJsApiPay');
-				$appid =  \WxPayConfig::APPID;
-				$crypt = \WxPayConfig::APPSECRET;
-        $jssdk=new Jssdk($appid,$crypt);
-        $signPackage=$jssdk->getSignPackage();
-        print_r($rs);
-        $this->signPackage=$signPackage;
-        $this->display();
+	    	$uid='1';
+			$wx_id=1;
+			$qr_url='';
+			$kjcode="91";
+				$mkj=D('M/Kanjia');
+					$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,$kjcode);
+//					$this->display();
+//      vendor('Weixinpay.WxPayJsApiPay');
+//				$appid =  \WxPayConfig::APPID;
+//				$crypt = \WxPayConfig::APPSECRET;
+//      $jssdk=new Jssdk($appid,$crypt);
+//      $signPackage=$jssdk->getSignPackage();
+//      print_r($rs);
+//      $this->signPackage=$signPackage;
+//      $this->display();
+
+			
     }
 }

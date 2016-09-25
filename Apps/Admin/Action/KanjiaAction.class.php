@@ -81,6 +81,13 @@ class KanjiaAction extends BaseAction {
     	$this->ajaxReturn($rs);
 	}
 	
+	public function kanjiaitemdel(){
+		$this->isAjaxLogin();
+		$this->checkAjaxPrivelege('gggl_03');
+		$m = D('Admin/KanjiaPara');
+    	$rs = $m->kanjiaItemDel();
+    	$this->ajaxReturn($rs);
+	}
 	
 	/* 添加砍价规则*/
 	public function kanjia_add(){
@@ -230,10 +237,18 @@ class KanjiaAction extends BaseAction {
 
 		$list=$db
 			->join('kj inner join cky_wx_user u on u.wx_id=kj.wx_id')
+			->join('inner join cky_member m on m.uid=kj.uid')
 			->where($map)->page($pageNum, $pageSize)->select();
 		foreach ($list as $key => $value) {
 			$list[$key]['bangkan_count']=M('bangkan')->where(array('kj_id'=>$vlaue['kj_id']))->count();
-			$list[$key]['shengyubili']=round(($value['shengyumoney']/$value['money'])*100,2);
+			$shengyu=round(($value['shengyumoney']/$value['money'])*100,2);
+			$list[$key]['shengyubili']=$shengyu;
+			$candel=0;
+			if($shengyu > 95)
+			{
+				$candel=1;
+			}
+			$list[$key]['candel']=$candel;
 		}
     	$this->list=$list;
     	$this->assign('title','积分参与活动者列表');

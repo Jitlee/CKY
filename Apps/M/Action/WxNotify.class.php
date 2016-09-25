@@ -79,6 +79,55 @@ public function OrderToShops($ACCESS_TOKEN, $openid, $orderid, $orderTypeName, $
 		return $result;
 }
 	
+
+public function KJNotify($username, $openid, $mobile, $goodsname) {		
+		$wxm= new WxUserInfo();		
+		$ACCESS_TOKEN =$wxm->accessToken();	
+		
+	$url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$ACCESS_TOKEN";
+	$json='
+{
+	"touser":"'.$openid.'",
+	"template_id":"wBRE4_Vm2TwYua7XRS8zrNqT8uy7RVmhBSuuE5ih3-c",	
+	"topcolor":"#FF0000",
+	"data":{
+		"first": {
+			"value":"恭喜你参与活动砍价成功！",
+			"color":"#173177"
+		},
+		"keyword1":{
+			"value":"'.$username.'",
+			"color":"#173177"
+		},
+		"keyword2":{
+			"value":"'.$mobile.'",
+			"color":"#173177"
+		},
+		"keyword3":{
+			"value":"",
+			"color":"#173177"
+		},
+		"keyword4":{
+			"value":"",
+			"color":"#173177"
+		},
+		"keyword5":{
+			"value":"'.$goodsname.'",
+			"color":"#173177"
+		},		
+		"remark":{
+			"value":"恭喜您获得：'.$goodsname.',系统将于72小时内自动发放奖品。",
+			"color":"#173177"
+		}
+	}
+}
+		';
+		
+		$result=	$this->postData($url, $json);
+		logger("/**************通知结果：$result******************/");
+		return $result;
+}
+
 	function postData($url, $data){
 	    $ch = curl_init();
 	    $timeout = 300;

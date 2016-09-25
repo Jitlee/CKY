@@ -50,7 +50,12 @@
 						</p>
 					</div>
 					<!-- /ko -->
-					<h4 class="mui-text-right" data-bind="text: 'x' + count"></h4>
+					<h4 class="mui-text-right" data-bind="text: 'x' + _count()"></h4>
+				</div>
+				<div class="cky-cart-change">
+					<a data-bind="click: $parent.addClick">+</a>
+					<span data-bind="text: _count()"></span>
+					<a data-bind="click: $parent.reduceClick, css: { 'disabled': _count() == 1  } ">-</a>
 				</div>
 				<a class="cky-cart-delete cky-update" data-bind="attr: { shopId: $parent.shopId, goodsId: goodsId }">删除</a>
 			</div>
@@ -68,6 +73,7 @@
 		<h5>不含运费</h5>
 	</div>
 	<a class="disabled">去结算(<span>0</span>)</a>
+	<a class="cky-footer-delete">删除</a>
 </footer>
 <script src="__KO__"></script>
 <script>
@@ -82,14 +88,44 @@
 					shop.goods = [];
 					for(var goodsId in cart.shops[shopId].goods) {
 						var goods = $.extend({}, cart.shops[shopId].goods[goodsId]);
+						goods._count = ko.observable(goods.count);
+						goods.shopId = shopId;
 						shop.goods.push(goods);
 					}
+					shop.addClick = onAddClick;
+					shop.reduceClick = onReduceClick;
+					
 					shops.push(shop);
 				}
 				ko.applyBindings(shops, document.getElementById("cartList"));
 				
 				var cartList = $("#cartList").removeClass("cky-hidden");
 				$(".cky-footer").removeClass("cky-hidden");
+				
+				// 增加
+				function onAddClick() {
+					changeCount.call(this, 1);
+				}
+			
+				// 减少
+				function onReduceClick() {
+					changeCount.call(this, -1);
+				}
+				
+				function  changeCount(offset) {
+					var shopId = this.shopId;
+					var goodsId = this.goodsId;
+					var shop = cart.shops[shopId];
+					var goods = cart.shops[shopId].goods[goodsId];
+					if(goods.count == 1 && offset == -1) {
+						return;
+					}
+					this.count += offset;
+					goods.count += offset;
+					this._count(this.count);
+					cky.storage.setItem(CACHE_KEY, cart);
+					sum();
+				}
 				
 				// 勾选
 				$("input[type=checkbox]").change(function(evt) {
@@ -129,7 +165,7 @@
 				var totalMoneyElement = $(".cky-footer r");
 				var deliveryMoneyElement = $(".cky-footer h5");
 				var countElement = $(".cky-footer a span");
-				var payElement = $(".cky-footer a").click(onsubmit);
+				var payElement = $(".cky-footer a:first").click(onsubmit);
 				var selectedCard = null;
 				function sum() {
 					var count = 0;
@@ -177,7 +213,22 @@
 					var parent = $this.closest(".cky-cart-table");
 					$this.text($this.hasClass("cky-active") ? "编辑" : "完成");
 					$("a.cky-cart-delete").toggleClass("cky-active");
+					$("div.cky-cart-change").toggleClass("cky-active");
+					$("a.cky-footer-delete").toggleClass("cky-active");
 					$this.toggleClass("cky-active");
+				});
+				
+				$("a.cky-footer-delete").click(function() {
+					layer.open({
+					    content: '确定删除选中的商品吗？',
+					    btn: ['确定', '取消'],
+					    shadeClose: false,
+					    yes: function(){
+					    		cky.closeAll();
+							cky.storage.removeItem(CACHE_KEY);
+							location.reload();
+						}
+					});
 				});
 				
 				// 删除商品
@@ -215,6 +266,7 @@
 					    }
 					});
 				});
+				sum();
 			} else {
 				$("#emptyBlock").removeClass("cky-hidden");
 			}

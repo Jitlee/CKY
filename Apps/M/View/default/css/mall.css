@@ -334,11 +334,8 @@ header.mui-bar + .mall-search-bar + .mui-content {
 	margin: 3px 6px;
 }
 
-.mall-mod.mall-mod-hot {
-	background-color: #fff;
-}
-
 .mall-mod.mall-mod-hot .mall-mod-hot-cell {
+	background-color: #fff;
 	width: 50vw;
 	float: left;
 	display: block;

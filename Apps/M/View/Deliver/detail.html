@@ -129,7 +129,7 @@
 						<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
 					</div>
 					<div class="mui-table-cell mui-text-right">
-						<a href="javascript:void(0);" data-bind="disabled: goodsStock == 0,
+						<a data-bind="disabled: goodsStock == 0,
 							attr:{ goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopPrice: shopPrice,
 								shopId: shopId, shopName: shopName, shopThums: shopThums, 
 								provideBox: provideBox, boxMoney: boxMoney,
@@ -167,7 +167,7 @@
 	   	var fastCart = null;
 	   	
 	   	var cartButton = $("#cartButton"); 
-	   	
+	   	var defaultDescription = "休息中";
 	   	// 商品
 	   	var goods = [];
 		var vm = {
@@ -182,6 +182,12 @@
 		var catId = 0;
 		var keywords = "";
 		function page() {
+			if(catId > 0 || keywords) {
+				defaultDescription = "没有搜索到相关商品";
+			} else {
+				defaultDescription = "休息中";
+			}
+			
 			if(force) {
 				pageNo = 1;
 				isEOF = false;
@@ -213,7 +219,7 @@
 				}
 				
 				if(goods.length == 0) {
-					$(".mall-mod-hot").nodata("没有发现相关商品");
+					$(".mall-mod-hot").nodata(defaultDescription);
 				}
 			});
 		}
@@ -229,7 +235,6 @@
 		}
 		
 		// 分类
-		
 		$.getJSON("{:U('Fast/cats')}", { shopId: "{$shopId}" }, function(list) {
 			if(list) {
 				$("#catsButton").dropMenu({
@@ -317,6 +322,7 @@
 			keywords = $.trim(searchInput.val());
 			updateLabels();
 			pageNo = 1;
+			
 			page();
 		});
 	});

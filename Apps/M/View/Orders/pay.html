@@ -106,7 +106,7 @@
 	
 	<div class="cky-order-money cky-relative">
 		<span>订单金额</span>
-		<span data-bind="text: total() + '元'"></span>
+		<span data-bind="text: total().toFixed(2) + '元'"></span>
 	</div>
 	
 	<ul class="mui-table-view cky-mtop-10">
@@ -123,7 +123,7 @@
 	<br />
 	
 	<footer class="cky-footer">
-		<p class="font-red font17">实付款：<span data-bind="text: realPayment() + '元'">0</span></p>
+		<p class="font-red font17">实付款：<span data-bind="text: realPayment().toFixed(2) + '元'">0</span></p>
 		<button id="submit" class="cky-update mui-btn mui-btn-primary" style="height:100%">提交订单</button>
 	</footer>
 </div>

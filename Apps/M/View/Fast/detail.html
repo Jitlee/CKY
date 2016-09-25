@@ -39,7 +39,7 @@
 		<ul id="goodsList" class="cky-table-view cky-hidden">
 			<!-- ko foreach: goods -->
 			<li class="cky-table-view-cell cky-fast-goods-cell">
-				<a href="javascript:void(0);" data-bind="click: $parent.goodsClick">
+				<a data-bind="click: $parent.goodsClick">
 					<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
 						
 					</div>
@@ -62,7 +62,7 @@
 				</a>
 			</li>
 			<!--<li class="cky-table-view-cell cky-fast-goods-sub-cell">
-				<a href="javascript:void(0);" data-bind="attr: { goodsId: goodsId }">
+				<a data-bind="attr: { goodsId: goodsId }">
 					<p>招牌指数<span class="cky-zhishu" data-bind="css: cky.getZhishu(score)"></span></p>
 					<p class="font13" data-bind="text: goodsSpec"></p>
 				</a>

@@ -7,6 +7,7 @@
       <title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
       <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <link rel="stylesheet" href="__ROOT__/Apps/Admin/View/css/daterangepicker/daterangepicker-bs3.css">
       <!--[if lt IE 9]>
       <script src="__PUBLIC__/js/html5shiv.min.js"></script>
       <script src="__PUBLIC__/js/respond.min.js"></script>
@@ -15,6 +16,7 @@
       <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
       <script src="__PUBLIC__/js/common.js"></script>
       <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <script src="__ROOT__/Apps/Admin/View/js/daterangepicker.js"></script>
    </head>
    <script>
    function getAreaList(objId,parentId,t,id){
@@ -39,15 +41,9 @@
 			$('#'+objId).html(html.join(''));
 	   });
    }
-// $(function(){
-//     <PHP>if($areaId1!=0){</PHP>
-//	   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
-//	   <PHP>}</PHP>  
-//	   <PHP>if($areaId2 != 0){</PHP>
-//	   getAreaList("areaId3",'{$areaId2}',1,'{$areaId3}');
-//	   <PHP>}</PHP>
-//	   $('#orderStatus').val({$orderStatus});
-// });
+	$(function() {
+		$('#dateRange').daterangepicker({format:'YYYY-MM-DD',separator:'至'});
+	});
    </script>
    <body class='rtc-page'>
       <form method="post" action='{:U("Admin/Orders/index")}'>
@@ -67,6 +63,7 @@
        </div>-->
        <div class='rtc-tbar'>
        商家：<input type='text' name='shopName' id='shopName' value='{$shopName}'/>  
+       订单日期：<input type='text' id="dateRange" readonly='true' style='width:200px' name='dateRange' class='form-control rtc-ipt-10' value='{$dateRange}'/>
        订单：<input type='text' name='orderNo' id='orderNo' value='{$orderNo}'/>
   订单状态：  <select name='orderStatus' id='orderStatus'>
              <option value='-9999'>请选择</option>

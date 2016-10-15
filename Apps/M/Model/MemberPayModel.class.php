@@ -165,7 +165,7 @@ class MemberPayModel extends BaseModel {
 		}
 		else
 		{
-			$payamount=(int)$dataInfo["amount"];
+			$payamount=(float)$dataInfo["amount"];
 			
 			$netpayamount=$payamount;
 			$accountmoney=0;

@@ -21,8 +21,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
 			}else{
 	            //$this->responseMsg();
 	            vendor('Weixinpay.WxPayJsApiPay');
-				$appid =  \WxPayConfig::APPID;
-				$crypt = \WxPayConfig::APPSECRET;
+				$appid =  \WxPayConfig2::APPID;
+				$crypt = \WxPayConfig2::APPSECRET;
 	            
 	            /* 加载微信SDK */
 	            $wechat = new Wechat($token, $appid, $crypt);
@@ -122,8 +122,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
      */
     private function demo($wechat, $data){
         vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
-		$appsecret = \WxPayConfig::APPSECRET;
+		$appid =  \WxPayConfig2::APPID;
+		$appsecret = \WxPayConfig2::APPSECRET;
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
 		/*		*/
@@ -208,8 +208,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
      */
     private function upload($type){ 
 		vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
-		$appsecret = \WxPayConfig::APPSECRET;
+		$appid =  \WxPayConfig2::APPID;
+		$appsecret = \WxPayConfig2::APPSECRET;
 		
         $token = session("token");
 
@@ -257,7 +257,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         return $media['media_id'];
     }
 
-    /*构造菜单*/
+    /*构造菜单
+     * http://www.cukayun.cn/index.php/M/WxMsg/create_menu
+     */
     public function create_menu(){
        
 		$wxmsg=new WxUserInfo();
@@ -288,15 +290,10 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 ),
             );
         $array['button'][1]=array(
-            'name'=>'惊喜无限',
-            'sub_button'=>array(                
-                	array(
-                        'type' => 'click',
-                        'name' => '0元拿10元话费',
-                        'key' => 'kj91',
-                    ),
-                ),
-            );
+            'type' => 'click',
+            'name' => '免费电影',
+            'key' => 'kj92',
+        );
 			 
          $array['button'][2]=array(
             'name'=>'我的',
@@ -320,22 +317,22 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
         print_r($rs);
     }
 
-//              	array(
-//                      'type' => 'view',
-//                      'name' => '一元中大奖',
-//                      'url' => "$WebRoot/index.php/M/Miaosha/index.html",
-//                  ),
-//              	array(
-//                      'type' => 'view',
-//                      'name' => '卡券大派送',
-//                      'url' => "$WebRoot/index.php/M/Activity/coupon.html",
-//                  ),
+//		$array['button'][1]=array(
+//      'name'=>'免费电影',
+//      'sub_button'=>array(                
+//          	array(
+//                  'type' => 'click',
+//                  'name' => '0元拿10元话费',
+//                  'key' => 'kj91',
+//              ),
+//          ),
+//      );
 
     //获取菜单
     public function menu(){
         vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
-		$appsecret = \WxPayConfig::APPSECRET;
+		$appid =  \WxPayConfig2::APPID;
+		$appsecret = \WxPayConfig2::APPSECRET;
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
 		 
@@ -346,8 +343,8 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
     //删除菜单
     public function menudel(){
         vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
-		$appsecret = \WxPayConfig::APPSECRET;
+		$appid =  \WxPayConfig2::APPID;
+		$appsecret = \WxPayConfig2::APPSECRET;
 		$wxmsg=new WxUserInfo();
 		$access_token=$wxmsg->accessToken();
 		

@@ -84,10 +84,10 @@ where
 		$kjobject=$this->GetKJPareBytype($type);
 		$shengyuprizenum=(int)$kjobject["shengyuprizenum"];
 		$prizenum=(int)$kjobject["prizenum"];
-		if($shengyuprizenum<=0)
-		{
-			return -100;
-		}
+//		if($shengyuprizenum<=0)
+//		{
+//			return -100;
+//		}
 				
 				
 		$map=array(
@@ -106,16 +106,16 @@ where
         $kj_id=M('kanjia')->add($map);
 		
 		//扣减数量
-		$ZhongJNum= $this->GetCJ($type);//重新获取中奖人数
-		if(empty($ZhongJNum)){
-			$ZhongJNum=0;
-		}
-		$syrs=(int)$prizenum-(int)$ZhongJNum;		
-		if($syrs  <0)
-		{
-			$syrs=0;
-		}		
-		M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$syrs);			
+//		$ZhongJNum= $this->GetCJ($type);//重新获取中奖人数
+//		if(empty($ZhongJNum)){
+//			$ZhongJNum=0;
+//		}
+//		$syrs=(int)$prizenum-(int)$ZhongJNum;		
+//		if($syrs  <0)
+//		{
+//			$syrs=0;
+//		}		
+//		M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$syrs);
 				
 		
 		return $kj_id;

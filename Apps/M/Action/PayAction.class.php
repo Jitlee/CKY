@@ -237,8 +237,11 @@ class PayAction extends PayBaseAction {
 	        $input->SetTrade_type("JSAPI");
 	        $input->SetOpenid($openId);
 //			echo dump($input);
+//			exit;
 	        $order = \WxPayApi::unifiedOrder($input);
 //			echo dump($order);
+
+
 	        $jsApiParameters = $tools->GetJsApiParameters($order);
 	        $this->jsApiParameters=$jsApiParameters;
 			

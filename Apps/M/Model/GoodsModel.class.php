@@ -193,7 +193,7 @@ class GoodsModel extends BaseModel {
 
 	public function pageByShopsId($pageNo = 0, $pageSize = 0) {
 		if($pageNo == 0) {
-			$pageSize = (int)I('pageSize', 10);
+			$pageSize = (int)I('pageSize', 6);
 			$pageNo = (int)I('pageNo', 1);
 			$catId = (int)I('catId');
 		}

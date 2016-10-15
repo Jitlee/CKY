@@ -25,8 +25,8 @@ class WxUserInfo
 		$data=S("accesstokenkey");		 
 		if (!$data or $data->expire_time < time()) {
 			vendor('Weixinpay.WxPayJsApiPay');
-			$appid =  \WxPayConfig::APPID;
-			$secret = \WxPayConfig::APPSECRET;
+			$appid =  \WxPayConfig2::APPID;
+			$secret = \WxPayConfig2::APPSECRET;
 			
 			$get_token_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$secret;
 			$ch = curl_init();
@@ -86,7 +86,7 @@ class WxUserInfo
 	    $signature = sha1($string);
 			
 		vendor('Weixinpay.WxPayJsApiPay');
-		$appid =  \WxPayConfig::APPID;
+		$appid =  \WxPayConfig2::APPID;
 		 
 	    $signPackage = array(
 	      "appId"     => $appid,

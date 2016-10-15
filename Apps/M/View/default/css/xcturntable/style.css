@@ -1,0 +1,61 @@
+﻿body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{color:#333; font-size:12px;font-family:"Microsoft YaHei"}
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+input{ font-size:12px;}
+a{ text-decoration:none; color:#000;}
+a:hover{color:#c00; text-decoration:none;}
+.clear{clear:both;}
+
+/* 大转盘样式 */
+.banner{display:block;width:95%;margin-left:auto;margin-right:auto;margin-bottom: 20px;}
+.banner .turnplate{display:block;width:100%;position:relative;}
+.banner .turnplate canvas.item{width:100%;}
+.banner .turnplate img.pointer{position:absolute;width:31.5%;height:42.5%;left:34.6%;top:23%;}
+
+.pan.zhuan {
+    animation: zhuanpan 3s forwards ease-in-out 1;
+    -webkit-animation: zhuanpan 3s forwards ease-in-out 1;
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+
+.prizedis {
+    padding: 8px;
+    background: #fff;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.prizedis h5 {
+    background: url(/Apps/M/View/default/images/xcturntable/title-bg.png);
+    background-size: 100% 100%;
+    padding: 5px 10px;
+    height: 20px;
+    line-height: 20px;
+    font-weight: normal;
+    font-size: 16px;
+    width: 70px;
+    color: #fff;
+}
+
+.prizedis p {
+    padding: 15px 10px;
+}
+
+.prizedis ul {
+    padding: 5px;
+}
+
+.prizedis li {
+    line-height: 24px;
+    font-size: 14px;
+}
+
+.prizedis span {
+    color: #e60012;
+}
+
+.pannum{ text-align:center; margin: 5px; color: #FFFFFF; font-size: 14px;}
+.pannum r{ color: red; margin: 2px;}

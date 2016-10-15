@@ -19,6 +19,7 @@ return array(
 			'__CSS__'				=> '/Apps/M/View/default/css',
 			'__ROOTCSS__'			=> __ROOT__.'/Public/css',
 			'__CSS__'				=> '/Apps/M/View/default/css',
+			'__WEBROOT__'				=> 'http://192.168.3.6:505',
 		),
 		'alipay_config'=>array(
 			'partner' 		=>'2088221515120177',   //这里是你在成功申请支付宝接口后获取到的PID；

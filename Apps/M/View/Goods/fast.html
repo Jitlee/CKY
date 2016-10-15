@@ -44,6 +44,77 @@
 		<p>招牌指数<span class="cky-zhishu cky-zhishu3"></span></p>
 		<p class="font13">{$data.goodsSpec}</p>
 	</div>
+	<div id="tab" class="cky-tab">
+			<a class="cky-tab-item cky-active" tab-id="0" href1="#item1mobile">详情</a>
+			<a class="cky-tab-item" tab-id="1" href1="#item2mobile">评价</a>
+			<a class="cky-tab-item" tab-id="2" href1="#item3mobile">成交记录</a>
+		</div>
+	
+		<div id="item1mobile" class="cky-tab-content cky-active">
+			<p class="mui-content-padded">{$data.goodsDesc}</p>
+		</div>
+		<div id="item2mobile" class="cky-tab-content">
+			<if condition='$appraise["avgtotal"]["totalusers"] gt 0'>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+			                    <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
+			                	总评价：{:getScore($appraise["avgtotal"]["avgscore"])}
+			                </a>
+						</li>
+					</ul>
+					<volist name="appraise['root']" id="apprs" key='appr'>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media">
+								<a class="top-navigate">
+									<img class="mui-media-object mui-pull-left" src="{$apprs['userImagePath']}">
+									<div class="mui-media-body">
+										<p>{$apprs["userName"]}&nbsp;&nbsp;{:getScore($apprs["goodsScore"])}</p>
+										{$apprs["content"]}
+										<p class='mui-ellipsis'>{$apprs['ocreateTIme']}</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</volist>
+					
+					<div class="cky-text-center">						
+						<a class="mui-btn font13 font-gray" href="{:U('GoodsAppraises/getAppraise',"","")}/goodsId/{:I('id')}">查看更多评价</a>
+					</div>
+				<else/>
+					<p class="mui-content-padded">暂无评价记录</p>
+				</if>
+			<br />
+		</div>
+		<div id="item3mobile" class="cky-tab-content">
+			<div id="recordLoading" class="mui-loading">
+				<div class="mui-spinner">
+				</div>
+			</div>
+			<p id="emptyrecordBlock" class="mui-content-padded cky-hidden">暂无成交记录</p>
+			<div id="recordsList" class="cky-hidden"> 
+				<table class="cky-table">
+					<thead>
+						<tr>
+							<th class="cky-text-left">会员</th><th class="cky-text-left">数量</th><th class="cky-text-right">时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- ko foreach: $data -->
+						<tr>
+							<td data-bind="text:userName"></td>
+							<td class="cky-col-view-cell" data-bind="text: 'x' + count">x3</td>
+							<td class="cky-text-right" data-bind="text: createTime"></td>
+						</tr>
+						<!-- /ko -->
+					</tbody>
+				</table>
+				<div class="cky-text-center">						
+					<a href="{:U('record')}?goodsId={$data.goodsId}" class="mui-btn font13 font-gray">查看更多成交记录</a>
+				</div>
+			</div>
+			<br />
+		</div>
 </div>
 
 <include file="Public:fastcart"/>
@@ -79,5 +150,34 @@
 			{$data.deliveryStartMoney}, {$data.deliveryFreeMoney},
 			{$data.deliveryMoney}, {$data.deliveryCostTime},
 			{$data.serviceStartTime}, {$data.serviceEndTime});
+			
+			
+			// tab漂浮事件
+			var tab = $("#tab").on("click", ".cky-tab-item", ontabclick);
+			// tab切换
+			function ontabclick(evt) {
+				evt.preventDefault();
+				var $this = $(this);
+				if(!$this.hasClass("cky-active")) {
+					var prevDivId = $(".cky-active", tab).attr("href1");
+					$(".cky-active", tab).removeClass("cky-active");
+					$this.addClass("cky-active");
+					$(prevDivId).removeClass("cky-active");
+					$($this.attr("href1")).addClass("cky-active");
+				}
+			}
+			
+			// 销售记录
+			var recordsList = document.getElementById("recordsList");
+			var recordVM = ko.observableArray([]);
+			ko.applyBindings(recordVM, recordsList);
+			$.get("{:U('Goods/records')}?goodsId={$data.goodsId}", null, function(arr) {
+				$("#recordLoading").hide();
+				if(arr && arr.length > 0) {
+					recordVM(arr);
+				} else {
+					$("#emptyrecordBlock").removeClass("cky-hidden");
+				}			
+			});
 	});
 </script>

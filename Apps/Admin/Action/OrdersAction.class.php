@@ -24,6 +24,7 @@ class OrdersAction extends BaseAction{
     	$pager = new \Think\Page($page['total'],$page['pageSize']);
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page);
+    	$this->assign('dateRange',I('dateRange',date('Y-m-d 至 Y-m-d')));
     	$this->assign('shopName',I('shopName'));
     	$this->assign('orderNo',I('orderNo'));
     	$this->assign('areaId1',I('areaId1',0));

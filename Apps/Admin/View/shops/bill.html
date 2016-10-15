@@ -43,7 +43,7 @@
 		   });
 	   }
 		$(function() {
-			$('#dateRange').daterangepicker({format:'YYYY-MM-DD',separator:' 至 '});	
+			$('#dateRange').daterangepicker({format:'YYYY-MM-DD',separator:'至'});	
 			 <notempty name='areaId1'>
 			   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
 			</notempty>
@@ -82,6 +82,7 @@
 						<th width='80'>在线支付</th>
 						<th width='80'>余额支付</th>
 						<th width='80'>积分抵扣</th>
+						<th width='80'>详情</th>
 					</tr>
  
 				</thead>
@@ -98,6 +99,10 @@
 							<td>{$vo['netpayamount']}</td>
 							<td>{$vo['accountmoney']}</td>
 							<td>{$vo['accountscoremoney']}</td>
+							<td>
+								<a class="btn btn-default glyphicon glyphicon-pencil"  
+               					href="{:U('Admin/Orders/index',array('shopName'=>$vo['shopName']),'')}/dateRange/{$dateRange}/orderStatus/5">查看</a>&nbsp;               					
+							</td>
 						</tr>
 					</volist>
 					<tr>

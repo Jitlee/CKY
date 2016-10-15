@@ -67,7 +67,7 @@ class KanjiaAction extends BaseAction{
         $domainurl=$_SERVER['SERVER_NAME']; 
         $url="https://open.weixin.qq.com/connect/oauth2/authorize?";
         vendor('Weixinpay.WxPayJsApiPay');
-				$appid =  \WxPayConfig::APPID;
+				$appid =  \WxPayConfig2::APPID;
 				
         $redirect_uri=urlencode("http://".$domainurl."/".U('index').'?kj_id='.$kj_id);
         //构造url
@@ -81,8 +81,8 @@ class KanjiaAction extends BaseAction{
         //url:https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code 
         $url='https://api.weixin.qq.com/sns/oauth2/access_token';
         vendor('Weixinpay.WxPayJsApiPay');
-				$appid =  \WxPayConfig::APPID;
-				$crypt = \WxPayConfig::APPSECRET;
+				$appid =  \WxPayConfig2::APPID;
+				$crypt = \WxPayConfig2::APPSECRET;
 				
         $param=array(
                 'appid'=>$appid,
@@ -167,7 +167,9 @@ class KanjiaAction extends BaseAction{
 //      // print_r($rs);
 //  }
 
-  /*创建永久二维码*/
+  /*创建永久二维码
+   http://cukayun.cn/index.php/Home/Kanjia/create_fqr/91
+   * */
 	public function create_fqr($type=''){
         //找到此用户的uid
         $uid='00';
@@ -201,17 +203,9 @@ class KanjiaAction extends BaseAction{
 			$wx_id=1;
 			$qr_url='';
 			$kjcode="91";
-				$mkj=D('M/Kanjia');
-					$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,$kjcode);
-//					$this->display();
-//      vendor('Weixinpay.WxPayJsApiPay');
-//				$appid =  \WxPayConfig::APPID;
-//				$crypt = \WxPayConfig::APPSECRET;
-//      $jssdk=new Jssdk($appid,$crypt);
-//      $signPackage=$jssdk->getSignPackage();
-//      print_r($rs);
-//      $this->signPackage=$signPackage;
-//      $this->display();
+			$mkj=D('M/Kanjia');
+			$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,$kjcode);
+ 
 
 			
     }

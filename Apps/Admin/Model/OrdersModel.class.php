@@ -60,6 +60,7 @@ class OrdersModel extends BaseModel {
      	$areaId2 = (int)I('areaId2',0);
      	$areaId3 = (int)I('areaId3',0);
      	$orderStatus = (int)I('orderStatus',-9999);
+     	$dateRange=I('dateRange');
 	 	$sql = "select o.orderId,o.orderNo,o.totalMoney,o.orderStatus,o.deliverMoney,o.payType,o.createTime,s.shopName,o.userName from __PREFIX__orders o
 	 	         left join __PREFIX__shops s on o.shopId=s.shopId  where o.orderFlag=1 ";
 //	 	if($areaId1>0)$sql.=" and s.areaId1=".$areaId1;
@@ -70,7 +71,12 @@ class OrdersModel extends BaseModel {
 	 	if($orderStatus!=-9999 && $orderStatus!=-100)$sql.=" and o.orderStatus=".$orderStatus;
 	 	if($orderStatus==-100)$sql.=" and o.orderStatus in(-6,-7)";
 		if($orderStatus!=-2) $sql.=" and o.orderStatus not in (-2)";
-		 
+		if($dateRange !=''){
+			$dates = explode('至', I('dateRange'));
+			$sql.=" and o.createTime between '".$dates[0]." 00:00:00' and '".$dates[1]." 23:59:59'"; 	
+		}
+		
+		
 	 	$sql.=" order by orderId desc";   
 		$page = $m->pageQuery($sql);
 		//获取涉及的订单及商品

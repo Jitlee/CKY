@@ -11,4 +11,10 @@ class OnecardtickAction extends BaseAction {
 		$this->ajaxReturn($rd, 'JSON');
 	}
 	
+	public function Test() {
+		$m = D('M/OneCardTick');
+		$rd = $m->GetTick();
+		$this->display();
+	}
+	
 }

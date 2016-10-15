@@ -33,8 +33,8 @@
 	<div class="cky-grid cky-grid2 cky-special">
 			<a class="cky-grid-cell cky-hotpot-ticket">
 				<div class="cky-media" id="m1">
-					<p style="color: #1558A0;">情人节专场</p>
-					<h5>数量有限 售完即止</h5>
+					<p style="color: #CA4D82;">鲜奶配送</p>
+					<h5>机会不容错过</h5>
 				</div>
 			</a>
 			<a class="cky-grid-cell cky-points-edemption">
@@ -45,8 +45,8 @@
 			</a>
 			<a class="cky-grid-cell cky-scratch-off">
 				<div class="cky-media" id="m3">
-					<p style="color: #CA4D82;">鲜奶配送</p>
-					<h5>机会不容错过</h5>
+					<p style="color: #1558A0;">情人节专场</p>
+					<h5>数量有限 售完即止</h5>
 				</div>
 			</a>
 			<a class="cky-grid-cell cky-delivery-free">
@@ -99,7 +99,9 @@
 		$("#z2").click(function(){cky.toast('敬请期待...');});
 		$("#z3").click(function(){cky.toast('敬请期待...');});
 		
-		$("#m1").click(function(){cky.toast('敬请期待...');});
+		$("#m1").click(function(){ 
+			window.location.href="{:U('Deliver/milkdetail','','')}";
+		});
 		$("#m2").click(function(){cky.toast('敬请期待...');});
 		$("#m3").click(function(){cky.toast('敬请期待...');});
 		$("#m4").click(function(){cky.toast('敬请期待...');});

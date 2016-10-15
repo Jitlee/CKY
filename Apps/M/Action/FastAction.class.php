@@ -19,7 +19,7 @@ class FastAction extends BaseAction {
 	}
 	
 	public function index() {
-		$this->assign('title', "速达农村配送");
+		$this->assign('title', "本地商家");
 //		$this->assign('tabid', 'shops');
 		
 		/****分享与定位***/

@@ -1,0 +1,125 @@
+<html lang="en">
+	<head>
+		<style type="text/css">
+		.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}
+		.ng-animate-shim{visibility:hidden;}
+		.ng-anchor{position:absolute;}
+		</style>
+		<title>资讯详情</title>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no"><meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<link href="__CSS__/news/ionic.min.css" rel="stylesheet" type="text/css"/>
+		<link href="__CSS__/news/index.css" rel="stylesheet" type="text/css"/>
+		<link href="__CSS__/news/style.css" rel="stylesheet" type="text/css"/>
+		<link href="__CSS__/news/news.css?_version=20160107" type="text/css" rel="stylesheet" />
+		
+		<script src="js/controllers/news.js?_version=20160107" async=""></script>
+		<script src="js/services/news.js?_version=20160107" async=""></script>
+		<link rel="stylesheet" type="text/css" href="http://imgs.ooss.com/images/icons/css/r.css">
+	</head>
+	<body ng-app="home.ic" class="grade-a platform-browser platform-ios platform-ios8 platform-ios8_0 platform-ready">
+		<div style="display: none;"><img src="http://imgs.ooss.com/upload/default/2016-01/25/web/97-20160125112721-46.png" id="home_logo"></div>			
+		<!-- ngIf: weixin_AD.isShow -->
+			<ion-nav-view class="view-container" nav-view-transition="ios" nav-view-direction="none" nav-swipe="">
+			<ion-view class="newCates pane" id="news_detail_detail" nav-view="active" style="opacity: 1; transform: translate3d(0%, 0px, 0px);">
+    		<ion-header-bar class="background_custom bar bar-header disable-user-behavior">
+		        <a class="button  button-clear" href="#/news">
+		            <i class="icon ion-ios-arrow-left light"></i>
+		        </a>
+	        	<h1 class="title light" style="left: 46px; right: 46px;">详情</h1>
+		        <!-- ngIf: !common.isWeiXin -->
+		        <a class="button  button-clear share" ng-click="share(news,null,news.about,1)" ng-if="!common.isWeiXin">
+		            <i class="hltc-share light"></i>
+		        </a>
+	        <!-- end ngIf: !common.isWeiXin -->
+	        <!-- ngIf: common.isWeiXin -->
+	    	</ion-header-bar>
+    <ion-content class="scrollUserSelect scroll-content ionic-scroll overflow-scroll  has-header has-footer" lazy-scroll="" scrollbar-y="true" overflow-scroll="true" 
+    	delegate-handle="newsDetail" style="bottom:55px;"><div class="scroll">
+        <ion-item class="item">
+           <h1 style="letter-spacing: 2px;" ng-bind="news.title" class="ng-binding">{$data.articleTitle}</h1>
+           	<p class="cates_title">浏览量：<span class="ng-binding">{$data.clicknum}</span>
+                <span class="padding-left ng-binding" ng-bind="news.created | date:'yyyy-MM-dd HH:mm'">{$data.createTime} </span>
+                <span ng-bind="news.replysNum+' 评论'" class="floatR padding-right ng-binding">{$data.appraisenum} 评论</span>
+            </p>
+            <!-- ngIf: data.videourl!='' -->
+            <div ng-bind-html="news.content | content" class="news_content selectable ng-binding" data-tap-disabled="true&quot;">
+				{$data.articleContent}
+			</div>
+        </ion-item>
+        <!-- ngIf: data.loaded && replyList.length -->
+        <div class="list">
+            <div class="item detail_post_title"><h2>相关资讯</h2></div>
+            <div class="detail_post_content1">
+                <!-- ngRepeat: category in data.categoryListNewArray track by $index -->
+                	<a class="item" ng-click="details(category.id,category.tempid,category.title)" 
+                	ng-repeat="category in data.categoryListNewArray track by $index">
+                	<span ng-bind="category.title" class="ng-binding">贫困村庄变迁记--定边县白泥井镇公布井村精准脱贫纪实</span>
+                	</a>                		
+                	<!-- end ngRepeat: category in data.categoryListNewArray track by $index -->
+                	<a class="item" ng-click="details(category.id,category.tempid,category.title)" ng-repeat="category in data.categoryListNewArray track by $index">
+                		<span ng-bind="category.title" class="ng-binding">2016年陕西省公开招聘城镇社区专职工作人员公告</span>
+                	</a>                		
+                	<!-- end ngRepeat: category in data.categoryListNewArray track by $index -->
+                	<a class="item" ng-click="details(category.id,category.tempid,category.title)" ng-repeat="category in data.categoryListNewArray track by $index">
+                		<span ng-bind="category.title" class="ng-binding">定边县对25名拟任提拔干部进行任前廉政考试</span>
+                	</a>                		
+                	<!-- end ngRepeat: category in data.categoryListNewArray track by $index -->
+            </div>
+        </div>
+        <!-- ngIf: data.showadArray.length>0 -->
+    </div>
+    </ion-content>
+    <ion-footer-bar class="padding new_posts_bottom_reply bar bar-footer background_eee" style="height: 55px;" ng-class="{true:'background_eee'}[data.loaded]">
+        <!-- ngIf: news.replysNum>0 -->
+        <!-- ngIf: news.replysNum==0 --><div class="row" ng-if="news.replysNum==0">
+            <div class="col">
+                <a class="border_custom row posts_bottom_reply_input background_fff" ng-click="goToReply(data.categoryId,news.id,0,0,0)">
+                    <div class="col color_626262"><img src="http://imgs.ooss.com/images/icons/index/edit.png" alt=""><span class="font_14">写评论</span></div>
+                </a>
+            </div>
+        </div><!-- end ngIf: news.replysNum==0 -->
+    </ion-footer-bar>
+</ion-view></ion-nav-view>
+
+<div class="loading-container"><div class="loading">
+	<ion-spinner class="spinner spinner-ios">
+		<svg viewBox="0 0 64 64"><g stroke-width="4" stroke-linecap="round"><line y1="17" y2="29" transform="translate(32,32) rotate(180)">
+			<animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate></line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(210)">
+				<animate attributeName="stroke-opacity" dur="750ms" values="0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(240)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".1;0;1;.85;.7;.65;.55;.45;.35;.25;.15;.1" repeatCount="indefinite"></animate></line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(270)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".15;.1;0;1;.85;.7;.65;.55;.45;.35;.25;.15" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(300)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".25;.15;.1;0;1;.85;.7;.65;.55;.45;.35;.25" repeatCount="indefinite"></animate>
+			</line><line y1="17" y2="29" transform="translate(32,32) rotate(330)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".35;.25;.15;.1;0;1;.85;.7;.65;.55;.45;.35" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(0)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".45;.35;.25;.15;.1;0;1;.85;.7;.65;.55;.45" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(30)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".55;.45;.35;.25;.15;.1;0;1;.85;.7;.65;.55" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(60)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".65;.55;.45;.35;.25;.15;.1;0;1;.85;.7;.65" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(90)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".7;.65;.55;.45;.35;.25;.15;.1;0;1;.85;.7" repeatCount="indefinite"></animate>			
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(120)">
+				<animate attributeName="stroke-opacity" dur="750ms" values=".85;.7;.65;.55;.45;.35;.25;.15;.1;0;1;.85" repeatCount="indefinite"></animate>
+			</line>
+			<line y1="17" y2="29" transform="translate(32,32) rotate(150)">
+				<animate attributeName="stroke-opacity" dur="750ms" values="1;.85;.7;.65;.55;.45;.35;.25;.15;.1;0;1" repeatCount="indefinite"></animate>
+			</line></g>
+		</svg>
+	</ion-spinner>
+</div>
+</div>
+	</body>
+</html>

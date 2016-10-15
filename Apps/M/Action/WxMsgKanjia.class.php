@@ -39,11 +39,11 @@ class WxMsgKanjia
 			$kjobject=$mkjp->GetByidPara($kanjia_info['kj_id']);
 			$shengyuprizenum=(int)$kjobject["shengyuprizenum"];
 			$prizenum=(int)$kjobject["prizenum"];
-//			if($shengyuprizenum<=0)
-//			{
-//				$wechat->replyText("当前活动已经结束，请留意最新中奖公告。".$shengyuprizenum);
-//              exit();
-//			}
+			if($shengyuprizenum<=0)
+			{
+				$wechat->replyText("当前活动已经结束，请留意最新中奖公告。".$shengyuprizenum);
+                exit();
+			}
 			
             //判断是否已经帮砍过了
             $is_bangkan=M('bangkan')->where(array('wx_id'=>$wx_id,'kj_id'=>$kanjia_info['kj_id']))->find();
@@ -115,12 +115,13 @@ class WxMsgKanjia
 			$save_kanjiaparastatus=TRUE;
 			if($add_money==$shengyumoney){				
 				$add_ZhongParaStatus=M('kanzhong')->add($ZhongPara);
-//				$ZhongJNum= $mkjp->GetZhongJ($type);//重新获取中奖人数
-//				if(empty($ZhongJNum)){
-//					$ZhongJNum=0;
-//				}
-//				$syrs=(int)$prizenum-(int)$ZhongJNum;				
-//				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$syrs);				
+				
+				$ZhongJNum= $mkjp->GetZhongJ($type);//重新获取中奖人数
+				if(empty($ZhongJNum)){
+					$ZhongJNum=0;
+				}
+				$syrs=(int)$prizenum-(int)$ZhongJNum;				
+				$save_kanjiaparastatus=M('kanjia_para')->where(array('kjcode'=>$type))->setField('shengyuprizenum',$syrs);				
 			}
 			
             M('kanjia')->where(array('kj_id'=>$kanjia_info['kj_id']))->setINC('count',1);		 
@@ -138,10 +139,10 @@ class WxMsgKanjia
             $rs=$Auth->userInfo($openid);
 			
             //成功通知
-			if($add_status && $save_status && $add_ZhongParaStatus)
+			if($add_status && $save_status && $add_money==$shengyumoney)
 			{
 				$wxm= new WxNotify();
-				$result=$wxm->KJNotify($form['nickname'],$openid,'','10元话费');
+				$result=$wxm->KJNotify($form['nickname'],$openid,'','免费2D电影票');
 			} 
             //发送消息给砍主
             $Auth->sendText($openid,'您的好友“'.$form['nickname'].'”\n帮您砍下了'.$add_money.'元，快去答谢他（她）吧/示爱');
@@ -183,7 +184,7 @@ class WxMsgKanjia
 //				$back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册或登陆绑定");
 //	            if($back){
 	            	vendor('Weixinpay.WxPayJsApiPay');
-					$appid =  \WxPayConfig::APPID;
+					$appid =  \WxPayConfig2::APPID;
 	                $mkjp=D('M/Kanjia');
 					$newspara=$mkjp->GetNewsPara('reg',$kjcode, $WebDomain ,$kj_id,$appid);
 	                $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
@@ -191,23 +192,27 @@ class WxMsgKanjia
 //	            }
 //				exit;
 			}
-		
+			logger("/**************2***uid=$uid********type=$type***EventKey=$EventKey****/");
             //找到这个砍价消息
             $D=M('kanjia');
             $kanjia_info=$D->where(array('uid'=>$uid,'type'=>$type))->find();
             if(empty($kanjia_info))
             {
+            	logger("/**************3******************/");
                  //添加砍价信息                
                 $qr_url=$this->create_qr($openid,$kjcode);
 				//保存砍价信息
 				$mkj=D('M/Kanjia');
 				$kj_id=$mkj->Insert($uid, $wx_id, $qr_url ,$kjcode);
+				logger("/**************31******************/");
 				if($kj_id==-100)
 				{
 					$wechat->replyText("奖品已经被领完啦，下次早点来吧。。");
 					exit();
 				}
+				logger("/**************32******************/");
                 if($kj_id){
+                	logger("/**************33******************/");
                   	$mkjp=D('M/Kanjia');
 					$newspara=$mkjp->GetNewsPara('news',$kjcode, $WebRoot ,$kj_id);
                     $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动
@@ -219,6 +224,7 @@ class WxMsgKanjia
             }
 			else //发送原来砍价活动
 			{
+				logger("/**************4******************/");
 				//获取砍价相关信息
 				$mkjp=D('M/Kanjia');
 				$kjobject=$mkjp->GetKJPareBytype($kjcode);
@@ -262,7 +268,7 @@ class WxMsgKanjia
 //	            $back=$Auth->sendText($openid,"您还未注册/未绑定微信 \d 请点击下面链接进行注册或登陆绑定");
 //	            if($back){
 	            	vendor('Weixinpay.WxPayJsApiPay');
-					$appid =  \WxPayConfig::APPID;
+					$appid =  \WxPayConfig2::APPID;
 	                $mkjp=D('M/Kanjia');
 					$newspara=$mkjp->GetNewsPara('reg',$kjcode, $WebDomain ,$kj_id,$appid);
 	                $wechat->replyNewsOnce($newspara["title"],$newspara["discription"],$newspara["url"],$newspara["picurl"]);//发送活动

@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('mall.css')}" />
+<script>var cacheKey = "driver_cart_{$shopId}"; </script>
+
+<style>
+	
+	.mall-mod{  padding-top: 2px;}
+	/*ul.label-list li::after{
+		content: "\00D7";
+		margin-left: 5px;
+	}*/
+	.swiper-container, .swiper-img{ height: 50vw; margin-bottom: 5px;}
+</style>
+
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">{$title}</h1>
+	<a id="cartButton" class="mui-btn mui-btn-link mui-pull-right" href="{:U('Cart/lst')}?cacheKey=shop_{$shopId}">
+		<i class="cky-cart iconfont icon-gouwuche"><span class="cky-cart-sum cky-hidden" data-cacheKey="shop_{$shopId}">
+		</span></i></a>
+</header> 
+
+<div id="body" class="mui-content mui-content-bottom">
+	<div>
+		<!-- Slider main container -->
+		<div class="swiper-container">
+		    <!-- Additional required wrapper -->
+		    <div class="swiper-wrapper">
+		        <!-- Slides -->
+		        <foreach name="ads" item="item">
+	        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+		        </foreach>
+		    </div>
+		    <!-- If we need pagination -->
+		    <div class="swiper-pagination"></div>
+		</div> 
+		 
+		<div class="mall-mod mall-mod-hot hidden" data-bind="foreach: goods">
+			<div class="mall-mod-hot-cell" data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+				<a data-bind="attr: { href: '{:U('Goods/detail')}?id=' + goodsId }">
+					<div class="mall-mod-hot-thumb" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }">
+						<!-- ko if: goodsStock == 0 -->
+						<div class="cky-sold-out">
+							<div class="cky-sold-out-title">抢光了</div>
+							<div class="cky-sold-out-sub">SOLD OUT</div>
+						</div>
+						<!-- /ko -->
+					</div>
+					<p class="mui-ellipsis-2" data-bind="text: goodsName"></p>
+					<p class="font12" data-bind="css: { hot: Number(isHot) == 1 }">销量<span data-bind="text: saleCount"></span>件</p>
+				<a/>
+				<div class="mui-table mall-goods-prices-table">
+					<div class="mui-table-cell">
+						<r class="font12">¥</r><r class="font15" data-bind="text: shopPrice"></r>
+					</div>
+					<div class="mui-table-cell mui-text-right">
+						<a data-bind="disabled: goodsStock == 0,
+							attr:{ goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopPrice: shopPrice,
+								shopId: shopId, shopName: shopName, shopThums: shopThums, 
+								provideBox: provideBox, boxMoney: boxMoney,
+								activeId: activeId, activeType: activeType, activeAmount: activeAmount,
+								deliveryMoney: deliveryMoney, deliveryFreeMoney: deliveryFreeMoney,
+								serviceStartTime: serviceStartTime, serviceEndTime: serviceEndTime,deliveryCostTime: deliveryCostTime,
+							},
+							css: { 'cky-sold-out-btn': goodsStock == 0 }"
+							class="cky-add-cart-btn cky-cart-fly-btn"
+							data-cacheKey="shop_{$shopId}"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<include file="Public:tab"/>
+<include file="search"/>
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('cart.js')}"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('drop-menus.js')}"></script>
+<script>
+	$(function() {
+		// 轮播广告
+		var mySwiper = new Swiper ('.swiper-container', {
+	      	// Optional parameters
+	      	direction: 'horizontal',
+	      	pagination: '.swiper-pagination',
+	      	autoplay: 3000,
+	      	loop: true
+	   	});
+	   	
+	   	var fastCart = null;
+	   	
+	   	var cartButton = $("#cartButton"); 
+	   	var defaultDescription = "休息中";
+	   	// 商品
+	   	var goods = [];
+		var vm = {
+			goods: ko.observableArray(goods),
+			addCartClick: onaddcartclick
+		};
+		ko.applyBindings(vm, document.getElementById("body"));
+		
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var catId = 0;
+		var keywords = "";
+		function page() {
+			if(catId > 0 || keywords) {
+				defaultDescription = "没有搜索到相关商品";
+			} else {
+				defaultDescription = "休息中";
+			}
+			
+			if(force) {
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			$.getJSON("{:U('Deliver/milkptg')}", {
+				pageNo: pageNo,
+				shopId: {$shopId},
+				catId: 403,
+				keywords: keywords,
+			}, function(list) {
+				util.endScroll();
+				if(_pageNo == 1) {
+					vm.goods.removeAll();
+					goods.length = 0;
+					$("#shopsLoading").hide();
+					$("#shopsList").removeClass("mui-hidden");
+				}
+				
+				if(list && list.length > 0) {
+					pageNo = ++_pageNo;
+					goods = goods.concat(list);
+					vm.goods(goods);
+				} else if(list && list.length < 12) {
+					isEOF = true;
+				}
+				
+				if(goods.length == 0) {
+					$(".mall-mod-hot").nodata(defaultDescription);
+				}
+			});
+		}
+		util.onScrollEnd(page, "#body");
+		page();
+		
+		// 购物车
+		function onaddcartclick(obj, evt) {
+			if(obj.goodsStock > 0) {
+				$(evt.delegateTarget).flyTo(cartButton);
+				cky.addToShopCart(obj);
+			}
+		} 
+	});
+</script>
+<script>  
+ 
+	 
+	var shareData = {
+	    title: '粗卡',
+	    desc: '粗卡-商城',
+	    link: window.location.href,
+	    imgUrl: ''
+	};
+	
+	 
+	  
+	wxext = function(){
+		getlocation=null;
+	};
+	var signPackage=new Object(); 
+	signPackage.appId='{$signPackage.appId}';
+	signPackage.timestamp={$signPackage.timestamp};
+	signPackage.nonceStr='{$signPackage.nonceStr}';
+	signPackage.signature='{$signPackage.signature}';
+		
+	 
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?10"></script>
+

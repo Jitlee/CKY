@@ -58,6 +58,31 @@ class DeliverAction extends Controller {
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
+	public function milkdetail() {
+		// 获取广告
+		$addb = D('ads');		
+		$shopId=74;
+		$ads = $addb->queryByType(-101);	// 农村配送-鲜奶
+		$this->assign('ads', $ads);  
+	 		 
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+		
+		$m = D('M/Shops');
+		$data = $m->detail($shopId);
+		$this->assign('shop', $data);
+		
+		$this->assign('shopId', $shopId);
+		$this->assign('title', '速达-鲜奶配送');
+		$this->display();
+	}
 	
+	public function milkptg() { 		
+		$db = D('Goods');
+		$list = $db->pageByShopsId();
+		$this->ajaxReturn($list, 'JSON');
+	}
 	
 }

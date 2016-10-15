@@ -21,6 +21,15 @@ class ArticlesModel extends BaseModel {
 		$data["isShow"] = (int)I("isShow",0);
 		$data["articleContent"] = I("articleContent");
 		$data["articleKey"] = I("articleKey");
+		
+		$data["articleImg"] = I("articleImg");
+		$data["articleImgThumb"] = I("articleImgThumb");
+		$data["sort"] = I("sort");
+		$data["istop"] = I("istop");
+		$data["isrecommend"] = I("isrecommend");
+		$data["clicknum"] =0;
+		$data["appraisenum"] =0;
+		
 		$data["staffId"] = (int)session('RTC_STAFF.staffId');
 		$data["createTime"] = date('Y-m-d H:i:s');
 	    if($this->checkEmpty($data,true)){
@@ -44,8 +53,19 @@ class ArticlesModel extends BaseModel {
 		$data["isShow"] = (int)I("isShow",0);
 		$data["articleContent"] = I("articleContent");
 		$data["articleKey"] = I("articleKey");
+		
+		$data["articleImg"] = I("articleImg");
+		$data["articleImgThumb"] = I("articleImgThumb");
+		$data["sort"] = I("sort");
+		$data["istop"] = (int)I("istop");
+		$data["isrecommend"] = (int)I("isrecommend");
+		
+		
 		$data["staffId"] = (int)session('RTC_STAFF.staffId');
-	    if($this->checkEmpty($data,true)){	
+	    if($this->checkEmpty($data,true)){
+	    	
+	    	$data["clicknum"] =0;
+			$data["appraisenum"] =0;	
 			$m = M('articles');
 		    $rs = $m->where("articleId=".(int)I('id',0))->save($data);
 			if(false !== $rs){

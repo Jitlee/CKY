@@ -526,7 +526,7 @@ from cky_shops s inner join cky_orders o on s.shopId = o.shopId where o.isPay = 
 	 	if($areaId1>0) $sql.=" and s.areaId1=".$areaId1;
 	 	if($areaId2>0) $sql.=" and s.areaId2=".$areaId2;
 		
-		$dates = explode(' 至 ', I('dateRange'));
+		$dates = explode('至', I('dateRange'));
 		$sql.=" and o.createTime between '".$dates[0]." 00:00:00' and '".$dates[1]." 23:59:59'";
 		
 	 	$sql.=" group by s.shopId order by s.shopId desc";

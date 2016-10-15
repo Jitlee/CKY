@@ -31,6 +31,8 @@ class OneCardTickModel extends OneCardModel {
 		}
 		//与本地库同步		 
 		$ticklist=json_decode($onecres["data"],true);
+		echo dump($ticklist);
+		exit;
 		$tickdb = M('activity_ticket');
 		for($i=0;$i<count($ticklist);$i++)
 		{		

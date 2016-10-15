@@ -49,7 +49,7 @@
 	   });
    }
    function del(id){
-	   Plugins.confirm({title:'信息提示',content:'您确定要删除该文章分类吗?',okText:'确定',cancelText:'取消',okFun:function(){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该资讯分类吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
 		   $.post("{:U('Admin/ArticleCats/del')}",{id:id},function(data,textStatus){

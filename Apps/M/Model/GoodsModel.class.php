@@ -119,7 +119,7 @@ class GoodsModel extends BaseModel {
 		$catId3 = (int)I('catId3', 0);
 		$brands = I('brands');
 		
-		$field = "g.goodsId, goodsName, marketPrice, shopPrice, goodsThums, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums"
+		$field = "g.goodsId, goodsName, marketPrice, shopPrice, goodsThums,goodsImg, isHot, saleCount,s.shopId, s.shopName, replace(s.shopImg, '.', '_thumb.') shopThums"
 			.", g.goodsStock,goodsUnit, g.shopCatId1"
 			.", mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount";
 		$filter = array(

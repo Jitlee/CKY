@@ -32,13 +32,21 @@ class ArticlesAction extends BaseAction {
 		$ads3 = Array();
 		$ads4 = Array();
 		$ads5 = Array();
-//		foreach($ads as $ad){
-//			Array_push($ads0,$ad);
-//		}
+		foreach($ads as $ad){
+			$adPositionId=(int)$ad['adPositionId'];
+			if($adPositionId == -60) Array_push($ads0,$ad);
+			else if($adPositionId == -61) Array_push($ads1,$ad);
+			else if($adPositionId == -62) Array_push($ads2,$ad);
+			else if($adPositionId == -63) Array_push($ads3,$ad);
+			else if($adPositionId == -64) Array_push($ads4,$ad);
+			else if($adPositionId == -65) Array_push($ads5,$ad);
+			
+		}
 		
 
 		$this->assign('ads0', $ads);
-		$this->assign('ads1', $ads1);
+		//echo dump($ads0);
+		$this->assign('ads1', $ads0);
 		$this->assign('ads2', $ads2);
 		$this->assign('ads3', $ads3);		
 		$this->assign('ads4', $ads4);

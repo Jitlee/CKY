@@ -40,7 +40,7 @@
 			<!-- ko foreach: goods -->
 			<li class="cky-table-view-cell cky-fast-goods-cell">
 				<a data-bind="click: $parent.goodsClick">
-					<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
+					<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsImg + ')' }">
 						
 					</div>
 					<div class="cky-media">
@@ -52,7 +52,7 @@
 							<span class="font-red font15" data-bind="text: '¥' + shopPrice"></span>
 							<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
 							<div class="cky-update cky-fast-add"
-								data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsThums: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
+								data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsImg: goodsImg, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
 								<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
 								<span class="count cky-hidden">1</span>
 								<button class="add"><i class="font-red iconfont icon-jia"></i></button>

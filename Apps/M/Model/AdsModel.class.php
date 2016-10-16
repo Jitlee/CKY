@@ -19,7 +19,7 @@ class AdsModel extends BaseModel {
     /*资讯广告查询     
      * */
     public function queryArticlesad() {
-		return $this->field('adId, adFile,adFileThumb,adURL')
+		return $this->field('adId, adFile,adFileThumb,adURL,adPositionId')
 		->where('adPositionId >=-69 and adPositionId <=-60  and SYSDATE() BETWEEN adStartDate AND adEndDate')->order('adSort')->select();
     }
     

@@ -119,14 +119,15 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 									<!--ad-->
-									<div class="swiper-container swiper1"> 
+									<div class="swiper-container swiper0"> 
 									    <!-- Additional required wrapper -->
 									    <div class="swiper-wrapper">
 									        <!-- Slides -->
 									        <foreach name="ads0" item="item">
-								        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img">
+									        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        			<!--<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img">
 								        				<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.adFileThumb}">
-								        			</a></div>
+								        			</a></div>-->
 									        </foreach>
 									    </div>
 									    <!-- If we need pagination -->
@@ -156,14 +157,12 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<!--ad-->
-								<div class="swiper-container swiper2"> 
+								<div class="swiper-container swiper1"> 
 								    <!-- Additional required wrapper -->
 								    <div class="swiper-wrapper">
 								        <!-- Slides -->
-								        <foreach name="ads0" item="item">
-							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img">
-							        				<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.adFileThumb}">
-							        			</a></div>
+								        <foreach name="ads1" item="item">
+								        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
 								        </foreach>
 								    </div>
 								    <!-- If we need pagination -->
@@ -188,6 +187,146 @@
 						</div>
 					</div>
 					<!--end articles1-->
+					<!--start articles2-->
+					<div id="itemmobile2" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--ad-->
+								<div class="swiper-container swiper2"> 
+								    <!-- Additional required wrapper -->
+								    <div class="swiper-wrapper">
+								        <!-- Slides -->
+								        <foreach name="ads2" item="item">
+								        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        </foreach>
+								    </div>
+								    <!-- If we need pagination -->
+								    <div class="swiper-pagination"></div>
+								</div>
+							 	<!--end ad-->
+								<ul class="mui-table-view">
+									<foreach name="artirecommend" item="item">
+	        								<li class="mui-table-view-cell mui-media">
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
+													 
+													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<div class="mui-media-body">
+														{$item.articleTitle}														 
+														<p>{$item.createTime}</p>
+													</div>
+												</a>
+											</li>
+				        				</foreach>									 
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!--end articles2-->
+					<!--start articles3-->
+					<div id="itemmobile3" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--ad-->
+								<div class="swiper-container swiper3"> 
+								    <!-- Additional required wrapper -->
+								    <div class="swiper-wrapper">
+								        <!-- Slides -->
+								        <foreach name="ads3" item="item">
+							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        </foreach>
+								    </div>
+								    <!-- If we need pagination -->
+								    <div class="swiper-pagination"></div>
+								</div>
+							 	<!--end ad-->
+								<ul class="mui-table-view">
+									<foreach name="artirecommend" item="item">
+	        								<li class="mui-table-view-cell mui-media">
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
+													 
+													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<div class="mui-media-body">
+														{$item.articleTitle}														 
+														<p>{$item.createTime}</p>
+													</div>
+												</a>
+											</li>
+				        				</foreach>									 
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!--end articles3-->
+					<!--start articles4-->
+					<div id="itemmobile4" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--ad-->
+								<div class="swiper-container swiper4"> 
+								    <!-- Additional required wrapper -->
+								    <div class="swiper-wrapper">
+								        <!-- Slides -->
+								        <foreach name="ads4" item="item">
+							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        </foreach>
+								    </div>
+								    <!-- If we need pagination -->
+								    <div class="swiper-pagination"></div>
+								</div>
+							 	<!--end ad-->
+								<ul class="mui-table-view">
+									<foreach name="artirecommend" item="item">
+	        								<li class="mui-table-view-cell mui-media">
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
+													 
+													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<div class="mui-media-body">
+														{$item.articleTitle}														 
+														<p>{$item.createTime}</p>
+													</div>
+												</a>
+											</li>
+				        				</foreach>									 
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!--end articles4-->
+					<!--start articles5-->
+					<div id="itemmobile5" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--ad-->
+								<div class="swiper-container swiper5"> 
+								    <!-- Additional required wrapper -->
+								    <div class="swiper-wrapper">
+								        <!-- Slides -->
+								        <foreach name="ads5" item="item">
+							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        </foreach>
+								    </div>
+								    <!-- If we need pagination -->
+								    <div class="swiper-pagination"></div>
+								</div>
+							 	<!--end ad-->
+								<ul class="mui-table-view">
+									<foreach name="artirecommend" item="item">
+	        								<li class="mui-table-view-cell mui-media">
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
+													 
+													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<div class="mui-media-body">
+														{$item.articleTitle}														 
+														<p>{$item.createTime}</p>
+													</div>
+												</a>
+											</li>
+				        				</foreach>									 
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!--end articles5-->
 				</div>
 			</div>
 		</div>
@@ -201,6 +340,14 @@
 			mui.init();
 			(function($) {
 				// 轮播广告
+				var mySwiper0 = new Swiper ('.swiper0', {
+			      	// Optional parameters
+			      	direction: 'horizontal',
+			      	pagination: '.swiper-pagination',
+			      	autoplay: 3000,
+			      	loop: true
+			   	});
+			   	
 				var mySwiper1 = new Swiper ('.swiper1', {
 			      	// Optional parameters
 			      	direction: 'horizontal',
@@ -209,18 +356,35 @@
 			      	loop: true
 			   	});
 			   	var mySwiper2 = new Swiper ('.swiper2', {
-			      	// Optional parameters
 			      	direction: 'horizontal',
 			      	pagination: '.swiper-pagination',
 			      	autoplay: 3000,
 			      	loop: true
 			   	});
 			   	
-			   	mui('.mui-scroll').on('tap', 'a', function(e) {
-					 console.log('tap');
-//					 alert("abcdefg");
-				});
+			    var mySwiper3 = new Swiper ('.swiper3', {
+			      	direction: 'horizontal',
+			      	pagination: '.swiper-pagination',
+			      	autoplay: 3000,
+			      	loop: true
+			   	});
+			   	
+			   	var mySwiper4 = new Swiper ('.swiper4', {
+			      	direction: 'horizontal',
+			      	pagination: '.swiper-pagination',
+			      	autoplay: 3000,
+			      	loop: true
+			   	});
+			   	
+			   	var mySwiper5 = new Swiper ('.swiper5', {
+			      	direction: 'horizontal',
+			      	pagination: '.swiper-pagination',
+			      	autoplay: 3000,
+			      	loop: true
+			   	});
+			   	
  	   	
+		 	   	
 				//阻尼系数
 				var deceleration = mui.os.ios?0.003:0.0009;
 				$('.mui-scroll-wrapper').scroll({
@@ -228,6 +392,10 @@
 					indicators: true, //是否显示滚动条
 					deceleration:deceleration
 				});
+				
+				
+
+
 				$.ready(function() {
 					//循环初始化所有下拉刷新，上拉加载。
 					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {

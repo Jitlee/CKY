@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <style type="text/css">
+		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+	  </style>
+   </head>
+   <script>
+    
+   </script>
+   <body class='rtc-page'>
+    <form method='post'   autocomplete="off">
+        
+       </form>
+       <div class='rtc-body'>
+       
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+               <th width='50'>序号</th>
+               <th  >商品名称</th>
+               <th >商品编号</th>
+               
+               <th  >价格</th>
+               <th>单价</th>
+               <th>平台分类</th>
+               
+               <th width='100'>最大期数</th>
+               <th width='100'>期数</th>
+               <th width='100'>总需份数</th>               
+               <th width='100'>剩余数</th>
+               <th width='80'>即时揭晓</th>
+               <th width="80">订单</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+             <tr >
+               <td> {$i}</td>
+               <td img='{$vo['goodsThums']}' class='imgPreview'>
+	               
+	               {$vo['goodsName']}
+               </td>
+               <td>{$vo['goodsSn']}&nbsp;</td>
+               
+               <td>{$vo['marketPrice']}&nbsp;</td>
+               <td>{$vo['shopPrice']}&nbsp;</td>
+               <!--<td><a href="{:U('Admin/Goods/index',array('shopName'=>$vo['shopName']))}">{$vo['shopName']}</a>&nbsp;</td>-->
+               <td>{$vo['catName']}&nbsp;</td>
+               
+               
+               
+               <td>{$vo['maxqishu']}&nbsp;</td>
+               <td>{$vo['qishu']}&nbsp;</td>
+               <td>{$vo['zongrenshu']}&nbsp;</td>
+               <td>{$vo['shengyurenshu']}&nbsp;</td>
+               
+               
+               <td>
+               		<if condition="$vo['jishijiexiao']==0 ">不参与<else/><span class='label btn-danger glyphicon glyphicon-pencil'>{$vo['jishijiexiao']}小时</span></if>
+               </td>
+               <td>
+               		<a class="btn btn-primary glyphicon" href='{:U("Admin/Miaosha/order",array("goodsId"=>$vo["goodsId"],"qishu"=>$vo["qishu"]))}'>购买记录</a>               	
+               </td>
+                
+             </tr>
+             </volist>
+             <tr>
+                <td colspan='13' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

@@ -52,6 +52,7 @@ class KanjiaAction extends BaseAction {
     		$this->checkPrivelege('gggl_01');
     		$object = $m->getModel(); 
     	}
+    	
 		//卡券加载
 		$mshop = D('Admin/Ticket');
 		$shops=$mshop->queryByList();		

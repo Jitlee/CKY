@@ -124,8 +124,7 @@ $(function () {
 			});
 		});
 	   <if condition="$object['goodsId'] !=0 ">
-	   getCatListForEdit("goodsCatId2",{$object.goodsCatId1},0,{$object.goodsCatId2});
-	   //getCatListForEdit("goodsCatId3",{$object.goodsCatId2},1,{$object.goodsCatId3});
+	   getCatListForEdit("goodsCatId2",{$object.goodsCatId1},0,{$object.goodsCatId2});	   
 	   getShopCatListForEdit({$object.shopCatId1},{$object.shopCatId2});
 	   </if>
 	
@@ -223,41 +222,33 @@ var filetypes = ["gif","jpg","png","jpeg"];
            </tr>
           
             <tr>
-             <th width='120'>商品总价<font color='red'>*</font>：</th>
+             <th width='120'>市场价<font color='red'>*</font>：</th>
              <td>
              	<input type='text' id='marketPrice' name='marketPrice' class="form-control rtc-ipt" value='{$object.marketPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
              </td>
            </tr>
-            <!--<tr>
+           <tr>
              <th width='120'>商品单价<font color='red'>*</font>：</th>
-             <td>
-             	<if condition="$object.recommPrice gt 0">
-             		<input type='text' id='shopPrice' name='shopPrice' disabled="disabled" class="form-control rtc-ipt" value='{$object.recommPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
-             	<else/>
+             <td>             	 
              		<input type='text' id='shopPrice' name='shopPrice' class="form-control rtc-ipt" value='{$object.shopPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
-             	</if>
-             	
              </td>
-           </tr>-->
-          <tr class="form-inline">
+           </tr>
+            
+            <tr class="form-inline">
 				<th width='120' align='right'>
-					<label for="jishijiexiao" class="control-label">即时揭晓<font color='red'>*</font>：</label>
+					<label for="xiangoutype" class="control-label">限购类型<font color='red'>*</font>：</label>
 				</th>
 				<td>
-	  				<select id="jishijiexiao" class="form-control" name="jishijiexiao"  style="width: 100px;">
+	  				<select id="xiangoutype" class="form-control" name="xiangoutype"  style="width: 100px;">
 						<option value="0">不参与</option>
-						<option value="1">1小时</option>
-						<option value="2">2小时</option>
-						<option value="3">3小时</option>
-						<option value="5">5小时</option>
-						<option value="10">10小时</option>
-						<option value="12">12小时</option>
-						<option value="24">1天</option>
-						<option value="48">2天</option>
+						<option value="1">仅参与一次</option>
+						<option value="2">每天一次</option>
+						<option value="3">每周</option>
+						<option value="4">每月</option>
 					</select>
 					<script>
 						$(function(){
-							$("#jishijiexiao").val({$object.jishijiexiao});
+							$("#xiangoutype").val({$object.xiangoutype});
 						})
 					</script>
 				</td>
@@ -266,12 +257,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <th width='120' align='right'>限购数量<font color='red'>*</font>：</th>
              <td><input type='text' id='xiangou' name='xiangou' class="form-control rtc-ipt" value='{$object.xiangou}'  maxLength='25'/></td>
            </tr>
-            <tr>
-             <th width='120' align='right'>最大期数<font color='red'>*</font>：</th>
-             <td colspan='3'><input type='text' id='maxqishu' name='maxqishu' class="form-control rtc-ipt" value='{$object.maxqishu}'  maxLength='25'/>             	
-             	期，期数上限为65535期,每期揭晓后会根据此值自动添加新一期商品！
-             </td>
-           </tr>
+            
             
            
            <tr>
@@ -280,17 +266,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <textarea rows="2" style="width:788px" id='goodsSpec' name='goodsSpec'>{$object.goodsSpec}</textarea>
              </td>
            </tr>
-           <!--<tr>
-             <th width='120'>商品状态<font color='red'>*</font>：</th>
-             <td colspan='3'>
-             <label>
-             <input type='radio' id='isSale1' name='isSale' <if condition="$object['isSale'] ==1 ">checked</if> value='1'/>上架
-             </label>
-             <label>
-             <input type='radio' id='isSale0' name='isSale' <if condition="$object['isSale'] ==0 ">checked</if> value='0'/>下架
-             </label>
-             </td>
-           </tr>-->
+           
            <tr>
              <th width='120'>商品属性：</th>
              <td colspan='3'>
@@ -320,31 +296,37 @@ var filetypes = ["gif","jpg","png","jpeg"];
              <select id='goodsCatId2'>
                 <option value=''>请选择</option>
              </select>
-             <!--<select id='goodsCatId3'>
-                <option value=''>请选择</option>
-             </select>-->
              </td>
            </tr>
-           <!--<tr>
-             <th width='120'>本店分类<font color='red'>*</font>：</th>
-             <td colspan='3'>
-             <select id='shopCatId1' onchange='javascript:getShopCatListForEdit(this.value,"{$object['shopCatId2']}")'>
-                <option value='0'>请选择</option>
-                <volist name="shopCatsList" id="vo">
-                <option value='{$vo['catId']}' <if condition="$object['shopCatId1'] == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
-                </volist>
-             </select>
-             <select id='shopCatId2'>
-                <option value='0'>请选择</option>
-             </select>
-             </td>
-           </tr>-->
+          
            <tr>
              <th width='120' align='right'>品牌：</th>
              <td>
              <select id='brandId' dataVal='{$object["brandId"]}'>
                 <option value='0'>请选择</option>
              </select>
+             </td>
+           </tr>
+            <tr>
+             <th align='right'>活动商家<font color='red'>*</font>：</th>
+             <td>
+             	<select id="limitUseShopID" name="limitUseShopID">
+             		<option  value="0">==请选择卡券==</option>
+	             	 <volist name="shops" id="vo" key='i'>
+	             		<option value="{$vo['shopId']}"  <if condition="$object['limitUseShopID'] == $vo['shopId'] ">selected</if> >{$vo['shopName']}</option>
+	             	</volist>               
+             	</select>      	
+             </td>
+           </tr>
+          <tr>
+             <th align='right'>关联卡券</th>
+             <td>
+             	<select id="prizeid" name="prizeid">
+             		<option  value="">==请选择卡券==</option>
+	             	 <volist name="tickets" id="vo" key='i'>
+	             		<option value="{$vo['ticketID']}"  <if condition="$object['prizeid'] == $vo['ticketID'] ">selected</if> >{$vo['title']}</option>
+	             	</volist>               
+             	</select>
              </td>
            </tr>
            <tr>
@@ -367,7 +349,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
         </form>
       </div>
      
-      
+       
       
       <!-- 相册 -->
       <div class='rtc-tab-item' style='display:none'>

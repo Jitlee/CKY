@@ -25,11 +25,11 @@ class SnappedUpModel extends BaseModel {
      	$goodsCatId2 = (int)I('goodsCatId2',0);
      	$goodsCatId3 = (int)I('goodsCatId3',0);
      	 
-	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
-	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
+	 	$sql = "select 
+	 				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId			
-			inner join __PREFIX__miaosha ms on ms.miaoshaId=g.miaoshaId 
+			inner join __PREFIX__snappedup snup on snup.goodsId=g.goodsId 
 			where goodsFlag=1  ";
 
 	 	if($goodsCatId1>0)$sql.=" and g.goodsCatId1=".$goodsCatId1;
@@ -96,6 +96,7 @@ where  goodsId=$goodsId";
 	 * 新增商品
 	 */
 	public function insert(){
+		header("Content-Type:text/html; charset=utf-8");
 	 	$rd = array('status'=>-1);
 
 	    $shopId = -1; // 粗卡云平台
@@ -112,6 +113,7 @@ where  goodsId=$goodsId";
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
 		$data["goodsUnit"] = I("goodsUnit");
+		
 		$data["isBest"] = (int)I("isBest");
 		$data["isBest"] = (int)I("isBest");
 		$data["isRecomm"] = (int)I("isRecomm");
@@ -136,51 +138,41 @@ where  goodsId=$goodsId";
 		$data["goodsFlag"] = 1;
 		$data["createTime"] = date('Y-m-d H:i:s');
 		 
-		$miaoshaId= newid();
-		$data["miaoshaId"] = $miaoshaId;
-		
+		 //抢购ID
+		$snappedupId= newid();
 		//子表
 		$miaosha = array();
-		$miaosha["miaoshaId"] = $data["miaoshaId"];
-		$miaosha["subtitle"] = I("subtitle");;
-		$miaosha["maxqishu"] = (int)I("maxqishu");		//最大期数
+		$miaosha["snappedupId"] = $snappedupId;
+		$miaosha["subtitle"] = I("subtitle");
+		$miaosha["xiangoutype"] = (int)I("xiangoutype");		
 		$miaosha["xiangou"] = (int)I("xiangou");
+		$miaosha["limituseshopId"] = (int)I("limituseshopId");
+		$miaosha["ticketId"] = I("ticketId");
 		
-		$zongrenshu =(int)I("marketPrice");
-		$miaosha["miaoshaStatus"] = 0;		//
-		$miaosha["qishu"] = 1;		//期数',		 
-		$miaosha["zongrenshu"] = $zongrenshu;			//'总人数',
-		$miaosha["canyurenshu"] = 0;		//'参与人数',
-		$miaosha["shengyurenshu"] = $zongrenshu;		// '剩余数',		
-		$miaosha["jishijiexiao"] = (int)I("jishijiexiao");		// '即时揭晓',
-		if($miaosha["jishijiexiao"] >0)
-		{
-			$addTime=(int)$miaosha["jishijiexiao"];
-			$miaosha["lastTime"] = date('Y-m-d H:i:s',strtotime("+$addTime hour"));
-		}
-		if($zongrenshu > 100000) {
-			$rd['status']= -2000;
-			$rd['key']= "商品秒杀人次不能大于十万次";
-			return $rd;
-		}
-		
-		
-		$rd['data'] = array(
-			'miaoshaId'		=> $miaoshaId,
-			'qishu'			=> $miaosha["qishu"],
-			'count'			=> $miaosha["zongrenshu"],
-		);
 
 		if($this->checkEmpty($data,true)){
 			$data["brandId"] = (int)I("brandId");
 			$data["goodsSpec"] = I("goodsSpec");
 			$data["goodsKeywords"] = I("goodsKeywords");
-			$m = M('goods');
+			
+			$m = M('goods');			
 			$goodsId = $m->add($data);
 			if(false !== $goodsId){
-				$this->add($miaosha);
-				$rd['status']= 1;				
-				 
+				$rd['status']= 10;//$goodsId;
+				$rd['goodsSQL']= $m->getLastSql();
+				//添加到抢购
+				/*
+				$rd['goodsSQL']= $m->getLastSql();
+				
+				$snappedup = M('snappedup');
+				$miaosha["goodsId"] = $goodsId;
+				$said=$snappedup->add($miaosha);
+				
+				$rd['status']= 10;//$goodsId;
+				$rd['goodsid']=$goodsId;
+				$rd['snappedupId']=$said;
+				$rd['snappedup']=$miaosha;
+				$rd['getLastSql']= $snappedup->getLastSql();
 				//保存相册
 				$gallery = I("gallery");
 				if($gallery!=''){
@@ -197,6 +189,7 @@ where  goodsId=$goodsId";
 						$m->add($data);
 					}
 				}
+				*/
 			}
 		}//end if($this->checkEmpty($data,true))
 		else

@@ -12,80 +12,69 @@ class SnappedUpModel extends BaseModel {
 	/**
 	  * 分页列表[获取已审核列表]
 	  */
-     public function queryByPage($goodsCatId1=0){
-        $m = M('goods');
-//      $shopName = I('shopName');
-     	$goodsName = I('goodsName');
-//   	$areaId1 = (int)I('areaId1',0);
-//   	$areaId2 = (int)I('areaId2',0);
-		if($goodsCatId1==0)
-		{
-			$goodsCatId1 = (int)I('goodsCatId1',0);	
-		}
-     	$goodsCatId2 = (int)I('goodsCatId2',0);
-     	$goodsCatId3 = (int)I('goodsCatId3',0);
-     	 
+     public function queryByPage(){
+        $m = M('goods'); 
+     	$goodsName = I('goodsName');     	 
 	 	$sql = "select 
 	 				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId			
 			inner join __PREFIX__snappedup snup on snup.goodsId=g.goodsId 
 			where goodsFlag=1  ";
-
-	 	if($goodsCatId1>0)$sql.=" and g.goodsCatId1=".$goodsCatId1;
-	 	if($goodsCatId2>0)$sql.=" and g.goodsCatId2=".$goodsCatId2;
- 
+			 
 	 	if($goodsName!='')$sql.=" and (g.goodsName like '%".$goodsName."%' or g.goodsSn like '%".$goodsName."%')";
 	 	$sql.="  order by goodsId desc";   
 		return $m->pageQuery($sql);
 	 }
 
-	public function queryHistoryByPage($goodsCatId1=0){
-        $m = M('goods');
-     	$goodsId = I('goodsId');
-	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
-	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
-		 	from __PREFIX__goods g 
-			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
-			inner join __PREFIX__miaosha_history ms on ms.miaoshaId=g.miaoshaId 
-			where goodsFlag=1  and goodsId=$goodsId"; 
-
-	 	$sql.="  order by ms.qishu desc";   
-		return $m->pageQuery($sql);
-	} 
-	
-	public function queryOrderByPage($goodsCatId1=0){
-        $m = M('goods');
-     	$goodsId = I('goodsId');
-     	$qishu = I('qishu');
-	 	$sql = "
-select 
-	mm.mmid, mm.createTime, mm.miaoshaCount,go.goodsname, mm.uid,mm.qishu,  u.trueName userName,g.*
-from  
-	cky_member_miaosha mm
-inner join cky_member  u on mm.uid = u.uid
-left join cky_miaosha_history g on g.miaoshaId=mm.miaoshaId and mm.qishu=g.qishu
-left join cky_goods go on go.miaoshaId=g.miaoshaId
-where  goodsId=$goodsId";
- 
-
-	 	$sql.="  order by g.qishu desc";   
-		return $m->pageQuery($sql);
-	}
-	 
+//	public function queryHistoryByPage($goodsCatId1=0){
+//      $m = M('goods');
+//   	$goodsId = I('goodsId');
+//	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
+//	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
+//		 	from __PREFIX__goods g 
+//			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
+//			inner join __PREFIX__miaosha_history ms on ms.miaoshaId=g.miaoshaId 
+//			where goodsFlag=1  and goodsId=$goodsId"; 
+//
+//	 	$sql.="  order by ms.qishu desc";   
+//		return $m->pageQuery($sql);
+//	} 
+//	
+//	public function queryOrderByPage($goodsCatId1=0){
+//      $m = M('goods');
+//   	$goodsId = I('goodsId');
+//   	$qishu = I('qishu');
+//	 	$sql = "
+//select 
+//	mm.mmid, mm.createTime, mm.miaoshaCount,go.goodsname, mm.uid,mm.qishu,  u.trueName userName,g.*
+//from  
+//	cky_member_miaosha mm
+//inner join cky_member  u on mm.uid = u.uid
+//left join cky_miaosha_history g on g.miaoshaId=mm.miaoshaId and mm.qishu=g.qishu
+//left join cky_goods go on go.miaoshaId=g.miaoshaId
+//where  goodsId=$goodsId";
+// 
+//
+//	 	$sql.="  order by g.qishu desc";   
+//		return $m->pageQuery($sql);
+//	}
+//	 
 	 
 	 public function get(){
 	 	$m = M('goods');
 	 	$id = (int)I('id',0); 
 		
-		$sql = "select g.*,gc.catName,ms.jishijiexiao
-	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu,ms.subtitle,ms.xiangou
-		 	from __PREFIX__goods g 
+		$sql = "select 
+				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId
+		 	from 
+		 		__PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
-			inner join __PREFIX__miaosha ms on ms.miaoshaId=g.miaoshaId 
+			inner join __PREFIX__snappedup snup on snup.goodsId=g.goodsId  
 			where goodsId=$id  order by goodsId desc";   
 		$list = $m->query($sql);
 		$goods = $list[0]; 
+		echo dump($list);
 		
 		$m = M('goods_gallerys');
 		$goods['gallery'] = $m->where('goodsId='.$id)->select();
@@ -96,7 +85,7 @@ where  goodsId=$goodsId";
 	 * 新增商品
 	 */
 	public function insert(){
-		header("Content-Type:text/html; charset=utf-8");
+//		header("Content-Type:text/html; charset=utf-8");
 	 	$rd = array('status'=>-1);
 
 	    $shopId = -1; // 粗卡云平台
@@ -114,6 +103,7 @@ where  goodsId=$goodsId";
 		$data["warnStock"] = (int)I("warnStock");
 		$data["goodsUnit"] = I("goodsUnit");
 		
+			
 		$data["isBest"] = (int)I("isBest");
 		$data["isBest"] = (int)I("isBest");
 		$data["isRecomm"] = (int)I("isRecomm");
@@ -158,21 +148,16 @@ where  goodsId=$goodsId";
 			$m = M('goods');			
 			$goodsId = $m->add($data);
 			if(false !== $goodsId){
-				$rd['status']= 10;//$goodsId;
-				$rd['goodsSQL']= $m->getLastSql();
-				//添加到抢购
-				/*
-				$rd['goodsSQL']= $m->getLastSql();
+				$rd['status']= 1;//$goodsId;
+ 
 				
 				$snappedup = M('snappedup');
 				$miaosha["goodsId"] = $goodsId;
 				$said=$snappedup->add($miaosha);
-				
-				$rd['status']= 10;//$goodsId;
-				$rd['goodsid']=$goodsId;
+				//错误信息
+				$rd["error"]=$snappedup->getError();
 				$rd['snappedupId']=$said;
-				$rd['snappedup']=$miaosha;
-				$rd['getLastSql']= $snappedup->getLastSql();
+				
 				//保存相册
 				$gallery = I("gallery");
 				if($gallery!=''){
@@ -189,8 +174,9 @@ where  goodsId=$goodsId";
 						$m->add($data);
 					}
 				}
-				*/
+				
 			}
+			
 		}//end if($this->checkEmpty($data,true))
 		else
 		{

@@ -1,0 +1,106 @@
+<extend name="./Apps/Home/View/default/shops/layout.html" />
+<block name="content">
+<style type="text/css">
+#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+</style>
+<script>
+$(document).ready(function(){
+    $('.imgPreview').imagePreview();
+    <notempty name='shopCatId1'>
+    getShopCatListForGoods('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+</script>
+    <div class="rtc-body"> 
+       <div class='rtc-page-header'>商家中心 > 拼团商品</div>
+       <div class='rtc-page-content'>
+        <div class='rtc-tbar-query'>
+        商家分类：<select id='shopCatId1' autocomplete="off" onchange='javascript:getShopCatListForGoods(this.value,"{$object['shopCatId2']}")'>
+	         <option value='0'>请选择</option>
+	         <volist name="shopCatsList" id="vo">
+	         <option value='{$vo['catId']}' <if condition="$shopCatId1 == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
+	         </volist>
+	     </select>
+	     <select id='shopCatId2' autocomplete="off">
+	         <option value='0'>请选择</option>
+	     </select>
+        商品：<input type='text' id='goodsName' value='{$goodsName}'/>
+      <button class='rtc-btn-query' onclick='javascript:queryGroup()'>查询</button>
+        </div>
+        <div class='rtc-tbar-group'>
+           <span></span>
+           <a href="{:U('GoodsGroup/goods','','')}"><span class='add btn'></span>添加开团</a>
+        </div>
+        <table class='rtc-list'>
+           <thead>
+             <tr>
+               <th>商品名称</th>
+               <th width="100">商品编号</th>
+               <th width="80">单买价格</th>
+               <th width="80">拼团价格</th>
+               <th width="80">组团人数</th>
+               <th width="100">开始时间</th>
+               <th width="100">结束时间</th>
+               <th width="100">已开团数</th>
+               <th width='80'>操作</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+             <tr>
+               <td <if condition="$vo['goodsThums'] neq ''">img='{$vo['goodsThums']}' class='imgPreview'</if>>
+               <img class='lazyImg' data-original="__ROOT__/{$vo['goodsThums']}" height="50" width="50"/>
+               {$vo['goodsName']}</td>
+               <td>{$vo['goodsSn']}</td>
+               <td>{$vo['shopPrice']}</td>
+               <td>{$vo['groupPrice']}</td>
+               <td>{$vo['groupPreNumbers']}</td>
+               <td>{$vo['groupStartTime']}</td>
+               <td>{$vo['groupEndTime']}</td>
+               <td>{$vo['groupNumbers']}</td>
+               <td><a class='btn edit' href="{:U('Home/GoodsGroup/toEdit','','')}?groupGoodsId={$vo['groupGoodsId']}&goodsId={$vo['goodsId']}&goodsName={$vo['goodsName']}&shopPrice={$vo['shopPrice']}">编辑</a></td>
+             </tr>
+             </volist>
+             <tfoot>
+             <tr>
+                <td colspan='12'>
+                <div class="rtc-page" style="float:right;padding-bottom:10px;">
+						<div id="rtc-page-items"></div>
+				</div>
+                <script>
+			    <if condition="$Page['totalPage'] gt 1">
+			    $(document).ready(function(){
+					laypage({
+					    cont: 'rtc-page-items',
+					    pages: {$Page['totalPage']}, //总页数
+					    skip: true, //是否开启跳页
+					    skin: '#e23e3d',
+					    groups: 3, //连续显示分页数
+					    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					        var page = location.search.match(/p=(\d+)/);
+					        return page ? page[1] : 1;
+					    }(), 
+					    jump: function(e, first){ //触发分页后的回调
+					        if(!first){ //一定要加此判断，否则初始时会无限刷新
+					        	var nuewurl = RTC                                                                      .splitURL      ("p");
+					        	var ulist = nuewurl.split("?");
+					        	if(ulist.length>1){
+					        		location.href = nuewurl+'&p='+e.curr;
+					        	}else{
+					        		location.href = '?p='+e.curr;
+					        	}
+					            
+					        }
+					    }
+					});
+			    });
+				</if>
+				</script>
+                </td>
+             </tr>
+             </tfoot>
+           </tbody>
+        </table>
+        </div>
+    </div>
+</block> 

@@ -31,6 +31,18 @@ function queryPendding(){
 	var goodsName = $('#goodsName').val();
 	location.href= Think.U('Home/Goods/queryPenddingByPage','goodsName='+goodsName+"&shopCatId1="+shopCatId1+"&shopCatId2="+shopCatId2); 
 }
+function queryGooodsGroup(){
+	var shopCatId1 = $('#shopCatId1').val();
+	var shopCatId2 = $('#shopCatId2').val();
+	var goodsName = $('#goodsName').val();
+	location.href= Think.U('Home/GoodsGroup/goods','goodsName='+goodsName+"&shopCatId1="+shopCatId1+"&shopCatId2="+shopCatId2);
+}
+function queryGroup(){
+	var shopCatId1 = $('#shopCatId1').val();
+	var shopCatId2 = $('#shopCatId2').val();
+	var goodsName = $('#goodsName').val();
+	location.href= Think.U('Home/GoodsGroup/lst','goodsName='+goodsName+"&shopCatId1="+shopCatId1+"&shopCatId2="+shopCatId2);
+}
 function toEditGoods(id,menuId){
 	location.href= Think.U('Home/Goods/toEdit','umark='+menuId+"&id="+id); 
 }

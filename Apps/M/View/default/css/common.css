@@ -1069,3 +1069,8 @@ i.iconfont.cky-cart {
 	color: #fff;
 	background-color: lightgray;	
 }
+
+.cky-table-view-cell-title {
+	font-size: 12px;
+	padding: 8px 15px;
+}

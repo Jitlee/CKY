@@ -43,7 +43,8 @@ class GoodsGroupModel extends BaseModel {
 	
 	public function detail() {
 		$groupGoodsId = (int)I('groupGoodsId',0);
-		$object = $this->find($groupGoodsId);
+		$object = $this->field('groupGoodsId, groupPrice, groupNumbers, groupPreNumbers,
+			 DATE_FORMAT(groupStartTime, \'%Y-%m-%d\') AS groupStartTime, DATE_FORMAT(groupEndTime, \'%Y-%m-%d\') AS groupEndTime')->find($groupGoodsId);
 		return $object;
 	}
 	

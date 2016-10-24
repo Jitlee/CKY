@@ -1,0 +1,161 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<!--<link rel="stylesheet" href="__CSS__/{:autoVer('goods-detail.css')}" />-->
+<style>
+	footer {
+		background-color: #fff;
+		height: 50px;
+		position: fixed;
+		bottom: 0;
+		left: 0px;
+		right: 0px;
+		width: 100%;
+		display: table;
+		border-top: #c8c7cc solid 1px;
+		text-align: center;
+	}
+	
+	footer div {
+		display: table-cell;
+		padding: 5px 8px;
+	}
+	
+	footer div a {
+		display: block;
+		font-size: 12px;
+		height: 40px;
+		line-height: 40px;
+	}
+	
+	footer div:first-child a {
+		border: solid 1px #FF0202;
+		color: #FF0202;
+	}
+	
+	footer div:last-child a {
+		background-color:#FF0202;
+		color: #fff;
+	}
+</style>
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$data.goods.goodsName}
+	</h1>
+</header>
+<div class="mui-content mui-content-bottom">
+	<!-- Slider main container -->
+	<div id="swiperList" class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+    		<!-- ko foreach: $data -->
+			<div class="swiper-slide">
+				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/'+ goodsImg +')' }"></a>
+			</div>
+			<!-- /ko -->
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+	</div>
+	
+	<ul class="mui-table-view">
+		<li class="mui-table-view-cell">
+			<span>{$data.goods.goodsName}</span>
+			<h5 class="font10"><r>{$data.goods.groupPreNumbers}人拼团价格：¥<span class="font17">{$data.goods.groupPrice}</span></r>&nbsp;&nbsp;&nbsp;&nbsp;<del>原价：¥{$data.goods.shopPrice}</del></h5>
+		</li>
+		<li class="mui-table-view-cell">
+			<i class="iconfont icon-shizhong"></i>
+			<i class="iconfont icon-time"></i>活动剩余时间: 
+			<span countdown="{$data.goods.endTime}"></span>
+		</li>
+	</ul>
+	
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell cky-table-view-cell-title">
+			<a class="mui-navigate-right">
+				拼团玩法
+				<span class="cky-update cky-update-nav font-orange">玩法详情</span>
+			</a>
+		</li>
+		<li class="mui-table-view-cell mui-text-center">
+			<div class="mui-table">
+				<div class="mui-table-cell mui-col-xs-3">
+					<i class="iconfont icon-gouwuche font24 font-gray"></i>
+					<h5 class="font10 font-black1">选择商品开团</h5>
+				</div>
+				<div class="mui-table-cell mui-col-xs-1">
+					<i class="iconfont icon-shuangjiantou font-gray"></i>
+				</div>
+				<div class="mui-table-cell mui-col-xs-4">
+					<i class="iconfont icon-fenxiang1 font24 font-gray"></i>
+					<h5 class="font10 font-black1">邀请好友开团</h5>
+				</div>
+				<div class="mui-table-cell mui-col-xs-1">
+					<i class="iconfont icon-shuangjiantou font-gray"></i>
+				</div>
+				<div class="mui-table-cell mui-col-xs-3">
+					<i class="iconfont icon-chenggong font24 font-gray"></i>
+					<h5 class="font10 font-black1">人满拼团成功</h5>
+				</div>
+			</div>
+		</li>
+	</ul>
+	
+	<ul class="mui-table-view cky-mtop-10">
+		<li class="mui-table-view-cell cky-table-view-cell-title">
+			商品详情
+		</li>
+		<li class="mui-table-view-cell">
+			{$data.goods.goodsDesc}
+		</li>
+	</ul>
+	
+	<footer>
+		<div>
+			<a href="{:U('Goods/detail', '', '')}?id={$data.goods.goodsId}">¥<span class="font17">{$data.goods.shopPrice}&nbsp;</span>单买</a>
+		</div>
+		<div>
+			<a id="open">¥<span class="font17">{$data.goods.groupPrice}&nbsp;</span>开团</a>
+		</div>
+	</footer>
+</div>
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript" src="__JS__/countdown.js"></script>
+<script type="text/javascript">
+	var swiperList = document.getElementById("swiperList");
+	var gallerys = [{
+		goodsImg: "{$data.goods.goodsImg}",
+	}];
+	var gallerysVM = ko.observableArray(gallerys);
+	ko.applyBindings(gallerysVM, swiperList);
+	
+	$.getJSON("{:U('Goods/gallerys')}", { id: "{$data.goods.goodsId}" }, function(list) {
+		if(list && list.length > 0) {
+			var swiperList = document.getElementById("swiperList");
+			gallerys=[];
+			$.each(list, function() {
+				gallerys.push(this);
+			});
+			gallerysVM(gallerys);
+			if(gallerys.length > 1) {
+				var mySwiper = new Swiper('.swiper-container', {
+			    	direction: 'horizontal',
+				    pagination: '.swiper-pagination',
+				    loop: true
+			    });
+		  	}
+		}
+	});
+	
+	countdown();
+	
+	$(function() {
+		$("#open").click(function() {
+			var subkey = "group_" + new Date().getTime();
+			cky.storage.setItem(subkey, {});
+			window.location.href="{:U('Orders/group','','')}?groupGoodsId={$data.goods.groupGoodsId}&submit=" + subkey;
+		});
+	});
+</script>

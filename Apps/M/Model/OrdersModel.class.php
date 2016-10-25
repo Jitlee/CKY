@@ -1271,7 +1271,10 @@ class OrdersModel extends BaseModel {
 			$rst['status'] = -302;
 			return $rst;
 		}
-		if($orderType == 2) {
+		if($orderType == -1) {
+			//完成一元购流程
+			return $this->_payGroup($uid, $orderId);
+		} else if($orderType == 2) {
 			//完成一元购流程
 			return $this->_payMiaosha($uid, $orderId);
 		} else { // 一元购商品 不需要纪录和提醒，中奖后才会提醒
@@ -1304,6 +1307,19 @@ class OrdersModel extends BaseModel {
 			}
 		}
 		return array('status'=>1);
+	}
+	
+	function _payGroup($uid, $orderId) {
+		$rst = array('status' => 1);
+		$status = $this->query("select f_pay_group($uid, $orderId) rst");
+		if((int)$status['rst'] < 0) {
+			$rst['status'] = -406;
+			$rst['data'] = '处理拼团订单失败';
+		}
+		$rst['uid'] = $uid;
+		$rst['orderId'] = $orderId;
+		$rst['result'] = $status;
+		return $rst;
 	}
 
 	// 处理秒杀商品

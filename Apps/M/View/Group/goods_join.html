@@ -29,22 +29,16 @@
 	footer div {
 		display: table-cell;
 		padding: 5px 8px;
-		width: 50%;
 	}
 	
 	footer div a {
 		display: block;
-		font-size: 16px;
+		font-size: 12px;
 		height: 40px;
 		line-height: 40px;
 	}
 	
-	footer div:first-child a {
-		border: solid 1px #FF0202;
-		color: #FF0202;
-	}
-	
-	footer div:last-child a {
+	footer div a {
 		background-color:#FF0202;
 		color: #fff;
 	}
@@ -108,10 +102,7 @@
 	
 	<footer>
 		<div>
-			<a href="{:U('index', '', '')}">更多商品</a>
-		</div>
-		<div>
-			<a id="topay" href="{:U('Orders/detail', '', '')}?id={$data.group.orderId}">查看订单详情</a>
+			<a id="join">我要参团</a>
 		</div>
 	</footer>
 </div>
@@ -129,7 +120,12 @@
 	});
 	
 	countdown();
-	
+
 	$(function() {
+		$("#join").click(function() {
+			var subkey = "group_" + new Date().getTime();
+			cky.storage.setItem(subkey, {});
+			window.location.href="{:U('Orders/group','','')}?groupGoodsId={$data.goods.groupGoodsId}&groupId={$data.group.groupId}&submit=" + subkey;
+		});
 	});
 </script>

@@ -21,12 +21,17 @@ class GoodsGroupModel extends BaseModel {
 		 	->join('inner join __SHOPS__ s on s.shopId = g.shopId')
 		 	->where($where)
 		 	->find();
+//		echo $this->getLastSql();
 		
-		$group = $this->field('g.groupId, gg.groupPreNumbers, g.groupNumbers,
+		$group = $this->field('g.groupId, gg.groupPreNumbers, g.groupNumbers, gd.isPay,gd.groupDetailId,o.orderId,g.groupStatus,gd.isCaptain,
 			unix_timestamp(g.createTime) * 1000 AS createTime,  unix_timestamp(date_add(g.createTime, interval gg.groupLimitHours hour))*1000 endTime, unix_timestamp() * 1000 now')
 			->join('gg inner join __GROUP__ g on gg.groupGoodsId = g.groupGoodsId and g.groupGoodsId = '.$groupGoodsId)
-			->join('inner join __GROUP_DETAIL__ gd on gg.groupId = gd.groupId and gd.uid='.$uid)
+			->join('inner join __GROUP_DETAIL__ gd on g.groupId = gd.groupId and gd.uid='.$uid)
+			->join('inner join __ORDERS__ o on o.mmid = gd.groupDetailId and o.orderType=-1')
+			->where('now()<date_add(g.createTime,interval gg.groupLimitHours hour)')
 			->find();
+			
+//		echo $this->getLastSql();
 			
 		return array(
 			'goods'	=> $goods,
@@ -34,18 +39,31 @@ class GoodsGroupModel extends BaseModel {
 		);
 	}
 	
+	public function group($groupId = 0) {
+		$group = $this->field('g.groupId, gg.groupGoodsId, gg.groupPreNumbers, g.groupNumbers,g.groupStatus,
+			unix_timestamp(g.createTime) * 1000 AS createTime,  unix_timestamp(date_add(g.createTime, interval gg.groupLimitHours hour))*1000 endTime, unix_timestamp() * 1000 now')
+			->join('gg inner join __GROUP__ g on gg.groupGoodsId = g.groupGoodsId and g.groupStatus=1 and g.groupId = '.$groupId)
+			->where('now()<date_add(g.createTime,interval gg.groupLimitHours hour) and g.groupNumbers < gg.groupPreNumbers')
+			->find();
+			
+		return $group;
+	}
+	
 	// 团员列表
-	public function members() {
-		$groupId = (int)I('groupId', 0);
+	public function members($groupId = 0) {
 		$m = M('GroupDetail');
 		$where = array(
 			'groupId'	=> $groupId,
-			'isPay'		=> 1,
 		);
-		$m->field('gd.isCaptain, gd.groupDetailId, gd.groupId, gd.uid, gd.createTime,
+		$members = $m->field('gd.isCaptain, gd.groupDetailId, gd.groupId, gd.uid, gd.createTime,gd.isPay,
+			replace(concat(\'/\', u.ImagePath), \'/http://\', \'http://\') userImg,
 			INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName')
-			->join('left join __MEMBER__ u on u.uid = gd.uid')
-			->where($where)->order('gd.createTime desc')->select();
+			->join('gd inner join __MEMBER__ u on u.uid = gd.uid')
+			->where($where)->order('gd.createTime asc')->select();
+		
+//		echo $m->getLastSql();
+			
+		return $members;
 	}
 	
 	public function checkOrder($groupGoodsId = 0, $groupId = 0) {
@@ -138,10 +156,10 @@ class GoodsGroupModel extends BaseModel {
 	// 参团
 	public function participate($groupId) {
 		$uid = getuid();
-		$m = M('Group');
+//		$m = M('Group');
 		$rst = array('status' => -1, 'data' => '参团失败');
-		$data['groupNumbers'] = array('exp', '`groupNumbers` + 1');
-		if($m-where($groupId)->save($data)) {
+//		$data['groupNumbers'] = array('exp', '`groupNumbers` + 1');
+//		if($m->where($groupId)->save($data)) {
 			$gdm = M('GroupDetail');
 			$gddata['groupId'] = $groupId;
 			$gddata['isCaptain'] = 0;
@@ -153,7 +171,7 @@ class GoodsGroupModel extends BaseModel {
 				$rst['status'] = 1;
 				$rst['groupDetailId'] = $groupDetailId;
 			}
-		}
+//		}
 		return $rst;
 	}
 };

@@ -125,7 +125,7 @@
 						payway: 1,
 						needBox: 0,
 						ticketId: 0,
-						groupId: {$data.goods.groupId|default=0},
+						groupId: "{:I('groupId', 0)}",
 						groupGoodsId: {$data.goods.groupGoodsId}
 					}, function(result) {
 						layer.close(ll);

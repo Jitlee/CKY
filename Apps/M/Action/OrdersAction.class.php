@@ -28,6 +28,18 @@ class OrdersAction extends BaseUserAction {
 	/**
 	 * 商品提交订单
 	 */
+	public function group() {
+		$m = D('GoodsGroup');
+		$groupGoodsId = (int)I('groupGoodsId', 0);
+		$data = $m->goods($groupGoodsId);
+		$this->assign('data', $data);
+		$this->assign('title', '订单确认');
+		$this->display();
+	}
+	
+	/**
+	 * 商品提交订单
+	 */
 	public function toPay() {
 		$this->assign('title', '订单确认');
 		$this->display("pay");
@@ -503,8 +515,10 @@ class OrdersAction extends BaseUserAction {
 		$mgoods = D('M/Goods');
 		$morders = D('M/Orders');
 		$mticket = D('M/ActivityTicket');
+		$mgroup = D('M/GoodsGroup');
 		$userId = getuid();
 		
+		$result = array('status' => 1);
 		$consigneeId = (int)I("consigneeId");
 		$payway = (int)I("payway"); // 支付途径
 		$isself = (int)I("isself"); // 是否自取
@@ -527,7 +541,6 @@ class OrdersAction extends BaseUserAction {
 		}
 //		echo dump($ticket);
 //		return;
-		$result = array('status' => 1);
 		
 //		echo '-----';
 //		echo dump(I('goods'));
@@ -537,57 +550,79 @@ class OrdersAction extends BaseUserAction {
 		
 		$shopGoods = array();	
 		$order = array();
-		// 整理及核对购物车
-		foreach($cartGoods as $key => $cg) {
-			$goodsId = $cg->goodsId;
-			$count = (int)$cg->count;
-			if($count==0) {
-				$result['status']  = -1;
-				$result['data'] = '商品数量错误!';
-				break;
+		
+		// 拼团
+		$groupGoodsId = (int)I('groupGoodsId', 0); // 如果有则是拼团
+		$groupId = (int)I('groupId', 0); // 如果有则是参团，没有是开团
+		if($groupGoodsId > 0) {
+			if(count($cartGoods) != 1) {
+				$result['status']  = -50;
+				$result['data'] = '拼团数据异常!';
+			} else {	
+				$result = $mgroup->checkOrder($groupGoodsId, $groupId);
 			}
-			
-			$goods = $mgoods->info($goodsId,$goodsAttrId);
-			if(empty($goods)) {
-				$result['status']  = -1;
-				$result['data'] = '对不起，商品['.$goodsId.']不存在!';
-				break;
+		} 
+		if($result['status'] == 1) {
+			// 整理及核对购物车
+			foreach($cartGoods as $key => $cg) {
+				$goodsId = $cg->goodsId;
+				$count = (int)$cg->count;
+				if($count==0) {
+					$result['status']  = -1;
+					$result['data'] = '商品数量错误!';
+					break;
+				}
+				
+				$goods = $mgoods->info($goodsId,$goodsAttrId);
+				if(empty($goods)) {
+					$result['status']  = -1;
+					$result['data'] = '对不起，商品['.$goodsId.']不存在!';
+					break;
+				}
+				
+				if(!empty($goods['miaoshaId']) && intval($goods['shengyurenshu']) < $count) {
+					$result['status']  = -8;
+					$result['data'] = '对不起，商品【'.$goods['goodsName'].'】剩余人次不足!';
+					break;
+				}
+				
+				if(empty($goods['miaoshaId']) && intval($goods['goodsStock']) < $count) {
+					$result['status']  = -2;
+					$result['data'] = '对不起，商品【'.$goods['goodsName'].'】库存不足!';
+					break;
+				}
+				if(intval($goods['isSale']) != 1){
+					$result['status']  = -3;
+					$result['data'] = '对不起，商品库【'.$goods['goodsName'].'】已下架!';
+					break;
+				}
+				
+				if($groupGoodsId > 0) { // 拼团免运费
+					$count = 1;
+					$goods["shopPrice"] = $result['groupPrice'];
+					$goods["deliveryFreeMoney"] = 0;
+					$goods["deliveryMoney"] = 0;
+					$goods['goodsCatId1'] = -1;
+				}
+				
+				$goods["cnt"] = $count;
+				$shopGoods[$goods["shopId"]]["shopgoods"][] = $goods;
+				$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//商家免运费最低金额
+				$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//商家免运费最低金额
+				$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
+				$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]) - $this->_calcFreeMoney($goods);
+				$shopGoods[$goods["shopId"]]['ticketId'] = $ticketId;
+				$shopGoods[$goods["shopId"]]['deductible'] = 0;
+				
+				$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1']; // 0普通商品、1快餐、2一元购,-1拼团商品
+	//			if((int)$goods['goodsCatId1'] < 3) {
+	//				$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1'];
+	//			}		
 			}
-			
-			if(!empty($goods['miaoshaId']) && intval($goods['shengyurenshu']) < $count) {
-				$result['status']  = -8;
-				$result['data'] = '对不起，商品【'.$goods['goodsName'].'】剩余人次不足!';
-				break;
-			}
-			
-			if(empty($goods['miaoshaId']) && intval($goods['goodsStock']) < $count) {
-				$result['status']  = -2;
-				$result['data'] = '对不起，商品【'.$goods['goodsName'].'】库存不足!';
-				break;
-			}
-			if(intval($goods['isSale']) != 1){
-				$result['status']  = -3;
-				$result['data'] = '对不起，商品库【'.$goods['goodsName'].'】已下架!';
-				break;
-			}
-			
-			$goods["cnt"] = $count;
-			$shopGoods[$goods["shopId"]]["shopgoods"][] = $goods;
-			$shopGoods[$goods["shopId"]]["deliveryFreeMoney"] = $goods["deliveryFreeMoney"];//商家免运费最低金额
-			$shopGoods[$goods["shopId"]]["deliveryMoney"] = $goods["deliveryMoney"];//商家免运费最低金额
-			$shopGoods[$goods["shopId"]]["totalCnt"] = $shopGoods[$goods["shopId"]]["totalCnt"]+$cgoods["cnt"];
-			$shopGoods[$goods["shopId"]]["totalMoney"] = $shopGoods[$goods["shopId"]]["totalMoney"]+($goods["cnt"]*$goods["shopPrice"]) - $this->_calcFreeMoney($goods);
-			$shopGoods[$goods["shopId"]]['ticketId'] = $ticketId;
-			$shopGoods[$goods["shopId"]]['deductible'] = 0;
-			
-			$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1']; // 0普通商品、1快餐、2一元购
-//			if((int)$goods['goodsCatId1'] < 3) {
-//				$shopGoods[$goods["shopId"]]['orderType'] = (int)$goods['goodsCatId1'];
-//			}
 		}
 		
 		// 核对优惠券信息
-		if($ticket) {
+		if($ticket && $result['status'] == 1) {
 			// 是否过期
 			$today = strtotime("today");
 			if($ticket['ticketMStatus'] != 0) {
@@ -642,7 +677,7 @@ class OrdersAction extends BaseUserAction {
 			}
 		}
 		if($result['status'] == 1) {
-			$result = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket, $needBox);
+			$result = $morders->addOrders($userId,$consigneeId,$payway,$needreceipt,$shopGoods,$orderunique,$isself, $ticket, $groupGoodsId, $groupId, $needBox);
 		}
 		
 		$this->ajaxReturn($result, 'JSON');

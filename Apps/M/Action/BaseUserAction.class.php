@@ -6,18 +6,18 @@ use Think\Controller;
 class BaseUserAction extends BaseAction {
 	
 	protected function _initialize() {
-		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
+//		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
  			$this->must_login();
-		}
+//		}
 	}
 	
 	function must_login() {
 		$openid=session('openid').'';
 		// 测试默认用户 
-	//	if(strlen($openid)<10) {
-	//		$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
-	//		session('openid',$openid);
-	//	}
+		if(strlen($openid)<10) {
+			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
+			session('openid',$openid);
+		}
 		
 		//如果openid不存在重新获取
 		if(strlen($openid) <= 10) {

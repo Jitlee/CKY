@@ -169,11 +169,11 @@ class OrdersModel extends BaseModel {
 	/**
 	 * 提交订单
 	 */
-	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $needBox = 0){
+	public function addOrders($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $groupGoodsId, $groupId, $needBox = 0){
 
         $this->startTrans();
         
-        $rst = $this->_addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $needBox);
+        $rst = $this->_addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $groupGoodsId, $groupId, $needBox);
 		if($rst['status'] == 1){
 			$this->commit();
 		}else{
@@ -183,7 +183,7 @@ class OrdersModel extends BaseModel {
 		
 	}
 	
-	function _addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $needBox = 0) {
+	function _addOrder($userId,$consigneeId,$payway,$needreceipt,$catgoods,$orderunique,$isself, $ticket, $groupGoodsId, $groupId, $needBox = 0) {
 		$rst = array('status' => 1);
 		$m = M('orderids');
 		$orderInfos = array();
@@ -196,6 +196,7 @@ class OrdersModel extends BaseModel {
         $tmm = D('M/ActivityTicketM');
         $gm = D('M/Goods');
         $gam = D('M/GoodsAttributes');
+        $groupm = D('M/GoodsGroup');
         
         if($ticket) {
 	        	// 更新优惠券使用数量
@@ -267,6 +268,21 @@ class OrdersModel extends BaseModel {
 			
 			$data["orderunique"] = $orderunique;
 			$data["isPay"] = 0;
+			
+			if($groupGoodsId > 0) { // 拼团
+				if($groupId > 0) {
+					$rst = $groupm->participate($groupId);
+				} else {
+					$rst = $groupm->open($groupGoodsId);
+				}
+				
+				if($rst['status'] != 1) {
+					return $rst;
+				}
+				
+				$data['mmid'] = $rst['groupDetailId'];
+			}
+			
 			$orderId = $this->add($data);
 //			echo $this->getLastSql();
 			
@@ -349,7 +365,11 @@ class OrdersModel extends BaseModel {
 					$data["logType"] = 0;
 					$data["logTime"] = date('Y-m-d H:i:s');
 					$mlogo = M('log_orders');
-					$mlogo->add($data);
+					if(!($mlogo->add($data) > 0)) {
+						$rst['status'] = -105;
+						$rst['data'] = '生成订单记录失败';
+						return $rst;
+					}
 				}
 			} else {
 				$rst['status'] = -104;

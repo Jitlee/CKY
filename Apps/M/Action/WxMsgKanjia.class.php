@@ -142,7 +142,7 @@ class WxMsgKanjia
 			if($add_status && $save_status && $add_money==$shengyumoney)
 			{
 				$wxm= new WxNotify();
-				$result=$wxm->KJNotify($form['nickname'],$openid,'','免费2D电影票');
+				$result=$wxm->KJNotify($rs['nickname'],$openid,'','免费2D电影票');
 			} 
             //发送消息给砍主
             $Auth->sendText($openid,'您的好友“'.$form['nickname'].'”\n帮您砍下了'.$add_money.'元，快去答谢他（她）吧/示爱');
@@ -322,13 +322,15 @@ class WxMsgKanjia
         //{"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
         $param=array(
             'expire_seconds'=>2592000,
-            'action_name'=>'QR_SCENE',
+            'action_name'=>'QR_LIMIT_STR_SCENE',
             'action_info'=>array(
                 'scene'=>array(
-                    'scene_id'=>$uid,
+                    'scene_str'=>$uid,
                     )
                 ),
         );
+		
+		//{"action_name": "QR_LIMIT_STR_SCENE", "action_info": {"scene": {"scene_str": "123"}}}
         $param=json_encode($param);
         
 		$wxmsg=new WxUserInfo();

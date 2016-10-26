@@ -17,6 +17,7 @@ class SnappedupCatsModel extends BaseModel {
 	 	$id = (int)I("id",0);
 		$data = array();
 		$data["CName"] = I("CName");
+		$data["isShow"] = I("isShow");
 		$data["sort"] = (int)I("sort");
 		
 		if($this->checkEmpty($data,true)){
@@ -68,7 +69,8 @@ class SnappedupCatsModel extends BaseModel {
 	 /**
 	  * 获取指定对象
 	  */
-     public function catsget($id){
+     public function catsget(){
+     	$id = (int)I("id",0);
 	 	$m = M('snappedup_cats');
 		return $m->where("SUCatsId=".(int)$id)->find();
 	 }
@@ -77,8 +79,8 @@ class SnappedupCatsModel extends BaseModel {
 	  */
 	  public function queryByList(){
 	     $m = M('snappedup_cats');
-	     $rs = $m->select(); 
-		 return $rs;
+	     $sql="select * from __PREFIX__snappedup_cats ";
+		 return $m->pageQuery($sql);
 	  }
 	 
 	 
@@ -86,24 +88,15 @@ class SnappedupCatsModel extends BaseModel {
 	  * 删除
 	  */
 	 public function catsdel(){
-	 	$rd = array('status'=>-1);
-	 	//获取子集
-	 	$ids = array();
-		$ids[] = (int)I('id');
-	 	$ids = $this->getChild($ids,$ids);
+	    $rd = array('status'=>-1);
 	 	$m = M('snappedup_cats');
-	 	//把相关的商品下架了
-	 	$sql = "update __PREFIX__goods set isSale=0 where goodsCatId1 in(".implode(',',$ids).")";
-	 	$m->execute($sql);
-	 	$sql = "update __PREFIX__goods set isSale=0 where goodsCatId2 in(".implode(',',$ids).")";
-	 	$m->execute($sql);
-	 	$sql = "update __PREFIX__goods set isSale=0 where goodsCatId3 in(".implode(',',$ids).")";
-	 	$m->execute($sql);
-	 	//设置商品分类为删除状态
-	 	$m->catFlag = -1;
-		$rs = $m->where(" catId in(".implode(',',$ids).")")->save();
-	    if(false !== $rs){
+		$rs = $m->delete((int)I('id'));
+		if($rs){
 		   $rd['status']= 1;
+		}
+		else
+		{
+//			$rd['error']=$m->
 		}
 		return $rd;
 	 }

@@ -102,23 +102,14 @@ class SnappedUpAction extends BaseAction{
 	/*********开始cats***********/
 	public function catsindex(){
 		$this->isLogin();
-		//获取商品分类信息		
-		$m = D('Admin/SnappedupCats');
-		$cats=$m->queryBykey('miaosha');		
-		$this->assign('goodsCatsList',$cats);
-		$goodsCatId1=I('goodsCatId1',0);
 		 
 		$m = D('Admin/SnappedupCats');
-    	$page = $m->queryByPage();
+    	$page = $m->queryByList();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
+    	
     	$this->assign('Page',$page);
-    	$this->assign('shopName',I('shopName'));
-    	$this->assign('goodsName',I('goodsName'));
-    	$this->assign('areaId1',I('areaId1',0));
-    	$this->assign('areaId2',I('areaId2',0));
-    	$this->assign('goodsCatId1',$goodsCatId1);
-    	$this->assign('goodsCatId2',I('goodsCatId2',0));
+    	$this->assign('CName',I('CName'));
         
    		$this->display('snappedup/catslist');
 	}
@@ -135,7 +126,7 @@ class SnappedUpAction extends BaseAction{
 		$m = D('Admin/SnappedupCats');
 		$object = array();
     	if(I('id',0)>0){
-    		$object = $m->get();
+    		$object = $m->catsget();
     	}else{
     		$object = $m->getModel();
     	}
@@ -159,13 +150,21 @@ class SnappedUpAction extends BaseAction{
     	}
     	$this->ajaxReturn($rs);
 	}
+	
+	public function catsEditiIsShow(){
+		$this->isLogin();
+		$m = D('Admin/SnappedupCats');
+		$rs = $m->editiIsShow();
+		$this->ajaxReturn($rs);
+	}
+	
 	/**
 	 * 删除商品
 	 */
 	public function catsdel(){
 		$this->isLogin();
-		$m = D('Home/SnappedupCats');
-		$rs = $m->catsdel($miaoshaId);
+		$m = D('Admin/SnappedupCats');
+		$rs = $m->catsdel();
 		$this->ajaxReturn($rs);
 	}
 	/*********结束cats***********/

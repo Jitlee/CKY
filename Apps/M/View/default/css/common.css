@@ -714,6 +714,9 @@ a.cky-segmented-item {
 .font-blue {
 	color: #2af; 
 }
+.font-green {
+	color: #0bbb0a; 
+}
 
 .height30 {
 	line-height: 30px;
@@ -900,6 +903,9 @@ p.cky-update {
 
 .cky-mtop-10 {
 	margin-top:  10px;
+}
+.cky-mtop-20 {
+	margin-top:  20px;
 }
 
 .cky-text-left {

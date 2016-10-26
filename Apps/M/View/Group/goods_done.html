@@ -34,7 +34,7 @@
 	
 	footer div a {
 		display: block;
-		font-size: 16px;
+		font-size: 12px;
 		height: 40px;
 		line-height: 40px;
 	}
@@ -48,16 +48,6 @@
 		background-color:#FF0202;
 		color: #fff;
 	}
-	
-	span[countdown] {
-		display: inline-block;
-		line-height: 16px;
-		background-color: #666;
-		padding: 5px 8px;
-		
-		color: #fff;
- 		text-shadow:0 0 3px #FF0000;
-	}
 </style>
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
@@ -70,12 +60,10 @@
 <div class="mui-content mui-content-bottom">
 	<div class="mui-text-center top">
 		<div class="font14 font-black">
-			已开团，还差<r>{$data['group']['groupPreNumbers']-$data['group']['groupNumbers']}</r>人即可成团
+			<i class="iconfont icon-chenggong font20 font-green"></i>
+			哦耶！已经拼团成功
 		</div>
-		<div class="font16 font-black">
-			剩余 <span countdown="{$data.group.endTime}"></span> 自动结束
-		</div>
-		<h5>一起拼团玩好货啰！   <a>玩法详情>></a></h5>
+		<h5>您的宝贝即将到手   <a>玩法详情>></a></h5>
 	</div>
 	<ul class="mui-table-view cky-mtop-20">
 		<li class="mui-table-view-cell mui-media">
@@ -117,7 +105,6 @@
 </div>
 <script src="__JS__/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="__KO__"></script>
-<script type="text/javascript" src="__JS__/countdown.js"></script>
 <script type="text/javascript">
 	var vm = {
 		members: ko.observableArray([])	
@@ -127,8 +114,6 @@
 	$.getJSON("{:U('members','','')}/{$data.group.groupId}", {  }, function(members) {
 		vm.members(members);
 	});
-	
-	countdown();
 	
 	$(function() {
 	});

@@ -34,7 +34,7 @@
 	
 	footer div a {
 		display: block;
-		font-size: 16px;
+		font-size: 12px;
 		height: 40px;
 		line-height: 40px;
 	}
@@ -48,16 +48,6 @@
 		background-color:#FF0202;
 		color: #fff;
 	}
-	
-	span[countdown] {
-		display: inline-block;
-		line-height: 16px;
-		background-color: #666;
-		padding: 5px 8px;
-		
-		color: #fff;
- 		text-shadow:0 0 3px #FF0000;
-	}
 </style>
 <header class="mui-bar mui-bar-nav cky-bar-gray">
 	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
@@ -70,10 +60,8 @@
 <div class="mui-content mui-content-bottom">
 	<div class="mui-text-center top">
 		<div class="font14 font-black">
-			已开团，还差<r>{$data['group']['groupPreNumbers']-$data['group']['groupNumbers']}</r>人即可成团
-		</div>
-		<div class="font16 font-black">
-			剩余 <span countdown="{$data.group.endTime}"></span> 自动结束
+			<i class="iconfont icon-ku font20 font-orange"></i>
+			哎呀，人没凑齐，组团失败
 		</div>
 		<h5>一起拼团玩好货啰！   <a>玩法详情>></a></h5>
 	</div>
@@ -127,9 +115,8 @@
 	$.getJSON("{:U('members','','')}/{$data.group.groupId}", {  }, function(members) {
 		vm.members(members);
 	});
-	
-	countdown();
-	
+
+
 	$(function() {
 	});
 </script>

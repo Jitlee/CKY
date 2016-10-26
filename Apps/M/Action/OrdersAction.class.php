@@ -31,6 +31,7 @@ class OrdersAction extends BaseUserAction {
 	public function group() {
 		$m = D('GoodsGroup');
 		$groupGoodsId = (int)I('groupGoodsId', 0);
+		$groupId = (int)I('groupId', 0);
 		$data = $m->goods($groupGoodsId);
 		$this->assign('data', $data);
 		$this->assign('title', '订单确认');

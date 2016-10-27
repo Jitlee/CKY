@@ -1,9 +1,155 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-	</body>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="__ROOT__/Apps/Admin/View/css/daterangepicker/daterangepicker-bs3.css">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+       <link href="__ROOT__/Apps/Admin/View/css/upload.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <script src="__ROOT__/Apps/Admin/View/js/DatePicker/WdatePicker.js"></script>
+   </head>
+   <script>
+   var ThinkPHP = window.Think = {
+	        "ROOT"   : "__ROOT__"
+	}
+   var filetypes = ["gif","jpg","png","jpeg"];
+   $(function () {
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   edit();
+			       return false;
+			},onError:function(msg){
+		}});
+	   $("#CAName").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"秒杀名称不能超过20个字符"});
+//	   $('#CADate').daterangepicker({format:'YYYY-MM-DD',singleDatePicker: true});
+   });
+   function edit(){
+	   var params = {};
+	   params.id = $('#id').val();
+	   params.CAName = $('#CAName').val();
+	   params.SUCatsId = $('#SUCatsId').val();
+	   params.CADate = $('#CADate').val();
+	   params.StartTime = $('#StartTime').val();
+	   
+	   params.ActivityLen = $('#ActivityLen').val();
+	   params.isShow = $('input[name="isShow"]:checked').val();
+	   
+	   
+	   
+	    
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/SnappedUp/catsactivityedit')}",params,function(data,textStatus){
+			var json = RTC.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href='{:U("Admin/SnappedUp/catsactivityindex")}';
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+	   });
+   }
+   
+   </script>
+   <body class="rtc-page"><br />
+       <form name="myform" method="post" id="myform" autocomplete="off">
+        <input type='hidden' id='id' value='{$object.SUCatsActivityId}'/>        
+        <table class="table table-hover table-striped table-bordered rtc-form">
+           <tr>
+             <th width='220' align='right'>秒杀名称<font color='red'>*</font>：</th>
+             <td><input type='text' id='CAName' class="form-control rtc-ipt" value='{$object.CAName}' maxLength='25'/></td>
+           </tr>
+           <tr>
+           <tr>
+             <th align='right'>活动名称<font color='red'>*</font>：</th>
+             <td>
+	            <select id='SUCatsId'>
+	                <option value=''>请选择</option>
+	                <volist name="cats" id="vo">
+	                	<option value='{$vo['SUCatsId']}' <if condition="$object['SUCatsId'] == $vo['SUCatsId'] ">selected</if>>{$vo['CName']}</option>
+	                </volist>
+	             </select>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>是否显示<font color='red'>*</font>：</th>
+             <td>
+	             <label>
+	             <input type='radio' id='isShow1' value='1' name='isShow' <if condition="$object['isShow'] ==1 ">checked</if>/>显示
+	             </label>
+	             <label>
+	             <input type='radio' id='isShow0' value='0' name='isShow' <if condition="$object['isShow'] ==0 ">checked</if>/>隐藏
+	             </label>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>活动开始日期：</th>
+             <td><input type='text' id='CADate' class="form-control rtc-ipt" value='{$object.CADate}'  onfocus="WdatePicker();"  style='width:100px' maxLength='10'/></td>
+           </tr>
+           <tr>
+             <th align='right'>活动开始时间：</th>
+             <td>
+             		<select id="StartTime" class="form-control" name="StartTime"  style="width: 100px;">
+						<option value="0">0时</option>
+						<option value="1">1时</option>
+						<option value="2">2时</option>
+						<option value="3">3时</option>
+						<option value="4">4时</option>
+						<option value="5">5时</option>
+						<option value="6">6时</option>
+						<option value="7">7时</option>
+						<option value="8">8时</option>
+						<option value="9">9时</option>
+						<option value="10">10时</option>
+						<option value="1">11时</option>
+						<option value="2">12时</option>
+						<option value="3">13时</option>
+						<option value="4">14时</option>
+						<option value="5">15时</option>
+						<option value="6">16时</option>
+						<option value="7">17时</option>
+						<option value="8">18时</option>
+						<option value="9">19时</option>
+						<option value="10">20时</option>
+						<option value="1">21时</option>
+						<option value="2">22时</option>
+						<option value="3">23时</option>
+					</select>
+					<script>
+						$(function(){
+							$("#StartTime").val({$object.StartTime});
+						})
+					</script>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>活动时长（小时）：</th>
+             <td><input type='text' id='ActivityLen' class="form-control rtc-ipt" value='{$object.ActivityLen}' style='width:80px'    maxLength='8'/></td>
+           </tr>
+           <!--<tr>
+             <th align='right'>排序号：</th>
+             <td><input type='text' id='sort' class="form-control rtc-ipt" value='{$object.sort}' style='width:80px' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='8'/></td>
+           </tr>-->
+           <tr>
+             <td colspan='2' style='padding-left:250px;'>
+                 <button type="submit" class="btn btn-success">保&nbsp;存</button>
+                  <a class="btn btn-primary" href='{:U("Admin/SnappedUp/catsactivityindex")}'>返&nbsp;回</button>
+             </td>
+           </tr>
+        </table>
+       </form>
+   </body>
 </html>

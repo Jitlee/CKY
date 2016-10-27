@@ -161,40 +161,26 @@ class SnappedUpAction extends BaseAction{
 	/**
 	 * 删除商品
 	 */
-	public function catsdel(){
-		$this->isLogin();
-		$m = D('Admin/SnappedupCats');
-		$rs = $m->catsdel();
-		$this->ajaxReturn($rs);
-	}
+//	public function catsdel(){
+//		$this->isLogin();
+//		$m = D('Admin/SnappedupCats');
+//		$rs = $m->catsdel();
+//		$this->ajaxReturn($rs);
+//	}
 	/*********结束cats***********/
 	
 	/*********开始catsactivity***********/
 	public function catsactivityindex(){
 		$this->isLogin();
-		//获取商品分类信息		
-		$m = D('Admin/GoodsCats');
-		$cats=$m->queryBykey('miaosha');		
-		$this->assign('goodsCatsList',$cats);
-		$goodsCatId1=I('goodsCatId1',0);
-		
-		if($cats)
-		{
-			$goodsCatId1=$cats[0]["catId"];
-		}
-		
-		$m = D('Admin/SnappedUp');
-    	$page = $m->queryByPage($goodsCatId1);
+		 
+		$m = D('Admin/SnappedupCatsActivity');
+    	$page = $m->queryByList();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
+    	
     	$this->assign('Page',$page);
-    	$this->assign('shopName',I('shopName'));
-    	$this->assign('goodsName',I('goodsName'));
-    	$this->assign('areaId1',I('areaId1',0));
-    	$this->assign('areaId2',I('areaId2',0));
-    	$this->assign('goodsCatId1',$goodsCatId1);
-    	$this->assign('goodsCatId2',I('goodsCatId2',0));
-        
+    	$this->assign('CName',I('CName'));
+   		
    		$this->display('snappedup/catsactivitylist');
 	}
 	
@@ -204,24 +190,17 @@ class SnappedUpAction extends BaseAction{
 	public function catsactivityToEdit(){
 		$this->isLogin();
 		$USER = session('RTC_USER');
-		//获取商品分类信息
-		$m = D('Admin/GoodsCats');
-		$this->assign('goodsCatsList',$m->queryBykey('miaosha'));
 		
-		$mshop = D('Admin/Ticket');
-		$shops=$mshop->queryByList();		
-	    $this->assign('tickets',$shops);
-	    
 	    //商家
-	    $mshop = D('Admin/Shops');
-		$shops=$mshop->queryListForSelect();		
-	    $this->assign('shops',$shops);
+	    $m = D('Admin/SnappedupCats');
+    	$cats= $m->queryByListForDorpdown();	
+	    $this->assign('cats',$cats);
 	    
 		//获取商品类型
-		$m = D('Admin/SnappedUp');
+		$m = D('Admin/SnappedupCatsActivity');
 		$object = array();
     	if(I('id',0)>0){
-    		$object = $m->catsactivityget();
+    		$object = $m->get();
     	}else{
     		$object = $m->getModel();
     	}
@@ -235,53 +214,46 @@ class SnappedUpAction extends BaseAction{
 	 */
 	public function catsactivityedit(){
 		$this->isLogin();
-		$m = D('Admin/SnappedUp');
+		$m = D('Admin/SnappedupCatsActivity');
     	$rs = array('status'=>-1);
     	if((int)I('id',0)>0){
-    		$rs = $m->catsactivityedit();
+    		$rs = $m->edit();
     	}
     	else{
-    		$rs = $m->catsactivityinsert();
+    		$rs = $m->insert();
     	}
     	$this->ajaxReturn($rs);
+	}
+	
+	public function catsactivityEditiIsShow(){
+		$this->isLogin();
+		$m = D('Admin/SnappedupCatsActivity');
+		$rs = $m->editiIsShow();
+		$this->ajaxReturn($rs);
 	}
 	/**
 	 * 删除商品
 	 */
-	public function catsactivitydel(){
-		$this->isLogin();
-		$m = D('Home/SnappedUp');
-		$rs = $m->catsactivitydel($miaoshaId);
-		$this->ajaxReturn($rs);
-	}
+//	public function catsactivitydel(){
+//		$this->isLogin();
+//		$m = D('Home/SnappedUp');
+//		$rs = $m->catsactivitydel($miaoshaId);
+//		$this->ajaxReturn($rs);
+//	}
 	/*********结束catsactivity***********/
 	
 	
-	public function history(){
+	public function catsactivitygoodslist(){
 		$this->isLogin(); 
 		
 		$m = D('Admin/SnappedUp');		 
-    	$page = $m->queryHistoryByPage();
+//  	$page = $m->queryHistoryByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page); 
         
-   		$this->display('snappedup/history');
+   		$this->display('snappedup/catsactivitygoodslist');
 	}
-
-	public function order(){
-		$this->isLogin(); 		
-		$m = D('Admin/SnappedUp');	
-		$goodsId=I("goodsId");
-		$qishu=I("qishu");
-			 
-    	$page = $m->queryOrderByPage();
-    	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
-    	$page['pager'] = $pager->show();
-    	$this->assign('Page',$page); 
-        
-   		$this->display('snappedup/order');
-	}
-	
+ 
 	
 }

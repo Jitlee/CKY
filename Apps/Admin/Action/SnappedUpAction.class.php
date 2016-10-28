@@ -248,11 +248,28 @@ class SnappedUpAction extends BaseAction{
 		
 		$m = D('Admin/SnappedUp');		 
 //  	$page = $m->queryHistoryByPage();
+		$SUCatsActivityId=I("id");
+
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page); 
         
+		$this->assign('SUCatsActivityId',$SUCatsActivityId); 
    		$this->display('snappedup/catsactivitygoodslist');
+	}
+	
+	public function catsactivitygoodsadd(){
+		$this->isLogin(); 
+		
+		$SUCatsActivityId=I("id");
+		
+		$m = D('Admin/SnappedupCatsActivityGoods');		 
+//  	$page = $m->queryHistoryByPage();
+    	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
+    	$page['pager'] = $pager->show();
+    	$this->assign('Page',$page); 
+        
+   		$this->display('snappedup/catsactivitygoodsadd');
 	}
  
 	

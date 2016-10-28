@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <script src="__PUBLIC__/plugins/layer/layer.min.js"></script>
+      <style type="text/css">
+		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+	  </style>
+   </head>
+   <script>
+   var layerindex=0;
+  function checkAll(v){
+	   $('.chk').each(function(){
+		   $(this).prop('checked',v);
+	   })
+   }
+
+   function addgoods(){
+	   var goodsid='';
+	   $('.chk').each(function(){
+		   if($(this).prop('checked'))
+		   {
+		   		goodsid=$(this).val();
+		   		goodsName=$(this).attr("goodsName");
+		   		parent.selectGoods(goodsid,goodsName);
+		   }
+	   })
+	   if(goodsid==''){Plugins.Tips({title:'信息提示',icon:'error',content:'请选择需要添加到惠生活的商品!',timeout:2000}); return;}		
+   }  
+   $(document).ready(function(){
+	   $("#btnaddGoods").click(function(e){
+	   		addgoods();
+	   });
+	   $("#btnclose").click(function(e){
+	   	 parent.close();
+	   });
+	   
+   });
+   </script>
+   <body class='rtc-page'>
+   	
+    <form method='post' action="{:U('Admin/Malllife/lifegoodsaddselect',array('lifeid'=>$lifeid))}" autocomplete="off">
+    	<input type='hidden' id='lifeid' name='lifeid' value='{$lifeid}'/>
+    	
+       <div class='rtc-tbar'>		               
+			       商品：<input type='text' id='goodsName' name='goodsName' value='{$goodsName}'/>
+  				<button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
+       </div>
+       </form>
+       <div class='rtc-body'>
+        <div class='rtc-tbar'>										          	
+	        <button type="button" class="btn btn-primary glyphicon"  id="btnaddGoods">确定</button>
+	        <button type="button"  id="btnclose" class="btn btn-primary"  >关闭</button>
+    	</div>
+        	 
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+              <th width='2'></th>
+               <th width='180'>商品名称</th>
+               <th width='60'>商品编号</th>
+               <th width='40'>价格</th>
+               <th width='100'>商家</th>
+               <th width='100'>平台分类</th>                
+               <th width='25'>销量</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+	             <tr>
+		               <td align="center"><input type="radio"' class='chk' name='goodids' value='{$vo['goodsId']}' goodsName="{$vo['goodsName']}"/></td>
+		               <td>{$vo['goodsName']}</td>
+		               <td>{$vo['goodsSn']}&nbsp;</td>
+		               <td>{$vo['shopPrice']}&nbsp;</td>
+		               <td>{$vo['shopName']}&nbsp;</td>
+		               <td>{$vo['catName']}&nbsp;</td>
+		               <td>{$vo['saleCount']}</td>
+	             </tr>
+             </volist>
+             <tr>
+                <td colspan='10' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

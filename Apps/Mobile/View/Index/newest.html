@@ -1,0 +1,32 @@
+<div class="neweast-card" id="neweastCard">
+	<h4 class="mui-text-center">——— 最新团购 ———</h4>
+	<ul class="table-wrap" data-bind="foreach: $data">
+		<li class="table-wrap-cell">
+			<a>
+				<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + thumb + ')' }"></div>
+				<div class="mui-ellipsis" data-bind="text: title"></div>
+				<h5 data-bind="text: subtitle" class="mui-ellipsis"></h5>
+				
+				<div class="mui-table">
+					<div class="mui-table-cell">
+						<r data-bind="text: '¥ ' + price"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
+					</div>
+					<div class="mui-table-cell">
+						<h5 class="mui-text-right">剩余 <span class="sale-count" data-bind="text: sale"></span></h5>		
+					</div>
+				</div>			
+			</a>
+		</li>
+	</ul>
+</div>
+
+<script>
+	seajs.use([], function() {
+		$.getJSON("{:U('/Api/Group/newest', '', '')}", function(data) {
+			if(data && data.code == 200 && data.rst) {
+				var neweastCard = document.getElementById("neweastCard");
+				ko.applyBindings(data.rst, neweastCard);
+			}
+		});
+	});
+</script>

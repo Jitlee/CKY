@@ -1,0 +1,28 @@
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-btn mui-btn-link mui-pull-left" href="{:U('M/Person/index', '', '')}">
+		<i class="iconfont icon-geren"></i>
+	</a>
+	<div class="header-search">
+		<i class="iconfont icon-sousuo"></i>
+	    <input type="search" placeholder="输入商家、商品、商圈"/>
+	</div>
+	<a class="mui-btn mui-btn-link mui-pull-right check-in">
+		签到<i class="iconfont icon-jinbib"></i>
+	</a>
+	<a class="mui-btn mui-btn-link mui-pull-right">
+		<i class="iconfont icon-saomiao"></i>
+	</a>
+</header>
+<div class="mui-content">
+	<include file="Public/ads" id="ads" type="-1" />
+	<include file="buttons" />
+	<include file="news" />
+	<include file="miaosha" />
+	<include file="group" />
+	<include file="newest" />
+</div>
+<script>
+	seajs.use("util", function() {
+		
+	})
+</script>

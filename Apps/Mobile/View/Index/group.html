@@ -1,0 +1,31 @@
+<div class="miaosha-card" id="groupCard">
+	<div class="mui-table-view">
+		<div class="mui-table-view-cell nav-cell">
+			<a>
+				/ 热门团购 /
+			</a>
+		</div>
+	</div>
+	<div class="horizontal-scroll">
+		<ul class="mui-table" data-bind="foreach: $data">
+			<li class="mui-table-cell">
+				<a>
+					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + thumb + ')' }"></div>
+					<div class="mui-ellipsis" data-bind="text: title"></div>
+					<r data-bind="text: '¥ ' + price"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
+					<h5>已售 <span class="sale-count" data-bind="text: sale"></span></h5>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<script>
+	seajs.use([], function() {
+		$.getJSON("{:U('/Api/miaosha/', '', '')}", function(data) {
+			if(data && data.code == 200 && data.rst) {
+				var groupCard = document.getElementById("groupCard");
+				ko.applyBindings(data.rst, groupCard);
+			}
+		});
+	});
+</script>

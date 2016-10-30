@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="__CSS__/swiper.min.css" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('goods-detail.css')}" />
+<link rel="stylesheet" href="__CSS__/{:autoVer('goods-picker.css')}" />
+<script src="__JS__/swiper.jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/mui.min.js"></script>
+<script type="text/javascript" src="__KO__"></script>
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="mui-action-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		商品详情
+	</h1>
+	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
+		<i class="cky-cart iconfont icon-gouwuche font24"><span class="cky-cart-count cky-hidden"></span></i>
+	</a>
+	<button class="mui-btn mui-btn-link mui-pull-right">
+		<i class="cky-fav iconfont icon-favor font24" fav-target-id="{$data.goodsId}" fav-target-type="0" fav-type="1"></i>
+	</button>
+</header>
+<div class="mui-content">
+	<!-- Slider main container -->
+	<div id="swiperList" class="swiper-container">
+	    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+    		<!-- ko foreach: $data -->
+			<div class="swiper-slide">
+				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/'+ goodsImg +')' }"></a>
+			</div>
+			<!-- /ko -->
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination">
+	    	
+	    </div>
+	</div>
+	<div>{$data.goodsName}</div>
+	<div class="cky-goods-bar">
+		<span class="font-red">¥ {$data.shopPrice}</span><span class="cky-money-old">￥{$data.marketPrice}</span>
+		<button ctype="direct" class="cky-right mui-btn mui-btn-negative">立即购买</button>
+	</div>
+	<div class="mui-table-view-cell">
+		<a class="mui-navigate-right">
+            <span  style="position: absolute;  right: 15px;">{$appraise["avgtotal"]["totalusers"] }条</span>
+        	评价：{:getScore($appraise["avgtotal"]["avgscore"])}
+       </a>
+	</div>
+	<div class="mui-table-view-cell">
+		<span>商家信息</span>
+		<a class="mui-navigate-right">
+			{$shopName}- {$dataShop.shopTel}
+		</a>
+	</div>
+	
+	<p class="font15 font-gray mui-content-padded">{$data.saleCount}人已抢购</p>
+		<div class="mui-table-view-cell">
+			<span>购买须知</span>
+		</div>
+
+		<div id="item1mobile" class="cky-tab-content cky-active">
+			<p class="mui-content-padded">{$data.buyinfo}</p>
+		</div> 
+		 
+	</div>
+</div>
+
+<div id="goodsPicker" class="cky-goods-picker cky-hidden" data-bind="css: activeCss">
+	<div class="cky-goods-picker-body">
+		<div class="cky-goods-picker-thums" style="background-image: url(/{$data.goodsThums});"></div>
+		<div class="cky-goods-picker-media">
+			<r class="font20">¥ {$data.shopPrice}</r>
+			<h5>库存{$data.goodsStock}{$data.goodsUnit}</h5>
+			<h5></h5>
+		</div>
+		<div class="cky-goods-picker-content">
+			<hr />
+			<div class="mui-content-padded">
+				<div class="cky-col-view">
+					<div class="cky-col-view-cell">购买数量</div>
+					<div class="cky-col-view-cell cky-num-pick">
+						<span class="jian"><i class="iconfont icon-jian"></i></span>
+						<input class="num" type="number" value="1" min="1" step="1"/>
+						<span class="jia"><i class="iconfont icon-jia"></i></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a id="submit" class="cky-btn cky-btn-block cky-btn-red">确定</a>
+	</div>
+</div>
+
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+
+<script type="text/javascript">
+	
+	var swiperList = document.getElementById("swiperList");
+	var gallerys = [{
+		goodsImg: "{$data.goodsImg}",
+	}];
+	var gallerysVM = ko.observableArray(gallerys);
+	ko.applyBindings(gallerysVM, swiperList);
+	
+	$(function() {
+		$.getJSON("{:U('Goods/gallerys')}", { id: "{:I('id')}" }, function(list) {
+			if(list && list.length > 0) {
+				var swiperList = document.getElementById("swiperList");
+				gallerys=[];
+				$.each(list, function() {
+					gallerys.push(this);
+				});
+				gallerysVM(gallerys);
+				var mySwiper = new Swiper ('.swiper-container', {
+				    direction: 'horizontal',
+				    pagination: '.swiper-pagination',
+				    loop: true
+		   		});
+			}
+		});
+		
+		
+		var shopCart = new ShopCart("goodsPicker", {
+			shopId: -1,
+			shopName: "{$data.shopName}",
+			deliveryFreeMoney:0,// {$data.deliveryFreeMoney},
+			deliveryMoney: 0,//{$data.deliveryMoney},
+		}, {
+			goodsId: {$data.goodsId},
+			goodsName: "{$data.goodsName}",
+			goodsThums: "{$data.goodsThums}",
+			shopPrice: {$data.shopPrice},
+			goodsStock: {$data.goodsStock},
+			goodsUnit: "{$data.goodsUnit}",
+			activeId: "{$data.activeId}",
+			activeType: "{$data.activeType}",
+			activeAmount: "{$data.activeAmount}",
+		});
+		
+		$("button[ctype]").click(function() {
+			var $this = $(this);
+			var ctype = $this.attr("ctype");
+			shopCart.open(ctype);
+		});
+		
+		$("#submit").click(shopCart.ok);
+		
+	
+		
+	});
+	
+	
+</script>

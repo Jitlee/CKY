@@ -1,0 +1,60 @@
+<?php
+namespace M\Action;
+use Think\Controller;
+use P\Model;
+
+class SnappedUpAction extends BaseAction {
+	
+	
+	public function _initialize(){
+		$this->assign('tabid', "member");
+	}
+	
+	public function index() {
+		$m = D('M/SnappedUp');
+		$data = $m->GetMostSnappedUpCats();
+//		echo dump($data);
+		
+		$CName	=$data["CName"];
+ 		$this->assign('CName', $CName);
+		$SUCatsId=(int)$data["SUCatsId"];
+ 		//活动标题
+ 		$Activitys=$m->GetActivity($SUCatsId);
+ 		$this->assign('Activitys', $Activitys);
+		//主页商品
+		$s=$m->GetGoodsTop($SUCatsId);
+		$this->assign('goods', $s);
+		
+ 
+		$this->display();
+	}
+	
+	public function queryActivityGoods() {
+		$m = D('M/SnappedUp');
+		$data = $m->queryActivityGoods();
+		$this->ajaxReturn($data, 'JSON');
+	}	
+ 	
+ 	public function detail() {
+ 		$goodsid=I("id");
+ 		// 商品详情
+	 
+		$m = D('M/SnappedUp');
+		$data = $m->detail();
+		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
+		$data['buyinfo'] = htmlspecialchars_decode(html_entity_decode($data['buyinfo']));
+		$limituseshopId=$data['limituseshopId'];
+		$this->assign('data', $data);
+		$this->assign('title', $data['goodsName']);
+//		  echo dump($data);
+		 //商家信息
+		 $mshop = D('M/Shops');
+		$dataShop = $mshop->detail($limituseshopId);
+		$this->assign('dataShop', $dataShop);
+		$this->assign('shopName', $dataShop['shopName']);
+		
+	
+ 		$this->display();
+	}
+	
+}

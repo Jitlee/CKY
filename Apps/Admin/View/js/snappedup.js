@@ -267,6 +267,7 @@ function editGoods(menuId){
 	   params.xiangou = $('#xiangou').val();				//限购
 	   params.ticketId = $('#ticketId').val();				//卡券
 	   params.limituseshopId = $('#limituseshopId').val();	//商家
+	   params.buyinfo = $('#buyinfo').val();				//购买需知
 	   
 //	   params.attrCatId = $('#attrCatId').val();
 	   

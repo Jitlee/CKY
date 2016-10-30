@@ -107,7 +107,7 @@ $(function () {
 	   
 	   KindEditor.ready(function(K) {
 			editor1 = K.create('textarea[name="goodsDesc"]', {
-				height:'250px',
+				height:'200px',
 				width:"800px",
 				allowFileManager : false,
 				allowImageUpload : true,
@@ -123,6 +123,27 @@ $(function () {
 				afterBlur: function(){ this.sync(); }
 			});
 		});
+		
+		KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="buyinfo"]', {
+				height:'200px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : false,
+				items:[
+				         
+				        'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat',  
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline',  'removeformat', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
+		
+		window.editor = K.create('#editor_id');
+
 	   <if condition="$object['goodsId'] !=0 ">
 	   getCatListForEdit("goodsCatId2",{$object.goodsCatId1},0,{$object.goodsCatId2});	   
 	   getShopCatListForEdit({$object.shopCatId1},{$object.shopCatId2});
@@ -244,7 +265,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              </td>
            </tr>
            <tr>
-             <th width='120'>抢购数量<font color='red'>*</font>：</th>
+             <th width='120'>商品数量<font color='red'>*</font>：</th>
              <td>
              		<input type='text' id='goodsStock' name='goodsStock' class="form-control rtc-ipt" value='{$object.goodsStock}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
              </td>
@@ -336,6 +357,12 @@ var filetypes = ["gif","jpg","png","jpeg"];
              </td>
            </tr>
         
+           <tr>
+             <th width='120'>购买需知<font color='red'>*</font>：</th>
+             <td colspan='3'>
+             <textarea rows="2" cols="60" id='buyinfo' name='buyinfo'>{$object.buyinfo}</textarea>
+             </td>
+           </tr>
            <tr>
              <th width='120'>商品描述<font color='red'>*</font>：</th>
              <td colspan='3'>

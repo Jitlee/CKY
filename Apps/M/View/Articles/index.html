@@ -136,7 +136,7 @@
 								 	<!--end ad-->
 									<ul class="mui-table-view">
 										<foreach name="artirecommend" item="item">
-	        								<li class="mui-table-view-cell mui-media">
+	        								<li class="mui-table-view-cell mui-media" id="articleId{$item.articleId}">
 												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
 													 
 													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
@@ -170,7 +170,8 @@
 								</div>
 							 	<!--end ad-->
 								<ul class="mui-table-view">
-									<foreach name="artirecommend" item="item">
+									<foreach name="artires" item="item">
+										<if condition="$item['catId'] eq 1">
 	        								<li class="mui-table-view-cell mui-media">
 												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
 													 
@@ -181,7 +182,8 @@
 													</div>
 												</a>
 											</li>
-				        				</foreach>									 
+										</if>		
+				        			</foreach>
 								</ul>
 							</div>
 						</div>
@@ -205,10 +207,10 @@
 								</div>
 							 	<!--end ad-->
 								<ul class="mui-table-view">
-									<foreach name="artirecommend" item="item">
+									<foreach name="artires" item="item">
+										<if condition="$item['catId'] eq 2">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
-													 
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -216,7 +218,8 @@
 													</div>
 												</a>
 											</li>
-				        				</foreach>									 
+										</if>		
+				        			</foreach>								 
 								</ul>
 							</div>
 						</div>
@@ -240,10 +243,10 @@
 								</div>
 							 	<!--end ad-->
 								<ul class="mui-table-view">
-									<foreach name="artirecommend" item="item">
+									<foreach name="artires" item="item">
+										<if condition="$item['catId'] eq 3">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
-													 
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -251,7 +254,8 @@
 													</div>
 												</a>
 											</li>
-				        				</foreach>									 
+										</if>		
+				        			</foreach>							 
 								</ul>
 							</div>
 						</div>
@@ -275,10 +279,10 @@
 								</div>
 							 	<!--end ad-->
 								<ul class="mui-table-view">
-									<foreach name="artirecommend" item="item">
+									<foreach name="artires" item="item">
+										<if condition="$item['catId'] eq 4">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
-													 
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -286,7 +290,8 @@
 													</div>
 												</a>
 											</li>
-				        				</foreach>									 
+										</if>		
+				        			</foreach>										 
 								</ul>
 							</div>
 						</div>
@@ -310,10 +315,10 @@
 								</div>
 							 	<!--end ad-->
 								<ul class="mui-table-view">
-									<foreach name="artirecommend" item="item">
-	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
-													 
+									<foreach name="artires" item="item">
+										<if condition="$item['catId'] eq 5">
+	        								<li class="mui-table-view-cell mui-media" id="articleId{$item.articleId}">
+												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -321,7 +326,8 @@
 													</div>
 												</a>
 											</li>
-				        				</foreach>									 
+										</if>		
+				        			</foreach>
 								</ul>
 							</div>
 						</div>
@@ -415,25 +421,53 @@
 									var self = this;
 									setTimeout(function() {
 										var ul = self.element.querySelector('.mui-table-view');
-										ul.appendChild(createFragment(ul, index, 5));
-										self.endPullUpToRefresh();
+										var murl="{:U('queryCatsArticles')}";
+										
+										//最后一个 goodsId
+										var lis=ul.querySelectorAll('li');
+										var length = lis.length;
+										var lastli=lis[lis.length-1];
+//										var newli=lastli.innerHTML;
+										articleId=lastli.id.replace("articleId","");
+										
+										$.getJSON(murl, {pageSize:10,catsid: index,articleId: articleId }, function(list) {
+											if(list)
+											{
+												ul.appendChild(createFragment(ul, null, list));	
+												$(document).imageLazyload({
+													placeholder: '__IMG__/400x200.png'
+												});
+											}
+											self.endPullUpToRefresh();
+		 			    				});
 									}, 1000);
 								}
 							}
 						});
 					});
-					var createFragment = function(ul, index, count, reverse) {
-						var length = ul.querySelectorAll('li').length;
+					var createFragment = function(ul, lastli, list, reverse) {
 						var fragment = document.createDocumentFragment();
+						var count = list.length;
 						var li;
 						for (var i = 0; i < count; i++) {
+							var obj=list[i];
+							var html="<a href='/index.php/M/Articles/detail/id/"+obj.articleId+"'>";
+								html+="		<img class='mui-media-object mui-pull-right' data-lazyload='__WEBROOT__/"+obj.articleImgThumb+"'>";
+								html+="		<div class='mui-media-body'>";
+								html+="			"+obj.articleTitle;
+								html+="			<p>"+obj.createTime+"</p>";
+								html+="		</div>";
+								html+="</a>";
+												 
+											
 							li = document.createElement('li');
-							li.className = 'mui-table-view-cell';
-							li.innerHTML = '第' + (index + 1) + '个选项卡子项-' + (length + (reverse ? (count - i) : (i + 1)));
+							li.className = 'mui-table-view-cell mui-media';
+							li.id = 'articleId'+obj.articleId;
+							li.innerHTML =html;
 							fragment.appendChild(li);
 						}
 						return fragment;
-					};
+					};// end createFragment
 				});
 			
 				$(document).imageLazyload({

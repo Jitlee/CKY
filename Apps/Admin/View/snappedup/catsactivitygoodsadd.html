@@ -33,12 +33,19 @@
 	   $('.chk').each(function(){
 		   if($(this).prop('checked'))
 		   {
-		   		goodsid=$(this).val();
-		   		goodsName=$(this).attr("goodsName");
-		   		parent.selectGoods(goodsid,goodsName);
+		   		var tmpid=$(this).val();
+		   		if(goodsid == ""){
+		   			goodsid=tmpid;
+		   		}
+		   		else
+		   		{
+		   			goodsid=goodsid+','+tmpid;
+		   		}
 		   }
 	   })
-	   if(goodsid==''){Plugins.Tips({title:'信息提示',icon:'error',content:'请选择需要添加到惠生活的商品!',timeout:2000}); return;}		
+	   
+	   if(goodsid==''){Plugins.Tips({title:'信息提示',icon:'error',content:'请选择需要添加的商品!',timeout:2000}); return;}
+	   parent.selectGoods(goodsid);
    }  
    $(document).ready(function(){
 	   $("#btnaddGoods").click(function(e){
@@ -81,7 +88,7 @@
            <tbody>
             <volist name="Page['root']" id="vo" key='i'>
 	             <tr>
-		               <td align="center"><input type="radio"' class='chk' name='goodids' value='{$vo['goodsId']}' goodsName="{$vo['goodsName']}"/></td>
+		               <td align="center"><input type="checkbox" class='chk' name='goodids' value='{$vo['goodsId']}'/></td>
 		               <td>{$vo['goodsName']}</td>
 		               <td>{$vo['goodsSn']}&nbsp;</td>
 		               <td>{$vo['shopPrice']}&nbsp;</td>

@@ -246,8 +246,8 @@ class SnappedUpAction extends BaseAction{
 	public function catsactivitygoodslist(){
 		$this->isLogin(); 
 		
-		$m = D('Admin/SnappedUp');		 
-//  	$page = $m->queryHistoryByPage();
+		$m = D('Admin/SnappedupCatsActivityGoods');		 
+    	$page = $m->queryByPageGoods();
 		$SUCatsActivityId=I("id");
 
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
@@ -264,13 +264,21 @@ class SnappedUpAction extends BaseAction{
 		$SUCatsActivityId=I("id");
 		
 		$m = D('Admin/SnappedupCatsActivityGoods');		 
-//  	$page = $m->queryHistoryByPage();
+    	$page = $m->queryByPageForActivity();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);// 实例化分页类 传入总记录数和每页显示的记录数
     	$page['pager'] = $pager->show();
     	$this->assign('Page',$page); 
         
    		$this->display('snappedup/catsactivitygoodsadd');
 	}
- 
+	
+	 public function goodsadd(){
+	 	$this->isLogin();
+		$m = D('Admin/SnappedupCatsActivityGoods');
+    	$rs = array('status'=>-1);    	 
+    	$rs = $m->addGoods();    	 
+    	$this->ajaxReturn($rs);
+	 }
+ 	
 	
 }

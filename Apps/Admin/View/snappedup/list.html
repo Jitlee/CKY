@@ -178,14 +178,7 @@
        </div>
        </form>
        <div class='rtc-body'>
-        <!--<div class='rtc-tbar'> 
-        <php>if(in_array('splb_04',$RTC_STAFF['grant'])){</php>
-        <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchBest(1)'>设置精品</button>
-        <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchBest(0)'>取消精品</button>
-        <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchRecom(1)'>设置推荐</button>
-        <button type="button" class="btn btn-primary glyphicon" onclick='javascript:batchRecom(0)'>取消推荐</button>
-        <php>}</php>  
-        </div>-->
+         
         <table class="table table-hover table-striped table-bordered rtc-list">
            <thead>
              <tr>
@@ -200,14 +193,9 @@
                <th width='25'>禁售</th>
                
                
-               <th width='40'>最大期数</th>
-               <th width='40'>当前期数</th>
-               <th width='40'>总需份数</th>               
-               <th width='40'>剩余数</th>
-               
-               
-               <th width='40'>即时揭晓</th>
-               
+               <th width='40'>限购类型</th>
+               <th width='40'>抢购数量</th>
+               <th width='40'>商品数量</th>
               <!-- <th width='45'>销量</th>-->
                <th width='80'>操作</th>
              </tr>
@@ -230,15 +218,18 @@
 	               	<if condition="$vo['goodsStatus']==0 ">
 	               		<span class="btn btn-danger glyphicon ">禁售</span>&nbsp;
 	               </if>
+	               		
+						
                </td>
-               <td>{$vo['maxqishu']}&nbsp;</td>
-               <td>{$vo['qishu']}&nbsp;</td>
-               <td>{$vo['zongrenshu']}&nbsp;</td>
-               <td>{$vo['shengyurenshu']}&nbsp;</td>
                <td>
-               		<if condition="$vo['jishijiexiao']==0 ">不参与<else/><span class='label btn-danger glyphicon glyphicon-pencil'>{$vo['jishijiexiao']}小时</span></if>
+           			<if condition="$vo['xiangoutype'] == 0">不参与</if>
+					<if condition="$vo['xiangoutype'] == 1">仅参与一次</if>
+					<if condition="$vo['xiangoutype'] == 2">每天一次</if>
+					<if condition="$vo['xiangoutype'] == 3">每周</if>
+					<if condition="$vo['xiangoutype'] == 4">每月</if>               	
                </td>
-               <!--<td>{$vo['saleCount']}</td>-->
+               <td>{$vo['xiangou']}&nbsp;</td>
+               <td>{$vo['goodsStock']}&nbsp;</td>               
                <td>
                	<if condition="($vo['SnappedUpStatus'] eq 1) or ($vo['SnappedUpStatus'] eq 0)">
                		<a class="btn btn-primary glyphicon" href='{:U("Admin/SnappedUp/toEdit",array("id"=>$vo["goodsId"]))}'>编辑</a>
@@ -249,9 +240,7 @@
 	               </if>
                <php>}</php>
                
-               	<if condition="($vo['qishu'] gt  1) or (($vo['SnappedUpStatus'] eq  3) and  ($vo['qishu'] eq  1)) ">
-           			<a class="btn btn-primary glyphicon" href='{:U("Admin/SnappedUp/history",array("goodsId"=>$vo["goodsId"]))}'>查看往期</a>
-           		</if>               
+                            
                </td>
              </tr>
              </volist>

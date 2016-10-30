@@ -56,6 +56,10 @@ class ArticlesAction extends BaseAction {
 		$artirecommend = $adarti->queryRecommend();
 		$this->assign('artirecommend', $artirecommend);
 		
+		//其它分类新闻
+		$artires = $adarti->GetArticlesTop();
+		$this->assign('artires', $artires);
+		
 		//查询分类
 		$cates = $adarti->queryCats();
 		$this->assign('cates', $cates);
@@ -73,4 +77,11 @@ class ArticlesAction extends BaseAction {
 	 	$this->assign('title', "资讯");
 		$this->display();
 	 }
+	 
+	 public function queryCatsArticles() {
+		$m = D('M/Articles');
+		$data = $m->queryCatsArticles();
+		$this->ajaxReturn($data, 'JSON');
+	}	
+	  
 }

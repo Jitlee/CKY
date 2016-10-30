@@ -33,7 +33,7 @@
 	   Plugins.confirm({title:'信息提示',content:'您确定要删除该活动商品吗?',okText:'确定',cancelText:'取消',okFun:function(){
 		   Plugins.closeWindow();
 		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
-		   $.post("{:U('Admin/SnappedUp/lifeGoodsDel')}",{id:id},function(data,textStatus){
+		   $.post("{:U('Admin/SnappedUp/activityGoodsDel')}",{id:id},function(data,textStatus){
 					var json = RTC.toJson(data);
 					if(json.status=='1'){
 						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
@@ -70,11 +70,27 @@
 	{
 	  	layer.close(layerindex); 
 	}
-	function selectGoods(id,name)
+	function selectGoods(ids)
 	{ 	 
-		$("#goodsid").val(id);
-		$("#goodsname").val(name);
-		layer.close(layerindex); 
+ 	 
+ 	  var params = {};
+	   params.goodsIds = ids;
+	   params.SUCatsActivityId = {$SUCatsActivityId};	   
+	   layer.close(layerindex);
+	   
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/SnappedUp/goodsadd')}",params,function(data,textStatus){
+			var json = RTC.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href=location.href;
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+	   });
+		 
 	} 
 	  
    $(document).ready(function(){
@@ -95,13 +111,13 @@
 
    </script>
    <body class='rtc-page'>	 
-    <form method='post' action='{:U("Admin/SnappedUp/lifeGoods")}' autocomplete="off">
-    	<input type='hidden' id='lifeid' name='lifeid' value='{$lifeid}'/>	 
+    <form method='post' action='{:U("Admin/SnappedUp/catsactivitygoodslist")}' autocomplete="off">
+    	<input type='hidden' id='id' name='id' value='{$SUCatsActivityId}'/>	 
 	   <div class='rtc-tbar'>            
 		       所属商家：<input type='text' id='shopName' name='shopName' value='{$shopName}'/>            
 		       商品：<input type='text' id='goodsName' name='goodsName' value='{$goodsName}'/>
 		   <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>
-		   <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/SnappedUp/lifeIndex')}"'>返&nbsp;回</button>
+		   <button type="button" class="btn btn-primary" onclick='javascript:location.href="{:U('Admin/SnappedUp/catsactivityindex')}"'>返&nbsp;回</button>
 		   
 		   <a class="btn btn-success glyphicon glyphicon-plus" id="btnselect" style='float:right'>添加</a>
        </div>
@@ -113,7 +129,7 @@
              <tr>
                <th width='2'><input type='checkbox' name='chk' onclick='javascript:checkAll(this.checked)'/></th>
                <th>商品名称</th>
-                <th>惠生标题</th>
+                <th>副标题</th>
                 <th width='50'>排序</th>
                <th width='100'>商品编号</th>
                <th width='80'>价格</th>
@@ -133,7 +149,7 @@
                		<img src='__ROOT__/{$vo['goodsThums']}' width='50'/>
                		{$vo['goodsName']}
                 </td>
-               <td> {$vo['lifetitle']}  </td>
+               <td> {$vo['subtitle']}  </td>
                <td>{$vo['sort']}&nbsp;</td>
                <td>{$vo['goodsSn']}&nbsp;</td>
                <td>{$vo['shopPrice']}&nbsp;</td> 
@@ -142,7 +158,6 @@
                 
                <td>{$vo['saleCount']}</td>
                <td>
-               		<a class="btn btn-default glyphicon glyphicon-pencil" href="{:U('Admin/SnappedUp/lifegoodsToAdd',array('id'=>$vo['lifegoodsid']))}">修改</a>&nbsp;
                		<a class="btn btn-default glyphicon glyphicon-trash" href="javascript:del({$vo['lifegoodsid']})"">刪除</a>
                </td>
              </tr>

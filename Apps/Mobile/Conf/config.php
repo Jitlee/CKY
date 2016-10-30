@@ -3,22 +3,22 @@ return array(
 	    'SESSION_PREFIX'			=> 'user_', 	// SESSION前缀配置
 		'COOKIE_PREFIX'			=> 'user_', 		// COOKIE前缀配置
 		'LAYOUT_ON'				=>	true, 					// 启用布局
-		'scorerate'				=>50,
+		'scorerate'				=> 50,
 		'LOG_RECORD' 			=> true, 					// 开启日志记录
 		'LOG_LEVEL'  			=>'EMERG,ALERT,CRIT,ERR',  // 只记录EMERG ALERT CRIT ERR 错误
 		'URL_PARAMS_BIND_TYPE'	=> 1,
 		
 		'TMPL_PARSE_STRING' 		=> array( // 模板相关的配置
 			'__JQ__'				=> '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js',
-			'__KO__'				=> '/Apps/M/View/default/js/knockout-3.4.0.js',
+			'__KO__'				=> '/Apps/Mobile/View/default/libs/ko/knockout-3.4.0.js',
 
-			'__FONT__'				=> '//at.alicdn.com/t/font_8h1k2yjn8o6zjjor.css',
-			'__IMG__'				=> '/Apps/M/View/default/images',
+			'__FONT__'				=> '//at.alicdn.com/t/font_a2jih16qwvvg3nmi.css',
+			'__IMG__'				=> '/Apps/Mobile/View/default/images',
 
-			'__JS__'				=> '/Apps/M/View/default/js',
-			'__CSS__'				=> '/Apps/M/View/default/css',
+			'__JS__'				=> '/Apps/Mobile/View/default/js',
+			'__CSS__'				=> '/Apps/Mobile/View/default/css',
 			'__ROOTCSS__'			=> __ROOT__.'/Public/css',
-			'__CSS__'				=> '/Apps/M/View/default/css',
+			'__LIBS__'				=> '/Apps/Mobile/View/default/libs',
 			'__WEBROOT__'				=> 'http://192.168.3.6:505',
 		),
 		'alipay_config'=>array(
@@ -28,7 +28,7 @@ return array(
 			'key'			=>'b89bnds1e4bvme8a65go5uyz6h52xnrt',//这里是你在成功申请支付宝接口后获取到的Key
 			'sign_type'		=>strtoupper('MD5'),
 			'input_charset'	=> strtolower('utf-8'),
-			'cacert'		=> getcwd().'\\cacert.pem',
+			'cacert'			=> getcwd().'\\cacert.pem',
 			'transport'		=> 'http',
 			'payment_type'	=>1,
 			'service'		=>"alipay.wap.create.direct.pay.by.user",	

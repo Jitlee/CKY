@@ -1,0 +1,28 @@
+<!-- Slider main container -->
+<div class="swiper-container" id="[id]">
+    <div class="swiper-wrapper" data-bind="foreach: $data">
+		<div class="swiper-slide">
+			<a data-bind="attr: { href: adURL }, style: { backgroundImage: 'url(/' + adFileThumb + ')' }" class="swiper-img"></a>
+		</div>
+    </div>
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+<script>
+	seajs.use(["swiper.css", "swiper"], function() {
+		$.getJSON("{:U('Api/ads/[type]','','')}", function(data) {
+			if(data.code == 200 && data.rst && data.rst.length > 0) {
+				var swiperDiv = document.getElementById("[id]");
+				ko.applyBindings(data.rst, swiperDiv);
+				
+				var mySwiper = new Swiper ('#[id]', {
+			    		// Optional parameters
+			    		direction: 'horizontal',
+			    		pagination: '.swiper-pagination',
+			    		autoplay: 3000,
+			      	loop: true
+			   	});
+			}
+		});
+	});
+</script>

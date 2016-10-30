@@ -1,0 +1,448 @@
+/** 首页顶部 **/
+header.mui-bar {
+	background-color: rgb(233,44,54);	
+}
+
+header.mui-bar>a.mui-btn.mui-btn-link {
+	color: #fff;
+}
+
+header i.iconfont {
+	font-size: 24px;
+}
+
+/** 搜索 **/
+div.header-search {
+	position: absolute;
+	left: 40px;
+	right: 95px;
+	top: 5px;
+	background-color: #fff;
+	height: 34px;
+	line-height: 34px;
+	border-radius: 34px;
+	padding-left: 10px;
+	padding-right: 17px;
+}
+
+@media only screen and (min-width: 375px) {
+	div.header-search {
+		left: 90px;
+		right: 90px;
+	}
+}
+
+div.header-search i.iconfont {
+	display: table-cell;
+	width: 34px;
+	text-align: center;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	font-size: 20px;
+	color: #e0e0e0;
+}
+
+div.header-search input[type=search] {
+	background-color:#fff;
+	border:0;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	padding-left: 25px;
+	font-size: 13px;
+	height: initial;
+}
+
+div.header-search input[type=search]::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+/** 签到 **/
+header a.check-in.mui-btn.mui-btn-link {
+	font-size: 14px;
+	background-color: rgb(253,76,84);
+	border-radius: 30px 0 0 30px;
+	line-height: 30px;
+	padding-left: 10px;
+	margin-top: 7px;
+    margin-right: -10px;
+}
+
+header a.check-in i.iconfont {
+	color: rgb(231,189,0);
+	font-size: 16px;
+}
+
+/** 广告 **/
+.swiper-img {
+	display: block;
+	margin-bottom: 0px;
+	height:38vw;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+/** 横向导航按钮 **/
+div.nav-horizontal-buttons {
+	margin-bottom: 10px;
+	padding-top: 10px;
+	background-color:#fff;
+}
+div.nav-horizontal-buttons a.mui-table-cell {
+	font-size: 12px;
+	color: #333;
+	text-align: center;
+	white-space: nowrap;
+	word-break: keep-all;
+}
+
+div.nav-horizontal-buttons a.mui-table-cell i.iconfont {
+	font-size: 28px;
+	background-color: red;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	border-radius: 40px;
+	display: block;
+	margin: auto;
+	color: #fff;
+}
+
+div.nav-horizontal-buttons a.mui-table-cell.nav-horizontal-button1 i.iconfont {
+	background-color: rgb(251,59,80);
+}
+
+div.nav-horizontal-buttons a.mui-table-cell.nav-horizontal-button2 i.iconfont {
+	background-color: rgb(248,158,0);
+}
+
+div.nav-horizontal-buttons a.mui-table-cell.nav-horizontal-button3 i.iconfont {
+	background-color: rgb(221,0,95);
+}
+
+div.nav-horizontal-buttons a.mui-table-cell.nav-horizontal-button4 i.iconfont {
+	background-color: rgb(115,209,37);
+}
+
+div.nav-horizontal-buttons a.mui-table-cell.nav-horizontal-button5 i.iconfont {
+	background-color: rgb(190,217,0);
+}
+
+/** 格子导航按钮 **/
+div.nav-grid-buttons {
+	background-color: #fff;
+}
+
+div.nav-grid-buttons a.mui-table-cell {
+	font-size: 12px;
+	color: #666;
+	text-align: center;
+	white-space: nowrap;
+	word-break: keep-all;
+}
+
+div.nav-grid-buttons a.mui-table-cell i.iconfont {
+	font-size: 28px;
+	height: 40px;
+	line-height: 40px;
+	width: 40px;
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button1 {
+	border-right: solid 1px #efeff4;
+	border-bottom: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button2 {
+	border-right: solid 1px #efeff4;
+	border-bottom: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button3 {
+	border-right: solid 1px #efeff4;
+	border-bottom: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button4 {
+	border-right: solid 1px #efeff4;
+	border-bottom: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button5 {
+	border-bottom: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button5 {
+	border-right: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button6 {
+	border-right: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button7 {
+	border-right: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button8 {
+	border-right: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button9 {
+	border-right: solid 1px #efeff4;
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button1 i.iconfont {
+	color: rgb(248,0,49);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button2 i.iconfont {
+	color: rgb(237,0,46);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button3 i.iconfont {
+	color: rgb(0,184,118);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button4 i.iconfont {
+	color: rgb(249,0,31);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button5 i.iconfont {
+	color: rgb(250,148,0);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button6 i.iconfont {
+	color: rgb(0,166,230);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button7 i.iconfont {
+	color: rgb(255,0,144);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button8 i.iconfont {
+	color: rgb(200,61,171);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button9 i.iconfont {
+	color: rgb(0,193,140);
+}
+
+div.nav-grid-buttons a.mui-table-cell.nav-grid-button10 i.iconfont {
+	color: rgb(45,173,237);
+}
+
+/** 首页新闻卡片 **/
+ul.news-card {
+	height: 291px;
+	overflow: hidden;
+}
+
+ul.news-card li.news-top-cell {
+	background-color: #efeff4;
+	color: #666;
+}
+
+ul.news-card li.news-top-cell:after {
+	display: none;
+}
+
+ul.news-card li.news-more-cell {
+	color: rgb(0, 163,204);
+	font-style: italic;
+	font-weight: bold;
+}
+
+ul.news-card li.news-more-cell:after {
+	left: 0px;
+}
+
+ul.news-card li.news-more-cell h5.mui-pull-right {
+	color: rgb(0, 163,204);
+	margin-right: 20px;
+	font-weight: bold;
+}
+
+ul.news-card li.news-cell>a {
+	padding-left: 90px;
+}
+
+ul.news-card li.news-cell>a div.media-image {
+	position: absolute;
+	left: 10px;
+    top: 10px;
+    height: 44px;
+    width: 70px;
+	background-color: rgb(235,242,252);
+	background-size: cover;
+	background-position: center;
+}
+
+/** 首页秒杀擦片 **/
+div.miaosha-card {
+	margin-top: 10px;	
+}
+
+div.miaosha-card>div.mui-table-view:after {
+	display:none;
+}
+
+div.miaosha-card div.nav-cell {
+	color: red;
+	font-weight: bold;
+	font-style: italic;
+	font-size: 20px;
+	padding-top: 8px;
+    padding-bottom: 5px;
+    vertical-align: middle;
+}
+
+#groupCard div.nav-cell {
+	color: rgb(250,155,0);
+}
+
+div.miaosha-card div.nav-cell h5.state {
+	color: rgb(250,155,0);
+	display: inline;
+	font-weight: normal;
+	font-style: normal;
+}
+
+div.miaosha-card div.nav-cell h5.mui-pull-right {
+	color: red;
+	font-style: normal;
+}
+
+div.miaosha-card div.horizontal-scroll {
+	overflow-x: scroll;
+	background-color: #fff;
+}
+
+div.miaosha-card div.horizontal-scroll ul.mui-table {
+	margin: 0px;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-right: 10px;
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell {
+	width: 28vw;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	position: relative;
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell div.media-image {
+	margin: auto;
+	background-size: cover;
+	background-position: center;
+	height: 80px;
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell a {
+	font-size: 16px;
+	color: #333;
+	font-weight: bold;
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell r {
+	font-size: 16px;
+	color: rgb(210, 0, 0);
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell del {
+	color: #666;
+	font-size: 10px;
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell>a>h5 {
+	font-size: 10px;
+}
+
+div.miaosha-card div.horizontal-scroll li.mui-table-cell h5 .sale-count {
+	color: rgb(250, 150, 0);
+}
+
+/** 最新团购 **/
+div.neweast-card h4 {
+	line-height: 40px;
+	color: #ccc;
+	font-family: sans-serif;
+}
+
+div.neweast-card ul.table-wrap {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+div.neweast-card ul.table-wrap:after {
+	content: "";
+	display: block;
+	height: 1px;
+	clear: both;
+}
+
+div.neweast-card li.table-wrap-cell {
+	width: 50vw;
+	margin: 0px;
+	display: block;
+	float: left;
+	padding-bottom: 10px;
+}
+
+div.neweast-card li.table-wrap-cell:nth-child(odd) {
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+div.neweast-card li.table-wrap-cell:nth-child(even) {
+	padding-left: 5px;
+	padding-right: 10px;
+}
+
+div.neweast-card li.table-wrap-cell div.media-image {
+	margin: auto;
+	background-size: cover;
+	background-position: center;
+	height: 80px;
+}
+
+div.neweast-card li.table-wrap-cell a {
+	display: block;
+	font-size: 16px;
+	color: #333;
+	font-weight: bold;
+	padding: 10px;
+	background-color: #fff;
+}
+
+div.neweast-card li.table-wrap-cell r {
+	font-size: 16px;
+	color: rgb(210, 0, 0);
+}
+
+div.neweast-card li.table-wrap-cell del {
+	color: #666;
+	font-size: 10px;
+}
+
+div.neweast-card li.table-wrap-cell div.mui-table-cell {
+	white-space: nowrap;
+	word-break: keep-all;
+}
+
+div.neweast-card li.table-wrap-cell div.mui-table-cell h5 {
+	font-size: 10px;
+}
+
+div.neweast-card li.table-wrap-cell div.mui-table-cell h5 .sale-count {
+	color: rgb(250, 150, 0);
+}

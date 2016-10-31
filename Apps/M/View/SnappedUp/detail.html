@@ -1,6 +1,30 @@
 <link rel="stylesheet" href="__CSS__/swiper.min.css" />
 <link rel="stylesheet" href="__CSS__/{:autoVer('goods-detail.css')}" />
 <link rel="stylesheet" href="__CSS__/{:autoVer('goods-picker.css')}" />
+<style>
+	.ads-title {
+		position: absolute;
+	    left: 15px;
+	    bottom: 5px;
+	    right: 5px;
+	    z-index: 99;
+	    color: #fff;
+	    text-shadow: 1px 1px 1px #000;
+	}
+	
+	.title-cell {
+		padding-top: 5px;
+		padding-bottom: 5px;
+		color: #999;
+	}
+	
+	.phone-cell>a.mui-navigate-right::after {
+		content: "\e606";
+		font-family: 'iconfont';
+		color: #f20;
+		font-size: 24px;
+	}
+</style>
 <script src="__JS__/swiper.jquery.min.js"></script>
 <script type="text/javascript" src="__JS__/mui.min.js"></script>
 <script type="text/javascript" src="__KO__"></script>
@@ -25,16 +49,14 @@
 	    <div class="swiper-wrapper">
     		<!-- ko foreach: $data -->
 			<div class="swiper-slide">
-				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/'+ goodsImg +')' }"></a>
+				<a class="swiper-img" data-bind="style: { backgroundImage: 'url(/Upload/ads/2016-10/581580f74c808.jpg)' }"></a>
 			</div>
 			<!-- /ko -->
 	    </div>
 	    <!-- If we need pagination -->
-	    <div class="swiper-pagination">
-	    	
-	    </div>
+	    <div class="swiper-pagination"></div>
+		<div class="mui-ellipsis ads-title">{$data.goodsName}</div>
 	</div>
-	<div style="padding-left: 15px;" class="mui-ellipsis">{$data.goodsName}</div>
 	<div class="cky-goods-bar" style="padding-left: 15px;">
 		<span class="font-red">¥ {$data.shopPrice}</span> <span class="cky-money-old">￥{$data.marketPrice}</span>
 		<button ctype="direct" class="cky-right mui-btn mui-btn-negative">立即购买</button>
@@ -45,20 +67,26 @@
         	评价：{:getScore($appraise["avgtotal"]["avgscore"])}
        </a>
 	</div>
-	<div class="mui-table-view-cell">
+	</div>
+	<div class="mui-table-view" style="margin-top: 10px">
+	<div class="mui-table-view-cell title-cell">
 		<span>商家信息</span>
-		<a class="mui-navigate-right">
+	</div>
+	<div class="mui-table-view-cell phone-cell">
+		<a class="mui-navigate-right" href="tel: {$dataShop.shopTel}">
 			{$shopName}- {$dataShop.shopTel}
 		</a>
 	</div>
 	
 	<p class="font15 font-gray" style="padding-left: 15px;">{$data.saleCount}人已抢购</p>
-		<div class="mui-table-view-cell">
-			<span>购买须知</span>
-			<div>
-				{$data.buyinfo}
-			</div>
-		</div>
+	</div>
+	<div class="mui-table-view" style="margin-top: 10px">
+	<div class="mui-table-view-cell title-cell">
+		<span>购买须知</span>
+	</div>
+	<div class="mui-table-view-cell">
+		{$data.buyinfo}
+	</div>
 	</div>
 </div>
 

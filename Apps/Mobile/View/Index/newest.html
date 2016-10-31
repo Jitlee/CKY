@@ -25,7 +25,7 @@
 		$.getJSON("{:U('/Api/Group/newest', '', '')}", function(data) {
 			if(data && data.code == 200 && data.rst) {
 				var neweastCard = document.getElementById("neweastCard");
-				ko.applyBindings(data.rst, neweastCard);
+//				ko.applyBindings(data.rst, neweastCard);
 			}
 		});
 	});

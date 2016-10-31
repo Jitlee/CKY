@@ -1,11 +1,13 @@
 <ul class="mui-table-view news-card" id="newsCard">
 	<li class="mui-table-view-cell news-top-cell">
-		<a class="mui-navigate-right" data-bind="attr: { href: '{:U('news', '', '')}?id=' + top.id }">
+		<!-- ko foreach: notify -->
+		<a class="mui-navigate-right" data-bind="attr: { href: '{:U('M/Articles/detail', '', '')}?id=' + articleId }">
 			<p class="mui-ellipsis">
 				<i class="iconfont icon-shengyin"></i>
-				<span data-bind="text: top.title"></span>
+				<span data-bind="text: articleTitle"></span>
 			</p>
 		</a>
+		<!-- /ko -->
 	</li>
 	<li class="mui-table-view-cell news-more-cell">
 		<a class="mui-navigate-right">
@@ -13,23 +15,23 @@
 			<h5 class="mui-pull-right">更多内容</h5>
 		</a>
 	</li>
-	<!-- ko foreach: list -->
+	<!-- ko foreach: artires -->
 	<li class="mui-table-view-cell news-cell">
-		<a data-bind="attr: { href: '{:U('news', '', '')}?id=' + id }">
-			<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + thumb + ')' }"></div>
-			<p class="mui-ellipsis" data-bind="text: title">省工商联高级资讯委员会主任、原副主席刘某某视察相关工作</p>
-			<h5 data-bind="text: date"></h5>
+		<a data-bind="attr: { href: '{:U('M/Articles/detail', '', '')}?id=' + articleId }">
+			<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + articleImgThumb + ')' }"></div>
+			<p class="mui-ellipsis" data-bind="text: articleTitle">省工商联高级资讯委员会主任、原副主席刘某某视察相关工作</p>
+			<h5 data-bind="text: createTime"></h5>
 		</a>
 	</li>
 	<!-- /ko -->
 </ul>
 <script>
 	seajs.use([], function() {
-		$.getJSON("{:U('/Api/news/', '', '')}", function(data) {
-			if(data && data.code == 200 && data.rst) {
+		$.getJSON("{:U('M/Articles/indexArticles', '', '')}", function(data) {
+//			if(data && data.code == 200 && data.rst) {
 				var newsCard = document.getElementById("newsCard");
-				ko.applyBindings(data.rst, newsCard);
-			}
+				ko.applyBindings(data, newsCard);
+//			}
 		});
 	});
 </script>

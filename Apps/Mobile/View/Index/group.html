@@ -10,10 +10,10 @@
 		<ul class="mui-table" data-bind="foreach: $data">
 			<li class="mui-table-cell">
 				<a>
-					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + thumb + ')' }"></div>
-					<div class="mui-ellipsis" data-bind="text: title"></div>
-					<r data-bind="text: '¥ ' + price"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
-					<h5>已售 <span class="sale-count" data-bind="text: sale"></span></h5>
+					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+					<div class="mui-ellipsis" data-bind="text: goodsName"></div>
+					<r data-bind="text: '¥ ' + groupPrice"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
+					<h5>已售 <span class="sale-count" data-bind="text: groupNumbers"></span></h5>
 				</a>
 			</li>
 		</ul>
@@ -21,7 +21,7 @@
 </div>
 <script>
 	seajs.use([], function() {
-		$.getJSON("{:U('/Api/miaosha/', '', '')}", function(data) {
+		$.getJSON("{:U('/Api/Group/newest', '', '')}", function(data) {
 			if(data && data.code == 200 && data.rst) {
 				var groupCard = document.getElementById("groupCard");
 				ko.applyBindings(data.rst, groupCard);

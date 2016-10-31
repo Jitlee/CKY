@@ -35,9 +35,9 @@
 	<h1 id="title" class="mui-title">
 		商品详情
 	</h1>
-	<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
+	<!--<a class="mui-btn mui-btn-link cky-cart-btn" href="{:U('Cart/index')}">
 		<i class="cky-cart iconfont icon-gouwuche font24"><span class="cky-cart-count cky-hidden"></span></i>
-	</a>
+	</a>-->
 	<button class="mui-btn mui-btn-link mui-pull-right">
 		<i class="cky-fav iconfont icon-favor font24" fav-target-id="{$data.goodsId}" fav-target-type="0" fav-type="1"></i>
 	</button>
@@ -69,16 +69,16 @@
 	</div>
 	</div>
 	<div class="mui-table-view" style="margin-top: 10px">
-	<div class="mui-table-view-cell title-cell">
-		<span>商家信息</span>
-	</div>
-	<div class="mui-table-view-cell phone-cell">
-		<a class="mui-navigate-right" href="tel: {$dataShop.shopTel}">
-			{$shopName}- {$dataShop.shopTel}
-		</a>
-	</div>
+		<div class="mui-table-view-cell title-cell">
+			<span>商家信息</span>
+		</div>
+		<div class="mui-table-view-cell phone-cell">
+			<a class="mui-navigate-right" href="tel: {$dataShop.shopTel}">
+				{$shopName}- {$dataShop.shopTel}
+			</a>
+		</div>
 	
-	<p class="font15 font-gray" style="padding-left: 15px;">{$data.saleCount}人已抢购</p>
+	 
 	</div>
 	<div class="mui-table-view" style="margin-top: 10px">
 	<div class="mui-table-view-cell title-cell">

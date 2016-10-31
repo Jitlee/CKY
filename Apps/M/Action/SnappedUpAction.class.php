@@ -13,8 +13,7 @@ class SnappedUpAction extends BaseAction {
 	public function index() {
 		$m = D('M/SnappedUp');
 		$data = $m->GetMostSnappedUpCats();
-//		echo dump($data);
-		
+
 		$CName	=$data["CName"];
  		$this->assign('CName', $CName);
 		$SUCatsId=(int)$data["SUCatsId"];
@@ -24,16 +23,36 @@ class SnappedUpAction extends BaseAction {
 		//主页商品
 		$s=$m->GetGoodsTop($SUCatsId);
 		$this->assign('goods', $s);
-		
- 
+		 
 		$this->display();
+	}
+	
+	/***
+	 * 主页-秒杀数据获取
+	 * **/
+	public function IndexSnapp() {
+		$m = D('M/SnappedUp');
+		$obj = $m->GetMostSnappedUpCats();		
+		$SUCatsId=(int)$obj["SUCatsId"];
+		$CName	=$obj["CName"];
+		
+		$data = array();
+		$data["SUCatsId"]=$SUCatsId;
+		$data["CName"] =$CName;
+ 		
+		if($SUCatsId > 0)//主页商品
+		{
+			$s=$m->GetGoodsTop($SUCatsId);
+			$data["Goods"]=$s;
+		}
+		$this->ajaxReturn($data, 'JSON');
 	}
 	
 	public function queryActivityGoods() {
 		$m = D('M/SnappedUp');
 		$data = $m->queryActivityGoods();
 		$this->ajaxReturn($data, 'JSON');
-	}	
+	}
  	
  	public function detail() {
  		$goodsid=I("id");

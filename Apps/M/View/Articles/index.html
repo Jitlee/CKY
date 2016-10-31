@@ -137,7 +137,7 @@
 									<ul class="mui-table-view">
 										<foreach name="artirecommend" item="item">
 	        								<li class="mui-table-view-cell mui-media" id="articleId{$item.articleId}">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
+												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">
 													 
 													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
@@ -173,7 +173,7 @@
 									<foreach name="artires" item="item">
 										<if condition="$item['catId'] eq 1">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">
+												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">
 													 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
@@ -210,7 +210,7 @@
 									<foreach name="artires" item="item">
 										<if condition="$item['catId'] eq 2">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
+												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">												 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -246,7 +246,7 @@
 									<foreach name="artires" item="item">
 										<if condition="$item['catId'] eq 3">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
+												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">												 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -282,7 +282,7 @@
 									<foreach name="artires" item="item">
 										<if condition="$item['catId'] eq 4">
 	        								<li class="mui-table-view-cell mui-media">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
+												<a<a href="{:U('detail',"",'')}?id={$item['articleId'] }">
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -318,7 +318,7 @@
 									<foreach name="artires" item="item">
 										<if condition="$item['catId'] eq 5">
 	        								<li class="mui-table-view-cell mui-media" id="articleId{$item.articleId}">
-												<a href="{:U('detail',array('id'=>$item['articleId']),'')}">													 
+												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">													 
 													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
@@ -451,8 +451,8 @@
 						var li;
 						for (var i = 0; i < count; i++) {
 							var obj=list[i];
-							var html="<a href='/index.php/M/Articles/detail/id/"+obj.articleId+"'>";
-								html+="		<img class='mui-media-object mui-pull-right' data-lazyload='__WEBROOT__/"+obj.articleImgThumb+"'>";
+							var html="<a href='/index.php/M/Articles/detail?id="+obj.articleId+"'>";
+								html+="		<img class='mui-media-object mui-pull-right' src='__WEBROOT__/"+obj.articleImgThumb+"'>";
 								html+="		<div class='mui-media-body'>";
 								html+="			"+obj.articleTitle;
 								html+="			<p>"+obj.createTime+"</p>";

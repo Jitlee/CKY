@@ -290,9 +290,9 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                 ),
             );
         $array['button'][1]=array(
-            'type' => 'click',
-            'name' => '免费电影',
-            'key' => 'kj92',
+            'type' => 'view',
+            'name' => '速达农村配送',
+            'url' => "$WebRoot/index.php/M/Deliver/index.html",
         );
 			 
          $array['button'][2]=array(

@@ -24,11 +24,36 @@ class ArticlesModel extends BaseModel {
     }
     
 	public function detail() {
-		$articleId = I('id');
+		$articleId = I('id',0);
+//		echo $articleId;
 		$field = 'articleId, catId,articleTitle,articleContent,isrecommend,clicknum,appraisenum';
 		$data = $this->field($field)->where(array('articleId'=> $articleId))->find();
+		
+//	echo	$this->getLastSql();
 		return $data;
 	}
+	
+	/**
+	 * 相关资讯
+	 * */
+	public function GetArticlesOther($catId,$articleId){
+		$sql=" 
+			SELECT 
+				articleId, catId,articleTitle,articleImg,articleImgThumb,isrecommend 
+			FROM `cky_articles` art
+			WHERE 1=1
+				 and art.isShow = 1
+				 and art.catId=  $catId		
+				 and art.articleId <$articleId
+			ORDER BY art.catId, art.articleId desc
+			LIMIT 0,3
+ 
+		 ";
+
+		$rs = $this->query($sql);
+		return $rs;
+	 }
+	 
     
 	/**
 	  * 获取列表

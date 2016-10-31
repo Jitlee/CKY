@@ -69,11 +69,19 @@ class ArticlesAction extends BaseAction {
 	}
 	
 	 public function detail() {	 	
-	 	$adarti = D('Articles');
+	 	//资讯内容
+	 	$adarti = D('M/Articles');
 	 	$data=$adarti->detail();
 	 	$data['articleContent'] = htmlspecialchars_decode(html_entity_decode($data['articleContent']));
 	 	$this->assign('data', $data);
-	 	
+		
+		//相关资讯		
+		$Articles=$adarti->GetArticlesOther($data["catId"],$data["articleId"]);
+		$artiLength=count($Articles);
+		$this->assign('artiLength', $artiLength);
+//		echo $artiLength;
+		$this->assign('Articles', $Articles);
+		
 	 	$this->assign('title', "资讯");
 		$this->display();
 	 }

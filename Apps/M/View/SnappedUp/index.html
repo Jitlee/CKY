@@ -154,7 +154,7 @@
 					<div class="mui-scroll">
 						<foreach name="Activitys" item="item">
 	        				<a class='mui-control-item <if condition="$item['SUCatsActivityId'] eq 1"> mui-active</if>' href="#itemmobile{$item.SUCatsActivityId}">
-	        					<p>{$item.CADate}</p>
+	        					<p>{$item.CADate|substr=5,5}</p>
 	        					<p>{$item.StartTime}开抢</p> 
 							</a> 
 				        </foreach> 
@@ -177,12 +177,6 @@
 												<if condition="$item['SUCatsActivityId'] eq $ig['SUCatsActivityId']">
 														<a class="cky-table-view-cell" id="goods{$ig.goodsId}" href='{:U('detail')}?id={$ig.goodsId}'}>
 															<div class="cky-table-cell-thumb"  style="background-image: url(/{$ig.goodsThums})">
-																<if condition="$item['goodsStock'] eq '0'">
-																	<div class="cky-sold-out">
-																		<div class="cky-sold-out-title">抢光了</div>
-																		<div class="cky-sold-out-sub">SOLD OUT</div>
-																	</div>
-																</if>
 															</div>
 															<div class="cky-media">
 																<span class="cky-media-name font15 goodsName" style="line-height: 18px;">{$ig.goodsName}</span>
@@ -195,7 +189,13 @@
 																</div>
 																<div class="cky-right">
 																	<span class="cell-button">马上抢</span>
-																	<h5 class="font-red">该商品已经售完</h5>
+																	
+																		<h5 class="font-red">&nbsp;
+																			<if condition="$item['goodsStock'] eq '0'">
+																			该商品已经售完
+																			</if>
+																		</h5>
+																	
 																</div>
 														    </div>
 														</a>
@@ -284,26 +284,50 @@
 							var html="<a class='cky-table-view-cell' href='{:U('detail')}?id="+obj.goodsId+"'}>";
 								html+="							<div class='cky-table-cell-thumb'  style=\"background-image: url(/"+ obj.goodsThums + ")\">";
 								html+="";
-								if(obj.goodsStock==0)
-								{
-									html+="									<div class='cky-sold-out'>";
-									html+="										<div class='cky-sold-out-title'>抢光了</div>";
-									html+="										<div class='cky-sold-out-sub'>SOLD OUT</div>";
-									html+="									</div>";
-								}
+								
+									
+								
 								html+="							</div>";
 								html+="							<div class='cky-media'>";
-								html+="								<span class='cky-media-name font15 goodsName' >"+obj.goodsName+"</span>";
-								html+="								<div class='cky-center cky-media-content cky-ellipsis2 font12 "+obj.goodsName+"'>";
-								html+="									"+obj.goodsSpec;
+																							 
+								html+="								<span class='cky-media-name font15 goodsName' style='line-height: 18px;'>{$ig.goodsName}</span>";
+								html+="								<div class='mui-ellipsis font12 font-red' style='line-height: 12px;margin-bottom: 10px;'>{$ig.goodsSpec}</div>";
+								html+="								<span class='cky-money font16'>￥{$ig.shopPrice}</span>";
+								html+="								<span class='cky-money-old font12'>￥{$ig.marketPrice}</span>";
+								html+="								<div class='progress'>";
+								html+="									<div class='progress-bar' style='width: 50%;'></div>";
+								html+="									<div class='text'>50%</div>";
 								html+="								</div>";
-								html+="								<span class='cky-money'>￥"+obj.shopPrice+"</span>";
-								html+="								<span class='cky-money-old'>￥"+obj.marketPrice+"</span>";
-								html+="								<h5 class='cky-right'>马上抢</h5>";
+								html+="								<div class='cky-right'>";
+								html+="									<span class='cell-button'>马上抢</span>";								
+								html+="										<h5 class='font-red'>&nbsp;";
+																			if(obj.goodsStock==0){
+								html+="											该商品已经售完";
+																			}
+								html+="										</h5>";																	
+								html+="								</div>";
 								html+="						    </div>";
-								html+="						</a>";
+														    
+
+//								html+="								<span class='cky-media-name font15 goodsName' >"+obj.goodsName+"</span>";
+//								html+="								<div class='cky-center cky-media-content cky-ellipsis2 font12 "+obj.goodsName+"'>";
+//								html+="									"+obj.goodsSpec;
+//								html+="								</div>";
+//								html+="								<span class='cky-money'>￥"+obj.shopPrice+"</span>";
+//								html+="								<span class='cky-money-old'>￥"+obj.marketPrice+"</span>";
+//								html+="								<h5 class='cky-right'>马上抢</h5>";
+//								html+="						    </div>";
+//								html+="						</a>";
 							
 							
+							
+								
+								
+								
+
+														 
+														
+														
 							li = document.createElement('li');
 							li.className = 'mui-table-view-cell';
 							li.id = 'goods'+obj.goodsId;

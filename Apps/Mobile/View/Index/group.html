@@ -9,7 +9,7 @@
 	<div class="horizontal-scroll">
 		<ul class="mui-table" data-bind="foreach: $data">
 			<li class="mui-table-cell">
-				<a>
+				<a data-bind="attr: { href: '{:U('M/Group/goods', '', '')}/' + groupGoodsId }">
 					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
 					<div class="mui-ellipsis" data-bind="text: goodsName"></div>
 					<r data-bind="text: '¥ ' + groupPrice"></r> <del data-bind="text: '¥ ' + shopPrice"></del>

@@ -95,7 +95,7 @@ class GoodsGroupModel extends BaseModel {
 		$data["createTime"] = date('Y-m-d H:i:s');
 		 
 		 //抢购ID
-		$snappedupId= newid();
+		$GoodsGroupId= newid();
 		//子表
 		$miaosha = array();
 		$miaosha["snappedupId"] = $snappedupId;

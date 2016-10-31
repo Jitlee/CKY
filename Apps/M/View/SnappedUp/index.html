@@ -126,14 +126,14 @@
 								
 								<div class="mui-scroll">
 									
-									<div style="min-height: 30px;  font-size: 16px; margin-bottom: 5px; background-color: #939393;">距离结束：00天05小时00分 </div>
-										<ul class="mui-table-view" id="ul{$item.SUCatsActivityId}">	
+									<div style="height:30px; line-height: 30px;  font-size: 16px; margin-top: 15px; padding-left: 8px;;  background-color: #939393;">
+										距离结束：00天05小时00分 
+									</div>
+										<div class="cky-table-view" id="ul{$item.SUCatsActivityId}">	
 											<foreach name="goods" item="ig">
 												<if condition="$item['SUCatsActivityId'] eq $ig['SUCatsActivityId']">
-			        								<li class="mui-table-view-cell mui-media" id="goods{$ig.goodsId}">
-														<a class="cky-table-view-cell" href='{:U('detail')}?id={$ig.goodsId}'}>
-															<div class="cky-table-cell-thumb">
-																<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$ig.goodsThums}">
+														<a class="cky-table-view-cell" id="goods{$ig.goodsId}" href='{:U('detail')}?id={$ig.goodsId}'}>
+															<div class="cky-table-cell-thumb"  style="background-image: url(/{$ig.goodsThums})">
 																<if condition="$item['goodsStock'] eq '0'">
 																	<div class="cky-sold-out">
 																		<div class="cky-sold-out-title">抢光了</div>
@@ -151,10 +151,9 @@
 																<h5 class="cky-right">马上抢</h5>
 														    </div>
 														</a>
-													</li>
 												</if>
 											</foreach> 
-										</ul>
+										</div>
 								</div>
 								
 							</div>
@@ -235,8 +234,8 @@
 						for (var i = 0; i < count; i++) {
 							var obj=list[i];
 							var html="<a class='cky-table-view-cell' href='{:U('detail')}?id="+obj.goodsId+"'}>";
-								html+="							<div class='cky-table-cell-thumb'>";
-								html+="								<img class='mui-media-object mui-pull-right' src='__WEBROOT__/"+obj.goodsThums+"'>";
+								html+="							<div class='cky-table-cell-thumb'  style=\"background-image: url(/"+ obj.goodsThums + ")\">";
+								html+="";
 								if(obj.goodsStock==0)
 								{
 									html+="									<div class='cky-sold-out'>";

@@ -34,9 +34,9 @@
 	    	
 	    </div>
 	</div>
-	<div>{$data.goodsName}</div>
-	<div class="cky-goods-bar">
-		<span class="font-red">¥ {$data.shopPrice}</span><span class="cky-money-old">￥{$data.marketPrice}</span>
+	<div style="padding-left: 15px;" class="mui-ellipsis">{$data.goodsName}</div>
+	<div class="cky-goods-bar" style="padding-left: 15px;">
+		<span class="font-red">¥ {$data.shopPrice}</span> <span class="cky-money-old">￥{$data.marketPrice}</span>
 		<button ctype="direct" class="cky-right mui-btn mui-btn-negative">立即购买</button>
 	</div>
 	<div class="mui-table-view-cell">
@@ -52,15 +52,13 @@
 		</a>
 	</div>
 	
-	<p class="font15 font-gray mui-content-padded">{$data.saleCount}人已抢购</p>
+	<p class="font15 font-gray" style="padding-left: 15px;">{$data.saleCount}人已抢购</p>
 		<div class="mui-table-view-cell">
 			<span>购买须知</span>
+			<div>
+				{$data.buyinfo}
+			</div>
 		</div>
-
-		<div id="item1mobile" class="cky-tab-content cky-active">
-			<p class="mui-content-padded">{$data.buyinfo}</p>
-		</div> 
-		 
 	</div>
 </div>
 

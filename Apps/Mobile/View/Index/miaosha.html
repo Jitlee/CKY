@@ -1,22 +1,24 @@
 <div class="miaosha-card" id="miaoshaCard">
 	<div class="mui-table-view">
 		<div class="mui-table-view-cell nav-cell">
-			<a>
-				/秒杀/<h5 class="state">已结束</h5>
+			<a data-bind="attr: { href: '{:U('M/SnappedUp/Index', '', '')}' }">
+				/秒杀/<!--<h5 class="state">已结束</h5>-->
 				<h5 class="mui-pull-right">
-					更多 <i class="iconfont icon-gengduojiantou"></i>
+					<span data-bind="text: CName"></span> <i class="iconfont icon-gengduojiantou"></i>
 				</h5>
 			</a>
 		</div>
 	</div>
 	<div class="horizontal-scroll">
-		<ul class="mui-table" data-bind="foreach: $data">
+		<ul class="mui-table" data-bind="foreach: Goods">
 			<li class="mui-table-cell">
-				<a>
-					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + thumb + ')' }"></div>
-					<div class="mui-ellipsis" data-bind="text: title"></div>
-					<r data-bind="text: '¥ ' + price"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
-					<h5>剩余 <span class="sale-count" data-bind="text: sale"></span></h5>
+				<a data-bind="attr: { href: '{:U('M/SnappedUp/detail', '', '')}?id=' + goodsId }">
+					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+					<div class="mui-ellipsis" data-bind="text: goodsName"></div>
+					<div style="white-space: nowrap;word-break: keep-all;">
+						<r data-bind="text: '¥ ' + shopPrice"></r> <del data-bind="text: '¥ ' + marketPrice"></del>
+					</div>
+					<h5>销量 <span class="sale-count" data-bind="text: saleCount"></span></h5>
 				</a>
 			</li>
 		</ul>
@@ -24,11 +26,11 @@
 </div>
 <script>
 	seajs.use([], function() {
-		$.getJSON("{:U('/Api/miaosha/', '', '')}", function(data) {
-			if(data && data.code == 200 && data.rst) {
+		$.getJSON("{:U('/M/SnappedUp/IndexSnapp', '', '')}", function(data) {
+//			if(data && data.code == 200 && data.rst) {
 				var miaoshaCard = document.getElementById("miaoshaCard");
-				ko.applyBindings(data.rst, miaoshaCard);
-			}
+				ko.applyBindings(data, miaoshaCard);
+//			}
 		});
 	});
 </script>

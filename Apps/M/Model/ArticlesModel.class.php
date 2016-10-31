@@ -15,10 +15,28 @@ class ArticlesModel extends BaseModel {
     }
     
     public function queryRecommend() {
-    	$pageSize = (int)I('pageSize', 4);
+    	$pageSize = (int)I('pageSize', 10);
 		$pageNo = intval(I('pageNo', 1));
 		return $this->field('articleId, catId,articleTitle,articleImg,articleImgThumb,isrecommend,createTime')
 					->where('isShow=1 and isrecommend=1')
+					->order(' articleId desc')
+					->page($pageNo, $pageSize)->select();
+    }
+    
+    public function queryRecommendForIndex() {
+    	$pageSize = (int)I('pageSize', 3);
+		$pageNo = intval(I('pageNo', 1));
+		return $this->field('articleId, catId,articleTitle,articleImg,articleImgThumb,isrecommend,createTime')
+					->where('isShow=1 and isrecommend=1')
+					->order(' articleId desc')
+					->page($pageNo, $pageSize)->select();
+    }
+    
+    public function queryNotify() {
+    	$pageSize = (int)I('pageSize', 3);
+		$pageNo = intval(I('pageNo', 1));
+		return $this->field('articleId, catId,articleTitle,articleImg,articleImgThumb,isrecommend,createTime')
+					->where('isShow=1 and catId=1')
 					->order(' articleId desc')
 					->page($pageNo, $pageSize)->select();
     }

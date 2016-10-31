@@ -15,13 +15,25 @@ class ArticlesAction extends BaseAction {
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
-	public function index() {
+	public function indexArticles() {
+		$data = array();
+		 
+ 		$adarti = D('Articles');
+		$artirecommend = $adarti->queryRecommendForIndex();		
+		$data["artires"]=$artirecommend; 
 		
+		$artirenotify= $adarti->queryNotify();		
+		$data["notify"]=$artirenotify;
+		
+		$this->ajaxReturn($data, 'JSON');
+	}
+	
+	public function index() {
 		$adarti = D('Articles');
 		/****分享与定位***/
-		$wxm= new WxUserInfo();
-		$signPackage=$wxm->getSignPackage();			 
-		$this->assign('signPackage', $signPackage);
+//		$wxm= new WxUserInfo();
+//		$signPackage=$wxm->getSignPackage();			 
+//		$this->assign('signPackage', $signPackage);
 		
 		//广告相关处理
 		$addb = D('ads');

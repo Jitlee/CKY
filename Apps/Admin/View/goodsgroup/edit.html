@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-control" content="no-cache">
+		<meta http-equiv="Cache" content="no-cache">
+
+      <title>{$CONF['mallTitle']}后台管理中心</title> 
+      	<script>
+		var publicurl = '__PUBLIC__/';
+		var shopId = '{$orderInfo["order"]["shopId"]}';
+		var pageCount='{$receiveOrders["totalPage"]}';
+		var current='{$receiveOrders["currPage"]}';
+		</script>
+		
+		<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/common.css" />
+		<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/shop.css">	
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/webuploader/style.css" />
+		
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/layer/layer.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      
+      
+      <script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
+      <script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script> 
+      
+       <script type="text/javascript" src="__ROOT__/Apps/Admin/View/js/upload.js"></script>
+      	<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>     	
+      	<script src="__ROOT__/Apps/Admin/View/js/goodsgroup.js"></script>
+      	<script src="__ROOT__/Apps/Home/View/default/js/head.js"></script>      	
+      	<script src="__PUBLIC__/plugins/lazyload/jquery.lazyload.min.js?v=1.9.1"></script> 
+      	
+      <script type="text/javascript" src="/Public/plugins/webuploader/webuploader.js"></script>
+	  <script type="text/javascript" src="/Apps/Home/View/default/js/goodsbatchupload.js"></script>
+      
+      
+		<script type="text/javascript">
+			var RTC = ThinkPHP = window.Think = {
+			        "ROOT"   : "__ROOT__",
+			        "APP"    : "__APP__",
+			        "PUBLIC" : "__PUBLIC__",
+			        "DEEP"   : "{:C('URL_PATHINFO_DEPR')}",
+			        "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+			        "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"],
+			        "DOMAIN" : "{:RTCDomain()}",
+			        "CITYID" : "{$currArea['areaId']}",
+			        "DEFAULT_IMG": "{:RTCDomain()}/{$CONF['goodsImg']}",
+			        "MALL_TITLE" : "{$CONF['mallName']}",
+			        "SMS_VERFY"  : "{$CONF['smsVerfy']}",
+			        "IsAdmin"	 : "1"
+			}
+		    var domainURL = "{:RTCDomain()}";
+		    var publicurl = "__PUBLIC__";
+		    var currCityId = "{$currArea['areaId']}";
+		    var currCityName = "{$currArea['areaName']}";
+		    var currDefaultImg = "{:RTCDomain()}/{$CONF['goodsImg']}";
+		    var wstMallName = "{$CONF['mallName']}";
+		    $(function() {
+		    	$('.lazyImg').lazyload({ effect: "fadeIn",failurelimit : 10,threshold: 200,placeholder:RTC.DEFAULT_IMG});
+		    });
+		     
+		</script>
+		<script src="__PUBLIC__/js/think.js"></script>
+		<script src="__PUBLIC__/js/common.js"></script>
+   <style>
+    .rtc-tab-box{width:100%; height:auto; margin:0px auto;}
+	.rtc-tab-nav{margin:0; padding:0; height:35px; line-height:24px;position: relative;top:2px;left:3px;}
+	.rtc-tab-nav li{cursor:pointer;float:left; margin:0 0px; list-style:none; border:1px solid #ddd; border-bottom:none; height:34px; width:100px; text-align:center; background:#eeeeee;color:#000000;}
+	.rtc-tab-nav .on{background:#ffffff;color:#000000;border-bottom:0 none;}
+	.rtc-tab-content{padding:5px;width:99%; height:auto; border:1px solid #ddd;background:#FFF;}
+    .rtc-gallery-imgs{width:770px;height:auto;}
+    .rtc-gallery-img{width:140px;height:100px;float:left;overflow:hidden;margin:10px 5px 5px 5px;}
+   </style> 
+<script>
+var ablumInit = false;
+$(function () {
+	   $('#tab').TabPanel({tab:0,callback:function(no){
+		    if(no==1 && !ablumInit)uploadAblumInit();
+	   }});
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+			       editGoods('{$umark}');
+			       return false;
+			},onError:function(msg){
+		}});
+	   $("#goodsSn").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入商品编号"});
+	   $("#goodsName").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:200,onError:"请输入商品名称"});
+	   $("#marketPrice").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入市场价格"});
+	   $("#shopPrice").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入商家价格"});
+	   //$("#goodsStock").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入库存"});
+	   $("#goodsUnit").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入商品单位"});
+	   $("#goodsCatId2").formValidator({onFocus:"请选择平台分类"}).inputValidator({min:1,onError: "请选择完整商城分类"});
+	   //$("#shopCatId2").formValidator({onFocus:"请选择本店分类"}).inputValidator({min:1,onError: "请选择完整本店分类"});
+	   $("#subtitle").formValidator({onFocus:""}).inputValidator({min:1,onError: "请输入副标题"});
+	   $("#xiangou").formValidator({onFocus:""}).inputValidator({min:1,onError: "请输限购数量"});
+	   
+	   
+	   
+	   
+	   KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="goodsDesc"]', {
+				height:'200px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','multiimage','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
+		
+		KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="buyinfo"]', {
+				height:'200px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : false,
+				items:[
+				         
+				        'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat',  
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline',  'removeformat', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
+		
+		window.editor = K.create('#editor_id');
+
+	   <if condition="$object['goodsId'] !=0 ">
+	   getCatListForEdit("goodsCatId2",{$object.goodsCatId1},0,{$object.goodsCatId2});	   
+	   getShopCatListForEdit({$object.shopCatId1},{$object.shopCatId2});
+	   </if>
+	
+});
+
+function imglimouseover(obj){
+	if(!$(obj).find('.file-panel').html()){
+		$(obj).find('.setdel').addClass('trconb');
+		$(obj).find('.setdel').css({"display":""});
+	}
+}
+
+function imglimouseout(obj){
+	$(obj).find('.setdel').removeClass('trconb');
+	$(obj).find('.setdel').css({"display":"none"});
+}
+
+function imglidel(obj){
+	if (confirm('是否删除图片?')) {
+		$(obj).parent().remove("li");
+		return;
+	}
+}
+
+function imgmouseover(obj){
+	$(obj).find('.rtc-gallery-goods-del').show();
+}
+function imgmouseout(obj){
+	$(obj).find('.rtc-gallery-goods-del').hide();
+}
+function delImg(obj){
+	   $(obj).parent().remove();
+}
+
+var filetypes = ["gif","jpg","png","jpeg"];
+</script>
+</head>
+<body class="rtc-page">
+   <div class="rtc-body">
+   <div class='rtc-page-content'>
+   <div id='tab' class="rtc-tab-box">
+	<ul class="rtc-tab-nav">
+    	<li>商品信息</li>
+    	<!--<li>属性</li>-->
+        <li>商品相册</li>
+    </ul>
+	<div class="rtc-tab-content" style='width:99%;margin-bottom: 10px;'>
+	 
+	
+	<!-- 商品基础信息 -->
+	<div class='rtc-tab-item' style="position: relative;style='display:none'">
+		<iframe name="upload" style="display:none"></iframe>
+		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:150px;left:517px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
+			<div style="position:relative;">
+			<input id="goodsImg" name="goodsImg" type="text" value="{$object.goodsImg}" readonly style="margin-right:4px;float:left;margin-left:8px;width:140px;"/>
+			<div class="div1">
+				<div class="div2">浏览</div>
+				<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
+			</div>
+			<div style="clear:both;"></div>
+			<div >&nbsp;图片大小:150 x 120 (px)(格式为 gif, jpg, jpeg, png)</div>
+			<input type="hidden" name="dir" value="goods">
+			<input type="hidden" name="width" value="500">
+			<input type="hidden" name="folder" value="Filedata">
+			<input type="hidden" name="sfilename" value="Filedata">
+			<input type="hidden" name="fname" value="goodsImg">
+			<input type="hidden" id="s_Filedata" name="s_Filedata" value="">
+			
+			</div>
+		</form>
+       <form name="myform" method="post" id="myform" autocomplete="off">
+        <input type='hidden' id='id' value='{$object.goodsId}'/>
+      	<input type='hidden' id='snappedupId' value='{$object.snappedupId}'/>
+        <input type='hidden' id='goodsThumbs' value='{$object.goodsThums}'/>
+        
+        <table class="rtc-form" >
+           <tr>
+             <th width='120'>商品编号<font color='red'>*</font>：</th>
+             <td width='400'>
+             <input type='text' id='goodsSn' name='goodsSn' class="form-control rtc-ipt" value='{$object.goodsSn}' maxLength='25'/>
+             </td>
+             <td rowspan='7' valign='top'>
+               <div id="preview_Filedata">
+	           <img id='goodsImgPreview' src='<if condition="$object['goodsImg'] =='' ">__ROOT__/{$CONF['goodsImg']}<else/>__ROOT__/{$object['goodsImg']}</if>' height='152'/><br/>
+               </div>
+             </td>
+           </tr>
+           <tr>
+             <th width='120'>商品名称<font color='red'>*</font>：</th>
+             <td><input type='text' id='goodsName' name='goodsName' class="form-control rtc-ipt" value='{$object.goodsName}' maxLength='100'/></td>
+           </tr>
+           <tr>
+             <th width='120'>副标题 <font color='red'>*</font>：</th>
+             <td><input type='text' id='subtitle' name='subtitle' class="form-control rtc-ipt" value='{$object.subtitle}' maxLength='100'/></td>
+           </tr>
+          
+            <tr>
+             <th width='120'>市场价格<font color='red'>*</font>：</th>
+             <td>
+             	<input type='text' id='marketPrice' name='marketPrice' class="form-control rtc-ipt" value='{$object.marketPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
+             </td>
+           </tr>
+           <tr>
+             <th width='120'>抢购价格<font color='red'>*</font>：</th>
+             <td>             	 
+             		<input type='text' id='shopPrice' name='shopPrice' class="form-control rtc-ipt" value='{$object.shopPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
+             </td>
+           </tr>
+           
+            
+            
+           
+           <tr>
+             <th width='120'>商品信息：</th>
+             <td colspan='3'>
+             <textarea rows="2" style="width:788px" id='goodsSpec' name='goodsSpec'>{$object.goodsSpec}</textarea>
+             </td>
+           </tr>
+           <tr>
+             <th width='120'>商品数量<font color='red'>*</font>：</th>
+             <td>
+             		<input type='text' id='goodsStock' name='goodsStock' class="form-control rtc-ipt" value='{$object.goodsStock}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
+             </td>
+           </tr>
+            
+            <tr>
+            	<td colspan="2">拼团信息</td>            	
+            </tr>
+          <tr>
+				<th width='150px' align='right'>拼团价格(元)
+					<font color='red'>*</font>：</th>
+				<td><input type='text' id='groupPrice' class="form-control rtc-ipt" value='{$object.groupPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6' /></td>
+			</tr>
+			<tr>
+				<th width='150px' align='right'>组团人数
+					<font color='red'>*</font>：</th>
+				<td><input type='text' id='groupPreNumbers' class="form-control rtc-ipt" value='{$object.groupPreNumbers|default=2}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6' /></td>
+			</tr>
+			<tr>
+				<th width='150px' align='right'>最大团数：
+					<font color='red'>*</font>：</th>
+				<td><input type='text' id='groupMaxNumbers' class="form-control rtc-ipt" value='{$object.groupMaxNumbers|default=0}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6' />
+					<span>为0表示不限制</span>
+				</td>
+			</tr>
+			<tr>
+				<th width='150px' align='right'>开团限制小时数：
+					<font color='red'>*</font>：</th>
+				<td><input type='text' id='groupLimitHours' class="form-control rtc-ipt" value='{$object.groupLimitHours|default=24}' onkeypress="return RTC.isNumberKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='6' />
+					<span>团长开团后开始计时，过期而没有拼齐人数则表示作废</span>
+				</td>
+			</tr>
+			<tr>
+				<th width='150px' align='right'>活动时间
+					<font color='red'>*</font>
+				</th>
+				<td>
+					<input type='text' id='groupTimeRange' class="form-control" readonly='true' style='width:300px' value='{$object.groupStartTime} 至 {$object.groupEndTime}' />
+				</td>
+			</tr>
+			
+           <tr>
+             <th width='120'>商品属性：</th>
+             <td colspan='3'>
+             <label>
+             <input type='checkbox' id='isRecomm' name='isRecomm' <if condition="$object['isRecomm'] ==1 ">checked</if> value='1'/>推荐
+             </label>
+             <label>
+             <input type='checkbox' id='isBest' name='isBest' <if condition="$object['isBest'] ==1 ">checked</if> value='1'/>精品
+             </label>
+             <label>
+             <input type='checkbox' id='isNew' name='isNew' <if condition="$object['isNew'] ==1 ">checked</if> value='1'/>新品
+             </label>
+             <label>
+             <input type='checkbox' id='isHot' name='isHot' <if condition="$object['isHot'] ==1 ">checked</if> value='1'/>热销
+             </label>
+             </td>
+           </tr>
+           <tr>
+             <th width='120'>平台分类<font color='red'>*</font>：</th>
+             <td colspan='3'>
+             <select id='goodsCatId1' onchange='javascript:getCatListForEdit("goodsCatId2",this.value,0)'>
+                <option value=''>请选择</option>
+                <volist name="goodsCatsList" id="vo">
+                <option value='{$vo['catId']}' <if condition="$object['goodsCatId1'] == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
+                </volist>
+             </select>
+             <select id='goodsCatId2'>
+                <option value=''>请选择</option>
+             </select>
+             </td>
+           </tr>
+          
+           <tr>
+             <th width='120' align='right'>品牌：</th>
+             <td>
+             <select id='brandId' dataVal='{$object["brandId"]}'>
+                <option value='0'>请选择</option>
+             </select>
+             </td>
+           </tr>
+        
+           <tr>
+             <th width='120'>购买需知<font color='red'>*</font>：</th>
+             <td colspan='3'>
+             <textarea rows="2" cols="60" id='buyinfo' name='buyinfo'>{$object.buyinfo}</textarea>
+             </td>
+           </tr>
+           <tr>
+             <th width='120'>商品描述<font color='red'>*</font>：</th>
+             <td colspan='3'>
+             <textarea rows="2" cols="60" id='goodsDesc' name='goodsDesc'>{$object.goodsDesc}</textarea>
+             </td>
+           </tr>
+           <tr>
+             <td colspan='3' style='padding-left:320px;'>
+                 <button class='rtc-btn-query' type="submit">保&nbsp;存</button>
+                 
+                 <button class='rtc-btn-query' type="button" onclick='javascript:location.href="{:U('Admin/GoodsGroup/index')}"'>返&nbsp;回</button>
+                 
+             </td>
+           </tr>
+          
+           
+        </table>
+        </form>
+      </div>
+     
+       
+      
+      <!-- 相册 -->
+      <div class='rtc-tab-item' style='display:none'>
+       
+      <!-- <div><input type='text' id='galleryImgUpload'/></div>-->
+        
+       <div id='galleryImgs' class='rtc-gallery-imgs'>
+              <div id="tt"></div>
+              <if condition="count($object['gallery']) eq 0" >
+                   <div id="wrapper">
+                       <div id="container">
+        <!--头部，相册选择和格式选择-->
+                          <div id="uploader">
+                           <div class="queueList">
+                               <div id="dndArea" class="placeholder">
+                                  <div id="filePicker"></div>
+                                  </div>
+                               <ul class="filelist"></ul>
+                           </div>
+                         <div class="statusBar" style="display:none">
+                           <div class="progress">
+                                <span class="text">0%</span>
+                                <span class="percentage"></span>
+                           </div>
+                                <div class="info"></div>
+                           <div class="btns">
+                             <div id="filePicker2" class="webuploader-containe webuploader-container"></div><div class="uploadBtn state-finish">开始上传</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+           <else/>
+           	<div id="wrapper">
+                   <div id="container">
+                      <div id="uploader">
+                         <div class="queueList">
+                             <div id="dndArea" class="placeholder element-invisible">
+                                <div id="filePicker" class="webuploader-container"></div>
+                                </div>
+                             <ul class="filelist">
+                             	<volist name="object['gallery']" id="vo" key='i'>
+                             	
+                             		<li style="border: 1px solid rgb(59, 114, 165)" order="100" onmouseover="imglimouseover(this)" onmouseout="imglimouseout(this)">
+                                 		<input type="hidden" class="gallery-img" iv="{$vo.goodsThumbs}" v="{$vo.goodsImg}" />
+                                 		<img width="152" height="152" src="__ROOT__/{$vo.goodsThumbs}"><span class="setdef" style="display:none">默认</span>
+                                 		<span class="setdel" onclick="imglidel(this)" style="display:none">删除</span>
+                             		</li>
+                             	
+						       	</volist>
+                             </ul>
+                        </div>
+                        <div class="statusBar" style="">
+                           <div class="progress">
+                                <span class="text"></span>
+                                <span class="percentage"></span>
+                           </div>
+                           <div class="info"></div>
+                           <div class="btns">
+                              <div id="filePicker2" class="webuploader-containe webuploader-container"></div>
+                              <div class="uploadBtn state-finish">开始上传</div>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+           </if>
+       </div>
+       <div style='clear:both;'></div>
+      </div>
+      
+   </div>
+   </div>
+   
+   </div>
+   <div style='clear:both;'></div>
+   </div>   </body>
+</html>

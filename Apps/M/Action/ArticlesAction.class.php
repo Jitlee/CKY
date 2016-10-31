@@ -9,11 +9,9 @@ namespace M\Action;
  */
 use Think\Controller;
 class ArticlesAction extends BaseAction {
-	public function page() {
-		
-		 
-		$this->ajaxReturn($list, 'JSON');
-	}
+//	public function page() { 
+//		$this->ajaxReturn($list, 'JSON');
+//	}
 	
 	public function indexArticles() {
 		$data = array();
@@ -21,7 +19,6 @@ class ArticlesAction extends BaseAction {
  		$adarti = D('Articles');
 		$artirecommend = $adarti->queryRecommendForIndex();		
 		$data["artires"]=$artirecommend; 
-		
 		$artirenotify= $adarti->queryNotify();		
 		$data["notify"]=$artirenotify;
 		
@@ -29,6 +26,7 @@ class ArticlesAction extends BaseAction {
 	}
 	
 	public function index() {
+		
 		$adarti = D('Articles');
 		/****分享与定位***/
 //		$wxm= new WxUserInfo();

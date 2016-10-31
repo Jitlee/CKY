@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>{$CONF['mallTitle']}后台管理中心</title>
+      <link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+      <script src="__PUBLIC__/js/jquery.min.js"></script>
+      <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="__PUBLIC__/js/common.js"></script>
+      <script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+      <style type="text/css">
+		#preview{border:1px solid #cccccc; background:#CCC;color:#fff; padding:5px; display:none; position:absolute;}
+	  </style>
+   </head>
+   <script>
+   function changeStatus(id,v){
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/Goods/changeGoodsStatus')}",{id:id,status:v},function(data,textStatus){
+				var json = RTC.toJson(data);
+				if(json.status=='1'){
+					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+					    location.reload();
+					}});
+				}else{
+					
+					Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				}
+	   });
+   }
+   function batchBest(v){
+	   var ids = [];
+	   $('.chk').each(function(){
+		   if($(this).prop('checked'))ids.push($(this).val());
+	   })
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/Goods/changeBestStatus')}",{id:ids.join(','),status:v},function(data,textStatus){
+				var json = RTC.toJson(data);
+				if(json.status=='1'){
+					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+					    location.reload();
+					}});
+				}else{
+					Plugins.closeWindow();
+					Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				
+				}
+	   });
+   }
+   function batchRecom(v){
+	   var ids = [];
+	   $('.chk').each(function(){
+		   if($(this).prop('checked'))ids.push($(this).val());
+	   })
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/Goods/changeRecomStatus')}",{id:ids.join(','),status:v},function(data,textStatus){
+				var json = RTC.toJson(data);
+				if(json.status=='1'){
+					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+					    location.reload();
+					}});
+				}else{
+					Plugins.closeWindow();
+					Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				
+				}
+	   });
+   }
+   function checkAll(v){
+	   $('.chk').each(function(){
+		   $(this).prop('checked',v);
+	   })
+   }
+   $.fn.imagePreview = function(options){
+		var defaults = {}; 
+		var opts = $.extend(defaults, options);
+		var t = this;
+		xOffset = 5;
+		yOffset = 20;
+		if(!$('#preview')[0])$("body").append("<div id='preview'><img width='200' src=''/></div>");
+		$(this).hover(function(e){
+			   $('#preview img').attr('src',"__ROOT__/"+$(this).attr('img'));      
+			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px").show();      
+		  },
+		  function(){
+			$("#preview").hide();
+		}); 
+		$(this).mousemove(function(e){
+			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px");
+		});
+	}
+   function getAreaList(objId,parentId,t,id){
+	   var params = {};
+	   params.parentId = parentId;
+	   $('#'+objId).empty();
+	   if(t<1){
+		   $('#areaId2').html('<option value="">请选择</option>');
+		   if(parentId==0)return;
+	   }
+	   var html = [];
+	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="">请选择</option>');
+			var json = RTC.toJson(data);
+			if(json.status=='1' && json.list.length>0){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.areaId+'" '+((id==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+   }
+   function getCatList(objId,parentId,t,id){
+	   var params = {};
+	   params.id = parentId;
+	   $('#'+objId).empty();
+	   if(t<1){
+		   $('#goodsCatId3').empty();
+		   $('#goodsCatId3').html('<option value="0">请选择</option>');
+		   if(parentId==0){
+			   $('#goodsCatId2').html('<option value="0">请选择</option>');
+			   return;
+		   }
+	   }
+	   var html = [];
+	   $.post("{:U('Home/GoodsCats/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="0">请选择</option>');
+			var json = RTC.toJson(data);
+			if(json.status=='1' && json.list){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.catId+'" '+((id==opts.catId)?'selected':'')+'>'+opts.catName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+   }
+   $(document).ready(function(){
+	    $('.imgPreview').imagePreview();
+	    <notempty name='areaId1'>
+		   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+		</notempty>
+		<if condition="$goodsCatId1  neq 0 ">
+		getCatList("goodsCatId2",{$goodsCatId1},0,{$goodsCatId2});
+		</if>
+		<if condition="$goodsCatId2 neq 0 ">
+		getCatList("goodsCatId3",{$goodsCatId2},1,{$goodsCatId3});
+		</if>
+   });
+   </script>
+   <body class='rtc-page'>
+    <form method='post' action='{:U("Admin/GoodsGroup/index")}' autocomplete="off">
+       <div class='rtc-tbar'> 
+      
+  平台分类：<select id='goodsCatId1' name='goodsCatId1' onchange='javascript:getCatList("goodsCatId2",this.value,0)'>	                
+	                <volist name="goodsCatsList" id="vo">
+	                <option value='{$vo['catId']}' <if condition="$goodsCatId1 == $vo['catId'] ">selected</if>>{$vo['catName']}</option>
+	                </volist>
+	             </select>
+	             <select id='goodsCatId2' name='goodsCatId2'>
+	                <option value='0'>请选择</option>
+	             </select>
+	              
+             
+                   
+			       商品：<input type='text' id='goodsName' name='goodsName' value='{$goodsName}'/> 
+			    
+			  <button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button> 
+			  <a class="btn btn-success glyphicon glyphicon-plus" href="{:U('Admin/GoodsGroup/toEdit')}" style='float:right'>新增</a>
+       </div>
+       </form>
+       <div class='rtc-body'>
+         
+        <table class="table table-hover table-striped table-bordered rtc-list">
+           <thead>
+             <tr>
+               <th width='2'><input type='checkbox' name='chk' onclick='javascript:checkAll(this.checked)'/></th>
+               <th width='120'>商品名称</th>
+               <th width='60'>商品编号</th>
+               
+               <th width='60'>价格</th>
+               <th width='40'>单价</th>
+               <!--<th width='100'>商家</th>-->
+               <th width='60'>平台分类</th>
+               <th width='25'>禁售</th>
+               
+               
+               <th width='40'>限购类型</th>
+               <th width='40'>抢购数量</th>
+               <th width='40'>商品数量</th>
+              <!-- <th width='45'>销量</th>-->
+               <th width='80'>操作</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='i'>
+             <tr >
+               <td><input type='checkbox' class='chk' name='chk_{$vo['goodsId']}' value='{$vo['goodsId']}'/></td>
+               <td img='{$vo['goodsThums']}' class='imgPreview'>
+	               <img src='__ROOT__/{$vo['goodsThums']}' height='50px'/>
+	               {$vo['goodsName']}
+               </td>
+               <td>{$vo['goodsSn']}&nbsp;</td>
+               
+               <td>{$vo['marketPrice']}&nbsp;</td>
+               <td>{$vo['shopPrice']}&nbsp;</td>
+               <!--<td><a href="{:U('Admin/Goods/index',array('shopName'=>$vo['shopName']))}">{$vo['shopName']}</a>&nbsp;</td>-->
+               <td>{$vo['catName']}&nbsp;</td>
+               <td>
+	               	<if condition="$vo['goodsStatus']==0 ">
+	               		<span class="btn btn-danger glyphicon ">禁售</span>&nbsp;
+	               </if>
+	               		
+						
+               </td>
+               <td>
+           			<if condition="$vo['xiangoutype'] == 0">不参与</if>
+					<if condition="$vo['xiangoutype'] == 1">仅参与一次</if>
+					<if condition="$vo['xiangoutype'] == 2">每天一次</if>
+					<if condition="$vo['xiangoutype'] == 3">每周</if>
+					<if condition="$vo['xiangoutype'] == 4">每月</if>               	
+               </td>
+               <td>{$vo['xiangou']}&nbsp;</td>
+               <td>{$vo['goodsStock']}&nbsp;</td>               
+               <td>
+               	<if condition="($vo['SnappedUpStatus'] eq 1) or ($vo['SnappedUpStatus'] eq 0)">
+               		<a class="btn btn-primary glyphicon" href='{:U("Admin/GoodsGroup/toEdit",array("id"=>$vo["goodsId"]))}'>编辑</a>
+               </if>
+               <php>if(in_array('splb_04',$RTC_STAFF['grant'])){</php>
+	               	<if condition="$vo['goodsStatus']==1 ">
+	               		<button type="button" class="btn btn-danger glyphicon glyphicon-pencil" onclick="javascript:changeStatus({$vo['goodsId']},0)">禁售</button>&nbsp;
+	               </if>
+               <php>}</php>
+               
+                            
+               </td>
+             </tr>
+             </volist>
+             <tr>
+                <td colspan='13' align='center'>{$Page['pager']}</td>
+             </tr>
+           </tbody>
+        </table>
+       </div>
+   </body>
+</html>

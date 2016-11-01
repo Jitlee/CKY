@@ -76,4 +76,18 @@ class SnappedUpAction extends BaseAction {
  		$this->display();
 	}
 	
+	public function detailinfo() {
+ 		$goodsid=I("id");
+ 		// 商品详情 
+		$m = D('M/SnappedUp');
+		$data = $m->detail();
+		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc'])); 
+		$this->assign('goodsDesc', $data['goodsDesc'] );
+		  
+ 		$this->display();
+	}
+	
+	
+	
+	
 }

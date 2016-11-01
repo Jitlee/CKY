@@ -16,7 +16,9 @@ class GoodsGroupModel extends BaseModel {
         $m = M('goods'); 
      	$goodsName = I('goodsName');     	 
 	 	$sql = "select 
-	 				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId,snup.buyinfo
+	 				g.*,gc.catName
+	 				,snup.groupGoodsId,snup.groupPreNumbers,snup.groupPrice,snup.groupMaxNumbers,snup.groupStartTime,snup.groupEndTime
+	 				,snup.createTime,snup.groupNumbers,snup.groupLimitHours,snup.subtitle	 				
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId			
 			inner join __PREFIX__goods_group snup on snup.goodsId=g.goodsId 
@@ -26,14 +28,16 @@ class GoodsGroupModel extends BaseModel {
 	 	$sql.="  order by goodsId desc";   
 		return $m->pageQuery($sql);
 	 }
- 
-	 
+  
+  
 	 public function get(){
 	 	$m = M('goods');
 	 	$id = (int)I('id',0); 
 		
 		$sql = "select 
-				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId,snup.snappedupId
+				g.*,gc.catName
+				,snup.groupGoodsId,snup.groupPreNumbers,snup.groupPrice,snup.groupMaxNumbers,snup.groupStartTime,snup.groupEndTime
+	 			,snup.createTime,snup.groupNumbers,snup.groupLimitHours,snup.subtitle
 		 	from 
 		 		__PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
@@ -63,7 +67,7 @@ class GoodsGroupModel extends BaseModel {
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("marketPrice");
+		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
@@ -95,16 +99,20 @@ class GoodsGroupModel extends BaseModel {
 		$data["createTime"] = date('Y-m-d H:i:s');
 		 
 		 //抢购ID
-		$GoodsGroupId= newid();
+//		$GoodsGroupId= newid();
 		//子表
 		$miaosha = array();
-		$miaosha["snappedupId"] = $snappedupId;
+//		$miaosha["snappedupId"] = $snappedupId;
 		$miaosha["subtitle"] = I("subtitle");
-		$miaosha["xiangoutype"] = (int)I("xiangoutype");		
-		$miaosha["xiangou"] = (int)I("xiangou");
-		$miaosha["limituseshopId"] = (int)I("limituseshopId");
-		$miaosha["ticketId"] = I("ticketId");
-		$miaosha["buyinfo"] = I("buyinfo");			//购买需知
+		$miaosha["groupPreNumbers"] = (int)I("groupPreNumbers");		
+		$miaosha["groupPrice"] = (float)I("groupPrice");
+		$miaosha["groupMaxNumbers"] = (int)I("groupMaxNumbers");
+		$miaosha["groupStartTime"] = I("groupStartTime");
+		$miaosha["groupEndTime"] = I("groupEndTime");	
+		$miaosha["createTime"] = date('Y-m-d H:i:s');
+ 		$miaosha["groupNumbers"] = (int)I("groupNumbers");	
+ 		$miaosha["groupLimitHours"] = (int)I("groupLimitHours");	
+ 		
  		
 		if($this->checkEmpty($data,true)){
 			$data["brandId"] = (int)I("brandId");
@@ -167,7 +175,7 @@ class GoodsGroupModel extends BaseModel {
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("marketPrice");
+		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
@@ -203,13 +211,14 @@ class GoodsGroupModel extends BaseModel {
 		$miaosha = array();
 		$miaosha["groupGoodsId"] = I("groupGoodsId");
 		$miaosha["groupNumbers"] = I("subtitle");
-		$miaosha["groupPrice"] = I("groupPrice");		
+		$miaosha["groupPrice"] = I("groupPrice");					//拼团价	
 		$miaosha["groupPreNumbers"] = (int)I("groupPreNumbers");
 		$miaosha["groupMaxNumbers"] = (int)I("groupMaxNumbers");
 		$miaosha["groupLimitHours"] = (int)I("groupLimitHours");
 		$miaosha["groupStartTime"] = I("groupStartTime");			//活动时间
-		$miaosha["groupEndTime"] = I("groupEndTime");			//活动时间
-		
+		$miaosha["groupEndTime"] = I("groupEndTime");				//活动时间 
+		$miaosha["subtitle"] = I("subtitle");
+		 
 		
 		if($this->checkEmpty($data,true)){
 			$data["goodsKeywords"] =  I("goodsKeywords");

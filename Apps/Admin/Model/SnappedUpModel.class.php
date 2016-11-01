@@ -96,7 +96,7 @@ class SnappedUpModel extends BaseModel {
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("marketPrice");
+		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
@@ -200,7 +200,7 @@ class SnappedUpModel extends BaseModel {
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("marketPrice");
+		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");

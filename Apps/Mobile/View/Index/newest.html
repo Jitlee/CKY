@@ -1,4 +1,4 @@
-<div class="neweast-card" id="neweastCard">
+<div class="neweast-card" id="neweastCard" style="display: none">
 	<h4 class="mui-text-center">——— 猜你喜欢 ———</h4>
 	<ul class="table-wrap" data-bind="foreach: $data">
 		<li class="table-wrap-cell">
@@ -24,10 +24,11 @@
 	seajs.use([], function() {
 		window.setTimeout(function() {
 		$.getJSON("{:U('/M/Index/guess', '', '')}", function(data) {
-//			if(data && data.code == 200 && data.rst) {
+			if(data && data.length > 0) {
 				var neweastCard = document.getElementById("neweastCard");
 				ko.applyBindings(data, neweastCard);
-//			}
+				neweastCard.style.display = "";
+			}
 		});
 		}, 500);
 	});

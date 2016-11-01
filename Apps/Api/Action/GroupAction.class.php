@@ -12,7 +12,13 @@ namespace Api\Action;
 class GroupAction extends BaseAction {
 	public function newest() {
 		$m = D('GoodsGroup');
-		$data = $m->newest();
+		$data = $m->queryPage();
+		$this->json($data);
+	}
+	
+	public function page($pageNo = 1, $pageSize = 10) {
+		$m = D('GoodsGroup');
+		$data = $m->queryPage($pageNo, $pageSize);
 		$this->json($data);
 	}
 }

@@ -63,7 +63,8 @@ class GoodsGroupAction extends BaseAction{
     		$object = $m->get();
     	}else{
     		$object = $m->getModel();
-			 
+			$object['groupStartTime'] = date('Y-m-d');
+    		$object['groupEndTime'] = date('Y-m-d',strtotime("+12 month"));
 //			$object["xiangou"]=0;
     	}
 		//echo dump($object);
@@ -76,7 +77,7 @@ class GoodsGroupAction extends BaseAction{
 	 */
 	public function edit(){
 		$this->isLogin();
-		$m = D('Admin/SnappedUp');
+		$m = D('Admin/GoodsGroup');
     	$rs = array('status'=>-1);
     	if((int)I('id',0)>0){
     		$rs = $m->edit();

@@ -95,28 +95,7 @@
 			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px");
 		});
 	}
-   function getAreaList(objId,parentId,t,id){
-	   var params = {};
-	   params.parentId = parentId;
-	   $('#'+objId).empty();
-	   if(t<1){
-		   $('#areaId2').html('<option value="">请选择</option>');
-		   if(parentId==0)return;
-	   }
-	   var html = [];
-	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
-		    html.push('<option value="">请选择</option>');
-			var json = RTC.toJson(data);
-			if(json.status=='1' && json.list.length>0){
-				var opts = null;
-				for(var i=0;i<json.list.length;i++){
-					opts = json.list[i];
-					html.push('<option value="'+opts.areaId+'" '+((id==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
-				}
-			}
-			$('#'+objId).html(html.join(''));
-	   });
-   }
+   
    function getCatList(objId,parentId,t,id){
 	   var params = {};
 	   params.id = parentId;

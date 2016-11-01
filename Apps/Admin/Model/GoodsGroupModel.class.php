@@ -19,7 +19,7 @@ class GoodsGroupModel extends BaseModel {
 	 				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId,snup.buyinfo
 		 	from __PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId			
-			inner join __PREFIX__snappedup snup on snup.goodsId=g.goodsId 
+			inner join __PREFIX__goods_group snup on snup.goodsId=g.goodsId 
 			where goodsFlag=1  ";
 			 
 	 	if($goodsName!='')$sql.=" and (g.goodsName like '%".$goodsName."%' or g.goodsSn like '%".$goodsName."%')";
@@ -37,7 +37,7 @@ class GoodsGroupModel extends BaseModel {
 		 	from 
 		 		__PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
-			inner join __PREFIX__snappedup snup on snup.goodsId=g.goodsId  
+			inner join __PREFIX__goods_group snup on snup.goodsId=g.goodsId  
 			where g.goodsId=$id  order by goodsId desc";   
 		$list = $m->query($sql);
 		$goods = $list[0]; 
@@ -117,12 +117,12 @@ class GoodsGroupModel extends BaseModel {
 				$rd['status']= 1;//$goodsId;
  
 				
-				$snappedup = M('snappedup');
+				$snappedup = M('goods_group');
 				$miaosha["goodsId"] = $goodsId;
 				$said=$snappedup->add($miaosha);
 				//错误信息
 				$rd["error"]=$snappedup->getError();
-				$rd['snappedupId']=$said;
+				$rd['groupGoodsId']=$said;
 				
 				//保存相册
 				$gallery = I("gallery");
@@ -201,13 +201,15 @@ class GoodsGroupModel extends BaseModel {
 				 
 		//子表
 		$miaosha = array();
-		$miaosha["snappedupId"] = I("snappedupId");
-		$miaosha["subtitle"] = I("subtitle");
-		$miaosha["xiangoutype"] = (int)I("xiangoutype");		
-		$miaosha["xiangou"] = (int)I("xiangou");
-		$miaosha["limituseshopId"] = (int)I("limituseshopId");
-		$miaosha["ticketId"] = I("ticketId");
-		$miaosha["buyinfo"] = I("buyinfo");			//购买需知
+		$miaosha["groupGoodsId"] = I("groupGoodsId");
+		$miaosha["groupNumbers"] = I("subtitle");
+		$miaosha["groupPrice"] = I("groupPrice");		
+		$miaosha["groupPreNumbers"] = (int)I("groupPreNumbers");
+		$miaosha["groupMaxNumbers"] = (int)I("groupMaxNumbers");
+		$miaosha["groupLimitHours"] = (int)I("groupLimitHours");
+		$miaosha["groupStartTime"] = I("groupStartTime");			//活动时间
+		$miaosha["groupEndTime"] = I("groupEndTime");			//活动时间
+		
 		
 		if($this->checkEmpty($data,true)){
 			$data["goodsKeywords"] =  I("goodsKeywords");
@@ -219,9 +221,9 @@ class GoodsGroupModel extends BaseModel {
 			$rs = $m->where('goodsId='.$goodsId)->save($data);
 			if($rs !== false && $rs !== null) {
 				//秒杀明细
-				$mMiaosha = M('snappedup');
-				$snappedupId=$miaosha['snappedupId'];
-				$filter="snappedupId='$snappedupId'";
+				$mMiaosha = M('goods_group');
+				$groupGoodsId=$miaosha['groupGoodsId'];
+				$filter="groupGoodsId='$groupGoodsId'";
 				$rs = $mMiaosha->where($filter)->save($miaosha);
 
 				if($rs !== false && $rs !== null) {

@@ -19,7 +19,10 @@ class IndexAction extends Controller {
 //			session('openid',$openid);
 //	    }    
 		  
-		
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (strpos($user_agent, 'MicroMessenger') === true) {
+			try_login();
+		}
 		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
 			//try_login();
 		}
@@ -29,7 +32,7 @@ class IndexAction extends Controller {
 //			session('openid',$openid);
 			//try_login();			
 		}
-		try_login();
+		
 //		logger("dddddd");
 		/****分享与定位***/
 		$wxm= new WxUserInfo();

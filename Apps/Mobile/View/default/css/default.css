@@ -4,11 +4,11 @@ div.mui-content.bottom-bar-content {
 }
 
 /** 首页顶部 **/
-header.mui-bar {
+header.mui-bar.mui-red-bar {
 	background-color: rgb(233,44,54);	
 }
 
-header.mui-bar>a.mui-btn.mui-btn-link {
+header.mui-bar.mui-red-bar>a.mui-btn.mui-btn-link {
 	color: #fff;
 }
 
@@ -95,6 +95,7 @@ div.nav-horizontal-buttons {
 	padding-top: 10px;
 	background-color:#fff;
 }
+
 div.nav-horizontal-buttons a.mui-table-cell {
 	font-size: 12px;
 	color: #333;
@@ -386,6 +387,7 @@ div.neweast-card ul.table-wrap {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	padding-top: 10px;
 }
 
 div.neweast-card ul.table-wrap:after {
@@ -418,6 +420,22 @@ div.neweast-card li.table-wrap-cell div.media-image {
 	background-size: cover;
 	background-position: center;
 	height: 80px;
+}
+
+@media only screen and (min-width: 370px) {
+	div.neweast-card li.table-wrap-cell div.media-image {
+		height: 100px;
+	}
+}
+
+@media only screen and (min-width: 410px) {
+	div.neweast-card li.table-wrap-cell div.media-image {
+		height: 120px;
+	}
+}
+
+@media only screen (max-width: 410px) {
+	height: 120px;
 }
 
 div.neweast-card li.table-wrap-cell a {

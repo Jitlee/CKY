@@ -16,12 +16,18 @@
 		var pageCount='{$receiveOrders["totalPage"]}';
 		var current='{$receiveOrders["currPage"]}';
 		</script>
-		
+		<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      	<link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+      	
 		<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/common.css" />
 		<link rel="stylesheet" href="__ROOT__/Apps/Home/View/default/css/shop.css">	
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/webuploader/webuploader.css" />
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugins/webuploader/style.css" />
 		<link rel="stylesheet" href="__ROOT__/Apps/Admin/View/css/daterangepicker/daterangepicker-bs3.css">
+		
+		
+      	
+      	
 		
 		<script src="__PUBLIC__/js/jquery.min.js"></script>
 		<script src="__PUBLIC__/plugins/layer/layer.min.js"></script>
@@ -202,7 +208,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	<!-- 商品基础信息 -->
 	<div class='rtc-tab-item' style="position: relative;style='display:none'">
 		<iframe name="upload" style="display:none"></iframe>
-		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:150px;left:517px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
+		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:150px;left:617px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
 			<div style="position:relative;">
 			<input id="goodsImg" name="goodsImg" type="text" value="{$object.goodsImg}" readonly style="margin-right:4px;float:left;margin-left:8px;width:140px;"/>
 			<div class="div1">
@@ -228,12 +234,12 @@ var filetypes = ["gif","jpg","png","jpeg"];
         <table class="rtc-form" >
            <tr>
              <th width='120'>商品编号<font color='red'>*</font>：</th>
-             <td width='400'>
+             <td width='500'>
              <input type='text' id='goodsSn' name='goodsSn' class="form-control rtc-ipt" value='{$object.goodsSn}' maxLength='25'/>
              </td>
-             <td rowspan='7' valign='top'>
+             <td rowspan='4' valign='top'>
                <div id="preview_Filedata">
-	           <img id='goodsImgPreview' src='<if condition="$object['goodsImg'] =='' ">__ROOT__/{$CONF['goodsImg']}<else/>__ROOT__/{$object['goodsImg']}</if>' height='152'/><br/>
+	           <img id='goodsImgPreview' src='<if condition="$object['goodsImg'] =='' ">__ROOT__/{$CONF['goodsImg']}<else/>__ROOT__/{$object['goodsImg']}</if>' height='120'/><br/>
                </div>
              </td>
            </tr>
@@ -253,7 +259,7 @@ var filetypes = ["gif","jpg","png","jpeg"];
              </td>
            </tr>
            <tr>
-             <th width='120'>抢购价格<font color='red'>*</font>：</th>
+             <th width='120'>销售价格<font color='red'>*</font>：</th>
              <td>             	 
              		<input type='text' id='shopPrice' name='shopPrice' class="form-control rtc-ipt" value='{$object.shopPrice}' onkeypress="return RTC.isNumberdoteKey(event)" onkeyup="javascript:RTC.isChinese(this,1)" maxLength='10'/>
              </td>
@@ -261,8 +267,8 @@ var filetypes = ["gif","jpg","png","jpeg"];
            
            <tr>
              <th width='120'>商品信息：</th>
-             <td colspan='3'>
-             <textarea rows="2" style="width:788px" id='goodsSpec' name='goodsSpec'>{$object.goodsSpec}</textarea>
+             <td >
+             <textarea rows="2" style="width:400px" id='goodsSpec' name='goodsSpec'>{$object.goodsSpec}</textarea>
              </td>
            </tr>
            <tr>

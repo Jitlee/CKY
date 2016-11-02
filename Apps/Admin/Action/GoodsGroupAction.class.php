@@ -13,7 +13,7 @@ class GoodsGroupAction extends BaseAction{
 		$this->isLogin();
 		//获取商品分类信息		
 		$m = D('Admin/GoodsCats');
-		$cats=$m->queryBykey('miaosha');		
+		$cats=$m->queryBykey('goodsgroup');		
 		$this->assign('goodsCatsList',$cats);
 		$goodsCatId1=I('goodsCatId1',0);
 		
@@ -45,7 +45,7 @@ class GoodsGroupAction extends BaseAction{
 		$USER = session('RTC_USER');
 		//获取商品分类信息
 		$m = D('Admin/GoodsCats');
-		$this->assign('goodsCatsList',$m->queryBykey('miaosha'));
+		$this->assign('goodsCatsList',$m->queryBykey('goodsgroup'));
 		
 //		$mshop = D('Admin/Ticket');
 //		$shops=$mshop->queryByList();		

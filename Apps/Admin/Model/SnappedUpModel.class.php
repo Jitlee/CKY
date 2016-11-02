@@ -66,7 +66,7 @@ class SnappedUpModel extends BaseModel {
 	 	$id = (int)I('id',0); 
 		
 		$sql = "select 
-				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId,snup.snappedupId
+				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId,snup.snappedupId,snup.buyinfo
 		 	from 
 		 		__PREFIX__goods g 
 			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
@@ -96,7 +96,7 @@ class SnappedUpModel extends BaseModel {
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("marketPrice");
+		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");
@@ -200,7 +200,7 @@ class SnappedUpModel extends BaseModel {
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
 		$data["marketPrice"] = (int)I("marketPrice");
 		$data["shopPrice"] = (int)I("shopPrice");
-		$data["goodsStock"] = (int)I("marketPrice");
+		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
 		$data["warnStock"] = (int)I("warnStock");

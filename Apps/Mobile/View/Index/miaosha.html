@@ -1,4 +1,4 @@
-<div class="miaosha-card" id="miaoshaCard">
+<div class="miaosha-card" id="miaoshaCard" style="display: none">
 	<div class="mui-table-view">
 		<div class="mui-table-view-cell nav-cell">
 			<a data-bind="attr: { href: '{:U('M/SnappedUp/index', '', '')}' }">
@@ -27,10 +27,11 @@
 <script>
 	seajs.use([], function() {
 		$.getJSON("{:U('/M/SnappedUp/IndexSnapp', '', '')}", function(data) {
-//			if(data && data.code == 200 && data.rst) {
+			if(data && data.Goods && data.Goods.length > 0) {
 				var miaoshaCard = document.getElementById("miaoshaCard");
 				ko.applyBindings(data, miaoshaCard);
-//			}
+				miaoshaCard.style.display = "";
+			}
 		});
 	});
 </script>

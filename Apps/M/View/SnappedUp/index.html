@@ -91,11 +91,13 @@
 			.mui-media-body{word-wrap: break-word; widows: 85%;
 			 white-space:initial; 
 			}
-			.mui-segmented-control .mui-control-item,.mui-control-item div{height: 50px;}
+			.mui-segmented-control .mui-control-item,.mui-control-item div{
+				height: 50px;
+			}
 			.mui-control-item p{  margin-top: 0px; margin-bottom: 2px; height: 20px;}
 			 
 			.mui-segmented-control.mui-scroll-wrapper{height: 50px;}
-			.mui-active p{ color: red;}
+			
 			
 			.progress {
 				width: 120px;border:solid 1px #F20;border-radius: 3px;height:12px;overflow: hidden;position:relative;
@@ -139,6 +141,11 @@
 				font-size: 12px;
 				border-radius: 3px;
 			}
+			#sliderSegmentedControl{background:#2E3844; }
+			.ptop{ font-size: 14px; color: #FFFFFF;}
+			.ptime{ font-size: 12px; color: #FFFFFF;}
+			a.mui-active.mui-control-item{ background: red; }
+			.mui-active p{color: red; font-weight: 400; }
 		</style>
 		
 	</head>
@@ -154,8 +161,8 @@
 					<div class="mui-scroll">
 						<foreach name="Activitys" item="item">
 	        				<a class='mui-control-item <if condition="$item['SUCatsActivityId'] eq 1"> mui-active</if>' href="#itemmobile{$item.SUCatsActivityId}">
-	        					<p>{$item.CADate|substr=5,5}</p>
-	        					<p>{$item.StartTime}开抢</p> 
+	        					<p class="ptop">{$item.CADate|substr=5,5}</p>
+	        					<p  class="ptime">{$item.StartTime}:00开抢</p> 
 							</a> 
 				        </foreach> 
 					</div>
@@ -169,7 +176,7 @@
 								
 								<div class="mui-scroll">
 									
-									<div style="height:30px; line-height: 30px;  font-size: 16px; margin-top: 15px; padding-left: 8px;;  background-color: #939393;">
+									<div style="height:30px; line-height: 30px;  font-size: 16px; margin-top: 9px; margin-bottom: 5px; padding-left: 8px;;  background-color: #939393;">
 										距离结束：00天05小时00分 
 									</div>
 										<div class="cky-table-view" id="ul{$item.SUCatsActivityId}">	

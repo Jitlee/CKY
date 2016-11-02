@@ -1,0 +1,56 @@
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">拼团</h1>
+</header>
+<div class="mui-content neweast-card" id="body">
+	<ul class="table-wrap" data-bind="foreach: list">
+		<li class="table-wrap-cell">
+			<a data-bind="attr: { href: '{:U('M/Group/goods','','')}/' + groupGoodsId }">
+				<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+				<div class="mui-ellipsis" data-bind="text: goodsName"></div>
+				<h5 data-bind1="text: subtitle" class="mui-ellipsis"></h5>
+				
+				<div class="mui-table">
+					<div class="mui-table-cell">
+						<r data-bind="text: '¥ ' + groupPrice"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
+					</div>
+					<div class="mui-table-cell">
+						<h5 class="mui-text-right">已售 <span class="sale-count" data-bind="text: groupNumbers"></span></h5>		
+					</div>
+				</div>			
+			</a>
+		</li>
+	</ul>
+</div>
+<script>
+	var vm = {
+		list: ko.observableArray([])
+	}
+	ko.applyBindings(vm, document.getElementById("body"));
+	seajs.use(["util"], function() {
+		var pageNo = 1;
+		function page() {
+			$.getJSON("{:U('/Api/Group/page', '', '')}/" + pageNo, null, function(result) {
+				util.endScroll("#body");
+				
+				if(pageNo == 1) {
+					vm.list.removeAll();
+				}
+				
+				if(result && result.code == 200) {
+					if(result.rst && result.rst.length > 0) {
+						pageNo++;
+						var list = vm.list();
+						list = list.concat(result.rst);
+						vm.list(list);
+					}
+				}
+			});
+		}
+		
+		util.onScrollEnd(page, "#body");
+		page();
+	});
+</script>

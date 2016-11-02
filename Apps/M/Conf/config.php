@@ -6,7 +6,7 @@ return array(
 		'scorerate'				=>50,
 		'LOG_RECORD' 			=> true, 					// 开启日志记录
 		'LOG_LEVEL'  			=>'EMERG,ALERT,CRIT,ERR',  // 只记录EMERG ALERT CRIT ERR 错误
-		'URL_PARAMS_BIND_TYPE'	=> 1,
+		
 		
 		'TMPL_PARSE_STRING' 		=> array( // 模板相关的配置
 			'__JQ__'				=> '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js',
@@ -19,7 +19,7 @@ return array(
 			'__CSS__'				=> '/Apps/M/View/default/css',
 			'__ROOTCSS__'			=> __ROOT__.'/Public/css',
 			'__CSS__'				=> '/Apps/M/View/default/css',
-			'__WEBROOT__'				=> 'http://192.168.3.6:505',
+			'__WEBROOT__'				=> 'http://www.cukayun.cn',
 		),
 		'alipay_config'=>array(
 			'partner' 		=>'2088221515120177',   //这里是你在成功申请支付宝接口后获取到的PID；

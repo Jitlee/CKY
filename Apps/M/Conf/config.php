@@ -6,7 +6,7 @@ return array(
 		'scorerate'				=>50,
 		'LOG_RECORD' 			=> true, 					// 开启日志记录
 		'LOG_LEVEL'  			=>'EMERG,ALERT,CRIT,ERR',  // 只记录EMERG ALERT CRIT ERR 错误
-		'URL_PARAMS_BIND_TYPE'	=> 1,
+		//'URL_PARAMS_BIND_TYPE'	=> 1,
 		
 		'TMPL_PARSE_STRING' 		=> array( // 模板相关的配置
 			'__JQ__'				=> '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js',

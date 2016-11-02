@@ -62,12 +62,14 @@ class SnappedUpModel extends BaseModel {
 		$sql="
 			select 
 				sc.SUCatsId,cat.CName,sc.*
+				,SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime Hour) 'ActivityStart' 								-- 1 开始				
+				,SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour) 'ActivityEnd' -- 1 结束
 			from 
 				cky_snappedup_catsactivity sc
 			inner join cky_snappedup_cats cat on cat.SUCatsId=sc.SUCatsId
 			where
 				cat.isShow=1 and sc.isShow=1
-				AND cat.SUCatsId=1
+				AND cat.SUCatsId=$SUCatsIdId
 			order by 
 				DATE_ADD(CAdATE,INTERVAL StartTime Hour)  asc
 		 ";

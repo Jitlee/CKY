@@ -141,11 +141,23 @@
 				font-size: 12px;
 				border-radius: 3px;
 			}
-			#sliderSegmentedControl{background:#2E3844; }
+			
+			#sliderSegmentedControl{background:#465465; }
 			.ptop{ font-size: 14px; color: #FFFFFF;}
 			.ptime{ font-size: 12px; color: #FFFFFF;}
-			a.mui-active.mui-control-item{ background: red; }
-			.mui-active p{color: red; font-weight: 400; }
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
+				background: #2E3844;
+				border:0px solid;
+				border-radius:2px;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+				background: #FC353A;
+				border:1px solid;
+				border-radius:2px;
+			}
+			.mui-active p{color: #000000; font-weight: 400; }
+			
+			
 		</style>
 		
 	</head>
@@ -161,8 +173,10 @@
 					<div class="mui-scroll">
 						<foreach name="Activitys" item="item">
 	        				<a class='mui-control-item <if condition="$item['SUCatsActivityId'] eq 1"> mui-active</if>' href="#itemmobile{$item.SUCatsActivityId}">
+	        					 
 	        					<p class="ptop">{$item.CADate|substr=5,5}</p>
-	        					<p  class="ptime">{$item.StartTime}:00开抢</p> 
+	        					<p  class="ptime">{$item.StartTime}:00开抢</p>
+	        					 
 							</a> 
 				        </foreach> 
 					</div>
@@ -176,8 +190,16 @@
 								
 								<div class="mui-scroll">
 									
-									<div style="height:30px; line-height: 30px;  font-size: 16px; margin-top: 9px; margin-bottom: 5px; padding-left: 8px;;  background-color: #939393;">
-										距离结束：00天05小时00分 
+									<div style="height:35px; line-height: 35px;  font-size: 16px; margin-top: 9px; margin-bottom: 5px; padding-left: 8px;;  background-color: #FFFFFF;">
+										<if condition="($item['ActivityStart'] eq 1) AND ($item['ActivityEnd'] eq 0)">
+											距离结束：<i class="iconfont icon-shizhong"></i><i class="iconfont icon-time"></i>
+											<span countdown="100000000"></span>
+										<elseif condition="$item['ActivityEnd'] eq '1'"/>
+											活动已结束
+										<elseif condition="$item['ActivityStart'] eq 0"/> 
+											敬请期待											
+										</if>
+										
 									</div>
 										<div class="cky-table-view" id="ul{$item.SUCatsActivityId}">	
 											<foreach name="goods" item="ig">
@@ -225,6 +247,7 @@
 		<script src="__JS__/mui.pullToRefresh.js"></script>
 		<script src="__JS__/mui.pullToRefresh.material.js"></script>
 		<script src="__JS__/swiper.jquery.min.js"></script>
+		<script type="text/javascript" src="__JS__/countdown.js"></script>
 		<script>
 			mui.init();
 			(function($) { 
@@ -236,6 +259,7 @@
 					deceleration:deceleration
 				});
 				
+				countdown();
 				$.ready(function() { 
 					
 					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
@@ -315,25 +339,7 @@
 								html+="								</div>";
 								html+="						    </div>";
 														    
-
-//								html+="								<span class='cky-media-name font15 goodsName' >"+obj.goodsName+"</span>";
-//								html+="								<div class='cky-center cky-media-content cky-ellipsis2 font12 "+obj.goodsName+"'>";
-//								html+="									"+obj.goodsSpec;
-//								html+="								</div>";
-//								html+="								<span class='cky-money'>￥"+obj.shopPrice+"</span>";
-//								html+="								<span class='cky-money-old'>￥"+obj.marketPrice+"</span>";
-//								html+="								<h5 class='cky-right'>马上抢</h5>";
-//								html+="						    </div>";
-//								html+="						</a>";
-							
-							
-							
-								
-								
-								
-
-														 
-														
+ 					
 														
 							li = document.createElement('li');
 							li.className = 'mui-table-view-cell';

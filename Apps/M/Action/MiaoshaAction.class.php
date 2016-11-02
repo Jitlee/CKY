@@ -24,10 +24,8 @@ class MiaoshaAction extends BaseAction {
 		$this->assign('title', '即将揭晓');
 		
 		$this->assign('category', $category);
-		$this->assign('categoryName', $categoryName);
-		
-		$this->assign('tabId', 1);
-		
+		$this->assign('categoryName', $categoryName);		
+		$this->assign('tabId', 1);		
 		$this->display();
 	}
 	

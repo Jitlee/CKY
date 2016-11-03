@@ -116,7 +116,7 @@
 			<a href="{:U('Goods/detail', '', '')}?id={$data.goods.goodsId}">¥<span class="font17">{$data.goods.shopPrice}&nbsp;</span>单买</a>
 		</div>
 		<div>
-			<a id="open">¥<span class="font17">{$data.goods.groupPrice}&nbsp;</span>开团</a>
+			<a id="open" href="javascript:void(0);">¥<span class="font17">{$data.goods.groupPrice}&nbsp;</span>开团</a>
 		</div>
 	</footer>
 </div>
@@ -124,30 +124,30 @@
 <script type="text/javascript" src="__KO__"></script>
 <script type="text/javascript" src="__JS__/countdown.js"></script>
 <script type="text/javascript">
-	var swiperList = document.getElementById("swiperList");
-	var gallerys = [{
-		goodsImg: "{$data.goods.goodsImg}",
-	}];
-	var gallerysVM = ko.observableArray(gallerys);
-	ko.applyBindings(gallerysVM, swiperList);
-	
-	$.getJSON("{:U('Goods/gallerys')}", { id: "{$data.goods.goodsId}" }, function(list) {
-		if(list && list.length > 0) {
-			var swiperList = document.getElementById("swiperList");
-			gallerys=[];
-			$.each(list, function() {
-				gallerys.push(this);
-			});
-			gallerysVM(gallerys);
-			if(gallerys.length > 1) {
-				var mySwiper = new Swiper('.swiper-container', {
-			    	direction: 'horizontal',
-				    pagination: '.swiper-pagination',
-				    loop: true
-			    });
-		  	}
-		}
-	});
+//	var swiperList = document.getElementById("swiperList");
+//	var gallerys = [{
+//		goodsImg: "{$data.goods.goodsImg}",
+//	}];
+//	var gallerysVM = ko.observableArray(gallerys);
+//	ko.applyBindings(gallerysVM, swiperList);
+//	
+//	$.getJSON("{:U('Goods/gallerys')}", { id: "{$data.goods.goodsId}" }, function(list) {
+//		if(list && list.length > 0) {
+//			var swiperList = document.getElementById("swiperList");
+//			gallerys=[];
+//			$.each(list, function() {
+//				gallerys.push(this);
+//			});
+//			gallerysVM(gallerys);
+//			if(gallerys.length > 1) {
+//				var mySwiper = new Swiper('.swiper-container', {
+//			    	direction: 'horizontal',
+//				    pagination: '.swiper-pagination',
+//				    loop: true
+//			    });
+//		  	}
+//		}
+//	});
 	
 	countdown();
 	

@@ -20,7 +20,7 @@ class GoodsGroupModel extends BaseModel {
 		 	->join('gg inner join __GOODS__ g on g.goodsId = gg.goodsId')
 		 	->where($where)
 		 	->find();
-		echo $this->getLastSql();
+//		echo $this->getLastSql();
 		
 		$group = $this->field('g.groupId, gg.groupPreNumbers, g.groupNumbers, gd.isPay,gd.groupDetailId,o.orderId,g.groupStatus,gd.isCaptain,
 			unix_timestamp(g.createTime) * 1000 AS createTime,  unix_timestamp(date_add(g.createTime, interval gg.groupLimitHours hour))*1000 endTime, unix_timestamp() * 1000 now')

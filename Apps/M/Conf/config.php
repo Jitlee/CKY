@@ -7,15 +7,15 @@ return array(
 		'LOG_RECORD' 			=> true, 					// 开启日志记录
 		'LOG_LEVEL'  			=>'EMERG,ALERT,CRIT,ERR',  // 只记录EMERG ALERT CRIT ERR 错误
  
-		'URL_ROUTER_ON'	=> false, // 开启路由
-		'URL_ROUTE_RULES'=>array(
-		    '/'          => '/Mobile/Index/index',
-		    'Index$'          => '/Mobile/Index/index',
-		    'Index/index$'          => '/Mobile/Index/index',
-		    
-		    'Group$'		=> '/Mobile/Group/index',
-		    'Group/index$'		=> '/Mobile/Group/index',
-		),
+//		'URL_ROUTER_ON'	=> false, // 开启路由
+//		'URL_ROUTE_RULES'=>array(
+//		    '/'          => '/Mobile/Index/index',
+//		    'Index$'          => '/Mobile/Index/index',
+//		    'Index/index$'          => '/Mobile/Index/index',
+//		    
+//		    'Group$'		=> '/Mobile/Group/index',
+//		    'Group/index$'		=> '/Mobile/Group/index',
+//		),
 		
  
 		//'URL_PARAMS_BIND_TYPE'	=> 1,

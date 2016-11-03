@@ -575,6 +575,7 @@ class OrdersAction extends BaseUserAction {
 				}
 				
 				$goods = $mgoods->info($goodsId,$goodsAttrId);
+//				echo $mgoods->getLastSql();
 				if(empty($goods)) {
 					$result['status']  = -1;
 					$result['data'] = '对不起，商品['.$goodsId.']不存在!';

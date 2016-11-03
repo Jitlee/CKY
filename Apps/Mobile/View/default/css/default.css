@@ -285,7 +285,8 @@ ul.news-card li.news-cell>a div.media-image {
     height: 44px;
     width: 70px;
 	background-color: rgb(235,242,252);
-	background-size: cover;
+	background-size: contain;
+	background-repeat: no-repeat;
 	background-position: center;
 }
 
@@ -347,9 +348,23 @@ div.miaosha-card div.horizontal-scroll li.mui-table-cell {
 
 div.miaosha-card div.horizontal-scroll li.mui-table-cell div.media-image {
 	margin: auto;
-	background-size: cover;
+	background-color: rgb(235,242,252);
+	background-size: contain;
+	background-repeat: no-repeat;
 	background-position: center;
 	height: 80px;
+}
+
+@media only screen and (min-width: 370px) {
+	div.miaosha-card div.horizontal-scroll li.mui-table-cell div.media-image  {
+		height: 90px;
+	}
+}
+
+@media only screen and (min-width: 410px) {
+	div.miaosha-card div.horizontal-scroll li.mui-table-cell div.media-image  {
+		height: 100px;
+	}
 }
 
 div.miaosha-card div.horizontal-scroll li.mui-table-cell a {
@@ -417,7 +432,9 @@ div.neweast-card li.table-wrap-cell:nth-child(even) {
 
 div.neweast-card li.table-wrap-cell div.media-image {
 	margin: auto;
-	background-size: cover;
+	background-color: rgb(235,242,252);
+	background-size: contain;
+	background-repeat: no-repeat;
 	background-position: center;
 	height: 80px;
 }
@@ -432,10 +449,6 @@ div.neweast-card li.table-wrap-cell div.media-image {
 	div.neweast-card li.table-wrap-cell div.media-image {
 		height: 120px;
 	}
-}
-
-@media only screen (max-width: 410px) {
-	height: 120px;
 }
 
 div.neweast-card li.table-wrap-cell a {

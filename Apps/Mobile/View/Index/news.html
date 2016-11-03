@@ -1,12 +1,66 @@
+<style>
+	ul.news-card li.news-top-cell {
+		height: 44px;
+		overflow: hidden;
+		position: relative;
+	}
+	
+	ul.news-card li.news-top-cell a.mui-navigate-right {
+		position: absolute;
+		height: 44px;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		margin: 0;
+	}
+	
+	ul.news-card li.news-top-cell a.mui-navigate-right {
+		transform: translateY(44px);
+		-webkit-transform: translateY(44px);
+	}
+	
+	ul.news-card li.news-top-cell a.mui-navigate-right.roll-out {
+		transform: translateY(0);
+		-webkit-transform: translateY(0);
+		animation-name: roll-out;
+		animation-duration: 0.5s;
+		animation-timing-function: linear;
+		animation-delay: 5s;
+		animation-fill-mode: backwards;
+	}
+	
+	ul.news-card li.news-top-cell a.mui-navigate-right.roll-in {
+		transform: translateY(44px);
+		-webkit-transform: translateY(44px);
+		animation-name: roll-in;
+		animation-duration: 0.5s;
+		animation-timing-function: linear;
+		animation-delay: 5s;
+		animation-fill-mode: none;
+	}
+	
+	@-webkit-keyframes roll-out {
+		from { transform: translateY(0);-webkit-transform: translateY(0); }
+		to  { transform: translateY(-44px);-webkit-transform: translateY(-44px); }
+	}
+	
+	@-webkit-keyframes roll-in{
+		from   { transform: translateY(44px);-webkit-transform: translateY(44px); }
+		to   { transform: translateY(0);-webkit-transform: translateY(0); }
+	}
+</style>
+
 <ul class="mui-table-view news-card" id="newsCard">
 	<li class="mui-table-view-cell news-top-cell">
+		<!-- ko if: notify -->
 		<!-- ko foreach: notify -->
-		<a class="mui-navigate-right" data-bind="attr: { href: '{:U('M/Articles/detail', '', '')}?id=' + articleId }">
+		<a class="mui-navigate-right" data-bind="attr: { id: 'notify' + $index(), href: '{:U('M/Articles/detail', '', '')}?id=' + articleId }">
 			<p class="mui-ellipsis">
 				<i class="iconfont icon-shengyin"></i>
 				<span data-bind="text: articleTitle"></span>
 			</p>
 		</a>
+		<!-- /ko -->
 		<!-- /ko -->
 	</li>
 	<li class="mui-table-view-cell news-more-cell">
@@ -15,6 +69,7 @@
 			<h5 class="mui-pull-right">更多内容</h5>
 		</a>
 	</li>
+	<!-- ko if: artires -->
 	<!-- ko foreach: artires -->
 	<li class="mui-table-view-cell news-cell">
 		<a data-bind="attr: { href: '{:U('M/Articles/detail', '', '')}?id=' + articleId }">
@@ -24,14 +79,31 @@
 		</a>
 	</li>
 	<!-- /ko -->
+	<!-- /ko -->
 </ul>
 <script>
 	seajs.use([], function() {
 		$.getJSON("{:U('M/Articles/indexArticles', '', '')}", function(data) {
-//			if(data && data.code == 200 && data.rst) {
+			if(data) {
 				var newsCard = document.getElementById("newsCard");
 				ko.applyBindings(data, newsCard);
-//			}
+				if(data.notify && data.notify.length > 1) {
+					beginRoll(data.notify.length);
+				}
+			}
 		});
 	});
+	
+	function beginRoll(notifyCount) {
+		var rollIndex = 0;
+		window.setInterval(roll, 5500);
+		
+		function roll() {
+			$("#notify" + (rollIndex - 1 + notifyCount) % notifyCount).removeClass("roll-out");
+			$("#notify" + rollIndex).removeClass("roll-in").addClass("roll-out");
+			$("#notify" + (rollIndex + 1) % notifyCount).addClass("roll-in");
+			rollIndex = (rollIndex + 1) % notifyCount;
+		}
+		roll();
+	}
 </script>

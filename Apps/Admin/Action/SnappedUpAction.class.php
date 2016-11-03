@@ -279,6 +279,16 @@ class SnappedUpAction extends BaseAction{
     	$rs = $m->addGoods();    	 
     	$this->ajaxReturn($rs);
 	 }
+	 
+	 	/**
+	 * 删除商品
+	 */
+	public function activityGoodsDel(){
+		$this->isLogin();
+		$m = D('Admin/SnappedupCatsActivityGoods');
+		$rs = $m->activityGoodsDel($miaoshaId);
+		$this->ajaxReturn($rs);
+	}
  	
 	
 }

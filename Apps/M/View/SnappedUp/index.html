@@ -11,14 +11,8 @@
 		<link rel="stylesheet" href="__CSS__/mui.min.css">
 		<link rel="stylesheet" href="__CSS__/swiper.min.css" />
 		<style>
-			html,
-			body {
-				background-color: #efeff4;
-			}
-			.mui-bar~.mui-content .mui-fullscreen {
-				top: 44px;
-				height: auto;
-			}
+			html,body {background-color: #efeff4;}
+			.mui-bar~.mui-content .mui-fullscreen {top: 44px;height: auto;}
 			.mui-pull-top-tips {
 				position: absolute;
 				top: -20px;
@@ -28,9 +22,7 @@
 				height: 40px;
 				border-radius: 100%;
 			}
-			.mui-bar~.mui-pull-top-tips {
-				top: 24px;
-			}
+			.mui-bar~.mui-pull-top-tips {top: 24px;}
 			.mui-pull-top-wrapper {
 				width: 42px;
 				height: 42px;
@@ -47,20 +39,9 @@
 				-webkit-transition-duration: 200ms;
 				transition-duration: 200ms;
 			}
-			.mui-pull-top-tips .mui-pull-loading {
-				/*-webkit-backface-visibility: hidden;
-				-webkit-transition-duration: 400ms;
-				transition-duration: 400ms;*/
-				
-				margin: 0;
-			}
+			.mui-pull-top-tips .mui-pull-loading {margin: 0;}
 			.mui-pull-top-wrapper .mui-icon,
-			.mui-pull-top-wrapper .mui-spinner {
-				margin-top: 7px;
-			}
-			.mui-pull-top-wrapper .mui-icon.mui-reverse {
-				/*-webkit-transform: rotate(180deg) translateZ(0);*/
-			}
+			.mui-pull-top-wrapper .mui-spinner {margin-top: 7px;}
 			.mui-pull-bottom-tips {
 				text-align: center;
 				background-color: #efeff4;
@@ -77,70 +58,28 @@
 				height: 40px;
 				margin: 0 auto;
 			}
-			.mui-pull-top-canvas canvas {
-				width: 40px;
-			}
-			.mui-slider-indicator.mui-segmented-control {
-				background-color: #efeff4;
-			}
+			.mui-pull-top-canvas canvas {width: 40px;}
+			.mui-slider-indicator.mui-segmented-control {background-color: #efeff4;}
 			.title {
 				margin: 20px 15px 10px;
 				color: #6d6d72;
 				font-size: 15px;
 			}
-			.mui-media-body{word-wrap: break-word; widows: 85%;
-			 white-space:initial; 
-			}
-			.mui-segmented-control .mui-control-item,.mui-control-item div{
-				height: 50px;
-			}
-			.mui-control-item p{  margin-top: 0px; margin-bottom: 2px; height: 20px;}
-			 
+			.mui-media-body{word-wrap: break-word; widows: 85%;white-space:initial;}
+			.mui-segmented-control .mui-control-item,.mui-control-item div{height: 50px;}
+			.mui-control-item p{  margin-top: 0px; margin-bottom: 2px; height: 20px;}			 
 			.mui-segmented-control.mui-scroll-wrapper{height: 50px;}
-			
-			
-			.progress {
-				width: 120px;border:solid 1px #F20;border-radius: 3px;height:12px;overflow: hidden;position:relative;
-			}
-			
-			.progress .progress-bar {
-				background-color: #E20;height:12px;
-			}
+			.progress {width: 120px;border:solid 1px #F20;border-radius: 3px;height:12px;overflow: hidden;position:relative;}
+			.progress .progress-bar {background-color: #E20;height:12px;}
 			.progress .text {
 				color: #fff; text-shadow: 1px 1px 1px #e20;width:100%;text-align: center;position:absolute;top:0px;left:0px;height:12px;line-height:12px;font-size:10px;text-size-adjust:none;-webkit-text-size-adjust:none;
 			}
 			
-			.cky-table-view-cell {
-				padding-left: 0px;
-			}
-			
-			.cky-table-cell-thumb {
-				height: 75px;
-				width: 75px;
-			}
-			
-			.cky-table-view-cell .cky-right {
-				float: none;
-				position: absolute;
-				right: 5px;
-				bottom: 5px;
-				text-align: right;
-			}
-			
-			.cky-table-view-cell .cky-right h5 {
-				text-size-adjust:none;
-				-webkit-text-size-adjust:none;
-				font-size: 10px;
-			}
-			
-			.cell-button {
-				diplay: block;
-				padding: 3px 5px;
-				background-color: #f20;
-				color: #fff;
-				font-size: 12px;
-				border-radius: 3px;
-			}
+			.cky-table-view-cell {padding-left: 0px;}
+			.cky-table-cell-thumb {height: 75px;width: 75px;}
+			.cky-table-view-cell .cky-right {float: none;position: absolute;right: 5px;bottom: 5px;text-align: right;}
+			.cky-table-view-cell .cky-right h5 {text-size-adjust:none;-webkit-text-size-adjust:none;font-size: 10px;}
+			.cell-button {diplay: block;padding: 8px 8px;background-color: #f20;color: #fff;font-size: 14px;border-radius: 3px;}
 			
 			#sliderSegmentedControl{background:#465465; }
 			.ptop{ font-size: 14px; color: #FFFFFF;}
@@ -156,8 +95,6 @@
 				border-radius:2px;
 			}
 			.mui-active p{color: #000000; font-weight: 400; }
-			
-			
 		</style>
 		
 	</head>
@@ -191,12 +128,12 @@
 								<div class="mui-scroll">
 									
 									<div style="height:35px; line-height: 35px;  font-size: 16px; margin-top: 9px; margin-bottom: 5px; padding-left: 8px;;  background-color: #FFFFFF;">
-										<if condition="($item['ActivityStart'] eq 1) AND ($item['ActivityEnd'] eq 0)">
+										<if condition="$item['timestatus'] eq 1">
 											距离结束：<i class="iconfont icon-shizhong"></i><i class="iconfont icon-time"></i>
-											<span countdown="100000000"></span>
-										<elseif condition="$item['ActivityEnd'] eq '1'"/>
+											<span countdown="{$item['endTime'] }"></span>
+										<elseif condition="$item['timestatus'] eq 2"/> 
 											活动已结束
-										<elseif condition="$item['ActivityStart'] eq 0"/> 
+										<elseif condition="$item['timestatus'] eq -1"/> 
 											敬请期待											
 										</if>
 										
@@ -204,7 +141,9 @@
 										<div class="cky-table-view" id="ul{$item.SUCatsActivityId}">	
 											<foreach name="goods" item="ig">
 												<if condition="$item['SUCatsActivityId'] eq $ig['SUCatsActivityId']">
-														<a class="cky-table-view-cell" id="goods{$ig.goodsId}" href='{:U('detail')}?id={$ig.goodsId}'}>
+														<a class="cky-table-view-cell" id="goods{$ig.goodsId}" 
+															<if condition="$item['timestatus'] eq 1">	href='{:U('detail')}?id={$ig.goodsId}'} </if>
+														>
 															<div class="cky-table-cell-thumb"  style="background-image: url(/{$ig.goodsThums})">
 															</div>
 															<div class="cky-media">
@@ -213,12 +152,11 @@
 																<span class="cky-money font16">￥{$ig.shopPrice}</span>
 																<span class="cky-money-old font12">￥{$ig.marketPrice}</span>
 																<div class="progress">
-																	<div class="progress-bar" style="width: 50%;"></div>
-																	<div class="text">50%</div>
-																</div>
+																	<div class="progress-bar" style="width: {$ig.salerate}%;"></div>
+																	<div class="text">{$ig.salerate}%</div>
+																</div> 
 																<div class="cky-right">
-																	<span class="cell-button">马上抢</span>
-																	
+																		<if condition="$item['timestatus'] eq 1"> <span class="cell-button">马上抢</span> </if>																	
 																		<h5 class="font-red">&nbsp;
 																			<if condition="$item['goodsStock'] eq '0'">
 																			该商品已经售完
@@ -312,7 +250,10 @@
 						var li;
 						for (var i = 0; i < count; i++) {
 							var obj=list[i];
-							var html="<a class='cky-table-view-cell' href='{:U('detail')}?id="+obj.goodsId+"'}>";
+							var html="<a class='cky-table-view-cell'>";
+							if(obj.timestatus==1){
+								html="<a class='cky-table-view-cell' href='{:U('detail')}?id="+obj.goodsId+"'}>";
+							}
 								html+="							<div class='cky-table-cell-thumb'  style=\"background-image: url(/"+ obj.goodsThums + ")\">";
 								html+="";
 								
@@ -321,16 +262,18 @@
 								html+="							</div>";
 								html+="							<div class='cky-media'>";
 																							 
-								html+="								<span class='cky-media-name font15 goodsName' style='line-height: 18px;'>{$ig.goodsName}</span>";
-								html+="								<div class='mui-ellipsis font12 font-red' style='line-height: 12px;margin-bottom: 10px;'>{$ig.goodsSpec}</div>";
-								html+="								<span class='cky-money font16'>￥{$ig.shopPrice}</span>";
-								html+="								<span class='cky-money-old font12'>￥{$ig.marketPrice}</span>";
+								html+="								<span class='cky-media-name font15 goodsName' style='line-height: 18px;'>"+ obj.goodsName + "</span>";
+								html+="								<div class='mui-ellipsis font12 font-red' style='line-height: 12px;margin-bottom: 10px;'>"+ obj.goodsSpec + "</div>";
+								html+="								<span class='cky-money font16'>￥"+ obj.shopPrice + "</span>";
+								html+="								<span class='cky-money-old font12'>￥"+ obj.marketPrice + "</span>";
 								html+="								<div class='progress'>";
-								html+="									<div class='progress-bar' style='width: 50%;'></div>";
-								html+="									<div class='text'>50%</div>";
+								html+="									<div class='progress-bar' style='width: "+ obj.salerate + "%;'></div>";
+								html+="									<div class='text'>"+ obj.salerate + "%</div>";
 								html+="								</div>";
 								html+="								<div class='cky-right'>";
-								html+="									<span class='cell-button'>马上抢</span>";								
+								if(obj.timestatus==1){
+									html+="									<span class='cell-button'>马上抢</span>";
+								}
 								html+="										<h5 class='font-red'>&nbsp;";
 																			if(obj.goodsStock==0){
 								html+="											该商品已经售完";

@@ -62,8 +62,11 @@ class SnappedUpModel extends BaseModel {
 		$sql="
 			select 
 				sc.SUCatsId,cat.CName,sc.*
-				,SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime Hour) 'ActivityStart' 								-- 1 开始				
-				,SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour) 'ActivityEnd' -- 1 结束
+				,case when SYSDATE() <DATE_ADD(CAdATE,INTERVAL StartTime Hour) then  -1  -- 未开始
+				 when SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour) then  2		-- 结束
+				 when SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime Hour) and SYSDATE() <DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour) then 1	-- 进行中				
+				 end  timestatus  
+				,unix_timestamp(DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour))*1000 endTime
 			from 
 				cky_snappedup_catsactivity sc
 			inner join cky_snappedup_cats cat on cat.SUCatsId=sc.SUCatsId
@@ -73,6 +76,7 @@ class SnappedUpModel extends BaseModel {
 			order by 
 				DATE_ADD(CAdATE,INTERVAL StartTime Hour)  asc
 		 ";
+//		 echo $sql;
 		$rs = $this->query($sql);
 		return $rs;
 	 }
@@ -91,10 +95,11 @@ FROM(
 	FROM
 	(
 			SELECT 
-				ga.SUCatsId,ag.SUCatsActivityId,
-				g.goodsId,g.goodsSn,g.goodsName,g.goodsStock,g.goodsThums,g.marketPrice,g.shopPrice,g.goodsUnit,g.saleCount,g.shopCatId1,g.goodsSpec 
-			FROM `cky_snappedup_catsactivity_goods` ag 
-
+				ga.SUCatsId,ag.SUCatsActivityId
+				,g.goodsId,g.goodsSn,g.goodsName,g.goodsStock,g.saleCount,g.goodsThums,g.marketPrice,g.shopPrice,g.goodsUnit,g.shopCatId1,g.goodsSpec
+				,floor((g.saleCount/g.goodsStock) *100) 'salerate'
+			FROM 
+				`cky_snappedup_catsactivity_goods` ag
 			inner join cky_snappedup_catsactivity ga on ga.SUCatsActivityId= ag.SUCatsActivityId 
 			inner join cky_goods g on g.goodsId= ag.goodsId 
 			INNER JOIN cky_snappedup snup on snup.goodsId=g.goodsId 
@@ -127,9 +132,14 @@ where rank <5
 		$sql=" 
 			SELECT 
 				ga.SUCatsId,ag.SUCatsActivityId,
-				g.goodsId,g.goodsSn,g.goodsName,g.goodsStock,g.goodsThums,g.marketPrice,g.shopPrice,g.goodsUnit,g.saleCount,g.shopCatId1,g.goodsSpec 
-			FROM `cky_snappedup_catsactivity_goods` ag 
-
+				g.goodsId,g.goodsSn,g.goodsName,g.goodsStock,g.goodsThums,g.marketPrice,g.shopPrice,g.goodsUnit,g.saleCount,g.shopCatId1,g.goodsSpec
+				,floor((g.saleCount/g.goodsStock) *100) 'salerate'
+				,case when SYSDATE() <DATE_ADD(CAdATE,INTERVAL StartTime Hour) then  -1  -- 未开始
+				 when SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour) then  2		-- 结束
+				 when SYSDATE() >DATE_ADD(CAdATE,INTERVAL StartTime Hour) and SYSDATE() <DATE_ADD(CAdATE,INTERVAL StartTime+ActivityLen Hour) then 1	-- 进行中				
+				 end  timestatus   
+			FROM 
+				`cky_snappedup_catsactivity_goods` ag
 			inner join cky_snappedup_catsactivity ga on ga.SUCatsActivityId= ag.SUCatsActivityId 
 			inner join cky_goods g on g.goodsId= ag.goodsId 
 			INNER JOIN cky_snappedup snup on snup.goodsId=g.goodsId 

@@ -17,7 +17,7 @@ class SnappedupCatsActivityGoodsModel extends BaseModel {
      	$SUCatsActivityId = I('id');
 	 	$sql = "
 	 		select 
-	 				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId
+	 				g.*,gc.catName,snup.subtitle,snup.xiangoutype,snup.xiangou,snup.limituseshopId,snup.ticketId,ag.SUCatsActivityGoodsId
 		 	from  
 				cky_snappedup_catsactivity_goods ag
 			left join cky_goods g on g.goodsId= ag.goodsId

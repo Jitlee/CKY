@@ -209,7 +209,7 @@ class GoodsGroupModel extends BaseModel {
 				 
 		//子表
 		$miaosha = array();
-		$miaosha["groupGoodsId"] = I("groupGoodsId");
+//		$miaosha["groupGoodsId"] = I("groupGoodsId");
 		$miaosha["groupNumbers"] = I("subtitle");
 		$miaosha["groupPrice"] = I("groupPrice");					//拼团价	
 		$miaosha["groupPreNumbers"] = (int)I("groupPreNumbers");
@@ -253,14 +253,15 @@ class GoodsGroupModel extends BaseModel {
 							if($v=='')continue;
 							$str1 = explode('@',$v);
 							$data = array();
-							$data['shopId'] = $goods['shopId'];
-							$data['goodsId'] = $goods['goodsId'];
+							$data['shopId'] = $shopId;
+							$data['goodsId'] = $goodsId;
 							$data['goodsImg'] = $str1[0];
 							$data['goodsThumbs'] = $str1[1];
 							$rs = $m->add($data);
 							if($rs === false || $rs === null) {
 								$m->rollback();
 								$rd['key'] = "错误码503";
+								$rd['msg']= $m->getError();
 								return $rd;
 							}
 						}

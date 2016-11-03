@@ -13,27 +13,10 @@ class IndexAction extends Controller {
 	 
 		
 	public function index() {
-//		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') == false) {  
-////	        $openid="orSWIvz7Ot-dIpP1kMSs3tnftz6Q";
-//			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
-//			session('openid',$openid);
-//	    }    
-		  
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 		if (strpos($user_agent, 'MicroMessenger') === true) {
 			try_login();
 		}
-		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
-			//try_login();
-		}
-		else
-		{
-//			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
-//			session('openid',$openid);
-			//try_login();			
-		}
-		
-//		logger("dddddd");
 		/****分享与定位***/
 		$wxm= new WxUserInfo();
 		$signPackage=$wxm->getSignPackage();			 
@@ -54,21 +37,7 @@ class IndexAction extends Controller {
 		$this->display();
 	}
 	public function indext() {
-//		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') == false) {  
-//	        $openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
-//			session('openid',$openid);
-//	    }    
-		  
-		if($_SERVER['SERVER_NAME'] != 'localhost' && strpos($_SERVER['SERVER_NAME'], '192.168.') === false) {
-			//try_login();
-		}
-		else
-		{
-//			$openid="o4CBRwu4gN7w8JZsVCw6leu9g2-Y";
-//			session('openid',$openid);
-			//try_login();			
-		}
-//		logger("dddddd");
+
 		/****分享与定位***/
 		$wxm= new WxUserInfo();
 		$signPackage=$wxm->getSignPackage();			 

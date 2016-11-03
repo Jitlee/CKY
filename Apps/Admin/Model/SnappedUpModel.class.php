@@ -27,39 +27,7 @@ class SnappedUpModel extends BaseModel {
 		return $m->pageQuery($sql);
 	 }
 
-//	public function queryHistoryByPage($goodsCatId1=0){
-//      $m = M('goods');
-//   	$goodsId = I('goodsId');
-//	 	$sql = "select g.*,gc.catName,ms.jishijiexiao,ms.qishu,ms.miaoshaStatus,ms.zongrenshu
-//	 		,ms.canyurenshu,ms.shengyurenshu,ms.maxqishu
-//		 	from __PREFIX__goods g 
-//			left join __PREFIX__goods_cats gc on g.goodsCatId2=gc.catId 			
-//			inner join __PREFIX__miaosha_history ms on ms.miaoshaId=g.miaoshaId 
-//			where goodsFlag=1  and goodsId=$goodsId"; 
-//
-//	 	$sql.="  order by ms.qishu desc";   
-//		return $m->pageQuery($sql);
-//	} 
-//	
-//	public function queryOrderByPage($goodsCatId1=0){
-//      $m = M('goods');
-//   	$goodsId = I('goodsId');
-//   	$qishu = I('qishu');
-//	 	$sql = "
-//select 
-//	mm.mmid, mm.createTime, mm.miaoshaCount,go.goodsname, mm.uid,mm.qishu,  u.trueName userName,g.*
-//from  
-//	cky_member_miaosha mm
-//inner join cky_member  u on mm.uid = u.uid
-//left join cky_miaosha_history g on g.miaoshaId=mm.miaoshaId and mm.qishu=g.qishu
-//left join cky_goods go on go.miaoshaId=g.miaoshaId
-//where  goodsId=$goodsId";
-// 
-//
-//	 	$sql.="  order by g.qishu desc";   
-//		return $m->pageQuery($sql);
-//	}
-//	 
+  
 	 
 	 public function get(){
 	 	$m = M('goods');
@@ -275,8 +243,8 @@ class SnappedUpModel extends BaseModel {
 							if($v=='')continue;
 							$str1 = explode('@',$v);
 							$data = array();
-							$data['shopId'] = $goods['shopId'];
-							$data['goodsId'] = $goods['goodsId'];
+							$data['shopId'] = $shopId;
+							$data['goodsId'] = $goodsId;
 							$data['goodsImg'] = $str1[0];
 							$data['goodsThumbs'] = $str1[1];
 							$rs = $m->add($data);

@@ -11,6 +11,10 @@ namespace M\Action;
 use Think\Controller;
 class ActivityAction extends BaseUserAction {
 	public function index() {
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (strpos($user_agent, 'MicroMessenger') === true) {
+			try_login();
+		}
 		$this->assign('title', '活动');
 		$addb = D('M/Ads');
 		$ads = $addb->queryByType(-3);

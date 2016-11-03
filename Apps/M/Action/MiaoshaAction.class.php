@@ -13,10 +13,12 @@ use Think\Controller;
 class MiaoshaAction extends BaseAction {
 
 	public function index() {
-		$this->assign('title', '热门秒杀');
-		
-		$this->assign('tabId', 0);
-		
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (strpos($user_agent, 'MicroMessenger') === true) {
+			try_login();
+		}
+		$this->assign('title', '热门秒杀');		
+		$this->assign('tabId', 0);		
 		$this->display();
 	}
 	

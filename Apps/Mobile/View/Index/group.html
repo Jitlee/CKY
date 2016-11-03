@@ -1,7 +1,7 @@
 <div class="miaosha-card" id="groupCard">
 	<div class="mui-table-view">
 		<div class="mui-table-view-cell nav-cell">
-			<a href="{:U('Mobile/Group/index','','')}">
+			<a href="{:U('/Mobile/Group/index','','')}">
 				/ 热门团购 /
 			</a>
 		</div>
@@ -9,7 +9,7 @@
 	<div class="horizontal-scroll">
 		<ul class="mui-table" data-bind="foreach: $data">
 			<li class="mui-table-cell">
-				<a data-bind="attr: { href: '{:U('M/Group/goods', '', '')}/' + groupGoodsId }">
+				<a data-bind="attr: { href: '{:U('/M/Group/goods', '', '')}?groupGoodsId=' + groupGoodsId }">
 					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
 					<div class="mui-ellipsis" data-bind="text: goodsName"></div>
 					<r data-bind="text: '¥ ' + groupPrice"></r> <del data-bind="text: '¥ ' + shopPrice"></del>

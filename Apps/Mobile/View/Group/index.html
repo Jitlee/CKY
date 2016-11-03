@@ -7,7 +7,7 @@
 <div class="mui-content neweast-card" id="body">
 	<ul class="table-wrap" data-bind="foreach: list">
 		<li class="table-wrap-cell">
-			<a data-bind="attr: { href: '{:U('M/Group/goods','','')}/' + groupGoodsId }">
+			<a data-bind="attr: { href: '{:U('/M/Group/goods','','')}?groupGoodsId=' + groupGoodsId }">
 				<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
 				<div class="mui-ellipsis" data-bind="text: goodsName"></div>
 				<h5 data-bind1="text: subtitle" class="mui-ellipsis"></h5>

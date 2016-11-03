@@ -13,15 +13,14 @@ class GoodsGroupModel extends BaseModel {
 		 $uid = getuid();
 		 $where = array('groupGoodsId' => $groupGoodsId);
 		 $goods = $this
-		 	->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsImg, g.goodsThums, g.shopId, s.shopName, g.goodsStock, g.shopPrice, g.goodsUnit, g.saleCount,g.goodsDesc,
+		 	->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsImg, g.goodsThums, g.shopId, g.goodsStock, g.shopPrice, g.goodsUnit, g.saleCount,g.goodsDesc,
 		 		gg.groupGoodsId, gg.groupPrice, gg.groupNumbers, gg.groupPreNumbers, unix_timestamp() * 1000 now,
 		 		unix_timestamp(gg.groupEndTime)*1000 endTime, unix_timestamp() * 1000 now,
 			 	unix_timestamp(gg.groupStartTime) * 1000 AS groupStartTime, unix_timestamp(gg.groupEndTime) * 1000 AS groupEndTime')
 		 	->join('gg inner join __GOODS__ g on g.goodsId = gg.goodsId')
-		 	->join('inner join __SHOPS__ s on s.shopId = g.shopId')
 		 	->where($where)
 		 	->find();
-//		echo $this->getLastSql();
+		echo $this->getLastSql();
 		
 		$group = $this->field('g.groupId, gg.groupPreNumbers, g.groupNumbers, gd.isPay,gd.groupDetailId,o.orderId,g.groupStatus,gd.isCaptain,
 			unix_timestamp(g.createTime) * 1000 AS createTime,  unix_timestamp(date_add(g.createTime, interval gg.groupLimitHours hour))*1000 endTime, unix_timestamp() * 1000 now')

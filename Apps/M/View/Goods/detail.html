@@ -47,7 +47,9 @@
 		</div>
 	
 		<div id="item1mobile" class="cky-tab-content cky-active">
-			<p class="mui-content-padded">{$data.goodsDesc}</p>
+			<div>
+			{$data.goodsDesc}
+			</div>
 		</div>
 		<div id="item2mobile" class="cky-tab-content">
 			<if condition='$appraise["avgtotal"]["totalusers"] gt 0'>
@@ -217,9 +219,10 @@
 			$("#recordLoading").hide();
 			if(arr && arr.length > 0) {
 				recordVM(arr);
+				$("#recordsList").removeClass("cky-hidden");
 			} else {
 				$("#emptyrecordBlock").removeClass("cky-hidden");
-			}			
+			}
 		});
 	});
 	

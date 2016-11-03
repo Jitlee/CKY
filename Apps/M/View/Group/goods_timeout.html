@@ -112,7 +112,7 @@
 	};
 	ko.applyBindings(vm);
 	
-	$.getJSON("{:U('members','','')}/{$data.group.groupId}", {  }, function(members) {
+	$.getJSON("{:U('members','','')}?groupId={$data.group.groupId}", {  }, function(members) {
 		vm.members(members);
 	});
 

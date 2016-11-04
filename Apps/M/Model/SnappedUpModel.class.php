@@ -161,7 +161,7 @@ where rank <5
 	 	$m=M('goods');
 		$goodsId = I('id');
 		$field = 'g.goodsId, g.shopId, goodsSn, goodsName, shopCatId1, g.goodsCatId1, goodsImg, goodsThums, shopPrice,marketPrice, goodsStock, saleCount, goodsDesc,goodsSpec, shopName, deliveryStartMoney, deliveryFreeMoney, deliveryMoney, deliveryCostTime, serviceStartTime, serviceEndTime'
-			.", cg.subtitle,cg.xiangoutype,cg.xiangou,cg.limituseshopId,cg.ticketId,cg.buyinfo";
+			.", cg.subtitle,cg.xiangoutype,cg.xiangou,cg.limituseshopId,cg.ticketId,cg.buyinfo,case when  cg.xiangoutype =0 then 0 else cg.xiangou end xiangounum";
 		$join = 'g left join __SHOPS__ s on s.shopId = g.shopId';
 		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';
 		$leftJoin2 = 'left join cky_snappedup cg on cg.goodsId = g.goodsId';

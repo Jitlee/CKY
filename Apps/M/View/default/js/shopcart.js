@@ -43,7 +43,11 @@ function ShopCart(pickerId, shop, goods) {
 		evt.preventDefault();
 		var $this = $(this);		
 		var cnt = parseInt(num.val()) + 1;
-		if(cnt <= goods.goodsStock) {
+		if(goods.xiangouNum && cnt > goods.xiangouNum)// 限购 数量  xiangouNum
+		{
+			 return false;
+		}
+		if(cnt <= goods.goodsStock) {  
 			num.val(cnt);
 		}
 	});

@@ -125,7 +125,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}"></script>
+<script type="text/javascript" src="__JS__/{:autoVer('shopcart.js')}?v=2016110401"></script>
 
 <script type="text/javascript">
 	
@@ -155,7 +155,7 @@
 		
 		
 		var shopCart = new ShopCart("goodsPicker", {
-			shopId: -1,
+			shopId: -20,
 			shopName: "{$data.shopName}",
 			deliveryFreeMoney:0,// {$data.deliveryFreeMoney},
 			deliveryMoney: 0,//{$data.deliveryMoney},
@@ -165,6 +165,7 @@
 			goodsThums: "{$data.goodsThums}",
 			shopPrice: {$data.shopPrice},
 			goodsStock: {$data.goodsStock},
+			xiangouNum: {$data.xiangounum},			
 			goodsUnit: "{$data.goodsUnit}",
 			activeId: "{$data.activeId}",
 			activeType: "{$data.activeType}",

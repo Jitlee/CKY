@@ -14,7 +14,7 @@ class MiaoshaAction extends BaseAction {
 
 	public function index() {
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
-		if (strpos($user_agent, 'MicroMessenger') === true) {
+		if (strpos($user_agent, 'MicroMessenger') >0) {
 			try_login();
 		}
 		$this->assign('title', '热门秒杀');		

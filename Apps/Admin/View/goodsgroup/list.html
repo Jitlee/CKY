@@ -170,11 +170,14 @@
                <!--<th width='100'>商家</th>-->
                <th width='60'>平台分类</th>
                <th width='25'>禁售</th>
-               
-               
-               <th width='40'>限购类型</th>
-               <th width='40'>抢购数量</th>
                <th width='40'>商品数量</th>
+               
+               <th width='40'>拼团价格(元)</th>
+               <th width='40'>组团人数</th>
+               <th width='40'>最大团数</th>
+               <th width='40'>开团限制小时数</th>
+               <th width='40'>活动时间</th>
+               
               <!-- <th width='45'>销量</th>-->
                <th width='80'>操作</th>
              </tr>
@@ -200,15 +203,14 @@
 	               		
 						
                </td>
-               <td>
-           			<if condition="$vo['xiangoutype'] == 0">不参与</if>
-					<if condition="$vo['xiangoutype'] == 1">仅参与一次</if>
-					<if condition="$vo['xiangoutype'] == 2">每天一次</if>
-					<if condition="$vo['xiangoutype'] == 3">每周</if>
-					<if condition="$vo['xiangoutype'] == 4">每月</if>               	
-               </td>
-               <td>{$vo['xiangou']}&nbsp;</td>
-               <td>{$vo['goodsStock']}&nbsp;</td>               
+               <td>{$vo['goodsStock']}&nbsp;</td>
+               
+               <td>{$vo['groupPrice']}&nbsp;</td>
+               <td>{$vo['groupPreNumbers']}&nbsp;</td>
+               <td>{$vo['groupMaxNumbers']}&nbsp;</td>
+               <td>{$vo['groupLimitHours']}&nbsp;</td>
+               <td>{$vo['groupStartTime']}至{$vo['groupEndTime']}</td>
+                              
                <td>
                	<if condition="($vo['SnappedUpStatus'] eq 1) or ($vo['SnappedUpStatus'] eq 0)">
                		<a class="btn btn-primary glyphicon" href='{:U("Admin/GoodsGroup/toEdit",array("id"=>$vo["goodsId"]))}'>编辑</a>

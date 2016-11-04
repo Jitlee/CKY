@@ -31,7 +31,7 @@ class GoodsAction extends BaseAction {
 	}
 	
 	// 商品详情
-	public function detail() {
+	public function detail() {		
 		$m = D('M/Goods');
 		$data = $m->detail();
 		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
@@ -44,6 +44,28 @@ class GoodsAction extends BaseAction {
 		}
 	}
 	
+	public function detailtst() {
+//		try_login();
+//		$openid = get_user_open_id();
+//		$openid=''.$openid;	
+//		echo $openid.'
+//		';
+//		
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		echo $user_agent.'
+		'.strpos($user_agent, 'MicroMessenger');
+		if (strpos($user_agent, 'MicroMessenger') >0) {
+			echo'try_login()
+			';
+		}
+		else
+		{
+			echo '未输出';
+		}
+		
+		
+		$this->display('fast');
+	}
 	public function gallerys() {
 		$m = D('M/GoodsGallerys');
 		$list = $m->lst();

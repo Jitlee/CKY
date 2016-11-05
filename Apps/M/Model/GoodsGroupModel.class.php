@@ -55,7 +55,7 @@ class GoodsGroupModel extends BaseModel {
 			'groupId'	=> $groupId,
 		);
 		$members = $m->field('gd.isCaptain, gd.groupDetailId, gd.groupId, gd.uid, gd.createTime,gd.isPay,
-			replace(concat(\'/\', u.ImagePath), \'/http://\', \'http://\') userImg,
+			u.ImagePath userImg,
 			INSERT(u.trueName,ROUND(CHAR_LENGTH(u.trueName) / 2),ROUND(CHAR_LENGTH(u.trueName) / 4),\'****\') userName')
 			->join('gd inner join __MEMBER__ u on u.uid = gd.uid')
 			->where($where)->order('gd.createTime asc')->select();

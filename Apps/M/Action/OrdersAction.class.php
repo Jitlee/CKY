@@ -298,6 +298,9 @@ class OrdersAction extends BaseUserAction {
 			$ticket['stime'] = (int)$ticket['stime'];
 			$ticket['etime'] = (int)$ticket['etime'];
 		}
+	
+		
+		
 //		echo dump($ticket);
 //		return;
 		
@@ -321,6 +324,8 @@ class OrdersAction extends BaseUserAction {
 				$result = $mgroup->checkOrder($groupGoodsId, $groupId);
 			}
 		} 
+		
+		
 		if($result['status'] == 1) {
 			// 整理及核对购物车
 			foreach($cartGoods as $key => $cg) {
@@ -333,6 +338,30 @@ class OrdersAction extends BaseUserAction {
 				}
 				
 				$goods = $mgoods->info($goodsId,$goodsAttrId);
+				//xiangoutype,snap.xiangou
+				if(!empty($goods['xiangoutype'])) //限购逻辑处理
+				{
+					$xiangoutype=(int)$goods['xiangoutype'];
+					if($xiangoutype > 0)
+					{
+						$uid=getuid();					
+						$xiangou=$goods['xiangou'];
+						$type=$mgoods->checkXiangou($goodsId,$uid,$xiangoutype,$xiangou);
+						 
+						if($type == -10) { //需要去支付
+							$result['status']  = -110;
+							$result['data'] = '对不起，您已参与过此商品秒杀未完成支付，请到【会员中心】->【我的订单】完成支付!';
+							break;
+						}
+						else if($type == -20) { //已购买，不能重复购买。
+							$result['status']  = -120;
+							$result['data'] = '对不起，您已参与过此商品秒杀不能重复参与!';
+							break;
+						}
+						
+					}
+				}
+		
 //				echo $mgoods->getLastSql();
 				if(empty($goods)) {
 					$result['status']  = -1;

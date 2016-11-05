@@ -28,8 +28,8 @@ function getuid()
 	$uid=session('uid');
 	if(!isset($uid))
 	{
-		$REDIRECT_URI='http://' . $_SERVER['HTTP_HOST'] . U('Wx/getcodeurl', '', '');
-		header('Location:'.$REDIRECT_URI);	
+		try_login();
+		$uid=session('uid');
 	}	
 	return $uid;
 }

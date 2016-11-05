@@ -209,7 +209,7 @@ class GoodsGroupModel extends BaseModel {
 				 
 		//子表
 		$miaosha = array();
-//		$miaosha["groupGoodsId"] = I("groupGoodsId");
+		$miaosha["groupGoodsId"] = I("groupGoodsId");
 		$miaosha["groupNumbers"] = I("subtitle");
 		$miaosha["groupPrice"] = I("groupPrice");					//拼团价	
 		$miaosha["groupPreNumbers"] = (int)I("groupPreNumbers");

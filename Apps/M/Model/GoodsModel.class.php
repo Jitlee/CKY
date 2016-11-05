@@ -54,10 +54,12 @@ class GoodsModel extends BaseModel {
 	public function info($goodsId, $goodsAttrId) {
 		$sql = "SELECT g.*,sp.shopId,sp.shopName,sp.deliveryFreeMoney,sp.deliveryMoney,sp.deliveryStartMoney,sp.isInvoice,sp.serviceStartTime startTime,sp.serviceEndTime endTime,sp.deliveryType
 					,mam.mactmid activeId, mam.priceMode activeType, mam.amount activeAmount,mi.shengyurenshu
+					,snap.xiangoutype,snap.xiangou
 				FROM __PREFIX__goods g inner join __PREFIX__shops sp on g.shopId = sp.shopId
 					left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId
 					left join __MALL_ACTIVITYM__ mam on mag.mactmid = mam.mactmid
 					left join cky_miaosha mi on mi.miaoshaId=g.miaoshaId
+					left join cky_snappedup snap on snap.goodsId=g.goodsId
 				WHERE g.goodsId = $goodsId AND g.isSale=1 AND g.goodsFlag = 1 AND g.goodsStatus = 1";
 		$rs = $this->queryRow($sql);
 //		echo $this->getLastSql();
@@ -77,6 +79,30 @@ class GoodsModel extends BaseModel {
         }
 		return $rs;
 	}
+	
+	public function checkxiangou($goodsId,$uid,$xiangoutype,$xiangou)
+	{ 
+		$map = array(
+			"userId"		=>$uid
+			,"g.goodsId"	=>$goodsId
+		);
+ 
+		$m=M('order_goods');
+		$list = $m->field('o.userId,g.goodsId,o.orderStatus')
+			->join('g inner join cky_orders o  on o.`orderId` =g.`orderId`')
+			->where($map)->select();
+			
+		$len=count($list);
+		if($len > 0)
+		{
+			$obj=$list[0];
+			$orderStatus =(int)$obj["orderStatus"];
+			if($orderStatus == 0) return -10; //需要去支付
+			if($orderStatus > 0) return -20; //已购买，不能重复购买。		
+		}
+		return 0;
+	}
+	
 	
 	public function guess() {
 		$pageNo = 1;

@@ -1,22 +1,47 @@
 <div class="mui-table nav-horizontal-buttons">
-	<a class="mui-table-cell nav-horizontal-button1"><i class="iconfont icon-meishi"></i>团购</a>
-	<a class="mui-table-cell nav-horizontal-button2"><i class="iconfont icon-seller"></i>商家</a>
-	<a class="mui-table-cell nav-horizontal-button3"><i class="iconfont icon-huodong"></i>活动</a>
-	<a class="mui-table-cell nav-horizontal-button4"><i class="iconfont icon-peisong"></i>速达农村配送</a>
-	<a class="mui-table-cell nav-horizontal-button5"><i class="iconfont icon-gouwuche12"></i>商城</a>
+	<a class="mui-table-cell nav-horizontal-button1" id="group"><i class="iconfont icon-meishi"></i>团购</a>
+	<a class="mui-table-cell nav-horizontal-button2" id="shops"><i class="iconfont icon-seller"></i>商家</a>
+	<a class="mui-table-cell nav-horizontal-button3" id="activity"><i class="iconfont icon-huodong"></i>活动</a>
+	<a class="mui-table-cell nav-horizontal-button4" id="deliver"><i class="iconfont icon-peisong"></i>速达农村配送</a>
+	<a class="mui-table-cell nav-horizontal-button5" id="mall"><i class="iconfont icon-gouwuche12"></i>商城</a>
 </div>
 
 <div class="mui-table nav-grid-buttons">
-	<a class="mui-table-cell nav-grid-button1"><i class="iconfont icon-xinwenzixun"></i>新闻资讯</a>
-	<a class="mui-table-cell nav-grid-button2"><i class="iconfont icon-jifenshangcheng"></i>积分商城</a>
-	<a class="mui-table-cell nav-grid-button3"><i class="iconfont icon-miaosha"></i>秒杀</a>
-	<a class="mui-table-cell nav-grid-button4"><i class="iconfont icon-dazhuanpan"></i>大转盘</a>
-	<a class="mui-table-cell nav-grid-button5"><i class="iconfont icon-yiyuangouwu"></i>一元夺宝</a>
+	<a class="mui-table-cell nav-grid-button1" id="articles"><i class="iconfont icon-xinwenzixun"></i>新闻资讯</a>
+	<a class="mui-table-cell nav-grid-button2" id="jiefen"><i class="iconfont icon-jifenshangcheng"></i>积分商城</a>
+	<a class="mui-table-cell nav-grid-button3" id="snappedup"><i class="iconfont icon-miaosha"></i>秒杀</a>
+	<a class="mui-table-cell nav-grid-button4" id="xcturntable"><i class="iconfont icon-dazhuanpan"></i>大转盘</a>
+	<a class="mui-table-cell nav-grid-button5" id="miaosha"><i class="iconfont icon-yiyuangouwu"></i>一元夺宝</a>
 </div>
 <div class="mui-table nav-grid-buttons">
-	<a class="mui-table-cell nav-grid-button6"><i class="iconfont icon-shenghuofuwu"></i>生活服务</a>
-	<a class="mui-table-cell nav-grid-button7"><i class="iconfont icon-kouhong"></i>丽人</a>
-	<a class="mui-table-cell nav-grid-button8"><i class="iconfont icon-bendishangjia"></i>本地商家</a>
-	<a class="mui-table-cell nav-grid-button9"><i class="iconfont icon-dianying"></i>电影</a>
-	<a class="mui-table-cell nav-grid-button10"><i class="iconfont icon-daijinquanpaisong"></i>代金券派送</a>
+	<a class="mui-table-cell nav-grid-button6" id="hotel"><i class="iconfont icon-shenghuofuwu"></i>生活服务</a>
+	<a class="mui-table-cell nav-grid-button7" id="liren"><i class="iconfont icon-kouhong"></i>丽人</a>
+	<a class="mui-table-cell nav-grid-button8" id="bdsj"><i class="iconfont icon-bendishangjia"></i>本地商家</a>
+	<a class="mui-table-cell nav-grid-button9" id="film"><i class="iconfont icon-dianying"></i>电影</a>
+	<a class="mui-table-cell nav-grid-button10" id="coupon"><i class="iconfont icon-daijinquanpaisong"></i>代金券派送</a>
 </div>
+
+<script>
+	$(function() {
+		$("#group").click(function(){ window.location.href = "{:U('/M/Group/index')}"; });		//团购
+		$("#shops").click(function(){ window.location.href = "{:U('/M/Shops/index')}"; });		//商家
+		$("#activity").click(function(){ window.location.href = "{:U('/M/Activity/index')}"; });	//活动
+		$("#deliver").click(function(){ window.location.href = "{:U('/M/Deliver/index')}"; });	//速达农村配送
+		$("#mall").click(function(){ window.location.href = "{:U('/M/Mall/index')}"; });			//商城
+		
+		$("#articles").click(function(){ window.location.href = "{:U('/M/Articles/index')}"; });	//新闻资讯
+		$("#jiefen").click(function(){cky.toast('敬请期待...');});		
+		$("#snappedup").click(function(){ window.location.href = "{:U('/M/SnappedUp/index')}"; });	//秒杀
+		$("#xcturntable").click(function(){ window.location.href = "{:U('/M/XCTurntable/index')}"; });	//大转盘
+		$("#miaosha").click(function(){ window.location.href = "{:U('/M/Miaosha/index')}"; });	//一元夺宝
+		
+		
+		
+		$("#hotel").click(function(){ window.location.href = "{:U('/M/Shops/index','','')}?catid=415";	});//生活服务
+		$("#liren").click(function(){cky.toast('敬请期待...');});	//丽人
+		$("#bdsj").click(function(){ window.location.href = "{:U('/M/Fast/index','','')}";	});//本地商家
+		$("#film").click(function(){cky.toast('敬请期待...');});	//电影
+		$("#coupon").click(function(){ window.location.href = "{:U('/M/Activity/coupon','','')}";	});
+		 
+	});
+</script>

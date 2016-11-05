@@ -158,8 +158,8 @@ class TicketModel extends BaseModel {
 	 	$rd = array('status'=>-1);
 	 	if(I('id',0)==0)return $rd;
 	 	$m = M('activity_ticket');
-	 	//$m->isShow = ((int)I('isShow')==1)?1:0;
-	 	$rs = $m->where("ticketID=".I('id',0))->save();
+	 	$m->isShowInShop = ((int)I('isShow')==1)?1:0;
+	 	$rs = $m->where("ticketID='".I('id',0)."'")->save();
 	    if(false !== $rs){
 			$rd['status']= 1;
 		}

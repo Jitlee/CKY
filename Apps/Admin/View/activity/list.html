@@ -85,24 +85,24 @@
                <td>{$vo['catName']}</td>
                <td>
                <div class="dropdown">
-               <if condition="$vo['isShow']==0 ">
-                   <button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
-					     隐藏
-					  <span class="caret"></span>
-				   </button>
-               <else/>
-                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
-					     显示
-					  <span class="caret"></span>
-				   </button>
-               </if>
-               
-                   <ul class="dropdown-menu" role="menu">
-					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['activityId']})">显示</a></li>
-					  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['activityId']})">隐藏</a></li>
-				   </ul>
-			   
-               </div>
+	               <if condition="$vo['isShow']==0 ">
+	                   <button class="btn btn-danger dropdown-toggle rtc-btn-dropdown"  type="button" data-toggle="dropdown">
+						     隐藏
+						  <span class="caret"></span>
+					   </button>
+	               <else/>
+	                   <button class="btn btn-success dropdown-toggle rtc-btn-dropdown" type="button" data-toggle="dropdown">
+						     显示
+						  <span class="caret"></span>
+					   </button>
+	               </if>
+	               
+	                   <ul class="dropdown-menu" role="menu">
+						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(1,{$vo['activityId']})">显示</a></li>
+						  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:toggleIsShow(0,{$vo['activityId']})">隐藏</a></li>
+					   </ul>
+				   
+	               </div>
                </td>
                <td>{$vo['efficacySDate']}至{$vo['efficacyEDate']}</td>
                <td>{$vo['shopName']}</td>

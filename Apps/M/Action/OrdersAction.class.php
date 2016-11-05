@@ -316,6 +316,8 @@ class OrdersAction extends BaseUserAction {
 		// 拼团
 		$groupGoodsId = (int)I('groupGoodsId', 0); // 如果有则是拼团
 		$groupId = (int)I('groupId', 0); // 如果有则是参团，没有是开团
+				
+		logger("/****************拼团日志$groupGoodsId****************/");
 		if($groupGoodsId > 0) {
 			if(count($cartGoods) != 1) {
 				$result['status']  = -50;

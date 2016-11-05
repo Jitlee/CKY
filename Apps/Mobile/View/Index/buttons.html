@@ -22,26 +22,26 @@
 </div>
 
 <script>
-	$(function() {
-		$("#group").click(function(){ window.location.href = "{:U('/M/Group/index')}"; });		//团购
-		$("#shops").click(function(){ window.location.href = "{:U('/M/Shops/index')}"; });		//商家
-		$("#activity").click(function(){ window.location.href = "{:U('/M/Activity/index')}"; });	//活动
-		$("#deliver").click(function(){ window.location.href = "{:U('/M/Deliver/index')}"; });	//速达农村配送
-		$("#mall").click(function(){ window.location.href = "{:U('/M/Mall/index')}"; });			//商城
-		
-		$("#articles").click(function(){ window.location.href = "{:U('/M/Articles/index')}"; });	//新闻资讯
-		$("#jiefen").click(function(){cky.toast('敬请期待...');});		
-		$("#snappedup").click(function(){ window.location.href = "{:U('/M/SnappedUp/index')}"; });	//秒杀
-		$("#xcturntable").click(function(){ window.location.href = "{:U('/M/XCTurntable/index')}"; });	//大转盘
-		$("#miaosha").click(function(){ window.location.href = "{:U('/M/Miaosha/index')}"; });	//一元夺宝
-		
-		
-		
-		$("#hotel").click(function(){ window.location.href = "{:U('/M/Shops/index','','')}?catid=415";	});//生活服务
-		$("#liren").click(function(){cky.toast('敬请期待...');});	//丽人
-		$("#bdsj").click(function(){ window.location.href = "{:U('/M/Fast/index','','')}";	});//本地商家
-		$("#film").click(function(){cky.toast('敬请期待...');});	//电影
-		$("#coupon").click(function(){ window.location.href = "{:U('/M/Activity/coupon','','')}";	});
-		 
+	seajs.use(["layer", "cky", "layercss"], function() {
+		$(function() {
+			$("#group").click(function(){ window.location.href = "{:U('/M/Group/index')}"; });		//团购
+			$("#shops").click(function(){ window.location.href = "{:U('/M/Shops/index')}"; });		//商家
+			$("#activity").click(function(){ window.location.href = "{:U('/M/Activity/index')}"; });	//活动
+			$("#deliver").click(function(){ window.location.href = "{:U('/M/Deliver/index')}"; });	//速达农村配送
+			$("#mall").click(function(){ window.location.href = "{:U('/M/Mall/index')}"; });			//商城
+			
+			$("#articles").click(function(){ window.location.href = "{:U('/M/Articles/index')}"; });	//新闻资讯
+			$("#jiefen").click(function(){cky.toast('敬请期待...');});		
+			$("#snappedup").click(function(){ window.location.href = "{:U('/M/SnappedUp/index')}"; });	//秒杀
+			$("#xcturntable").click(function(){ window.location.href = "{:U('/M/XCTurntable/index')}"; });	//大转盘
+			$("#miaosha").click(function(){ window.location.href = "{:U('/M/Miaosha/index')}"; });	//一元夺宝
+			
+			$("#hotel").click(function(){ window.location.href = "{:U('/M/Shops/index','','')}?catid=415";	});//生活服务
+			$("#liren").click(function(){cky.toast('敬请期待...');});	//丽人
+			$("#bdsj").click(function(){ window.location.href = "{:U('/M/Fast/index','','')}";	});//本地商家
+			$("#film").click(function(){cky.toast('敬请期待...');});	//电影
+			$("#coupon").click(function(){ window.location.href = "{:U('/M/Activity/coupon','','')}";	});
+			 
+		});
 	});
 </script>

@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	<div class="horizontal-scroll">
-		<ul class="mui-table" data-bind="foreach: $data">
+		<ul class="mui-table" data-bind="foreach: $data,css: { 'one': $data.length ==1,'two': $data.length ==2,'three': $data.length ==3 }">
 			<li class="mui-table-cell">
 				<a data-bind="attr: { href: '{:U('/M/Group/goods', '', '')}?groupGoodsId=' + groupGoodsId }">
 					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>

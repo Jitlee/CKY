@@ -14,7 +14,7 @@ class IndexAction extends Controller {
 		
 	public function index() {
 		Header("HTTP/1.1 301 Moved Permanently");
-     	Header("Location:/Mobile/Index/index");
+     	Header("Location:/index.php/Mobile/Index/index");
 		
 //		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 //		if (strpos($user_agent, 'MicroMessenger') >0) {

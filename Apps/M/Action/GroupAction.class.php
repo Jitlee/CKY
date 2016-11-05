@@ -11,19 +11,26 @@ namespace M\Action;
 use Think\Controller;
 class GroupAction extends BaseAction {
 	public function index() {
-		$this->assign('title', '拼团');
-		$this->display('index');
+		Header("HTTP/1.1 301 Moved Permanently");
+     	Header("Location:/index.php/Mobile/Group/index");
 	}
 	
 	public function goods() {
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (strpos($user_agent, 'MicroMessenger') >0) {
+			try_login();
+		}
+		
 		$groupGoodsId = (int)I('groupGoodsId', 0);
 		$groupId = (int)I('groupId', 0);
 		$m = D('GoodsGroup');
 		$data = $m->goods($groupGoodsId);
+		$data['goods']['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goods']['goodsDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', '拼团详情');
 		$group = $data['group'];
 		$goods = $data['goods'];
+//		echo dump($group);
 		if(!empty($group)) {
 			$groupStatus = (int)$group['groupStatus'];
 			if($groupStatus == 2) {
@@ -31,8 +38,12 @@ class GroupAction extends BaseAction {
 			} else if((float)$group['now'] < (float)$group['endTime']) {
 				if((int)$group['isPay'] == 0) {
 					$this->display('goods_nopay');
-				} else {
+				} else if($groupId > 0) {
 					$this->display('goods_opened');
+				} else {
+					$groupId = (int)$group["groupId"];
+					Header("HTTP/1.1 301 Moved Permanently");
+     				Header("Location:/index.php/M/Group/goods?groupGoodsId=$groupGoodsId&groupId=$groupId");
 				}
 			} else { // 超期
 				$this->display('goods_timeout');

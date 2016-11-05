@@ -13,28 +13,31 @@ class IndexAction extends Controller {
 	 
 		
 	public function index() {
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
-		if (strpos($user_agent, 'MicroMessenger') >0) {
-			try_login();
-		}
-		/****分享与定位***/
-		$wxm= new WxUserInfo();
-		$signPackage=$wxm->getSignPackage();			 
-		$this->assign('signPackage', $signPackage);
-		/****地图apk*******/
-		$m = D('Home/System');
-		$GLOBALS['CONFIG'] = $m->loadConfigs();
-		$this->assign('CONF',$GLOBALS['CONFIG']);	
+		Header("HTTP/1.1 301 Moved Permanently");
+     	Header("Location:/Mobile/Index/index");
 		
-		
-		$this->assign('title', "粗卡");
-		$this->assign('tabid', 'home');
-		
-		$addb = D('ads');
-		$ads = $addb->queryByType(-1);
-		$this->assign('ads', $ads); 
-		 
-		$this->display();
+//		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+//		if (strpos($user_agent, 'MicroMessenger') >0) {
+//			try_login();
+//		}
+//		/****分享与定位***/
+//		$wxm= new WxUserInfo();
+//		$signPackage=$wxm->getSignPackage();			 
+//		$this->assign('signPackage', $signPackage);
+//		/****地图apk*******/
+//		$m = D('Home/System');
+//		$GLOBALS['CONFIG'] = $m->loadConfigs();
+//		$this->assign('CONF',$GLOBALS['CONFIG']);	
+//		
+//		
+//		$this->assign('title', "粗卡");
+//		$this->assign('tabid', 'home');
+//		
+//		$addb = D('ads');
+//		$ads = $addb->queryByType(-1);
+//		$this->assign('ads', $ads); 
+//		 
+//		$this->display();
 	}
 	public function indext() {
 

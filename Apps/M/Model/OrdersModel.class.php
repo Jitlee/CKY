@@ -1267,11 +1267,13 @@ class OrdersModel extends BaseModel {
 		$data['accountscoremoney'] = $accountscoremoney;
 		$data['accountscore'] = $accountscore;
 		 
+		logger("/**************拼团11111:$orderType******************/");
 		if($this->where($filter)->save($data) === FALSE) {
 			$rst['status'] = -302;
 			return $rst;
 		}
 		if($orderType == -1) {
+			logger("/**************拼团,uid: $uid,orderId: $orderId******************/");
 			//完成一元购流程
 			return $this->_payGroup($uid, $orderId);
 		} else if($orderType == 2) {

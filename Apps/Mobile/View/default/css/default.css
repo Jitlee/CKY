@@ -32,8 +32,8 @@ div.header-search {
 
 @media only screen and (min-width: 375px) {
 	div.header-search {
-		left: 90px;
-		right: 90px;
+		left: 100px;
+		right: 100px;
 	}
 }
 
@@ -83,7 +83,7 @@ header a.check-in i.iconfont {
 .swiper-img {
 	display: block;
 	margin-bottom: 0px;
-	height:38vw;
+	height:50vw;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -338,6 +338,14 @@ div.miaosha-card div.horizontal-scroll ul.mui-table {
 	padding-right: 10px;
 }
 
+div.miaosha-card div.horizontal-scroll ul.mui-table.one {
+	width: 33.3%;
+}
+
+div.miaosha-card div.horizontal-scroll ul.mui-table.two {
+	width: 66.6%;
+}
+
 div.miaosha-card div.horizontal-scroll li.mui-table-cell {
 	width: 28vw;
 	padding-left: 10px;
@@ -348,8 +356,8 @@ div.miaosha-card div.horizontal-scroll li.mui-table-cell {
 
 div.miaosha-card div.horizontal-scroll li.mui-table-cell div.media-image {
 	margin: auto;
-	background-color: rgb(235,242,252);
-	background-size: contain;
+	/*background-color: rgb(235,242,252);*/
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	height: 80px;
@@ -432,13 +440,13 @@ div.neweast-card li.table-wrap-cell:nth-child(even) {
 
 div.neweast-card li.table-wrap-cell div.media-image {
 	margin: auto;
-	background-color: rgb(235,242,252);
-	background-size: contain;
+	/*background-color: rgb(235,242,252);*/
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
-	height: 80px;
+	height: 35vw;
 }
-
+/*
 @media only screen and (min-width: 370px) {
 	div.neweast-card li.table-wrap-cell div.media-image {
 		height: 100px;
@@ -449,7 +457,7 @@ div.neweast-card li.table-wrap-cell div.media-image {
 	div.neweast-card li.table-wrap-cell div.media-image {
 		height: 120px;
 	}
-}
+}*/
 
 div.neweast-card li.table-wrap-cell a {
 	display: block;

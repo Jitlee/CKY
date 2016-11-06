@@ -3,7 +3,7 @@ return array(
 	    'SESSION_PREFIX'			=> 'user_', 	// SESSION前缀配置
 		'COOKIE_PREFIX'			=> 'user_', 		// COOKIE前缀配置
 		'LAYOUT_ON'				=>	true, 					// 启用布局
-		'scorerate'				=>50,
+		'scorerate'				=>100,
 		'LOG_RECORD' 			=> true, 					// 开启日志记录
 		'LOG_LEVEL'  			=>'EMERG,ALERT,CRIT,ERR',  // 只记录EMERG ALERT CRIT ERR 错误
  

@@ -31,14 +31,14 @@ class GoodsAppraisesAction extends BaseAction{
 //	}
 
 	public function totalAppraises() {
-		$m = D('M/Goods_appraises');
+		$m = D('M/GoodsAppraises');
 		$data = $m->totalAppraises();
 		$this->ajaxReturn($data, 'JSON');
 	}
 	
 	// 查询商铺评价
 	public function pageAppraise() {
-		$m = D('M/Goods_appraises');
+		$m = D('M/GoodsAppraises');
 		$list = $m->pageAppraises();
 //		echo $m->getLastSql();
 		$this->ajaxReturn($list, 'JSON');
@@ -50,7 +50,7 @@ class GoodsAppraisesAction extends BaseAction{
 	 */
 	public function getAppraise(){
 		 
-		$m = D('M/Goods_appraises');
+		$m = D('M/GoodsAppraises');
 		$goodsId = (int)I("goodsId");
 		$shopId = (int)I("shopId");
 		if($goodsId>0)
@@ -71,7 +71,7 @@ class GoodsAppraisesAction extends BaseAction{
 	}
 	public function getAppraiseLoad(){
 		 
-		$m = D('M/Goods_appraises');
+		$m = D('M/GoodsAppraises');
 		$goodsId = (int)I("goodsId");
 		$shopId = (int)I("shopId");
 		
@@ -88,7 +88,7 @@ class GoodsAppraisesAction extends BaseAction{
 	 * 订单评价
 	 */
     public function toAppraise(){
-    	$morders = D('M/Goods_appraises');
+    	$morders = D('M/GoodsAppraises');
     	$obj["userId"] = session("uid");
     	$obj["orderId"] = (int)I("orderId");
 		$rs = $morders->getOrderAppraises($obj);
@@ -102,7 +102,7 @@ class GoodsAppraisesAction extends BaseAction{
     public function addGoodsAppraises(){
     	//$this->isUserAjaxLogin();
     	//$USER = session('RTC_USER');
-    	$morders = D('M/Goods_appraises');
+    	$morders = D('M/GoodsAppraises');
     	$obj["userId"] = session("uid");
     	$obj["orderId"] = (int)I("orderId");
     	$obj["goodsId"] = (int)I("goodsId");

@@ -31,29 +31,7 @@ class SnappedUpModel extends BaseModel {
 		return $this->query($sql)[0];
 	 }
 	 
-	 
-	 
-	 /**
-	  * 根据活动节点查询商品
-	  * */
-//	 public function querySUCatsActivityGoods($SUCatsActivityId) {
-//		$pageNo = 1;
-//		$pageSize = 20;
-//		$map = array(
-//			"g.goodsFlag"=>1
-//			,"ag.SUCatsActivityId"=>$SUCatsActivityId
-//		);
-//		$m = M('snappedup_catsactivity_goods');
-//		$list = $m->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsStock, g.goodsThums, g.marketPrice, g.shopPrice, g.goodsUnit, g.saleCount, g.shopCatId1, g.goodsSpec')
-//				->join('ag inner join cky_goods g on g.goodsId= ag.goodsId')
-//				->join('cky_snappedup snup on snup.goodsId=g.goodsId ')			
-//				->where($map)
-//				->order('g.goodsId')
-//				->page($pageNo, $pageSize)->select();
-//
-//		return $list;
-//	}
-	
+
 	
 	/**
 	  * 根据活动获取活动节点 

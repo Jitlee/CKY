@@ -6,12 +6,12 @@
 		<i class="iconfont icon-sousuo"></i>
 	    <input type="search" placeholder="输入商家、商品、商圈"/>
 	</div>
-	<a class="mui-btn mui-btn-link mui-pull-right check-in">
+	<a class="mui-btn mui-btn-link mui-pull-right check-in" id="qiandao">
 		签到<i class="iconfont icon-jinbib"></i>
 	</a>
-	<a class="mui-btn mui-btn-link mui-pull-right">
+	<!--<a class="mui-btn mui-btn-link mui-pull-right">
 		<i class="iconfont icon-saomiao"></i>
-	</a>
+	</a>-->
 </header>
 <div class="mui-content bottom-bar-content">
 	<include file="Public/ads" id="ads" type="-1" />
@@ -24,6 +24,9 @@
 </div>
 <script>
 	seajs.use("util", function() {
-		
+		$(function() {
+			$("#qiandao").click(function(){cky.toast('敬请期待...');});	//电影
+		});	
 	})
+	
 </script>

@@ -335,7 +335,7 @@ class OrdersAction extends BaseUserAction {
 				$count = (int)$cg->count;
 				if($count==0) {
 					$result['status']  = -1;
-					$result['data'] = '商品数量错误!';
+					$result['data'] = '商品已售罄，客服MM补货中！';
 					break;
 				}
 				
@@ -367,7 +367,7 @@ class OrdersAction extends BaseUserAction {
 //				echo $mgoods->getLastSql();
 				if(empty($goods)) {
 					$result['status']  = -1;
-					$result['data'] = '对不起，商品['.$goodsId.']不存在!';
+					$result['data'] = '对不起，商品已下架,再看看其它商品吧!';
 					break;
 				}
 				

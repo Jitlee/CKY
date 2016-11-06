@@ -13,13 +13,14 @@ class IndexAction extends Controller {
 	 
 		
 	public function index() {
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (strpos($user_agent, 'MicroMessenger') >0) {
+			try_login();
+		}
+
 		Header("HTTP/1.1 301 Moved Permanently");
      	Header("Location:/index.php/Mobile/Index/index");
 		
-//		$user_agent = $_SERVER['HTTP_USER_AGENT'];
-//		if (strpos($user_agent, 'MicroMessenger') >0) {
-//			try_login();
-//		}
 //		/****分享与定位***/
 //		$wxm= new WxUserInfo();
 //		$signPackage=$wxm->getSignPackage();			 

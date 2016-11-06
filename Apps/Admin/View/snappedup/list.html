@@ -95,28 +95,7 @@
 			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px");
 		});
 	}
-   function getAreaList(objId,parentId,t,id){
-	   var params = {};
-	   params.parentId = parentId;
-	   $('#'+objId).empty();
-	   if(t<1){
-		   $('#areaId2').html('<option value="">请选择</option>');
-		   if(parentId==0)return;
-	   }
-	   var html = [];
-	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
-		    html.push('<option value="">请选择</option>');
-			var json = RTC.toJson(data);
-			if(json.status=='1' && json.list.length>0){
-				var opts = null;
-				for(var i=0;i<json.list.length;i++){
-					opts = json.list[i];
-					html.push('<option value="'+opts.areaId+'" '+((id==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
-				}
-			}
-			$('#'+objId).html(html.join(''));
-	   });
-   }
+    
    function getCatList(objId,parentId,t,id){
 	   var params = {};
 	   params.id = parentId;
@@ -145,9 +124,7 @@
    }
    $(document).ready(function(){
 	    $('.imgPreview').imagePreview();
-	    <notempty name='areaId1'>
-		   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
-		</notempty>
+	     
 		<if condition="$goodsCatId1  neq 0 ">
 		getCatList("goodsCatId2",{$goodsCatId1},0,{$goodsCatId2});
 		</if>
@@ -186,8 +163,8 @@
                <th width='120'>商品名称</th>
                <th width='60'>商品编号</th>
                
-               <th width='60'>价格</th>
-               <th width='40'>单价</th>
+               <th width='60'>市场价格</th>
+               <th width='40'>销售价格</th>
                <!--<th width='100'>商家</th>-->
                <th width='60'>平台分类</th>
                <th width='25'>禁售</th>
@@ -224,9 +201,9 @@
                <td>
            			<if condition="$vo['xiangoutype'] == 0">不参与</if>
 					<if condition="$vo['xiangoutype'] == 1">仅参与一次</if>
-					<if condition="$vo['xiangoutype'] == 2">每天一次</if>
+					<!--<if condition="$vo['xiangoutype'] == 2">每天一次</if>
 					<if condition="$vo['xiangoutype'] == 3">每周</if>
-					<if condition="$vo['xiangoutype'] == 4">每月</if>               	
+					<if condition="$vo['xiangoutype'] == 4">每月</if>               	-->
                </td>
                <td>{$vo['xiangou']}&nbsp;</td>
                <td>{$vo['goodsStock']}&nbsp;</td>               

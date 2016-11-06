@@ -37,6 +37,12 @@ class GoodsAction extends BaseAction {
 		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['goodsName']);
+		//评价
+		$goodsId = I('id');
+		$mAppraises = D('M/GoodsAppraises');
+		$Appraises=$mAppraises->getGoodsAppraises($goodsId);
+		$this->assign('appraise', $Appraises);
+		
 		if((int)$data['goodsCatId1'] == 1) {
 			$this->display('fast');
 		} else {

@@ -47,19 +47,10 @@
 				-webkit-transition-duration: 200ms;
 				transition-duration: 200ms;
 			}
-			.mui-pull-top-tips .mui-pull-loading {
-				/*-webkit-backface-visibility: hidden;
-				-webkit-transition-duration: 400ms;
-				transition-duration: 400ms;*/
-				
-				margin: 0;
-			}
+			.mui-pull-top-tips .mui-pull-loading {margin: 0;}
 			.mui-pull-top-wrapper .mui-icon,
 			.mui-pull-top-wrapper .mui-spinner {
 				margin-top: 7px;
-			}
-			.mui-pull-top-wrapper .mui-icon.mui-reverse {
-				/*-webkit-transform: rotate(180deg) translateZ(0);*/
 			}
 			.mui-pull-bottom-tips {
 				text-align: center;
@@ -90,6 +81,12 @@
 			}
 			.mui-media-body{word-wrap: break-word; widows: 85%;
 			 white-space:initial; 
+			}
+			.swiper-pagination{
+				 text-align: right; 
+			}
+			.mui-slider-title{
+				  font-weight: bold;  opacity: 0.7;
 			}
 		</style>
 		
@@ -124,10 +121,10 @@
 									    <div class="swiper-wrapper">
 									        <!-- Slides -->
 									        <foreach name="ads0" item="item">
-									        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
-								        			<!--<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img">
-								        				<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.adFileThumb}">
-								        			</a></div>-->
+									        	<div class="swiper-slide">
+									        		<a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a>
+									        		<p class="mui-slider-title">{$item.adName}</p>
+									        	</div>
 									        </foreach>
 									    </div>
 									    <!-- If we need pagination -->
@@ -162,7 +159,11 @@
 								    <div class="swiper-wrapper">
 								        <!-- Slides -->
 								        <foreach name="ads1" item="item">
-								        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        	<div class="swiper-slide">
+								        		<a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');">
+								        			<p class="mui-slider-title">{$item.adName}</p>		
+								        		</a>
+								        	</div>
 								        </foreach>
 								    </div>
 								    <!-- If we need pagination -->
@@ -175,7 +176,7 @@
 	        								<li class="mui-table-view-cell mui-media">
 												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">
 													 
-													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
 														<p>{$item.createTime}</p>
@@ -199,7 +200,11 @@
 								    <div class="swiper-wrapper">
 								        <!-- Slides -->
 								        <foreach name="ads2" item="item">
-								        	<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+								        	<div class="swiper-slide">
+								        		<a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');">
+								        			<p class="mui-slider-title">{$item.adName}</p>		
+								        		</a>
+								        	</div>
 								        </foreach>
 								    </div>
 								    <!-- If we need pagination -->
@@ -211,7 +216,7 @@
 										<if condition="$item['catId'] eq 2">
 	        								<li class="mui-table-view-cell mui-media">
 												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">												 
-													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
 														<p>{$item.createTime}</p>
@@ -235,7 +240,11 @@
 								    <div class="swiper-wrapper">
 								        <!-- Slides -->
 								        <foreach name="ads3" item="item">
-							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+							        		<div class="swiper-slide">
+								        		<a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');">
+								        			<p class="mui-slider-title">{$item.adName}</p>		
+								        		</a>
+								        	</div>
 								        </foreach>
 								    </div>
 								    <!-- If we need pagination -->
@@ -247,7 +256,7 @@
 										<if condition="$item['catId'] eq 3">
 	        								<li class="mui-table-view-cell mui-media">
 												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">												 
-													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
 														<p>{$item.createTime}</p>
@@ -271,7 +280,11 @@
 								    <div class="swiper-wrapper">
 								        <!-- Slides -->
 								        <foreach name="ads4" item="item">
-							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+							        		<div class="swiper-slide">
+								        		<a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');">
+								        			<p class="mui-slider-title">{$item.adName}</p>		
+								        		</a>
+								        	</div>
 								        </foreach>
 								    </div>
 								    <!-- If we need pagination -->
@@ -283,7 +296,7 @@
 										<if condition="$item['catId'] eq 4">
 	        								<li class="mui-table-view-cell mui-media">
 												<a<a href="{:U('detail',"",'')}?id={$item['articleId'] }">
-													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
 														<p>{$item.createTime}</p>
@@ -307,7 +320,11 @@
 								    <div class="swiper-wrapper">
 								        <!-- Slides -->
 								        <foreach name="ads5" item="item">
-							        			<div class="swiper-slide"><a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');"></a></div>
+							        		<div class="swiper-slide">
+								        		<a href="{$item.adURL}" class="swiper-img" style="background-image: url('/{$item.adFileThumb}');">
+								        			<p class="mui-slider-title">{$item.adName}</p>		
+								        		</a>
+								        	</div>
 								        </foreach>
 								    </div>
 								    <!-- If we need pagination -->
@@ -319,7 +336,7 @@
 										<if condition="$item['catId'] eq 5">
 	        								<li class="mui-table-view-cell mui-media" id="articleId{$item.articleId}">
 												<a href="{:U('detail',"",'')}?id={$item['articleId'] }">													 
-													<img class="mui-media-object mui-pull-right" data-lazyload="__WEBROOT__/{$item.articleImgThumb}">
+													<img class="mui-media-object mui-pull-right" src="__WEBROOT__/{$item.articleImgThumb}">
 													<div class="mui-media-body">
 														{$item.articleTitle}														 
 														<p>{$item.createTime}</p>

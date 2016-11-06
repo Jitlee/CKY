@@ -65,8 +65,8 @@ class GoodsGroupModel extends BaseModel {
 		$data["goodsImg"] = I("goodsImg");
 		$data["goodsThums"] = I("goodsThumbs");
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
-		$data["marketPrice"] = (int)I("marketPrice");
-		$data["shopPrice"] = (int)I("shopPrice");
+		$data["marketPrice"] = (float)I("marketPrice");
+		$data["shopPrice"] = (float)I("shopPrice");
 		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");
@@ -173,8 +173,8 @@ class GoodsGroupModel extends BaseModel {
 		$data["goodsImg"] = I("goodsImg");
 		$data["goodsThums"] = I("goodsThumbs");
 		$data["shopId"] = $shopId;//session('RTC_USER.shopId');
-		$data["marketPrice"] = (int)I("marketPrice");
-		$data["shopPrice"] = (int)I("shopPrice");
+		$data["marketPrice"] = (float)I("marketPrice");
+		$data["shopPrice"] = (float)I("shopPrice");
 		$data["goodsStock"] = (int)I("goodsStock");
 		$data["isBook"] = (int)I("isBook");
 		$data["bookQuantity"] = (int)I("bookQuantity");

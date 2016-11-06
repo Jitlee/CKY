@@ -18,7 +18,7 @@ class OrdersModel extends BaseModel {
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
 		$map = array('o.userId'	=> $userId, 'o.orderFlag' => array('neq', -1));
-		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
+		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, o.mmid, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
 		$group = 'o.orderId';
 		$list = $this->field($field)->join($join)->where($map)
@@ -31,7 +31,7 @@ class OrdersModel extends BaseModel {
 		$userId = $obj["userId"];
 		 
 		$map = array('o.orderId'	=> $orderid);
-		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, shopName,s.wxopenid,s.wxopenid1,s.wxopenid2, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
+		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.mmid, o.shopId, o.isAppraises, shopName,s.wxopenid,s.wxopenid1,s.wxopenid2, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
 		$group = 'o.orderId';
 		$list = $this->field($field)->join($join)->where($map)

@@ -48,6 +48,15 @@ class GoodsGroupModel extends BaseModel {
 		return $group;
 	}
 	
+	public function detail($groupDetailId = 0) {
+		$group = $this->field('g.groupId, gg.groupGoodsId')
+			->join('gg inner join __GROUP__ g on gg.groupGoodsId = g.groupGoodsId')
+			->join('inner join __GROUP_DETAIL__ gd on g.groupId = gd.groupId')
+			->where(array('gd.groupDetailId'=> $groupDetailId))
+			->find();
+		return $group;
+	}
+	
 	// 团员列表
 	public function members($groupId = 0) {
 		$m = M('GroupDetail');

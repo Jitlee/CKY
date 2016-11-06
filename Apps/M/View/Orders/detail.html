@@ -79,7 +79,9 @@
 	<else/>
 		<if condition="$data.orderType eq -2">
 			<a id="goshop" href="{:U('Miaosha/index')}" title="一元购中奖订单">继续一元购</a>
-		<elseif condition="$data.orderType eq 3">
+		<elseif condition="$data.orderType eq -1"/>
+			<a id="goshop" href="{:U('M/Group/detail', '', '')}?id={$data.mmid}" title="拼团">拼团详情</a>
+		<elseif condition="$data.orderType eq 3"/>
 			<a id="goshop" href="{:U('Mall/index')}" title="商城订单">去商城看看</a>
 		<else/>
 			<a id="goshop" href="{:U('Shops/index')}" title="商家订单">继续逛逛</a>

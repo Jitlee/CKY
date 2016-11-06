@@ -64,6 +64,16 @@ class GroupAction extends BaseAction {
 		}
 	}	
 	
+	public function detail($groupDetailId = 0) {
+		$groupDetailId = (int)I('id', $groupDetailId);
+		$m = D('GoodsGroup');
+		$group = $m->detail($groupDetailId);
+		$groupGoodsId = (int)$group['groupGoodsId'];
+		$groupId = (int)$group['groupId'];
+		Header("HTTP/1.1 301 Moved Permanently");
+     	Header("Location:/index.php/M/Group/goods?groupGoodsId=$groupGoodsId&groupId=$groupId");
+	}
+	
 	public function members($groupId = 0) {
 		$groupId = (int)I('groupId', $groupId);
 		$m = D('GoodsGroup');

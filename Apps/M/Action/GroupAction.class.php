@@ -22,6 +22,7 @@ class GroupAction extends BaseAction {
 		}
 		
 		$groupGoodsId = (int)I('groupGoodsId', 0);
+		$showshare= (int)I('showshare', 0);
 		$groupId = (int)I('groupId', 0);
 		$m = D('GoodsGroup');
 		$data = $m->goods($groupGoodsId);
@@ -30,6 +31,12 @@ class GroupAction extends BaseAction {
 		$this->assign('title', '拼团详情');
 		$group = $data['group'];
 		$goods = $data['goods'];
+		
+		/****分享与定位***/
+		$wxm= new WxUserInfo();
+		$signPackage=$wxm->getSignPackage();			 
+		$this->assign('signPackage', $signPackage);
+
 //		echo dump($group);
 		if(!empty($group)) {
 			$groupStatus = (int)$group['groupStatus'];

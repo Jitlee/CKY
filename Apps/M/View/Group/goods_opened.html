@@ -108,7 +108,7 @@
 	
 	<footer>
 		<div>
-			<a href="{:U('index', '', '')}">更多商品</a>
+			<a href="{:U('index', '', '')}">[更多商品]</a>
 		</div>
 		<div>
 			<a id="topay" href="{:U('Orders/detail', '', '')}?id={$data.group.orderId}">查看订单详情</a>
@@ -130,6 +130,23 @@
 	
 	countdown();
 	
+	var shareData = {
+	    title: '{$data.goods.goodsName}',
+	    desc: '{$data.goods.subtitle}',
+	    link: window.location.href,
+	    imgUrl: '__WEBROOT__/{$data.goods.goodsImg}'
+	}; 
+	var signPackage=new Object(); 
+	signPackage.appId='{$signPackage.appId}';
+	signPackage.timestamp={$signPackage.timestamp};
+	signPackage.nonceStr='{$signPackage.nonceStr}';
+	signPackage.signature='{$signPackage.signature}';
+	signPackage.Location=1;//调用
+	
+	
 	$(function() {
+		
 	});
 </script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script src="__JS__/{:autoVer('wxjsapi.js')}?11"></script>

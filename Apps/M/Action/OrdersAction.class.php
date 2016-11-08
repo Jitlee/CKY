@@ -117,6 +117,7 @@ class OrdersAction extends BaseUserAction {
 		session("money", (float)$data['needPay']);
 		session("type", 'order');
 		session("orderid", $orderId);
+		session("orderType", $data['orderType']);
 		//echo dump($data);
 		//payType 是否在线支付 0 货到付款 1在线支付
 		$payType=$data['payType'].'';

@@ -226,4 +226,15 @@ class MemberPayModel extends BaseModel {
 		return $rd;
 	}
 	
+	public function GetGroupParaByOrderID($orderid)
+	{
+		$sql = "select g.groupGoodsId,g.groupId
+from cky_orders o
+inner join cky_group_detail gd on o.orderType=-1 and o.mmid=gd.groupDetailId
+inner join cky_group g on g.groupId=gd.groupId
+where o.`orderId` =$orderid ";	
+		$group = $this->query($sql);
+		return $group[0];
+	}
+	
 }

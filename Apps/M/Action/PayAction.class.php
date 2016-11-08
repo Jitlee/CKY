@@ -72,7 +72,7 @@ class PayAction extends PayBaseAction {
     Public function index(){
 		$money=session("money");
 		$type=session("type");
-
+		$orderType=session("orderType");
 		if($type=="recharge")
 		{
 			$Body="会员卡充值";	
@@ -106,6 +106,7 @@ class PayAction extends PayBaseAction {
 		{
 			$this->assign('title', $Body);
 			$this->assign('money', $money);
+			$this->assign('orderType', $orderType);
 //			$tfee=$money * 100;		//整数单位为分
 			//$tfee=1;				//整数单位为分
 			$setattach=$dataInfo["payNo"]; //附加信息原样返回			
@@ -147,16 +148,20 @@ class PayAction extends PayBaseAction {
 		$orderno=$_POST['orderno'].'';
 		if($orderno)
 		{
+			$orderType=$_POST['orderType'];		//订单类型
 			session("orderno",$orderno);
+			session("orderType",$orderType);
 			$Body=$_POST['goodsName'].'';
 			
 			$accountmoney=$_POST['accountmoney'];		//帐户余额支付
-			$accountscore=$_POST['accountscore'];		//低扣积分	
+			$accountscore=$_POST['accountscore'];		//低扣积分
 			$tfee=$_POST['amount'];		//三方支付金额
 			$paytype=$_POST['paytype'].'';		//三方支付金额
 			
+			
 			$mMPay = D('M/MemberPay');
-			$dataInfo=$mMPay->GetByPayNo($orderno);		
+			$dataInfo=$mMPay->GetByPayNo($orderno);	
+			$extendid	=	$dataInfo["extendid"];
 			$dataInfo['amount']=$tfee;
 			$dataInfo['amountStatus']=0;		
 			$dataInfo['accountmoney']=$accountmoney;
@@ -172,10 +177,11 @@ class PayAction extends PayBaseAction {
 				$this->display();
 				return;
 			}
-		}				
+		}
 		else
 		{
-			$orderno=session("orderno");			
+			$orderno=session("orderno");	
+			$orderType=session("orderType");
 			if(empty($orderno))
 			{
 				$this->display("Pay/error");
@@ -188,12 +194,13 @@ class PayAction extends PayBaseAction {
 			{
 				return;
 			}	
+			$extendid	=	$dataInfo["extendid"];
 			$tfee=$dataInfo['amount'];				
 			$accountmoney=$dataInfo['accountmoney'];
 			$accountscore=$dataInfo['accountscore'];
 			$paytype=$dataInfo['thirdpaytype'];		
 			
-		} 
+		}
 		if($dataInfo["Status"]==99)
 		{
 			$this->display("Pay/success");
@@ -208,8 +215,18 @@ class PayAction extends PayBaseAction {
 	        $tools = new \JsApiPay();
 	        $openId = $tools->GetOpenid();
 			
-			$this->assign('money', $tfee);	
+			$this->assign('money', $tfee);
+			$this->assign('orderType', $orderType);
 			$tfee=$tfee * 100;		//整数单位为分
+			//如果拼团、查询拼团跳转参数
+			if( $orderType== -1)
+			{
+				$mMPay = D('M/MemberPay');
+				$data=$mMPay->GetGroupParaByOrderID($extendid);	
+				$groupGoodsId=$data["groupGoodsId"];
+				$this->assign('groupGoodsId', $groupGoodsId);
+			}
+			
 			
 			$uid=(int)session("uid");			
 			if($uid==104)

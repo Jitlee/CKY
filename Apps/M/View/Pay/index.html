@@ -62,7 +62,7 @@
 </head>
 	<body>
 		<div class="mui-content" style="padding-top: 0;">
-			<p class="yyg-pay-total">充值金额：¥ <r> {$money} </r></p>
+			<p class="yyg-pay-total">充值金额：¥ <r> {$money}</r></p>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
 					<label id="wxButton" for="wxCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
@@ -88,6 +88,7 @@
 			<div style="display: none;">
 				<form method="post" action="{:U('Pay/thirdpay', '', '')}" id="payForm">
 						<input type="text" id="amount" name="amount" value="{$money}">	
+						<input type="text" id="orderType" name="orderType" value="{$orderType}">
 						<input type="text" id="accountmoney" name="accountmoney" value="0">
 						<input type="text" id="accountscore" name="accountscore" value="0">
 						<!--<input type="text" id="accountbgid" name="accountbgid" value="0">-->

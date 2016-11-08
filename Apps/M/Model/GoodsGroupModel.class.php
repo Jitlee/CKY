@@ -14,7 +14,7 @@ class GoodsGroupModel extends BaseModel {
 		 $where = array('groupGoodsId' => $groupGoodsId);
 		 $goods = $this
 		 	->field('g.goodsId, g.goodsSn, g.goodsName, g.goodsImg, g.goodsThums, g.shopId, g.goodsStock, g.shopPrice, g.goodsUnit, g.saleCount,g.goodsDesc,
-		 		gg.groupGoodsId, gg.groupPrice, gg.groupNumbers, gg.groupPreNumbers, unix_timestamp() * 1000 now,
+		 		gg.subtitle,gg.groupGoodsId, gg.groupPrice, gg.groupNumbers, gg.groupPreNumbers, unix_timestamp() * 1000 now,
 		 		unix_timestamp(gg.groupEndTime)*1000 endTime, unix_timestamp() * 1000 now,
 			 	unix_timestamp(gg.groupStartTime) * 1000 AS groupStartTime, unix_timestamp(gg.groupEndTime) * 1000 AS groupEndTime')
 		 	->join('gg inner join __GOODS__ g on g.goodsId = gg.goodsId')

@@ -73,7 +73,8 @@
 			 
 			<div style="display: none;">
 				<form method="post" action="{:U('Pay/thirdpay', '', '')}" id="payForm">
-						<input type="text" id="amount" name="amount" value="0">	
+						<input type="text" id="amount" name="amount" value="0">
+						<input type="text" id="orderType" name="orderType" value="{$orderType}">
 						<input type="text" id="accountmoney" name="accountmoney" value="0">
 						<input type="text" id="accountscore" name="accountscore" value="0">
 						<!--<input type="text" id="accountbgid" name="accountbgid" value="0">-->

@@ -18,7 +18,7 @@
 
 	<body>
 		<div class="mui-content" style="padding-top: 0;">
-			<p class="yyg-pay-total">支付金额：¥ <r> {$money} </r></p>
+			<p class="yyg-pay-total">支付金额：¥ <r> {$money}</r></p>
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
 					<label id="wxButton" for="wxCheckBox" class="mui-input-row mui-checkbox  mui-disabled">
@@ -30,10 +30,6 @@
 					</label>
 				</li>
 			</ul>
-			 
-			 
-			 
-			 
 		</div>
 	</body>
 </html>
@@ -55,8 +51,15 @@
                 {$jsApiParameters},
 		        function(res){
 		            WeixinJSBridge.log(res.err_msg);
-		            if(res.err_msg == "get_brand_wcpay_request:ok"){  
-		               window.location.href = "{:U('Pay/success', '','')}"; 
+		            if(res.err_msg == "get_brand_wcpay_request:ok"){
+		            	if('{$orderType}'=='-1')
+		            	{
+		            		window.location.href = "{:U('/M/Group/goods', '', '')}?groupGoodsId={$groupGoodsId}&showshare=1";
+		            	}
+		            	else
+		            	{
+		            		window.location.href = "{:U('Pay/success', '','')}";	
+		            	}
 		           }else if(res.err_msg == "get_brand_wcpay_request:cancel"){  
 		              history.go(-1);
 		           }else{  

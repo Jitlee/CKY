@@ -50,7 +50,7 @@
    </script>
    <body class='rtc-page'>
      <form method='post' action="{:U('Admin/Orders/queryRefundByPage')}">
-       <div class='rtc-tbar'>
+       <!--<div class='rtc-tbar'>
           地区：<select id='areaId1' name='areaId1' onchange='javascript:getAreaList("areaId2",this.value,0)'>
              <option value=''>请选择</option>
              <volist name="areaList" id="vo">
@@ -63,7 +63,7 @@
           <select id='areaId3' name='areaId3'>
              <option value=''>请选择</option>
           </select>
-       </div>
+       </div>-->
        <div class='rtc-tbar'>
        商家：<input type='text' id='shopName' name='shopName' value='{$shopName}'/>  
        订单：<input type='text' id='orderNo' name='orderNo' value='{$orderNo}'/>
@@ -98,14 +98,19 @@
                <if condition="$vo['payType'] ==1 ">在线支付<else/>货到付款</if>
                </td>
                <td >{$vo['createTime']}</td>
-               <td><if condition="$vo['isRefund'] ==1 ">已退款<else/>未退款</if></td>
+               <td>
+               		<if condition="$vo['groupStatus'] ==1 ">等待成团</if>
+               		<if condition="$vo['groupStatus'] ==2 ">拼团成功</if>
+               		<if condition="$vo['groupStatus'] ==3 ">拼团失败,未退款</if>
+               		<if condition="$vo['groupStatus'] ==4 ">拼团失败,已退款</if>
+               </td>
                <td width='150'>
-               <a class="btn btn-primary glyphicon" href="{:U('Admin/Orders/toRefundView',array('id'=>$vo['orderId']))}">查看</a>&nbsp;
-               <if condition="$vo['isRefund'] ==0 ">
-               <php>if(in_array('tk_04',$RTC_STAFF['grant'])){</php>
-               <a class="btn btn-primary glyphicon" href='javascript:refund("{:U('Admin/Orders/toRefund',array('id'=>$vo['orderId']))}")'>退款</a>&nbsp;
-               <php>}</php>
-               </if>
+	               <a class="btn btn-primary glyphicon" href="{:U('Admin/Orders/toRefundView',array('id'=>$vo['orderId']))}">查看</a>&nbsp;
+	               <if condition="$vo['isRefund'] ==0 ">
+		               <if condition="$vo['groupStatus'] ==3 ">
+		               	<a class="btn btn-primary glyphicon" href='javascript:refund("{:U('Admin/Orders/toRefund',array('id'=>$vo['orderId']))}")'>退款</a>&nbsp;
+		               </if>
+	               </if>
                </td>
              </tr>
              </volist>

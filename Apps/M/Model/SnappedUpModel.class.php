@@ -144,7 +144,8 @@ where rank <5
 		$leftJoin1 = 'left join __MALL_ACTIVITYGOODS__ mag on mag.goodsId = g.goodsId';
 		$leftJoin2 = 'left join cky_snappedup cg on cg.goodsId = g.goodsId';
 		$data = $m->field($field)->join($join)->join($leftJoin1)->join($leftJoin2)->where(array('g.goodsId'=> $goodsId))->find();
-	
+		//更新
+		
 //		echo $m->getLastSql();
 		return $data;
 	}

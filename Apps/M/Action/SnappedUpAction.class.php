@@ -71,8 +71,7 @@ class SnappedUpAction extends BaseAction {
 		$dataShop = $mshop->detail($limituseshopId);
 		$this->assign('dataShop', $dataShop);
 		$this->assign('shopName', $dataShop['shopName']);
-		//评价
-		 
+		//评价		 
 		$mAppraises = D('M/GoodsAppraises');
 		$Appraises=$mAppraises->getGoodsAppraises($goodsid);
 		$this->assign('appraise', $Appraises);

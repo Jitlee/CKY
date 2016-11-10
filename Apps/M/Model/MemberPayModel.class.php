@@ -152,6 +152,7 @@ class MemberPayModel extends BaseModel {
 		}
 		return $res;
 	}
+	
 	/*在线支付*/
 	public function UpdatePayOrder($dataInfo)
 	{

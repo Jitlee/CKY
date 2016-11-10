@@ -93,7 +93,7 @@
 		</li>
 		<!-- ko foreach: members -->
 		<li class="mui-table-view-cell mui-media">
-			<img class="mui-media-object mui-pull-left" data-bind="attr:{src: userImg}" style="visibility: hidden;">
+			<img class="mui-media-object mui-pull-left" data-bind="attr:{src: userImg}">
             <div class="mui-media-body">
                 <span data-bind="text: userName" class="font-12"></span>
                 <p class="font12">
@@ -108,7 +108,7 @@
 	
 	<footer>
 		<div>
-			<a href="{:U('index', '', '')}">[更多商品]</a>
+			<a href="{:U('index', '', '')}">更多商品</a>
 		</div>
 		<div>
 			<a id="topay" href="{:U('Orders/detail', '', '')}?id={$data.group.orderId}">查看订单详情</a>

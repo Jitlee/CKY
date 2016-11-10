@@ -46,7 +46,10 @@ class ArticlesModel extends BaseModel {
 //		echo $articleId;
 		$field = 'articleId, catId,articleTitle,articleContent,isrecommend,clicknum,appraisenum';
 		$data = $this->field($field)->where(array('articleId'=> $articleId))->find();
-		
+		$clicknum=(int)$data['clicknum'];
+		$addnum= rand(10,19);
+		$data['clicknum']=$clicknum+$addnum;
+		M('articles')->where(array('articleId'=>$articleId))->setField('clicknum',$clicknum+$addnum);
 //	echo	$this->getLastSql();
 		return $data;
 	}

@@ -27,9 +27,9 @@ class OrdersAction extends BaseAction{
     	$this->assign('dateRange',I('dateRange',date('Y-m-d 至 Y-m-d')));
     	$this->assign('shopName',I('shopName'));
     	$this->assign('orderNo',I('orderNo'));
-    	$this->assign('areaId1',I('areaId1',0));
-    	$this->assign('areaId2',I('areaId2',0));
-    	$this->assign('areaId3',I('areaId3',0));
+//  	$this->assign('areaId1',I('areaId1',0));
+//  	$this->assign('areaId2',I('areaId2',0));
+//  	$this->assign('areaId3',I('areaId3',0));
     	$this->assign('orderStatus',I('orderStatus',-9999));
         $this->display("/orders/list");
 	}
@@ -40,8 +40,8 @@ class OrdersAction extends BaseAction{
 		$this->isLogin();
 		$this->checkAjaxPrivelege('tk_00');
 		//获取地区信息
-		$m = D('Admin/Areas');
-		$this->assign('areaList',$m->queryShowByList(0));
+//		$m = D('Admin/Areas');
+//		$this->assign('areaList',$m->queryShowByList(0));
 		$m = D('Admin/Orders');
     	$page = $m->queryRefundByPage();
     	$pager = new \Think\Page($page['total'],$page['pageSize']);
@@ -51,9 +51,9 @@ class OrdersAction extends BaseAction{
     	$this->assign('shopName',I('shopName'));
     	$this->assign('orderNo',I('orderNo'));
     	$this->assign('isRefund',I('isRefund',-1));
-    	$this->assign('areaId1',I('areaId1',0));
-    	$this->assign('areaId2',I('areaId2',0));
-    	$this->assign('areaId3',I('areaId3',0));
+//  	$this->assign('areaId1',I('areaId1',0));
+//  	$this->assign('areaId2',I('areaId2',0));
+//  	$this->assign('areaId3',I('areaId3',0));
         $this->display("/orders/list_refund");
 	}
 	/**

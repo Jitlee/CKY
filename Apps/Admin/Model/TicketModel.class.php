@@ -163,6 +163,10 @@ class TicketModel extends BaseModel {
 	    if(false !== $rs){
 			$rd['status']= 1;
 		}
+		else
+		{
+			$rd['Errorsql'] = $m->getLastSql();
+		}
 	 	return $rd;
 	 }
 };

@@ -17,7 +17,7 @@ class ActivityTicketModel extends BaseModel {
 ,  isnull(tm.uid) isReceived, t.onlyNewUser, needPoint')
 		->join('t left join __SHOPS__ s on s.shopId = t.limitUseShopID')
 		->join('left join __ACTIVITY_TICKET_M__ tm on t.ticketID = tm.ticketID and tm.uid = '.$uid)
-		->where('t.ticketStatus = 1 and (t.efficacyEDate >= CURDATE() or  t.efficacyEDate is null)')
+		->where('t.ticketStatus = 1 and (t.efficacyEDate >= CURDATE() or  t.efficacyEDate is null) and isShowInShop=1')
 		->order('t.createTime desc')->page($pageNo, $pageSize)
 		->select();
     }

@@ -62,10 +62,9 @@ class OrdersModel extends BaseModel {
      	$orderStatus = (int)I('orderStatus',-9999);
      	$dateRange=I('dateRange');
 	 	$sql = "select o.orderId,o.orderNo,o.totalMoney,o.orderStatus,o.deliverMoney,o.payType,o.createTime,s.shopName,o.userName from __PREFIX__orders o
-	 	         left join __PREFIX__shops s on o.shopId=s.shopId  where o.orderFlag=1";
-//	 	if($areaId1>0)$sql.=" and s.areaId1=".$areaId1;
-//	 	if($areaId2>0)$sql.=" and s.areaId2=".$areaId2;
-//	 	if($areaId3>0)$sql.=" and s.areaId3=".$areaId3;
+	 	         left join __PREFIX__shops s on o.shopId=s.shopId  
+	 	         where o.orderFlag=1  and o.orderStatus >0  and (o.orderType !=-1 or (o.orderType = -1 and  o.orderStatus>1)) ";
+
 	 	if($shopName!='')$sql.=" and (s.shopName like '%".$shopName."%' or s.shopSn like '%".$shopName."%')";
 	 	if($orderNo!='')$sql.=" and o.orderNo like '%".$orderNo."%' ";
 	 	if($orderStatus!=-9999 && $orderStatus!=-100)$sql.=" and o.orderStatus=".$orderStatus;
@@ -74,8 +73,7 @@ class OrdersModel extends BaseModel {
 		if($dateRange !=''){
 			$dates = explode('至', I('dateRange'));
 			$sql.=" and o.createTime between '".$dates[0]." 00:00:00' and '".$dates[1]." 23:59:59'"; 	
-		}
-		
+		}	
 		
 	 	$sql.=" order by orderId desc";   
 		$page = $m->pageQuery($sql);
@@ -105,19 +103,28 @@ class OrdersModel extends BaseModel {
         $m = M('goods');
         $shopName = I('shopName');
      	$orderNo = I('orderNo');
-     	$isRefund = (int)I('isRefund',-1);
-     	$areaId1 = (int)I('areaId1',0);
-     	$areaId2 = (int)I('areaId2',0);
-     	$areaId3 = (int)I('areaId3',0);
-	 	$sql = "select o.orderId,o.orderNo,o.totalMoney,o.orderStatus,o.isRefund,o.deliverMoney,o.payType,o.createTime,s.shopName,o.userName from __PREFIX__orders o
-	 	         left join __PREFIX__shops s on o.shopId=s.shopId  where o.orderFlag=1 and o.orderStatus in (-1,-4,-6,-7) and payType=1 and isPay=1 ";
-	 	if($areaId1>0)$sql.=" and s.areaId1=".$areaId1;
-	 	if($areaId2>0)$sql.=" and s.areaId2=".$areaId2;
-	 	if($areaId3>0)$sql.=" and s.areaId3=".$areaId3;
-	 	if($isRefund>-1)$sql.=" and o.isRefund=".$isRefund;
+     	
+     	$dateRange=I('dateRange');
+	 	$sql = "select 
+	o.orderId,o.orderNo,o.totalMoney,o.orderStatus,o.deliverMoney,o.payType,o.createTime,s.shopName,o.userName,g.groupStatus
+from 
+	cky_orders o
+left join cky_shops s on o.shopId=s.shopId  
+inner join cky_group_detail gd on o.orderType=-1 and o.mmid=gd.groupDetailId
+inner join cky_group g on g.groupId=gd.groupId 
+where 
+	o.orderFlag=1  and o.orderType = -1   and orderStatus>0  
+	 and `groupStatus` IN (1,2,3,4) ";
+
 	 	if($shopName!='')$sql.=" and (s.shopName like '%".$shopName."%' or s.shopSn like '%".$shopName."%')";
 	 	if($orderNo!='')$sql.=" and o.orderNo like '%".$orderNo."%' ";
+	 	
+		if($dateRange !=''){
+			$dates = explode('至', I('dateRange'));
+			$sql.=" and o.createTime between '".$dates[0]." 00:00:00' and '".$dates[1]." 23:59:59'"; 	
+		}		
 	 	$sql.=" order by orderId desc";  
+	 	 
 		$page = $m->pageQuery($sql);
 		//获取涉及的订单及商品
 		if(count($page['root'])>0){
@@ -143,19 +150,19 @@ class OrdersModel extends BaseModel {
 	  */
 	 public function refund(){
 	 	$rd = array('status'=>-1);
-	 	$m = M('orders');
-	 	$rs = $m->where('isRefund=0 and orderFlag=1 and orderStatus in (-1,-4,-6,-7) and payType=1 and isPay=1 and orderId='.I('id'))->find();
-	 	if($rs['orderId']!=''){
-	 		$data = array();
-	 		$data['isRefund'] = 1;
-	 		$data['refundRemark'] = I('content');
-	 	    $rss = $m->where("orderId=".(int)I('id',0))->save($data);
-			if(false !== $rs){
-				$rd['status']= 1;
-			}else{
-				$rd['status']= -2;
-			}
-	 	}
+//	 	$m = M('orders');
+//	 	$rs = $m->where('isRefund=0 and orderFlag=1 and orderStatus in (-1,-4,-6,-7) and payType=1 and isPay=1 and orderId='.I('id'))->find();
+//	 	if($rs['orderId']!=''){
+//	 		$data = array();
+//	 		$data['isRefund'] = 1;
+//	 		$data['refundRemark'] = I('content');
+//	 	    $rss = $m->where("orderId=".(int)I('id',0))->save($data);
+//			if(false !== $rs){
+//				$rd['status']= 1;
+//			}else{
+//				$rd['status']= -2;
+//			}
+//	 	}
 	 	return $rd;
 	 }
 	

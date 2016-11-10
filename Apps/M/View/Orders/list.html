@@ -36,8 +36,29 @@
 				<div class="cky-col-view">
 					<div class="cky-col-view-cell">
 						<p class="order-status font-red font14" data-bind="text: cky.formatOrderStatus(orderStatus)"></p>
-						<!-- ko if: orderStatus == -2 -->
-						<h5 data-bind="">超时未付款</h5>
+						<!-- ko if: orderStatus == -2 && orderType != -1 -->
+						<h5>超时未付款</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == 0 -->
+						<h5>待支付</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == -1 -->
+						<h5>拼团支付超时</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == -2 -->
+						<h5>用户取消拼团</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == 1 -->
+						<h5>等待成团</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == 2 -->
+						<h5>拼团成功</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == 3 -->
+						<h5>拼团失败,等待退款</h5>
+						<!-- /ko -->
+						<!-- ko if: orderType == -1 && groupStatus == 4 -->
+						<h5>拼团失败,已退款</h5>
 						<!-- /ko -->
 					</div>
 					<div class="cky-col-view-cell cky-text-right">

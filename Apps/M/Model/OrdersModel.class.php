@@ -18,10 +18,12 @@ class OrdersModel extends BaseModel {
 		$pageSize = 20;
 		$pageNo = intval(I('pageNo', 1));
 		$map = array('o.userId'	=> $userId, 'o.orderFlag' => array('neq', -1));
-		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, o.mmid, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods";
+		$field = "o.orderId, orderNo, o.orderType, o.createTime, o.shopId, o.isAppraises, o.mmid, shopName, replace(s.shopImg, '.', '_thumb.') shopImg, (totalMoney + deliverMoney) AS totalMoney,orderStatus, needPay, payType, GROUP_CONCAT(goodsName ORDER BY og.id) goods, gr.groupStatus";
 		$join = 'o inner join __SHOPS__ s on o.shopId = s.shopId inner join __ORDER_GOODS__ og on og.orderId = o.orderId';
+		$groupDetailJoin = 'left join __GROUP_DETAIL__ gd on gd.groupDetailId=o.mmid and o.orderType=-1';
+		$groupJoin = 'left join __GROUP__ gr on gd.groupId = gr.groupId';
 		$group = 'o.orderId';
-		$list = $this->field($field)->join($join)->where($map)
+		$list = $this->field($field)->join($join)->join($groupDetailJoin)->join($groupJoin)->where($map)
 			->order('createTime desc')->group($group)->page($pageNo, $pageSize)->select();
 //		echo $this->getLastSql();
 		return $list;

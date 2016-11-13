@@ -1,0 +1,103 @@
+<header class="mui-bar mui-bar-nav cky-bar-gray">
+	<button class="cky-back mui-btn mui-btn-link mui-pull-left">
+		<i class="mui-icon mui-icon-left-nav"></i>
+	</button>
+	<h1 id="title" class="mui-title">
+		{$title}
+	</h1>
+</header>
+<div class="mui-content">	
+	<div id="shopsLoading" class="mui-loading">
+		<div class="mui-spinner">
+		</div>
+	</div>
+	<ul id="shopsList" class="cky-table-view mui-hidden">
+		<!-- ko foreach: $data -->
+		<li class="cky-table-view-cell">
+			<a data-bind="attr:{ href: '{:U('Deliver/shopsitem')}?id=' + shopsubId }">
+				<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
+					
+				</div>
+				<div class="cky-media">
+					<span class="cky-media-title shop-media-title font17" data-bind="text: shopName"></span>
+					<!-- ko if: deliveryOff > 0 && deliveryOff < 10 -->
+					<h5 class="cky-right font-red" data-bind="text: deliveryOff + '折'"></h5>
+					<!-- /ko -->
+					<div class="cky-clearfix"></div>
+					<div class="cky-media-sub">
+						<p class="cky-media-address font13" data-bind="text: shopAddress  "></p>
+						<span class="cky-right font13 font-gray2" ></span>
+					</div>
+					<div class="cky-clearfix"></div>
+					<span class=" font15 font-gray" data-bind="text: '电话: ' + shopTel"></span>
+					<h5 class="cky-right"><i class="iconfont icon-phone font20 font-blue"></i></h5>
+			    </div>
+				<div class="cky-clearfix"></div>
+			</a>
+		</li>
+		<!-- /ko -->
+	</ul>
+</div>
+
+<include file="Public:tab"/> 
+<script type="text/javascript" src="__KO__"></script>
+<script type="text/javascript">
+$(function() {
+		var isEOF = false;
+		var force = true;
+		var pageNo = 1;
+		var shops = [];
+		var catId =0;
+		var areaId = 0;
+		var distance = 0;
+		var vshopId= '{$shopid}';
+		var vm = ko.observableArray(shops);
+		ko.applyBindings(vm, document.getElementById("shopsList"));
+		
+//		util.onScrollEnd(queryByPage);
+ 
+		function queryByPage() {
+			if(force) {
+				pageNo = 1;
+				isEOF = false;
+				force = false;
+			}
+			var _pageNo = pageNo;
+			if(!isEOF) {
+				$.getJSON("{:U('Deliver/shopspage')}", {
+					pageNo: _pageNo,
+					shopId: vshopId
+//					areaId: areaId,
+//					distance: distance,
+//					lng: currentLongitude,
+//					lat: currentLatitude
+				}, function(list) {
+					util.endScroll();
+					if(_pageNo == 1) {
+						vm.removeAll();
+						shops.length = 0;
+						$("#shopsLoading").hide();
+						$("#shopsList").removeClass("mui-hidden");
+					}
+					if(list && list.length > 0) {
+						pageNo = ++_pageNo;
+						$.each(list, function(){
+							this.deliveryOff = Number(this.deliveryOff);
+						});
+						shops = shops.concat(list);
+						vm(shops);	
+					}
+					
+					if(list && list.length < 12) {
+						isEOF = true;
+					}
+				});
+			} else {
+				util.endScroll();
+			}
+		}
+		queryByPage();
+		
+
+});
+</script>

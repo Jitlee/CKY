@@ -150,6 +150,31 @@ where
 	  */
 	 public function refund(){
 	 	$rd = array('status'=>-1);
+	 	
+	 	$m = M('orders');
+	 	$id = (int)I('id',0);
+		$sql = "select o.*,s.shopName from __PREFIX__orders o
+	 	         left join __PREFIX__shops s on o.shopId=s.shopId 
+	 	         where o.orderFlag=1 and o.orderId=".$id;
+		$rs = $this->queryRow($sql);
+		if(false !== $rs){
+			//执行退还金额到余额  //获取用户信息
+			
+			//更新表
+			$data = array();
+	 		$data['isRefund'] = 1;
+	 		$data['refundRemark'] = I('content');
+	 	    $rss = $m->where("orderId=".(int)I('id',0))->save($data);
+			if(false !== $rs){
+				$rd['status']= 1;
+			}else{
+				$rd['status']= -2;
+			}
+		}else{
+			$rd['status']= -2;
+			return $rd;
+		}
+		
 //	 	$m = M('orders');
 //	 	$rs = $m->where('isRefund=0 and orderFlag=1 and orderStatus in (-1,-4,-6,-7) and payType=1 and isPay=1 and orderId='.I('id'))->find();
 //	 	if($rs['orderId']!=''){

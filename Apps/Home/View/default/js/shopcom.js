@@ -273,6 +273,7 @@ function editGoods(menuId){
 	   params.provideBox = $("input[name='provideBox']:checked").val();
 	   params.boxMoney = $('#boxMoney').val();
 	   params.goodsKeywords = $('#goodsKeywords').val();
+	   params.shopssubId = $('#shopssubId').val();
 	   if(params.attrCatId>0){
 		   params.priceAttrId = $('.hiddenPriceAttr').attr('dataId');
 		   params.goodsPriceNo = $('.hiddenPriceAttr').attr('dataNo');

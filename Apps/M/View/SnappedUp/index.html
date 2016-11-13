@@ -79,7 +79,7 @@
 			.cky-table-cell-thumb {height: 75px;width: 75px;}
 			.cky-table-view-cell .cky-right {float: none;position: absolute;right: 5px;bottom: 5px;text-align: right;}
 			.cky-table-view-cell .cky-right h5 {text-size-adjust:none;-webkit-text-size-adjust:none;font-size: 10px;}
-			.cell-button {diplay: block;padding: 8px 8px;background-color: #f20;color: #fff;font-size: 14px;border-radius: 3px;}
+			.cell-button {diplay: block;padding: 6px 8px;background-color: #f20;color: #fff;font-size: 14px;border-radius: 3px;}
 			
 			#sliderSegmentedControl{background:#465465; }
 			.ptop{ font-size: 14px; color: #FFFFFF;}
@@ -156,10 +156,12 @@
 																	<div class="text">{$ig.salerate}%</div>
 																</div> 
 																<div class="cky-right">
-																		<if condition="$item['timestatus'] eq 1"> <span class="cell-button">马上抢</span> </if>																	
+																		<if condition="($item['timestatus'] eq 1) and ($ig['goodsStock'] neq 0)"> <span class="cell-button">马上抢</span> </if>																	
 																		<h5 class="font-red">&nbsp;
-																			<if condition="$item['goodsStock'] eq '0'">
+																			<if condition="$ig['goodsStock'] eq '0'">
 																			该商品已经售完
+																			<else/>
+																				剩余数量：{$ig.goodsStock}
 																			</if>
 																		</h5>
 																	

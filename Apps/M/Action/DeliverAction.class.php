@@ -32,6 +32,45 @@ class DeliverAction extends Controller {
 		 
 		$this->display();
 	}
+	public function shops() { 
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (strpos($user_agent, 'MicroMessenger') >0) {
+			try_login();
+		}
+	 	$shopId=I("shopid");
+
+	 	$m = D('M/Shops');
+		$data = $m->detail($shopId);
+//		$this->assign('shop', $data);
+//echo dump($data);
+		$this->assign('title', $data["shopName"].'-商家');
+		$this->assign('tabid', 'home');
+//		$this->assign('title', "粗卡");
+		$this->assign('shopid', $shopId);
+		
+//		$addb = D('ads');
+//		$ads = $addb->queryByType(-10);
+//		$this->assign('ads', $ads); 
+		 
+		$this->display();
+	}
+	public function shopspage() { 		 
+		$shopId=I("shopId");
+		//查询商家
+		$m = D('M/ShopsSub');
+    	$list=$m->queryByList($shopId);
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	public function shopsitem() { 		 
+		$m = D('M/Shops');
+		$data = $m->detail();
+//		echo $m->getLastSql();
+		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
+		$this->assign('data', $data);
+		$this->assign('title', $data['shopName']);
+		$this->display();
+	}
 	 
 	public function detail() {
 		// 获取广告

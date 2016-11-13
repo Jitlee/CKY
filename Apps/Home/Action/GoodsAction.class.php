@@ -266,6 +266,11 @@ class GoodsAction extends BaseAction {
 		//获取商品类型
 		$m = D('Home/AttributeCats');
 		$this->assign('attributeCatsCatsList',$m->queryByList());
+		
+		//查询商家
+		$m = D('Home/ShopsSub');
+    	$this->assign('ShopsSub',$m->queryByList($USER['shopId']));
+		
 		$m = D('Home/Goods');
 		$object = array();
     	if(I('id',0)>0){

@@ -1,0 +1,101 @@
+<extend name="./Apps/Home/View/default/shops/layout.html" />
+<block name="content">
+<script>
+$(document).ready(function(){
+    
+});
+</script>
+<script type="text/javascript" src="__ROOT__/Apps/Home/View/default/js/shopssub.js"></script>
+<div class="rtc-body"> 
+<div class='rtc-page-header'>商家中心 > 商家管理</div>
+<div class='rtc-page-content'>
+   <div class='rtc-tbar-query'>
+     <table style="width: 100%;">
+     	<tr>
+     		<td>
+     			商品：<input type='text' id='shopName' value='{$shopName}'/>
+      			<button style="border:1px solid #ffffff;height:30px;width:60px;background-color:#e23e3d;color:#ffffff;cursor: pointer;"
+      				 onclick='javascript:queryShopsSub()'>查询</button>
+     		</td>
+     		<td style="text-align: right;">
+     			<a href='{:U('Home/ShopsSub/toEdit/','')}' style='margin-right:15px;'><span class='add btn'></span>新增</a>
+     		</td>
+     	</tr>
+     </table>
+        
+   </div>
+	   
+   <table class='rtc-list' style="margin:0 auto;">
+           <thead>
+             <tr>
+               <th width='40'>序号</th>
+               <th width='200'>名称</th>
+               <th>店主姓名</th>
+               <th>商家电话</th>
+               <th>商家地址</th>
+               <th>操作</th>
+             </tr>
+           </thead>
+           <tbody>
+            <volist name="Page['root']" id="vo" key='k'>
+	             <tr>
+	               <td>{$k}</td>
+	               <td>
+		               <div style='width:300px;'>
+			               <div style='width:55px;float:left'>			               
+									<img src="__ROOT__/{$vo['shopImg']}" height="50" width="50"/>
+						   </div>
+						   <div style='width:245px;float:left'>{$vo['shopName']}</div>
+		               </div>
+	               </td>
+	               <td>{$vo['userName']}</td>
+	               <td>{$vo['shopTel']}</td>
+	               <td>{$vo['shopAddress']}</td>
+	               <td>
+	               	<a href='{:U("Home/ShopsSub/toEdit",array("id"=>$vo['shopsubId']),"")}' class='btn edit'></a>
+	               </td>
+	             </tr>
+             </volist>
+           </tbody>
+           <tfoot>
+             <tr>
+                <td colspan='8' align='center'>
+                <div class="rtc-page" style="float:right;padding-bottom:10px;">
+						<div id="rtc-page-items"></div>
+				</div>
+                <script>
+			    <if condition="$Page['totalPage'] gt 1">
+			    $(document).ready(function(){
+					laypage({
+					    cont: 'rtc-page-items',
+					    pages: {$Page['totalPage']}, //总页数
+					    skip: true, //是否开启跳页
+					    skin: '#e23e3d',
+					    groups: 3, //连续显示分页数
+					    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					        var page = location.search.match(/p=(\d+)/);
+					        return page ? page[1] : 1;
+					    }(), 
+					    jump: function(e, first){ //触发分页后的回调
+					        if(!first){ //一定要加此判断，否则初始时会无限刷新
+					        	var nuewurl = RTC.splitURL("p");
+					        	var ulist = nuewurl.split("?");
+					        	if(ulist.length>1){
+					        		location.href = nuewurl+'&p='+e.curr;
+					        	}else{
+					        		location.href = '?p='+e.curr;
+					        	}
+					            
+					        }
+					    }
+					});
+			    });
+				</if>
+				</script>
+                </td>
+             </tr>
+             </tfoot>
+        </table>
+</div>
+</div>
+</block> 

@@ -1,0 +1,95 @@
+<extend name="./Apps/Home/View/default/shops/layout.html" />
+<block name="content">
+<script>
+var toolBar = null;
+$(function () {	   
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+			   editShopsSub();
+			   return false;
+			},onError:function(msg){
+		}});
+	    
+		$("#shopName").formValidator({onShow:"",onFocus:"商家名称不能超过20个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"商家名称不符合要求,请确认"});
+		$("#userName").formValidator({onShow:"",onFocus:"请输入店主姓名",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"店主姓名不能为空,请确认"});		
+		$("#shopTel").formValidator({onShow:"",onFocus:"请输入商家电话",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"商家电话不能为空,请确认"});
+		$("#shopAddress").formValidator({onShow:"",onFocus:"请输入公司地址",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"公司地址不能为空,请确认"});
+});
+
+var filetypes = ["gif","jpg","png","jpeg"];
+</script>
+<script type="text/javascript" src="__ROOT__/Apps/Home/View/default/js/shopssub.js"></script>
+<style>
+.ATRoot{height:22px;line-height:22px;margin-left:5px;clear:both;cursor:pointer;}
+.ATNode{margin-left:5px;line-height:22px;margin-left:17px;clear:both;cursor:pointer;}
+.Hide{display:none;}
+dl.areaSelect{padding:0 5px; display: inline-block; width:100%; margin-bottom: 0;/*border:1px solid #eee;*/}
+dl.areaSelect:hover{border:1px solid #E5CD29;}
+dl.areaSelect:hover dd{display: block;}
+dl.areaSelect dd{ float: left; margin-left: 20px; cursor: pointer;}
+th{ font-size: 14px;}
+</style>
+   <div class="rtc-body"> 
+       <div class='rtc-page-header'>商家中心 > 商家资料</div>
+       <div class='rtc-page-content' style="position:relative;">
+       <iframe name="upload" style="display:none"></iframe>
+		<form id="uploadform_Filedata" autocomplete="off" style="position:absolute;top:108px;left:159px;z-index:10;" enctype="multipart/form-data" method="POST" target="upload" action="{:U('Home/Shops/uploadPic')}" >
+			<div style="position:relative;">
+			<input id="shopImg" name="shopImg" type="text" value="{$object.shopImg}" readonly style="margin-right:4px;float:left;margin-left:8px;width:250px;"/>
+			<div class="div1">
+				<div class="div2">浏览</div>
+				<input type="file" class="inputstyle" id="Filedata" name="Filedata" onchange="updfile('Filedata');" >
+			</div>
+			<div style="clear:both;"></div>
+			<div >&nbsp;图片大小:150 x 150 (px)(格式为 gif, jpg, jpeg, png)</div>
+			<input type="hidden" name="dir" value="shops">
+			<input type="hidden" name="width" value="150">
+			<input type="hidden" name="folder" value="Filedata">
+			<input type="hidden" name="sfilename" value="Filedata">
+			<input type="hidden" name="fname" value="shopImg">
+			<input type="hidden" id="s_Filedata" name="s_Filedata" value="">
+			
+			</div>
+		</form>
+       <form name="myform" method="post" id="myform" autocomplete="off">
+        <input type='hidden' id='id' value='{$object.shopsubId}'/>
+       
+        <table class="table table-hover table-striped table-bordered rtc-form" style="width: 970px;">
+        	
+           <tr>
+             <th width='150px' align='right'>商家名称<font color='red'>*</font>：</th>
+             <td > <input type='text' id='shopName' class="form-control rtc-ipt" value='{$object.shopName}' style='width:250px;' maxLength='25'/></td>
+           </tr>
+           <tr>
+             <th align='right'>店主姓名<font color='red'>*</font>：</th>
+             <td><input type='text' id='userName' class="form-control rtc-ipt" value='{$object.userName}' style='width:250px;' maxLength='25'/></td>
+           </tr>
+            <tr>
+             <th align='right'>商家电话<font color='red'>*</font>：</th>
+             <td><input type='text' id='shopTel' class="form-control rtc-ipt" value='{$object.shopTel}' maxLength='25'/></td>
+           </tr>
+           <tr style="height:150px;">
+             <th align='right'>商家图标<font color='red'>*</font>：</th>
+             <td>
+	             <div id="preview_Filedata" style="margin-top: 70px;">
+	             	<if condition="$object['shopImg'] !='' ">
+	             		<img height="150" id='preview' src='__ROOT__/{$object.shopImg}'>
+	             	</if>
+	             </div>
+             </td>
+           </tr>
+           <tr>
+             <th align='right'>商家地址<font color='red'>*</font>：</th>
+             <td><input type='text' id='shopAddress' class="form-control rtc-ipt" value='{$object.shopAddress}' style='width:350px;' maxLength='100'/></td>
+           </tr>
+           <tr>
+             <td colspan='2' style='text-align:center;padding:20px;'>
+                 <button type="submit" class='rtc-btn-query'>保&nbsp;存</button>&nbsp;&nbsp;
+                 <button type="button" class='rtc-btn-query' onclick='javascript:location.reload();'>重&nbsp;置</button>             	
+             </td>
+           </tr>
+        </table>
+       </form>
+       </div>
+   </div>
+</block>  

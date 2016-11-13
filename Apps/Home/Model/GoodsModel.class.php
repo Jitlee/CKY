@@ -389,7 +389,8 @@ class GoodsModel extends BaseModel {
 		$data["createTime"] = date('Y-m-d H:i:s');
 		if($this->checkEmpty($data,true)){
 			$data["brandId"] = (int)I("brandId");
-			$data["goodsSpec"] = I("goodsSpec");
+			$data["shopssubId"] = (int)I("shopssubId");
+			$data["goodsSpec"] = I("goodsSpec");			
 			$data["goodsKeywords"] = I("goodsKeywords");
 			$m = M('goods');
 			$goodsId = $m->add($data);
@@ -520,7 +521,7 @@ class GoodsModel extends BaseModel {
 			$data["goodsKeywords"] =  I("goodsKeywords");
 			$data["brandId"] = (int)I("brandId");
 			$data["goodsSpec"] = I("goodsSpec");
-			
+			$data["shopssubId"] = (int)I("shopssubId");
 			
 			$rs = $m->where('goodsId='.$goods['goodsId'])->save($data);
 			if(false !== $rs){

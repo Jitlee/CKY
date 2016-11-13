@@ -106,8 +106,7 @@ class OrdersAction extends BaseAction{
 		$this->checkPrivelege('tk_04');
 		$m = D('Admin/Orders');
 	    if(I('id')>0){
-			$object = $m->get();
-
+			$object = $m->getDetail();
 			$this->assign('object',$object);
 		}
 		$this->display("/orders/refund");

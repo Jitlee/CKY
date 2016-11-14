@@ -41,17 +41,10 @@ class DeliverAction extends Controller {
 
 	 	$m = D('M/Shops');
 		$data = $m->detail($shopId);
-//		$this->assign('shop', $data);
-//echo dump($data);
+
 		$this->assign('title', $data["shopName"].'-商家');
 		$this->assign('tabid', 'home');
-//		$this->assign('title', "粗卡");
-		$this->assign('shopid', $shopId);
-		
-//		$addb = D('ads');
-//		$ads = $addb->queryByType(-10);
-//		$this->assign('ads', $ads); 
-		 
+		$this->assign('shopid', $shopId); 
 		$this->display();
 	}
 	public function shopspage() { 		 
@@ -62,14 +55,47 @@ class DeliverAction extends Controller {
 		$this->ajaxReturn($list, 'JSON');
 	}
 	
-	public function shopsitem() { 		 
-		$m = D('M/Shops');
-		$data = $m->detail();
-//		echo $m->getLastSql();
+	public function shopsitem() {
+		
+		$db = D('M/ShopsSub');
+		$ShopsSubObj = $db->getitem(); 
+		
+		$shopId=I("shopid");
+	 	$m = D('M/Shops');
+		$data = $m->detail($shopId);
+		$data['shopName']=$ShopsSubObj['shopName'];
+		
 		$data['shopDesc'] = htmlspecialchars_decode(html_entity_decode($data['shopDesc']));
 		$this->assign('data', $data);
 		$this->assign('title', $data['shopName']);
 		$this->display();
+	}
+	
+	public function shopsitemdetail() {
+		$m = D('M/Goods');
+		$data = $m->detail();
+		$data['goodsDesc'] = htmlspecialchars_decode(html_entity_decode($data['goodsDesc']));
+		$this->assign('data', $data);
+		$this->assign('title', $data['goodsName']);
+		//评价
+		$goodsId = I('id');
+		$mAppraises = D('M/GoodsAppraises');
+		$Appraises=$mAppraises->getGoodsAppraises($goodsId);
+		$this->assign('appraise', $Appraises);
+		
+		$this->display();
+	}
+	public function itemptg() { 		
+		$db = D('M/ShopsSub');
+		$list = $db->pageByShopsId();
+		$this->ajaxReturn($list, 'JSON');
+	}
+	
+	/*查询子商家，商品分类 **/
+	public function cats() {	
+		$m = D('M/ShopsSub');
+    	$list=$m->cats();
+		$this->ajaxReturn($list, 'JSON');
 	}
 	 
 	public function detail() {

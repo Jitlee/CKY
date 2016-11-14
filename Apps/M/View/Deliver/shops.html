@@ -14,7 +14,7 @@
 	<ul id="shopsList" class="cky-table-view mui-hidden">
 		<!-- ko foreach: $data -->
 		<li class="cky-table-view-cell">
-			<a data-bind="attr:{ href: '{:U('Deliver/shopsitem')}?id=' + shopsubId }">
+			<a data-bind="attr:{ href: '{:U('Deliver/shopsitem')}?id=' + shopsubId+'&shopid={$shopid}' }">
 				<div class="cky-table-cell-thumb cky-table-cell-thumb80" data-bind="style:{ backgroundImage: 'url(/' + shopImg + ')' }">
 					
 				</div>
@@ -37,6 +37,7 @@
 		</li>
 		<!-- /ko -->
 	</ul>
+	<div style="height: 30px;"></div>
 </div>
 
 <include file="Public:tab"/> 

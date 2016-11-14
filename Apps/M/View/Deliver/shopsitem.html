@@ -6,9 +6,9 @@
 	<div class="cky-header-nav">
 		<div class="cky-header-nav-bg"></div>
 		<button class="cky-back mui-btn mui-btn-link mui-pull-left"><i class="mui-icon mui-icon-left-nav"></i></button>
-		<button class="mui-btn mui-btn-link mui-pull-right">
+		<!--<button class="mui-btn mui-btn-link mui-pull-right">
 			<a class="cky-fav iconfont icon-love" fav-target-id="{$data.shopId}" fav-target-type="1" fav-type="2"></a>
-		</button>
+		</button>-->
 		<div class="cky-clearfix"></div>
 	</div>
 	<div class="cky-shop-header">
@@ -40,7 +40,7 @@
 			<!-- ko foreach: goods -->
 			<li class="cky-table-view-cell cky-fast-goods-cell">
 				<a data-bind="click: $parent.goodsClick">
-					<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsImg + ')' }">
+					<div class="cky-table-cell-thumb cky-table-cell-thumb60" data-bind="style:{ backgroundImage: 'url(/' + goodsThums + ')' }">
 						
 					</div>
 					<div class="cky-media">
@@ -52,7 +52,7 @@
 							<span class="font-red font15" data-bind="text: '¥' + shopPrice"></span>
 							<span class="font13 font-gray" data-bind="text: '/' + goodsUnit"></span>
 							<div class="cky-update cky-fast-add"
-								data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsImg: goodsImg, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
+								data-bind="attr: { id: 'goods_' + goodsId,goodsId: goodsId, goodsName: goodsName, goodsImg: goodsThums, shopCatId: shopCatId1, shopPrice: shopPrice, goodsUnit: goodsUnit }">
 								<button class="reduce cky-hidden"><i class="font-red iconfont icon-jian"></i></button>
 								<span class="count cky-hidden">1</span>
 								<button class="add"><i class="font-red iconfont icon-jia"></i></button>
@@ -114,10 +114,10 @@
 		ko.applyBindings(vm, document.getElementById("goods"));
 		// 点菜
 		function queryGoods() {
-			$.getJSON("{:U('Goods/ptg')}", {
+			$.getJSON("{:U('Deliver/itemptg')}", {
 				pageSize: 2000,
-				shopId: {:I('id')},
-				catId: 1,
+				shopssubId: {:I('id')},
+//				catId: 1,
 				shopCatId: shopCatId,
 				sortType: sortType
 			}, function(list) {
@@ -154,7 +154,7 @@
 		
 		// 分类
 		var catsList = $("#catsList");
-		$.getJSON("{:U('Fast/cats')}", { shopId: "{:I('id')}" }, function(list) {
+		$.getJSON("{:U('Deliver/cats')}", { shopId: "{:I('shopid')}",shopsubId: "{:I('id')}" }, function(list) {
 			if(list) {
 				list.unshift({  catName: "畅销排行", catId: 0 });
 				vm.cats(list);
@@ -178,7 +178,7 @@
 		function ongoodsclick(obj, evt){
 			var $this = $(evt.originalEvent.srcElement);
 			if(!$this.hasClass("cky-fast-add") && $this.closest(".cky-fast-add").length == 0) {
-				window.location.href = "{:U('Goods/detail')}?id=" + obj.goodsId;
+				window.location.href = "{:U('Deliver/shopsitemdetail')}?id=" + obj.goodsId;
 			}
 		}
 		
@@ -210,6 +210,6 @@
 		}
 		
 		// 加载评价
-		$.showAppraise("{:I('id')}");
+		//$.showAppraise("{:I('id')}");
 	});
 </script>

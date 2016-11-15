@@ -27,7 +27,7 @@ class GoodsGroupModel extends BaseModel {
 			->join('gg inner join __GROUP__ g on gg.groupGoodsId = g.groupGoodsId and g.groupGoodsId = '.$groupGoodsId)
 			->join('inner join __GROUP_DETAIL__ gd on g.groupId = gd.groupId and gd.uid='.$uid)
 			->join('inner join __ORDERS__ o on o.mmid = gd.groupDetailId and o.orderType=-1')
-			->where('g.groupStatus not in(-1,-2)')
+			->where('g.groupStatus in(0, 1, 2, 3)')
 			->find();
 			
 //		echo $this->getLastSql();
@@ -140,22 +140,38 @@ class GoodsGroupModel extends BaseModel {
 		$uid = getuid();
 		$m = M('Group');
 		$rst = array('status' => -1, 'data' => '开团失败');
-		$data['groupGoodsId'] = $groupGoodsId;
-		$data['groupNumbers'] = 1;
-		$data['groupStatus'] = 0;
-		$data['groupHeadId'] = $uid;
-		$groupId = $m->add($data);
-		if($groupId > 0) {
-			$gdm = M('GroupDetail');
-			$gddata['groupId'] = $groupId;
-			$gddata['isCaptain'] = 1;
-			$gddata['uid'] = $uid;
-			$gddata['isPay'] = 0;
-			$groupDetailId = $gdm->add($gddata);
-			
-			if($groupDetailId > 0) {
-				$rst['status'] = 1;
-				$rst['groupDetailId'] = $groupDetailId;
+		
+		$list = $m->query("select groupNumbers,groupPreNumbers,groupMaxNumbers,unix_timestamp(groupEndTime) endTime, unix_timestamp() now from cky_goods_group gg where groupGoodsId=$groupGoodsId");
+		$goodsGroup = $list[0];
+		if(!empty($goodsGroup)) {
+			$groupNumbers = (int)$goodsGroup['groupNumbers'];
+			$groupPreNumbers = (int)$goodsGroup['groupPreNumbers'];
+			$groupMaxNumbers = (int)$goodsGroup['groupMaxNumbers'];
+			$endTime = (int)$goodsGroup['endTime'];
+			$now = (int)$goodsGroup['now'];
+			if($now > $endTime) {
+				$rst['data'] = '开团失败，该拼团活动已经结束';
+			} else if($groupMaxNumbers > 0 && $groupNumbers + $groupPreNumbers > $groupMaxNumbers) {
+				$rst['data'] = '开团失败，该拼团商品已售罄';
+			} else {
+				$data['groupGoodsId'] = $groupGoodsId;
+				$data['groupNumbers'] = 1;
+				$data['groupStatus'] = 0;
+				$data['groupHeadId'] = $uid;
+				$groupId = $m->add($data);
+				if($groupId > 0) {
+					$gdm = M('GroupDetail');
+					$gddata['groupId'] = $groupId;
+					$gddata['isCaptain'] = 1;
+					$gddata['uid'] = $uid;
+					$gddata['isPay'] = 0;
+					$groupDetailId = $gdm->add($gddata);
+					
+					if($groupDetailId > 0) {
+						$rst['status'] = 1;
+						$rst['groupDetailId'] = $groupDetailId;
+					}
+				}
 			}
 		}
 		return $rst;

@@ -38,11 +38,19 @@ class GroupAction extends BaseAction {
 		$this->assign('signPackage', $signPackage);
 
 //		echo dump($group);
-		if(!empty($group)) {
+		if(!empty($group)) { // 参团了
 			$groupStatus = (int)$group['groupStatus'];
-			if($groupStatus == 2) {
+			if((float)$group['now'] > (float)$group['endTime']) { // 超期
+				$this->display('goods_end');	
+			} else if($groupStatus == 4) {
+				$this->display('goods_end');	
+			} else if($groupStatus == 5) {
+				$this->display('goods_end');	
+			} else if($groupStatus == 2) {
 				$this->display('goods_done');
-			} else if((float)$group['now'] < (float)$group['endTime']) {
+			} else if($groupStatus == 3) {
+				$this->display('goods_timeout');
+			} else if($groupStatus == 0 || $groupStatus = 1 && (float)$group['now'] <= (float)$group['endTime']) {
 				if((int)$group['isPay'] == 0) {
 					$this->display('goods_nopay');
 				} else if($groupId > 0) {
@@ -52,10 +60,11 @@ class GroupAction extends BaseAction {
 					Header("HTTP/1.1 301 Moved Permanently");
      				Header("Location:/index.php/M/Group/goods?groupGoodsId=$groupGoodsId&groupId=$groupId");
 				}
-			} else { // 超期
-				$this->display('goods_timeout');
+			} else {
+				$this->display('goods');	
 			}
-		} else if($groupId > 0 && (float)$goods['now'] < (float)$goods['endTime']) { // 参团链接
+		} else if($groupId > 0 && (float)$goods['now'] < (float)$goods['endTime']) {
+			 // 参团分享链接
 			$group = $m->group($groupId);
 			if(empty($group)) {
 				$this->display('goods');	
@@ -67,7 +76,7 @@ class GroupAction extends BaseAction {
 		} else if((float)$goods['now'] < (float)$goods['endTime']) {
 			$this->display('goods');	
 		} else {
-			$this->index();
+			$this->display('goods_end');	
 		}
 	}	
 	

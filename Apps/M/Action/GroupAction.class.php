@@ -37,7 +37,6 @@ class GroupAction extends BaseAction {
 		$signPackage=$wxm->getSignPackage();			 
 		$this->assign('signPackage', $signPackage);
 
-//		echo dump($group);
 		if(!empty($group)) { // 参团了
 			$groupStatus = (int)$group['groupStatus'];
 			if((float)$group['now'] > (float)$group['endTime']) { // 超期
@@ -50,7 +49,7 @@ class GroupAction extends BaseAction {
 				$this->display('goods_done');
 			} else if($groupStatus == 3) {
 				$this->display('goods_timeout');
-			} else if($groupStatus == 0 || $groupStatus = 1 && (float)$group['now'] <= (float)$group['endTime']) {
+			} else if(($groupStatus == 0 || $groupStatus = 1) && (float)$group['now'] <= (float)$group['endTime']) {
 				if((int)$group['isPay'] == 0) {
 					$this->display('goods_nopay');
 				} else if($groupId > 0) {
@@ -66,6 +65,7 @@ class GroupAction extends BaseAction {
 		} else if($groupId > 0 && (float)$goods['now'] < (float)$goods['endTime']) {
 			 // 参团分享链接
 			$group = $m->group($groupId);
+//			echo dump($group);
 			if(empty($group)) {
 				$this->display('goods');	
 			} else {

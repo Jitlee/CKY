@@ -27,7 +27,7 @@ class GoodsGroupModel extends BaseModel {
 			->join('gg inner join __GROUP__ g on gg.groupGoodsId = g.groupGoodsId and g.groupGoodsId = '.$groupGoodsId)
 			->join('inner join __GROUP_DETAIL__ gd on g.groupId = gd.groupId and gd.uid='.$uid)
 			->join('inner join __ORDERS__ o on o.mmid = gd.groupDetailId and o.orderType=-1')
-			->where('g.groupStatus not in(-1,-2)')
+			->where('g.groupStatus in(0, 1, 2, 3)')
 			->find();
 			
 //		echo $this->getLastSql();

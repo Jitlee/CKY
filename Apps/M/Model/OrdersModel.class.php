@@ -1057,7 +1057,6 @@ class OrdersModel extends BaseModel {
 		$rsdata[100000] = empty($olist)?0:$olist[0]['cnt'];
 		
 		return $rsdata;
-	
 	}
 	
 	

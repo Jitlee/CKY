@@ -36,29 +36,31 @@
 				<div class="cky-col-view">
 					<div class="cky-col-view-cell">
 						<p class="order-status font-red font14" data-bind="text: cky.formatOrderStatus(orderStatus)"></p>
-						<!-- ko if: orderStatus == -2 && orderType != -1 -->
-						<h5>超时未付款</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == 0 -->
-						<h5>待支付</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == -1 -->
-						<h5>拼团支付超时</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == -2 -->
-						<h5>用户取消拼团</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == 1 -->
-						<h5>等待成团</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == 2 -->
-						<h5>拼团成功</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == 3 -->
-						<h5>拼团失败,等待退款</h5>
-						<!-- /ko -->
-						<!-- ko if: orderType == -1 && groupStatus == 4 -->
-						<h5>拼团失败,已退款</h5>
+						<!-- ko if: orderType == -1 -->
+							<!-- ko if: orderStatus == -2 -->
+							<h5>拼团支付已超时</h5>
+							<!-- /ko -->
+							<!-- ko if: orderStatus == -1 -->
+							<h5>拼团已取消</h5>
+							<!-- /ko -->
+							<!-- ko if: orderStatus == 0 && groupStatus == 0 -->
+							<h5>等待开团</h5>
+							<!-- /ko -->
+							<!-- ko if: orderStatus == 0 && groupStatus == 1 -->
+							<h5>等待参团</h5>
+							<!-- /ko -->
+							<!-- ko if: groupStatus == 1 -->
+							<h5>等待成团</h5>
+							<!-- /ko -->
+							<!-- ko if: groupStatus == 2 -->
+							<h5>拼团成功</h5>
+							<!-- /ko -->
+							<!-- ko if: groupStatus == 3 -->
+							<h5>拼团失败，等待退款</h5>
+							<!-- /ko -->
+							<!-- ko if: groupStatus == 4 -->
+							<h5>拼团失败，已退款</h5>
+							<!-- /ko -->
 						<!-- /ko -->
 					</div>
 					<div class="cky-col-view-cell cky-text-right">
@@ -71,7 +73,7 @@
 						<!-- /ko -->
 						<!--ko ifnot: orderStatus == 0 && needPay > 0 && payType == 1--> 
 							<!-- ko if: orderType == -1 -->
-							<button class="mui-btn btn-continue" data-bind="attr: { href: '{:U('M/Group/detail')}?id=' + mmid }">查看详情</button>
+							<button class="mui-btn btn-continue" data-bind="attr: { href: '{:U('M/Group/detail')}?id=' + mmid }">查看拼团详情</button>
 							<!-- /ko -->
 							<!-- ko if: orderType == 1 -->
 							<button class="mui-btn btn-continue" data-bind="attr: { href: '{:U('Fast/detail')}?id=' + shopId }">还订这家</button>

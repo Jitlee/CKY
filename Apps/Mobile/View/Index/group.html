@@ -10,7 +10,7 @@
 		<ul class="mui-table" data-bind="foreach: $data,css: { 'one': $data.length ==1,'two': $data.length ==2,'three': $data.length ==3 }">
 			<li class="mui-table-cell">
 				<a data-bind="attr: { href: '{:U('/M/Group/goods', '', '')}?groupGoodsId=' + groupGoodsId }">
-					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsThums + ')' }"></div>
+					<div class="media-image" data-bind="style: { backgroundImage: 'url(/' + goodsImg + ')' }"></div>
 					<div class="mui-ellipsis" data-bind="text: goodsName"></div>
 					<r data-bind="text: '¥ ' + groupPrice"></r> <del data-bind="text: '¥ ' + shopPrice"></del>
 					<h5>已售 <span class="sale-count" data-bind="text: groupNumbers"></span></h5>

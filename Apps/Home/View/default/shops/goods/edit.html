@@ -248,6 +248,18 @@ var filetypes = ["gif","jpg","png","jpeg"];
 	             </td>
 	           </tr>
 	           <tr>
+	             <th width='120' align='right'>商家：</th>
+	             <td>
+	             <select id='shopssubId' dataVal='{$object["shopssubId"]}'>
+	                <option value='0'>请选择</option>
+	                <volist name="ShopsSub" id="vo">
+	                	 <option value='{$vo['shopsubId']}' <if condition="$object['shopssubId'] == $vo['shopsubId'] ">selected</if>>
+	                	 	{$vo['shopName']}</option>
+	                </volist>
+	             </select>
+	             </td>
+	           </tr>
+	           <tr>
 	             <th width='120'>商品描述<font color='red'>*</font>：</th>
 	             <td colspan='3'>
 	             <textarea rows="2" cols="60" id='goodsDesc' name='goodsDesc'>{$object.goodsDesc}</textarea>

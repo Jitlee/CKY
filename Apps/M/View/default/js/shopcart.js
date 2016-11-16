@@ -83,6 +83,15 @@ function ShopCart(pickerId, shop, goods) {
 		checkeNum();
 		_goods.count =  parseInt(num.val());
 		
+		var cnt = parseInt(num.val()) + 1;
+		if(cartType == "direct") {
+			if(goods.xiangouNum && (cnt-1) > goods.xiangouNum)// 限购 数量  xiangouNum
+			{
+				cky.toast("此商品限购,输入数量错误。")
+				 return false;
+			}
+		}
+		
 		calcFreeMoney(_goods);
 		if(cartType == "add") {
 			// 添加到购物车

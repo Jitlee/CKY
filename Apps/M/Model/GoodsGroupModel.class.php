@@ -42,9 +42,9 @@ class GoodsGroupModel extends BaseModel {
 		$group = $this->field('g.groupId, gg.groupGoodsId, gg.groupPreNumbers, g.groupNumbers,g.groupStatus,
 			unix_timestamp(g.createTime) * 1000 AS createTime,  unix_timestamp(date_add(g.createTime, interval gg.groupLimitHours hour))*1000 endTime, unix_timestamp() * 1000 now')
 			->join('gg inner join __GROUP__ g on gg.groupGoodsId = g.groupGoodsId and g.groupStatus=1 and g.groupId = '.$groupId)
-			->where('now()<date_add(g.createTime,interval gg.groupLimitHours hour) and g.groupNumbers < gg.groupPreNumbers')
+			->where('now()<=date_add(g.createTime,interval gg.groupLimitHours hour)')
 			->find();
-			
+//		echo $this->getLastSql();
 		return $group;
 	}
 	
@@ -155,7 +155,7 @@ class GoodsGroupModel extends BaseModel {
 				$rst['data'] = '开团失败，该拼团商品已售罄';
 			} else {
 				$data['groupGoodsId'] = $groupGoodsId;
-				$data['groupNumbers'] = 1;
+				$data['groupNumbers'] = 0;
 				$data['groupStatus'] = 0;
 				$data['groupHeadId'] = $uid;
 				$groupId = $m->add($data);

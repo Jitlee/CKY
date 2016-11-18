@@ -168,7 +168,7 @@ class KanjiaAction extends BaseAction{
 //  }
 
   /*创建永久二维码
-   http://cukayun.cn/index.php/Home/Kanjia/create_fqr/91
+   http://www.cukayun.cn/index.php/M/Kanjia/create_fqr/type/91
    * */
 	public function create_fqr($type=''){
         //找到此用户的uid

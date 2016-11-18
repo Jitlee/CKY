@@ -289,10 +289,15 @@ class WxMsgAction extends Controller{//define("TOKEN", "weixin");
                     ),
                 ),
             );
-        $array['button'][1]=array(
-            'type' => 'view',
-            'name' => '速达农村配送',
-            'url' => "$WebRoot/index.php/M/Deliver/index.html",
+//      $array['button'][1]=array(
+//          'type' => 'view',
+//          'name' => '速达农村配送',
+//          'url' => "$WebRoot/index.php/M/Deliver/index.html",
+//      );
+		$array['button'][1]=array(
+            'type' => 'click',
+            'name' => '免费礼盒',
+            'key' => 'kj93',
         );
 			 
          $array['button'][2]=array(
